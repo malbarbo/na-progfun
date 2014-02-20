@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+
+from pygments.formatters import LatexFormatter
+import sys
+
+if len(sys.argv) != 2:
+    print("Número de parâmetros inválidos")
+    print("Modo de usar: %s nome-do-estilo" % (sys.argv[0]))
+    sys.exit(1)
+
+f = LatexFormatter(style=sys.argv[1])
+
+print(f.get_style_defs())

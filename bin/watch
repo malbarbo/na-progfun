@@ -1,0 +1,14 @@
+#!/bin/bash
+
+build() {
+    date
+    echo 
+    scons
+    echo 
+}
+
+build
+while true; do
+    inotifywait -q -q -r -e close_write,moved_to,create 0* templates bin
+    build
+done

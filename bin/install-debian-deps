@@ -1,0 +1,8 @@
+#!/bin/bash
+
+aptitude update && \
+aptitude -R install pandoc texlive texlive-fonts-extra \
+    texlive-lang-portuguese lmodern latex-beamer \
+    scons python-yaml python3-yaml python3-pygments \
+    python3-pip inotify-tools imagemagick inkscape && \
+pip3 install pandocfilters

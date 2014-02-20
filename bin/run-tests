@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for f in $(find * -name '*.rkt'); do
+    echo Testando: $f
+    racket $f
+done

@@ -7,6 +7,11 @@ template: slide.tex
 
 ### Introdução
 
+<!-- TODO: adicionar funções equal? eq? eqv? number->string number? (outras?) !-->
+<!-- TODO: outros tipos pré-definidos? imagens? !-->
+<!-- TODO: comentários: ; ;; #; !-->
+<!-- TODO: sexp !-->
+
 -   O paradigma de programação funcional é baseado na definição e aplicação de
     funções
 

@@ -497,7 +497,95 @@ Defina uma função que some os valores de uma lista de números.
 Defina uma função que receba dois parâmetros, um valor $a$ e uma lista $lst$ e
 crie uma nova lista a partir de $lst$ sem a primeira ocorrência de $a$.
 
-### Continua ...
+
+## Listas aninhadas
+
+### Listas aninhadas
+
+-   As vezes é necessário criar uma lista, que contenha outras listas, e estas
+    listas contenham outras listas, etc
+
+-   Exemplo
+
+    ```racket
+    > (list 1 4 (list 5 empty (list 2) 9) 10)
+    '(1 4 (5 () (2) 9) 10)
+    ```
+
+-   Chamamos este tipo de lista de lista aninhada
+
+-   Como podemos definir uma lista aninhada?
+
+### Listas aninhadas
+
+-   Uma lista aninhada é
+
+    -   `empty`; ou
+
+    -   `(cons lst1 lst2)`, onde `lst1` e `lst2` são listas aninhadas; ou
+
+    -   `(cons a lst)`, onde `a` é um valor que não seja uma lista aninhada e
+        `lst` é uma lista aninhada
+
+    \pause
+
+-   Template baseado na definição
+
+    ```racket
+    (define (fun-for-lista-aninhada lst)
+      (cond
+        [(empty? lst) ...]
+        [(list? (first lst))
+         ... (fun-for-lista-aninhada (first lst))
+         ... (fun-for-lista-aninhada (rest lst)) ...]
+        [else ... (first lst)
+              ... (fun-for-lista-aninhada (rest lst)) ... ]))
+    ```
+
+### Exemplo 3.6
+
+Defina uma função que some todos os números de uma lista aninhada de números.
+
+### Exemplo 3.7
+
+Defina uma função que aplaine uma lista aninhada, isto é, transforme uma lista
+aninhada em uma lista sem listas aninhadas com os mesmo elementos e na mesma
+ordem da lista aninhada.
+
+
+## Árvores binárias
+
+### Árvores binárias
+
+-   Como podemos definir uma árvore binária?
+
+\pause
+
+-   Uma árvore binária é
+
+    -   `empty`; ou
+
+    -   `(arvore-bin v esq dir)`, onde `v` é o valor armazenado no nó e `esq`
+        e `dir` são árvores binárias
+
+\pause
+
+-   Template baseado na definição
+
+    ```racket
+    (define (fun-for-arvore-bin t)
+      (cond
+        [(empty? t) ...]
+        [else ... (arvore-bin-v t)
+              ... (fun-for-arvore-bin (arvore-bin-dir t))
+              ... (fun-for-arvore-bin (arvore-bin-esq t)) ...]))
+    ```
+
+### Exemplo 3.8
+
+Defina uma função que calcule a altura de uma árvore binária. A altura de uma
+árvore binária é a distância entre a raiz e o seu descendente mais afastado.
+Uma árvore com um único nó tem altura 0.
 
 # Referências
 

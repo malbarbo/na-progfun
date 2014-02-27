@@ -14,10 +14,10 @@ template: exercicios.tex
     um ao outro. Defina duas funções `impar?` e `par?`, uma em termos da outra.
     (Dica: O que cada uma deve retornar quando o argumento for $0$?)
  
-#.  Defina uma função para determinar se um dado número inteiro positivo é
-    perfeito. Um número é perfeito se a soma dos seu divisores próprios é igual
-    a ela. Por exemplo, o número $6$ é perfeito, pois $6 = 1 + 2 + 3$. O número
-    $28$ também é perfeito, pois $28 = 1 + 2 + 4 + 7 + 14$.
+#.  Defina uma função que determine se um dado número inteiro positivo
+    é perfeito. Um número é perfeito se a soma dos seus divisores próprios
+    é igual a ele. Por exemplo, o número $6$ é perfeito, pois $6 = 1 + 2 + 3$.
+    O número $28$ também é perfeito, pois $28 = 1 + 2 + 4 + 7 + 14$.
 
 #.  Defina uma função que conte quantos número primos existem em um dado
     intervalo.

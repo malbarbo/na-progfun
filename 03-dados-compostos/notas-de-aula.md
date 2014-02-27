@@ -309,6 +309,16 @@ função que classifique um retângulo em largo (largura maior que altura), alto
 
 ### Listas
 
+-   Uma **Lista** é
+
+    -   `nil`; ou
+
+    -   `(lista first rest)` onde first é o primeiro elemento da lista e rest
+        é uma **Lista** com o restante dos elementos
+
+### Listas
+
+
 ```racket
 (define nil false)
 
@@ -408,12 +418,12 @@ Defina uma função que conte a quantidade de elementos de uma lista.
 
 -   Lista pré-definida em Racket
 
--   Uma Lista é
+-   Uma **Lista** é
 
     -   `empty`; ou
 
-    -   `(cons first rest)`, onde `first` é um valor qualquer e `rest` é uma
-        Lista
+    -   `(cons first rest)` onde first é o primeiro elemento da lista e rest
+        é uma **Lista** com o restante dos elementos
 
 -   Template baseado na definição
 
@@ -518,14 +528,14 @@ crie uma nova lista a partir de $lst$ sem a primeira ocorrência de $a$.
 
 ### Listas aninhadas
 
--   Uma lista aninhada é
+-   Uma **Lista aninhada** é
 
     -   `empty`; ou
 
-    -   `(cons lst1 lst2)`, onde `lst1` e `lst2` são listas aninhadas; ou
+    -   `(cons lst1 lst2)`, onde `lst1` e `lst2` são **Listas aninhadas**; ou
 
-    -   `(cons a lst)`, onde `a` é um valor que não seja uma lista aninhada e
-        `lst` é uma lista aninhada
+    -   `(cons a lst)`, onde `a` é um valor que não seja uma Lista aninhada
+        e `lst` é uma **Lista aninhada**
 
     \pause
 
@@ -561,12 +571,12 @@ ordem da lista aninhada.
 
 \pause
 
--   Uma árvore binária é
+-   Uma **Árvore binária** é
 
     -   `empty`; ou
 
     -   `(arvore-bin v esq dir)`, onde `v` é o valor armazenado no nó e `esq`
-        e `dir` são árvores binárias
+        e `dir` são **Árvores binárias**
 
 \pause
 
@@ -586,6 +596,7 @@ ordem da lista aninhada.
 Defina uma função que calcule a altura de uma árvore binária. A altura de uma
 árvore binária é a distância entre a raiz e o seu descendente mais afastado.
 Uma árvore com um único nó tem altura 0.
+
 
 # Referências
 

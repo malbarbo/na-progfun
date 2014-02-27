@@ -32,7 +32,7 @@ template: exercicios.tex
     '(70 20 3)
     ```
 
-#.  Defina uma função que devolva uma nova lista que é como a lista de entreda
+#.  Defina uma função que devolva uma nova lista que é como a lista de entrada
     mas sem o elemento de uma dada posição.
 
     ```racket
@@ -57,10 +57,15 @@ template: exercicios.tex
     ```
 
 #.  [pp99 1.16] Defina uma função que devolva uma nova lista que é como a lista
-    de entrafa mas com os elementos rotacionados $n$ posições a esquerda.
+    de entrada mas com os elementos rotacionados $n$ posições a esquerda.
 
     ```racket
     > (rotate-left (list 10 20 30 40 50) 2)
     '(30 40 50 10 20)
     ```
 
+# Referências
+
+-   [pp99]. [99 problemas para resolver em (Prolog) Racket](https://sites.google.com/site/prologsite/prolog-problems)
+
+<!-- vim: set spell spelllang=pt_br: !-->

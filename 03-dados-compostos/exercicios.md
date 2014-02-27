@@ -99,3 +99,20 @@ template: exercicios.tex
 #.  Defina uma função que receba como entrada uma árvore binária `t` e um
     número `n` e devolva uma nova árvore binária que é como `t` mas com `n`
     somado a cada elemento.
+
+#.  Defina uma função que verifique se uma árvore binária é uma árvore binária
+    de busca. Uma árvore binária de busca tem as seguintes propriedades: 1)
+    A subárvore a esquerda contém valores nos nós menores que o valor no nó
+    raiz. 2) A subárvore a direita contém valores nos nós maiores que o valor
+    no nó raiz. 3) As subárvores a esquerda e a direita também são árvores
+    binárias de busca.
+
+#.  Defina uma função que verifique se um elemento está em uma árvore binária
+    de busca.
+
+
+# Referências
+
+-   [pp99]. [99 problemas para resolver em (Prolog) Racket](https://sites.google.com/site/prologsite/prolog-problems)
+
+<!-- vim: set spell spelllang=pt_br: !-->

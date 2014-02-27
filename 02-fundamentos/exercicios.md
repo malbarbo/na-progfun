@@ -107,10 +107,8 @@ template: exercicios.tex
 
 # Referências
 
-- [pp99]. [99 problemas para resolver em (Prolog) Racket](https://sites.google.com/site/prologsite/prolog-problems)
+-   [sicp]. [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
 
-- [sicp]. [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
-
-- [tspl]. [The Scheme Programming Languague](http://www.scheme.com/tspl4/)
+-   [tspl]. [The Scheme Programming Languague](http://www.scheme.com/tspl4/)
 
 <!-- vim: set spell spelllang=pt_br: !-->

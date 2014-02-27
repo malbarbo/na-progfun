@@ -31,6 +31,7 @@ template: exercicios.tex
     > (inverte (list 1 2 3 4 5))
     '(5 4 3 2 1)
     ```
+
 #.  Defina uma função que determine se uma lista é palíndromo. Dica: use
     a função `inverte`.
 
@@ -66,4 +67,35 @@ template: exercicios.tex
     de ordenação qualquer, a receita te levará a implementar um método
     específico). Dica: use a função `insere-ordenado`.
 
-#.  Continua ...
+#.  [pp99 1.10] Defina uma função que receba como entrada uma lista `lst`
+    e devolva uma nova lista que é como `lst` com apenas uma ocorrência dos
+    elementos repetidos consecutivos.
+
+    ```racket
+    > (remove-duplicates (list 1 1 1 1 2 3 3 4 4 5 5 5))
+    '(1 2 3 4 5)
+    ```
+
+#.  Defina uma função que receba como entrada uma lista aninhada `lst` e
+    devolva uma nova lista aninhada como os mesmo elementos de `lst` mas
+    em ordem reversa.
+
+    ```racket
+    > (reverse* (list (list 2 3) 8 (list 9 (list 10 11) 50) (list 10) 70))
+    '(70 (10) (50 (11 10) 9) 8 (3 2))
+    ```
+
+#.  Defina uma função que avalie uma expressão aritmética em Racket que
+    contenha apenas constantes. Cada operação precisa de exatamente
+    2 parâmetros. Dica: crie uma definição (semelhante a de lista aninhada) que
+    represente expressões aritméticas, crie um template baseado na definição do
+    tipo e use o template para resolver o exercício.
+
+    ```racket
+    > (avalie (list + (list * 3 (list - 4 5)) (list / 10 2))
+    2
+    ```
+
+#.  Defina uma função que receba como entrada uma árvore binária `t` e um
+    número `n` e devolva uma nova árvore binária que é como `t` mas com `n`
+    somado a cada elemento.

@@ -9,14 +9,6 @@ template: exercicios.tex
     parâmetro dois números naturais e executar a operação de comparação
     apropriada.
 
-#.  [pp99 1.02] Defina uma função que encontre o $k$-ésimo elemento de uma
-    lista.
-
-    ```racket
-    > (list-ref (list 10 40 70 20) 2)
-    70
-    ```
-
 #.  Defina uma função que devolve os $n$ primeiros elementos de uma lista.
 
     ```racket

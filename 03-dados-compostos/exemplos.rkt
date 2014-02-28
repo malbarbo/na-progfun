@@ -24,7 +24,7 @@
 ;; Exemplo 3.1
 
 ;; Ponto -> Número
-;; Calcula a distância de um ponto a origem
+;; Calcula a distância de um ponto a origem.
 (define distancia-origem-tests
   (test-suite
    "distancia-origem tests"
@@ -39,9 +39,8 @@
 ;; Exemplo 3.2
 
 (struct retangulo (largura altura) #:transparent)
-;; Ponto representa um ponto no plano cartesiano
 ;;   largura : Número - a largura do retangulo
-;;   largura : Número - a altura do retangulo
+;;   altura  : Número - a altura do retangulo
 ;; Exemplos
 #; (define r1 (retangulo 3 4))
 #; (define r2 (retangulo 1 2))
@@ -52,7 +51,7 @@
        (retangulo-altura r)))
 
 ;; Retangulo -> String
-;; Classifica um retangulo em
+;; Classifica um retangulo em:
 ;;   largo    se largura > altura
 ;;   alto     se altura > largura
 ;;   quadrado se largura = altura
@@ -97,8 +96,7 @@
 ;; Exemplo 3.3
 
 ;; Lista -> Natural
-;; Devolve a quantidade de elementos de lst
-
+;; Devolve a quantidade de elementos de lst.
 (define tamanho-tests
   (test-suite
    "tamanho tests"
@@ -112,12 +110,18 @@
     [(equal? lst nil) 0]
     [else (add1 (tamanho (lista-rest lst)))]))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Nós próximos exemplos deixamos de lado a nossa definição
+;; de lista para utilizar a lista pré definiada em Racket.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
 ;;;;;;;;;;;;;;;;;;;;
 ;; Exemplo 3.4
 
-;; Lista -> Natural
-;; Devolve a soma dos elementos de lst
-
+;; Lista -> Número
+;; Devolve a soma dos elementos de lst.
 (define soma-tests
   (test-suite
    "soma tests"
@@ -133,13 +137,11 @@
              (soma (rest lst)))]))
 
 
-
 ;;;;;;;;;;;;;;;;;;;;
 ;; Exemplo 3.5
 
 ;; Lista Qualquer -> Lista
-;; Devolve uma lista que é como lst mas sem a primeira ocorrência de a
-
+;; Devolve uma lista que é como lst mas sem a primeira ocorrência de a.
 (define remove-tests
   (test-suite
    "remove tests"
@@ -157,9 +159,8 @@
        [else (cons (first lst)
                    (remove (rest lst) a))])]))
 
-;; Simplificação (opciconal) da função remove
-;; As condições aninhadas foram colocadas no mesmo nível
-
+;; Simplificação (opcional) da função remove.
+;; As condições aninhadas foram colocadas no mesmo nível.
 (define remove-sim-tests
   (test-suite
    "removes-sim tests"
@@ -175,7 +176,134 @@
     [else (cons (first lst)
                 (remove-sim (rest lst) a))]))
 
-;; Continua ...
+
+;;;;;;;;;;;;;;;;;;;;
+;; Exemplo 3.6
+
+;; Lista Aninhada -> Número
+;; Devolve a soma de todos os elementos de lst.
+(define soma*-tests
+  (test-suite
+   "soma* tests"
+   (check-equal? (soma* empty) 0)
+   (check-equal? (soma* (list (list 4 5) 1 2)) 12)
+   (check-equal? (soma* (list 1 3 (list 4 5) )) 13)
+   (check-equal? (soma* (list (list 1
+                                    (list empty 3))
+                              (list 4 5)
+                              4
+                              6
+                              7)) 30)))
+
+(define (soma* lst)
+  (cond
+    [(empty? lst) 0]
+    [(list? (first lst))
+     (+ (soma* (first lst))
+        (soma* (rest lst)))]
+    [else
+     (+ (first lst)
+        (soma* (rest lst)))]))
+
+
+;;;;;;;;;;;;;;;;;;;;
+;; Exemplo 3.7
+
+;; Lista Aninhada -> Lista
+;; Devolve uma versão não aninhada de lst, isto é, uma lista
+;; com os mesmos elementos de lst, mas sem aninhamento.
+;; Veja a função pré-definida flatten.
+(define aplaina-tests
+  (test-suite
+   "aplaina tests"
+   (check-equal? (aplaina empty) empty)
+   (check-equal? (aplaina (list (list 4 5) 1 2))
+                 (list 4 5 1 2))
+   (check-equal? (aplaina (list 1 3 (list 4 5)))
+                 (list 1 3 4 5))
+   (check-equal? (aplaina (list (list 1
+                                      (list empty 3))
+                                (list 4 5)
+                                4
+                                6
+                                7))
+                 (list 1 3 4 5 4 6 7))))
+
+(define (aplaina lst)
+  (cond
+    [(empty? lst) empty]
+    [(list? (first lst))
+     (append (aplaina (first lst))
+             (aplaina (rest lst)))]
+    [else
+     (cons (first lst)
+           (aplaina (rest lst)))]))
+
+
+;;;;;;;;;;;;;;;;;;;;
+;; Definição de Árvore binária
+
+(struct arvore-bin (v esq dir) #:transparent)
+;; Uma Árvore binária é
+;;   - empty; ou
+;;   - (arvore-bin v esq dir)onde v e o valor armazenado no
+;;     nó e esq e dir são Árvores binárias
+
+
+;;;;;;;;;;;;;;;;;;;;
+;; Exemplo 3.8
+
+;; Estas árvores são usadas nos testes a seguir
+;;
+;;     t4  3
+;;        / \
+;;       /   \
+;;  t3  4     7  t2
+;;     /     / \
+;;    3     8   9  t1
+;;             /
+;;        t0  10
+
+(define t0 (arvore-bin 10 empty empty))
+
+(define t1 (arvore-bin 9
+                       t0
+                       empty))
+
+(define t2 (arvore-bin 7
+                       (arvore-bin 8 empty empty)
+                       t1))
+
+(define t3 (arvore-bin 4
+                       (arvore-bin 3 empty empty)
+                       empty))
+
+(define t4 (arvore-bin 3
+                       t2
+                       t2))
+
+
+;; Arvore-Binaria -> Natural
+;; Devolve a altura da árvore binária. A altura de uma árvore binária
+;; é a distância da raiz e seu descendente mais afastado. Uma árvore com
+;; um único nó tem altura 0.
+(define altura-tests
+  (test-suite
+   "altura tests"
+   (check-equal? (altura empty) -1)
+   (check-equal? (altura t0) 0)
+   (check-equal? (altura t1) 1)
+   (check-equal? (altura t2) 2)
+   (check-equal? (altura t3) 1)
+   (check-equal? (altura t4) 3)))
+
+(define (altura t)
+  (cond
+    [(empty? t) -1]
+    [else (add1 (max
+                 (altura (arvore-bin-esq t))
+                 (altura (arvore-bin-dir t))))]))
+
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; Funções para auxiliar nos testes
@@ -192,4 +320,7 @@
                 tamanho-tests
                 soma-tests
                 remove-tests
-                remove-sim-tests)
+                remove-sim-tests
+                soma*-tests
+                aplaina-tests
+                altura-tests)

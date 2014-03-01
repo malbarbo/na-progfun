@@ -56,6 +56,23 @@ template: exercicios.tex
     '(30 40 50 10 20)
     ```
 
+#.  Dado duas listas de entrada, `ltsa` e `ltsb`, defina uma função que devolva
+    uma nova lista com os elementos de `ltsa` seguidos dos elementos de `ltsb`.
+
+    ```racket
+    > (append (list 3 7 12) (list 2 4 5))
+    '(3 7 12 2 4 5)
+    ```
+
+#.  Dado duas listas de números em ordem crescente, defina uma função que
+    devolva uma nova lista com os elementos das duas listas de entrada em ordem
+    crescente.
+
+    ```racket
+    > (merge (list 3 7 12) (list 2 4 5))
+    '(2 3 4 5 7 12)
+    ```
+
 # Referências
 
 -   [pp99]. [99 problemas para resolver em (Prolog) Racket](https://sites.google.com/site/prologsite/prolog-problems)

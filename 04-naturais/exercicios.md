@@ -19,7 +19,7 @@ template: exercicios.tex
     é igual a ele. Por exemplo, o número $6$ é perfeito, pois $6 = 1 + 2 + 3$.
     O número $28$ também é perfeito, pois $28 = 1 + 2 + 4 + 7 + 14$.
 
-#.  Defina uma função que conte quantos número primos existem em um dado
+#.  Defina uma função que conte quantos números primos existem em um dado
     intervalo.
 
 

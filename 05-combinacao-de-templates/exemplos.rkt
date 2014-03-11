@@ -7,7 +7,18 @@
 ;; Exemplo 5.1
 
 ;; Lista Lista -> Boolean
-;; Devolve true se ltsa é prefixo de lstb. false caso contrário.
+;; Devolve true se lsta é prefixo de lstb. false caso contrário.
+;;
+;; É interessante deixar a tabela no código
+;;
+;;                             lstb
+;;                  |-------------------------
+;;                  |   empty    | (cons ...)
+;;     |------------|-------------------------
+;;     |   empty    |          true
+;;lsta |------------|-------------------------
+;;     | (cons ...) |    false   | primeiros iguais, recursão natural
+;;     |------------|------------|------------
 (define prefixo?-tests
   (test-suite
    "prefixo? tests"
@@ -20,25 +31,14 @@
    (check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) false)
    (check-equal? (prefixo? (list 3 4 5) (list 3 4)) false)))
 
-;; É interessante deixar a tabela no código
-;;
-;;                             ltsb
-;;                  |-------------------------
-;;                  |   empty    | (cons ...)
-;;     |------------|-------------------------
-;;     |   empty    |          true
-;;ltsa |------------|-------------------------
-;;     | (cons ...) |    false   | primeiros iguais, recursão natural
-;;     |------------|------------|------------
-
-(define (prefixo? ltsa ltsb)
+(define (prefixo? lsta lstb)
   (cond
-    [(empty? ltsa) true]
-    [(empty? ltsb) false]
+    [(empty? lsta) true]
+    [(empty? lstb) false]
     [else
-     (and (equal? (first ltsa)
-                  (first ltsb))
-          (prefixo? (rest ltsa) (rest ltsb)))]))
+     (and (equal? (first lsta)
+                  (first lstb))
+          (prefixo? (rest lsta) (rest lstb)))]))
 
 
 ;;;;;;;;;;;;;;;;;;;;
@@ -47,6 +47,15 @@
 ;; Lista Natural -> Qualquer
 ;; Devolve o elemento na posição k da lista.
 ;; O primeiro elemento está na posição 0.
+;;
+;;                               k
+;;                  |-------------------------
+;;                  |      0     | (add1 ...)
+;;     |------------|-------------------------
+;;     |   empty    |           erro
+;; lst |------------|-------------------------
+;;     | (cons ...) |(first lst) |  recursão natural
+;;     |------------|------------|------------
 (define lista-ref-tests
   (test-suite
    "lista-ref tests"
@@ -55,15 +64,6 @@
    (check-equal? (lista-ref (list 3 2 8) 0) 3)
    (check-equal? (lista-ref (list 3 2 8 10) 2) 8)
    (check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4)))))
-
-;;                               k
-;;                  |-------------------------
-;;                  |      0     | (add1 ...)
-;;     |------------|-------------------------
-;;     |   empty    |           erro    
-;; lts |------------|-------------------------
-;;     | (cons ...) |(first lts) |  recursão natural
-;;     |------------|------------|------------
 
 (define (lista-ref lst k)
   (cond

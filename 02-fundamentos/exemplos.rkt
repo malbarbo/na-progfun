@@ -23,7 +23,7 @@
 ;; Exemplo 2.2
 
 ;; Natural -> Boolean
-;; Produz true se n é par. false caso contrário.
+;; Devolve true se n é par, false caso contrário.
 ;; Veja as funções pré-definidas even? e odd?
 (define par?-tests
   (test-suite
@@ -65,4 +65,6 @@
   (void))
 
 ;; Chama a função para executar os testes.
-(executa-testes dobro-tests par?-tests maior-palavra-tests)
+(executa-testes dobro-tests
+                par?-tests
+                maior-palavra-tests)

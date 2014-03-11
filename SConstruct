@@ -34,20 +34,23 @@ def run():
     # target, source, command
     env.Command(conf.pygments_style_file, CONF_FILE, 'bin/pygments-style "%s" > $TARGET' % (conf.pygments_style))
 
-    # Define os alvos pdfs e suas dependências
-    for s in conf.sources:
-        if s.endswith('.md'):
-            t = md_target_name(s)
-            env.Pdf(t, get_md_dependecies(s))
-            # Adiciona este alvo na lista dos alvos padrões
-            Default(t)
-        else:
-            t = image_target_name(s)            
+    # Define os alvos suas dependências
+    for to in conf.sources:
+        for s in conf.sources[to]:
             _, ext = os.path.splitext(s)
-            ext = ext[1:]
-            if ext not in conf.converters:
-                raise Exception('Don\'t know how to build: "%s" from "%s"' % (t, s))
-            env.Command(t, s, conf.converters[ext])
+            if is_image(s):
+                target = image_target_name(s)
+            else:
+                target = target_name(s, to)
+            # Adiciona este alvo na lista dos alvos padrões
+            Default(target)
+            if to == 'pdf' and ext == '.md':
+                env.Pdf(target, get_md_dependecies(s))
+            else: 
+                ext = ext[1:]
+                if ext not in conf.converters[to]:
+                    raise Exception('Don\'t know how to build: "%s" from "%s"' % (target, s))
+                env.Command(target, s, conf.converters[to][ext])
 
 # Converte um arquivo em pdf
 def build_pdf(target, source, env):
@@ -61,20 +64,18 @@ def build_pdf(target, source, env):
 # Converte o nome de um arquivo .md para um alvo .pdf
 # Exemplo
 #   01-introducao/notas-de-aula.md -> target/01-introducao-notas-de-aula.pdf
-def md_target_name(source):
-    return os.path.join(conf.target_dir, source.replace('.md', '.pdf').replace('/', '-', 1))
+def target_name(source, target_ext):
+    name, ext = os.path.splitext(source)
+    name += '.' + target_ext
+    return os.path.join(conf.target_dir, name.replace('/', '-', 1))
 
-# Converte o nome de um imagem para um alvo .pdf
-# Exemplo
-#   01-introducao/images/1.png -> target/images/1.pdf
 def image_target_name(source):
    basename = os.path.basename(source)
-   f, ext = os.path.splitext(basename)
+   f, _ = os.path.splitext(basename)
    return image_path(f)
 
-# Devolve o caminho da imagem name
 def image_path(name):
-   return os.path.join(conf.images_target_dir, name + '.pdf')    
+    return os.path.join(conf.images_target_dir, name + '.pdf')
 
 # Calcula as dependências para criar um .pdf a partir de um .md
 def get_md_dependecies(s):
@@ -85,12 +86,17 @@ def get_md_dependecies(s):
 def get_md_images(f):
     r = []
     with open(f) as l:
-        # Exemplos de images que está regex deve casar
+        # Exemplos de images que esta regex deve casar
         #  ![Figura qualquer legal](nomefigura) -> nomefigura
         #  ![Figura 1]([width=5cm]outro-nome) -> outronome
         for m in re.finditer(r'!\[.*\]\((\[.*\])?(?P<name>.+)\)', l.read(), re.MULTILINE):
             r.append(image_path(m.group('name')))
     return r
+
+def is_image(f):
+    _, ext = os.path.splitext(f)
+    ext = ext[1:] if ext else ext
+    return ext in conf.images_ext
 
 def convert_md(s, t):
     import re
@@ -130,15 +136,14 @@ def load_conf():
     class Conf:
         pass
     c = Conf()
-    c.sources = []
-    for s in conf['sources']:
-        r = glob.glob(s)
-        if not r:
-            print('No match:', s)
-            Exit(1)
-        c.sources.extend(r)
+    c.sources = {}
+    for t in conf['sources']:
+        c.sources[t] = []
+        for s in conf['sources'][t]:
+            c.sources[t].extend(glob.glob(s))
     c.target_dir = conf['target_dir'] or 'target'
     c.images_target_dir = os.path.join(c.target_dir, 'images')
+    c.images_ext = conf['images_ext'] or []
     c.pygments_style = conf['pygments_style'] or 'default'
     c.pygments_style_file = os.path.join(c.target_dir, 'style', 'pygments.tex')
     c.template_options = conf['template_options']

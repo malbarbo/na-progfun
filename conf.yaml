@@ -1,10 +1,13 @@
 sources:
-    - '0*/*.md'
-    - '0*/imagens/*'
+    pdf:
+        - '0*/*.md'
+        - '0*/imagens/*'
+    rkt:
+        - '0*/*.rkt'
 
 target_dir: target
 
-images_ext: .pdf
+images_ext: [png, svg, pdf]
 
 pygments_style: default
 
@@ -12,6 +15,9 @@ template_options:
     slide.tex: '-t beamer --toc --slide-level=3'
 
 converters:
-    png: convert $SOURCE $TARGET
-    svg: inkscape $SOURCE -A $TARGET
-    pdf: ln -rs $SOURCE $TARGET
+    pdf:
+        png: convert $SOURCE $TARGET
+        svg: inkscape $SOURCE -A $TARGET
+        pdf: ln -rs $SOURCE $TARGET
+    rkt:
+        rkt: ln -rs $SOURCE $TARGET

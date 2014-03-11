@@ -62,7 +62,7 @@ def process_codeblock(value):
     return [CodeBlock([ident, [], []], ''), RawBlock('latex', code_h)]
 
 def image_path(name):
-    return os.path.join(conf['target_dir'], 'images', name + conf['images_ext'])
+    return os.path.join(conf['target_dir'], 'images', name + '.pdf')
 
 if __name__ == "__main__":
     toJSONFilter(pandoc_filter)

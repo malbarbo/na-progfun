@@ -77,8 +77,8 @@
 (struct lista (first rest))
 ;; Uma Lista é
 ;;   - nil; ou
-;;   - (lista first rest) onde first é o primeiro elemento da lista
-;;     e rest é uma Lista com o restante dos elementos
+;;   - (lista first rest) onde first é o primeiro elemento da lista e rest é
+;;     uma Lista com o restante dos elementos
 ;; Exemplos
 #; (define lst-vazia nil)
 #; (define lst1 (lista 3 nil))
@@ -113,7 +113,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Nós próximos exemplos deixamos de lado a nossa definição
-;; de lista para utilizar a lista pré definiada em Racket.
+;; de lista para utilizar a lista pré definida em Racket.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -185,15 +185,19 @@
 (define soma*-tests
   (test-suite
    "soma* tests"
-   (check-equal? (soma* empty) 0)
-   (check-equal? (soma* (list (list 4 5) 1 2)) 12)
-   (check-equal? (soma* (list 1 3 (list 4 5) )) 13)
+   (check-equal? (soma* empty)
+                 0)
+   (check-equal? (soma* (list (list 4 5) 1 2))
+                 12)
+   (check-equal? (soma* (list 1 3 (list 4 5) ))
+                 13)
    (check-equal? (soma* (list (list 1
                                     (list empty 3))
                               (list 4 5)
                               4
                               6
-                              7)) 30)))
+                              7))
+                 30)))
 
 (define (soma* lst)
   (cond
@@ -210,8 +214,8 @@
 ;; Exemplo 3.7
 
 ;; Lista Aninhada -> Lista
-;; Devolve uma versão não aninhada de lst, isto é, uma lista
-;; com os mesmos elementos de lst, mas sem aninhamento.
+;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
+;; elementos de lst, mas sem aninhamento.
 ;; Veja a função pré-definida flatten.
 (define aplaina-tests
   (test-suite
@@ -246,8 +250,8 @@
 (struct arvore-bin (v esq dir) #:transparent)
 ;; Uma Árvore binária é
 ;;   - empty; ou
-;;   - (arvore-bin v esq dir)onde v e o valor armazenado no
-;;     nó e esq e dir são Árvores binárias
+;;   - (arvore-bin v esq dir)onde v e o valor armazenado no nó e esq e dir são
+;;     Árvores binárias
 
 
 ;;;;;;;;;;;;;;;;;;;;
@@ -284,9 +288,9 @@
 
 
 ;; Arvore-Binaria -> Natural
-;; Devolve a altura da árvore binária. A altura de uma árvore binária
-;; é a distância da raiz e seu descendente mais afastado. Uma árvore com
-;; um único nó tem altura 0.
+;; Devolve a altura da árvore binária. A altura de uma árvore binária é a
+;; distância da raiz a seu descendente mais afastado. Uma árvore com um único
+;; nó tem altura 0.
 (define altura-tests
   (test-suite
    "altura tests"

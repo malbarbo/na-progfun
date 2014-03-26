@@ -4,6 +4,8 @@ sources:
         - '0*/imagens/*'
     rkt:
         - '0*/*.rkt'
+    zip:
+        - flappybird
 
 target_dir: target
 
@@ -21,3 +23,5 @@ converters:
         pdf: ln -rs $SOURCE $TARGET
     rkt:
         rkt: ln -rs $SOURCE $TARGET
+    zip:
+        '': zip $TARGET -r $SOURCE

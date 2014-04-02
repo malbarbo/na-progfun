@@ -54,7 +54,7 @@ template: exercicios.tex
            (+ x x))))
     ```
 
-#.  [tspl 2.5.1] Determine o valor da seguintes expressões
+#.  [tspl 2.5.1] Determine o valor das seguintes expressões
 
     ```racket
     (let ([f (λ (x) x)])

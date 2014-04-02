@@ -480,19 +480,19 @@
   (void))
 
 ;; Chama a função para executar os testes.
-(executar-testes contem-5?-tests
-                 contem-3?-tests
-                 contem?-tests
-                 soma-tests
-                 produto-tests
-                 reduz-tests
-                 concatena-tests
-                 lista-quadrado-tests
-                 lista-soma1-tests
-                 mapeia-tests
-                 lista-positivos-tests
-                 lista-pares-tests
-                 filtra-tests
-                 somador-tests
-                 nega-tests
-                 quicksort-tests)
+(executa-testes contem-5?-tests
+                contem-3?-tests
+                contem?-tests
+                soma-tests
+                produto-tests
+                reduz-tests
+                concatena-tests
+                lista-quadrado-tests
+                lista-soma1-tests
+                mapeia-tests
+                lista-positivos-tests
+                lista-pares-tests
+                filtra-tests
+                somador-tests
+                nega-tests
+                quicksort-tests)

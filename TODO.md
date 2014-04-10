@@ -4,6 +4,8 @@
 
 -   Adicionar conteúdo sobre estilo de código
 
+-   Adicionar exemplos em outras linguagens
+
 -   Pegar o número do capítulo do nome do diretório
 
 -   Agregar todas as referências em um arquivo e fazer citações
@@ -12,6 +14,8 @@
     template do beamer do pandoc, que é complicado
 
 -   Comentar tools/filter
+
+-   Adicionar um separador (---) entre os exemplos (e resolvidos)
 
 -   Documentar as extensões para o pandoc e como referenciar imagens
 

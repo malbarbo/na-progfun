@@ -14,3 +14,5 @@ template: exercicios.tex
     abstraia o comportamento do template para funções com números naturais
     utilizando acumuladores. Redefina as funções (que se beneficiarem) em
     termos de `reduz-num-acc`.
+
+<!-- vim: set spell spelllang=pt_br: !-->

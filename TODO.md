@@ -1,5 +1,7 @@
 # TODO
 
+-   Veja TODO's específicos em cada arquivo
+
 -   Adicionar conteúdo de lambda cálculo
 
 -   Adicionar conteúdo sobre estilo de código
@@ -15,7 +17,7 @@
 
 -   Comentar tools/filter
 
--   Adicionar um separador (---) entre os exemplos (e resolvidos)
+-   Separar cada exemplo em seu arquivo
 
 -   Documentar as extensões para o pandoc e como referenciar imagens
 

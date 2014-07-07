@@ -1,4 +1,4 @@
-# Notas de aula de Paradigma de Programação Funcional
+# Notas de aula sobre o paradigma de programação funcional
 
 # Licença
 
@@ -62,7 +62,5 @@ Creative Commons - Atribuição-CompartilhaIgual 4.0 Internacional</a>.
     ```bash
     scons
     ```
-
-<!-- TODO: informar extensões do pandoc em bin/filter --!>
 
 <!-- % vim: set spell spelllang=pt_br: -->

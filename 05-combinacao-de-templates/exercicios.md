@@ -1,6 +1,6 @@
 ---
 title: Combinação de templates
-num: 5
+num: "5"
 template: exercicios.tex
 ---
 

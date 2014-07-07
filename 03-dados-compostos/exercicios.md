@@ -1,6 +1,6 @@
 ---
 title: Dados compostos
-num: 3
+num: "3"
 template: exercicios.tex
 ---
 

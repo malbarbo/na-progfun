@@ -1,6 +1,6 @@
 ---
 title: Naturais
-num: 4
+num: "4"
 template: exercicios.tex
 ---
 

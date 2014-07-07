@@ -1,6 +1,6 @@
 ---
 title: Funções
-num: 6
+num: "6"
 template: exercicios.tex
 ---
 

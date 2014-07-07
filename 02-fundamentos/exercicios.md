@@ -1,6 +1,6 @@
 ---
 title: Fundamentos
-num: 2
+num: "2"
 template: exercicios.tex
 ---
 

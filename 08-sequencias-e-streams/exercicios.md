@@ -1,6 +1,6 @@
 ---
 title: Sequências e streams
-num: 8
+num: "8"
 template: exercicios.tex
 ---
 

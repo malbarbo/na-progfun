@@ -85,7 +85,7 @@ template: slide.tex
 -   Defini as funções
 
     ```racket
-    ;; Construtor    
+    ;; Construtor
     ponto
 
     ;; Predicado
@@ -202,11 +202,11 @@ template: slide.tex
     > p2
     (ponto 3 5)
     ```
-    
+
     \pause
 
 -   Este método é limitado
- 
+
     -   Se a estrutura tem muitos campos e desejamos alterar apenas um campo,
         temos que especificar a cópia de todos os outros
 
@@ -271,7 +271,7 @@ função que classifique um retângulo em largo (largura maior que altura), alto
 
 -   A estrutura recursiva mais comum nas linguagens funcionais é a lista
 
--   Vamos tentar criar uma definição para lista 
+-   Vamos tentar criar uma definição para lista
 
 ### Listas
 

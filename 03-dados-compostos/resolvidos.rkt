@@ -17,7 +17,7 @@
    (check-equal? (cons-fim 8 (list 2 5)) (list 2 5 8))))
 
 (define (cons-fim a lst)
-  (cond 
+  (cond
     [(empty? lst) (list a)]
     [else (cons (first lst)
                 (cons-fim a (rest lst)))]))

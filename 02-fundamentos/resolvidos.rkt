@@ -15,7 +15,7 @@
    (check-equal? (maximo 2 3) 3)
    (check-equal? (maximo 5 3) 5)
    (check-equal? (maximo 4 4) 4)))
-   
+
 (define (maximo a b)
   (if (>= a b) a b))
 

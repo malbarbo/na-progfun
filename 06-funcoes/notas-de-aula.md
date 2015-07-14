@@ -28,7 +28,7 @@ template: slide.tex
 ### Introdução
 
 -   Uma **função de alta** ordem é aquela que recebe como parâmetro uma
-    função ou produz uma função com resultado 
+    função ou produz uma função com resultado
 
 # Funções que recebem funções como parâmetro
 

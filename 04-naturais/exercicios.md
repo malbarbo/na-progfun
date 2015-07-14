@@ -13,7 +13,7 @@ template: exercicios.tex
 #.  [tspl 2.8.6] Recursão indireta é quando dois (ou mais) procedimentos usam
     um ao outro. Defina duas funções `impar?` e `par?`, uma em termos da outra.
     (Dica: O que cada uma deve retornar quando o argumento for $0$?)
- 
+
 #.  Defina uma função que determine se um dado número inteiro positivo
     é perfeito. Um número é perfeito se a soma dos seus divisores próprios
     é igual a ele. Por exemplo, o número $6$ é perfeito, pois $6 = 1 + 2 + 3$.

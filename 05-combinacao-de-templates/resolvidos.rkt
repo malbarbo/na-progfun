@@ -44,7 +44,7 @@
 ;;                  |-------------------------
 ;;                  |      0     | (add1 ...)
 ;;     |------------|-------------------------
-;;     |   empty    |            |  erro    
+;;     |   empty    |            |  erro
 ;; lst |------------|    empty   |------------
 ;;     | (cons ...) |            |  cons (first lst) + recursão natural
 ;;     |------------|------------|------------
@@ -65,7 +65,7 @@
     [(empty? lst) (error "Lista vazia")]
     [else (cons (first lst)
                 (take (rest lst) (sub1 n)))]))
-   
+
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; Exercício 5.9

@@ -6,7 +6,7 @@
 ;;
 ;; Autor: Marco A L Barbosa <marco@malbarbo.pro.br>
 ;;
-;; As imagens foram obtidas de 
+;; As imagens foram obtidas de
 ;; http://www.spriters-resource.com/mobile_phone/flappybird/sheet/59537/
 ;;
 ;; Para executar o jogo, chame a função main.
@@ -262,7 +262,7 @@
 
 (define (collision? w)
   (define b (world-bird w))
-  (define pipes (world-pipes w))  
+  (define pipes (world-pipes w))
   (or (collision-floor? b)
       (ormap (λ (p) (collision-pipe? b p)) pipes)))
 
@@ -311,7 +311,7 @@
   (test-suite
    "check-point tests"
    (let* ([p-counted (pipe (sub1 BIRD-X) 10 20 #t)]
-          [p-passed (pipe (sub1 BIRD-X) 10 20 #f)]          
+          [p-passed (pipe (sub1 BIRD-X) 10 20 #f)]
           [p-not-passed (pipe (add1 BIRD-X) 10 20 #f)]
           [pipes (list p-counted p-passed p-passed p-not-passed)]
           [pipes-r (list p-counted p-counted p-counted p-not-passed)])
@@ -328,8 +328,8 @@
                      p
                      [counted? #t])
         p))
-  (define pipes (world-pipes w))  
-  (define passed (count passed-and-not-counted? pipes))  
+  (define pipes (world-pipes w))
+  (define passed (count passed-and-not-counted? pipes))
   (struct-copy world
                w
                [pipes (map mark-counted pipes)]
@@ -428,13 +428,13 @@
   (test-suite
    "check-add-pipe tests"
    (let* ([w-add (world "running" BIRD (list PIPE) 0 PIPE-FREQUENCY)]
-          [w-add-r (check-add-pipe w-add)]          
+          [w-add-r (check-add-pipe w-add)]
           [w1 (world "running" BIRD (list PIPE) 0 (sub1 PIPE-FREQUENCY))]
           [w1-r (check-add-pipe w1)])
      ;; adicionou
      (check-equal? (length (world-pipes w-add-r)) 2)
      ;; não adicionou
-     (check-equal? (length (world-pipes w1-r)) 1)))) 
+     (check-equal? (length (world-pipes w1-r)) 1))))
 
 (define (check-add-pipe w)
   (define (add-pipe pipes)
@@ -447,7 +447,7 @@
                    [pipes (add-pipe (world-pipes w))])
       w))
 
-;; World -> World 
+;; World -> World
 ;; Devolve um novo mundo sem os tubos que não são mais visíveis.
 (define check-remove-pipe-tests
   (test-suite
@@ -571,7 +571,7 @@
 ;; Pipe Image -> Image
 ;; Devolve uma nova imagem com p sobre img.
 (define (draw-pipe p img)
-  (define x (pipe-x p))  
+  (define x (pipe-x p))
   (define top-img (crop-top (pipe-top-height p) PIPE-TOP))
   (define bottom-img (crop-bottom (pipe-bottom-height p) PIPE-BOTTOM))
   (place-image/align bottom-img
@@ -646,7 +646,7 @@
 
 ;; Chama a função para executar os testes.
 (executa-testes handle-tick-tests
-                handle-key-tests                
+                handle-key-tests
                 check-die-tests
                 collision?-tests
                 collision-pipe?-tests
@@ -660,7 +660,7 @@
                 check-remove-pipe-tests
                 make-pipe-tests
                 move-pipes-tests
-                inc-ticks-tests                
+                inc-ticks-tests
                 state-tests
                 crop-top-tests
                 crop-bottom-tests

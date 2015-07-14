@@ -2,9 +2,9 @@
 
 build() {
     date
-    echo 
+    echo
     scons
-    echo 
+    echo
 }
 
 build

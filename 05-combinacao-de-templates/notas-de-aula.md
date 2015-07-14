@@ -131,7 +131,7 @@ ltsa |------------|------------|------------
 (check-equal? (prefixo? empty empty) true)
 (check-equal? (prefixo? empty (list 3 2 1)) true)
 (check-equal? (prefixo? (list 3 2 1) empty) false)
-(check-equal? (prefixo? (list 3 4) (list 3 4)) true)     
+(check-equal? (prefixo? (list 3 4) (list 3 4)) true)
 (check-equal? (prefixo? (list 3 4) (list 3 5)) false)
 (check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) true)
 (check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) false)
@@ -168,7 +168,7 @@ ltsa |------------|------------|------------
 (check-equal? (prefixo? empty empty) true)
 (check-equal? (prefixo? empty (list 3 2 1)) true)
 (check-equal? (prefixo? (list 3 2 1) empty) false)
-(check-equal? (prefixo? (list 3 4) (list 3 4)) true)     
+(check-equal? (prefixo? (list 3 4) (list 3 4)) true)
 (check-equal? (prefixo? (list 3 4) (list 3 5)) false)
 (check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) true)
 (check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) false)
@@ -202,13 +202,13 @@ ltsa |------------|-------------------------
 ```
 
 -   Template (observe que alguma parte do corpo já foi escrita)
- 
+
     ```racket
     (define (prefixo? lsta ltsb)
       (cond
         [(empty? ltsa) true]    ;; os casos foram
         [(empty? lstb) false]   ;; escolhidos por ordem
-        [else ...               ;; de simplicidade 
+        [else ...               ;; de simplicidade
               (first lsta)
               (first ltsb)
               (prefixo? (rest ltsa) (rest ltsb))]))

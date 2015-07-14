@@ -23,7 +23,7 @@ template: slide.tex
     -   Como (de)compor um número?
 
 
-# Definição 
+# Definição
 
 ### Definição
 

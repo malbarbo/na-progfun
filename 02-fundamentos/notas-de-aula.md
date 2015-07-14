@@ -112,7 +112,7 @@ template: slide.tex
     #f
     > (string-append "Apenas " "um " "teste")
     "Apenas um teste"
-    ```    
+    ```
 
 -   Este tipo de expressão é chamada de **combinação**
 
@@ -338,7 +338,7 @@ template: slide.tex
         associada com a função
 
     -   Nome $\rightarrow$ valor associado com o nome no ambiente
- 
+
     -   Forma especial $\rightarrow$ usar a regra específica de cada forma
         especial
 
@@ -740,7 +740,7 @@ Defina uma função que calcule o dobro de uma dado valor.
     ```racket
     ;; Número -> Número
     ;; Produz o dobro de n.
-    (define (dobro n) 0)    
+    (define (dobro n) 0)
     ```
 
 -   Convenções:
@@ -778,7 +778,7 @@ Defina uma função que calcule o dobro de uma dado valor.
     (check-equal? (dobro 4) 8)
     (check-equal? (dobro -2) -4)))
 
-    ;(define (dobro n) 0)    
+    ;(define (dobro n) 0)
 
     (define (fun-for-atomic a)
         (... a))
@@ -798,7 +798,7 @@ Defina uma função que calcule o dobro de uma dado valor.
     (check-equal? (dobro 4) 8)
     (check-equal? (dobro -2) -4)))
 
-    ;(define (dobro n) 0)    
+    ;(define (dobro n) 0)
 
     (define (dobro n)
         (... n))
@@ -818,7 +818,7 @@ Defina uma função que calcule o dobro de uma dado valor.
     (check-equal? (dobro 4) 8)
     (check-equal? (dobro -2) -4)))
 
-    ;(define (dobro n) 0)    
+    ;(define (dobro n) 0)
 
     (define (dobro n)
         (* 2 n))

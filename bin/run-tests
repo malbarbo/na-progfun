@@ -5,7 +5,7 @@ for f in $(find 0* flappybird -name '*.rkt'); do
     echo Testando: $f
     racket $f | tee -a $R
 done
-   
+
 S=$(egrep '^[[:digit:]]' $R | egrep -o '[[:digit:]]+' | awk '(NR + 0) % 4 == 0' | paste -s -d+ | bc)
 F=$(egrep '^[[:digit:]]' $R | egrep -o '[[:digit:]]+' | awk '(NR + 1) % 4 == 0' | paste -s -d+ | bc)
 E=$(egrep '^[[:digit:]]' $R | egrep -o '[[:digit:]]+' | awk '(NR + 2) % 4 == 0' | paste -s -d+ | bc)

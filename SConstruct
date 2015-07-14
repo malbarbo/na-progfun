@@ -10,7 +10,7 @@ import textwrap
 import yaml
 import glob
 
-DEBUG = ARGUMENTS.get('debug') == '1' 
+DEBUG = ARGUMENTS.get('debug') == '1'
 
 CONF_FILE = 'conf.yaml'
 
@@ -46,7 +46,7 @@ def run():
             Default(target)
             if to == 'pdf' and ext == '.md':
                 env.Pdf(target, get_md_dependecies(s))
-            else: 
+            else:
                 ext = ext[1:]
                 if ext not in conf.converters[to]:
                     raise Exception('Don\'t know how to build: "%s" from "%s"' % (target, s))

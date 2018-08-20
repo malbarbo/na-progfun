@@ -82,7 +82,7 @@ template: slide.tex
     (struct ponto (x y))
     ```
 
--   Defini as funções
+-   Define as funções
 
     ```racket
     ;; Construtor
@@ -254,7 +254,7 @@ função que classifique um retângulo em largo (largura maior que altura), alto
 
 ### Estruturas com auto-referência
 
--   Por enquanto, estamos trabalho com quantidades pré-determinada de dados
+-   Por enquanto estamos trabalho com quantidades pré-determinada de dados
 
 -   Como representar e processar uma quantidade de dados indeterminada? \pause
 
@@ -512,7 +512,7 @@ crie uma nova lista a partir de $lst$ sem a primeira ocorrência de $a$.
 
 ### Listas aninhadas
 
--   As vezes é necessário criar uma lista, que contenha outras listas, e estas
+-   Às vezes é necessário criar uma lista, que contenha outras listas, e estas
     listas contenham outras listas, etc
 
 -   Exemplo
@@ -559,7 +559,7 @@ Defina uma função que some todos os números de uma lista aninhada de números
 ### Exemplo 3.7
 
 Defina uma função que aplaine uma lista aninhada, isto é, transforme uma lista
-aninhada em uma lista sem listas aninhadas com os mesmo elementos e na mesma
+aninhada em uma lista sem listas aninhadas com os mesmos elementos e na mesma
 ordem da lista aninhada.
 
 

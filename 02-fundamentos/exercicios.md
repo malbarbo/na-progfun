@@ -51,7 +51,7 @@ template: exercicios.tex
     quando são dados diferentes tipos de argumentos numéricos.
 
 #.  [sicp 1.4] O modelo de avaliação visto em sala permite combinações em que
-    os operadores são expressões compostas. Use está observação para descrever
+    os operadores são expressões compostas. Use esta observação para descrever
     o comportamento do seguinte procedimento:
 
     ```racket
@@ -89,9 +89,9 @@ template: exercicios.tex
     e retorne a soma dos quadrados dos dois maiores números.
 
 #.  Defina uma função que calcule a distância de um ponto no plano cartesiano
-    (representado por dois números) a origem.
+    (representado por dois números) à origem.
 
-#.  Defina uma função que receba como parâmetro 3 números que representam os
+#.  Defina uma função que receba como parâmetros $3$ números que representam os
     lados de um triângulo e classifique o triângulo como equilátero, isósceles
     ou escaleno. Veja a página sobre
     [triângulos](https://pt.wikipedia.org/wiki/Tri%C3%A2ngulo) na Wikipédia.

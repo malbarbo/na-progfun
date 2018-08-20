@@ -15,4 +15,13 @@ template: exercicios.tex
     utilizando acumuladores. Redefina as funções (que se beneficiarem) em
     termos de `reduz-num-acc`.
 
+#.  Defina uma função que verifique o balanceamento dos parênteses em uma expressão.
+    Não se preocupe com a corretude da expressão. Utilize a função `string->list`
+    para converter a string de entrada em uma lista.
+
+    ```racket
+    > (balanceada "2+(3*(4/2-1))*(2+3*(5/2))")
+    true
+    ```
+
 <!-- vim: set spell spelllang=pt_br: !-->

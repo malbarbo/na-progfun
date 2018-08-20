@@ -43,7 +43,7 @@ template: exercicios.tex
     '(5 9 4 7 13)
     ```
 
-#.  Defina uma função que receba como entrada uma lista `lst` de número
+#.  Defina uma função que receba como entrada uma lista `lst` de números
     naturais e devolva uma lista que é como `lst` mas sem números pares.
 
 #.  Defina uma função que devolva o último elemento de uma lista. Use a função

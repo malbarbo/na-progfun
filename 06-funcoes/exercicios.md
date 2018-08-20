@@ -99,7 +99,7 @@ template: exercicios.tex
     '(1 2 3 4 5 6)
     ```
 
-#.  A função `map` pré definida no Racket aceita como parâmetro uma função de
+#.  A função `map` pré-definida no Racket aceita como parâmetro uma função de
     aridade $n$ e $n$ listas do mesmo tamanho, e aplica a função a todos os
     primeiros elementos das listas, depois aplica a função a todos os segundos
     elementos das listas e assim por diante, retornando a lista de resultados.

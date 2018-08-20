@@ -27,7 +27,7 @@ template: slide.tex
 
 ### Introdução
 
--   Uma **função de alta** ordem é aquela que recebe como parâmetro uma
+-   Uma **função de alta ordem** é aquela que recebe como parâmetro uma
     função ou produz uma função com resultado
 
 # Funções que recebem funções como parâmetro
@@ -36,7 +36,7 @@ template: slide.tex
 
 -   Como identificar a necessidade de utilizar funções como parâmetro? \pause
 
-    -   Encontrando similaridades em funções
+    -   Encontrando similaridades entre funções
 
     -   Vamos ver diversas funções e tentar identificar similaridades
 
@@ -80,7 +80,7 @@ Exemplos de uso da função `foldr`
 > (foldr + 0 (list 4 6 10))
 20
 > (foldr cons empty (list 7 2 18))
-'(7 2 8)
+'(7 2 18)
 > (foldr max 7 (list 7 2 18 -20))
 18
 
@@ -159,7 +159,7 @@ Exemplos de uso da função `filter`
 > (filter negative? (list 4 6 10))
 '()
 > (filter even? (list 7 2 18))
-'(2)
+'(2 18)
 ```
 
 
@@ -167,9 +167,9 @@ Exemplos de uso da função `filter`
 
 ### Receita para criar abstração a partir de exemplos
 
-O processo que usamos nestes exemplos, foi o mesmo (veja [Abstraction from
-examples](https://class.coursera.org/programdesign-001/wiki/view?page=AbstractionFromExamples)
-para detalhes)
+O processo que usamos nestes exemplos foi o mesmo:
+
+-   veja [Abstraction from examples](https://class.coursera.org/programdesign-001/wiki/view?page=AbstractionFromExamples) para detalhes
 
 1.  Identificar funções com corpo semelhante
 
@@ -208,7 +208,7 @@ para detalhes)
     -   A função `soma` tem um uso bastante restrito (supomos que ela
         é utilizada apenas pela função `lista-soma5`), mas foi declarada em um
         escopo global utilizando um nome fácil de ter conflito (outro
-        programador pode escolher o nome `soma` para outro função)
+        programador pode escolher o nome `soma` para outra função)
 
     -   A função `lista-soma5` é bastante específica e pode ser generalizada
 
@@ -228,7 +228,7 @@ para detalhes)
 
 ### Definições locais e fechamentos
 
--   O segundo problema pode ser resolver adicionado um parâmetro `n` e mudando
+-   O segundo problema pode ser resolvido adicionado um parâmetro `n` e mudando
     o nome da função `lista-soma5` para `lista-soma-n`
 
     ```racket
@@ -245,8 +245,8 @@ para detalhes)
 -   Uma **variável livre** é aquela que não foi declarada localmente (dentro da
     função) e não é um parâmetro
 
--   Como `soma` pode ser usado fora do contexto que ela foi declarada (como
-    quanto ela for executada dentro da função `map`), soma deve "levar" junto
+-   Como `soma` pode ser usada fora do contexto que ela foi declarada (como
+    quando ela for executada dentro da função `map`), soma deve "levar" junto
     com ela o ambiente de referenciamento
 
 -   **Ambiente de referenciamento** é uma tabela com as referências para as
@@ -328,7 +328,7 @@ para detalhes)
     definições dos nomes seguintes, por exemplo, não é possível utilizar o nome
     `var1` na expressão de `var2`
 
--   `let*` não tem esta limitação
+-   `let*` não tem essa limitação
 
 ### Definições locais e fechamentos
 
@@ -351,7 +351,7 @@ para detalhes)
 
 Defina a função `mapeia` em termos da função `reduz`.
 
-### mapeia em termos de reduz
+### `mapeia` em termos de `reduz`
 
 ```racket
 (define (mapeia f lst)
@@ -363,7 +363,7 @@ Defina a função `mapeia` em termos da função `reduz`.
 
 Defina a função `filtra` em termos da função `reduz`.
 
-### filtra em termos de reduz
+### `filtra` em termos de `reduz`
 
 ```racket
 (define (filtra pred? lst)
@@ -382,7 +382,7 @@ Defina a função `filtra` em termos da função `reduz`.
     precisar nomeá-las
 
 -   Quando fazemos um `define` de uma função, estamos especificando duas
-    coisas: a função é o nome da função. Quando escrevemos
+    coisas: **a função** e **o nome da função**. Quando escrevemos
 
     ```racket
     (define (quadrado x)
@@ -396,7 +396,7 @@ Defina a função `filtra` em termos da função `reduz`.
       (lambda (x) (* x x)))
     ```
 
--   O que deixa claro a distinção entre criar a função e dar nome a função. As
+-   O que deixa claro a distinção entre criar a função e dar nome à função. Às
     vezes é útil definir uma função sem dar nome a ela
 
 ### Funções anônimas
@@ -406,7 +406,7 @@ Defina a função `filtra` em termos da função `reduz`.
 
     -   `(lambda (parametros ...) corpo)`
 
--   Ao invés de utilizar a palavra `lambda`, podemos utiliza a letra
+-   Em vez de utilizar a palavra `lambda`, podemos utilizar a letra
     $\lambda$ (`ctrl-\` no DrRacket)
 
 -   Mas como e quando utilizar uma função anônima?
@@ -443,7 +443,7 @@ Defina a função `filtra` em termos da função `reduz`.
 
 ### Exemplo 6.7
 
-Defina uma função que recebe um parâmetro $n$ e devolva uma função que soma o
+Defina uma função que receba um parâmetro $n$ e devolva uma função que soma o
 seu argumento a $n$.
 
 ### Exemplo 6.7
@@ -486,8 +486,10 @@ seu argumento a $n$.
 
 ### Exemplo 6.8
 
-Defina uma função que recebe como parâmetro um predicado (função que retorna
+Defina uma função que receba como parâmetro um predicado (função que retorna
 verdadeiro ou falso) e retorne uma função que retorna a negação do predicado.
+
+-   `negate` ([referência](https://docs.racket-lang.org/reference/procedures.html#%28def._%28%28lib._racket%2Ffunction..rkt%29._negate%29%29))
 
 ### Exemplo 6.8
 
@@ -522,7 +524,29 @@ verdadeiro ou falso) e retorne uma função que retorna a negação do predicado
 ```
 
 
-## curry e curryr
+## Currying
+
+### Currying
+
+-   No cálculo lambda o currying permite definir funções que admitem múltiplos
+    parâmetros
+
+-   Aqui o currying permite a aplicação parcial das funções
+
+-   Por exemplo, para uma função que admite dois argumentos, poderemos aplicá-la
+    apenas ao primeiro argumento e mais tarde ao segundo argumento, resultando
+    no valor esperado
+
+-   Isso pode ser alcançado criando funções com currying:
+
+    ```racket
+    > (define f (λ (x) (λ (y) (* x y)))
+    > (define ((g x) y) (< x y))
+    > (map (f 2) (list 1 2 3 4))
+    '(2 4 6 8)
+    > (filter (g 2) (list 1 2 3 4))
+    '(3 4)
+    ```
 
 ### curry e curryr
 
@@ -617,7 +641,9 @@ Defina uma função que implemente o algoritmo de ordenação quicksort.
 
     ```racket
     (define (nome obrigatorios . opcionais) corpo)
+    (define (nome . opcionais) corpo)
     (λ (obrigatorios . opcionais) corpo)
+    (λ opcionais corpo)
     ```
 
 -   Os parâmetros opcionais são agrupados em uma lista

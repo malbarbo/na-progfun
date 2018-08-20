@@ -7,7 +7,7 @@ template: slide.tex
 
 ### Introdução
 
-<!-- TODO: adicionar funções equal? eq? eqv? number->string number? (outras?) !-->
+<!-- TODO: adicionar funções number->string number? (outras?) !-->
 <!-- TODO: outros tipos pré-definidos? imagens? !-->
 <!-- TODO: comentários: ; ;; #; !-->
 <!-- TODO: sexp !-->
@@ -17,7 +17,7 @@ template: slide.tex
 
 -   As funções são escritas em termos de expressões
 
--   Mas o que são expressões e como o interpretado avalia uma expressão?
+-   Mas o que são expressões e como o interpretador avalia uma expressão?
 
 
 ### Expressões
@@ -30,7 +30,7 @@ template: slide.tex
 
     -   Uma função primitiva
 
-### Tipos primitivas
+### Tipos primitivos
 
 -   Números
 
@@ -48,7 +48,7 @@ template: slide.tex
 
         -   Complexos com parte real ou imaginária inexata
 
-### Tipos primitivas
+### Tipos primitivos
 
 -   Booleano
 
@@ -68,7 +68,7 @@ template: slide.tex
 
 -   Relacionais: `>, >=, <, <=, =`
 
--   Strings: `string-length`, `string-append`
+-   Strings: `string-length`, `string-append`, `number->string`
 
 -   Muitas outras
 
@@ -255,12 +255,13 @@ template: slide.tex
 -   O procedimento para avaliação de expressão não serve para definições
 
     -   `(define x 10)` não significa aplicar a função `define` a dois
-        argumentos, um o valor associado a `x` e o outro o valor `10`,
-        o propósito do `define` é justamente associar o valor `10` a `x`
+        argumentos, um o valor associado a `x` e o outro o valor `10`
+
+    -   O propósito do `define` é justamente associar o valor `10` a `x`
 
     -   Ou seja, `(define x 10)` não é uma combinação
 
--   Exceções a regra geral de avaliação de expressões são chamadas de
+-   Exceções à regra geral de avaliação de expressões são chamadas de
     **formas especiais**
 
 -   `define` é uma forma especial
@@ -353,7 +354,7 @@ template: slide.tex
 
         -   Senão, aplique a função primitiva aos argumentos
 
--   Esta forma de aplicar funções compostas é chamada de
+-   Essa forma de aplicar funções compostas é chamada de
     **modelo de substituição**
 
 ### Modelo de substituição
@@ -372,7 +373,7 @@ template: slide.tex
 ```racket
 (f 5)                           ; Substitui (f 5) pelo corpo de f com
                                 ; as ocorrências do parâmetro a
-                                ; substituidas pelo argumento 5 \pause
+                                ; substituídas pelo argumento 5 \pause
 (soma-quadrados (+ 5 1) (* 5 2)); Reduz (+ 5 1) para o valor 6 \pause
 (soma-quadrados 6 (* 5 2))      ; Reduz (* 5 2) para o valor 10 \pause
 (soma-quadrados 6 10)           ; Subs (soma-quadrados 6 10) pelo corpo ... \pause
@@ -386,7 +387,7 @@ template: slide.tex
 
 ### Modelo de substituição
 
-![](drracket-step)
+![Execução passo-a-passo](drracket-step)
 
 ### Modelo de substituição
 
@@ -423,7 +424,6 @@ template: slide.tex
 
 -   O Haskell usa avaliação em ordem normal
 
-
 # Condicional
 
 ### Condicional
@@ -440,7 +440,52 @@ $$
 
 ### Condicional
 
--   A forma especial `cond` é utilizada para especificar funções deste tipo
+-   A forma especial `if` é utilizada para especificar funções deste tipo
+
+-   A forma geral do `if` é
+
+    ```racket
+    (if <predicado> <consequente> <alternativa>)
+    ```
+
+-   Expressões `if` são avaliadas da seguinte maneira
+
+    -   Se o predicado não é um valor, avalie o predicado e o substitua pelo
+        seu valor
+
+    -   Se o predicado é `true`, substitua toda a expressão `if` pelo
+        consequente
+
+    -   Se o predicado é `false`, substitua toda a expressão `if` pela
+        alternativa
+
+### Condicional
+
+```racket
+(define (abs x)
+  (if (>= x 0)
+      x
+      (- x)))
+
+(abs -4)         ; Substitui (abs -4) pelo corpo ...\pause
+
+(if (>= -4 0)    ; Como o predicado não é um valor,
+    -4           ; a expressão (>= -4 0) é avaliada e
+    (- -4))      ; substituída pelo seu valor \pause
+
+(if false        ; Como o predicado é false, a expressão if
+    -4           ; é substituída pela alternativa
+    (- -4))      ; \pause
+
+(- -4)           ; Reduz (- -4) para 4\pause
+
+4
+```
+
+### Condicional
+
+-   A forma especial `cond` pode ser usada quando existem vários (pelo menos um)
+    casos
 
     ```racket
     (define (abs x)
@@ -466,14 +511,16 @@ $$
 
     ```racket
     (cond
-      (<p1> <e1>)
-      (<p2> <e2>)
-      (<p3> <e3>)
+      [<p1> <e1>]
+      [<p2> <e2>]
+      [<p3> <e3>]
       ...
-      [(else <en>)])
+      [else <en>])
     ```
 
--   Cada par `(<p> <e>)` é chamado de **cláusula**
+-   Cada par `[<p> <e>]` é chamado de **cláusula**
+
+    -   Obs.: parênteses e colchetes são equivalentes em Racket
 
 -   A primeira expressão de uma cláusula é chamada de **predicado**, isto é,
     uma expressão cujo o valor é interpretado como verdadeiro ou falso
@@ -522,50 +569,28 @@ $$
 4
 ```
 
-### Condicional
+### Exercício
 
--   A forma especial `if` pode ser usada quando existem apenas dois casos
+Defina as funções `e-logico` e `ou-logico` de tal forma que para os argumentos
+x e y:
 
--   A forma geral do `if` é
+`(e-logico x y)` $\rightarrow$ `x` $\wedge$ `y`
 
-    ```racket
-    (if <predicado> <consequente> <alternativa>)
-    ```
+`(ou-logico x y)` $\rightarrow$ `x` $\vee$ `y`
 
--   Expressões `if` são avaliadas da seguinte maneira
-
-    -   Se o predicado não é um valor, avalie o predicado e o substitua pelo
-        seu valor
-
-    -   Se o predicado é `true`, substitua toda a expressão `if` pelo
-        consequente
-
-    -   Se o predicado é `false`, substitua toda a expressão `if` pela
-        alternativa
-
-### Condicional
+\pause
 
 ```racket
-(define (abs x)
-  (if (>= x 0)
-      x
-      (- x)))
+(define (e-logico x y)
+  (if x
+    y
+    false))
 
-(abs -4)         ; Substitui (abs -4) pelo corpo ...\pause
-
-(if (>= -4 0)    ; Como o predicado não é um valor,
-    -4           ; a expressão (>= -4 0) é avaliada e
-    (- -4)))     ; substituída pelo seu valor \pause
-
-(if false        ; Como o predicado é false, a expressão if
-    -4           ; é substituída pela alternatia
-    (- -4)))     ; \pause
-
-(- -4)           ; Reduz (- -4) para 4\pause
-
-4
+(define (ou-logico x y)
+  (if x
+      true
+      y))
 ```
-
 
 # Operadores lógicos
 
@@ -592,7 +617,7 @@ $$
     (and <e1> ... <en>)
     ```
 
--   Expressão `and` são avaliadas da seguinte maneira
+-   Expressões `and` são avaliadas da seguinte maneira
 
     -   Se não existem expressões, produza `true`
 
@@ -638,7 +663,7 @@ true
     (or <e1> ... <en>)
     ```
 
--   Expressão `and` são avaliadas da seguinte maneira
+-   Expressões `or` são avaliadas da seguinte maneira
 
     -   Se não existem expressões, produza `false`
 
@@ -657,7 +682,7 @@ true
 
 ```racket
 (or (< 4 2) true (= 3 3))  ; A primeira expressão não é um valor,
-                           ; logo ela é avalida e substiuída pelo
+                           ; logo ela é avalida e substituída pelo
                            ; seu valor \pause
 
 (or false true (= 3 3))    ; A primeira expressão é false, então
@@ -668,6 +693,104 @@ true
 true
 ```
 
+# Operadores de equivalência
+
+### Operadores de equivalência
+
+-   São utilizados para verificar a relação de equivalência entre
+    expressões
+
+-   Não devem ser confundidos com o comparador `=`, utilizado apenas para
+    valores numéricos
+
+-   Os principais operadores de igualdade são o `eq?`, `eqv?` e `equal?`
+
+### Operador `eq?`
+
+-   A forma geral do `eq?` é:
+
+    ```racket
+    (eq? v1 v2)
+    ```
+
+-   Retorna `#t` se `v1` e `v2` se referem ao mesmo objeto, `#f` caso contrário
+
+-   É avaliada rapidamente pois compara apenas as referências
+
+-   Entretanto, o `eq?` pode não ser adequado, pois a geração dos objetos pode
+    não ser clara.
+
+    ```racket
+    > (eq? 2 2)
+    #t
+    > (eq? (+ 3 5) (+ 5 3))
+    #t
+    > (eq? 2 2.0)
+    #f
+    > (eq? (expt 2 100) (expt 2 100))
+    #f
+    > (eq? (integer->char 955) (integer->char 955))
+    #f
+    ```
+
+-   Observe que nos três últimos exemplos, objetos distintos foram criados para
+    expressões avaliadas para um mesmo valor
+
+### Operador `eqv?`
+
+-   Dois valores são `eqv?` *sse* eles são `eq?`, exceto para números e
+    caracteres
+
+    -   Dois números são `eqv?` se eles são precisamente iguais
+
+        ```racket
+        > (eqv? (expt 2 100) (expt 2 100))
+        #t
+        > (eqv? 2 2.0)
+        #f
+        ```
+
+    -   Dois caracteres são `eqv?` quando seus resultados de `char->integer`
+        forem iguais
+
+        ```racket
+        > (eqv? (integer->char 955) (integer->char 955))
+        #t
+        > (eqv? #\a #\z)
+        #f
+        ```
+
+    -   Dois pares iguais não são `eqv?` entre si (recai ao `eq?`)
+
+        ```racket
+        > (eqv? (cons 1 2) (cons 1 2))
+        #f
+        ```
+
+### Operador `equal?`
+
+-   Dois valores são `equal?` *sse* eles são `eqv?`, a menos que especificado
+    de outra forma para um tipo de dado particular
+
+    -   Duas strings são `equal?` quando elas possuem o mesmo tamanho e contêm a
+        mesma sequência de caracteres
+
+        ```racket
+        > (equal? "banana" "banana")
+        #t
+        > (equal? "banana" "abacaxi")
+        #f
+        ```
+
+    -   Para estruturas que podem ser compostas, como pares, vetores e etc, o
+        operador `equal?` checa a equivalência recursivamente
+
+        ```racket
+        > (equal? (list 3 (list 4 2) 5) (list 3 (list 4 2) 5))
+        #t
+        > (equal? (list 3 2.0 1) (list 3 2 1))
+        #f
+        ```
 
 # Como projetar funções
 
@@ -700,13 +823,13 @@ true
 
 ### Como projetar funções
 
--   Cada etapa depende da anterior, mas as vezes pode ser necessário mudar
+-   Cada etapa depende da anterior, mas às vezes pode ser necessário mudar
     a ordem
 
 -   Por exemplo, talvez você faça primeiro os exemplos para entender
     melhor o problema e poder escrever a assinatura e o propósito
 
--   As vezes você está escrevendo o corpo e encontra uma nova condição e deve
+-   Às vezes você está escrevendo o corpo e encontra uma nova condição e deve
     voltar e alterar o propósito e os exemplos
 
 -   Mas você nunca deve escrever o código diretamente
@@ -731,7 +854,7 @@ true
 
 ### Exemplo 2.1
 
-Defina uma função que calcule o dobro de uma dado valor.
+Defina uma função que calcule o dobro de um dado valor.
 
 ### Exemplo 2.1
 
@@ -759,7 +882,7 @@ Defina uma função que calcule o dobro de uma dado valor.
 
     (check-equal? (dobro 0) 0)
     (check-equal? (dobro 4) 8)
-    (check-equal? (dobro -2) -4)))
+    (check-equal? (dobro -2) -4)
 
     (define (dobro n) 0)
     ```
@@ -776,7 +899,7 @@ Defina uma função que calcule o dobro de uma dado valor.
 
     (check-equal? (dobro 0) 0)
     (check-equal? (dobro 4) 8)
-    (check-equal? (dobro -2) -4)))
+    (check-equal? (dobro -2) -4)
 
     ;(define (dobro n) 0)
 
@@ -796,7 +919,7 @@ Defina uma função que calcule o dobro de uma dado valor.
 
     (check-equal? (dobro 0) 0)
     (check-equal? (dobro 4) 8)
-    (check-equal? (dobro -2) -4)))
+    (check-equal? (dobro -2) -4)
 
     ;(define (dobro n) 0)
 
@@ -816,7 +939,7 @@ Defina uma função que calcule o dobro de uma dado valor.
 
     (check-equal? (dobro 0) 0)
     (check-equal? (dobro 4) 8)
-    (check-equal? (dobro -2) -4)))
+    (check-equal? (dobro -2) -4)
 
     ;(define (dobro n) 0)
 
@@ -868,7 +991,7 @@ Programa completo
 
 -   Passo 5: Teste e depuração
 
--   `crtl-R` ou `F5` para executar o programa (e os testes)
+-   `ctrl-R` ou `F5` para executar o programa (e os testes)
 
 -   Resultado
 

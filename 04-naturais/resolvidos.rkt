@@ -4,7 +4,7 @@
 (require rackunit/text-ui)
 
 ;;;;;;;;;;;;;;;;;;;;
-;; Exercício 4.3
+;; Exercício 4.2
 
 ;; Natural -> Boolean
 ;; Devolve true se a é par, falso caso contrário.
@@ -42,7 +42,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;
-;; Exercício 4.3
+;; Exercício 4.4
 
 ;; Natural -> Boolean
 ;; Devolve true se n é um número perfeito, falso caso contrário.  Um número

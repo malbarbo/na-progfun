@@ -21,7 +21,7 @@ template: slide.tex
 ### Exemplo 5.1
 
 Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta`
-é prefixo de `lstb`, isto é `lstb` começa com `ltsa`.
+é prefixo de `lstb`, isto é `lstb` começa com `lsta`.
 
 ### Exemplo 5.1
 
@@ -29,8 +29,8 @@ Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta`
 
     ```racket
     ;; Lista Lista -> Boolean
-    ;; Devolve true se ltsa é prefixo de lstb. false caso contrário.
-    (define (prefixo? ltsa ltsb) false)
+    ;; Devolve true se lsta é prefixo de lstb. false caso contrário.
+    (define (prefixo? lsta lstb) false)
     ```
 
 ### Exemplo 5.1
@@ -40,9 +40,9 @@ Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta`
     -   Temos ter pelo menos um exemplo para cada combinação das definições dos
         dados de entrada
 
-    -   `ltsa` pode ser `empty` ou um `cons`
+    -   `lsta` pode ser `empty` ou um `cons`
 
-    -   `ltsb` pode ser `empty` ou um `cons`
+    -   `lstb` pode ser `empty` ou um `cons`
 
     -   Como garantir que não vamos esquecer nenhum caso? \pause Fazendo uma
         tabela
@@ -50,27 +50,27 @@ Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta`
 ### Exemplo 5.1
 
 ```text
-                             ltsb
-                  |-------------------------
-                  |   empty    | (cons ...)
-     |------------|------------|------------
-     |   empty    |            |
-ltsa |------------|------------|------------
-     | (cons ...) |            |
-     |------------|------------|------------
+                             lstb
+                  +------------+------------+
+                  |   empty    | (cons ...) |
+     +------------+------------+------------+
+     |   empty    |            |            |
+lsta +------------+------------+------------+
+     | (cons ...) |            |            |
+     +------------+------------+------------+
 ```
 
 ### Exemplo 5.1
 
 ```text
-                             ltsb
-                  |-------------------------
-                  |   empty    | (cons ...)
-     |------------|------------|------------
-     |   empty    |     OK     |
-ltsa |------------|------------|------------
-     | (cons ...) |            |
-     |------------|------------|------------
+                             lstb
+                  +------------+------------+
+                  |   empty    | (cons ...) |
+     +------------+------------+------------+
+     |   empty    |     OK     |            |
+lsta +------------+------------+------------+
+     | (cons ...) |            |            |
+     +------------+------------+------------+
 ```
 
 ```racket
@@ -80,14 +80,14 @@ ltsa |------------|------------|------------
 ### Exemplo 5.1
 
 ```text
-                             ltsb
-                  |-------------------------
-                  |   empty    | (cons ...)
-     |------------|------------|------------
-     |   empty    |     OK     |     OK
-ltsa |------------|------------|------------
-     | (cons ...) |            |
-     |------------|------------|------------
+                             lstb
+                  +------------+------------+
+                  |   empty    | (cons ...) |
+     +------------+------------+------------+
+     |   empty    |     OK     |     OK     |
+lsta +------------+------------+------------+
+     | (cons ...) |            |            |
+     +------------+------------+------------+
 ```
 
 ```racket
@@ -98,14 +98,14 @@ ltsa |------------|------------|------------
 ### Exemplo 5.1
 
 ```text
-                             ltsb
-                  |-------------------------
-                  |   empty    | (cons ...)
-     |------------|------------|------------
-     |   empty    |     OK     |     OK
-ltsa |------------|------------|------------
-     | (cons ...) |     OK     |
-     |------------|------------|------------
+                             lstb
+                  +------------+------------+
+                  |   empty    | (cons ...) |
+     +------------+------------+------------+
+     |   empty    |     OK     |     OK     |
+lsta +------------+------------+------------+
+     | (cons ...) |     OK     |            |
+     +------------+------------+------------+
 ```
 
 ```racket
@@ -117,14 +117,14 @@ ltsa |------------|------------|------------
 ### Exemplo 5.1
 
 ```text
-                             ltsb
-                  |-------------------------
-                  |   empty    | (cons ...)
-     |------------|------------|------------
-     |   empty    |     OK     |     OK
-ltsa |------------|------------|------------
-     | (cons ...) |     OK     |     OK
-     |------------|------------|------------
+                             lstb
+                  +------------+------------+
+                  |   empty    | (cons ...) |
+     +------------+------------+------------+
+     |   empty    |     OK     |     OK     |
+lsta +------------+------------+------------+
+     | (cons ...) |     OK     |     OK     |
+     +------------+------------+------------+
 ```
 
 ```racket
@@ -135,7 +135,7 @@ ltsa |------------|------------|------------
 (check-equal? (prefixo? (list 3 4) (list 3 5)) false)
 (check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) true)
 (check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) false)
-(check-equal? (prefixo? (list 3 4 5) (list 3 4)) false)))
+(check-equal? (prefixo? (list 3 4 5) (list 3 4)) false)
 ```
 
 ### Exemplo 5.1
@@ -147,12 +147,12 @@ ltsa |------------|------------|------------
     \pause
 
     ```racket
-    (define (prefixo? lsta ltsb)
+    (define (prefixo? lsta lstb)
       (cond
-        [(and (empty? lsta) (empty? ltsb)) ...]
-        [(and (empty? lsta) (cons? ltsb)) ... lstb ...]
-        [(and (cons? lsta) (empty? ltsb)) ... lsba ...]
-        [else ... lsta ... ltsb ...]))
+        [(and (empty? lsta) (empty? lstb)) ...]
+        [(and (empty? lsta) (cons? lstb)) ... lstb ...]
+        [(and (cons? lsta) (empty? lstb)) ... lsba ...]
+        [else ... lsta ... lstb ...]))
     ```
 
     \pause
@@ -172,18 +172,19 @@ ltsa |------------|------------|------------
 (check-equal? (prefixo? (list 3 4) (list 3 5)) false)
 (check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) true)
 (check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) false)
-(check-equal? (prefixo? (list 3 4 5) (list 3 4)) false)))
+(check-equal? (prefixo? (list 3 4 5) (list 3 4)) false)
 ```
 
 ```text
-                             ltsb
-                  |-------------------------
-                  |   empty    | (cons ...)
-     |------------|------------|------------
-     |   empty    |    true    |   true
-ltsa |------------|------------|------------
-     | (cons ...) |    false   |   primeiros iguais e recursão natural
-     |------------|------------|------------
+                             lstb
+                  +------------+--------------------+
+                  |    empty   |     (cons ...)     |
+     +------------+------------+--------------------+
+     |   empty    |    true    |        true        |
+lsta +------------+------------+--------------------+
+     | (cons ...) |    false   |  primeiros iguais  |
+     |            |            | e recursão natural |
+     +------------+------------+--------------------+
 ```
 
 ### Exemplo 5.1
@@ -191,27 +192,28 @@ ltsa |------------|------------|------------
 -   Simplificando ...
 
 ```text
-                             ltsb
-                  |-------------------------
-                  |   empty    | (cons ...)
-     |------------|-------------------------
-     |   empty    |          true
-ltsa |------------|-------------------------
-     | (cons ...) |    false   |   primeiros iguais e recursão natural
-     |------------|------------|------------
+                             lstb
+                  +------------+--------------------+
+                  |    empty   |     (cons ...)     |
+     +------------+------------+--------------------+
+     |   empty    |              true               |
+lsta +------------+------------+--------------------+
+     | (cons ...) |    false   |  primeiros iguais  |
+     |            |            | e recursão natural |
+     +------------+------------+--------------------+
 ```
 
 -   Template (observe que alguma parte do corpo já foi escrita)
 
     ```racket
-    (define (prefixo? lsta ltsb)
+    (define (prefixo? lsta lstb)
       (cond
-        [(empty? ltsa) true]    ;; os casos foram
+        [(empty? lsta) true]    ;; os casos foram
         [(empty? lstb) false]   ;; escolhidos por ordem
         [else ...               ;; de simplicidade
               (first lsta)
-              (first ltsb)
-              (prefixo? (rest ltsa) (rest ltsb))]))
+              (first lstb)
+              (prefixo? (rest lsta) (rest lstb))]))
     ```
 
 ### Exemplo 5.1
@@ -219,13 +221,13 @@ ltsa |------------|-------------------------
 -   Passo 4: Corpo
 
     ```racket
-    (define (prefixo? lsta ltsb)
+    (define (prefixo? lsta lstb)
       (cond
-        [(empty? ltsa) true]
+        [(empty? lsta) true]
         [(empty? lstb) false]
         [else (and
-                (equal? (first lsta) (first ltsb))
-                (prefixo? (rest ltsa) (rest ltsb)))]))
+                (equal? (first lsta) (first lstb))
+                (prefixo? (rest lsta) (rest lstb)))]))
     ```
 
 ### Exemplo 5.2

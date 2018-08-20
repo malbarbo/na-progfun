@@ -119,7 +119,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;
-;; Exercício 3.9
+;; Exercício 3.10
 
 ;; Número Lista -> Lista
 ;; Devolve uma nova lista como os mesmo elementos de lst e o n em ordem não
@@ -151,7 +151,7 @@
 
 
 ;;;;;;;;;;;;;;;;;;;;
-;; Exercício 3.10
+;; Exercício 3.11
 
 ;; Lista -> Lista
 ;; Devolve uma nova lista com os mesmos elemento de lst em ordem não

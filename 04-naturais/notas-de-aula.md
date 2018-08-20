@@ -151,7 +151,7 @@ Dado um número natural $n$, defina uma função que devolva a lista
 
 ### Definição
 
--   As vezes queremos utilizar um caso base diferente de $0$
+-   Às vezes queremos utilizar um caso base diferente de $0$
 
 -   Podemos generalizar a definição de número natural para incluir um limite
     inferior diferente de $0$

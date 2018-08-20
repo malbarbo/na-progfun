@@ -3,21 +3,22 @@ title: Introdução
 template: slide.tex
 ---
 
-# O que?
+# O quê?
 
-### O que?
+### O quê?
 
--   Origem no cálculo lambda
+-   É um paradigma de programação baseado em funções modeladas sobre funções matemáticas
+
+    -   Origem no cálculo lambda
 
 -   A computação é especificada pela definição e aplicação de funções
-    (imperativo é baseado em mudança de estado)
+    (Imperativo é baseado em mudança de estado)
 
--   Evita dados mutáveis
+    -   Evita dados mutáveis
 
+# Por quê?
 
-# Porque?
-
-### Porque?
+### Por quê?
 
 -   Um paradigma (linguagem) de programação é uma ferramenta
 
@@ -141,7 +142,6 @@ template: slide.tex
     > +
     #<procedure:+>
     ```
-
 
 # Leitura recomendada
 

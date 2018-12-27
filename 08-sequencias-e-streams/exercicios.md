@@ -4,7 +4,7 @@ num: "8"
 template: exercicios.tex
 ---
 
-#.  Defina uma função `multiplos` que receba como parâmetro um inteiros
+#.  Defina uma função `multiplos` que receba como parâmetro um inteiro
     positivo $n$ e devolva um stream com os múltiplos de $n$ maiores 0.
 
     ```racket

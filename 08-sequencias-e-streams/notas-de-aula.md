@@ -44,7 +44,7 @@ template: slide.tex
 
     -   $S = \{2x\ |\ x \in 1..10\}$
 
-    -   $T = \{2x\ |\ x \in 1..10, n^2 > 8\}$
+    -   $T = \{2x\ |\ x \in 1..10, x^2 > 8\}$
 
 \pause
 
@@ -177,14 +177,14 @@ stream. (Semelhante a função `take`)
 ### Exemplo 8.3
 
 Defina uma função que receba dois streams como parâmetro e crie um stream em
-que cada elemento e a soma dos dois elementos na mesma posição dos streams de
+que cada elemento é a soma dos dois elementos na mesma posição dos streams de
 entrada.
 
 ### Exemplo 8.4
 
 [Problema 1](https://projecteuler.net/problem=1) do [Projeto
 Euler](https://projecteuler.net/). Defina uma função que some todos os números
-naturais menores que um dado $n$ que sejam mútiplos de 3 ou 5.
+naturais menores que um dado $n$ que sejam múltiplos de 3 ou 5.
 
 
 # Streams implícitos
@@ -214,7 +214,7 @@ naturais menores que um dado $n$ que sejam mútiplos de 3 ou 5.
 
 ### Promessas
 
--   Stream são criados utilizando as primitivas `delay` e `force`
+-   Streams são criados utilizando as primitivas `delay` e `force`
 
 -   `delay` cria uma promessa de avaliar uma expressão
 

@@ -10,10 +10,10 @@ template: slide.tex
 -   Não nos preocupamos com o contexto do uso quando criamos funções recursivas
 
     -   Não importa se é a primeira vez que a função está sendo chamada ou se
-        é a 100
+        é a 100ª
 
 -   Este princípio de independência do contexto facilita a escrita de funções
-    recursivas, mas pode gerar problemas em alguns situações
+    recursivas, mas pode gerar problemas em algumas situações
 
 -   Vamos ver um exemplo
 
@@ -143,7 +143,7 @@ origem
           (soma-alt (add1 a) (sub1 b))))
     ```
 
--   Qual é o processo gerando quando cada função é avaliada com os parâmetros
+-   Qual é o processo gerado quando cada função é avaliada com os parâmetros
     4 3?
 
 ### Processos iterativos e recursivos
@@ -162,7 +162,7 @@ origem
     ```
 
 -   Este processo, caracterizado por uma sequência de operações adiadas
-    é chamado de **processo recursivo**. Tem um padrão de cresce e diminui
+    é chamado de **processo recursivo**. Tem um padrão de "cresce e diminui"
 
 ### Processos iterativos e recursivos
 
@@ -200,8 +200,8 @@ origem
 
 -   Os compiladores/interpretadores de linguagens funcionais otimizam as
     recursões em cauda de maneira que não é necessário manter a pilha da
-    chamada recursiva, o que torna a recursão tão eficiente quando um laço em
-    uma linguagem imperativa.  Está técnica é chamada de **eliminação da
+    chamada recursiva, o que torna a recursão tão eficiente quanto um laço em
+    uma linguagem imperativa.  Esta técnica é chamada de **eliminação da
     chamada em cauda**
 
 
@@ -214,7 +214,7 @@ origem
 
 -   Os princípios para projetar funções com acumuladores são
 
-    -   Identificar que a função beneficiasse ou precisa de um acumulador
+    -   Identificar que a função se beneficia ou precisa de um acumulador
 
         -   Torna a função mais simples
 
@@ -297,7 +297,7 @@ origem
 
 ### Exemplo 7.3
 
--   O conhecimento que se perde na chamada recursiva é soma dos elementos já
+-   O conhecimento que se perde na chamada recursiva é a soma dos elementos já
     "vistos"
 
 -   Vamos criar um acumulador que representa esta quantidade \pause
@@ -428,7 +428,7 @@ origem
 
 -   `foldr` e `foldl` produzem o mesmo resultado se a função `f` for associativa
 
--   Quando possível, utilize a função `foldl`, pois ela pode utiliza menos
+-   Quando possível, utilize a função `foldl`, pois ela pode utilizar menos
     memória
 
 -   Não tenha receio de utilizar a função `foldr`, muitas funções ficam mais

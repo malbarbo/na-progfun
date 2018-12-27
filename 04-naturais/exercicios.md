@@ -22,6 +22,17 @@ template: exercicios.tex
 #.  Defina uma função que conte quantos números primos existem em um dado
     intervalo.
 
+#.  Defina uma função que calcule o elemento $e_{ij}$ do triângulo de Pascal,
+    onde $i$ e $j$ são respectivamente a linha e coluna em que se encontra o
+    elemento $e$. O triângulo de Pascal calculado até a $6^\text{a}$ linha:
+    ```
+    1
+    1 1
+    1 2  1
+    1 3  3  1
+    1 4  6  4 1
+    1 5 10 10 5 1
+    ```
 
 # Referências
 

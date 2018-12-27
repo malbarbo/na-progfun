@@ -56,8 +56,8 @@ template: exercicios.tex
     '(30 40 50 10 20)
     ```
 
-#.  Dado duas listas de entrada, `ltsa` e `ltsb`, defina uma função que devolva
-    uma nova lista com os elementos de `ltsa` seguidos dos elementos de `ltsb`.
+#.  Dado duas listas de entrada, `lsta` e `lstb`, defina uma função que devolva
+    uma nova lista com os elementos de `lsta` seguidos dos elementos de `lstb`.
 
     ```racket
     > (append (list 3 7 12) (list 2 4 5))
@@ -72,6 +72,12 @@ template: exercicios.tex
     > (merge (list 3 7 12) (list 2 4 5))
     '(2 3 4 5 7 12)
     ```
+
+#.  Escreva uma função que conte de quantas formas diferentes podemos dar um
+    valor de troco a partir de uma lista de valores de moedas. Por exemplo,
+    existem 3 formas de dar o troco para o valor 4 se você tiver moedas de
+    1 e 2: 1+1+1+1, 1+1+2, 2+2.
+
 
 # Referências
 

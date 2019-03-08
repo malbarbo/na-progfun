@@ -162,12 +162,12 @@ Leitura recomendada
 
 ## Leitura recomendada
 
+- [Introdução rápida ao Racket](http://docs.racket-lang.org/quick/)
+
+- [Programação funcional](https://en.wikipedia.org/wiki/Functional_programming)
+
 - [The Python paradox](http://www.paulgraham.com/pypar.html)
 
 - [Revenge of the Nerds](http://www.paulgraham.com/icad.html)
 
 - [Beating the averages](http://www.paulgraham.com/avg.html)
-
-- [Programação funcional](https://en.wikipedia.org/wiki/Functional_programming)
-
-- [Introdução rápida ao Racket](http://docs.racket-lang.org/quick/)

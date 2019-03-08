@@ -100,11 +100,11 @@ template: slide.tex
 
 ### Configuração
 
-![](drracket-config)
+![](imagens/drracket-config.png)
 
 ### Uso
 
-![](drracket-exemplo)
+![](imagens/drracket-exemplo.png)
 
 ### Uso
 
@@ -112,7 +112,7 @@ template: slide.tex
 
     -   Digite o código do programa
 
-    -   Pressione o botão correr (`ctrl+R`)
+    -   Pressione o botão correr (\keys{\ctrl + R})
 
 -   Área de interações
 

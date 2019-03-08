@@ -407,7 +407,7 @@ Defina a função `filtra` em termos da função `reduz`.
     -   `(lambda (parametros ...) corpo)`
 
 -   Em vez de utilizar a palavra `lambda`, podemos utilizar a letra
-    $\lambda$ (`ctrl-\` no DrRacket)
+    $\lambda$ (\keys{\ctrl + \textbackslash} no DrRacket)
 
 -   Mas como e quando utilizar uma função anônima?
 

@@ -387,7 +387,7 @@ template: slide.tex
 
 ### Modelo de substituição
 
-![Execução passo-a-passo](drracket-step)
+![Execução passo-a-passo](imagens/drracket-step.png)
 
 ### Modelo de substituição
 
@@ -991,7 +991,7 @@ Programa completo
 
 -   Passo 5: Teste e depuração
 
--   `ctrl-R` ou `F5` para executar o programa (e os testes)
+  -   \keys{\ctrl + R} ou \keys{F5} para executar o programa (e os testes)
 
 -   Resultado
 

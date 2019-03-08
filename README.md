@@ -19,53 +19,10 @@ está licenciado com uma Licença
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
 Creative Commons - Atribuição-CompartilhaIgual 4.0 Internacional</a>.
 
-# Requisitos
 
--   `pandoc` (>= 12), `texlive`, `texlive-fonts-extra`,
-    `texlive-lang-portuguese`, `lmodern`, `latex-beamer`, `scons`,
-    `python-yaml`, `python3-yaml`, `python3-pygments`,
-    `python3-pip`,`inotify-tools`, `imagemagick`, `inkscape`, `pandocfilters`
+# Gerando os pdfs
 
-# Gerar os pdfs
-
-## Sistemas baseados no Debian
-
--   Habilite o repositório `testing`
-
-    ```bash
-    sudo bash -c "echo 'deb http://http.debian.net/debian/ testing main' > /etc/apt/sources.list.d/testing.list"
-    ```
-
--   Instale as dependências
-
-    ```bash
-    sudo bin/install-debian-deps
-    ```
-
--   Desabilite o repositório `testing`
-
-    ```bash
-    sudo rm /etc/apt/sources.list.d/testing.list
-    ```
-
--   Gere os pdfs
-
-    ```bash
-    scons
-    ```
-
-## Outros sistemas
-
--   Instale o [pandoc](http://johnmacfarlane.net/pandoc/installing.html)
-
--   Instale o [pandocfilters](https://github.com/jgm/pandocfilters) usando o python3
-
--   Instale as outras dependências
-
--   Gere os pdfs
-
-    ```bash
-    scons
-    ```
+Instale os pacotes `texlive`, `texlive-fonts-extra`, `texlive-lang-portuguese`
+e execute o comando `make`. Os pdfs são gerados no diretório `target/pdfs`.
 
 <!-- % vim: set spell spelllang=pt_br: -->

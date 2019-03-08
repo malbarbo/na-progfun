@@ -1,14 +1,16 @@
 #!/bin/bash
 
+set -e
+
 build() {
     date
     echo
-    scons
+    make
     echo
 }
 
 build
 while true; do
-    inotifywait -q -q -r -e close_write,moved_to,create 0* templates bin
+    inotifywait -q -q -r -e close_write,moved_to,create 0* templates bin || false
     build
 done

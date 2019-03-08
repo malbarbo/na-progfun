@@ -1,28 +1,30 @@
 ---
-title: Introdução
-template: slide.tex
+# vim: set spell spelllang=pt_br sw=4:
+title: Programação funcional
 ---
 
-# O quê?
+O quê?
+======
 
-### O quê?
+## O quê?
 
--   É um paradigma de programação baseado em funções modeladas sobre funções matemáticas
+- É um paradigma de programação inspirado no cálculo lambda
 
-    -   Origem no cálculo lambda
+- A computação é especificada pela definição e aplicação de funções
+  (programação imperativa é baseado em mudança de estado)
 
--   A computação é especificada pela definição e aplicação de funções
-    (Imperativo é baseado em mudança de estado)
+    - Evita dados mutáveis
 
-    -   Evita dados mutáveis
 
-# Por quê?
 
-### Por quê?
+Por quê?
+========
+
+## Por quê?
 
 -   Um paradigma (linguagem) de programação é uma ferramenta
 
--   Conhecer várias ferramentas para utilizar a mais adequada para cada problema
+-   Conhecer várias ferramentas permite utilizar a mais adequada para cada problema
 
 -   Programas mais simples, fáceis de entender e modificar
 
@@ -31,104 +33,114 @@ template: slide.tex
 -   Diversão! Programar (no paradigma funcional) é muito divertido
 
 
-# Como?
 
-### Como?
+Como?
+=====
 
--   Escolher uma linguagem
+## Como?
 
--   Ler a fundamentação teórica e as referências da linguagem
+- Escolher uma linguagem
 
--   Praticar lendo e escrevendo código
+- Ler a fundamentação teórica e as referências da linguagem
 
-
-### Como?
-
--   Escolher uma linguagem
-
-    -   Racket
-
-    -   Bom suporte ao paradigma funcional
-
-    -   Variante moderna do Lisp
-
-    -   Ambiente integrado DrRacket
-
-    -   Documentação extensa
-
-    -   Fácil instalação
+- Praticar lendo e escrevendo código
 
 
-### Como?
+## Como?
 
--   Ler a fundamentação teórica e as referências da linguagem
+- Escolher uma linguagem
 
-    -   Livro [How to Design Programs](http://htdp.org/)
+    - Racket
 
-    -   [Guia](http://docs.racket-lang.org/guide/index.html)
-        e [Referência](http://docs.racket-lang.org/reference/) do Racket
+    - Bom suporte ao paradigma funcional
 
-    -   Livro [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
+    - Variante moderna do Lisp
 
-    -   Livro [The Scheme Programming Languague](http://www.scheme.com/tspl4/ )
+    - Ambiente integrado DrRacket
 
+    - Documentação extensa
 
-### Como?
-
--   Praticar lendo e escrevendo código
-
-    -   Muitos exemplos
-
-    -   Muitos exercícios
+    - Fácil instalação
 
 
-## Primeiros passos
+## Como?
 
-### Instalação e execução
+- Ler a fundamentação teórica e as referências da linguagem
 
-- Instalação
+    - [A Tutorial Introduction to the Lambda Calculus](http://www.inf.fu-berlin.de/lehre/WS03/alpi/lambda.pdf)
 
-    ```console
-    $ apt-get install racket
-    ```
+    - Livro [How to Design Programs](http://htdp.org/)
 
-- Execução
+    - [Guia](http://docs.racket-lang.org/guide/index.html)
+      e [Referência](http://docs.racket-lang.org/reference/) do Racket
 
-    ```console
-    $ drracket
-    ```
+    - Livro [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
 
-### Configuração
+    - Livro [The Scheme Programming Languague](http://www.scheme.com/tspl4/ )
+
+
+## Como?
+
+- Praticar lendo e escrevendo código
+
+    - Muitos exemplos
+
+    - Muitos exercícios
+
+
+
+Primeiros passos
+================
+
+## Instalação
+
+```console
+$ apt-get install racket
+```
+
+
+## Execução
+
+```console
+$ drracket
+```
+
+
+## Configuração
 
 ![](imagens/drracket-config.png)
 
-### Uso
+
+## Uso
 
 ![](imagens/drracket-exemplo.png)
 
-### Uso
 
--   Área de definições
+## Uso
 
-    -   Digite o código do programa
+- Na área de definições
 
-    -   Pressione o botão correr (\keys{\ctrl + R})
+    - Digite o código do programa
 
--   Área de interações
+    - Pressione o botão executar/correr (\keys{\ctrl + r})
 
-    -   Testar as definições
 
-    -   REPL (Read Eval Print Loop)
+## Uso
 
-        -   Entre com uma expressão (Read)
+- Na área de interações
 
-        -   A expressão é avaliada (Eval)
+    - Teste as definições usando REPL (Read Eval Print Loop)
 
-        -   O resultado da expressão é impressa (Print)
+        - Entre com uma expressão (Read)
 
-        -   O processo é repetido (Loop)
+        - A expressão é avaliada (Eval)
 
-### Uso
+        - O resultado da expressão é impressa (Print)
+
+        - Repetida o processo (Loop)
+
+
+## Uso
 
 - Exemplos de interações
 
@@ -143,9 +155,12 @@ template: slide.tex
     #<procedure:+>
     ```
 
-# Leitura recomendada
 
-### Leitura recomendada
+
+Leitura recomendada
+===================
+
+## Leitura recomendada
 
 - [The Python paradox](http://www.paulgraham.com/pypar.html)
 
@@ -156,5 +171,3 @@ template: slide.tex
 - [Programação funcional](https://en.wikipedia.org/wiki/Functional_programming)
 
 - [Introdução rápida ao Racket](http://docs.racket-lang.org/quick/)
-
-<!-- vim: set spell spelllang=pt_br: !-->

@@ -22,15 +22,15 @@ Por quê?
 
 ## Por quê?
 
--   Um paradigma (linguagem) de programação é uma ferramenta
+- Um paradigma (linguagem) de programação é uma ferramenta
 
--   Conhecer várias ferramentas permite utilizar a mais adequada para cada problema
+- Conhecer várias ferramentas permite utilizar a mais adequada para cada problema
 
--   Programas mais simples, fáceis de entender e modificar
+- Programas mais simples, fáceis de entender e modificar
 
--   Programas mais fáceis de paralelizar (melhorar a utilização do hardware atual)
+- Programas mais fáceis de paralelizar (melhorar a utilização do hardware atual)
 
--   Diversão! Programar (no paradigma funcional) é muito divertido
+- Diversão! Programar (no paradigma funcional) é muito divertido
 
 
 
@@ -164,9 +164,9 @@ Leitura recomendada
 
 - [Introdução rápida ao Racket](http://docs.racket-lang.org/quick/)
 
-- [Programação funcional](https://en.wikipedia.org/wiki/Functional_programming)
-
 - [The Python paradox](http://www.paulgraham.com/pypar.html)
+
+- [Programação funcional](https://en.wikipedia.org/wiki/Functional_programming)
 
 - [Revenge of the Nerds](http://www.paulgraham.com/icad.html)
 

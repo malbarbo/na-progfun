@@ -1,120 +1,131 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Cálculo Lambda
-template: slide.tex
 ---
 
-# O cálculo lambda
+O cálculo lambda
+================
 
-### O cálculo lambda
+## O cálculo lambda
 
--   O cálculo lambda é um modelo de computação introduzido por Alonzo Church na década de 1930
+- O cálculo lambda é um modelo de computação introduzido por Alonzo Church na década de 1930
 
-    -   Qualquer função computável pode ser expressa e avaliada utilizando essa formulação
+    - Qualquer função computável pode ser expressa e avaliada utilizando essa formulação
 
-    -   Possui poder equivalente às máquinas de Turing
+    - Possui poder equivalente às máquinas de Turing
 
--   Consiste de uma única regra de transformação (substituição de variáveis) e um único esquema de definição de funções
+- Consiste de uma única regra de transformação (substituição de variáveis) e um único esquema de definição de funções
 
-### Termos lambda
 
--   O cálculo lambda possui três componentes, ou termos lambda, básicos:
+## Termos lambda
 
-    -   Abstrações;
+- O cálculo lambda possui três componentes, ou termos lambda, básicos:
 
-    -   Variáveis;
+    - Abstrações
 
-    -   Expressões;
+    - Variáveis
 
--   Variáveis são apenas nomes, representadas por uma letra minúscula
+    - Expressões
 
-    -   Exemplo: $a, b, c, \ldots, x, y, z$
 
--   Uma "expressão" é um superconjunto dos termos lambda
+## Termos lambda
 
-    -   Pode ser uma variável, uma abstração, ou uma combinação de ambas.
+- Variáveis são apenas nomes, representadas por uma letra minúscula
 
--   Gramática da linguagem: $e = x | (\lambda x.e) | e(e)$
+    - $a, b, c, \ldots, x, y, z$
 
-### Abstração (função)
+- Uma "expressão" é um superconjunto dos termos lambda
 
--   A abstração é uma **função**
+    - Pode ser uma variável, uma abstração, ou uma combinação de ambas.
 
--   É composta por duas partes: *cabeça* e *corpo*
+- Gramática da linguagem: $e = x | (\lambda x.e) | e(e)$
 
-    -   A cabeça consiste de um $\lambda$ seguido de uma variável
 
-    -   O corpo é uma expressão
+## Abstração (função)
 
-    -   Um ponto "$.$" separa a cabeça do corpo
+- A abstração é uma **função**
 
--   Exemplo: $\lambda x.x$
+- É composta por duas partes: *cabeça* e *corpo*
 
-    -   Essa abstração representa a função identidade
+    - A cabeça consiste de um $\lambda$ seguido de uma variável
 
-        -   Na matemática: $f(x)=x$
+    - O corpo é uma expressão
 
-    -   A variável após o $\lambda$ é o identificador do argumento da função
+    - Um ponto "$.$" separa a cabeça do corpo
 
-### Abstração (função)
+- Exemplo: $\lambda x.x$
 
--   As funções são anônimas (não possuem nome)
+    - Essa abstração representa a função identidade
 
--   O nome do argumento na definição de função é apenas um "espaço reservado", podendo ser renomeado
+        - Na matemática: $f(x)=x$
+
+    - A variável após o $\lambda$ é o identificador do argumento da função
+
+
+## Abstração (função)
+
+- As funções são anônimas (não possuem nome)
+
+- O nome do argumento na definição de função é apenas um "espaço reservado", podendo ser renomeado
 $$(\lambda z.z) \equiv (\lambda y.y) \equiv (\lambda t.t) \equiv (\lambda u.u)$$
 
--   Isso é chamado de "equivalência-$\alpha$"
+- Isso é chamado de "equivalência-$\alpha$"
 
-### Redução-$\beta$ (aplicação)
 
--   Quando aplicamos uma função a um argumento, substituímos todas as instâncias da variável ligada no corpo pelo argumento
+## Redução-$\beta$ (aplicação)
 
--   A substituição elimina a cabeça da abstração, restando apenas o corpo substituído
+- Quando aplicamos uma função a um argumento, substituímos todas as instâncias da variável ligada no corpo pelo argumento
 
-    -   Esse processo é chamado de "redução-$\beta$"
+- A substituição elimina a cabeça da abstração, restando apenas o corpo substituído
 
--   Exemplo: aplicação da função identidade sobre o argumento 2:
+    - Esse processo é chamado de "redução-$\beta$"
+
+- Exemplo: aplicação da função identidade sobre o argumento 2:
 $$(\lambda x.x)2 \to x[x:=2] = 2$$
 
-    -   A aplicação $(\lambda x.x)2$ reduz para $x[x:=2]$ que resulta em $2$
+    - A aplicação $(\lambda x.x)2$ reduz para $x[x:=2]$ que resulta em $2$
 
-### Redução-$\beta$ (aplicação)
+
+## Redução-$\beta$ (aplicação)
 
 Outros exemplos:
 
--   $(\lambda x.x+1)2 \to x+1[x:=2] = 2+1 \Rightarrow 3$
+- $(\lambda x.x+1)2 \to x+1[x:=2] = 2+1 \Rightarrow 3$
 
--   $(\lambda x.x)(\lambda y.y) \to x[x:=(\lambda y.y)] = \lambda y.y \equiv \lambda x.x$
+- $(\lambda x.x)(\lambda y.y) \to x[x:=(\lambda y.y)] = \lambda y.y \equiv \lambda x.x$
 
--   $((\lambda x.x)(\lambda y.y))z \to x[x:=(\lambda y.y)] = (\lambda y.y)z \to y[y:=z] = z$
-
-### Expressões
-
--   Uma expressão pode ser cercada com parênteses para melhorar a legibilidade
-
-    -   Se $E$ é uma expressão, então $(E)$ é a mesma expressão
-
--   Para não sobrecarregar expressões com parênteses, adotamos que:
-
-    -   A aplicação é associativa à esquerda: $$M N O \equiv (M N) O$$
-
-    -   O corpo de uma abstração se estende ao máximo à direita: $$\lambda x.M N \equiv \lambda x.(M N) \text{ e não } (\lambda x.M) N$$
-
--   Podemos utilizar os parênteses para alterar a ordem das aplicações
+- $((\lambda x.x)(\lambda y.y))z \to x[x:=(\lambda y.y)] = (\lambda y.y)z \to y[y:=z] = z$
 
 
-### Expressões - Avaliação
+## Expressões
 
--   A avaliação de uma expressão consiste na sua redução sucessiva até que ela atinja uma **forma normal**
+- Uma expressão pode ser cercada com parênteses para melhorar a legibilidade
 
-    -   Uma expressão que não pode mais ser reduziada é dita estar na forma normal
+    - Se $E$ é uma expressão, então $(E)$ é a mesma expressão
 
--   Nem toda expressão possui uma forma normal:
+- Para não sobrecarregar expressões com parênteses, adotamos que:
 
-    -   $(\lambda x.xx)(\lambda y.yy)$
+    - A aplicação é associativa à esquerda: $$M N O \equiv (M N) O$$
 
-### Expressões - Avaliação
+    - O corpo de uma abstração se estende ao máximo à direita: $$\lambda x.M N \equiv \lambda x.(M N) \text{ e não } (\lambda x.M) N$$
 
--   A avaliação de uma expressão pode seguir caminhos distintos de redução, mas produzindo o mesmo termo final
+- Podemos utilizar os parênteses para alterar a ordem das aplicações
+
+
+## Expressões - Avaliação
+
+- A avaliação de uma expressão consiste na sua redução sucessiva até que ela atinja uma **forma normal**
+
+    - Uma expressão que não pode mais ser reduziada é dita estar na forma normal
+
+- Nem toda expressão possui uma forma normal:
+
+    - $(\lambda x.xx)(\lambda y.yy)$
+
+
+## Expressões - Avaliação
+
+- A avaliação de uma expressão pode seguir caminhos distintos de redução, mas produzindo o mesmo termo final
 
 $$
 \begin{array}{ccccc}
@@ -126,85 +137,97 @@ $$
 \end{array}
 $$
 
+## Variáveis livres e ligadas
 
-### Variáveis livres e ligadas
+- As variáveis livres de um termo são as variáveis que não estão ligadas por uma abstração lambda
 
--   As variáveis livres de um termo são as variáveis que não estão ligadas por uma abstração lambda
+    - A variável $x$ é livre em $x$
 
-    -   A variável $x$ é livre em $x$
+    - As variáveis livres de $\lambda x.M$ são as variáveis livres de $M$, com $x$ removido
 
-    -   As variáveis livres de $\lambda x.M$ são as variáveis livres de $M$, com $x$ removido
+    - As variáveis livres de $M N$ são a união das variáveis livres de $M$ e $N$
 
-    -   As variáveis livres de $M N$ são a união das variáveis livres de $M$ e $N$
 
--   Exemplos:
+## Variáveis livres e ligadas
 
-    -   Em $\lambda x.xy$, $x$ está ligada e $y$ é livre
+- Exemplos
 
-    -   Em $\lambda x.(\lambda y.xy)$, $x$ e $y$ estão ligadas
+    - Em $\lambda x.xy$, $x$ está ligada e $y$ é livre
 
-    -   Em $(\lambda x.xt)(\lambda y.yz)$, $t$ e $z$ são livres
+    - Em $\lambda x.(\lambda y.xy)$, $x$ e $y$ estão ligadas
 
-### Variáveis livres e ligadas
+    - Em $(\lambda x.xt)(\lambda y.yz)$, $t$ e $z$ são livres
 
--   No cálculo lambda todos os nomes são locais às definições
 
--   Em $(\lambda x.x)(\lambda y.yx)$, $x$ está ligada na primeira abstração, mas livre na segunda
+## Variáveis livres e ligadas
 
--   Os $x$ da primeira e segunda expressões são totalmente independentes
+- No cálculo lambda todos os nomes são locais às definições
 
-### Substituições
+- Em $(\lambda x.x)(\lambda y.yx)$, $x$ está ligada na primeira abstração, mas livre na segunda
 
--   Devemos tomar cuidado durante as substituições para não misturar as ocorrências livres e ligadas de uma variável
+- Os $x$ da primeira e segunda expressões são totalmente independentes
 
--   Na redução da expressão $(\lambda x.(\lambda y.xy))y$
 
-    -   Uma substituição direta poderia misturar os dois identificadores $y$, resultando em $\lambda y.yy$
+## Substituições
 
-    -   Renomeando o $y$ vinculado por $t$, obtemos a avaliação correta:
+- Devemos tomar cuidado durante as substituições para não misturar as ocorrências livres e ligadas de uma variável
+
+- Na redução da expressão $(\lambda x.(\lambda y.xy))y$
+
+    - Uma substituição direta poderia misturar os dois identificadores $y$, resultando em $\lambda y.yy$
+
+    - Renomeando o $y$ vinculado por $t$, obtemos a avaliação correta:
 
 $$(\lambda x.(\lambda t.xt))y \to (\lambda t.xt)[x:=y] = \lambda t.yt \equiv \lambda x.yx$$
 
-### Currying
 
--   Por definição, a abstração lambda permite apenas uma variável de entrada
+## Currying
 
--   Podemos ampliar o número de entradas por meio de currying
+- Por definição, a abstração lambda permite apenas uma variável de entrada
 
-    -   A ideia é construir funções "aninhadas" que consumam uma entrada de cada vez
+- Podemos ampliar o número de entradas por meio de currying
 
-    -   Cada função deve resultar em uma nova função com a entrada consumida substituída em seu corpo
+    - A ideia é construir funções "aninhadas" que consumam uma entrada de cada vez
 
-### Currying
+    - Cada função deve resultar em uma nova função com a entrada consumida substituída em seu corpo
 
--   Considere uma função que deve ser aplicada sobre dois números e resultar na soma entre eles
+
+## Currying
+
+- Considere uma função que deve ser aplicada sobre dois números e resultar na soma entre eles
 $$\lambda x.(\lambda y.x+y)$$
 
--   Ao aplicarmos a função sobre dois argumentos sucessivamente (digamos 2 e 3), obtemos:
+- Ao aplicarmos a função sobre dois argumentos sucessivamente (digamos 2 e 3), obtemos:
     \begin{align*}
     (\lambda x.(\lambda y.x+y)2)3 & \to ((\lambda y.x+y)[x:=2])3 = (\lambda y.2+y)3\\
     & \to (2+y)[y:=3] = 2+3 \Rightarrow 5
     \end{align*}
--   Funções que possuem o padrão $\lambda x.\lambda y.\lambda z.\cdots.E$ são caracterizadas pelo currying
+- Funções que possuem o padrão $\lambda x.\lambda y.\lambda z.\cdots.E$ são caracterizadas pelo currying
 
-    -   Por conveniência, elas podem ser abreviadas por $\lambda xyz\cdots.E$
+    - Por conveniência, elas podem ser abreviadas por $\lambda xyz\cdots.E$
+
+
+
+Aritmética
+==========
 
 ## Aritmética
 
-### Aritmética
+- No cálculo-$\lambda$ só podemos criar novas funções
 
--   No cálculo-$\lambda$ só podemos criar novas funções
-
-    -   Não há pré-definições de dados nem operações
+    - Não há pré-definições de dados nem operações
         (embora tenhamos usado números e operações aritméticas em nossos exemplos)
 
--   Dessa forma, devemos definir os números e operações como funções
 
--   Podemos inicialmente definir o número 0 como: $\lambda s.(\lambda z.z)$
+## Aritmética
 
-    -   Ou de maneira abreviada: $\lambda sz.z$
+- Devemos definir os números e operações como funções
 
--   Os demais números naturais são sucessões do 0:
+- Podemos inicialmente definir o número 0 como: $\lambda s.(\lambda z.z)$
+
+    - Ou de maneira abreviada: $\lambda sz.z$
+
+- Os demais números naturais são sucessões do 0:
 
     $1 \equiv \lambda sz.sz$
 
@@ -214,73 +237,72 @@ $$\lambda x.(\lambda y.x+y)$$
 
     E assim por diante ...
 
-### Aritmética
+## Aritmética
 
--   A função sucessora pode ser definida como:
+- A função sucessora pode ser definida como:
 $$\text{S}\equiv\lambda wyx.y(wyx)$$
 
--   Aplicando $\text{S}$ à representação do 0 temos:
+- Aplicando $\text{S}$ à representação do 0 temos:
 $$\text{S0} \equiv (\lambda wyx.y(wyx))(\lambda sz.z)$$
 
--   Avaliando a expressão $\text{S0}$, temos:
+- Avaliando a expressão $\text{S0}$, temos:
 $$\lambda yx.y((\lambda sz.z)yx) = \lambda yx.y((\lambda z.z)x) = \lambda yx.y(x) \equiv \lambda sz.sz \equiv 1$$
 
--   Como exercício, verifique que a aplicação $\text{S(S0)}$ avalia para 2
+- Como exercício, verifique que a aplicação $\text{S(S0)}$ avalia para 2
+
 
 ## Adição
 
-### Adição
+- A adição pode ser obtida diretamente ao verficarmos que no corpo de 1, $sz$ representa a aplicação da função $s$ sobre $z$
 
--   A adição pode ser obtida diretamente ao verficarmos que no corpo de 1, $sz$ representa a aplicação da função $s$ sobre $z$
+- Se quisermos representar a soma $2+3$ por exemplo, basta aplicarmos 2 vezes a função sucessora sobre 3
 
--   Se quisermos representar a soma $2+3$ por exemplo, basta aplicarmos 2 vezes a função sucessora sobre 3
-
--   Assim, para computar $2+3$, temos:
+- Assim, para computar $2+3$, temos:
 $$\text{2S3}\equiv(\lambda sz.s(sz))(\lambda wyx.y(wyx))(\lambda uv.u(u(uv)))$$
 
--   A qual reduz para:
+- A qual reduz para:
 $$(λwyx.y((wy)x))((λwyx.y((wy)x))(λuv.u(u(uv)))) \equiv \text{S(S3)}$$
 
--   Como exercício, verifique que $\text{S(S3)}$ reduz para $\text{S4 = 5}$
+- Como exercício, verifique que $\text{S(S3)}$ reduz para $\text{S4 = 5}$
+
 
 ## Multiplicação
 
-### Multiplicação
-
--   A multiplicação entre dois números pode ser computada utilizando a seguinte função:
+- A multiplicação entre dois números pode ser computada utilizando a seguinte função:
 $$\text{M}\equiv\lambda xyz.x(yz)$$
 
--   Assim, o produto de 2 por 2 é $\text{M}22$
+- Assim, o produto de 2 por 2 é $\text{M}22$
 
--   Reduzindo a expressão, obtemos $\lambda z.2(2z)$
+- Reduzindo a expressão, obtemos $\lambda z.2(2z)$
 
-    -   Como exercício, verifique que essa expressão reduz para 4
+    - Como exercício, verifique que essa expressão reduz para 4
+
 
 ## Outras funções
 
-### Outras funções
+- Faltam muitas outras funções para representar as possíveis computações que conhecemos:
 
--   Faltam muitas outras funções para representar as possíveis computações que conhecemos:
+    - Operações lógicas
 
-    -   Operações lógicas
+    - Operações relacionais
 
-    -   Operações relacionais
+    - Condicionais
 
-    -   Condicionais
+    - Recursão
 
-    -   Recursão
+    - Estruturas de dados como pares, listas, etc.
 
-    -   Estruturas de dados como pares, listas, etc.
+    - Dentre outras ...
 
-    -   Dentre outras ...
+- Todas elas podem ser expressas em cálculo lambda
 
--   Todas elas podem ser expressas em cálculo lambda
+- Consulte o material [TILC](http://www.inf.fu-berlin.de/lehre/WS03/alpi/lambda.pdf) para saber como elas podem ser representadas
 
--   Consulte o material [TILC](http://www.inf.fu-berlin.de/lehre/WS03/alpi/lambda.pdf) para saber como elas podem ser representadas
 
-# Leitura recomendada
+Leitura recomendada
+===================
 
-### Leitura recomendada
+## Leitura recomendada
 
 - [$\lambda$-Calculus: The Other Turing Machine](http://www.cs.cmu.edu/~rwh/papers/lctotm/cs50.pdf)
 - [A Tutorial Introduction to the Lambda Calculus](http://www.inf.fu-berlin.de/lehre/WS03/alpi/lambda.pdf)

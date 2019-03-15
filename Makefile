@@ -1,5 +1,7 @@
 .PHONY: default all pdf handout tex clean
 
+PDF_ENGINE=pdflatex
+PDF_ENGINE_OPT=
 SHELL=/bin/bash
 DEST=target
 DEST_PDF=$(DEST)/pdfs
@@ -12,9 +14,11 @@ NA_PDF_HANDOUT=$(addprefix $(DEST_PDF_HANDOUT)/, $(addsuffix .pdf, $(NA)))
 EX=$(patsubst %/,%,$(dir $(shell ls */exercicios.md)))
 EX_PDF=$(addprefix $(DEST_PDF)/, $(addsuffix -exercicios.pdf, $(EX)))
 PANDOC=$(DEST)/bin/pandoc
-PANDOC_VERSION=2.5
+PANDOC_VERSION=2.7.1
 # TODO: mover para um arquivo
 PANDOC_CMD=$(PANDOC) \
+		--pdf-engine="${PDF_ENGINE}" \
+		--pdf-engine-opt="${PDF_ENGINE_OPT}" \
 		--template ../templates/default.latex \
 		--standalone \
 		--metadata author="Marco A L Barbosa" \
@@ -22,7 +26,7 @@ PANDOC_CMD=$(PANDOC) \
 		-V lang:pt-BR \
 		-V institute:"\\href{http://din.uem.br}{Departamento de Informática}\\\\\\href{http://www.uem.br}{Universidade Estadual de Maringá}{}" \
 		-V theme:metropolis \
-		-V themeoptions:"numbering=fraction,subsectionpage=progressbar,block=fill" \
+		-V themeoptions:"numbering=fraction,sectionpage=simple,block=fill" \
 		-V header-includes:"\captionsetup[figure]{labelformat=empty}" \
 		-V header-includes:"\usepackage{caption}" \
 		-t beamer

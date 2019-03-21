@@ -1,7 +1,6 @@
 ---
-title:  Introdução
-num: "1"
-template: exercicios.tex
+# vim: set spell spelllang=pt_br sw=4:
+title: Introdução
 ---
 
 #.  Leia o artigo [The Python Paradox](http://www.paulgraham.com/pypar.html).
@@ -12,5 +11,3 @@ template: exercicios.tex
 
 #.  Faça uma pesquisa e verifique quais conceitos do paradigma de programação
     funcional a linguagem de programação que você mais domina suporta.
-
-<!-- vim: set spell spelllang=pt_br: !-->

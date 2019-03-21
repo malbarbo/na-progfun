@@ -15,20 +15,12 @@ EX=$(patsubst %/,%,$(dir $(shell ls */exercicios.md)))
 EX_PDF=$(addprefix $(DEST_PDF)/, $(addsuffix -exercicios.pdf, $(EX)))
 PANDOC=$(DEST)/bin/pandoc
 PANDOC_VERSION=2.7.1
-# TODO: mover para um arquivo
 PANDOC_CMD=$(PANDOC) \
 		--pdf-engine="${PDF_ENGINE}" \
 		--pdf-engine-opt="${PDF_ENGINE_OPT}" \
+		--metadata-file ../metadata.yml \
 		--template ../templates/default.latex \
 		--standalone \
-		--metadata author="Marco A L Barbosa" \
-		-V author:"Marco A L Barbosa\\\\\\href{http://malbarbo.pro.br}{malbarbo.pro.br}" \
-		-V lang:pt-BR \
-		-V institute:"\\href{http://din.uem.br}{Departamento de Informática}\\\\\\href{http://www.uem.br}{Universidade Estadual de Maringá}{}" \
-		-V theme:metropolis \
-		-V themeoptions:"numbering=fraction,sectionpage=simple,block=fill" \
-		-V header-includes:"\captionsetup[figure]{labelformat=empty}" \
-		-V header-includes:"\usepackage{caption}" \
 		-t beamer
 
 default:
@@ -43,14 +35,14 @@ handout: $(NA_PDF_HANDOUT)
 
 ex: $(EX_PDF)
 
-$(DEST_PDF)/%.pdf: %/notas-de-aula.md templates/default.latex $(PANDOC) Makefile
+$(DEST_PDF)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) Makefile
 	@mkdir -p $(DEST_PDF)
 	@echo $@
 	@cd $$(dirname $<) && \
 		../$(PANDOC_CMD) \
 		-o ../$@ notas-de-aula.md
 
-$(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex $(PANDOC) Makefile
+$(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) Makefile
 	@mkdir -p $(DEST_PDF_HANDOUT)
 	@echo $@
 	@cd $$(dirname $<) && \
@@ -58,7 +50,7 @@ $(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex $(PANDOC) 
 		-V classoption:handout \
 		-o ../$@ notas-de-aula.md
 
-$(DEST_PDF)/%-exercicios.pdf: %/exercicios.md templates/default.latex $(PANDOC) Makefile
+$(DEST_PDF)/%-exercicios.pdf: %/exercicios.md templates/default.latex metadata.yml $(PANDOC) Makefile
 	@mkdir -p $(DEST_PDF)
 	@echo $@
 	@cd $$(dirname $<) && \

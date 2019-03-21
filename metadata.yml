@@ -1,0 +1,11 @@
+author:
+    - Marco A L Barbosa
+    - \newline \href{http://malbarbo.pro.br}{malbarbo.pro.br}
+institute:
+    - \href{http://din.uem.br}{Departamento de Informática} \newline \href{http://www.uem.br}{Universidade Estadual de Maringá}
+lang: pt-BR \
+theme: metropolis
+themeoptions: numbering=fraction,sectionpage=simple,block=fill
+header-includes: \captionsetup[figure]{labelformat=empty}
+header-includes: \usepackage{caption}
+toc-title: Conteúdo

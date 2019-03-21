@@ -402,7 +402,7 @@ $if(has-frontmatter)$
 $endif$
 $if(title)$
 $if(beamer)$
-\begin{frame}[plain]
+\begin{frame}[noframenumbering,plain]
   \titlepage
   \begin{tikzpicture}[overlay, remember picture]
     \linespread{0.75}

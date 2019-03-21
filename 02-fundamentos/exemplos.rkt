@@ -23,14 +23,14 @@
 ;; Exemplo 2.2
 
 ;; Natural -> Boolean
-;; Devolve true se n é par, false caso contrário.
+;; Devolve #t se n é par, #f caso contrário.
 ;; Veja as funções pré-definidas even? e odd?
 (define par?-tests
   (test-suite
    "par? tests"
-   (check-equal? (par? 2) #t)
-   (check-equal? (par? 8) #t)
-   (check-equal? (par? 9) #f)))
+   (check-true (par? 2))
+   (check-true (par? 8))
+   (check-false (par? 9))))
 
 (define (par? n)
   (= (remainder n 2) 0))

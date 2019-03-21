@@ -1,14 +1,13 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Fundamentos
-num: "2"
-template: exercicios.tex
 ---
 
 #.  [sicp 1.1] A seguir está uma lista de expressões. Qual é o resultado
     impresso pelo interpretador Racket em resposta a cada expressão? Assuma que
     as expressões serão avaliadas na ordem em que são apresentadas.
 
-    ```racket
+    ```scheme
     10
 
     (+ 5 3 4)
@@ -54,7 +53,7 @@ template: exercicios.tex
     os operadores são expressões compostas. Use esta observação para descrever
     o comportamento do seguinte procedimento:
 
-    ```racket
+    ```scheme
     (define (a-plus-abs-b a b)
         ((if (> b 0) + -) a b))
     ```
@@ -63,7 +62,7 @@ template: exercicios.tex
     interpretador está usando avaliação com ordem aplicativa ou avaliação com
     ordem normal. Ele definiu os seguintes procedimentos:
 
-    ```racket
+    ```scheme
     (define (p) (p))
 
     (define (test x y)
@@ -74,7 +73,7 @@ template: exercicios.tex
 
     Então avaliou a seguinte expressão
 
-    ```racket
+    ```scheme
         (test 0 (p))
     ```
 
@@ -99,6 +98,14 @@ template: exercicios.tex
 #.  Defina uma função que classifique o grau de obesidade de uma pessoa usando
     o [IMC](https://pt.wikipedia.org/wiki/%C3%8Dndice_de_massa_corporal).
 
+#.  O governo deu uma aumento de salário para os funcionários públicos.
+    O percentual de aumento depende do valor do salário atual. Para
+    funcionários que ganham até R$ 1200 o aumento é de 10%, para funcionários
+    que ganham entre R$ 1200 e R$ 3000 o aumento é de 7%, para funcionários que
+    ganham entre R$ 3000 e R$ 8000, o aumento é de 3%, e finalmente, para os
+    funcionários que ganham mais que R$ 8000 não haverá aumento. Defina uma
+    função que calcule o novo salário a partir do salário atual.
+
 #.  Faça a execução passo a passo das funções definidas nos exercícios
     anteriores para alguns exemplos. Para isto você deve criar um novo arquivo,
     mudar a linguagem para "Beginning Student" e copiar o código da função e da
@@ -110,5 +117,3 @@ template: exercicios.tex
 -   [sicp]. [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
 
 -   [tspl]. [The Scheme Programming Languague](http://www.scheme.com/tspl4/)
-
-<!-- vim: set spell spelllang=pt_br: !-->

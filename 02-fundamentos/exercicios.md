@@ -42,7 +42,7 @@ title: Fundamentos
        (+ a 1))
     ```
 
-#.  [sicp 1.2] Traduza a seguinte expressão para a forma pré-fixa
+#.  [sicp 1.2] Traduza a seguinte expressão para a forma prefixa
     $$\frac{5 + 4 + (2 - (3 - (6 + \frac{4}{5})))}{3 (6 - 2) (2 - 7)}$$
 
 #.  [tspl 2.2.2] Experimente os procedimentos `+`, `-`, `*` e `/` e determine
@@ -87,16 +87,10 @@ title: Fundamentos
 #.  [sicp 1.3] Defina uma função que receba $3$ números como parâmetros
     e retorne a soma dos quadrados dos dois maiores números.
 
-#.  Defina uma função que calcule a distância de um ponto no plano cartesiano
-    (representado por dois números) à origem.
-
-#.  Defina uma função que receba como parâmetros $3$ números que representam os
-    lados de um triângulo e classifique o triângulo como equilátero, isósceles
-    ou escaleno. Veja a página sobre
-    [triângulos](https://pt.wikipedia.org/wiki/Tri%C3%A2ngulo) na Wikipédia.
-
-#.  Defina uma função que classifique o grau de obesidade de uma pessoa usando
-    o [IMC](https://pt.wikipedia.org/wiki/%C3%8Dndice_de_massa_corporal).
+#.  Defina uma função que receba $3$ números que representam os lados de um
+    triângulo como parâmetros e classifique o triângulo como equilátero (todos
+    os lados iguais), isósceles (dois lados iguais) ou escaleno (todos os lados
+    diferentes).
 
 #.  O governo deu uma aumento de salário para os funcionários públicos.
     O percentual de aumento depende do valor do salário atual. Para

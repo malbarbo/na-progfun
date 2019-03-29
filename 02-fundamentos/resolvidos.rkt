@@ -24,7 +24,7 @@
 ;; Exercício 2.7
 
 ;; Número Número -> Número
-;; Calcula a soma dos quadrados dos dois maiores números entre a b c.
+;; Calcula a soma dos quadrados dos dois maiores números entre a, b, e c.
 (define soma-quadrado-maiores-tests
   (test-suite
    "soma-quadrado-maiores tests"

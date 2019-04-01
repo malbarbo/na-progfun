@@ -12,7 +12,8 @@ Introdução
 <!-- TODO: adicionar funções number->string number? (outras?) !-->
 <!-- TODO: outros tipos pré-definidos? imagens? !-->
 <!-- TODO: comentários: ; ;; #; !-->
-<!-- TODO: sexp !-->
+<!-- TODO: falar de sexp !-->
+<!-- TODO: explicar passo a passo como criar test-suite !-->
 
 - O paradigma de programação funcional é baseado na definição e aplicação de
   funções
@@ -1010,7 +1011,7 @@ Como projetar funções
 
 2. Exemplos
 
-3. Template
+3. Modelo
 
 4. Código do corpo da função
 
@@ -1033,21 +1034,20 @@ Como projetar funções
 
 ## Como projetar funções
 
-- Um template contém a estrutura básica que uma função deve ter, independente
-  dos seu detalhes
+- Um modelo contém a estrutura básica que uma função deve ter, independente dos
+  seu detalhes
 
-- Em muitos casos o template de uma função é determinado pelos tipos de dados
-  dos seus parâmetros. Este tipo de template é chamado de template dirigido por
-  dados
+- Em muitos casos o modelo de uma função é determinado pelos tipos de dados dos
+  seus parâmetros. Este tipo de modelo é chamado de modelo dirigido por dados
 
-- Para tipos atômicos (números, string, booleans) usamos o template:
+- Para tipos atômicos (números, string, booleans) usamos o modelo:
 
     ```scheme
     (define (fun-for-atomic a)
         (... a))
     ```
 
-- Para outros tipos, vamos construir o template com a definição do tipo
+- Para outros tipos, vamos construir o modelo com a definição do tipo
 
 
 ## Exemplo 2.1
@@ -1089,9 +1089,9 @@ Defina uma função que calcule o dobro de um dado valor.
 
 ## Exemplo 2.1
 
-- Passo 3: Template
+- Passo 3: Modelo
 
-- Como o parâmetro é um número, usamos o template para tipos atômicos
+- Como o parâmetro é um número, usamos o modelo para tipos atômicos
 
     ```scheme
     ;; Número -> Número
@@ -1108,9 +1108,9 @@ Defina uma função que calcule o dobro de um dado valor.
 
 ## Exemplo 2.1
 
-- Passo 3: Template
+- Passo 3: Modelo
 
-- Ajustamos os nomes no template para a função que estamos definindo
+- Ajustamos os nomes no modelo para a função que estamos definindo
 
     ```scheme
     ;; Número -> Número

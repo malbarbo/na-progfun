@@ -1,7 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Fundamentos
-toc: true
 ---
 
 Introdução
@@ -14,6 +13,7 @@ Introdução
 <!-- TODO: comentários: ; ;; #; !-->
 <!-- TODO: falar de sexp !-->
 <!-- TODO: explicar passo a passo como criar test-suite !-->
+<!-- TODO: falar de #lang lazy (também é falado em streams) !-->
 
 - O paradigma de programação funcional é baseado na definição e aplicação de
   funções

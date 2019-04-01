@@ -1,24 +1,25 @@
+---
+# vim: set spell spelllang=pt_br sw=4:
+---
+
 # TODO
 
--   Veja TODO's específicos em cada arquivo
+- Veja TODO's específicos em cada arquivo
 
--   Adicionar conteúdo de lambda cálculo
+- Adicionar conteúdo sobre estilo de código
 
--   Adicionar conteúdo sobre estilo de código
+- Adicionar exemplos em outras linguagens
 
--   Adicionar exemplos em outras linguagens
+- Agregar todas as referências em um arquivo e fazer citações
 
--   Pegar o número do capítulo do nome do diretório
+- Separar cada exemplo em seu arquivo?
 
--   Agregar todas as referências em um arquivo e fazer citações
+- Atualizar urls
+    - htdp 2 versão
+    - scheme-lang -> racket-lang
 
--   Modificar o template slide.tex para ficar mais simples. Ele é baseado no
-    template do beamer do pandoc, que é complicado
+- Mencionar linguagem lazy
 
--   Comentar tools/filter
+- Falar de geração e tratamento de erros
 
--   Separar cada exemplo em seu arquivo
-
--   Documentar as extensões para o pandoc e como referenciar imagens
-
-<!-- % vim: set spell spelllang=pt_br: -->
+- Traduzir os termos "list comprehension" e "streams"?

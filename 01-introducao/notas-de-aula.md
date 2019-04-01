@@ -106,14 +106,24 @@ $ drracket
 ```
 
 
-## Configuração
+## {.standout}
 
-![](imagens/drracket-config.png)
+\vspace{1cm}
+\begin{tikzpicture}
+    \node at (0, 0) {\includegraphics[width=\textwidth]{imagens/drracket-config.pdf}};
+    \draw[line width=1pt, red] (-5.35cm, -3.42cm) rectangle ++(3.1cm, 0.36cm);
+    \node[red, xshift=-2.9cm, yshift=-2.7cm] {Selecione esta opção};
+\end{tikzpicture}
 
 
-## Uso
+## {.standout}
 
-![](imagens/drracket-exemplo.png)
+\vspace{1cm}
+\begin{tikzpicture}
+    \node at (0, 0) {\includegraphics[width=\textwidth]{imagens/drracket-exemplo.pdf}};
+    \node[red, yshift=1cm] {Definições};
+    \node[red, yshift=-2cm] {Interações};
+\end{tikzpicture}
 
 
 ## Uso

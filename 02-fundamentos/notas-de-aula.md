@@ -426,9 +426,15 @@ Modelo de substituição
 `136`{.scheme}
 
 
-## Modelo de substituição
+## {.standout}
 
-![Execução passo-a-passo](imagens/drracket-step.png)
+\vspace{1cm}
+\begin{tikzpicture}
+    \node at (0, 0) {\includegraphics[width=\textwidth]{imagens/drracket-step.pdf}};
+    \draw[line width=1pt,red] (-5.36cm, -3.41cm) rectangle ++(2cm, 0.36cm);
+    \draw[line width=1pt,red] (-5.36cm, 2.26cm) rectangle ++(2.2cm, 0.35cm);
+    \draw[line width=1pt,red] (2.4cm, 2.67cm) rectangle ++(0.9cm, 0.36cm);
+\end{tikzpicture}
 
 
 ## Modelo de substituição

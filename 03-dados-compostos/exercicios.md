@@ -1,7 +1,6 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Dados compostos
-num: "3"
-template: exercicios.tex
 ---
 
 #.  Defina uma função que verifique se um determinado elemento está em uma
@@ -10,7 +9,7 @@ template: exercicios.tex
 #.  Defina uma função que receba com entrada uma lista `lst` e um elemento `a`
     e devolva uma lista que é como `lst` mas sem as ocorrências de `a`.
 
-    ```racket
+    ```scheme
     > (remove-todos (list 3 2 3 5 8 3) 3)
     '(2 5 8)
     ```
@@ -18,7 +17,7 @@ template: exercicios.tex
 #.  Defina uma função que receba como entrada uma lista `lst` e um elemento `a`
     e devolva uma lista que é como `lst` mas com `a` no final.
 
-    ```racket
+    ```scheme
     > (cons-fim (list 5 2 8) 3)
     '(5 2 8 3)
     ```
@@ -27,7 +26,7 @@ template: exercicios.tex
     lista com os mesmos elementos de `lst` mas em ordem reversa. Dica: use
     a função `cons-fim`.
 
-    ```racket
+    ```scheme
     > (inverte (list 1 2 3 4 5))
     '(5 4 3 2 1)
     ```
@@ -38,13 +37,13 @@ template: exercicios.tex
 #.  Defina uma função que receba como entrada uma lista `lst` de números e um
     número `n` e devolva uma lista com cada elemento de `lst` somado com `n`.
 
-    ```racket
+    ```scheme
     > (lista-add-num (list 2 6 1 4 10) 3)
     '(5 9 4 7 13)
     ```
 
 #.  Defina uma função que receba como entrada uma lista `lst` de números
-    naturais e devolva uma lista que é como `lst` mas sem números pares.
+    naturais e devolva uma lista que é como `lst` mas sem os números pares.
 
 #.  Defina uma função que devolva o último elemento de uma lista. Use a função
     `error` (com uma string de mensagem como argumento) para indicar erro se
@@ -56,7 +55,7 @@ template: exercicios.tex
     ordem crescente e um número `n` e devolva uma lista com os elementos de
     `lst` e com `n` em ordem crescente.
 
-    ```racket
+    ```scheme
     > (insere-ordenado (list 2 8 10) 5)
     '(2 5 8 10)
     ```
@@ -71,7 +70,7 @@ template: exercicios.tex
     e devolva uma nova lista que é como `lst` com apenas uma ocorrência dos
     elementos repetidos consecutivos.
 
-    ```racket
+    ```scheme
     > (remove-duplicates (list 1 1 1 1 2 3 3 4 4 5 5 5))
     '(1 2 3 4 5)
     ```
@@ -80,7 +79,7 @@ template: exercicios.tex
     devolva uma nova lista aninhada como os mesmo elementos de `lst` mas
     em ordem reversa.
 
-    ```racket
+    ```scheme
     > (reverse* (list (list 2 3) 8 (list 9 (list 10 11) 50) (list 10) 70))
     '(70 (10) (50 (11 10) 9) 8 (3 2))
     ```
@@ -91,7 +90,7 @@ template: exercicios.tex
     represente expressões aritméticas, crie um template baseado na definição do
     tipo e use o template para resolver o exercício.
 
-    ```racket
+    ```scheme
     > (avalie (list + (list * 3 (list - 4 5)) (list / 10 2))
     2
     ```
@@ -114,5 +113,3 @@ template: exercicios.tex
 # Referências
 
 -   [pp99]. [99 problemas para resolver em (Prolog) Racket](https://sites.google.com/site/prologsite/prolog-problems)
-
-<!-- vim: set spell spelllang=pt_br: !-->

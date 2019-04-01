@@ -13,7 +13,7 @@
 ;; Exemplos
 #; (define p1 (ponto 3 4))
 #; (define p2 (ponto 8 2))
-;; Template
+;; Modelo
 #;
 (define (fun-for-ponto p)
   (... (ponto-x p)
@@ -44,7 +44,7 @@
 ;; Exemplos
 #; (define r1 (retangulo 3 4))
 #; (define r2 (retangulo 1 2))
-;; Template
+;; Modelo
 #;
 (define (fun-for-retangulo r)
   (... (retangulo-largura r)
@@ -72,25 +72,25 @@
 ;;;;;;;;;;;;;;;;;;;;
 ;; Definição de Lista
 
-(define nil false)
+(define nil (void))
 
-(struct lista (first rest))
+(struct no (primeiro rest))
 ;; Uma Lista é
 ;;   - nil; ou
-;;   - (lista first rest) onde first é o primeiro elemento da lista e rest é
+;;   - (no primeiro rest) onde first é o primeiro elemento da lista e rest é
 ;;     uma Lista com o restante dos elementos
 ;; Exemplos
 #; (define lst-vazia nil)
-#; (define lst1 (lista 3 nil))
-#; (define lst2 (lista 10 (lista 3 nil)))
-#; (define lst3 (lista 1 (lista 5 (lista 2 nil))))
-;; Template
+#; (define lst1 (no 3 nil))
+#; (define lst2 (no 10 (no 3 nil)))
+#; (define lst3 (no 1 (no 5 (no 2 nil))))
+;; Modelo
 #;
 (define (fun-for-lista lst)
   (cond
     [(equal? lst nil) ...]
-    [else (... (lista-first lst)
-               (fun-for-lista (lista-rest lst)))]))
+    [else (... (no-first lst)
+               (fun-for-lista (no-rest lst)))]))
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; Exemplo 3.3
@@ -101,14 +101,14 @@
   (test-suite
    "tamanho tests"
    (check-equal? (tamanho nil) 0)
-   (check-equal? (tamanho (lista 2 nil)) 1)
-   (check-equal? (tamanho (lista 1 (lista 2 nil))) 2)
-   (check-equal? (tamanho (lista 5 (lista 1 (lista 2 nil)))) 3)))
+   (check-equal? (tamanho (no 2 nil)) 1)
+   (check-equal? (tamanho (no 1 (no 2 nil))) 2)
+   (check-equal? (tamanho (no 5 (no 1 (no 2 nil)))) 3)))
 
 (define (tamanho lst)
   (cond
     [(equal? lst nil) 0]
-    [else (add1 (tamanho (lista-rest lst)))]))
+    [else (add1 (tamanho (no-rest lst)))]))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

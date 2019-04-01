@@ -690,10 +690,8 @@ Referências
 
 - [Vídeos Reference](https://www.youtube.com/watch?v=tp44seRHLUQ&list=PL6NenTZG6KrptkOEMyLWDnF0ZjSpVTHAE)
 
-- Seções
-    [9](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-13.html#node_chap_9) e
-    [10](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-14.html#node_chap_10)
-    do livro [HTDP](http://htdp.org)
+- Capítulos [8 a 12](https://htdp.org/2019-02-24/part_two.html) do livro
+  [HTDP](http://htdp.org)
 
 - Seções
     [2.3](http://docs.racket-lang.org/guide/Lists__Iteration__and_Recursion.html),

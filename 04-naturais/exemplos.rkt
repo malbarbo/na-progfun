@@ -80,21 +80,21 @@
 ;; Exemplo 4.3
 
 ;; Natural Inteiro>=1 -> Boolean
-;; Devolve true se x tem divisor entre 2 (inclusive) e i (inclusive).
-;; False caso contrário.
+;; Devolve #t se x tem divisor entre 2 (inclusive) e i (inclusive).
+;; #f caso contrário.
 (define tem-divisor-entre-2-i?-tests
   (test-suite
    "tem-divisor-entre-2-i? tests"
-   (check-false (tem-divisor-entre-2-i? 5 1))
-   (check-true (tem-divisor-entre-2-i? 2 2))
-   (check-true (tem-divisor-entre-2-i? 5 5))
-   (check-true (tem-divisor-entre-2-i? 10 5))
-   (check-true (tem-divisor-entre-2-i? 8 7))
-   (check-false (tem-divisor-entre-2-i? 9 2))))
+   (check-equal? (tem-divisor-entre-2-i? 5 1) #f)
+   (check-equal? (tem-divisor-entre-2-i? 2 2) #t)
+   (check-equal? (tem-divisor-entre-2-i? 5 5) #t)
+   (check-equal? (tem-divisor-entre-2-i? 10 5) #t)
+   (check-equal? (tem-divisor-entre-2-i? 8 7) #t)
+   (check-equal? (tem-divisor-entre-2-i? 9 2) #f)))
 
 (define (tem-divisor-entre-2-i? x i)
   (cond
-    [(<= i 1) false]
+    [(<= i 1) #f]
     [else
      (or (divisivel? x i)
          (tem-divisor-entre-2-i? x (sub1 i)))]))
@@ -107,14 +107,14 @@
 (define primo?-tests
   (test-suite
    "primo? tests"
-   (check-equal? (primo? 2) true)
-   (check-equal? (primo? 3) true)
-   (check-equal? (primo? 4) false)
-   (check-equal? (primo? 5) true)
-   (check-equal? (primo? 6) false)
-   (check-equal? (primo? 7) true)
-   (check-equal? (primo? 8) false)
-   (check-equal? (primo? 9) false)))
+   (check-equal? (primo? 2) #t)
+   (check-equal? (primo? 3) #t)
+   (check-equal? (primo? 4) #f)
+   (check-equal? (primo? 5) #t)
+   (check-equal? (primo? 6) #f)
+   (check-equal? (primo? 7) #t)
+   (check-equal? (primo? 8) #f)
+   (check-equal? (primo? 9) #f)))
 
 ;; Natural -> Boolean
 ;; Devolve true se n é primo. false caso contrário.

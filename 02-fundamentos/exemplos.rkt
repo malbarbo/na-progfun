@@ -28,9 +28,9 @@
 (define par?-tests
   (test-suite
    "par? tests"
-   (check-true (par? 2))
-   (check-true (par? 8))
-   (check-false (par? 9))))
+   (check-equal? (par? 2) #t)
+   (check-equal? (par? 8) #t)
+   (check-equal? (par? 9) #f)))
 
 (define (par? n)
   (= (remainder n 2) 0))

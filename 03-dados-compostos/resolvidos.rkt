@@ -54,12 +54,12 @@
 (define palindromo-tests
   (test-suite
    "palindromo tests"
-   (check-true (palindromo empty))
-   (check-true (palindromo '(2)))
-   (check-false (palindromo '(1 2)))
-   (check-true (palindromo '(1 2 1)))
-   (check-true (palindromo '(5 2 2 5)))
-   (check-false (palindromo '(5 2 1 5)))))
+   (check-equal? (palindromo empty) #t)
+   (check-equal? (palindromo '(2)) #t)
+   (check-equal? (palindromo '(1 2)) #f)
+   (check-equal? (palindromo '(1 2 1)) #t)
+   (check-equal? (palindromo '(5 2 2 5)) #t)
+   (check-equal? (palindromo '(5 2 1 5)) #f)))
 
 (define (palindromo lst)
   (equal? lst (inverte lst)))

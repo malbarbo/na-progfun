@@ -368,15 +368,15 @@ Listas
 (struct no (primeiro rest) #:transparent)
 ;; Uma Lista é
 ;;   - nil; ou
-;;   - (no primeiro rest) onde primeiro é o primeiro elemento da
-;;     lista e rest é uma Lista com o restante dos elementos
+;;   - (no primeiro rest) onde primeiro é o primeiro elemento
+;;     da lista e rest é uma Lista com o restante dos elementos
 ;; Exemplos
 #;
 (define lst-vazia nil)
 #;
 (define lst1 (no 3 nil))
 #;
-(define lst2 (no 10 (par 3 nil)))
+(define lst2 (no 10 (no 3 nil)))
 #;
 (define lst3 (no 1 lst2))
 ```
@@ -422,7 +422,7 @@ Listas
 > (no-rest lst1)
 #<void>
 > (no-primeiro (no-rest lst1))
-. . no-first: contract violation
+. . no-primeiro: contract violation
   expected: no?
   given: #<void>
 
@@ -464,7 +464,7 @@ Defina uma função que conte a quantidade de elementos de uma lista.
 
     - `cons` ao invés de `no`
 
-    - `first` ao invés de `no-first`
+    - `first` ao invés de `no-primeiro`
 
     - `rest` ao invés de `no-rest`
 

@@ -22,7 +22,7 @@ title: Dados compostos
     '(5 2 8 3)
     ```
 
-#.  Defina uma função que que rebeba como entrada uma lista `lst` e devolva uma
+#.  Defina uma função que que receba como entrada uma lista `lst` e devolva uma
     lista com os mesmos elementos de `lst` mas em ordem reversa. Dica: use
     a função `cons-fim`.
 
@@ -61,7 +61,7 @@ title: Dados compostos
     ```
 
 #.  Defina uma função que receba como entrada uma lista de números e devolva
-    uma lista como os mesmos valores de entrada mas em ordem crescente.
+    uma lista com os mesmos valores de entrada mas em ordem crescente.
     (Lembre-se de aplicar a receita de projeto, não tente implementar um método
     de ordenação qualquer, a receita te levará a implementar um método
     específico). Dica: use a função `insere-ordenado`.

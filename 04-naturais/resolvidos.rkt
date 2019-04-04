@@ -12,11 +12,11 @@
 (define par?-tests
   (test-suite
    "par? tests"
-   (check-equal? (par? 0) #t)
-   (check-equal? (par? 1) #f)
-   (check-equal? (par? 2) #t)
-   (check-equal? (par? 3) #f)
-   (check-equal? (par? 4) #t)))
+   (check-true (par? 0))
+   (check-false (par? 1))
+   (check-true (par? 2))
+   (check-false (par? 3))
+   (check-true (par? 4))))
 
 (define (par? a)
   (if (zero? a)
@@ -29,11 +29,11 @@
 (define impar?-tests
   (test-suite
    "impar? tests"
-   (check-equal? (impar? 0) #f)
-   (check-equal? (impar? 1) #t)
-   (check-equal? (impar? 2) #f)
-   (check-equal? (impar? 3) #t)
-   (check-equal? (impar? 4) #f)))
+   (check-false (impar? 0))
+   (check-true (impar? 1))
+   (check-false (impar? 2))
+   (check-true (impar? 3))
+   (check-false (impar? 4))))
 
 (define (impar? a)
   (if (zero? a)
@@ -51,15 +51,15 @@
 (define perfeito?-tests
   (test-suite
    "perfeito? tests"
-   (check-equal? (perfeito? 1) #f)
-   (check-equal? (perfeito? 2) #f)
-   (check-equal? (perfeito? 3) #f)
-   (check-equal? (perfeito? 4) #f)
-   (check-equal? (perfeito? 5) #f)
-   (check-equal? (perfeito? 6) #t) ; 6 = 1 + 2 + 3
-   (check-equal? (perfeito? 27) #f)
-   (check-equal? (perfeito? 28) #t); 28 = 1 + 2 + 4 + 7 + 14
-   (check-equal? (perfeito? 29) #f)))
+   (check-false (perfeito? 1))
+   (check-false (perfeito? 2))
+   (check-false (perfeito? 3))
+   (check-false (perfeito? 4))
+   (check-false (perfeito? 5))
+   (check-true (perfeito? 6)) ; 6 = 1 + 2 + 3
+   (check-false (perfeito? 27))
+   (check-true (perfeito? 28)); 28 = 1 + 2 + 4 + 7 + 14
+   (check-false (perfeito? 29))))
 
 (define (perfeito? n)
   (= n (soma-divisores n (sub1 n))))

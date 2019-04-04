@@ -85,12 +85,12 @@
 (define tem-divisor-entre-2-i?-tests
   (test-suite
    "tem-divisor-entre-2-i? tests"
-   (check-equal? (tem-divisor-entre-2-i? 5 1) #f)
-   (check-equal? (tem-divisor-entre-2-i? 2 2) #t)
-   (check-equal? (tem-divisor-entre-2-i? 5 5) #t)
-   (check-equal? (tem-divisor-entre-2-i? 10 5) #t)
-   (check-equal? (tem-divisor-entre-2-i? 8 7) #t)
-   (check-equal? (tem-divisor-entre-2-i? 9 2) #f)))
+   (check-false (tem-divisor-entre-2-i? 5 1))
+   (check-true (tem-divisor-entre-2-i? 2 2))
+   (check-true (tem-divisor-entre-2-i? 5 5))
+   (check-true (tem-divisor-entre-2-i? 10 5))
+   (check-true (tem-divisor-entre-2-i? 8 7))
+   (check-false (tem-divisor-entre-2-i? 9 2))))
 
 (define (tem-divisor-entre-2-i? x i)
   (cond

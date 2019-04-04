@@ -1,7 +1,6 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Naturais
-num: "4"
-template: exercicios.tex
 ---
 
 #.  Defina uma função que calcule o fatorial de um número.
@@ -24,7 +23,7 @@ template: exercicios.tex
 
 #.  Defina uma função que calcule o elemento $e_{ij}$ do triângulo de Pascal,
     onde $i$ e $j$ são respectivamente a linha e coluna em que se encontra o
-    elemento $e$. O triângulo de Pascal calculado até a $6^\text{a}$ linha:
+    elemento $e$. O triângulo de Pascal calculado até a 6ª linha:
     ```
     1
     1 1
@@ -37,5 +36,3 @@ template: exercicios.tex
 # Referências
 
 -   [tspl]. [The Scheme Programming Languague](http://www.scheme.com/tspl4/)
-
-<!-- vim: set spell spelllang=pt_br: !-->

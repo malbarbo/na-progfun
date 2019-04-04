@@ -1,7 +1,6 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Funções
-num: "6"
-template: exercicios.tex
 ---
 
 #.  Analise os exemplos e exercícios de dados compostos e redefina as funções
@@ -16,14 +15,14 @@ template: exercicios.tex
 
 #.  [sicp 1.34] Dado a seguinte definição
 
-    ```racket
+    ```scheme
     (define (f g)
       (g 2))
     ```
 
     Então nós temos
 
-    ```racket
+    ```scheme
     > (f sqr)
     4
 
@@ -38,7 +37,7 @@ template: exercicios.tex
     subexpressões em comum e melhorar a estrutura do código. Não faça nenhuma
     simplificação algébrica.
 
-    ```racket
+    ```scheme
     (+ (- (* 3 a) b) (+ (* 3 a) b))
 
     (cons (first (list a b c)) (rest (list a b c)))
@@ -47,7 +46,7 @@ template: exercicios.tex
 #.  [tspl 2.4.3] Determine o valor da seguinte expressão. Explique como você
     chegou neste valor.
 
-    ```racket
+    ```scheme
     (let ([x 9])
       (* x
          (let ([x (/ x 3)])
@@ -56,7 +55,7 @@ template: exercicios.tex
 
 #.  [tspl 2.5.1] Determine o valor das seguintes expressões
 
-    ```racket
+    ```scheme
     (let ([f (λ (x) x)])
       (f 4))
 
@@ -76,7 +75,7 @@ template: exercicios.tex
     argumento que retorna um valor booleano) e uma lista, e conte quantos
     elementos da lista satisfazem o predicado. Exemplo
 
-    ```racket
+    ```scheme
     > (cont positive? (list 1 -1 2 3 -2 5))
     4
     ```
@@ -87,14 +86,14 @@ template: exercicios.tex
     então `(double add1)` retorna uma função que adiciona 2 ao parâmetro. Qual
     é o valor retornado por
 
-    ```racket
+    ```scheme
     (((double (double double)) add1) 5)
     ```
 
 #.  Defina uma função `concatena` que receba como parâmetro um número variável
     de listas e calcule a concatenação de todos os parâmetros. Exemplo
 
-    ```racket
+    ```scheme
     > (concatena (list 1 2 3) (list 4) (list 5 6))
     '(1 2 3 4 5 6)
     ```
@@ -106,7 +105,7 @@ template: exercicios.tex
     Defina a função `mapeia` que funciona como a função `map` pré-definida
     Exemplo
 
-    ```racket
+    ```scheme
     > (mapeia + (list 1 2 3) (list 4 5 6) (list 7 8 9))
     '(12 15 18)
     > (mapeia list (list 1 2 3) (list 4 5 6) (list 7 8 9))
@@ -117,7 +116,7 @@ template: exercicios.tex
     e retorne uma lista com os parâmetros que tenha a mesma paridade do
     primeiro argumento. Exemplo
 
-    ```racket
+    ```scheme
     > (same-parity 1 2 3 4 5 6 7)
     '(1 3 5 7)
 
@@ -129,7 +128,7 @@ template: exercicios.tex
     Para esta representação, verifique que `(car (cons x y))` produz `x` para
     qualquer objeto `x` e `y`.
 
-    ```racket
+    ```scheme
     (define (cons x y)
       (λ (m) (m x y)))
 
@@ -146,5 +145,3 @@ template: exercicios.tex
 -   [sicp]. [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
 
 -   [tspl]. [The Scheme Programming Languague](http://www.scheme.com/tspl4/)
-
-<!-- vim: set spell spelllang=pt_br: !-->

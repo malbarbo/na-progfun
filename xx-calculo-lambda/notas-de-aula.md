@@ -6,6 +6,7 @@ title: Cálculo Lambda
 O cálculo lambda
 ================
 
+
 ## O cálculo lambda
 
 - O cálculo lambda é um modelo de computação introduzido por Alonzo Church na década de 1930
@@ -237,6 +238,7 @@ Aritmética
 
     E assim por diante ...
 
+
 ## Aritmética
 
 - A função sucessora pode ser definida como:
@@ -297,6 +299,7 @@ $$\text{M}\equiv\lambda xyz.x(yz)$$
 - Todas elas podem ser expressas em cálculo lambda
 
 - Consulte o material [TILC](http://www.inf.fu-berlin.de/lehre/WS03/alpi/lambda.pdf) para saber como elas podem ser representadas
+
 
 
 Leitura recomendada

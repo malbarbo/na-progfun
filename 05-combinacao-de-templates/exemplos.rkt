@@ -15,27 +15,27 @@
 ;;                  +-------------------------------+
 ;;                  |   empty    | (cons ...)       |
 ;;     +------------+-------------------------------+
-;;     |   empty    |          true                 |
+;;     |   empty    |           #t                  |
 ;;lsta +------------+------------+------------------+
-;;     | (cons ...) |    false   | primeiros iguais |
+;;     | (cons ...) |      #f    | primeiros iguais |
 ;;     |            |            | recursão natural |
 ;;     +------------+------------+------------------+
 (define prefixo?-tests
   (test-suite
    "prefixo? tests"
-   (check-equal? (prefixo? empty empty) true)
-   (check-equal? (prefixo? empty (list 3 4)) true)
-   (check-equal? (prefixo? (list 3 4) empty) false)
-   (check-equal? (prefixo? (list 3 4) (list 3 4)) true)
-   (check-equal? (prefixo? (list 3 4) (list 3 5)) false)
-   (check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) true)
-   (check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) false)
-   (check-equal? (prefixo? (list 3 4 5) (list 3 4)) false)))
+   (check-equal? (prefixo? empty empty) #t)
+   (check-equal? (prefixo? empty (list 3 4)) #t)
+   (check-equal? (prefixo? (list 3 4) empty) #f)
+   (check-equal? (prefixo? (list 3 4) (list 3 4)) #t)
+   (check-equal? (prefixo? (list 3 4) (list 3 5)) #f)
+   (check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) #t)
+   (check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) #f)
+   (check-equal? (prefixo? (list 3 4 5) (list 3 4)) #f)))
 
 (define (prefixo? lsta lstb)
   (cond
-    [(empty? lsta) true]
-    [(empty? lstb) false]
+    [(empty? lsta) #t]
+    [(empty? lstb) #f]
     [else
      (and (equal? (first lsta)
                   (first lstb))

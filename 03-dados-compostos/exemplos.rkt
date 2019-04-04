@@ -39,6 +39,7 @@
 ;; Exemplo 3.2
 
 (struct retangulo (largura altura) #:transparent)
+;; Representa um retangulo
 ;;   largura : Número - a largura do retangulo
 ;;   altura  : Número - a altura do retangulo
 ;; Exemplos

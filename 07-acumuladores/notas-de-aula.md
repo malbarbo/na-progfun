@@ -1,31 +1,34 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Acumuladores
-template: slide.tex
 ---
 
-# Falta de contexto na recursão
+Introdução
+==========
 
-### Falta de contexto na recursão
+## Falta de contexto na recursão
 
--   Não nos preocupamos com o contexto do uso quando criamos funções recursivas
+- Não nos preocupamos com o contexto do uso quando criamos funções recursivas
 
-    -   Não importa se é a primeira vez que a função está sendo chamada ou se
-        é a 100ª
+    - Não importa se é a primeira vez que a função está sendo chamada ou se é a
+      100ª
 
--   Este princípio de independência do contexto facilita a escrita de funções
-    recursivas, mas pode gerar problemas em algumas situações
+- Este princípio de independência do contexto facilita a escrita de funções
+  recursivas, mas pode gerar problemas em algumas situações
 
--   Vamos ver um exemplo
+- Vamos ver um exemplo
 
-### Exemplo 7.1
+
+## Exemplo 7.1
 
 Dado uma lista de distâncias relativas entre pontos (começando da origem) em
 uma linha, defina uma função que calcule a distância absoluta a partir da
 origem
 
-### Exemplo 7.1
 
-```racket
+## Exemplo 7.1
+
+```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Converte uma lista de distâncias relativas para uma lista de
 ;; distâncias absolutas. O primeito item da lista representa a
@@ -40,7 +43,7 @@ origem
 
 \pause
 
-```racket
+```scheme
 (define (relativa->absoluta lst)
   (define (somador n) (λ (x) (+ x n)))
   (cond
@@ -51,22 +54,24 @@ origem
                 (relativa->absoluta (rest lst))))]))
 ```
 
-### Exemplo 7.1
 
--   Esta função realiza muito trabalho para resolver o problema (tempo de
-    execução de $\Theta(n^2)$)
+## Exemplo 7.1
 
--   Se tivéssemos que resolver este problema manualmente, utilizaríamos outro
-    método, o de somar a distância absoluta de um ponto com a distância
-    relativa do próximo
+- Esta função realiza muito trabalho para resolver o problema (tempo de
+  execução de $\Theta(n^2)$)
 
--   Vamos tentar definir uma função mais parecida com este método manual
+- Se tivéssemos que resolver este problema manualmente, utilizaríamos outro
+  método, o de somar a distância absoluta de um ponto com a distância relativa
+  do próximo
 
-### Exemplo 7.1
+- Vamos tentar definir uma função mais parecida com este método manual
 
--   Como é uma função que processa uma lista, começamos com o template
 
-    ```racket
+## Exemplo 7.1
+
+- Como é uma função que processa uma lista, começamos com o modelo
+
+    ```scheme
     (define (rel->abs lst)
       (cond
         [(empty? lst) ...]
@@ -74,11 +79,12 @@ origem
                    (rel->abs (rest lst)))]))
     ```
 
-### Exemplo 7.1
 
--   Como seria a avaliação de `(rel->abs (list 3 2 7))`? \pause
+## Exemplo 7.1
 
-    ```racket
+- Como seria a avaliação de `(rel->abs (list 3 2 7))`? \pause
+
+    ```scheme
     (rel->abs (list 3 2 7))
     (cons ... 3 ...
       (converte (list 2 7)))
@@ -87,23 +93,23 @@ origem
         (converte (list 7))))
     ```
 
--   O primeiro item da lista deve ser 3, e é fácil calcular este item. Mas
-    o segundo item deve ser `(+ 3 2)` e a segunda chamada de `rel->abs` não tem
-    como "saber" qual era o valor do primeiro item da lista. Este
-    "conhecimento" foi perdido.
+- O primeiro item da lista deve ser 3, e é fácil calcular este item. Mas o
+  segundo item deve ser `(+ 3 2)` e a segunda chamada de `rel->abs` não tem
+  como "saber" qual era o valor do primeiro item da lista. Este "conhecimento"
+  foi perdido.
 
-### Exemplo 7.1
 
--   Vamos acrescentar um parâmetro `acc-dist` que representa a distância
-    acumulada, ou seja, a distância absoluta até o ponto anterior
+## Exemplo 7.1
 
--   Conforme os números da lista são processados, eles são somados a `acc-dist`
+- Vamos acrescentar um parâmetro `acc-dist` que representa a distância
+  acumulada, ou seja, a distância absoluta até o ponto anterior
 
--   O valor inicial de `acc-dist` precisa ser 0, então definimos `rel->abs`
-    como uma função local e fazemos a chamada inicial com `acc-dist` apropriado
-    \pause
+- Conforme os números da lista são processados, eles são somados a `acc-dist`
 
-    ```racket
+- O valor inicial de `acc-dist` precisa ser 0, então definimos `rel->abs` como
+  uma função local e fazemos a chamada inicial com `acc-dist` apropriado \pause
+
+    ```scheme
     (define (relativa->absoluta lst0)
       (define (rel->abs lst acc-dist)
         (cond
@@ -115,23 +121,27 @@ origem
       (rel->abs lst0 0))
     ```
 
-### Falta de contexto na recursão
 
--   No exemplo anterior vimos que a falta de contexto tornou uma função mais
-    complicada do que necessária (e também mais lenta)
+## Falta de contexto na recursão
 
--   Veremos a seguir um exemplo em que a falta de contexto faz uma função usar
-    mais memória do que é necessário
+- No exemplo anterior vimos que a falta de contexto tornou uma função mais
+  complicada do que necessária (e também mais lenta)
+
+- Veremos a seguir um exemplo em que a falta de contexto faz uma função usar
+  mais memória do que é necessário
 
 
-# Processos iterativos e recursivos
 
-### Processos iterativos e recursivos
+Processos iterativos e recursivos
+=================================
 
--   Considere as seguintes implementações para a função que soma dois números
-    naturais utilizando a função `add1` e `zero?`
 
-    ```racket
+## Processos iterativos e recursivos
+
+- Considere as seguintes implementações para a função que soma dois números
+  naturais utilizando a função `add1` e `zero?`
+
+    ```scheme
     (define (soma a b)
       (if (zero? b)
           a
@@ -143,14 +153,14 @@ origem
           (soma-alt (add1 a) (sub1 b))))
     ```
 
--   Qual é o processo gerado quando cada função é avaliada com os parâmetros
-    4 3?
+- Qual é o processo gerado quando cada função é avaliada com os parâmetros 4 3?
 
-### Processos iterativos e recursivos
 
--   Processo gerado pela expressão `(soma 4 3)`
+## Processos iterativos e recursivos
 
-    ```racket
+- Processo gerado pela expressão `(soma 4 3)`
+
+    ```scheme
     (soma 4 3)
     (add1 (soma 4 2))
     (add1 (add1 (soma 4 1)))
@@ -161,14 +171,15 @@ origem
     7
     ```
 
--   Este processo, caracterizado por uma sequência de operações adiadas
-    é chamado de **processo recursivo**. Tem um padrão de "cresce e diminui"
+- Este processo, caracterizado por uma sequência de operações adiadas é chamado
+  de **processo recursivo**. Tem um padrão de "cresce e diminui"
 
-### Processos iterativos e recursivos
 
--   Processo gerado pela expressão `(soma-alt 4 3)`
+## Processos iterativos e recursivos
 
-    ```racket
+- Processo gerado pela expressão `(soma-alt 4 3)`
+
+    ```scheme
     (soma-alt 4 3)
     (soma-alt 5 2)
     (soma-alt 6 1)
@@ -176,63 +187,70 @@ origem
     7
     ```
 
--   Este processo é chamado de **processo iterativo**. O "espaço" necessário
-    para fazer a substituição não depende do tamanho da entrada
+- Este processo é chamado de **processo iterativo**. O "espaço" necessário para
+  fazer a substituição não depende do tamanho da entrada
 
--   Neste exemplo, o valor de `a` foi usado como um acumulador, que armazena
-    a soma parcial
+- Neste exemplo, o valor de `a` foi usado como um acumulador, que armazena a
+  soma parcial
 
--   O uso de acumulador neste problema reduziu o uso de memória
-
-
-# Recursão em cauda
-
-### Recursão em cauda
-
--   Uma **chamada em cauda** é a chamada de uma função que acontece como última
-    operação dentro de uma função
-
--   Uma **função recursiva em cauda** é aquela em que todas as chamadas
-    recursivas são em cauda
-
--   A forma de criar processos iterativos em linguagens funcionais é utilizando
-    recursão em cauda
-
--   Os compiladores/interpretadores de linguagens funcionais otimizam as
-    recursões em cauda de maneira que não é necessário manter a pilha da
-    chamada recursiva, o que torna a recursão tão eficiente quanto um laço em
-    uma linguagem imperativa.  Esta técnica é chamada de **eliminação da
-    chamada em cauda**
+- O uso de acumulador neste problema reduziu o uso de memória
 
 
-# Projetando funções com acumuladores
 
-### Projetando funções com acumuladores
+Recursão em cauda
+=================
 
--   Usar acumuladores é algo que fazemos **depois** que definimos a função
-    e não antes
 
--   Os princípios para projetar funções com acumuladores são
+## Recursão em cauda
 
-    -   Identificar que a função se beneficia ou precisa de um acumulador
+- Uma **chamada em cauda** é a chamada de uma função que acontece como última
+  operação dentro de uma função
 
-        -   Torna a função mais simples
+- Uma **função recursiva em cauda** é aquela em que todas as chamadas
+  recursivas são em cauda
 
-        -   Diminui o tempo de execução
+- A forma de criar processos iterativos em linguagens funcionais é utilizando
+  recursão em cauda
 
-        -   Diminui o consumo de memória
+- Os compiladores/interpretadores de linguagens funcionais otimizam as
+  recursões em cauda de maneira que não é necessário manter a pilha da chamada
+  recursiva, o que torna a recursão tão eficiente quanto um laço em uma
+  linguagem imperativa.  Esta técnica é chamada de **eliminação da chamada em
+  cauda**
 
-    -   Entender o que o acumulador significa
 
-### Projetando funções com acumuladores
+
+Projetando funções com acumuladores
+===================================
+
+## Projetando funções com acumuladores
+
+- Usar acumuladores é algo que fazemos **depois** que definimos a função e não
+  antes
+
+- Os princípios para projetar funções com acumuladores são
+
+    - Identificar que a função se beneficia ou precisa de um acumulador
+
+        - Torna a função mais simples
+
+        - Diminui o tempo de execução
+
+        - Diminui o consumo de memória
+
+    - Entender o que o acumulador significa
+
+
+## Projetando funções com acumuladores
 
 - Vamos reescrever diversas funções utilizando acumuladores
 
-### Exemplo 7.2
 
--   Tamanho de uma lista
+## Exemplo 7.2
 
-    ```racket
+- Tamanho de uma lista
+
+    ```scheme
     ;; Lista -> Natural
     ;; Conta a quantidade de elementos de uma lista.
     (define tamanho-tests
@@ -249,18 +267,19 @@ origem
         [else (add1 (tamanho (rest lst)))]))
     ```
 
--   Como o tamanho da resposta não depende do tamanho da entrada, esta função
-    está usando mais memória do que é necessário, portanto ela pode
-    beneficiar-se do uso de acumuladores
+- Como o tamanho da resposta não depende do tamanho da entrada, esta função
+  está usando mais memória do que é necessário, portanto ela pode beneficiar-se
+  do uso de acumuladores
 
-### Exemplo 7.2
 
--   O conhecimento que se perde na chamada recursiva é a quantidade de
-    elementos já "vistos"
+## Exemplo 7.2
 
--   Vamos criar um acumulador que representa esta quantidade \pause
+- O conhecimento que se perde na chamada recursiva é a quantidade de elementos
+  já "vistos"
 
-    ```racket
+- Vamos criar um acumulador que representa esta quantidade \pause
+
+    ```scheme
     (define (tamanho lst0)
       (define (iter lst acc)
         (cond
@@ -269,11 +288,12 @@ origem
       (iter lst0 0))
     ```
 
-### Exemplo 7.3
 
--   Soma dos elementos de uma lista
+## Exemplo 7.3
 
-    ```racket
+- Soma dos elementos de uma lista
+
+    ```scheme
     ;; Lista(Número) -> Número
     ;; Soma os números de uma lista.
     (define soma-tests
@@ -291,18 +311,19 @@ origem
                  (soma (rest lst)))]))
     ```
 
--   Como o tamanho da resposta não depende do tamanho da entrada, esta função
-    está usando mais memória do que é necessário, portanto ela pode
-    beneficiar-se do uso de acumuladores
+- Como o tamanho da resposta não depende do tamanho da entrada, esta função
+  está usando mais memória do que é necessário, portanto ela pode beneficiar-se
+  do uso de acumuladores
 
-### Exemplo 7.3
 
--   O conhecimento que se perde na chamada recursiva é a soma dos elementos já
-    "vistos"
+## Exemplo 7.3
 
--   Vamos criar um acumulador que representa esta quantidade \pause
+- O conhecimento que se perde na chamada recursiva é a soma dos elementos já
+  "vistos"
 
-    ```racket
+- Vamos criar um acumulador que representa esta quantidade \pause
+
+    ```scheme
     (define (soma lst0)
       (define (iter lst acc)
         (cond
@@ -311,11 +332,12 @@ origem
       (iter lst0 0))
     ```
 
-### Exemplo 7.4
 
--   Inversão de uma lista
+## Exemplo 7.4
 
-    ```racket
+- Inversão de uma lista
+
+    ```scheme
     ;; Lista -> Lista
     ;; Inverte a ordem dos elmentos de lst.
     (define inverte-tests
@@ -332,20 +354,21 @@ origem
                       (list (first lst)))]))
     ```
 
--   Neste caso a função é mais complicada do que o necessário. Isto porque
-    o resultado da chamada recursiva é processada por outra função recursiva
-    (`append`). Além disso, o tempo de execução desta função é $\Theta(n^2)$ (o
-    que intuitivamente é muito para inverter uma lista)
+- Neste caso a função é mais complicada do que o necessário. Isto porque o
+  resultado da chamada recursiva é processada por outra função recursiva
+  (`append`). Além disso, o tempo de execução desta função é $\Theta(n^2)$ (o
+  que intuitivamente é muito para inverter uma lista)
 
-### Exemplo 7.4
 
--   O conhecimento que se perde na chamada recursiva são os elementos que já
-    foram "vistos"
+## Exemplo 7.4
 
--   Vamos criar um acumulador que representa os elementos já vistos (uma lista)
-    \pause
+- O conhecimento que se perde na chamada recursiva são os elementos que já
+  foram "vistos"
 
-    ```racket
+- Vamos criar um acumulador que representa os elementos já vistos (uma lista)
+  \pause
+
+    ```scheme
     (define (inverte lst0)
       (define (iter lst acc)
         (cond
@@ -356,13 +379,14 @@ origem
     ```
 
 
-# Função foldl
+Função `foldl`
+============
 
-### Função foldl
+## Função `foldl`
 
--   Observe a semelhanças das funções tamanho, soma e inverte
+- Observe a semelhanças das funções tamanho, soma e inverte
 
-    ```racket
+    ```scheme
     (define (tamanho lst0)
       (define (iter lst acc)
         (cond
@@ -385,12 +409,13 @@ origem
       (iter lst0 empty))
     ```
 
-### Função foldl
 
--   Vamos criar uma função chamada `reduz-acc` que abstrai este comportamento
-    \pause
+## Função `foldl`
 
-    ```racket
+- Vamos criar uma função chamada `reduz-acc` que abstrai este comportamento
+  \pause
+
+    ```scheme
     ;; (X Y -> X) Y Lista(X) -> Y
     ;; (reduz-acc f base (list x1 x2 ... xn) devolve
     ;; (f xn ... (f x2 (f x1 base)))
@@ -404,11 +429,12 @@ origem
       (iter lst0 base))
     ```
 
-### Função foldl
 
--   Redefinimos as funções em termos de `reduz-acc`
+## Função foldl
 
-    ```racket
+- Redefinimos as funções em termos de `reduz-acc`
+
+    ```scheme
     (define (tamanho lst)
       (define (soma1-no-segundo a b)
         (add1 b))
@@ -422,31 +448,32 @@ origem
     ```
 
 
-# foldr vs foldl
+`foldr` vs `foldl`
+==============
 
-### foldr vs foldl
+## `foldr` vs `foldl`
 
--   `foldr` e `foldl` produzem o mesmo resultado se a função `f` for associativa
+- `foldr` e `foldl` produzem o mesmo resultado se a função `f` for associativa
 
--   Quando possível, utilize a função `foldl`, pois ela pode utilizar menos
-    memória
+- Quando possível, utilize a função `foldl`, pois ela pode utilizar menos
+  memória
 
--   Não tenha receio de utilizar a função `foldr`, muitas funções ficam mais
-    complicadas, ou não podem ser escritas em termos de `foldl`, como por
-    exemplo, `map` e `filter`
+- Não tenha receio de utilizar a função `foldr`, muitas funções ficam mais
+  complicadas, ou não podem ser escritas em termos de `foldl`, como por
+  exemplo, `map` e `filter`
 
 
-# Referências
 
-### Referências
+Referências
+===========
+
+## Referências
 
 - Seções
-[30](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-38.html#node_chap_30)
-e [31](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-39.html#node_chap_31)
-do livro [HTDP](http://htdp.org)
+  [30](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-38.html#node_chap_30)
+  e [31](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-39.html#node_chap_31)
+  do livro [HTDP](http://htdp.org)
 
 - Seção
-[1.2](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-11.html#%_sec_1.2)
-do livro [SICP](https://mitpress.mit.edu/sicp/)
-
-<!-- vim: set spell spelllang=pt_br: !-->
+  [1.2](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-11.html#%_sec_1.2)
+  do livro [SICP](https://mitpress.mit.edu/sicp/)

@@ -1,7 +1,6 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Acumuladores
-num: "7"
-template: exercicios.tex
 ---
 
 #.  Analise os exemplos e exercícios de dados compostos e funções e redefina as
@@ -19,9 +18,7 @@ template: exercicios.tex
     Não se preocupe com a corretude da expressão. Utilize a função `string->list`
     para converter a string de entrada em uma lista.
 
-    ```racket
+    ```scheme
     > (balanceada "2+(3*(4/2-1))*(2+3*(5/2))")
-    true
+    #t
     ```
-
-<!-- vim: set spell spelllang=pt_br: !-->

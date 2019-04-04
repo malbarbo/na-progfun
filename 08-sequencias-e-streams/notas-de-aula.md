@@ -1,30 +1,31 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Sequências e streams
-template: slide.tex
 ---
 
-# Sequências
+Sequências
+==========
 
-### Sequências
+## Sequências
 
 <!-- TODO: adicionar informações sobre haskell !-->
 <!-- TODO: destacar as aplicações de streams !-->
 
--   Uma sequência encapsula uma coleção ordenada de valores
+- Uma sequência encapsula uma coleção ordenada de valores
 
--   Sequências são geralmente utilizadas com as formas sintáticas `for`
+- Sequências são geralmente utilizadas com as formas sintáticas `for`
 
--   Tipos que são sequências
+- Tipos que são sequências
 
-    -   Listas
+    - Listas
 
-    -   Streams
+    - Streams
 
-    -   etc
+    - etc
 
--   Exemplos
+- Exemplos
 
-    ```racket
+    ```scheme
     > (sequence? (list 5 2 10))
     #t
     > (sequence? 1.2)
@@ -32,25 +33,27 @@ template: slide.tex
     ```
 
 
-# List comprehension
 
-### List comprehension
+List comprehension
+==================
 
--   Utilização da notação de conjunto para definir uma lista
+## List comprehension
 
--   Combina `map` e `filter`
+- Utilização da notação de conjunto para definir uma lista
 
--   Exemplo
+- Combina `map` e `filter`
 
-    -   $S = \{2x\ |\ x \in 1..10\}$
+- Exemplo
 
-    -   $T = \{2x\ |\ x \in 1..10, x^2 > 8\}$
+    - $S = \{2x\ |\ x \in 1..10\}$
+
+    - $T = \{2x\ |\ x \in 1..10, x^2 > 8\}$
 
 \pause
 
--   Em Racket temos a forma sintática especial `for/list`
+- Em Racket temos a forma sintática especial `for/list`
 
-    ```racket
+    ```scheme
     (define S (for/list ([x (in-range 1 11)])
                 (* 2 x)))
 
@@ -59,18 +62,19 @@ template: slide.tex
                 (* 2 x)))
     ```
 
-    ```racket
+    ```scheme
     > S
     '(2 4 6 8 10 12 14 16 18 20)
     > T
     '(6 8 10 12 14 16 18 20)
     ```
 
-### List comprehension
 
--   Uma aproximação da sintaxe do `for/list` é
+## List comprehension
 
-    ```racket
+- Uma aproximação da sintaxe do `for/list` é
+
+    ```scheme
     (for/list (clause ...)
       body ...+)
 
@@ -79,119 +83,128 @@ template: slide.tex
            | #:unless boolean-expr
     ```
 
--   É possível fazer uma iteração em paralelo em duas ou mais sequências
+- É possível fazer uma iteração em paralelo em duas ou mais sequências
 
-    ```racket
+    ```scheme
     > (for/list ([i (in-naturals)]
                  [x (list 3 5 2 4)])
         (- x i))
     '(3 4 0 1)
     ```
 
--   A função `in-naturals` devolve uma sequência (stream) com os números
-    naturais
+- A função `in-naturals` devolve uma sequência (stream) com os números naturais
 
--   Como as sequências tem tamanhos diferentes, a iteração é interrompida quando
-    alguma sequência termina
+- Como as sequências tem tamanhos diferentes, a iteração é interrompida quando
+  alguma sequência termina
 
-### List comprehension
 
--   Existem muitas funções pré-definidas que são úteis neste contexto
+## List comprehension
 
-    -   `in-range`
+- Existem muitas funções pré-definidas que são úteis neste contexto
 
-    -   `in-naturals`
+    - `in-range`
 
-    -   `in-cycle`
+    - `in-naturals`
 
-    -   `in-value`
+    - `in-cycle`
 
-    -   `stop-before`
+    - `in-value`
 
-    -   `stop-afer`
+    - `stop-before`
 
-    -   Veja a [referência](http://docs.racket-lang.org/reference/sequences.html)
+    - `stop-afer`
+
+    - Veja a [referência](http://docs.scheme-lang.org/reference/sequences.html)
         sobre sequências
 
--   O Racket oferece ainda uma coleção de formas especiais para fazer iteração
-    em sequências, veja a
-    [referência](http://docs.racket-lang.org/reference/for.html) sobre
-    iterações
+- O Racket oferece ainda uma coleção de formas especiais para fazer iteração em
+  sequências, veja a
+  [referência](http://docs.scheme-lang.org/reference/for.html) sobre iterações
 
 
-# Streams
+Streams
+=======
 
-### Streams
 
--   Um stream é semelhante a uma lista, mas os elementos só são avaliados
-    quando são necessários, em outras palavras, um **stream** é uma lista
-    atrasada
+## Streams
 
--   Streams tem muitas utilidades, mas vamos usá-los principalmente para
-    definir "listas infinitas" (como a função `in-naturals`)
+- Um stream é semelhante a uma lista, mas os elementos só são avaliados quando
+  são necessários, em outras palavras, um **stream** é uma lista atrasada
 
-### Streams
+- Streams tem muitas utilidades, mas vamos usá-los principalmente para definir
+  "listas infinitas" (como a função `in-naturals`)
 
--   As operações primitivas de streams são semelhantes as das listas
 
-    -   `stream-cons`
+## Streams
 
-    -   `stream-first`
+- As operações primitivas de streams são semelhantes as das listas
 
-    -   `stream-rest`
+    - `stream-cons`
 
--   Outros funções pré-definidas
+    - `stream-first`
 
-    -   `stream-ref`
+    - `stream-rest`
 
-    -   `stream->list`
+- Outros funções pré-definidas
 
-    -   `stream-fold`
+    - `stream-ref`
 
-    -   `stream-map`
+    - `stream->list`
 
-    -   `stream-filter`
+    - `stream-fold`
 
-    -   Veja a [referência](http://docs.racket-lang.org/reference/streams.html)
-        de streams
+    - `stream-map`
 
-### Streams
+    - `stream-filter`
 
--   Escrita de testes
+    - Veja a [referência](http://docs.scheme-lang.org/reference/streams.html)
+      de streams
 
-    -   Podemos utilizar as funções pré-definidas `stream-ref` e `stream->list`
 
-    -   Função `stream` que cria um stream com os elementos especificados
-        (semelhante a função `list`)
+## Streams
 
-### Exemplo 8.1
+- Escrita de testes
+
+    - Podemos utilizar as funções pré-definidas `stream-ref` e `stream->list`
+
+    - Função `stream` que cria um stream com os elementos especificados
+      (semelhante a função `list`)
+
+
+## Exemplo 8.1
 
 Defina uma função que crie um stream de números inteiros a partir de um valor
 inicial $n$.
 
-### Exemplo 8.2
+
+## Exemplo 8.2
 
 Defina uma função que crie um stream com os $n$ primeiros elementos de um outro
 stream. (Semelhante a função `take`)
 
-### Exemplo 8.3
+
+## Exemplo 8.3
 
 Defina uma função que receba dois streams como parâmetro e crie um stream em
 que cada elemento é a soma dos dois elementos na mesma posição dos streams de
 entrada.
 
-### Exemplo 8.4
+
+## Exemplo 8.4
 
 [Problema 1](https://projecteuler.net/problem=1) do [Projeto
 Euler](https://projecteuler.net/). Defina uma função que some todos os números
 naturais menores que um dado $n$ que sejam múltiplos de 3 ou 5.
 
 
-# Streams implícitos
 
-### Streams implícitos
+Streams implícitos
+==================
 
-```racket
+
+## Streams implícitos
+
+```scheme
 > (define uns (stream-cons 1 uns))
 > (stream->list (stream-take uns 10))
 '(1 1 1 1 1 1 1 1 1 1)
@@ -210,25 +223,29 @@ naturais menores que um dado $n$ que sejam múltiplos de 3 ou 5.
 '(0 1 1 2 3 5 8 13 21 34)
 ```
 
-# Promessas
 
-### Promessas
 
--   Streams são criados utilizando as primitivas `delay` e `force`
+Promessas
+=========
 
--   `delay` cria uma promessa de avaliar uma expressão
 
-    ```racket
+## Promessas
+
+- Streams são criados utilizando as primitivas `delay` e `force`
+
+- `delay` cria uma promessa de avaliar uma expressão
+
+    ```scheme
     > (define p (delay (+ 4 5)))
     > p
     #<promise:p>
     ```
 
--   `force` faz com que uma promessa seja avaliada, se a promessa não foi
+- `force` faz com que uma promessa seja avaliada, se a promessa não foi
     forçada antes, o resultado é armazenado na promessa de maneira que quando
     `force` for utilizado novamente a promessa produza o mesmo valor
 
-    ```racket
+    ```scheme
     > (force p)
     9
     > p
@@ -237,15 +254,19 @@ naturais menores que um dado $n$ que sejam múltiplos de 3 ou 5.
     9
     ```
 
-# Racket lazy
 
-### Racket lazy
 
--   Os streams não são bem integrados com a linguagem Racket
+Racket lazy
+===========
 
--   A linguagem experimental `lazy` está tentando melhorar esta integração
+## Racket lazy
 
-    ```racket
+- Os streams não são bem integrados com a linguagem Racket
+
+- A linguagem experimental (verificar se ainda é experimental) `lazy` está
+  tentando melhorar esta integração
+
+    ```scheme
     #lang lazy
 
     (define (naturais n)
@@ -261,19 +282,19 @@ naturais menores que um dado $n$ que sejam múltiplos de 3 ou 5.
     ```
 
 
-# Referências
 
-### Referências
+Referências
+===========
 
--   Seção
+## Referências
+
+- Seção
     [3.5](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-24.html#%_sec_3.5)
     (3.5.1 e 3.5.2) do livro [SICP](https://mitpress.mit.edu/sicp/)
 
--   Seção [4.14](http://docs.racket-lang.org/reference/sequences.html)
-    e [2.18](http://docs.racket-lang.org/reference/for.html) da [Referência
-    Racket](http://docs.racket-lang.org/reference/).
+- Seção [4.14](http://docs.scheme-lang.org/reference/sequences.html)
+    e [2.18](http://docs.scheme-lang.org/reference/for.html) da [Referência
+    Racket](http://docs.scheme-lang.org/reference/).
 
--   [Referência](http://docs.racket-lang.org/lazy/index.html) da linguagem
+- [Referência](http://docs.scheme-lang.org/lazy/index.html) da linguagem
     lazy.
-
-<!-- vim: set spell spelllang=pt_br: !-->

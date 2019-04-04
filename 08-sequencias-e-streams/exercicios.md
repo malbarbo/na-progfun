@@ -1,13 +1,12 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Sequências e streams
-num: "8"
-template: exercicios.tex
 ---
 
 #.  Defina uma função `multiplos` que receba como parâmetro um inteiro
     positivo $n$ e devolva um stream com os múltiplos de $n$ maiores 0.
 
-    ```racket
+    ```scheme
     > (stream->list (stream-take (multiplos 5) 4))
     '(5 10 15 20)
     ```
@@ -15,7 +14,7 @@ template: exercicios.tex
 #.  Defina uma função `primos` que produz um stream dos números primos. (Dica:
     use `stream-filter` e o predicado `primo?`)
 
-    ```racket
+    ```scheme
     > (stream->list (stream-take (primos) 5))
     '(2 3 5 7 11)
     ```
@@ -33,5 +32,3 @@ template: exercicios.tex
 # Referências
 
 -   [sicp]. [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
-
-<!-- vim: set spell spelllang=pt_br: !-->

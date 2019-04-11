@@ -672,9 +672,10 @@ ordem da lista aninhada.
 (define (fun-for-arvore-bin t)
   (cond
     [(empty? t) ...]
-    [else ... (arvore-bin-v t)
-          ... (fun-for-arvore-bin (arvore-bin-dir t))
-          ... (fun-for-arvore-bin (arvore-bin-esq t)) ...]))
+    [else
+     ... (arvore-bin-v t)
+     ... (fun-for-arvore-bin (arvore-bin-dir t))
+     ... (fun-for-arvore-bin (arvore-bin-esq t)) ...]))
 ```
 
 

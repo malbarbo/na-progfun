@@ -192,13 +192,14 @@ Definição Inteiro
 
 ## Exemplo 4.3
 
-[htdp 11.4.7] Escreva uma função `tem-divisor-entre-2-e-i?`, que receba como
-parâmetros dois números naturais, $n$ e $i$. Se $n$ não é divisível por nenhum
-número entre 2 (inclusive) e $i$ (inclusive), a função deve devolver
-verdadeiro, caso contrário falso. Utilizando a função
-`tem-divisor-entre-2-e-i?`, defina uma função `primo?`, que verifica se um
+[htdp 11.4.7] Escreva uma função `e-divisivel-por<=i?`, que receba como
+parâmetros um número natural $n$ e um número Inteiro>=1 $i$, com $i < n$. Se
+$n$ é divisível por algum número entre 1 (não incluindo o 1) e $i$ (incluindo
+$i$), a função deve devolver verdadeiro, caso contrário falso. Utilizando
+a função `e-divisivel-por<=i?`, defina uma função `primo?`, que verifica se um
 número natural é primo. Um número natural é primo se ele tem exatamente dois
 divisores distintos: 1 e ele mesmo.
+
 
 
 Referências
@@ -207,3 +208,7 @@ Referências
 ## Referências
 
 - [Vídeos Naturals](https://www.youtube.com/playlist?list=PL6NenTZG6KroGNU9XgT5G5Dt2M6YGjZMF)
+
+- Capítulo
+  [9.3](https://htdp.org/2018-01-06/Book/part_two.html#%28part._sec~3anats%29)
+  do livro [HTDP](http://htdp.org)

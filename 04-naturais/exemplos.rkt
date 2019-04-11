@@ -80,29 +80,29 @@
 ;; Exemplo 4.3
 
 ;; Natural Inteiro>=1 -> Boolean
-;; Devolve #t se x tem divisor entre 2 (inclusive) e i (inclusive).
+;; Devolve #t se x tem divisor entre 1 (inclusive) e i (inclusive).
 ;; #f caso contrário.
-(define tem-divisor-entre-2-i?-tests
+(define e-divisivel-por<=i?-tests
   (test-suite
-   "tem-divisor-entre-2-i? tests"
-   (check-equal? (tem-divisor-entre-2-i? 5 1) #f)
-   (check-equal? (tem-divisor-entre-2-i? 2 2) #t)
-   (check-equal? (tem-divisor-entre-2-i? 5 5) #t)
-   (check-equal? (tem-divisor-entre-2-i? 10 5) #t)
-   (check-equal? (tem-divisor-entre-2-i? 8 7) #t)
-   (check-equal? (tem-divisor-entre-2-i? 9 2) #f)))
+   "e-divisivel-por<=i? tests"
+   (check-equal? (e-divisivel-por<=i? 5 1) #f)
+   (check-equal? (e-divisivel-por<=i? 2 2) #t)
+   (check-equal? (e-divisivel-por<=i? 5 5) #t)
+   (check-equal? (e-divisivel-por<=i? 10 5) #t)
+   (check-equal? (e-divisivel-por<=i? 8 7) #t)
+   (check-equal? (e-divisivel-por<=i? 9 2) #f)))
 
-(define (tem-divisor-entre-2-i? x i)
+(define (e-divisivel-por<=i? n i)
   (cond
     [(<= i 1) #f]
     [else
-     (or (divisivel? x i)
-         (tem-divisor-entre-2-i? x (sub1 i)))]))
+     (or (divisivel? n i)
+         (e-divisivel-por<=i? n (sub1 i)))]))
 
 ;; Natural Natural -> Boolean
-;; Devolve true se x é divisível por i. false caso contrário.
-(define (divisivel? x i)
-  (zero? (remainder x i)))
+;; Devolve #t se x é divisível por i, #f caso contrário.
+(define (divisivel? n i)
+  (zero? (remainder n i)))
 
 (define primo?-tests
   (test-suite
@@ -119,7 +119,7 @@
 ;; Natural -> Boolean
 ;; Devolve true se n é primo. false caso contrário.
 (define (primo? n)
-  (not (tem-divisor-entre-2-i? n (sub1 n))))
+  (not (e-divisivel-por<=i? n (sub1 n))))
 
 ;;;;;;;;;;;;;;;;;;;;
 ;; Funções para auxiliar nos testes
@@ -133,5 +133,5 @@
 ;; Chama a função para executar os testes.
 (executa-testes soma-tests
                 cria-lista-tests
-                tem-divisor-entre-2-i?-tests
+                e-divisivel-por<=i?-tests
                 primo?-tests)

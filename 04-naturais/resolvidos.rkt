@@ -7,7 +7,7 @@
 ;; Exercício 4.2
 
 ;; Natural -> Boolean
-;; Devolve true se a é par, falso caso contrário.
+;; Devolve #t se a é par, #f caso contrário.
 ;; Veja a função pré-defina even?
 (define par?-tests
   (test-suite
@@ -24,8 +24,8 @@
       (impar? (sub1 a))))
 
 ;; Natural -> Boolean
-;; Devolve true se a é ímpar, false caso contrário.
-; Veja a função pré-defina odd?
+;; Devolve #t se a é ímpar, #f caso contrário.
+;; Veja a função pré-defina odd?
 (define impar?-tests
   (test-suite
    "impar? tests"
@@ -45,9 +45,8 @@
 ;; Exercício 4.4
 
 ;; Natural -> Boolean
-;; Devolve true se n é um número perfeito, falso caso contrário.  Um número
-;; natural é perfeito se a soma dos seus divisores (menos ele mesmo) é igual ao
-;; número.
+;; Devolve #t se n é um número perfeito, #f caso contrário. Um número natural
+;; é perfeito se a soma dos seus divisores (menos ele mesmo) é igual ao número.
 (define perfeito?-tests
   (test-suite
    "perfeito? tests"
@@ -83,7 +82,7 @@
        [else (soma-divisores n (sub1 d))])]))
 
 ;; Natural Natural -> Boolean
-;; Devolve true se n é divisível por d, false caso contrário.
+;; Devolve #t se n é divisível por d, #f caso contrário.
 (define (divisivel? n d)
   (= (remainder n d) 0))
 

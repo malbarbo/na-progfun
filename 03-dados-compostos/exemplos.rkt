@@ -253,6 +253,18 @@
 ;;   - empty; ou
 ;;   - (arvore-bin v esq dir)onde v e o valor armazenado no nó e esq e dir são
 ;;     Árvores binárias
+;; Exemplos
+#; (define arvore-vazia empty)
+#; (define t1 (arvore-bin 3 empty empty))
+#; (define t2 (arvore-bin 9 t1 (arvore-bin 7 empty empty)))
+;; Modelo
+#;
+(define (fun-for-arvore-bin t)
+  (cond
+    [(empty? t) ...]
+    [else ... (arvore-bin-v t)
+          ... (fun-for-arvore-bin (arvore-bin-dir t))
+          ... (fun-for-arvore-bin (arvore-bin-esq t)) ...]))
 
 
 ;;;;;;;;;;;;;;;;;;;;
@@ -291,7 +303,7 @@
 ;; Arvore-Binaria -> Natural
 ;; Devolve a altura da árvore binária. A altura de uma árvore binária é a
 ;; distância da raiz a seu descendente mais afastado. Uma árvore com um único
-;; nó tem altura 0.
+;; nó tem altura 0. Uma árvore vazia tem altura -1.
 (define altura-tests
   (test-suite
    "altura tests"

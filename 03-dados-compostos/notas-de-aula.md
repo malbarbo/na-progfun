@@ -56,7 +56,7 @@ Introdução
 ```
 
 
-## Sintaxe de `struct`{.scheme}{.scheme}
+## Sintaxe de `struct`{.scheme}
 
 - Uma aproximação da sintaxe do `struct`{.scheme} é
 
@@ -121,7 +121,7 @@ Introdução
 
 ## Estruturas transparentes
 
-- Podemos usar a palavra chave `#:transparent` para tornar a estrutura
+- Podemos usar a palavra chave `#:transparent`{.scheme} para tornar a estrutura
   "transparente"
 
     ```scheme
@@ -137,8 +137,8 @@ Introdução
 
 ## Estruturas transparentes e a função `equal?`
 
-- Além de mudar a forma que o ponto é exibido, a palavra chave `#:transparent`
-  também altera o funcionamento da função `equal?`
+- Além de mudar a forma que o ponto é exibido, a palavra chave
+  `#:transparent`{.scheme} também altera o funcionamento da função `equal?`
 
 
 ## Estruturas transparentes e a função `equal?`
@@ -489,15 +489,16 @@ Defina uma função que conte a quantidade de elementos de uma lista.
 
 ## Listas
 
-- Modelo baseado na definição
 
-    ```scheme
-    (define (fun-for-list lst)
-      (cond
-        [(empty? lst) ...]
-        [else ... (first lst)
-              ... (fun-for-list (rest lst)) ... ]))
-    ```
+```scheme
+;; Modelo
+#;
+(define (fun-for-list lst)
+  (cond
+    [(empty? lst) ...]
+    [else ... (first lst)
+          ... (fun-for-list (rest lst)) ... ]))
+```
 
 
 ## Listas
@@ -562,7 +563,10 @@ Defina uma função que conte a quantidade de elementos de uma lista.
     é equivalente a
 
     ```scheme
-    (cons <a1> (cons <a2> (cons ... (cons <an> empty) ...)))
+    (cons <a1>
+          (cons <a2>
+                (cons ...
+                      (cons <an> empty) ...)))
     ```
 
 
@@ -613,18 +617,20 @@ Listas aninhadas
 
 ## Listas aninhadas
 
-- Modelo baseado na definição
 
-    ```scheme
-    (define (fun-for-lista-aninhada lst)
-      (cond
-        [(empty? lst) ...]
-        [(list? (first lst))
-         ... (fun-for-lista-aninhada (first lst))
-         ... (fun-for-lista-aninhada (rest lst)) ...]
-        [else ... (first lst)
-              ... (fun-for-lista-aninhada (rest lst)) ... ]))
-    ```
+```scheme
+;; Modelo
+#;
+(define (fun-for-lista-aninhada lst)
+  (cond
+    [(empty? lst) ...]
+    [(list? (first lst))
+     ... (fun-for-lista-aninhada (first lst))
+     ... (fun-for-lista-aninhada (rest lst)) ...]
+    [else
+     ... (first lst)
+     ... (fun-for-lista-aninhada (rest lst)) ... ]))
+```
 
 
 ## Exemplo 3.6
@@ -655,21 +661,21 @@ ordem da lista aninhada.
     - `empty`; ou
 
     - `(arvore-bin v esq dir)`, onde `v` é o valor armazenado no nó e `esq`
-        e `dir` são **Árvores binárias**
+      e `dir` são **Árvores binárias**
 
 
 ## Árvores binárias
 
-- Modelo baseado na definição
-
-    ```scheme
-    (define (fun-for-arvore-bin t)
-      (cond
-        [(empty? t) ...]
-        [else ... (arvore-bin-v t)
-              ... (fun-for-arvore-bin (arvore-bin-dir t))
-              ... (fun-for-arvore-bin (arvore-bin-esq t)) ...]))
-    ```
+```scheme
+;; Modelo
+#;
+(define (fun-for-arvore-bin t)
+  (cond
+    [(empty? t) ...]
+    [else ... (arvore-bin-v t)
+          ... (fun-for-arvore-bin (arvore-bin-dir t))
+          ... (fun-for-arvore-bin (arvore-bin-esq t)) ...]))
+```
 
 
 ## Exemplo 3.8
@@ -677,6 +683,7 @@ ordem da lista aninhada.
 Defina uma função que calcule a altura de uma árvore binária. A altura de uma
 árvore binária é a distância entre a raiz e o seu descendente mais afastado.
 Uma árvore com um único nó tem altura 0.
+
 
 
 Referências

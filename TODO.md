@@ -16,7 +16,7 @@
 
 - Atualizar urls
     - htdp 2 versão
-    - scheme-lang -> racket-lang
+    - onde aparece "scheme-lang", trocar por "racket-lang"
 
 - Mencionar linguagem lazy
 
@@ -25,3 +25,11 @@
 - Traduzir os termos "list comprehension" e "streams"?
 
 - Falar da forma . op .
+
+- Falar sobre comentários
+
+- Falar do append e outras funções de lista no cap 2 - dados compostos
+
+- Evitar copiar e colar. Tentar usar \only
+
+- Usar pigments para o código Racke

@@ -1,5 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: falar que a avaliação da expressão aritmética precisa usar '
 title: Dados compostos
 ---
 

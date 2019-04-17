@@ -35,8 +35,8 @@
   (test-suite
    "inverte tests"
    (check-equal? (inverte empty) empty)
-   (check-equal? (inverte '(2)) '(2))
-   (check-equal? (inverte '(2 8 9)) '(9 8 2))))
+   (check-equal? (inverte (list 2)) (list 2))
+   (check-equal? (inverte (list 2 8 9)) (list 9 8 2))))
 
 (define (inverte lst)
   (cond
@@ -55,11 +55,11 @@
   (test-suite
    "palindromo tests"
    (check-equal? (palindromo empty) #t)
-   (check-equal? (palindromo '(2)) #t)
-   (check-equal? (palindromo '(1 2)) #f)
-   (check-equal? (palindromo '(1 2 1)) #t)
-   (check-equal? (palindromo '(5 2 2 5)) #t)
-   (check-equal? (palindromo '(5 2 1 5)) #f)))
+   (check-equal? (palindromo (list 2)) #t)
+   (check-equal? (palindromo (list 1 2)) #f)
+   (check-equal? (palindromo (list 1 2 1)) #t)
+   (check-equal? (palindromo (list 5 2 2 5)) #t)
+   (check-equal? (palindromo (list 5 2 1 5)) #f)))
 
 (define (palindromo lst)
   (equal? lst (inverte lst)))
@@ -174,9 +174,8 @@
 (define (ordena lst)
   (cond
     [(empty? lst) empty]
-    [else
-     (insere-ordenado (first lst)
-                      (ordena (rest lst)))]))
+    [else (insere-ordenado (first lst)
+                           (ordena (rest lst)))]))
 
 
 ;;;;;;;;;;;;;;;;;;;;

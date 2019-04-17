@@ -7,19 +7,19 @@
 ;; Exemplo 5.1
 
 ;; Lista Lista -> Boolean
-;; Devolve true se lsta é prefixo de lstb. false caso contrário.
+;; Devolve #t se lsta é prefixo de lstb. #f caso contrário.
 ;;
 ;; É interessante deixar a tabela no código
 ;;
-;;                             lstb
-;;                  +-------------------------------+
-;;                  |   empty    | (cons ...)       |
-;;     +------------+-------------------------------+
-;;     |   empty    |           #t                  |
-;;lsta +------------+------------+------------------+
-;;     | (cons ...) |      #f    | primeiros iguais |
-;;     |            |            | recursão natural |
-;;     +------------+------------+------------------+
+;;                              lstb
+;;                   +-------------------------------+
+;;                   |   empty    | (cons ...)       |
+;;      +------------+-------------------------------+
+;;      |   empty    |           #t                  |
+;; lsta +------------+------------+------------------+
+;;      | (cons ...) |      #f    | primeiros iguais |
+;;      |            |            | recursão natural |
+;;      +------------+------------+------------------+
 (define prefixo?-tests
   (test-suite
    "prefixo? tests"

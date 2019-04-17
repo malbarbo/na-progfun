@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Combinação de templates
+title: Combinação de modelos
 ---
 
 #.  Utilizando apenas as funções primitivas `zero?`, `add1` e `sub1`, escreva

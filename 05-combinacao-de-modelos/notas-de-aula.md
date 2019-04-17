@@ -51,7 +51,7 @@ Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta`
     - `lstb` pode ser `empty` ou um `cons`
 
     - Como garantir que não vamos esquecer nenhum caso? \pause Fazendo uma
-      tabela
+      tabela!
 
 
 ## Exemplo 5.1
@@ -86,7 +86,7 @@ lsta +------------+------------+------------+
 ```
 
 ```scheme
-(check-equal? (prefixo? empty empty) true)
+(check-equal? (prefixo? empty empty) #t)
 ```
 
 
@@ -106,8 +106,8 @@ lsta +------------+------------+------------+
 ```
 
 ```scheme
-(check-equal? (prefixo? empty empty) true)
-(check-equal? (prefixo? empty (list 3 2 1)) true)
+(check-equal? (prefixo? empty empty) #t)
+(check-equal? (prefixo? empty (list 3 2 1)) #t)
 ```
 
 
@@ -127,9 +127,9 @@ lsta +------------+------------+------------+
 ```
 
 ```scheme
-(check-equal? (prefixo? empty empty) true)
-(check-equal? (prefixo? empty (list 3 2 1)) true)
-(check-equal? (prefixo? (list 3 2 1) empty) false)
+(check-equal? (prefixo? empty empty) #t)
+(check-equal? (prefixo? empty (list 3 2 1)) #t)
+(check-equal? (prefixo? (list 3 2 1) empty) #f)
 ```
 
 
@@ -205,7 +205,35 @@ lsta +------------+------------+------------+
                   +------------+--------------------+
                   |    empty   |     (cons ...)     |
      +------------+------------+--------------------+
-     |   empty    |     #t     |         #t         |
+     |   empty    |            |                    |
+lsta +------------+------------+--------------------+
+     | (cons ...) |            |                    |
+     |            |            |                    |
+     +------------+------------+--------------------+
+```
+
+
+## Exemplo 5.1
+
+\scriptsize
+
+```scheme
+(check-equal? (prefixo? empty empty) #t)
+(check-equal? (prefixo? empty (list 3 2 1)) #t)
+(check-equal? (prefixo? (list 3 2 1) empty) #f)
+(check-equal? (prefixo? (list 3 4) (list 3 4)) #t)
+(check-equal? (prefixo? (list 3 4) (list 3 5)) #f)
+(check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) #t)
+(check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) #f)
+(check-equal? (prefixo? (list 3 4 5) (list 3 4)) #f)
+```
+
+```text
+                             lstb
+                  +------------+--------------------+
+                  |    empty   |     (cons ...)     |
+     +------------+------------+--------------------+
+     |   empty    |     #t     |        #t          |
 lsta +------------+------------+--------------------+
      | (cons ...) |     #f     |  primeiros iguais  |
      |            |            | e recursão natural |

@@ -1,7 +1,6 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Cálculo Lambda
-num: "1"
-template: exercicios.tex
 ---
 
 #.  Avalie (reduza) as expressões a seguir.
@@ -62,7 +61,7 @@ template: exercicios.tex
 
         Não-fechada, pois $y$ é livre na abstração.
 
-#.  Verifique as equivalências a seguir considereando as construções aritméticas vistas em aula.
+#.  Verifique as equivalências a seguir considerando as construções aritméticas vistas em aula.
 
     #.  $S(S2) \equiv 4$
 

@@ -23,3 +23,5 @@
 - Falar de geração e tratamento de erros
 
 - Traduzir os termos "list comprehension" e "streams"?
+
+- Falar da forma . op .

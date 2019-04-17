@@ -1,5 +1,8 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: deixar claro o que colocar na definição de tipo
+# TODO: falar da simplificação de cond aninhados
+# TODO: verificar pq os modelos usam cond ao invés de if
 title: Dados compostos
 ---
 

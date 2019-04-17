@@ -87,8 +87,8 @@ title: Dados compostos
 #.  Defina uma função que avalie uma expressão aritmética em Racket que
     contenha apenas constantes. Cada operação precisa de exatamente
     2 parâmetros. Dica: crie uma definição (semelhante a de lista aninhada) que
-    represente expressões aritméticas, crie um template baseado na definição do
-    tipo e use o template para resolver o exercício.
+    represente expressões aritméticas, crie um modelo baseado na definição do
+    tipo e use o modelo para resolver o exercício.
 
     ```scheme
     > (avalie (list + (list * 3 (list - 4 5)) (list / 10 2))

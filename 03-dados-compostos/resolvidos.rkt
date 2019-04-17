@@ -170,7 +170,7 @@
    (check-equal? (ordena (list 1 9 5 -2 8 3))
                  (list -2 1 3 5 8 9))))
 
-;; Usando o template de função para listas implementamos o insertion-sort.
+;; Usando o modelo de função para listas implementamos o insertion-sort.
 (define (ordena lst)
   (cond
     [(empty? lst) empty]

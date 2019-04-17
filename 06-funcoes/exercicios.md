@@ -9,7 +9,7 @@ title: Funções
 
 #.  Analise os exemplos e exercícios de números naturais e defina uma função
     `reduz-num` (semelhante a função `reduz` feita em sala) que abstraia
-    o comportamento do template para funções com números naturais. Redefina as
+    o comportamento do modelo para funções com números naturais. Redefina as
     funções (que for possível) em termos de `reduz-num`. As novas funções
     ficaram mais simples?
 

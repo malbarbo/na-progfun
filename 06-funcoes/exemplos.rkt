@@ -9,7 +9,7 @@
 ;; contem-3?.
 
 ;; Lista(Número) -> Boolean
-;; Devolve verdadeiro se 5 está em lst. Falso caso contrário.
+;; Devolve #t se 5 está em lst, #f caso contrário.
 (define contem-5?-tests
   (test-suite
    "contem-5? tests"
@@ -24,13 +24,11 @@
 (define (contem-5? lst)
   (cond
     [(empty? lst) #f]
-    [else
-     (cond
-       [(= 5 (first lst)) #t]
-       [else (contem-5? (rest lst))])]))
+    [(= 5 (first lst)) #t]
+    [else (contem-5? (rest lst))]))
 
 ;; Lista(Número) -> Boolean
-;; Devolve verdadeiro se 3 está em lst. Falso caso contrário.
+;; Devolve #t se 3 está em lst, #f caso contrário.
 (define contem-3?-tests
   (test-suite
    "contem-3? tests"
@@ -45,22 +43,20 @@
 (define (contem-3? lst)
   (cond
     [(empty? lst) #f]
-    [else
-     (cond
-       [(= 3 (first lst)) #t]
-       [else (contem-3? (rest lst))])]))
+    [(= 3 (first lst)) #t]
+    [else (contem-3? (rest lst))]))
 
-;; Olhando para o corpo das funções contem-5? e contem-3?  observa-se que a
+;; Olhando para o corpo das funções contem-5? e contem-3? observa-se que a
 ;; única diferença é a ocorrência do valor 5 e 3.
 ;;
-;; Vamos abstrair estas duas funções e criar a função contem?  que além da
+;; Vamos abstrair estas duas funções e criar a função contem? que além da
 ;; lista, recebe como parâmetro n, que será usado no lugar do 5 (ou 3).
 ;;
 ;; Em seguida vamos reescrever as funções contem-5? e contem-3? em termos da
 ;; função contem?.
 
 ;; Número Lista(Número) -> Boolean
-;; Devolve verdadeiro se n está em lst. Falso caso contrário.
+;; Devolve #t se n está em lst, #f caso contrário.
 (define contem?-tests
   (test-suite
    "contem? tests"
@@ -73,10 +69,8 @@
 (define (contem? n lst)
   (cond
     [(empty? lst) #f]
-    [else
-     (cond
-       [(= n (first lst)) #t]
-       [else (contem? n (rest lst))])]))
+    [(= n (first lst)) #t]
+    [else (contem? n (rest lst))]))
 
 ;; Função contem-5? escrita em termos da função contem?
 (define (contem-5? lst)
@@ -190,7 +184,7 @@
 
 ;; Analisando o corpo das funções reduz e concatena, percebemos que o parâmetro
 ;; op deve ser cons e que o parâmetro base deve ser lst2. Desta forma,
-;; definimos contatena em termos de reduz.
+;; definimos concatena em termos de reduz.
 (define (concatena lst1 lst2)
   (reduz cons lst2 lst1))
 
@@ -287,7 +281,7 @@
 ;; lista-positivos e lista-pares.
 
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores positvos de lst.
+;; Devolve uma lista com os valores positivos de lst.
 (define lista-positivos-tests
   (test-suite
    "lista-positivos tests"
@@ -344,7 +338,7 @@
 ;; da função filtra.
 
 ;; (X -> Boolean) Lista(X) -> Lista(X)
-;; Devolve uma lista com todos os lementos de lst tal que pred é verdadeiro.
+;; Devolve uma lista com todos os elementos de lst tal que pred é verdadeiro.
 ;; Veja a função pré-definida filter.
 (define filtra-tests
   (test-suite

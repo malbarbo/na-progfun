@@ -4,7 +4,7 @@
 (require rackunit/text-ui)
 
 ;;;;;;;;;;;;;;;;;;;;
-;; Exercício 4.2
+;; Exercício 4.3
 
 ;; Natural -> Boolean
 ;; Devolve #t se a é par, #f caso contrário.
@@ -76,10 +76,8 @@
 (define (soma-divisores n d)
   (cond
     [(zero? d) 0]
-    [else
-     (cond
-       [(divisivel? n d) (+ d (soma-divisores n (sub1 d)))]
-       [else (soma-divisores n (sub1 d))])]))
+    [(divisivel? n d) (+ d (soma-divisores n (sub1 d)))]
+    [else (soma-divisores n (sub1 d))]))
 
 ;; Natural Natural -> Boolean
 ;; Devolve #t se n é divisível por d, #f caso contrário.

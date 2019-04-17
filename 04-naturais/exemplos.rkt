@@ -16,8 +16,8 @@
   (cond
     [(zero? n) ...]
     [else ...
-     n
-     (fun-for-natural (sub1 n))]))
+          n
+          (fun-for-natural (sub1 n))]))
 
 
 ;;;;;;;;;;;;;;;;;;;;
@@ -33,8 +33,8 @@
   (cond
     [(<= n a) ...]
     [else ...
-     n
-     (fun-for-inteiro>=a (sub1 n))]))
+          n
+          (fun-for-inteiro>=a (sub1 n))]))
 
 
 ;;;;;;;;;;;;;;;;;;;;

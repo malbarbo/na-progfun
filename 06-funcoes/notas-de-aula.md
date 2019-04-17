@@ -17,9 +17,12 @@ Introdução
 
     - Ausência de mudança de estado
 
-    - Recursão como forma de especificar iteração \pause
+    - Recursão como forma de especificar iteração
 
-- Veremos uma característica essencial do paradigma funcional
+
+## Introdução
+
+- Veremos a seguir outra característica essencial do paradigma funcional
 
     - Funções como entidades de primeira classe
 
@@ -52,7 +55,48 @@ Funções que recebem funções como parâmetro
 ## Exemplo 6.1
 
 Vamos fazer um exemplo simples. Vamos criar uma função que abstrai
-o comportamento das funções `contem-5?` e `contem-3?`.
+o comportamento das funções `contem-3?` e `contem-5?`.
+
+
+## Exemplo 6.1
+
+<div class="columns">
+<div class="column" width="50%">
+\small
+```scheme
+;; Lista(Número) -> Boolean
+;; Devolve #t se 3 está em lst,
+;; #f caso contrário.
+;; Exemplos
+;; ...
+;;
+(define (contem-3? lst)
+  (cond
+    [(empty? lst) #f]
+    [(= 3 (first lst)) #t]
+    [else (contem-3?
+            (rest lst))]))
+```
+</div>
+<div class="column" width="50%">
+\pause
+\small
+```scheme
+;; Lista(Número) -> Boolean
+;; Devolve #t se 5 está em lst,
+;; #f caso contrário.
+;; Exemplos
+;; ...
+;;
+(define (contem-5? lst)
+  (cond
+    [(empty? lst) #f]
+    [(= 5 (first lst)) #t]
+    [else (contem-5?
+            (rest lst))]))
+```
+</div>
+</div>
 
 
 ## Exemplo 6.2
@@ -71,18 +115,18 @@ Racket com o nome `foldr`.
 
 ```scheme
 ;; (X Y -> Y) Y Lista(X) -> Y
-;; (reduz f base (list x1 x2 ... xn) produz
+;; (foldr f base (list x1 x2 ... xn) produz
 ;; (f x1 (f x2 ... (f xn base)))
-(define (reduz f base lst)
+(define (foldr f base lst)
   (cond
     [(empty? lst) base]
     [else (f (first lst)
-             (reduz f base (rest lst)))]))
+             (foldr f base (rest lst)))]))
 
 ```
 
-\pause
-Exemplos de uso da função `foldr`
+
+## `foldr` - exemplos
 
 
 ```scheme
@@ -92,7 +136,6 @@ Exemplos de uso da função `foldr`
 '(7 2 18)
 > (foldr max 7 (list 7 2 18 -20))
 18
-
 ```
 
 
@@ -113,17 +156,17 @@ em Racket com o nome `map`.
 ```scheme
 ;; (X -> Y) Lista(X) -> Lista(Y)
 ;; Devolve uma lista aplicando f a cada elemento de lst, isto é
-;; (mapeia f (lista x1 x2 ... xn)) produz
+;; (map f (lista x1 x2 ... xn)) produz
 ;; (list (f x1) (f x2) ... (f xn))
-(define (mapeia f lst)
+(define (map f lst)
   (cond
     [(empty? lst) empty]
     [else (cons (f (first lst))
-                (mapeia f (rest lst)))]))
+                (map f (rest lst)))]))
 ```
 
-\pause
-Exemplos de uso da função `map`
+
+## `map` - exemplos
 
 
 ```scheme
@@ -153,20 +196,18 @@ Racket com o nome `filter`.
 
 ```scheme
 ;; (X -> Boolean) Lista(X) -> Lista(X)
-;; Devolve uma lista com todos os elementos de lst tal que pred?
-;; é verdadeiro.
+;; Devolve uma lista com todos os elementos de lst
+;; tal que pred? é verdadeiro.
 (define (filtra pred? lst)
   (cond
     [(empty? lst) empty]
-    [else
-     (cond
-       [(pred? (first lst))
-        (cons (first lst) (filtra pred (rest lst)))]
-       [else (filtra pred? (rest lst))])]))
+    [(pred? (first lst)) (cons (first lst)
+                               (filtra pred (rest lst)))]
+    [else (filtra pred? (rest lst))]))
 ```
 
-\pause
-Exemplos de uso da função `filter`
+
+## `filter` - exemplos
 
 ```scheme
 > (filter negative? (list 4 6 10))
@@ -181,27 +222,28 @@ Receita para criar abstração a partir de exemplos
 
 ## Receita para criar abstração a partir de exemplos
 
-O processo que usamos nestes exemplos foi o mesmo:
+1. Identificar funções com corpo semelhante
 
-- veja [Abstraction from examples](https://class.coursera.org/programdesign-001/wiki/view?page=AbstractionFromExamples) para detalhes
+    - Identificar o que muda
 
-1.  Identificar funções com corpo semelhante
+    - Criar parâmetros para o que muda
 
-    - identificar o que muda
+    - Copiar o corpo e substituir o que muda pelos parâmetros criados
 
-    - criar parâmetros para o que muda
+2. Escrever os testes
 
-    - copiar o corpo e substituir o que muda pelos parâmetros criados
+    - Reutilizar os testes das funções existentes
 
-2.  Escrever os testes
+3. Escrever o propósito
 
-    - reutilizar os testes das funções existentes
+4. Escrever a assinatura
 
-3.  Escrever o propósito
+5. Reescrever o código da funções iniciais em termos da nova função
 
-4.  Escrever a assinatura
 
-5.  Reescrever o código da funções iniciais em termos da nova função
+## Receita para criar abstração a partir de exemplos
+
+Veja [Abstraction from examples](https://class.coursera.org/programdesign-001/wiki/view?page=AbstractionFromExamples) para detalhes
 
 
 
@@ -273,8 +315,8 @@ Definições locais e fechamentos
 - Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambiente
   de referenciamento
 
-- Neste caso, quando `soma` é utilizada na chamada do `map` um fechamento
-  é passado como parâmetro
+- Neste caso, quando `soma` é utilizada na chamada do `map` um fechamento é
+  passado como parâmetro
 
 
 ## Definições locais e fechamentos
@@ -617,7 +659,7 @@ Currying
 
 ## Exemplo 6.9
 
-Defina uma função que implemente o algoritmo de ordenação quicksort.
+Defina uma função que implemente o algoritmo de ordenação _quicksort_.
 
 
 ## Quicksort
@@ -636,7 +678,14 @@ Defina uma função que implemente o algoritmo de ordenação quicksort.
                  (list -4 3 5 9 10))
    (check-equal? (quicksort (list 3 10 3 0 5 0 9))
                  (list 0 0 3 3 5 9 10))))
+```
 
+
+## Quicksort
+
+\small
+
+```scheme
 (define (quicksort lst)
   (if (empty? lst)
       empty

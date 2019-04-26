@@ -106,7 +106,7 @@
              (soma (rest lst)))]))
 
 ;; Lista(Número) -> Número
-;; Calula o produto dos números de uma lista.
+;; Calcula o produto dos números de uma lista.
 (define produto-tests
   (test-suite
    "produto tests"
@@ -133,7 +133,7 @@
 ;;
 ;; Em seguida vamos reescrever as funções soma e produto em termos de reduz.
 
-;; (X Y -> X) Y Lista(X) -> Y
+;; (X Y -> Y) Y Lista(X) -> Y
 ;; (reduz f base (list x1 x2 ... xn) devolve
 ;; (f x1 (f x2 ... (f xn base)))
 ;; Veja a função pré-definida foldr.
@@ -258,6 +258,7 @@
                  empty)
    (check-equal? (mapeia positive? (list 4 -1 2))
                  (list #t #f #t))))
+
 #;
 (define (mapeia f lst)
   (cond
@@ -297,11 +298,10 @@
 (define (lista-positivos lst)
   (cond
     [(empty? lst) empty]
+    [(positive? (first lst))
+     (cons (first lst) (lista-positivos (rest lst)))]
     [else
-     (cond
-       [(positive? (first lst))
-        (cons (first lst) (lista-positivos (rest lst)))]
-       [else (lista-positivos (rest lst))])]))
+     (lista-positivos (rest lst))]))
 
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com os valores positvos de lst.
@@ -320,11 +320,9 @@
 (define (lista-pares lst)
   (cond
     [(empty? lst) empty]
-    [else
-     (cond
-       [(even? (first lst))
-        (cons (first lst) (lista-pares (rest lst)))]
-       [else (lista-pares (rest lst))])]))
+    [(even? (first lst))
+     (cons (first lst) (lista-pares (rest lst)))]
+    [else (lista-pares (rest lst))]))
 
 ;; Olhando para o corpo das funções lista-positivos e lista-pares observa-se
 ;; que a única diferença é a ocorrência da função positive? e even?.
@@ -338,7 +336,7 @@
 ;; da função filtra.
 
 ;; (X -> Boolean) Lista(X) -> Lista(X)
-;; Devolve uma lista com todos os elementos de lst tal que pred é verdadeiro.
+;; Devolve uma lista com todos os elementos x de lst tal que (pred x) é #t.
 ;; Veja a função pré-definida filter.
 (define filtra-tests
   (test-suite
@@ -352,11 +350,9 @@
 (define (filtra pred? lst)
   (cond
     [(empty? lst) empty]
-    [else
-     (cond
-       [(pred? (first lst))
-        (cons (first lst) (filtra pred? (rest lst)))]
-       [else (filtra pred? (rest lst))])]))
+    [(pred? (first lst))
+     (cons (first lst) (filtra pred? (rest lst)))]
+    [else (filtra pred? (rest lst))]))
 
 ;; Função lista-positivos escrita em termos de filtra.
 (define (lista-positivos lst)

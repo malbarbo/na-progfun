@@ -1,4 +1,6 @@
 ---
+# TODO: colocar o código lado a lado e a generalização
+# TODO: explicar como a anotação de tipo de função funciona
 # vim: set spell spelllang=pt_br sw=4:
 title: Funções
 ---
@@ -99,6 +101,22 @@ o comportamento das funções `contem-3?` e `contem-5?`.
 </div>
 
 
+## Exemplo 6.1
+
+- Podemos observar que o corpo das funções `contem-3?` e `contem-5?` são semelhantes
+
+- Podemos criamos uma função que abstrai o comportamento de `contem-3?`
+  e `contem-5?` criando um parâmetro para o que muda no corpo, isto é
+
+    ```scheme
+    (define (contem? n lst)
+      (cond
+        [(empty? lst) #f]
+        [(= n (first lst)) #t]
+        [else (contem? n (rest lst))]))
+    ```
+
+
 ## Exemplo 6.2
 
 De maneira semelhante ao exemplo 6.1, vamos criar uma função que abstrai
@@ -155,7 +173,8 @@ em Racket com o nome `map`.
 
 ```scheme
 ;; (X -> Y) Lista(X) -> Lista(Y)
-;; Devolve uma lista aplicando f a cada elemento de lst, isto é
+;; Devolve uma lista aplicando f a cada elemento de lst,
+;; isto é
 ;; (map f (lista x1 x2 ... xn)) produz
 ;; (list (f x1) (f x2) ... (f xn))
 (define (map f lst)
@@ -197,7 +216,7 @@ Racket com o nome `filter`.
 ```scheme
 ;; (X -> Boolean) Lista(X) -> Lista(X)
 ;; Devolve uma lista com todos os elementos de lst
-;; tal que pred? é verdadeiro.
+;; tal que pred? é #t.
 (define (filtra pred? lst)
   (cond
     [(empty? lst) empty]
@@ -284,6 +303,8 @@ Definições locais e fechamentos
       (map soma lst))
     ```
 
+- Este tipo de definição é chamada de **definição interna**
+
 
 ## Definições locais e fechamentos
 
@@ -297,17 +318,20 @@ Definições locais e fechamentos
       (map soma lst))
     ```
 
-- Observe que `soma` utiliza a variável livre `n`
+- Observe que `soma` utiliza a variável `n`
 
 
 ## Definições locais e fechamentos
 
-- Uma **variável livre** é aquela que não foi declarada localmente (dentro da
-  função) e não é um parâmetro
+- Uma **variável livre** em relação a uma função é aquela que não é um
+  parâmetro da função e nem foi declarada localmente dentro da função
 
 - Como `soma` pode ser usada fora do contexto que ela foi declarada (como
   quando ela for executada dentro da função `map`), soma deve "levar" junto com
-  ela o ambiente de referenciamento
+  ela as variáveis livres
+
+
+## Definições locais e fechamentos
 
 - **Ambiente de referenciamento** é uma tabela com as referências para as
   variáveis livres
@@ -324,7 +348,12 @@ Definições locais e fechamentos
 - Definições internas também são usadas para evitar computar a mesma expressão
   mais que uma vez
 
-- Exemplo de função que remove os elementos consecutivos iguais
+
+## Definições locais e fechamentos
+
+- Considere por exemplo esta função que remove os elementos consecutivos iguais
+
+    \small
 
     ```scheme
     (define (remove-duplicados lst)
@@ -339,8 +368,8 @@ Definições locais e fechamentos
                    (remove-duplicados (rest lst))))]))
     ```
 
-- Observe que as expressões `(first lst)` e `(remove-duplicados (rest lst))`
-  são computadas duas vezes
+- As expressões `(first lst)` e `(remove-duplicados (rest lst))` são computadas
+  duas vezes
 
 
 ## Definições locais e fechamentos
@@ -362,16 +391,19 @@ Definições locais e fechamentos
 
 - Desta forma as expressões são computadas apenas uma vez
 
-- O `define` não pode ser usado em alguns lugares, como por exemplo no
-  consequente (ou alternativa) do `if`
 
-- Em geral utilizamos `define` apenas no início da função, em outros lugares
-  utilizamos a forma especial `let`
+## Definições locais e fechamentos
+
+- O `define`{.scheme} não pode ser usado em alguns lugares, como por exemplo no
+  consequente ou alternativa do `if`{.scheme}
+
+- Em geral utilizamos `define`{.scheme} apenas no início da função, em outros
+  lugares utilizamos a forma especial `let`{.scheme}
 
 
 ## Definições locais e fechamentos
 
-- A sintaxe do `let` é
+- A sintaxe do `let`{.scheme} é
 
     ```scheme
     (let ([var1 exp1]
@@ -381,21 +413,24 @@ Definições locais e fechamentos
       corpo)
     ```
 
-- Os nomes `var1`, `var2`, ..., são locais ao `let`, ou seja, são visíveis
-  apenas no corpo do `let`
+- Os nomes `var1`, `var2`, ..., são locais ao `let`{.scheme}, ou seja, são
+  visíveis apenas no corpo do `let`{.scheme}
 
-- O resultado da avaliação do `corpo` é o resultado da expressão `let`
-
-- No `let` os nomes que estão sendo definidos não podem ser usados nas
-  definições dos nomes seguintes, por exemplo, não é possível utilizar o nome
-  `var1` na expressão de `var2`
-
-- `let*` não tem essa limitação
+- O resultado da avaliação do `corpo` é o resultado da expressão `let`{.scheme}
 
 
 ## Definições locais e fechamentos
 
-- Definições internas com o `let`
+- No `let`{.scheme} os nomes que estão sendo definidos não podem ser usados nas
+  definições dos nomes seguintes, por exemplo, não é possível utilizar o nome
+  `var1` na expressão de `var2`
+
+- `let*`{.scheme} não tem essa limitação
+
+
+## Definições locais e fechamentos
+
+- Definições internas com o `let`{.scheme}
 
     ```scheme
     (define (remove-duplicados lst)
@@ -420,7 +455,8 @@ Defina a função `mapeia` em termos da função `reduz`.
 
 ```scheme
 (define (mapeia f lst)
-  (define (cons-f e lst) (cons (f e) lst))
+  (define (cons-f e lst)
+    (cons (f e) lst))
   (reduz cons-f empty lst))
 ```
 
@@ -449,6 +485,9 @@ Funções anônimas
   nomeá-las, também podemos utilizar expressões que resultam em funções sem
   precisar nomeá-las
 
+
+## Funções anônimas
+
 - Quando fazemos um `define` de uma função, estamos especificando duas coisas:
   **a função** e **o nome da função**. Quando escrevemos
 
@@ -470,29 +509,33 @@ Funções anônimas
 
 ## Funções anônimas
 
-- `lambda` é a forma especial usada para especificar funções. A sintaxe do
-  `lambda` é
+- `lambda`{.scheme} é a forma especial usada para especificar funções.
+  A sintaxe do `lambda`{.scheme} é
 
-    - `(lambda (parametros ...) corpo)`
+    ```scheme
+    (lambda (parametros ...)
+        corpo)
+    ```
 
-- Em vez de utilizar a palavra `lambda`, podemos utilizar a letra $\lambda$
+- Em vez de utilizar a palavra `lambda`{.scheme}, podemos utilizar a letra $\lambda$
   (\keys{\ctrl + \textbackslash} no DrRacket)
 
-- Mas como e quando utilizar uma função anônima?
+
+## Funções anônimas
+
+- Como e quando utilizar uma função anônima?
 
     - Como parâmetro, quando a função for pequena e necessária apenas naquele
       local
 
+        ```scheme
+        > (map (λ (x) (* x 2)) (list 3 8 -6))
+        '(6 16 -12)
+        > (filter (λ (x) (< x 10)) (list 3 20 -4 50))
+        '(3 -4)
+        ```
+
     - Como resultado de função
-
-- Exemplos
-
-    ```scheme
-    > (map (λ (x) (* x 2)) (list 3 8 -6))
-    '(6 16 -12)
-    > (filter (λ (x) (< x 10)) (list 3 20 -4 50))
-    '(3 -4)
-    ```
 
 
 
@@ -501,7 +544,7 @@ Funções que produzem funções
 
 ## Funções que produzem funções
 
-- Como identificar a necessidade de criar (utilizar) funções que produzem
+- Como identificar a necessidade de criar e utilizar funções que produzem
   funções?
 
     - Parametrizar a criação de funções fixando alguns parâmetros
@@ -539,8 +582,8 @@ seu argumento a $n$.
 
 ```scheme
 ;; Número -> (Número -> Número)
-;; Devolve uma função que recebe uma parâmetro x e faz a soma
-;; de n e x.
+;; Devolve uma função que recebe uma parâmetro x
+;; e faz a soma de n e x.
 (define somador-tests
   (test-suite
    "somador tests"
@@ -548,10 +591,23 @@ seu argumento a $n$.
    (check-equal? ((somador -2) 8) 6)))
 
 ;; Vesão com função nomeada.
-;;(define (somador n)
-;;  (define (soma x)
-;;    (+ n x))
-;;  soma)
+(define (somador n)
+  (define (soma x)
+    (+ n x))
+  soma)
+```
+
+## Resultado exemplo 6.7
+
+```scheme
+;; Número -> (Número -> Número)
+;; Devolve uma função que recebe uma parâmetro x
+;; e faz a soma de n e x.
+(define somador-tests
+  (test-suite
+   "somador tests"
+   (check-equal? ((somador 4) 3) 7)
+   (check-equal? ((somador -2) 8) 6)))
 
 ;; Versão com função anônima.
 (define (somador n)
@@ -585,8 +641,8 @@ verdadeiro ou falso) e retorne uma função que retorna a negação do predicado
 
 ```scheme
 ;; (X -> Boolean) -> (X -> Boolean)
-;; Devolve uma função que é semelhante a pred, mas que devolve a
-;; negação do resultado de pred.
+;; Devolve uma função que é semelhante a pred,
+;; mas que devolve a  negação do resultado de pred.
 ;; Veja a função pré-definida negate.
 (define nega-tests
   (test-suite
@@ -617,7 +673,10 @@ Currying
   apenas ao primeiro argumento e mais tarde ao segundo argumento, resultando no
   valor esperado
 
-- Isso pode ser alcançado criando funções com currying:
+
+## Currying
+
+- Exemplo
 
     ```scheme
     > (define f (λ (x) (λ (y) (* x y)))
@@ -637,6 +696,9 @@ Currying
     - `curry` fixa os argumentos da esquerda para direita
 
     - `curryr` fixa os argumentos da direita para esquerda
+
+
+## `curry` e `curryr`
 
 -  Exemplos
 

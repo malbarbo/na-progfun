@@ -160,7 +160,7 @@
 ;; criamos a função reduz-acc baseado nas funções (com acumulador)
 ;; tamanho, soma e inverte.
 
-;; (X Y -> X) Y Lista(X) -> Y
+;; (X Y -> Y) Y Lista(X) -> Y
 ;; (reduz-acc f base (list x1 x2 ... xn) devolve
 ;; (fn xn ... (f2 x2 (f x1 base)))
 ;; Veja a função pré-definida foldl.

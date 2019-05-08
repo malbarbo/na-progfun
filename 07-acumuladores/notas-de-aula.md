@@ -1,5 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: adicionar exemplos para a chamada da função com acumuladores
 title: Acumuladores
 ---
 
@@ -28,11 +29,13 @@ origem
 
 ## Exemplo 7.1
 
+\small
+
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Converte uma lista de distâncias relativas para uma lista de
-;; distâncias absolutas. O primeito item da lista representa a
-;; distância da origem.
+;; Converte uma lista de distâncias relativas para uma lista
+;; de distâncias absolutas. O primeito item da lista
+;; representa a distância da origem.
 (define relativa->absoluta-tests
   (test-suite
    "relativa->absoluta tests"
@@ -41,7 +44,10 @@ origem
                  (list 50 90 160 190 220))))
 ```
 
-\pause
+
+## Exemplo 7.1
+
+\small
 
 ```scheme
 (define (relativa->absoluta lst)
@@ -82,7 +88,7 @@ origem
 
 ## Exemplo 7.1
 
-- Como seria a avaliação de `(rel->abs (list 3 2 7))`? \pause
+- Como seria a avaliação de `(rel->abs (list 3 2 7))`{.scheme}? \pause
 
     ```scheme
     (rel->abs (list 3 2 7))
@@ -93,10 +99,10 @@ origem
         (converte (list 7))))
     ```
 
-- O primeiro item da lista deve ser 3, e é fácil calcular este item. Mas o
-  segundo item deve ser `(+ 3 2)` e a segunda chamada de `rel->abs` não tem
-  como "saber" qual era o valor do primeiro item da lista. Este "conhecimento"
-  foi perdido.
+- O primeiro item da lista deve ser `3`{.scheme}, e é fácil calcular este item.
+  Mas o segundo item deve ser `(+ 3 2)`{.scheme} e a segunda chamada de
+  `rel->abs` não tem como "saber" qual era o valor do primeiro item da lista.
+  Este "conhecimento" foi perdido.
 
 
 ## Exemplo 7.1
@@ -106,20 +112,26 @@ origem
 
 - Conforme os números da lista são processados, eles são somados a `acc-dist`
 
-- O valor inicial de `acc-dist` precisa ser 0, então definimos `rel->abs` como
-  uma função local e fazemos a chamada inicial com `acc-dist` apropriado \pause
+- O valor inicial de `acc-dist` precisa ser `0`{.scheme}, então definimos
+  `rel->abs` como uma função local e fazemos a chamada inicial com `acc-dist`
+  apropriado
 
-    ```scheme
-    (define (relativa->absoluta lst0)
-      (define (rel->abs lst acc-dist)
-        (cond
-          [(empty? lst) empty]
-          [else
-           (cons (+ (first lst) acc-dist)
-                 (rel->abs (rest lst)
-                           (+ (first lst) acc-dist)))]))
-      (rel->abs lst0 0))
-    ```
+
+## Exemplo 7.1
+
+\small
+
+```scheme
+(define (relativa->absoluta lst0)
+  (define (rel->abs lst acc-dist)
+    (cond
+      [(empty? lst) empty]
+      [else
+       (cons (+ (first lst) acc-dist)
+             (rel->abs (rest lst)
+                       (+ (first lst) acc-dist)))]))
+  (rel->abs lst0 0))
+```
 
 
 ## Falta de contexto na recursão
@@ -153,45 +165,88 @@ Processos iterativos e recursivos
           (soma-alt (add1 a) (sub1 b))))
     ```
 
-- Qual é o processo gerado quando cada função é avaliada com os parâmetros 4 3?
+- Qual é o processo gerado quando cada função é avaliada com os parâmetros
+  `4`{.scheme} e `3`{.scheme}?
 
 
 ## Processos iterativos e recursivos
 
-- Processo gerado pela expressão `(soma 4 3)`
+<div class="columns">
+<div class="column" width="40%">
+\small
+```scheme
+(define (soma a b)
+  (if (zero? b)
+      a
+      (add1
+       (soma a (sub1 b)))))
+```
+</div>
+<div class="column" width="10%">
+</div>
+<div class="column" width="50%">
+\small
 
-    ```scheme
-    (soma 4 3)
-    (add1 (soma 4 2))
-    (add1 (add1 (soma 4 1)))
-    (add1 (add1 (add1 (soma 4 0))))
-    (add1 (add1 (add1 4)))
-    (add1 (add1 5))
-    (add1 6)
-    7
-    ```
+```
+```
 
-- Este processo, caracterizado por uma sequência de operações adiadas é chamado
-  de **processo recursivo**. Tem um padrão de "cresce e diminui"
+`(soma 4 3)`{.scheme} \pause \newline
+`(add1 (soma 4 2))`{.scheme} \pause \newline
+`(add1 (add1 (soma 4 1)))`{.scheme} \pause \newline
+`(add1 (add1 (add1 (soma 4 0))))`{.scheme} \pause \newline
+`(add1 (add1 (add1 4)))`{.scheme} \pause \newline
+`(add1 (add1 5))`{.scheme} \pause \newline
+`(add1 6)`{.scheme} \pause \newline
+`7`{.scheme} \pause
+</div>
+</div>
+
+\vspace{5mm}
+
+Este é um **processo recursivo**
+
+Ele caracterizado por uma sequência de operações adiadas e tem um padrão de
+"cresce e diminui"
+
+
+## Processos iterativos e recursivos
+<div class="columns">
+<div class="column" width="60%">
+\small
+```scheme
+(define (soma-alt a b)
+  (if (zero? b)
+      a
+      (soma-alt (add1 a) (sub1 b))))
+```
+</div>
+<div class="column" width="30%">
+\small
+
+```
+```
+
+`(soma-alt 4 3)`{.scheme} \pause \newline
+`(soma-alt 5 2)`{.scheme} \pause \newline
+`(soma-alt 6 1)`{.scheme} \pause \newline
+`(soma-alt 7 0)`{.scheme} \pause \newline
+`7`{.scheme} \pause
+
+</div>
+</div>
+
+\vspace{5mm}
+
+Este é um **processo iterativo**
+
+O "espaço" necessário para fazer a substituição não depende do tamanho da
+entrada
 
 
 ## Processos iterativos e recursivos
 
-- Processo gerado pela expressão `(soma-alt 4 3)`
-
-    ```scheme
-    (soma-alt 4 3)
-    (soma-alt 5 2)
-    (soma-alt 6 1)
-    (soma-alt 7 0)
-    7
-    ```
-
-- Este processo é chamado de **processo iterativo**. O "espaço" necessário para
-  fazer a substituição não depende do tamanho da entrada
-
-- Neste exemplo, o valor de `a` foi usado como um acumulador, que armazena a
-  soma parcial
+- Na avaliação da expressão `(soma-alt 4 3)`{.scheme} no exemplo anterior, o
+  valor de `a` foi usado como um acumulador, armazenando a soma parcial
 
 - O uso de acumulador neste problema reduziu o uso de memória
 
@@ -209,13 +264,16 @@ Recursão em cauda
 - Uma **função recursiva em cauda** é aquela em que todas as chamadas
   recursivas são em cauda
 
+
+## Recursão em cauda
+
 - A forma de criar processos iterativos em linguagens funcionais é utilizando
   recursão em cauda
 
 - Os compiladores/interpretadores de linguagens funcionais otimizam as
   recursões em cauda de maneira que não é necessário manter a pilha da chamada
   recursiva, o que torna a recursão tão eficiente quanto um laço em uma
-  linguagem imperativa.  Esta técnica é chamada de **eliminação da chamada em
+  linguagem imperativa. Esta técnica é chamada de **eliminação da chamada em
   cauda**
 
 
@@ -248,135 +306,153 @@ Projetando funções com acumuladores
 
 ## Exemplo 7.2
 
-- Tamanho de uma lista
+\small
 
-    ```scheme
-    ;; Lista -> Natural
-    ;; Conta a quantidade de elementos de uma lista.
-    (define tamanho-tests
-      (test-suite
-       "tamanho tests"
-       (check-equal? (tamanho empty) 0)
-       (check-equal? (tamanho (list 4)) 1)
-       (check-equal? (tamanho (list 4 7)) 2)
-       (check-equal? (tamanho (list 4 8 -4)) 3)))
+```scheme
+;; Lista -> Natural
+;; Conta a quantidade de elementos de uma lista.
+(define tamanho-tests
+  (test-suite
+   "tamanho tests"
+   (check-equal? (tamanho empty) 0)
+   (check-equal? (tamanho (list 4)) 1)
+   (check-equal? (tamanho (list 4 7)) 2)
+   (check-equal? (tamanho (list 4 8 -4)) 3)))
 
-    (define (tamanho lst)
-      (cond
-        [(empty? lst) 0]
-        [else (add1 (tamanho (rest lst)))]))
-    ```
+(define (tamanho lst)
+  (cond
+    [(empty? lst) 0]
+    [else (add1 (tamanho (rest lst)))]))
+```
 
-- Como o tamanho da resposta não depende do tamanho da entrada, esta função
-  está usando mais memória do que é necessário, portanto ela pode beneficiar-se
-  do uso de acumuladores
+## Exemplo 7.2
+
+- Existe algum benefício em utilizar acumulador? \pause
+
+    - Como o tamanho da resposta não depende do tamanho da entrada, esta função
+      está usando mais memória do que é necessário, portanto ela pode
+      beneficiar-se do uso de acumuladores \pause
+
+- Qual o significado do acumulador? \pause
+
+    - O conhecimento que se perde na chamada recursiva é a quantidade de
+      elementos já "vistos"
+
+    - Portanto, vamos criar um acumulador que representa esta quantidade
 
 
 ## Exemplo 7.2
 
-- O conhecimento que se perde na chamada recursiva é a quantidade de elementos
-  já "vistos"
-
-- Vamos criar um acumulador que representa esta quantidade \pause
-
-    ```scheme
-    (define (tamanho lst0)
-      (define (iter lst acc)
-        (cond
-          [(empty? lst) acc]
-          [else (iter (rest lst) (add1 acc))]))
-      (iter lst0 0))
-    ```
+```scheme
+(define (tamanho lst0)
+  (define (iter lst acc)
+    (cond
+      [(empty? lst) acc]
+      [else (iter (rest lst) (add1 acc))]))
+  (iter lst0 0))
+```
 
 
 ## Exemplo 7.3
 
-- Soma dos elementos de uma lista
+\small
 
-    ```scheme
-    ;; Lista(Número) -> Número
-    ;; Soma os números de uma lista.
-    (define soma-tests
-      (test-suite
-       "soma tests"
-       (check-equal? (soma empty)0)
-       (check-equal? (soma (list 3)) 3)
-       (check-equal? (soma (list 3 5)) 8)
-       (check-equal? (soma (list 3 5 -2)) 6)))
+```scheme
+;; Lista(Número) -> Número
+;; Soma os números de uma lista.
+(define soma-tests
+  (test-suite
+   "soma tests"
+   (check-equal? (soma empty)0)
+   (check-equal? (soma (list 3)) 3)
+   (check-equal? (soma (list 3 5)) 8)
+   (check-equal? (soma (list 3 5 -2)) 6)))
 
-    (define (soma lst)
-      (cond
-        [(empty? lst) 0]
-        [else (+ (first lst)
-                 (soma (rest lst)))]))
-    ```
-
-- Como o tamanho da resposta não depende do tamanho da entrada, esta função
-  está usando mais memória do que é necessário, portanto ela pode beneficiar-se
-  do uso de acumuladores
+(define (soma lst)
+  (cond
+    [(empty? lst) 0]
+    [else (+ (first lst)
+             (soma (rest lst)))]))
+```
 
 
 ## Exemplo 7.3
 
-- O conhecimento que se perde na chamada recursiva é a soma dos elementos já
-  "vistos"
+- Existe algum benefício em utilizar acumulador? \pause
 
-- Vamos criar um acumulador que representa esta quantidade \pause
+    - Como o tamanho da resposta não depende do tamanho da entrada, esta função
+      está usando mais memória do que é necessário, portanto ela pode
+      beneficiar-se do uso de acumuladores \pause
 
-    ```scheme
-    (define (soma lst0)
-      (define (iter lst acc)
-        (cond
-          [(empty? lst) acc]
-          [else (iter (rest lst) (+ (first lst) acc))]))
-      (iter lst0 0))
-    ```
+- Qual o significado do acumulador? \pause
+
+    - O conhecimento que se perde na chamada recursiva é a soma dos elementos
+      já "vistos"
+
+    - Portanto, vamos criar um acumulador que representa este valor
 
 
-## Exemplo 7.4
+## Exemplo 7.3
 
-- Inversão de uma lista
-
-    ```scheme
-    ;; Lista -> Lista
-    ;; Inverte a ordem dos elmentos de lst.
-    (define inverte-tests
-      (test-suite
-       "inverte tests"
-       (check-equal? (inverte empty) empty)
-       (check-equal? (inverte (list 2)) (list 2))
-       (check-equal? (inverte (list 2 8 9)) (list 9 8 2))))
-
-    (define (inverte lst)
-      (cond
-        [(empty? lst) empty]
-        [else (append (inverte (rest lst))
-                      (list (first lst)))]))
-    ```
-
-- Neste caso a função é mais complicada do que o necessário. Isto porque o
-  resultado da chamada recursiva é processada por outra função recursiva
-  (`append`). Além disso, o tempo de execução desta função é $\Theta(n^2)$ (o
-  que intuitivamente é muito para inverter uma lista)
+```scheme
+(define (soma lst0)
+  (define (iter lst acc)
+    (cond
+      [(empty? lst) acc]
+      [else (iter (rest lst) (+ (first lst) acc))]))
+  (iter lst0 0))
+```
 
 
 ## Exemplo 7.4
 
-- O conhecimento que se perde na chamada recursiva são os elementos que já
-  foram "vistos"
+\small
 
-- Vamos criar um acumulador que representa os elementos já vistos (uma lista)
-  \pause
+```scheme
+;; Lista -> Lista
+;; Inverte a ordem dos elmentos de lst.
+(define inverte-tests
+  (test-suite
+   "inverte tests"
+   (check-equal? (inverte empty) empty)
+   (check-equal? (inverte (list 2)) (list 2))
+   (check-equal? (inverte (list 2 8 9)) (list 9 8 2))))
 
-    ```scheme
-    (define (inverte lst0)
-      (define (iter lst acc)
-        (cond
-          [(empty? lst) acc]
-          [else (iter (rest lst)
-                      (cons (first lst) acc))]))
-      (iter lst0 empty))
-    ```
+(define (inverte lst)
+  (cond
+    [(empty? lst) empty]
+    [else (append (inverte (rest lst))
+                  (list (first lst)))]))
+```
+
+## Exemplo 7.4
+
+- Existe algum benefício em utilizar acumulador? \pause
+
+    - Neste caso a função é mais complicada do que o necessário. Isto porque o
+      resultado da chamada recursiva é processada por outra função recursiva
+      (`append`). Além disso, o tempo de execução desta função é $\Theta(n^2)$
+      (o que intuitivamente é muito para inverter uma lista) \pause
+
+- Qual o significado do acumulador? \pause
+
+    - O conhecimento que se perde na chamada recursiva são os elementos que já
+      foram "vistos"
+
+    - Vamos criar um acumulador que representa os elementos já vistos (uma lista)
+
+
+## Exemplo 7.4
+
+```scheme
+(define (inverte lst0)
+  (define (iter lst acc)
+    (cond
+      [(empty? lst) acc]
+      [else (iter (rest lst)
+                  (cons (first lst) acc))]))
+  (iter lst0 empty))
+```
 
 
 Função `foldl`
@@ -384,53 +460,69 @@ Função `foldl`
 
 ## Função `foldl`
 
-- Observe a semelhanças das funções tamanho, soma e inverte
-
-    ```scheme
-    (define (tamanho lst0)
-      (define (iter lst acc)
-        (cond
-          [(empty? lst) acc]
-          [else (iter (rest lst) (add1 acc))]))
-      (iter lst0 0))
-
-    (define (soma lst0)
-      (define (iter lst acc)
-        (cond
-          [(empty? lst) acc]
-          [else (iter (rest lst) (+ (first lst) acc))]))
-      (iter lst0 0))
-
-    (define (inverte lst0)
-      (define (iter lst acc)
-        (cond
-          [(empty? lst) acc]
-          [else (iter (rest lst) (cons (first lst) acc))]))
-      (iter lst0 empty))
-    ```
+- Vamos observar as semelhanças das funções `tamanho`, `soma` e `inverte`
 
 
 ## Função `foldl`
 
-- Vamos criar uma função chamada `reduz-acc` que abstrai este comportamento
-  \pause
-
-    ```scheme
-    ;; (X Y -> X) Y Lista(X) -> Y
-    ;; (reduz-acc f base (list x1 x2 ... xn) devolve
-    ;; (f xn ... (f x2 (f x1 base)))
-    ;; Veja a função pré-definida foldl.
-    (define (reduz-acc f base lst0)
-      (define (iter lst acc)
-        (cond
-          [(empty? lst) acc]
-          [else (iter (rest lst)
-                      (f (first lst) acc))]))
-      (iter lst0 base))
-    ```
+```scheme
+(define (tamanho lst0)
+  (define (iter lst acc)
+    (cond
+      [(empty? lst) acc]
+      [else (iter (rest lst) (add1 acc))]))
+  (iter lst0 0))
+```
 
 
-## Função foldl
+## Função `foldl`
+
+```scheme
+(define (soma lst0)
+  (define (iter lst acc)
+    (cond
+      [(empty? lst) acc]
+      [else (iter (rest lst) (+ (first lst) acc))]))
+  (iter lst0 0))
+```
+
+
+## Função `foldl`
+
+```scheme
+(define (inverte lst0)
+  (define (iter lst acc)
+    (cond
+      [(empty? lst) acc]
+      [else (iter (rest lst) (cons (first lst) acc))]))
+  (iter lst0 empty))
+```
+
+
+## Função `foldl`
+
+- Vamos criar uma função chamada `reduz-acc` (pré-definida em Racket com o nome
+  `foldl`) que abstrai este comportamento
+
+
+## Função `foldl`
+
+```scheme
+;; (X Y -> Y) Y Lista(X) -> Y
+;; (reduz-acc f base (list x1 x2 ... xn) devolve
+;; (f xn ... (f x2 (f x1 base)))
+;; Veja a função pré-definida foldl.
+(define (reduz-acc f base lst0)
+  (define (iter lst acc)
+    (cond
+      [(empty? lst) acc]
+      [else (iter (rest lst)
+                  (f (first lst) acc))]))
+  (iter lst0 base))
+```
+
+
+## Função `foldl`
 
 - Redefinimos as funções em termos de `reduz-acc`
 
@@ -446,6 +538,7 @@ Função `foldl`
     (define (inverte lst)
       (reduz-acc cons empty lst))
     ```
+
 
 
 `foldr` vs `foldl`

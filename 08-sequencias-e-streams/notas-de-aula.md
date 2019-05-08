@@ -15,6 +15,9 @@ Sequências
 
 - Sequências são geralmente utilizadas com as formas sintáticas `for`
 
+
+## Sequências
+
 - Tipos que são sequências
 
     - Listas
@@ -49,7 +52,8 @@ List comprehension
 
     - $T = \{2x\ |\ x \in 1..10, x^2 > 8\}$
 
-\pause
+
+## List comprehension
 
 - Em Racket temos a forma sintática especial `for/list`
 
@@ -83,6 +87,9 @@ List comprehension
            | #:unless boolean-expr
     ```
 
+
+## List comprehension
+
 - É possível fazer uma iteração em paralelo em duas ou mais sequências
 
     ```scheme
@@ -115,11 +122,12 @@ List comprehension
     - `stop-afer`
 
     - Veja a [referência](http://docs.scheme-lang.org/reference/sequences.html)
-        sobre sequências
+      sobre sequências
 
 - O Racket oferece ainda uma coleção de formas especiais para fazer iteração em
   sequências, veja a
   [referência](http://docs.scheme-lang.org/reference/for.html) sobre iterações
+
 
 
 Streams
@@ -144,6 +152,9 @@ Streams
     - `stream-first`
 
     - `stream-rest`
+
+
+## Streams
 
 - Outros funções pré-definidas
 
@@ -209,10 +220,17 @@ Streams implícitos
 > (stream->list (stream-take uns 10))
 '(1 1 1 1 1 1 1 1 1 1)
 
-> (define naturais (stream-cons 0 (stream-soma naturais uns)))
+> (define naturais (stream-cons
+                    0
+                     (stream-soma naturais uns)))
 > (stream->list (stream-take naturais 10))
 '(0 1 2 3 4 5 6 7 8 9)
+```
 
+
+## Streams implícitos
+
+```scheme
 > (define fibs (stream-cons
                 0
                 (stream-cons
@@ -233,6 +251,9 @@ Promessas
 
 - Streams são criados utilizando as primitivas `delay` e `force`
 
+
+## Promessas
+
 - `delay` cria uma promessa de avaliar uma expressão
 
     ```scheme
@@ -241,17 +262,15 @@ Promessas
     #<promise:p>
     ```
 
-- `force` faz com que uma promessa seja avaliada, se a promessa não foi
-    forçada antes, o resultado é armazenado na promessa de maneira que quando
-    `force` for utilizado novamente a promessa produza o mesmo valor
+- `force` faz com que uma promessa seja avaliada, se a promessa não foi forçada
+  antes, o resultado é armazenado na promessa de maneira que quando `force` for
+  utilizado novamente a promessa produza o mesmo valor
 
     ```scheme
     > (force p)
     9
     > p
     #<promise!9>
-    > (force p)
-    9
     ```
 
 
@@ -261,25 +280,26 @@ Racket lazy
 
 ## Racket lazy
 
-- Os streams não são bem integrados com a linguagem Racket
+- No passado os streams não estavam bem integrados com a linguagem Racket
 
-- A linguagem experimental (verificar se ainda é experimental) `lazy` está
-  tentando melhorar esta integração
+- A linguagem `lazy` melhorou esta integração
 
-    ```scheme
-    #lang lazy
+## Racket lazy
 
-    (define (naturais n)
-      (cons n
-            (naturais (add1 n))))
+```scheme
+#lang lazy
 
-    > (naturais 10)
-    '(10 . #<promise>)
-    > (take 20 (naturais 10))
-    '(10 . #<promise:...llects/lazy/lazy.rkt:672:43>)
-    > (!! (take 20 (naturais 10)))
-    '(10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29)
-    ```
+(define (naturais n)
+  (cons n
+        (naturais (add1 n))))
+
+> (naturais 10)
+'(10 . #<promise>)
+> (take 6 (naturais 10))
+'(10 . #<promise:...llects/lazy/lazy.rkt:672:43>)
+> (!! (take 6 (naturais 10)))
+'(10 11 12 13 14 15 16)
+```
 
 
 

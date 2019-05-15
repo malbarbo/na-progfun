@@ -1,5 +1,4 @@
 ---
-# TODO: explicar como delay e force podem ser implementados
 # TODO: adicionar informações sobre haskell
 # TODO: destacar as aplicações de streams
 # vim: set spell spelllang=pt_br sw=4:
@@ -276,6 +275,11 @@ Promessas
     #<promise:p>
     ```
 
+- `(stream-cons <a> <b>)`{.scheme} é uma forma especial equivalente a
+
+    ```scheme
+    (cons <a> (delay <b>))
+    ```
 
 ## Promessas
 
@@ -288,6 +292,34 @@ Promessas
     9
     > p
     #<promise!9>
+    ```
+
+
+## Implementação
+
+- Uma implementação simples seria fazer a expressão `(delay <expr>)` ser
+  equivalente a `(λ () <expr>)`, e `(force p)` simplesmente executaria `(p)`
+
+- Mas neste caso o resultado da promessa deve ser calculado a cada chamada
+
+- Para armazenar o resultado da promessa vamos usar variáveis!
+
+
+## Implementação
+
+- Neste caso, `(delay <expr>)` é equivalente a `(memoriza (λ () <expr>))`
+
+    ```scheme
+    (define (memoriza proc)
+      (let ([was-run? #f]
+            [result (void)])
+        (lambda ()
+          (if (not was-run?)
+              (begin
+                (set! result (proc))
+                (set! was-run? #t)
+                result)
+              result))))
     ```
 
 

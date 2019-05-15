@@ -214,13 +214,6 @@ que cada elemento é a soma dos dois elementos na mesma posição dos streams de
 entrada.
 
 
-## Exemplo 8.4
-
-[Problema 1](https://projecteuler.net/problem=1) do [Projeto
-Euler](https://projecteuler.net/). Defina uma função que some todos os números
-naturais menores que um dado $n$ que sejam múltiplos de 3 ou 5.
-
-
 
 Streams implícitos
 ==================

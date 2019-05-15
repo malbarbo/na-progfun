@@ -76,37 +76,6 @@
                   (stream-soma (stream-rest s1)
                                (stream-rest s2)))]))
 
-;; Exemplo 8.4
-
-;; Natural -> Natural
-;; Soma os divisores de 3 ou 5 menores que n.
-(define soma-divisores-de-3-ou-5-tests
-  (test-suite
-   "soma-divisores-de-3-ou-5 tests"
-   (check-equal? (soma-divisores-de-3-ou-5 10) 23)))
-
-(define (soma-divisores-de-3-ou-5 n)
-  (stream-fold + 0
-               (stream-filter (multiplo-de-algum 3 5)
-                              (in-range 1 (add1 n)))))
-
-;; Natural... -> (Natural -> Boolean)
-;; Cria uma função de um parâmetro n que testa se n é múltiplo de
-;; algum dos divisores
-(define multiplo-de-algum-tests
-  (test-suite
-   "multiplo-de-algum tests"
-   (check-equal? ((multiplo-de-algum 3) 12) #t)
-   (check-equal? ((multiplo-de-algum 3 5) 15) #t)
-   (check-equal? ((multiplo-de-algum 3 5 7) 29) #f)
-   (check-equal? ((multiplo-de-algum) 8) #f)))
-
-(define (multiplo-de-algum . divisores)
-  (define (divide? d n)
-    (zero? (remainder n d)))
-  (λ (n)
-    (ormap (λ (d) (d . divide? . n)) divisores)))
-
 
 ;; ---------------------------------------------------------------------
 
@@ -122,6 +91,4 @@
 ;; Chama a função para executar os testes.
 (executa-testes inteiros-tests
                 stream-take-tests
-                stream-soma-tests
-                soma-divisores-de-3-ou-5
-                multiplo-de-algum-tests)
+                stream-soma-tests)

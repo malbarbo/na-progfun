@@ -469,7 +469,7 @@ Modelo de substituição
 
 - Este método de avaliação alternativo de primeiro substituir e depois reduzir,
   é chamado de **avaliação em ordem normal** (que é um tipo de avaliação
-  atrasada)
+  preguiçosa)
 
 - O método de avaliação que primeiro avalia os argumentos e depois aplica
   a função é chamado de **avaliação em ordem aplicativa**

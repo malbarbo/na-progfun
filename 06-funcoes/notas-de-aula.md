@@ -620,7 +620,7 @@ seu argumento a $n$.
 Defina uma função que receba como parâmetro um predicado (função que retorna
 verdadeiro ou falso) e retorne uma função que retorna a negação do predicado.
 
-- `negate` ([referência](https://docs.scheme-lang.org/reference/procedures.html#%28def._%28%28lib._scheme%2Ffunction..rkt%29._negate%29%29))
+- `negate` ([referência](https://docs.racket-lang.org/reference/procedures.html#%28def._%28%28lib._scheme%2Ffunction..rkt%29._negate%29%29))
 
 
 ## Exemplo 6.8
@@ -765,7 +765,7 @@ Outras funções de alta ordem
 
 ## Outras funções de alta ordem
 
-- `apply` ([referência](http://docs.scheme-lang.org/reference/procedures.html?q=apply#%28def._%28%28lib._scheme%2Fprivate%2Fbase..rkt%29._apply%29%29))
+- `apply` ([referência](http://docs.racket-lang.org/reference/procedures.html?q=apply#%28def._%28%28lib._scheme%2Fprivate%2Fbase..rkt%29._apply%29%29))
 
     ```scheme
     > (apply < (list 4 5))
@@ -776,11 +776,11 @@ Outras funções de alta ordem
     24
     ```
 
-- `andmap` ([referência](http://docs.scheme-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._andmap%29%29))
+- `andmap` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._andmap%29%29))
 
-- `ormap` ([referência](http://docs.scheme-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._ormap%29%29))
+- `ormap` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._ormap%29%29))
 
-- `build-list` ([referência](http://docs.scheme-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/list..rkt%29._build-list%29%29))
+- `build-list` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/list..rkt%29._build-list%29%29))
 
 
 
@@ -842,9 +842,9 @@ Referências
     do livro [HTDP](http://htdp.org)
 
 - Seções
-    [3.9](http://docs.scheme-lang.org/reference/pairs.html) e
-    [3.17](http://docs.scheme-lang.org/reference/procedures.html) da
-    [Referência Racket](http://docs.scheme-lang.org/reference/)
+    [3.9](http://docs.racket-lang.org/reference/pairs.html) e
+    [3.17](http://docs.racket-lang.org/reference/procedures.html) da
+    [Referência Racket](http://docs.racket-lang.org/reference/)
 
 
 ## Referências complementares

@@ -20,7 +20,6 @@
 
 - Atualizar urls
     - htdp 2 versão
-    - onde aparece "scheme-lang", trocar por "racket-lang"
 
 - Mencionar linguagem lazy no cap 2
 

@@ -1,4 +1,7 @@
 ---
+# TODO: explicar como delay e force podem ser implementados
+# TODO: adicionar informações sobre haskell
+# TODO: destacar as aplicações de streams
 # vim: set spell spelllang=pt_br sw=4:
 title: Sequências e streams
 ---
@@ -7,9 +10,6 @@ Sequências
 ==========
 
 ## Sequências
-
-<!-- TODO: adicionar informações sobre haskell !-->
-<!-- TODO: destacar as aplicações de streams !-->
 
 - Uma sequência encapsula uma coleção ordenada de valores
 
@@ -22,14 +22,23 @@ Sequências
 
     - Listas
 
+    - Strings
+
     - Streams
 
     - etc
+
+
+## Sequências
 
 - Exemplos
 
     ```scheme
     > (sequence? (list 5 2 10))
+    #t
+    > (sequence? "casa")
+    #t
+    > (sequence? (in-range 10 20))
     #t
     > (sequence? 1.2)
     #f
@@ -99,7 +108,7 @@ List comprehension
     '(3 4 0 1)
     ```
 
-- A função `in-naturals` devolve uma sequência (stream) com os números naturais
+- A função `in-naturals` devolve uma sequência com os números naturais
 
 - Como as sequências tem tamanhos diferentes, a iteração é interrompida quando
   alguma sequência termina
@@ -121,12 +130,15 @@ List comprehension
 
     - `stop-afer`
 
-    - Veja a [referência](http://docs.scheme-lang.org/reference/sequences.html)
+    - Veja a [referência](http://docs.racket-lang.org/reference/sequences.html)
       sobre sequências
+
+
+## List comprehension
 
 - O Racket oferece ainda uma coleção de formas especiais para fazer iteração em
   sequências, veja a
-  [referência](http://docs.scheme-lang.org/reference/for.html) sobre iterações
+  [referência](http://docs.racket-lang.org/reference/for.html) sobre iterações
 
 
 
@@ -136,11 +148,13 @@ Streams
 
 ## Streams
 
-- Um stream é semelhante a uma lista, mas os elementos só são avaliados quando
-  são necessários, em outras palavras, um **stream** é uma lista atrasada
+- Um stream é uma sequência potencialmente infinita
 
-- Streams tem muitas utilidades, mas vamos usá-los principalmente para definir
-  "listas infinitas" (como a função `in-naturals`)
+- Em geral, os elementos do stream são produzidos quando são necessários, neste
+  caso, um **stream** é uma sequência preguiçosa
+
+- Streams têm várias utilidades, mas vamos usá-los principalmente para definir
+  "sequências infinitas" (como a função `in-naturals`)
 
 
 ## Streams
@@ -168,7 +182,7 @@ Streams
 
     - `stream-filter`
 
-    - Veja a [referência](http://docs.scheme-lang.org/reference/streams.html)
+    - Veja a [referência](http://docs.racket-lang.org/reference/streams.html)
       de streams
 
 
@@ -262,6 +276,9 @@ Promessas
     #<promise:p>
     ```
 
+
+## Promessas
+
 - `force` faz com que uma promessa seja avaliada, se a promessa não foi forçada
   antes, o resultado é armazenado na promessa de maneira que quando `force` for
   utilizado novamente a promessa produza o mesmo valor
@@ -312,9 +329,9 @@ Referências
     [3.5](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-24.html#%_sec_3.5)
     (3.5.1 e 3.5.2) do livro [SICP](https://mitpress.mit.edu/sicp/)
 
-- Seção [4.14](http://docs.scheme-lang.org/reference/sequences.html)
-    e [2.18](http://docs.scheme-lang.org/reference/for.html) da [Referência
-    Racket](http://docs.scheme-lang.org/reference/).
+- Seção [4.14](http://docs.racket-lang.org/reference/sequences.html)
+    e [2.18](http://docs.racket-lang.org/reference/for.html) da [Referência
+    Racket](http://docs.racket-lang.org/reference/).
 
-- [Referência](http://docs.scheme-lang.org/lazy/index.html) da linguagem
+- [Referência](http://docs.racket-lang.org/lazy/index.html) da linguagem
     lazy.

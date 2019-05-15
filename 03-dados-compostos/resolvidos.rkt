@@ -49,8 +49,8 @@
 ;; Exercício 3.5
 
 ;; Lista -> Boolean
-;; Devolve verdadeiro se lst é palíndromo, isto é, lst é igual a lst invertida.
-;; Devolve falso se lst não é palíndromo.
+;; Devolve #t se lst é palíndromo, isto é, lst é igual a lst invertida.
+;; Devolve #f se lst não é palíndromo.
 (define palindromo-tests
   (test-suite
    "palindromo tests"

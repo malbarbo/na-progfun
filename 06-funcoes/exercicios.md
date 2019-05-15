@@ -83,8 +83,8 @@ title: Funções
 #.  [sicp 1.41] Defina a função `double` que receba como parâmetro uma função
     de um parâmetro e retorne uma função que aplique a função original duas
     vezes. Por exemplo, dado que a função `add1` adiciona 1 ao seu parâmetro,
-    então `(double add1)` retorna uma função que adiciona 2 ao parâmetro. Qual
-    é o valor retornado por
+    então `((double add1) 3)`{.scheme} retorna `5`{.scheme}. Qual é o valor
+    retornado por
 
     ```scheme
     (((double (double double)) add1) 5)
@@ -125,18 +125,18 @@ title: Funções
     ```
 
 #.  [sicp 2.4] A seguir é apresentado uma representação procedural para um par.
-    Para esta representação, verifique que `(car (cons x y))` produz `x` para
-    qualquer objeto `x` e `y`.
+    Para esta representação, verifique que `(first (cons x y))`{.scheme} produz
+    `x` para quaisquer objetos `x` e `y`.
 
     ```scheme
     (define (cons x y)
       (λ (m) (m x y)))
 
-    (define (car z)
+    (define (first z)
       (z (λ (p q) p)))
     ```
 
-    Qual é a definição correspondente de `cdr`? (Dica: para verificar que isto
+    Qual é a definição correspondente de `rest`{.scheme}? (Dica: para verificar que isto
     funciona, faça uso do modelo de substituição).
 
 

@@ -4,6 +4,10 @@
 
 # TODO
 
+- Fazer mais aulas de laboratório e resolver exercícios da lista
+
+- Adicionar soluções para os exercícios dos cap 6, 7, 8
+
 - Veja TODO's específicos em cada arquivo
 
 - Adicionar conteúdo sobre estilo de código
@@ -18,7 +22,7 @@
     - htdp 2 versão
     - onde aparece "scheme-lang", trocar por "racket-lang"
 
-- Mencionar linguagem lazy
+- Mencionar linguagem lazy no cap 2
 
 - Falar de geração e tratamento de erros
 
@@ -32,4 +36,4 @@
 
 - Evitar copiar e colar. Tentar usar \only
 
-- Usar pigments para o código Racke
+- Usar pigments para colorir o código Racket

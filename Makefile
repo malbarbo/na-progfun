@@ -13,7 +13,7 @@ EX=$(patsubst %/,%,$(dir $(shell ls */exercicios.md)))
 EX_PDF=$(addprefix $(DEST_PDF)/, $(addsuffix -exercicios.pdf, $(EX)))
 TECTONIC=$(DEST)/bin/tectonic
 PANDOC=$(DEST)/bin/pandoc
-PANDOC_VERSION=2.7.1
+PANDOC_VERSION=2.10.1
 PANDOC_CMD=$(PANDOC) \
 		--pdf-engine=$(CURDIR)/$(TECTONIC) \
 		--metadata-file ../metadata.yml \
@@ -38,7 +38,7 @@ $(DEST_PDF)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PAN
 	@echo $@
 	@cd $$(dirname $<) && \
 		../$(PANDOC_CMD) \
-		-o ../$@ notas-de-aula.md
+		-o ../$@.tex notas-de-aula.md
 
 $(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
 	@mkdir -p $(DEST_PDF_HANDOUT)
@@ -48,12 +48,13 @@ $(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.y
 		-V classoption:handout \
 		-o ../$@ notas-de-aula.md
 
-$(DEST_PDF)/%-exercicios.pdf: %/exercicios.md templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
+$(DEST_PDF)/%-exercicios.pdf: %/exercicios.md templates/default.latex metadata-ex.yml $(PANDOC) $(TECTONIC) Makefile
 	@mkdir -p $(DEST_PDF)
 	@echo $@
 	@cd $$(dirname $<) && \
 		../$(PANDOC_CMD) \
-			-t latex \
+			--to latex \
+			--metadata-file ../metadata-ex.yml \
 			-V papersize=a4 \
 			-V geometry='margin=1.5cm' \
 			-V fontsize=11pt \
@@ -61,7 +62,7 @@ $(DEST_PDF)/%-exercicios.pdf: %/exercicios.md templates/default.latex metadata.y
 
 $(PANDOC):
 	mkdir -p $(DEST)
-	curl -L https://github.com/jgm/pandoc/releases/download/$(PANDOC_VERSION)/pandoc-$(PANDOC_VERSION)-linux.tar.gz | tar xz -C $(DEST) --strip-components=1
+	curl -L https://github.com/jgm/pandoc/releases/download/$(PANDOC_VERSION)/pandoc-$(PANDOC_VERSION)-linux-amd64.tar.gz | tar xz -C $(DEST) --strip-components=1
 
 $(TECTONIC):
 	mkdir -p $(DEST)/bin/

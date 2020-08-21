@@ -3,9 +3,26 @@ author:
     - \newline \href{http://malbarbo.pro.br}{malbarbo.pro.br}
 institute:
     - \href{http://din.uem.br}{Departamento de Informática} \newline \href{http://www.uem.br}{Universidade Estadual de Maringá}
-lang: pt-BR \
+lang: pt-BR
 theme: metropolis
 themeoptions: numbering=fraction,sectionpage=simple,block=fill
-header-includes: \captionsetup[figure]{labelformat=empty}
-header-includes: \usepackage{caption}
+header-includes: |
+    \usepackage{caption}
+    \captionsetup[figure]{labelformat=empty}
+    \usetikzlibrary{positioning}
+    \usepackage{ccicons}
+    \usepackage{menukeys}
+    \usepackage{newunicodechar}
+    \newunicodechar{λ}{\ensuremath{\lambda}}
+license: |
+  \begin{tikzpicture}[overlay, remember picture]
+    \linespread{0.75}
+    \node[above =0.1cm of current page.south, align=center] {
+        \href{http://creativecommons.org/licenses/by-sa/4.0/}{\ccbysa}\\
+        \vspace{-0.1cm}
+        \tiny Este trabalho está licenciado com uma Licença Creative Commons -
+        Atribuição-CompartilhaIgual 4.0 Internacional.\\
+        \tiny \url{http://github.com/malbarbo/na-progfun}
+    };
+  \end{tikzpicture}
 toc-title: Conteúdo

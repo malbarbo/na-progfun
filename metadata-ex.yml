@@ -1,0 +1,19 @@
+author:
+    - Marco A L Barbosa
+    - \newline \href{http://malbarbo.pro.br}{malbarbo.pro.br}
+institute:
+    - \href{http://din.uem.br}{Departamento de Informática} \newline \href{http://www.uem.br}{Universidade Estadual de Maringá}
+lang: pt-BR
+header-includes: |
+    \usepackage{ccicons}
+    \usepackage{menukeys}
+    \usepackage{newunicodechar}
+    \newunicodechar{λ}{\ensuremath{\lambda}}
+license: |
+    \begin{center}
+    \scriptsize
+    Os exercícios sem referências estão licenciados com uma Licença Creative
+    Commons - Atribuição-CompartilhaIgual 4.0 Internacional. \\
+    \href{http://creativecommons.org/licenses/by-sa/4.0/}{\ccbysa} \\
+    \url{http://github.com/malbarbo/na-progfun}
+    \end{center}

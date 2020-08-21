@@ -1,7 +1,5 @@
 .PHONY: default all pdf handout tex clean
 
-PDF_ENGINE=pdflatex
-PDF_ENGINE_OPT=
 SHELL=/bin/bash
 DEST=target
 DEST_PDF=$(DEST)/pdfs
@@ -13,15 +11,15 @@ NA_PDF=$(addprefix $(DEST_PDF)/, $(addsuffix .pdf, $(NA)))
 NA_PDF_HANDOUT=$(addprefix $(DEST_PDF_HANDOUT)/, $(addsuffix .pdf, $(NA)))
 EX=$(patsubst %/,%,$(dir $(shell ls */exercicios.md)))
 EX_PDF=$(addprefix $(DEST_PDF)/, $(addsuffix -exercicios.pdf, $(EX)))
+TECTONIC=$(DEST)/bin/tectonic
 PANDOC=$(DEST)/bin/pandoc
 PANDOC_VERSION=2.7.1
 PANDOC_CMD=$(PANDOC) \
-		--pdf-engine="${PDF_ENGINE}" \
-		--pdf-engine-opt="${PDF_ENGINE_OPT}" \
+		--pdf-engine=$(CURDIR)/$(TECTONIC) \
 		--metadata-file ../metadata.yml \
 		--template ../templates/default.latex \
 		--standalone \
-		-t beamer
+		--to beamer
 
 default:
 	@echo Executando make em paralelo [$(shell nproc) tarefas]
@@ -35,14 +33,14 @@ handout: $(NA_PDF_HANDOUT)
 
 ex: $(EX_PDF)
 
-$(DEST_PDF)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) Makefile
+$(DEST_PDF)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
 	@mkdir -p $(DEST_PDF)
 	@echo $@
 	@cd $$(dirname $<) && \
 		../$(PANDOC_CMD) \
 		-o ../$@ notas-de-aula.md
 
-$(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) Makefile
+$(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
 	@mkdir -p $(DEST_PDF_HANDOUT)
 	@echo $@
 	@cd $$(dirname $<) && \
@@ -50,7 +48,7 @@ $(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.y
 		-V classoption:handout \
 		-o ../$@ notas-de-aula.md
 
-$(DEST_PDF)/%-exercicios.pdf: %/exercicios.md templates/default.latex metadata.yml $(PANDOC) Makefile
+$(DEST_PDF)/%-exercicios.pdf: %/exercicios.md templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
 	@mkdir -p $(DEST_PDF)
 	@echo $@
 	@cd $$(dirname $<) && \
@@ -64,6 +62,10 @@ $(DEST_PDF)/%-exercicios.pdf: %/exercicios.md templates/default.latex metadata.y
 $(PANDOC):
 	mkdir -p $(DEST)
 	curl -L https://github.com/jgm/pandoc/releases/download/$(PANDOC_VERSION)/pandoc-$(PANDOC_VERSION)-linux.tar.gz | tar xz -C $(DEST) --strip-components=1
+
+$(TECTONIC):
+	mkdir -p $(DEST)/bin/
+	curl -L  https://github.com/tectonic-typesetting/tectonic/releases/download/continuous/tectonic-latest-x86_64-unknown-linux-musl.tar.gz | tar xz -C $(DEST)/bin/
 
 clean:
 	@echo Removendo $(DEST_PDF)

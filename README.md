@@ -22,7 +22,10 @@ Creative Commons - Atribuição-CompartilhaIgual 4.0 Internacional</a>.
 
 # Gerando os pdfs
 
-Instale os pacotes `texlive`, `texlive-fonts-extra`, `texlive-lang-portuguese`
-e execute o comando `make`. Os pdfs são gerados no diretório `target/pdfs`.
+Execute o comando `make pdf`. Os arquivos pdfs serão gerados no diretório `target/pdfs`.
+
+Este comando irá baixar e executar os programas [pandoc](https://pandoc.org/)
+e [tectonic](http://tectonic-typesetting.github.io/).
+
 
 <!-- % vim: set spell spelllang=pt_br: -->

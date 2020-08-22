@@ -7,7 +7,7 @@
 ;; Autor: Marco A L Barbosa <marco@malbarbo.pro.br>
 ;;
 ;; As imagens foram obtidas de
-;; http://www.spriters-resource.com/mobile_phone/flappybird/sheet/59537/
+;; https://www.spriters-resource.com/mobile/flappybird/sheet/59537/
 ;;
 ;; Para executar o jogo, chame a função main.
 ;;
@@ -16,7 +16,7 @@
 ;;   - Alterar as imagens do bird, para incluir "bater as asas" e cair
 ;;   - Alterar as imagens dos pontos
 ;;   - Calibrar os parâmetros pra ficar mais parecido com o original
-;;   - Melhorar a colisão. A colisão é feita como se o bird você um retângulo
+;;   - Melhorar a colisão. A colisão é feita como se o bird fosse um retângulo
 ;;   - Escrever testes para as funções de desenho
 
 (require 2htdp/universe)
@@ -174,6 +174,7 @@
 ;; Inicia o jogo.
 (define (main)
   (big-bang INITIAL-WORLD
+            (name "Flappy Bird")
             (on-tick handle-tick)
             (on-key handle-key)
             (to-draw draw)))

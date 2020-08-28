@@ -994,12 +994,12 @@ Como projetar funções
 - Vamos utilizar as receitas de projeto do livro [How to Design
   Programs](http://htdp.org) para escrever funções
 
-- Estas receitas de projeto permitem o projeto sistemático de funções
+- Essas receitas permitem o projeto sistemático de funções
 
-- Este processo pode não ser relevante para problemas simples, mas é essencial
+- Esse processo pode não ser relevante para problemas simples, mas é essencial
   para os demais problemas
 
-- Seja paciente e em breve você verá a utilidade deste processo
+- Seja paciente e em breve você verá a utilidade desse processo
 
 - Vamos treinar com problemas simples, para depois utilizar o processo em
   outros problemas
@@ -1007,15 +1007,17 @@ Como projetar funções
 
 ## Como projetar funções
 
-1. Assinatura, propósito e cabeçalho
+1. Análise do problema e definição de dados
 
-2. Exemplos
+2. Assinatura, propósito e cabeçalho
 
-3. Modelo
+3. Exemplos
 
-4. Código do corpo da função
+4. Modelo
 
-5. Teste e depuração
+5. Corpo
+
+6. Teste e depuração
 
 
 ## Como projetar funções
@@ -1029,7 +1031,7 @@ Como projetar funções
 - Às vezes você está escrevendo o corpo e encontra uma nova condição e deve
   voltar e alterar o propósito e os exemplos
 
-- Mas você nunca deve escrever o código diretamente
+- Mas você nunca deve escrever o corpo diretamente
 
 
 ## Como projetar funções
@@ -1040,10 +1042,10 @@ Como projetar funções
 - Em muitos casos o modelo de uma função é determinado pelos tipos de dados dos
   seus parâmetros. Este tipo de modelo é chamado de modelo dirigido por dados
 
-- Para tipos atômicos (números, string, booleans) usamos o modelo:
+- Para tipos atômicos (números, strings, booleanos) usamos o modelo:
 
     ```scheme
-    (define (fun-for-atomic a)
+    (define (fn-para-atomico a)
         (... a))
     ```
 
@@ -1057,7 +1059,7 @@ Defina uma função que calcule o dobro de um dado valor.
 
 ## Exemplo 2.1
 
-- Passo 1: Assinatura, propósito e cabeçalho
+- Passo 2: Assinatura, propósito e cabeçalho
 
     ```scheme
     ;; Número -> Número
@@ -1074,7 +1076,7 @@ Defina uma função que calcule o dobro de um dado valor.
 
 ## Exemplo 2.1
 
-- Passo 2: Exemplos
+- Passo 3: Exemplos
 
     ```scheme
     ;; Número -> Número
@@ -1089,7 +1091,7 @@ Defina uma função que calcule o dobro de um dado valor.
 
 ## Exemplo 2.1
 
-- Passo 3: Modelo
+- Passo 4: Modelo
 
 - Como o parâmetro é um número, usamos o modelo para tipos atômicos
 
@@ -1108,7 +1110,7 @@ Defina uma função que calcule o dobro de um dado valor.
 
 ## Exemplo 2.1
 
-- Passo 3: Modelo
+- Passo 5: Modelo
 
 - Ajustamos os nomes no modelo para a função que estamos definindo
 
@@ -1127,7 +1129,7 @@ Defina uma função que calcule o dobro de um dado valor.
 
 ## Exemplo 2.1
 
-- Passo 4: Código do corpo da função
+- Passo 6: Corpo
 
 - Baseado nos passos anteriores, escrevemos o corpo da função
 
@@ -1190,7 +1192,7 @@ Programa completo
 
 ## Exemplo 2.1
 
-- Passo 5: Teste e depuração
+- Passo 6: Teste e depuração
 
   - \keys{\ctrl + r} ou \keys{F5} para executar o programa (e os testes)
 

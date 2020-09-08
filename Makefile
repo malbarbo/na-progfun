@@ -12,6 +12,7 @@ NA_PDF_HANDOUT=$(addprefix $(DEST_PDF_HANDOUT)/, $(addsuffix .pdf, $(NA)))
 EX=$(patsubst %/,%,$(dir $(shell ls */exercicios.md)))
 EX_PDF=$(addprefix $(DEST_PDF)/, $(addsuffix -exercicios.pdf, $(EX)))
 TECTONIC=$(DEST)/bin/tectonic
+TECTONIC_VERSION=0.1.13
 PANDOC=$(DEST)/bin/pandoc
 PANDOC_VERSION=2.10.1
 PANDOC_CMD=$(PANDOC) \
@@ -38,7 +39,7 @@ $(DEST_PDF)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PAN
 	@echo $@
 	@cd $$(dirname $<) && \
 		../$(PANDOC_CMD) \
-		-o ../$@.tex notas-de-aula.md
+		-o ../$@ notas-de-aula.md
 
 $(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
 	@mkdir -p $(DEST_PDF_HANDOUT)
@@ -66,7 +67,8 @@ $(PANDOC):
 
 $(TECTONIC):
 	mkdir -p $(DEST)/bin/
-	curl -L  https://github.com/tectonic-typesetting/tectonic/releases/download/continuous/tectonic-latest-x86_64-unknown-linux-musl.tar.gz | tar xz -C $(DEST)/bin/
+	curl -L https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic@$(TECTONIC_VERSION)/tectonic-$(TECTONIC_VERSION)-x86_64-unknown-linux-musl.tar.gz \
+		| tar xz -C $(DEST)/bin/
 
 clean:
 	@echo Removendo $(DEST_PDF)

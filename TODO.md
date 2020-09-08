@@ -21,7 +21,10 @@
 - Atualizar urls
     - htdp 2 versão
 
-- Mencionar linguagem lazy no cap 2
+- Mencionar linguagem lazy no cap 2 (fundamentos?)
+
+    - Discussão sobre if, and or serem formas especiais se avaliação aplicativa
+      é usada e funções normais se avaliação em ordem normal é usada
 
 - Falar de geração e tratamento de erros
 
@@ -31,8 +34,10 @@
 
 - Falar sobre comentários
 
-- Falar do append e outras funções de lista no cap 2 - dados compostos
+- Falar do append e outras funções de lista no cap 2 - dados compostos (cap3)
 
 - Evitar copiar e colar. Tentar usar \only
 
 - Usar pigments para colorir o código Racket
+
+- Não usar itemização no primeiro nível dos slides

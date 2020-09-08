@@ -14,6 +14,8 @@ Introdução
 <!-- TODO: falar de sexp !-->
 <!-- TODO: explicar passo a passo como criar test-suite !-->
 <!-- TODO: falar de #lang lazy (também é falado em streams) !-->
+<!-- TODO: versão final de expressão? !-->
+<!-- TODO: dividir fundamentos da linguagem e como projetar funções !-->
 
 - O paradigma de programação funcional é baseado na definição e aplicação de
   funções
@@ -229,7 +231,7 @@ Combinações
 `(+ (* 3 16) (+ (- 10 7) 6))                  ; (* 3 16) -> 48`{.scheme} \pause
 `(+ 48 (+ (- 10 7) 6))                        ; (- 10 7) -> 3`{.scheme}  \pause
 `(+ 48 (+ 3 6))                               ; (+ 3 6) -> 9`{.scheme}   \pause
-`(+ 48 9)                                     ; (+48 9) -> 57`{.scheme}  \pause
+`(+ 48 9)                                     ; (+48 9) -> 57`{.scheme} \newline \pause
 `57`{.scheme}
 
 
@@ -403,31 +405,32 @@ Modelo de substituição
 \scriptsize
 
 ```scheme
-(define (quadrado x)
-  (* x x))
-(define (soma-quadrados a b)
-  (+ (quadrado a) (quadrado b)))
-(define (f a)
-  (soma-quadrados (+ a 1) (* a 2)))
+(define (quadrado x) (* x x))
+(define (soma-quadrados a b) (+ (quadrado a) (quadrado b)))
+(define (f a) (soma-quadrados (+ a 1) (* a 2)))
 ```
+
 
 ```scheme
 (f 5)                           ; Substitui (f 5) pelo corpo de f com
                                 ; as ocorrências do parâmetro a
                                 ; substituídas pelo argumento 5
 ```
+
+\pause
+
 `(soma-quadrados (+ 5 1) (* 5 2)); Reduz (+ 5 1) para o valor 6`{.scheme} \pause
 `(soma-quadrados 6 (* 5 2))      ; Reduz (* 5 2) para o valor 10`{.scheme} \pause
 `(soma-quadrados 6 10)           ; Subs (soma-quadrados 6 10) pelo corpo ...`{.scheme} \pause
 `(+ (quadrado 6) (quadrado 10))  ; Subs (quadrado 6) pelo corpo ...`{.scheme} \pause
-`(+ (* 6 6) (quadrado 10))       ; Reduz (* 6 6) para 36 \pause`{.scheme}
+`(+ (* 6 6) (quadrado 10))       ; Reduz (* 6 6) para 36`{.scheme} \pause
 `(+ 36 (quadrado 10))            ; Subs (quadrado 10) pelo corpo ...`{.scheme} \pause
 `(+ 36 (* 10 10))                ; Reduz (* 10 10) para 100`{.scheme} \pause
 `(+ 36 100)                      ; Reduz (+ 36 100) para 136`{.scheme} \pause \newline
 `136`{.scheme}
 
 
-## {.standout}
+## {.plain}
 
 \vspace{1cm}
 \begin{tikzpicture}
@@ -1009,7 +1012,7 @@ Como projetar funções
 
 1. Análise do problema e definição de dados
 
-2. Assinatura, propósito e cabeçalho
+2. Assinatura, propósito e esboço
 
 3. Exemplos
 
@@ -1059,7 +1062,7 @@ Defina uma função que calcule o dobro de um dado valor.
 
 ## Exemplo 2.1
 
-- Passo 2: Assinatura, propósito e cabeçalho
+- Passo 2: Assinatura, propósito e esboço
 
     ```scheme
     ;; Número -> Número
@@ -1101,16 +1104,16 @@ Defina uma função que calcule o dobro de um dado valor.
     (check-equal? (dobro 0) 0)
     (check-equal? (dobro 4) 8)
     (check-equal? (dobro -2) -4)
-    ;(define (dobro n) 0)
+    ; (define (dobro n) 0) ; esboço
 
-    (define (fun-for-atomic a)
+    (define (fn-para-atomico a)
         (... a))
     ```
 
 
 ## Exemplo 2.1
 
-- Passo 5: Modelo
+- Passo 4: Modelo
 
 - Ajustamos os nomes no modelo para a função que estamos definindo
 
@@ -1120,7 +1123,7 @@ Defina uma função que calcule o dobro de um dado valor.
     (check-equal? (dobro 0) 0)
     (check-equal? (dobro 4) 8)
     (check-equal? (dobro -2) -4)
-    ;(define (dobro n) 0)
+    ; (define (dobro n) 0) ; esboço
 
     (define (dobro n)
         (... n))
@@ -1139,7 +1142,7 @@ Defina uma função que calcule o dobro de um dado valor.
     (check-equal? (dobro 0) 0)
     (check-equal? (dobro 4) 8)
     (check-equal? (dobro -2) -4)
-    ;(define (dobro n) 0)
+    ; (define (dobro n) 0) ; esboço
 
     (define (dobro n)
         (* 2 n))

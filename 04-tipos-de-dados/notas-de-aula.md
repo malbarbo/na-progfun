@@ -6,7 +6,7 @@
 # TODO: falar sobre enumerações
 # TODO: falar sobre uniões
 # TODO: falar sobre tipos algébricos
-title: Dados compostos
+title: Tipos de dados
 ---
 
 Introdução
@@ -274,12 +274,12 @@ Introdução
 ```
 
 
-## Exemplo 3.1
+## Exemplo: distância
 
 Defina uma função que calcule a distância de um ponto a origem.
 
 
-## Exemplo 3.2
+## Exemplo: classificação retângulo
 
 Defina uma estrutura para representar um retângulo. Em seguida defina uma
 função que classifique um retângulo em largo (largura maior que altura), alto

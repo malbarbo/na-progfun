@@ -4,6 +4,12 @@
 
 # TODO
 
+- Expandir dados compostos para tipos de dados algébricos e incluir como projetar dados
+
+- Renomear a aula "combinação de modelos" para o que?
+
+- Renomear a seção "07 - funcoes" para o que?
+
 - Fazer mais aulas de laboratório e resolver exercícios da lista
 
 - Adicionar soluções para os exercícios dos cap 6, 7, 8

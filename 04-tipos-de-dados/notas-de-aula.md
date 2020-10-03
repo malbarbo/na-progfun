@@ -210,7 +210,7 @@ Introdução
 ```scheme
 ;; Modelo
 #;
-(define (fun-for-ponto p)
+(define (fn-para-ponto p)
   (... (ponto-x p)
        (ponto-y p)))
 ```

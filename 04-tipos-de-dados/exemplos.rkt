@@ -13,7 +13,7 @@
 #; (define p2 (ponto 8 2))
 ;; Modelo
 #;
-(define (fun-for-ponto p)
+(define (fn-para-ponto p)
   (... (ponto-x p)
        (ponto-y p)))
 
@@ -39,7 +39,7 @@
 #; (define r2 (retangulo 1 2))
 ;; Modelo
 #;
-(define (fun-for-retangulo r)
+(define (fn-para-retangulo r)
   (... (retangulo-largura r)
        (retangulo-altura r)))
 

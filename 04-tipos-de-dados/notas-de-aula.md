@@ -6,6 +6,7 @@
 # TODO: falar sobre enumerações
 # TODO: falar sobre uniões
 # TODO: falar sobre tipos algébricos
+# TODO: falar do princípio: “Make Invalid States Unrepresentable”
 title: Tipos de dados
 ---
 

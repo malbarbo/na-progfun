@@ -4,20 +4,19 @@ title: Autorreferência
 ---
 
 
-Autorreferência
-===============
-
+Introdução
+==========
 
 ## Introdução
 
 - Por enquanto estamos trabalho com quantidades pré-determinada de dados
 
-- Como representar e processar uma quantidade de dados indeterminada? \pause
+- Como representar e processar uma quantidade de dados arbitrária? \pause
 
-    - Vamos criar estruturas com autorreferência, isto é, estruturas em que
-      pelo menos um campo tem o mesmo tipo da estrutura sendo definida
+    - Vamos criar dados com autorreferência, isto é, dados que são
+      definidos em termos deles mesmos
 
-    - Vamos usar funções recursivas para processar estruturas com
+    - Vamos usar funções recursivas para processar dados com
       autorreferência
 
 
@@ -28,9 +27,9 @@ Listas
 
 ## Listas
 
-- A estrutura recursiva mais comum nas linguagens funcionais é a lista
+- O tipo de dado com autorreferência mais comum nas linguagens funcionais é a lista
 
-- Vamos tentar criar uma definição para lista
+- Vamos tentar criar uma definição para lista de números
 
 
 ## Listas
@@ -40,11 +39,11 @@ Listas
   lista) \pause
 
     ```scheme
-    (struct lista (primeiro rest) #:transparent)
-    ;; Representa uma lista
-    ;;  primeiro: Qualquer - é o primeiro elemento
-    ;;                       da lista
-    ;;  rest:     Lista    - é o restante da lista
+    (struct lista (primeiro resto) #:transparent)
+    ;; Representa uma lista de números
+    ;;  primeiro: Número - é o primeiro elemento
+    ;;                     da lista
+    ;;  resto:    Lista  - é o restante da lista
     ```
 
 
@@ -57,28 +56,28 @@ Listas
     (define lst (lista 4 (lista 2 (lista 8 ???))))
     ```
 
-    \pause
+\pause
 
 - O problema com esta definição é que ela não tem fim. Uma lista é definida em
-  termos de outra lista, que é definida em termos de outra lista, etc
+  termos de outra lista, que é definida em termos de outra lista, etc.
 
 
 ## Listas
 
-- Precisamos de uma maneira de representar uma lista vazia (sem elementos),
-  desta forma podemos usar a lista vazia para terminar uma sequência de
-  elementos. Em outras palavras, para terminar a definição recursiva,
-  precisamos de uma caso base
+- Precisamos de uma maneira de criar uma lista diretamente, que não seja em termos
+  de outra lista. Que lista pode ser essa? \pause
+
+    - A lista vazia.
+
 
 
 ## Listas
 
-- Uma **Lista** é
+- Uma **ListaDeNúmeros** é um dos valores:
 
-    - `nil`; ou
+    - `(vazia)`; ou
 
-    - `(no primeiro rest)` onde `primeiro` é o primeiro elemento da lista e
-      `rest` é uma **Lista** com o restante dos elementos
+    - `(link Número ListaDeNúmeros)`, onde link é uma estrutura com dois campos: `primeiro` e `resto`
 
 
 ## Listas
@@ -86,22 +85,22 @@ Listas
 \small
 
 ```scheme
-(define nil (void))
+(struct vazia () #:transparent)
 
-(struct no (primeiro rest) #:transparent)
-;; Uma Lista é
-;;   - nil; ou
-;;   - (no primeiro rest) onde primeiro é o primeiro elemento
-;;     da lista e rest é uma Lista com o restante dos elementos
+(struct link (primeiro resto) #:transparent)
+;; Uma ListaDeNúmeros é um dos valores
+;;   - (vazia); ou
+;;   - (link Numero ListaDeNúmeros)
+;;
 ;; Exemplos
 #;
-(define lst-vazia nil)
+(define lst-vazia (vazia))
 #;
-(define lst1 (no 3 nil))
+(define lst1 (link 3 (vazia)))
 #;
-(define lst2 (no 10 (no 3 nil)))
+(define lst2 (link 10 (link 3 (vazia))))
 #;
-(define lst3 (no 1 lst2))
+(define lst3 (link 1 lst2))
 ```
 
 
@@ -110,21 +109,22 @@ Listas
 ```scheme
 ;; Modelo
 #;
-(define (fun-for-lista lst)
+(define (fn-para-ldn ldn)
   (cond
-    [(equal? lst nil) ...]
-    [else ... (no-primeiro lst)
-          ... (fun-for-lista (no-rest lst)) ... ]))
+    [(vazia? ldn) ...]
+    [else
+     (... (link-primeiro ldn)
+          (fn-para-lista (link-resto ldn)))]))
 ```
 
 
 ## Listas
 
-- Observe que o modelo foi escrito baseado na definição de Lista
+- Observe que o modelo foi escrito baseado na definição de `ListaDeNúmeros`
 
     - A definição tem dois casos, o modelo também
 
-    - A definição é recursiva, o modelo também
+    - A autorreferência na definição do dado sugere uma chamada recursiva no modelo
 
 
 ## Listas
@@ -132,82 +132,78 @@ Listas
 \small
 
 ```scheme
-> (define lst1 (no 3 nil))        ;Lista com o elemento 3
-> (define lst2 (no 8 (no 7 nil))) ;Lista com os elementos 8 e 7
+> (define lst1 (link 3 (vazia)))          ; Lista com o 3
+> (define lst2 (link 8 (link 7 (vazia)))) ; Lista com o 8 e 7
 > lst1
-(no 3 #<void>)
+(link 3 (vazia))
 > lst2
-(no 8 (no 7 #<void>))
-> (no-primeiro lst2)
+(link 8 (link 7 (vazia)))
+> (link-primeiro lst2)
 8
-> (no-rest lst2)
-(no 7 #<void>)
-> (no-rest lst1)
-#<void>
-> (no-primeiro (no-rest lst1))
-. . no-primeiro: contract violation
-  expected: no?
-  given: #<void>
-
-;; Observe que o valor nil foi definido como #<void>, e por isso
-;; na impressão aparece como #<void> e não nil
+> (link-resto lst2)
+(link 7 (vazia))
+> (link-resto lst1)
+(vazia)
+> (link-primeiro (link-resto lst1))
+. . link-primeiro: contract violation
+  expected: link?
+  given: (void)
 ```
 
 
-## Lista
+## Listas
 
 \small
 
 ```scheme
 ;; Lista com os elementos 8 e 7
-> (define lst2 (no 8 (no 7 nil)))
-;; Defini uma lista a partir de uma lista existente
-> (define lst3 (no 4 lst2))
+> (define lst2 (link 8 (link 7 (vazia))))
+;; Define uma lista a partir de uma lista existente
+> (define lst3 (link 4 lst2))
 > lst3
-(no 4 (no 8 (no 7 #<void>)))
-> (no-primeiro lst3)
+(link 4 (link 8 (link 7 (vazia))))
+> (link-primeiro lst3)
 4
-> (no-rest lst3)
-(no 8 (no 7 #<void>))
-> (no-primeiro (no-rest lst3))
+> (link-resto lst3)
+(link 8 (link 7 (vazia)))
+> (link-primeiro (link-resto lst3))
 8
 ```
 
 
-## Exemplo 3.3
+## Exemplo: soma
 
-Defina uma função que conte a quantidade de elementos de uma lista.
+Defina uma função que some os valores de uma lista de números.
 
 
 ## Listas
 
 - O Racket já vem com listas pré-definidas
 
-    - `empty` ao invés de `nil`
+    - `empty` ao invés de `(vazia)`
 
-    - `cons` ao invés de `no`
+    - `cons` ao invés de `link`
 
-    - `first` ao invés de `no-primeiro`
+    - `first` ao invés de `link-primeiro`
 
-    - `rest` ao invés de `no-rest`
+    - `rest` ao invés de `link-resto`
 
-- Outras funções
+- Outras funções (os propósitos são aproximados)
 
     - `empty?` verifica se uma lista é vazia
+
+    - `cons?` verifica se uma lista não é vazia
 
     - `list?` verifica se um valor é uma lista
 
 
 ## Listas
 
-- Lista pré-definida em Racket
-
-- Uma **Lista** é
+- Uma **ListaDeNúmeros** é um dos valores
 
     - `empty`; ou
 
-    - `(cons first rest)` onde `first` é o primeiro elemento da lista e `rest`
-      é uma **Lista** com o restante dos elementos
+    - `(cons Número ListaDeNúmeros)`
 
 
 ## Listas
@@ -216,11 +212,11 @@ Defina uma função que conte a quantidade de elementos de uma lista.
 ```scheme
 ;; Modelo
 #;
-(define (fun-for-list lst)
+(define (fn-para-ldn ldn)
   (cond
-    [(empty? lst) ...]
-    [else ... (first lst)
-          ... (fun-for-list (rest lst)) ... ]))
+    [(empty? ldn) ...]
+    [else ... (first ldn)
+          ... (fn-para-ldn (rest ldn)) ... ]))
 ```
 
 
@@ -293,133 +289,35 @@ Defina uma função que conte a quantidade de elementos de uma lista.
     ```
 
 
-## Exemplo 3.4
+## Exemplo: contém
 
-Defina uma função que some os valores de uma lista de números.
-
-
-## Exemplo 3.5
-
-Defina uma função que receba dois parâmetros, um valor $a$ e uma lista $lst$ e
-crie uma nova lista a partir de $lst$ sem a primeira ocorrência de $a$.
+Defina uma função que verifique se um dado valor está em uma lista de números.
 
 
+## Exemplo: remove negativos
 
-Listas aninhadas
+Defina uma função que remova todos os número negativos de uma lista de números.
+
+
+## Exemplo: soma x
+
+Defina uma função que soma um valor `x` em cada elemento de uma lista de números.
+
+
+
+Números Naturais
 ================
-
-
-## Listas aninhadas
-
-- Às vezes é necessário criar uma lista, que contenha outras listas, e estas
-  listas contenham outras listas, etc
-
-- Exemplo
-
-    ```scheme
-    > (list 1 4 (list 5 empty (list 2) 9) 10)
-    '(1 4 (5 () (2) 9) 10)
-    ```
-
-- Chamamos este tipo de lista de lista aninhada
-
-- Como podemos definir uma lista aninhada?
-
-
-## Listas aninhadas
-
-- Uma **Lista aninhada** é
-
-    - `empty`; ou
-
-    - `(cons lst1 lst2)`, onde `lst1` e `lst2` são **Listas aninhadas**; ou
-
-    - `(cons a lst)`, onde `a` é um valor que não seja uma Lista aninhada
-        e `lst` é uma **Lista aninhada**
-
-
-## Listas aninhadas
-
-
-```scheme
-;; Modelo
-#;
-(define (fun-for-lista-aninhada lst)
-  (cond
-    [(empty? lst) ...]
-    [(list? (first lst))
-     ... (fun-for-lista-aninhada (first lst))
-     ... (fun-for-lista-aninhada (rest lst)) ...]
-    [else
-     ... (first lst)
-     ... (fun-for-lista-aninhada (rest lst)) ... ]))
-```
-
-
-## Exemplo 3.6
-
-Defina uma função que some todos os números de uma lista aninhada de números.
-
-
-## Exemplo 3.7
-
-Defina uma função que aplaine uma lista aninhada, isto é, transforme uma lista
-aninhada em uma lista sem listas aninhadas com os mesmos elementos e na mesma
-ordem da lista aninhada.
-
-
-
-Árvores binárias
-================
-
-
-## Árvores binárias
-
-- Como podemos definir uma árvore binária?
-
-\pause
-
-- Uma **Árvore binária** é
-
-    - `empty`; ou
-
-    - `(arvore-bin v esq dir)`, onde `v` é o valor armazenado no nó e `esq`
-      e `dir` são **Árvores binárias**
-
-
-## Árvores binárias
-
-```scheme
-;; Modelo
-#;
-(define (fun-for-arvore-bin t)
-  (cond
-    [(empty? t) ...]
-    [else
-     ... (arvore-bin-v t)
-     ... (fun-for-arvore-bin (arvore-bin-dir t))
-     ... (fun-for-arvore-bin (arvore-bin-esq t)) ...]))
-```
-
-
-## Exemplo 3.8
-
-Defina uma função que calcule a altura de uma árvore binária. A altura de uma
-árvore binária é a distância entre a raiz e o seu descendente mais afastado.
-Uma árvore com um único nó tem altura 0.
-
-
 
 
 ## Introdução
 
 - Um número natural é atômico ou composto? \pause
 
-    - Atômico quando usado em operações aritméticas
+    - Atômico quando usado em operações aritméticas, comparações, etc
 
     - Composto quando uma iteração precisa ser feita baseado no valor do número
 
-    \pause
+\pause
 
 - Se um número natural pode ser visto como dado composto
 
@@ -427,10 +325,6 @@ Uma árvore com um único nó tem altura 0.
 
     - Como (de)compor um número?
 
-
-
-Definição
-=========
 
 ## Definição
 
@@ -445,12 +339,12 @@ Definição
 - Baseado nesta definição, criamos um modelo para funções com números naturais
 
     ```scheme
-    (define (fun-for-natural n)
+    (define (fn-para-natural n)
       (cond
         [(zero? n) ...]
-        [else ...
-              n
-              (fun-for-natural (sub1 n))]))
+        [else
+          (... n
+               (fn-para-natural (sub1 n)))]))
     ```
 
 
@@ -478,90 +372,353 @@ Definição
 ```
 
 
-
-Exemplos
-========
-
-
-## Exemplo 4.1
+## Exemplo: soma naturais
 
 Dado um número natural $n$, defina uma função que some os números naturais
 menores ou iguais a $n$.
 
 
-##
+## Exemplo: soma naturais
 
-Passo 1: Contrato, propósito e cabeçalho
-
-```scheme
-;; Natural -> Natural
-;; Soma todos os números naturais de 0 até n
-(define (soma n) 0)
-```
-
-
-##
-
-Passo 2: Exemplos
-
-```scheme
-(check-equal? (soma 0) 0)
-(check-equal? (soma 1) 1) ; (+ 1 0)
-(check-equal? (soma 3) 6) ; (+ 3 (+ 2 (+ 1 0)))
-```
-
-
-##
-
-Passo 3: Modelo
-
-```scheme
-(define (soma n)
-  (cond
-    [(zero? n) ...]
-    [else ... n (soma (sub1 n))]))
-```
-
-
-##
-
-Passo 4: Corpo (baseado nos exemplos, completamos o modelo)
+Passo 2: Assinatura, propósito e esboço
 
 \small
 
 ```scheme
 ;; Natural -> Natural
 ;; Soma todos os números naturais de 0 até n
+(define (soma-nat n) 0)
 
-(check-equal (soma 0) 0)
-(check-equal (soma 1) 1) ; (+ 1 0)
-(check-equal (soma 3) 6) ; (+ 3 (+ 2 (+ 1 0)))
 
-(define (soma n)
-  (cond
-    [(zero? n) ...]
-    [else ... n (soma (sub1 n))]))
+
+
+
+
+
+
+
+
 ```
 
-\pause
+
+## Exemplo: soma naturais
+
+Passo 3: Exemplos
+
+\small
 
 ```scheme
-(define (soma n)
-  (cond
-    [(zero? n) 0]
-    [else (+ n (soma (sub1 n)))]))
+;; Natural -> Natural
+;; Soma todos os números naturais de 0 até n
+(examples
+ (check-equal? (soma-nat 0) 0)
+ (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
+ (check-equal? (soma-nat 3) 6)) ; (+ 3 (+ 2 (+ 1 0)))
+(define (soma-nat n) 0)
+
+
+
+
+
+
 ```
 
 
-## Exemplo 4.2
+## Exemplo: soma naturais
+
+Passo 4: Modelo
+
+\small
+
+```scheme
+;; Natural -> Natural
+;; Soma todos os números naturais de 0 até n
+(examples
+ (check-equal? (soma-nat 0) 0)
+ (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
+ (check-equal? (soma-nat 3) 6)) ; (+ 3 (+ 2 (+ 1 0)))
+(define (soma-nat n)
+  (cond
+    [(zero? n) ...]
+    [else
+      (... n
+           (soma-nat (sub1 n)))]))
+```
+
+
+## Exemplo: soma naturais
+
+Passo 5: Corpo
+
+\small
+
+```scheme
+;; Natural -> Natural
+;; Soma todos os números naturais de 0 até n
+(examples
+ (check-equal? (soma-nat 0) 0)
+ (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
+ (check-equal? (soma-nat 3) 6)) ; (+ 3 (+ 2 (+ 1 0)))
+(define (soma-nat n)
+  (cond
+    [(zero? n) 0]
+    [else
+      (... n
+           (soma-nat (sub1 n)))]))
+```
+
+## Exemplo: soma naturais
+
+Passo 5: Corpo
+
+\small
+
+```scheme
+;; Natural -> Natural
+;; Soma todos os números naturais de 0 até n
+(examples
+ (check-equal? (soma-nat 0) 0)
+ (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
+ (check-equal? (soma-nat 3) 6)) ; (+ 3 (+ 2 (+ 1 0)))
+(define (soma-nat n)
+  (cond
+    [(zero? n) 0]
+    [else
+      (+ n
+         (soma-nat (sub1 n)))]))
+```
+
+
+## Exemplo: lista de números
 
 Dado um número natural $n$, defina uma função que devolva a lista
-`(list n n-1 n-2 ... 1)`.
+`(list 1 2 ... n-1 n)`.
 
 
 
-Definição Inteiro
-=================
+## Exemplo: lista de números
+
+Passo 2: Assinatura, propósito e esboço
+
+\small
+
+```scheme
+;; Natural -> ListaDeNúmeros
+;; Cria uma lista com os valores 1 2 ... n-1 n
+(define (lista-num n) empty)
+
+
+
+
+
+
+
+
+
+```
+
+
+## Exemplo: lista de números
+
+Passo 3: Exemplos
+
+\small
+
+```scheme
+;; Natural -> ListaDeNúmeros
+;; Cria uma lista com os valores 1 2 ... n-1 n
+(examples
+  (check-equal? (lista-num 0) empty)
+  (check-equal? (lista-num 1) (cons 1 empty))
+  (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
+(define (lista-num n) empty)
+
+
+
+
+
+```
+
+
+## Exemplo: lista de números
+
+Passo 4: Modelo
+
+\small
+
+```scheme
+;; Natural -> ListaDeNúmeros
+;; Cria uma lista com os valores 1 2 ... n-1 n
+(examples
+  (check-equal? (lista-num 0) empty)
+  (check-equal? (lista-num 1) (cons 1 empty))
+  (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
+(define (lista-num n)
+  (cond
+    [(zero? n) ...]
+    [else
+      (... n
+           (lista-num (sub1 n)))]))
+```
+
+
+## Exemplo: lista de números
+
+Passo 5: Corpo
+
+\small
+
+```scheme
+;; Natural -> ListaDeNúmeros
+;; Cria uma lista com os valores 1 2 ... n-1 n
+(examples
+  (check-equal? (lista-num 0) empty)
+  (check-equal? (lista-num 1) (cons 1 empty))
+  (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
+(define (lista-num n)
+  (cond
+    [(zero? n) empty]
+    [else
+      (... n
+           (lista-num (sub1 n)))]))
+```
+
+
+## Exemplo: lista de números
+
+Passo 5: Corpo
+
+\small
+
+```scheme
+;; Natural -> ListaDeNúmeros
+;; Cria uma lista com os valores 1 2 ... n-1 n
+(examples
+  (check-equal? (lista-num 0) empty)
+  (check-equal? (lista-num 1) (cons 1 empty))
+  (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
+(define (lista-num n)
+  (cond
+    [(zero? n) empty]
+    [else
+      (cons-fim n
+                (lista-num (sub1 n)))]))
+```
+
+
+## Exemplo: adiciona no final da lista
+
+Entrada na lista de pendência (ou lista de desejos)
+
+\small
+
+```scheme
+;; Número ListaDeNúmeros -> ListaDeNúmeros
+;; Adiciona n ao final de lst.
+(define (cons-fim n lst) lst)
+
+
+
+
+
+
+
+
+
+```
+
+
+## Exemplo: adiciona no final da lista
+
+Passo 3: Exemplos
+
+\small
+
+```scheme
+;; Número ListaDeNúmeros -> ListaDeNúmeros
+;; Adiciona n ao final de lst.
+(examples
+  (check-equal? (cons-fim 3 empty) (cons 3 empty))
+  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
+                (cons 3 (cons 4 (cons 1 empty)))))
+(define (cons-fim n lst) lst)
+
+
+
+
+
+```
+
+
+## Exemplo: adiciona no final da lista
+
+Passo 4: Modelo
+
+\small
+
+```scheme
+;; Número ListaDeNúmeros -> ListaDeNúmeros
+;; Adiciona n ao final de lst.
+(examples
+  (check-equal? (cons-fim 3 empty) (cons 3 empty))
+  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
+                (cons 3 (cons 4 (cons 1 empty)))))
+(define (cons-fim n ldn)
+  (cond
+    [(empty? ldn) ... n]
+    [else
+     (... (first ldn)
+          (cons-fim n (rest ldn)))]))
+```
+
+
+## Exemplo: adiciona no final da lista
+
+Passo 5: Corpo
+
+\small
+
+```scheme
+;; Número ListaDeNúmeros -> ListaDeNúmeros
+;; Adiciona n ao final de lst.
+(examples
+  (check-equal? (cons-fim 3 empty) (cons 3 empty))
+  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
+                (cons 3 (cons 4 (cons 1 empty)))))
+(define (cons-fim n ldn)
+  (cond
+    [(empty? ldn) (cons n empty)]
+    [else
+     (... (first ldn)
+          (cons-fim n (rest ldn)))]))
+```
+
+
+## Exemplo: adiciona no final da lista
+
+Passo 5: Corpo
+
+\small
+
+```scheme
+;; Número ListaDeNúmeros -> ListaDeNúmeros
+;; Adiciona n ao final de lst.
+(examples
+  (check-equal? (cons-fim 3 empty) (cons 3 empty))
+  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
+                (cons 3 (cons 4 (cons 1 empty)))))
+(define (cons-fim n ldn)
+  (cond
+    [(empty? ldn) (cons n empty)]
+    [else
+     (cons (first ldn)
+           (cons-fim n (rest ldn)))]))
+```
+
+
+
+Inteiros
+========
 
 
 ## Definição
@@ -585,29 +742,309 @@ Definição Inteiro
 - Modelo
 
     ```scheme
-    (define (fun-for-inteiro>=a n)
+    (define (fn-para-inteiro>=a n)
       (cond
         [(<= n a) ...]
-        [else ...
-              n
-              (fun-for-inteiro>=a (sub1 n))]))
+        [else
+          (... n
+               (fn-para-inteiro>=a (sub1 n)))]))
     ```
 
 
-## Exemplo 4.3
 
-[htdp 11.4.7] Escreva uma função `e-divisivel-por<=i?`, que receba como
-parâmetros um número natural $n$ e um número Inteiro>=1 $i$, com $i < n$. Se
-$n$ é divisível por algum número entre 1 (não incluindo o 1) e $i$ (incluindo
-$i$), a função deve devolver verdadeiro, caso contrário falso. Utilizando
-a função `e-divisivel-por<=i?`, defina uma função `primo?`, que verifica se um
-número natural é primo. Um número natural é primo se ele tem exatamente dois
-divisores distintos: 1 e ele mesmo.
+Árvores binárias
+================
+
+
+## Árvores binárias
+
+- Como podemos definir uma árvore binária?
+
+```
+        3
+      /   \
+     4     7
+    /     / \
+   3     8   9
+            /
+           10
+```
+
+
+## Árvores binárias
+
+- Uma **ÁrvoreBináriaDeNúmeros** é
+
+    - `empty`; ou
+
+    - `(no Número ÁrvoreBináriaDeNúmeros ÁrvoreBináriaDeNúmeros)`, onde `no`
+      é uma estrutura com os campos `valor`, `esq` e `dir`
+
+\pause
+
+- Modelo
+
+    ```scheme
+    (define (fn-para-abdn t)
+      (cond
+        [(empty? t) ...]
+        [else
+          (... (no-valor t)
+               (fn-para-abdn (no-esq t))
+               (fn-para-abdn (no-dir t)))]))
+    ```
+
+
+## Exemplo: altura árvore
+
+Defina uma função que calcule a altura de uma árvore binária. A altura de uma
+árvore binária é a distância entre a raiz e o seu descendente mais afastado.
+Uma árvore com um único nó tem altura 0.
+
+
+## Exemplo: altura árvore
+
+\scriptsize
+
+```scheme
+;;     t4  3
+;;       /   \
+;;  t3  4     7  t2
+;;     /     / \
+;;    3     8   9  t1
+;;             /
+;;        t0  10
+;; ÁrvoreBináriaDeNúmeros -> Natural
+(check-equal? (altura empty) ?)
+(check-equal? (altura t0) 0)
+(check-equal? (altura t1) 1)
+(check-equal? (altura t2) 2)
+(check-equal? (altura t3) 1)
+(check-equal? (altura t4) 3)
+(define (altura t)
+  (cond
+    [(empty? t) ...]
+    [else
+      (... (no-valor t)
+           (altura (no-esq t))
+           (altura (no-dir t)))]))
+```
+
+
+## Exemplo: altura árvore
+
+\scriptsize
+
+```scheme
+;;     t4  3
+;;       /   \
+;;  t3  4     7  t2
+;;     /     / \
+;;    3     8   9  t1
+;;             /
+;;        t0  10
+;; ÁrvoreBináriaDeNúmeros -> Natural
+(check-equal? (altura empty) -1)
+(check-equal? (altura t0) 0)
+(check-equal? (altura t1) 1)
+(check-equal? (altura t2) 2)
+(check-equal? (altura t3) 1)
+(check-equal? (altura t4) 3)
+(define (altura t)
+  (cond
+    [(empty? t) -1]
+    [else
+      (add1 (max
+             (altura (no-esq t))
+             (altura (no-dir t))))]))
+```
+
+
+
+Listas aninhadas
+================
+
+
+## Listas aninhadas
+
+- Às vezes é necessário criar uma lista, que contenha outras listas, e estas
+  listas contenham outras listas, etc
+
+- Exemplo
+
+    ```scheme
+    > (list 1 4 (list 5 empty (list 2) 9) 10)
+    '(1 4 (5 () (2) 9) 10)
+    ```
+
+- Chamamos este tipo de lista de lista aninhada
+
+- Como podemos definir uma lista aninhada?
+
+
+## Listas aninhadas
+
+- Uma **ListaAninhadaDeNúmeros** é
+
+    - `empty`; ou
+
+    - `(cons ListaAninhadaDeNúmeros ListaAninhadaDeNúmeros)`
+
+    - `(cons Número ListaAninhadaDeNúmeros)`
+
+
+## Listas aninhadas
+
+```scheme
+;; Modelo
+#;
+(define (fn-para-ladn lst)
+  (cond
+    [(empty? lst) ...]
+    [(list? (first lst))
+     (... (fn-para-ladn (first lst))
+          (fn-para-ladn (rest lst)))]
+    [else
+     (... (first lst)
+          (fn-para-ladn (rest lst)))]))
+```
+
+
+## Exemplo: soma*
+
+Defina uma função que some todos os números de uma lista aninhada de números.
+
+
+## Exemplo: soma*
+
+\scriptsize
+
+```scheme
+;; ListaAninhadaDeNúmeros -> Número
+;; Devolve a soma de todos os elementos de lst.
+(examples
+ (check-equal? (soma* empty)
+               0)
+ (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               30))
+(define (soma* lst)
+  (cond
+    [(empty? lst) ...]
+    [(list? (first lst))
+     (... (soma* (first lst))
+          (soma* (rest lst)))]
+    [else
+     (... (first lst)
+          (soma* (rest lst)))]))
+```
+
+
+## Exemplo: soma*
+
+\scriptsize
+
+```scheme
+;; ListaAninhadaDeNúmeros -> Número
+;; Devolve a soma de todos os elementos de lst.
+(examples
+ (check-equal? (soma* empty)
+               0)
+ (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               30))
+(define (soma* lst)
+  (cond
+    [(empty? lst) 0]
+    [(list? (first lst))
+     (+ (soma* (first lst))
+        (soma* (rest lst)))]
+    [else
+     (+ (first lst)
+        (soma* (rest lst)))]))
+```
+
+
+## Exemplo: aplaina
+
+Defina uma função que aplaine uma lista aninhada, isto é, transforme uma lista
+aninhada em uma lista sem listas aninhadas com os mesmos elementos e na mesma
+ordem da lista aninhada.
+
+
+## Exemplo: aplaina
+
+\scriptsize
+
+```scheme
+;; ListaAninhadaDeNúmeros -> ListaDeNúmeros
+;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
+;; elementos de lst, mas sem aninhamento.
+(examples
+ (check-equal? (aplaina empty) empty)
+ (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               (list 1 3 4 5 4 6 7)))
+(define (aplaina lst)
+  (cond
+    [(empty? lst) ...]
+    [(list? (first lst))
+     (... (aplaina (first lst))
+          (aplaina (rest lst)))]
+    [else
+     (... (first lst)
+          (aplaina (rest lst)))]))
+```
+
+
+## Exemplo: aplaina
+
+\scriptsize
+
+```scheme
+;; ListaAninhadaDeNúmeros -> ListaDeNúmeros
+;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
+;; elementos de lst, mas sem aninhamento.
+(examples
+ (check-equal? (aplaina empty) empty)
+ (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               (list 1 3 4 5 4 6 7)))
+(define (aplaina lst)
+  (cond
+    [(empty? lst) empty]
+    [(list? (first lst))
+     (append (aplaina (first lst))
+             (aplaina (rest lst)))]
+    [else
+     (cons (first lst)
+           (aplaina (rest lst)))]))
+```
+
+
+
+Observações finais
+==================
+
+
+## Observações finais
+
+- Usamos dados com autorreferências quando queremos representar dados de tamanhos arbitrários
+
+- Usamos funções recursivas para processar dados com autorreferências \pause
+
+- Para ser bem formada, uma definição com autorreferência deve ter: \pause
+
+    - Pelo menos um caso base (sem autorreferência): \pause são utilizados para
+      criar os valores iniciais \pause
+
+    - Pelo menos um caso com autorreferência: \pause são utilizados para criar
+      novos valores a partir de valores existentes \pause
+
+- As vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência
 
 
 
 Referências
 ===========
+
+## Referências
 
 - [Vídeos Self-Reference](https://www.youtube.com/watch?v=tp44seRHLUQ&list=PL6NenTZG6KrptkOEMyLWDnF0ZjSpVTHAE)
 

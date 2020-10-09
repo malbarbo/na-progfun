@@ -1,11 +1,10 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-# TODO: falar que a avaliação da expressão aritmética precisa usar '
+# TODO: adicionar exercícios de map
 title: Autorreferência
 ---
 
-#.  Defina uma função que verifique se um determinado elemento está em uma
-    lista.
+#.  Defina uma função que calcule a quantidade de elementos de uma lista.
 
 #.  Defina uma função que receba com entrada uma lista `lst` e um elemento `a`
     e devolva uma lista que é como `lst` mas sem as ocorrências de `a`.
@@ -35,14 +34,6 @@ title: Autorreferência
 #.  Defina uma função que determine se uma lista é palíndromo. Dica: use
     a função `inverte`.
 
-#.  Defina uma função que receba como entrada uma lista `lst` de números e um
-    número `n` e devolva uma lista com cada elemento de `lst` somado com `n`.
-
-    ```scheme
-    > (lista-add-num (list 2 6 1 4 10) 3)
-    '(5 9 4 7 13)
-    ```
-
 #.  Defina uma função que receba como entrada uma lista `lst` de números
     naturais e devolva uma lista que é como `lst` mas sem os números pares.
 
@@ -53,8 +44,8 @@ title: Autorreferência
 #.  Defina uma função que encontre o valor máximo de uma lista de números.
 
 #.  Defina uma função que receba como entrada uma lista `lst` de números em
-    ordem crescente e um número `n` e devolva uma lista com os elementos de
-    `lst` e com `n` em ordem crescente.
+    ordem não decrescente e um número `n` e devolva uma lista com os elementos
+    de `lst` e com `n` em ordem não decrescente.
 
     ```scheme
     > (insere-ordenado (list 2 8 10) 5)
@@ -62,7 +53,7 @@ title: Autorreferência
     ```
 
 #.  Defina uma função que receba como entrada uma lista de números e devolva
-    uma lista com os mesmos valores de entrada mas em ordem crescente.
+    uma lista com os mesmos valores de entrada mas em ordem não decrescente.
     (Lembre-se de aplicar a receita de projeto, não tente implementar um método
     de ordenação qualquer, a receita te levará a implementar um método
     específico). Dica: use a função `insere-ordenado`.
@@ -76,6 +67,31 @@ title: Autorreferência
     '(1 2 3 4 5)
     ```
 
+#.  Defina uma função que calcule o fatorial de um número.
+
+#.  Utilizando apenas as funções primitivas `zero?`, `add1` e `sub1`, escreva
+    as funções `+`, `-` e `*`. Cada função deve receber como parâmetro dois
+    números naturais e executar a operação aritmética apropriada.
+
+#.  [tspl 2.8.6] Recursão indireta é quando dois (ou mais) procedimentos usam
+    um ao outro. Defina duas funções `impar?` e `par?`, uma em termos da outra.
+    (Dica: O que cada uma deve retornar quando o argumento for $0$?)
+
+#.  Defina uma função que receba como entrada um número qualquer $a$ e um
+    número natural $n$ e calcule o valor $a^n$.
+
+#.  Projete um algoritmo que receba como entrada dois números naturais maiores
+    que zero, `n` e `x`, e devolva uma lista com os divisores de `x` que são
+    menores ou iguais a `n` (não se preocupe com a ordem dos valores na
+    resposta).
+
+#.  Um número natural é perfeito se a soma dos seu divisores, exceto ele mesmo,
+    é igual a ele. Por exemplo, o número $6$ é perfeito porque $6 = 1 + 2 + 3$.
+    Projete uma função que verifique se um número natural é perfeito. (Essa
+    função não é recursiva! Use a função que produz a lista de divisores e a
+    função que soma os valores de uma lista para implementar essa função)
+
+
 #.  Defina uma função que receba como entrada uma lista aninhada `lst` e
     devolva uma nova lista aninhada como os mesmo elementos de `lst` mas
     em ordem reversa.
@@ -83,17 +99,6 @@ title: Autorreferência
     ```scheme
     > (reverse* (list (list 2 3) 8 (list 9 (list 10 11) 50) (list 10) 70))
     '(70 (10) (50 (11 10) 9) 8 (3 2))
-    ```
-
-#.  Defina uma função que avalie uma expressão aritmética em Racket que
-    contenha apenas constantes. Cada operação precisa de exatamente
-    2 parâmetros. Dica: crie uma definição (semelhante a de lista aninhada) que
-    represente expressões aritméticas, crie um modelo baseado na definição do
-    tipo e use o modelo para resolver o exercício.
-
-    ```scheme
-    > (avalie (list + (list * 3 (list - 4 5)) (list / 10 2))
-    2
     ```
 
 #.  Defina uma função que receba como entrada uma árvore binária `t` e um
@@ -110,35 +115,6 @@ title: Autorreferência
 #.  Defina uma função que verifique se um elemento está em uma árvore binária
     de busca.
 
-#.  Defina uma função que calcule o fatorial de um número.
-
-#.  Utilizando apenas as funções primitivas `zero?`, `add1` e `sub1`, escreva
-    as funções `+`, `-` e `*`. Cada função deve receber como parâmetro dois
-    números naturais e executar a operação aritmética apropriada.
-
-#.  [tspl 2.8.6] Recursão indireta é quando dois (ou mais) procedimentos usam
-    um ao outro. Defina duas funções `impar?` e `par?`, uma em termos da outra.
-    (Dica: O que cada uma deve retornar quando o argumento for $0$?)
-
-#.  Defina uma função que determine se um dado número inteiro positivo
-    é perfeito. Um número é perfeito se a soma dos seus divisores próprios
-    é igual a ele. Por exemplo, o número $6$ é perfeito, pois $6 = 1 + 2 + 3$.
-    O número $28$ também é perfeito, pois $28 = 1 + 2 + 4 + 7 + 14$.
-
-#.  Defina uma função que conte quantos números primos existem em um dado
-    intervalo.
-
-#.  Defina uma função que calcule o elemento $e_{ij}$ do triângulo de Pascal,
-    onde $i$ e $j$ são respectivamente a linha e coluna em que se encontra o
-    elemento $e$. O triângulo de Pascal calculado até a 6ª linha:
-    ```
-    1
-    1 1
-    1 2  1
-    1 3  3  1
-    1 4  6  4 1
-    1 5 10 10 5 1
-    ```
 
 # Referências
 

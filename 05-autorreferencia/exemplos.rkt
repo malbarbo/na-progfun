@@ -2,193 +2,217 @@
 
 (require examples)
 
-;;;;;;;;;;;;;;;;;;;;
-;; Definição de Lista
+(struct vazia () #:transparent)
+(struct link (primeiro resto) #:transparent)
 
-(define nil (void))
+;; Uma ListaDeNúmeros é um dos valores:
+;; - (vazia)
+;; - (link Número ListaDeNúmeros)
 
-(struct no (primeiro rest))
-;; Uma Lista é
-;;   - nil; ou
-;;   - (no primeiro rest) onde first é o primeiro elemento da lista e rest é
-;;     uma Lista com o restante dos elementos
-;; Exemplos
-#; (define lst-vazia nil)
-#; (define lst1 (no 3 nil))
-#; (define lst2 (no 10 (no 3 nil)))
-#; (define lst3 (no 1 (no 5 (no 2 nil))))
+#;(define lst0 (vazia))
+#;(define lst1 (link 10 (vazia)))
+#;(define lst2 (link 5 (link 4 (vazia))))
+#;(define lst3 (link 20 lst1))
+
+#;
+(define (fn-para-ldn ldn)
+  (cond [(vazia? ldn) ...]
+        [(link? ldn)
+         (... (link-primeiro ldn)
+              (fn-para-ldn (link-resto ldn)))]))
+
+;; ListaDeNúmeros -> Número
+;; Soma os valores de lst.
+(examples
+ (check-equal? (soma (vazia)) 0)
+ (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
+ (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
+; (define (soma lst) 0)
+
+(define (soma ldn)
+  (cond [(vazia? ldn) 0]
+        [(link? ldn)
+         (+ (link-primeiro ldn)
+            (soma (link-resto ldn)))]))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Nós próximos exemplos deixamos de lado as estruturas vazia
+;; e link e utilizados empty e cons já definidas em Racket.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; Uma ListaDeNúmeros é um dos valores:
+;; - empty
+;; - (cons Número ListaDeNúmeros)
+#; (define lst0 empty)
+#; (define lst1 (cons 2 (cons 4 empty)))
+#;
+(define (fn-para-ldn ldn)
+  (cond
+    [(empty? ldn) ...]
+    [else
+     (... (first ldn)
+          (fn-para-ldn (rest ldn)))]))
+
+
+;; ListaDeNúmeros Número -> Booleano
+;; Produz #t se v está em lst; #f caso contrário
+(examples
+ (check-equal? (contem? empty 3) #f)
+ (check-equal? (contem? (cons 3 empty) 3) #t)
+ (check-equal? (contem? (cons 3 empty) 4) #f)
+ (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
+ (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
+ (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
+; (define (contem? lst v) #f)
+
+(define (contem? lst v)
+  (cond
+    [(empty? lst) #f]
+    [else
+     (if (= v (first lst))
+         #t
+         (contem? (rest lst) v))]))
+
+
+;; ListaDeNúmeros -> ListaDeNúmeros
+;; Produz uma nova lista removendo os valores negativos de ldn.
+(examples
+ (check-equal? (remove-negativos empty) empty)
+ (check-equal? (remove-negativos (cons -1 (cons 2 (cons -3 empty)))) (cons 2 empty))
+ (check-equal? (remove-negativos (cons 3 (cons 4 (cons -2 empty)))) (cons 3 (cons 4 empty))))
+; (define (remove-negativos ldn) empty) ; esboço
+
+(define (remove-negativos ldn)
+  (cond
+    [(empty? ldn) empty]
+    [else
+     (if (< (first ldn) 0)
+         (remove-negativos (rest ldn))
+         (cons (first ldn)
+               (remove-negativos (rest ldn))))]))
+
+
+;; Projete uma função que some um dado valor x a cada elemento de uma lista.
+
+;; ListaDeNúmeros Número -> ListaDeNúmeros
+;; Produz uma nova lista somando x a cada elemento de ldn.
+(examples
+ (check-equal? (soma-x empty 4)
+               empty)
+ (check-equal? (soma-x (cons 4 (cons 2 empty)) 5)
+               (cons 9 (cons 7 empty)))
+ (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
+               (cons 1 (cons -3 (cons 2 empty)))))
+
+; (define (soma-x ldn x) empty)
+
+(define (soma-x ldn x)
+  (cond
+    [(empty? ldn) empty]
+    [else
+     (cons (+ x (first ldn))
+           (soma-x (rest ldn) x))]))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Naturais e inteiros
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Um número Natural é:
+;; - 0; ou
+;; - (add1 n), onde n é um número Natural
+;;
 ;; Modelo
 #;
-(define (fun-for-lista lst)
+(define (fn-para-natural n)
   (cond
-    [(equal? lst nil) ...]
-    [else (... (no-first lst)
-               (fun-for-lista (no-rest lst)))]))
-
-;;;;;;;;;;;;;;;;;;;;
-;; Exemplo 3.3
-
-;; Lista -> Natural
-;; Devolve a quantidade de elementos de lst.
-(examples
- (check-equal? (tamanho nil) 0)
- (check-equal? (tamanho (no 2 nil)) 1)
- (check-equal? (tamanho (no 1 (no 2 nil))) 2)
- (check-equal? (tamanho (no 5 (no 1 (no 2 nil)))) 3))
-
-(define (tamanho lst)
-  (cond
-    [(equal? lst nil) 0]
-    [else (add1 (tamanho (no-rest lst)))]))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Nós próximos exemplos deixamos de lado a nossa definição
-;; de lista para utilizar a lista pré definida em Racket.
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;;;;;;;;;;;;;;;;;;
-;; Exemplo 3.4
-
-;; Lista -> Número
-;; Devolve a soma dos elementos de lst.
-(examples
- (check-equal? (soma empty) 0)
- (check-equal? (soma (cons 2 empty)) 2)
- (check-equal? (soma (cons 1 (cons 2 empty))) 3)
- (check-equal? (soma (cons 5 (cons 1 (cons 2 empty)))) 8))
-
-(define (soma lst)
-  (cond
-    [(empty? lst) 0]
-    [else (+ (first lst)
-             (soma (rest lst)))]))
-
-
-;;;;;;;;;;;;;;;;;;;;
-;; Exemplo 3.5
-
-;; Lista Qualquer -> Lista
-;; Devolve uma lista que é como lst mas sem a primeira ocorrência de a.
-(examples
- (check-equal? (remove empty 4) empty)
- (check-equal? (remove (list 3 8 4 3) 4) (list 3 8 3))
- (check-equal? (remove (list 3 8 4 3) 3) (list 8 4 3))
- (check-equal? (remove (list 1 2 3) 4) (list 1 2 3)))
-
-(define (remove lst a)
-  (cond
-    [(empty? lst) empty]
+    [(zero? n) ...]
     [else
-     (cond
-       [(equal? (first lst) a) (rest lst)]
-       [else (cons (first lst)
-                   (remove (rest lst) a))])]))
+      (... n
+           (fun-for-natural (sub1 n)))]))
 
-;; Simplificação (opcional) da função remove.
-;; As condições aninhadas foram colocadas no mesmo nível.
-(examples
- (check-equal? (remove-sim empty 4) empty)
- (check-equal? (remove-sim (list 3 8 4 3) 4) (list 3 8 3))
- (check-equal? (remove-sim (list 3 8 4 3) 3) (list 8 4 3))
- (check-equal? (remove-sim (list 1 2 3) 4) (list 1 2 3)))
 
-(define (remove-sim lst a)
+;; Um número Inteiro>=a é:
+;; - a; ou
+;; - (add1 n), onde n é um número Inteiro>=a
+;;
+;; Modelo
+#;
+(define (fn-para-inteiro>=a n)
   (cond
-    [(empty? lst) empty]
-    [(equal? (first lst) a) (rest lst)]
-    [else (cons (first lst)
-                (remove-sim (rest lst) a))]))
-
-
-;;;;;;;;;;;;;;;;;;;;
-;; Exemplo 3.6
-
-;; Lista Aninhada -> Número
-;; Devolve a soma de todos os elementos de lst.
-(examples
- (check-equal? (soma* empty)
-               0)
- (check-equal? (soma* (list (list 4 5) 1 2))
-               12)
- (check-equal? (soma* (list 1 3 (list 4 5) ))
-               13)
- (check-equal? (soma* (list (list 1
-                                  (list empty 3))
-                            (list 4 5)
-                            4
-                            6
-                            7))
-               30))
-
-(define (soma* lst)
-  (cond
-    [(empty? lst) 0]
-    [(list? (first lst))
-     (+ (soma* (first lst))
-        (soma* (rest lst)))]
+    [(<= n a) ...]
     [else
-     (+ (first lst)
-        (soma* (rest lst)))]))
+      (... n
+           (fn-para-inteiro>=a (sub1 n)))]))
 
 
-;;;;;;;;;;;;;;;;;;;;
-;; Exemplo 3.7
-
-;; Lista Aninhada -> Lista
-;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
-;; elementos de lst, mas sem aninhamento.
-;; Veja a função pré-definida flatten.
+;; Natural -> Natural
+;; Devolve a soma 1 + 2 + ... + n.
 (examples
- (check-equal? (aplaina empty) empty)
- (check-equal? (aplaina (list (list 4 5) 1 2))
-               (list 4 5 1 2))
- (check-equal? (aplaina (list 1 3 (list 4 5)))
-               (list 1 3 4 5))
- (check-equal? (aplaina (list (list 1
-                                    (list empty 3))
-                              (list 4 5)
-                              4
-                              6
-                              7))
-               (list 1 3 4 5 4 6 7)))
+ (check-equal? (soma-nat 0) 0)
+ (check-equal? (soma-nat 1) 1)
+ (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
 
-(define (aplaina lst)
+(define (soma-nat n)
   (cond
-    [(empty? lst) empty]
-    [(list? (first lst))
-     (append (aplaina (first lst))
-             (aplaina (rest lst)))]
+    [(zero? n) 0]
     [else
-     (cons (first lst)
-           (aplaina (rest lst)))]))
+      (+ n
+         (soma-nat (sub1 n)))]))
+
+;; Natural -> Lista
+;; Cria uma lista com os valores 1 2 ... n-1 n.
+(examples
+  (check-equal? (lista-num 0) empty)
+  (check-equal? (lista-num 1) (cons 1 empty))
+  (check-equal? (lista-num 2) (cons 1 (cons 2 empty))))
+(define (lista-num n)
+  (cond
+    [(zero? n) empty]
+    [else
+      (cons-fim n
+                (lista-num (sub1 n)))]))
 
 
-;;;;;;;;;;;;;;;;;;;;
-;; Definição de Árvore binária
+;; Número ListaDeNúmeros -> ListaDeNúmeros
+;; Adiciona n ao final de lst.
+(examples
+  (check-equal? (cons-fim 3 empty) (cons 3 empty))
+  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty))) (cons 3 (cons 4 (cons 1 empty)))))
+(define (cons-fim n lst)
+  (cond
+    [(empty? lst) (cons n empty)]
+    [else
+      (cons (first lst)
+            (cons-fim n (rest lst)))]))
 
-(struct arvore-bin (v esq dir) #:transparent)
-;; Uma Árvore binária é
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Árvore binária
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(struct no (valor esq dir) #:transparent)
+;; Uma ÁrvoreBináriaDeNúmeros é um dos valores:
 ;;   - empty; ou
-;;   - (arvore-bin v esq dir)onde v e o valor armazenado no nó e esq e dir são
-;;     Árvores binárias
+;;   - (no Número ÁrvoreBináriaDeNúmeros ÁrvoreBináriaDeNúmeros)
 ;; Exemplos
-#; (define arvore-vazia empty)
-#; (define t1 (arvore-bin 3 empty empty))
-#; (define t2 (arvore-bin 9 t1 (arvore-bin 7 empty empty)))
+#;
+(define arvore-vazia empty)
+#;
+(define t1 (no 3 empty empty))
+#;
+(define t2 (no 9 t1 (no 7 empty empty)))
 ;; Modelo
 #;
-(define (fun-for-arvore-bin t)
+(define (fn-para-abdn t)
   (cond
     [(empty? t) ...]
-    [else ... (arvore-bin-v t)
-          ... (fun-for-arvore-bin (arvore-bin-dir t))
-          ... (fun-for-arvore-bin (arvore-bin-esq t)) ...]))
-
-
-;;;;;;;;;;;;;;;;;;;;
-;; Exemplo 3.8
+    [else
+      (... (no-valor t)
+           (fn-para-abdn (no-esq t))
+           (fn-para-abdn (no-dir t)))]))
 
 ;; Estas árvores são usadas nos testes a seguir
 ;;
@@ -201,26 +225,13 @@
 ;;             /
 ;;        t0  10
 
-(define t0 (arvore-bin 10 empty empty))
+(define t0 (no 10 empty empty))
+(define t1 (no 9 t0 empty))
+(define t2 (no 7 (no 8 empty empty) t1))
+(define t3 (no 4 (no 3 empty empty) empty))
+(define t4 (no 3 t2 t3))
 
-(define t1 (arvore-bin 9
-                       t0
-                       empty))
-
-(define t2 (arvore-bin 7
-                       (arvore-bin 8 empty empty)
-                       t1))
-
-(define t3 (arvore-bin 4
-                       (arvore-bin 3 empty empty)
-                       empty))
-
-(define t4 (arvore-bin 3
-                       t2
-                       t2))
-
-
-;; Arvore-Binaria -> Natural
+;; ÁrvoreBináriaDeNúmeros -> Natural
 ;; Devolve a altura da árvore binária. A altura de uma árvore binária é a
 ;; distância da raiz a seu descendente mais afastado. Uma árvore com um único
 ;; nó tem altura 0. Uma árvore vazia tem altura -1.
@@ -235,118 +246,75 @@
 (define (altura t)
   (cond
     [(empty? t) -1]
-    [else (add1 (max
-                 (altura (arvore-bin-esq t))
-                 (altura (arvore-bin-dir t))))]))
-
-
-;;;;;;;;;;;;;;;;;;;;
-;; Definição de número Natural
-
-;; Um número Natural é:
-;; - 0; ou
-;; - (add1 n), onde n é um número Natural
-;;
-;; Template
-#;
-(define (fun-for-natural n)
-  (cond
-    [(zero? n) ...]
-    [else ...
-          n
-          (fun-for-natural (sub1 n))]))
-
-
-;;;;;;;;;;;;;;;;;;;;
-;; Definição de número Inteiro>=a
-
-;; Um número Inteiro>=a é:
-;; - a; ou
-;; - (add1 n), onde n é um número Inteiro>=a
-;;
-;; Template
-#;
-(define (fun-for-inteiro>=a n)
-  (cond
-    [(<= n a) ...]
-    [else ...
-          n
-          (fun-for-inteiro>=a (sub1 n))]))
-
-
-;;;;;;;;;;;;;;;;;;;;
-;; Exemplo 4.1
-
-;; Natural -> Natural
-;; Devolve a soma 0 + 1 + 2 + ... + n.
-(examples
- (check-equal? (soma-nat 0) 0)
- (check-equal? (soma-nat 1) 1)
- (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
-
-(define (soma-nat n)
-  (cond
-    [(zero? n) 0]
-    [else (+ n
-             (soma-nat (sub1 n)))]))
-
-
-;;;;;;;;;;;;;;;;;;;;
-;; Exemplo 4.2
-
-;; Natural -> Lista
-;; Devolve a lista (cons n (cons n-1 ... (cons 1 empty)...)).
-(examples
- "cria-lista tests"
- (check-equal? (cria-lista 0) empty)
- (check-equal? (cria-lista 1) (cons 1 empty))
- (check-equal? (cria-lista 3) (cons 3
-                                    (cons 2
-                                          (cons 1 empty)))))
-
-(define (cria-lista n)
-  (cond
-    [(zero? n) empty]
-    [else (cons n
-                (cria-lista (sub1 n)))]))
-
-;;;;;;;;;;;;;;;;;;;;
-;; Exemplo 4.3
-
-;; Natural Inteiro>=1 -> Boolean
-;; Devolve #t se x tem divisor entre 1 (inclusive) e i (inclusive).
-;; #f caso contrário.
-(examples
- (check-equal? (e-divisivel-por<=i? 5 1) #f)
- (check-equal? (e-divisivel-por<=i? 2 2) #t)
- (check-equal? (e-divisivel-por<=i? 5 5) #t)
- (check-equal? (e-divisivel-por<=i? 10 5) #t)
- (check-equal? (e-divisivel-por<=i? 8 7) #t)
- (check-equal? (e-divisivel-por<=i? 9 2) #f))
-
-(define (e-divisivel-por<=i? n i)
-  (cond
-    [(<= i 1) #f]
     [else
-     (or (divisivel? n i)
-         (e-divisivel-por<=i? n (sub1 i)))]))
+      (add1 (max (altura (no-esq t))
+                 (altura (no-dir t))))]))
 
-;; Natural Natural -> Boolean
-;; Devolve #t se x é divisível por i, #f caso contrário.
-(define (divisivel? n i)
-  (zero? (remainder n i)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Listas aninhadas
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Um ListaAninhadaDeNúmeros é um dos valores:
+;; - empty
+;; - (cons ListaAninhadaDeNúmeros ListaAninhadaDeNúmeros)
+;; - (cons Número ListaAninhadaDeNúmeros)
+;; Exemplos
+#;
+(define ladn1 (cons 3 (cons (cons 2 (cons 4 empty)) (cons 2 empty)))) ; (list 3 (list (list 2 4) (list 2)))
+;; Modelo
+#;
+(define (fn-para-ladn lst)
+  (cond
+    [(empty? lst) ...]
+    [(list? (first lst))
+     (... (fn-para-ladn (first lst))
+          (fn-para-ladn (rest lst)))]
+    [else
+     (... (first lst)
+          (fn-para-ladn (rest lst)))]))
+
+
+;; ListaAninhadaDeNúmeros -> Número
+;; Devolve a soma de todos os elementos de lst.
 (examples
- (check-equal? (primo? 2) #t)
- (check-equal? (primo? 3) #t)
- (check-equal? (primo? 4) #f)
- (check-equal? (primo? 5) #t)
- (check-equal? (primo? 6) #f)
- (check-equal? (primo? 7) #t)
- (check-equal? (primo? 8) #f)
- (check-equal? (primo? 9) #f))
+ (check-equal? (soma* empty)
+               0)
+ (check-equal? (soma* (list (list 4 5) 1 2))
+               12)
+ (check-equal? (soma* (list 1 3 (list 4 5)))
+               13)
+ (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               30))
+(define (soma* lst)
+  (cond
+    [(empty? lst) 0]
+    [(list? (first lst))
+     (+ (soma* (first lst))
+        (soma* (rest lst)))]
+    [else
+     (+ (first lst)
+        (soma* (rest lst)))]))
 
-;; Natural -> Boolean
-;; Devolve true se n é primo. false caso contrário.
-(define (primo? n)
-  (not (e-divisivel-por<=i? n (sub1 n))))
+
+;; ListaAninhadaDeNúmeros -> ListaDeNúmeros
+;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
+;; elementos de lst, mas sem aninhamento.
+(examples
+ (check-equal? (aplaina empty) empty)
+ (check-equal? (aplaina (list (list 4 5) 1 2))
+               (list 4 5 1 2))
+ (check-equal? (aplaina (list 1 3 (list 4 5)))
+               (list 1 3 4 5))
+ (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               (list 1 3 4 5 4 6 7)))
+(define (aplaina lst)
+  (cond
+    [(empty? lst) empty]
+    [(list? (first lst))
+     (append (aplaina (first lst))
+             (aplaina (rest lst)))]
+    [(empty? lst) empty]
+    [else
+     (cons (first lst)
+           (aplaina (rest lst)))]))

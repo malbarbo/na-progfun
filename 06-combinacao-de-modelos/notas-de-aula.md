@@ -21,15 +21,15 @@ Introdução
 Exemplos
 ========
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
 Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta`
 é prefixo de `lstb`, isto é `lstb` começa com `lsta`.
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
-- Passo 1: Assinatura, propósito e cabeçalho
+- Passo 2: Assinatura, propósito e esboço
 
     ```scheme
     ;; Lista Lista -> Boolean
@@ -39,9 +39,9 @@ Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta`
     ```
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
-- Passo 2: Exemplos
+- Passo 3: Exemplos
 
     - Temos que ter pelo menos um exemplo para cada combinação das definições
       dos dados de entrada
@@ -54,7 +54,7 @@ Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta`
       tabela!
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
 \small
 
@@ -70,7 +70,7 @@ lsta +------------+------------+------------+
 ```
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
 \small
 
@@ -90,7 +90,7 @@ lsta +------------+------------+------------+
 ```
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
 \small
 
@@ -111,7 +111,7 @@ lsta +------------+------------+------------+
 ```
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
 \small
 
@@ -133,7 +133,7 @@ lsta +------------+------------+------------+
 ```
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
 \small
 
@@ -160,11 +160,11 @@ lsta +------------+------------+------------+
 ```
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
-- Passo 3: modelo
+- Passo 4: modelo
 
-    - Baseado na tabela, vamos criar um modelo
+    - Vamos criar um modelo com as quatro possibilidades
 
     \pause
 
@@ -185,7 +185,7 @@ lsta +------------+------------+------------+
       simples
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
 \scriptsize
 
@@ -213,7 +213,7 @@ lsta +------------+------------+--------------------+
 ```
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
 \scriptsize
 
@@ -236,14 +236,16 @@ lsta +------------+------------+--------------------+
      |   empty    |     #t     |        #t          |
 lsta +------------+------------+--------------------+
      | (cons ...) |     #f     |  primeiros iguais  |
-     |            |            | e recursão natural |
+     |            |            |     e recursão     |
      +------------+------------+--------------------+
 ```
 
 
-## Exemplo 5.1 (simplificando...)
+## Exemplo: prefixo
 
 \scriptsize
+
+Simplificando ...
 
 ```text
                              lstb
@@ -263,33 +265,130 @@ lsta +------------+------------+--------------------+
 (define (prefixo? lsta lstb)
   (cond
     [(empty? lsta) #t]    ;; os casos foram
-    [(empty? lstb) #f]   ;; escolhidos por ordem
-    [else ...               ;; de simplicidade
-          (first lsta)
-          (first lstb)
-          (prefixo? (rest lsta) (rest lstb))]))
+    [(empty? lstb) #f]    ;; escolhidos por ordem
+    [else                 ;; de simplicidade
+      (... (first lsta)
+           (first lstb)
+           (prefixo? (rest lsta) (rest lstb)))]))
 ```
 
 
-## Exemplo 5.1
+## Exemplo: prefixo
 
-- Passo 4: Corpo
+- Passo 5: Corpo
 
     ```scheme
     (define (prefixo? lsta lstb)
       (cond
         [(empty? lsta) #t]
         [(empty? lstb) #f]
-        [else (and
-                (equal? (first lsta) (first lstb))
-                (prefixo? (rest lsta) (rest lstb)))]))
+        [else
+          (and (equal? (first lsta) (first lstb))
+               (prefixo? (rest lsta) (rest lstb)))]))
     ```
 
 
-## Exemplo 5.2
+## Exemplo: $k$-ésimo
 
 Defina uma função que encontre o $k$-ésimo elemento de uma lista.
 
+
+## Exemplo: $k$-ésimo
+
+- Passo 2: Assinatura, propósito e esboço
+
+    \scriptsize
+
+    ```scheme
+    ;; ListaDeNúmeros Natural -> Número
+    ;; Devolve o elemento na posição k da lst.
+    ;; O primeiro elemento está na posição 0.
+    (define (lista-ref lst k) 0)
+    ```
+
+
+## Exemplo: $k$-ésimo
+
+- Passo 3: Exemplos
+
+    \scriptsize
+
+    ```scheme
+    ;; ListaDeNúmeros Natural -> Número
+    ;; Devolve o elemento na posição k da lst.
+    ;; O primeiro elemento está na posição 0.
+    ;;                               k
+    ;;                  +------------+-------------------+
+    ;;                  |      0     | (add1 ...)        |
+    ;;     +------------+------------+-------------------+
+    ;;     |   empty    |    OK      |       OK          |
+    ;; lst +------------+------------+-------------------+
+    ;;     | (cons ...) |    OK      |       OK          |
+    ;;     +------------+------------+-------------------+
+    (check-exn exn:fail? (thunk (lista-ref empty 0)))
+    (check-exn exn:fail? (thunk (lista-ref empty 2)))
+    (check-equal? (lista-ref (list 3 2 8) 0) 3)
+    (check-equal? (lista-ref (list 3 2 8 10) 2) 8)
+    (check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4)))))
+    (define (lista-ref k lst) 0)
+    ```
+
+
+## Exemplo: $k$-ésimo
+
+- Passo 4: Modelo
+
+    \scriptsize
+
+    ```scheme
+    ;; ListaDeNúmeros Natural -> Número
+    ;; Devolve o elemento na posição k da lst.
+    ;; O primeiro elemento está na posição 0.
+    ;;                               k
+    ;;                  +------------+-------------------+
+    ;;                  |      0     | (add1 ...)        |
+    ;;     +------------+------------+-------------------+
+    ;;     |   empty    |          erro                  |
+    ;; lst +------------+------------+-------------------+
+    ;;     | (cons ...) | (first lst)|     recursão      |
+    ;;     +------------+------------+-------------------+
+    (check-exn exn:fail? (thunk (lista-ref empty 0)))
+    (check-exn exn:fail? (thunk (lista-ref empty 2)))
+    (check-equal? (lista-ref (list 3 2 8) 0) 3)
+    (check-equal? (lista-ref (list 3 2 8 10) 2) 8)
+    (check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4)))))
+    (define (lista-ref k lst) 0)
+    ```
+
+
+## Exemplo: $k$-ésimo
+
+
+- Passo 5: Corpo
+
+    \scriptsize
+
+    ```scheme
+    ;; ListaDeNúmeros Natural -> Número
+    ;;                               k
+    ;;                  +------------+-------------------+
+    ;;                  |      0     | (add1 ...)        |
+    ;;     +------------+------------+-------------------+
+    ;;     |   empty    |          erro                  |
+    ;; lst +------------+------------+-------------------+
+    ;;     | (cons ...) | (first lst)|     recursão      |
+    ;;     +------------+------------+-------------------+
+    (check-exn exn:fail? (thunk (lista-ref empty 0)))
+    (check-exn exn:fail? (thunk (lista-ref empty 2)))
+    (check-equal? (lista-ref (list 3 2 8) 0) 3)
+    (check-equal? (lista-ref (list 3 2 8 10) 2) 8)
+    (check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4)))))
+    (define (lista-ref k lst)
+      (cond
+        [(empty? lst) (error "Lista vazia")]
+        [(zero? k) (first lst)]
+        [else (lista-ref (rest lst) (sub1 k))]))
+    ```
 
 
 Referências

@@ -11,7 +11,7 @@ title: Combinação de modelos
 #.  Defina uma função que devolve os $n$ primeiros elementos de uma lista.
 
     ```scheme
-    > (take (list 10 40 70 20 3) 2)
+    > (mantem (list 10 40 70 20 3) 2)
     '(10 40)
     ```
 
@@ -19,7 +19,7 @@ title: Combinação de modelos
     de uma dada lista.
 
     ```scheme
-    > (drop (list 10 40 70 20 3) 2)
+    > (descarta (list 10 40 70 20 3) 2)
     '(70 20 3)
     ```
 

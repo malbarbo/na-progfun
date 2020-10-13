@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Funções
+title: Funções como valores
 ---
 
 #.  Analise os exemplos e exercícios de dados compostos e redefina as funções

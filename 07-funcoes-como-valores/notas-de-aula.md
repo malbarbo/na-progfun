@@ -2,7 +2,7 @@
 # TODO: colocar o código lado a lado e a generalização
 # TODO: explicar como a anotação de tipo de função funciona
 # vim: set spell spelllang=pt_br sw=4:
-title: Funções
+title: Funções como valores
 ---
 
 Introdução

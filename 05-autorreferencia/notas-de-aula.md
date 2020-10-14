@@ -1,5 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: renomear para autorreferências (no plural)
 title: Autorreferência
 ---
 

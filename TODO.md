@@ -4,17 +4,15 @@
 
 # TODO
 
+- Veja TODO's específicos em cada arquivo
+
 - Expandir dados compostos para tipos de dados algébricos e incluir como projetar dados
 
-- Renomear a aula "combinação de modelos" para o que?
-
-- Renomear a seção "07 - funcoes" para o que?
+- Renomear a aula "combinação de modelos" para o que? Ou junto com autorreferência?
 
 - Fazer mais aulas de laboratório e resolver exercícios da lista
 
 - Adicionar soluções para os exercícios dos cap 6, 7, 8
-
-- Veja TODO's específicos em cada arquivo
 
 - Adicionar conteúdo sobre estilo de código
 
@@ -47,3 +45,13 @@
 - Usar pigments para colorir o código Racket
 
 - Não usar itemização no primeiro nível dos slides
+
+- Adicionar um capítulo sobre "padrões de projeto"
+
+    - tente criar funções total
+
+    - aplicação parcial
+
+    - continuação
+
+    - encadeamento de continuação (and_then)

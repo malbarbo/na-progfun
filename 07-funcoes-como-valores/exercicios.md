@@ -76,7 +76,7 @@ title: Funções como valores
     elementos da lista satisfazem o predicado. Exemplo
 
     ```scheme
-    > (cont positive? (list 1 -1 2 3 -2 5))
+    > (count positive? (list 1 -1 2 3 -2 5))
     4
     ```
 

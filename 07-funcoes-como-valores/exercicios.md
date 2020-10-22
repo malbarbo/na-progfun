@@ -3,9 +3,9 @@
 title: Funções como valores
 ---
 
-#.  Analise os exemplos e exercícios de dados compostos e redefina as funções
-    (que for possível) utilizando as funções `foldr`, `map` e `filter` (e
-    outras funções de alta ordem). As novas funções ficaram mais simples?
+#.  Analise os exemplos e exercícios de listas e redefina as funções (que for
+    possível) utilizando as funções `foldr`, `map` e `filter` (e outras funções
+    de alta ordem). As novas funções ficaram mais simples?
 
 #.  Analise os exemplos e exercícios de números naturais e defina uma função
     `reduz-num` (semelhante a função `reduz` feita em sala) que abstraia
@@ -53,24 +53,6 @@ title: Funções como valores
            (+ x x))))
     ```
 
-#.  [tspl 2.5.1] Determine o valor das seguintes expressões
-
-    ```scheme
-    (let ([f (λ (x) x)])
-      (f 4))
-
-    (let ([f (λ x x)])
-      (f 4))
-
-    (let ([f (λ (x . y) x)])
-      (f 4))
-
-    (let ([f (λ (x . y) y)])
-      (f 4))
-    ```
-
-#.  [tspl 2.5.2] Como o procedimento primitivo `list` pode ser definido?
-
 #.  Defina uma função que receba como parâmetro um predicado (função de um
     argumento que retorna um valor booleano) e uma lista, e conte quantos
     elementos da lista satisfazem o predicado. Exemplo
@@ -89,6 +71,42 @@ title: Funções como valores
     ```scheme
     (((double (double double)) add1) 5)
     ```
+
+#.  [sicp 2.4] A seguir é apresentado uma representação procedural para um par.
+    Para esta representação, verifique que `(first (cons x y))`{.scheme} produz
+    `x` para quaisquer objetos `x` e `y`.
+
+    ```scheme
+    (define (cons x y)
+      (λ (m) (m x y)))
+
+    (define (first z)
+      (z (λ (p q) p)))
+    ```
+
+    Qual é a definição correspondente de `rest`{.scheme}? (Dica: para verificar que isto
+    funciona, faça uso do modelo de substituição).
+
+
+## Número variado de parâmetros
+
+#.  [tspl 2.5.1] Determine o valor das seguintes expressões
+
+    ```scheme
+    (let ([f (λ (x) x)])
+      (f 4))
+
+    (let ([f (λ x x)])
+      (f 4))
+
+    (let ([f (λ (x . y) x)])
+      (f 4))
+
+    (let ([f (λ (x . y) y)])
+      (f 4))
+    ```
+
+#.  [tspl 2.5.2] Como o procedimento primitivo `list` pode ser definido?
 
 #.  Defina uma função `concatena` que receba como parâmetro um número variável
     de listas e calcule a concatenação de todos os parâmetros. Exemplo
@@ -123,21 +141,6 @@ title: Funções como valores
     > (same-parity 2 3 4 5 6 7)
     '(2 4 6)
     ```
-
-#.  [sicp 2.4] A seguir é apresentado uma representação procedural para um par.
-    Para esta representação, verifique que `(first (cons x y))`{.scheme} produz
-    `x` para quaisquer objetos `x` e `y`.
-
-    ```scheme
-    (define (cons x y)
-      (λ (m) (m x y)))
-
-    (define (first z)
-      (z (λ (p q) p)))
-    ```
-
-    Qual é a definição correspondente de `rest`{.scheme}? (Dica: para verificar que isto
-    funciona, faça uso do modelo de substituição).
 
 
 # Referências

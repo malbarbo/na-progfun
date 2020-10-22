@@ -1,6 +1,9 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: adicionar exemplos para a chamada da função com acumuladores
+# TODO: usar um exemplo inicial mais simples
+# TODO: mostrar o passa a passo da construção de funções com acumuladores (ver o livro!)
+# TODO: colocar as funções lado a lado para mostrar as semelhanças antes de escrever foldl
 title: Acumuladores
 ---
 
@@ -20,14 +23,14 @@ Introdução
 - Vamos ver um exemplo
 
 
-## Exemplo 7.1
+## Exemplo
 
 Dado uma lista de distâncias relativas entre pontos (começando da origem) em
 uma linha, defina uma função que calcule a distância absoluta a partir da
 origem
 
 
-## Exemplo 7.1
+## Exemplo
 
 \small
 
@@ -36,32 +39,29 @@ origem
 ;; Converte uma lista de distâncias relativas para uma lista
 ;; de distâncias absolutas. O primeito item da lista
 ;; representa a distância da origem.
-(define relativa->absoluta-tests
-  (test-suite
-   "relativa->absoluta tests"
-   (check-equal? (relativa->absoluta empty) empty)
-   (check-equal? (relativa->absoluta (list 50 40 70 30 30))
-                 (list 50 90 160 190 220))))
+(examples
+ (check-equal? (relativa->absoluta empty) empty)
+ (check-equal? (relativa->absoluta (list 50 40 70 30 30))
+               (list 50 90 160 190 220)))
 ```
 
 
-## Exemplo 7.1
+## Exemplo
 
 \small
 
 ```scheme
 (define (relativa->absoluta lst)
-  (define (somador n) (λ (x) (+ x n)))
   (cond
     [(empty? lst) empty]
     [else
      (cons (first lst)
-           (map (somador (first lst))
+           (map (curry (first lst))
                 (relativa->absoluta (rest lst))))]))
 ```
 
 
-## Exemplo 7.1
+## Exemplo
 
 - Esta função realiza muito trabalho para resolver o problema (tempo de
   execução de $\Theta(n^2)$)
@@ -73,7 +73,7 @@ origem
 - Vamos tentar definir uma função mais parecida com este método manual
 
 
-## Exemplo 7.1
+## Exemplo
 
 - Como é uma função que processa uma lista, começamos com o modelo
 
@@ -86,17 +86,17 @@ origem
     ```
 
 
-## Exemplo 7.1
+## Exemplo
 
 - Como seria a avaliação de `(rel->abs (list 3 2 7))`{.scheme}? \pause
 
     ```scheme
     (rel->abs (list 3 2 7))
     (cons ... 3 ...
-      (converte (list 2 7)))
+      (rel->abs (list 2 7)))
     (cons ... 3 ...
       (cons ... 2 ...
-        (converte (list 7))))
+        (rel->abs (list 7))))
     ```
 
 - O primeiro item da lista deve ser `3`{.scheme}, e é fácil calcular este item.
@@ -105,7 +105,7 @@ origem
   Este "conhecimento" foi perdido.
 
 
-## Exemplo 7.1
+## Exemplo
 
 - Vamos acrescentar um parâmetro `acc-dist` que representa a distância
   acumulada, ou seja, a distância absoluta até o ponto anterior
@@ -117,7 +117,7 @@ origem
   apropriado
 
 
-## Exemplo 7.1
+## Exemplo
 
 \small
 
@@ -304,20 +304,18 @@ Projetando funções com acumuladores
 - Vamos reescrever diversas funções utilizando acumuladores
 
 
-## Exemplo 7.2
+## Exemplo
 
 \small
 
 ```scheme
 ;; Lista -> Natural
 ;; Conta a quantidade de elementos de uma lista.
-(define tamanho-tests
-  (test-suite
-   "tamanho tests"
-   (check-equal? (tamanho empty) 0)
-   (check-equal? (tamanho (list 4)) 1)
-   (check-equal? (tamanho (list 4 7)) 2)
-   (check-equal? (tamanho (list 4 8 -4)) 3)))
+(examples
+ (check-equal? (tamanho empty) 0)
+ (check-equal? (tamanho (list 4)) 1)
+ (check-equal? (tamanho (list 4 7)) 2)
+ (check-equal? (tamanho (list 4 8 -4)) 3))
 
 (define (tamanho lst)
   (cond
@@ -325,7 +323,7 @@ Projetando funções com acumuladores
     [else (add1 (tamanho (rest lst)))]))
 ```
 
-## Exemplo 7.2
+## Exemplo
 
 - Existe algum benefício em utilizar acumulador? \pause
 
@@ -341,7 +339,7 @@ Projetando funções com acumuladores
     - Portanto, vamos criar um acumulador que representa esta quantidade
 
 
-## Exemplo 7.2
+## Exemplo
 
 ```scheme
 (define (tamanho lst0)
@@ -353,7 +351,7 @@ Projetando funções com acumuladores
 ```
 
 
-## Exemplo 7.3
+## Exemplo
 
 \small
 
@@ -376,7 +374,7 @@ Projetando funções com acumuladores
 ```
 
 
-## Exemplo 7.3
+## Exemplo
 
 - Existe algum benefício em utilizar acumulador? \pause
 
@@ -392,7 +390,7 @@ Projetando funções com acumuladores
     - Portanto, vamos criar um acumulador que representa este valor
 
 
-## Exemplo 7.3
+## Exemplo
 
 ```scheme
 (define (soma lst0)
@@ -404,19 +402,17 @@ Projetando funções com acumuladores
 ```
 
 
-## Exemplo 7.4
+## Exemplo
 
 \small
 
 ```scheme
 ;; Lista -> Lista
 ;; Inverte a ordem dos elmentos de lst.
-(define inverte-tests
-  (test-suite
-   "inverte tests"
-   (check-equal? (inverte empty) empty)
-   (check-equal? (inverte (list 2)) (list 2))
-   (check-equal? (inverte (list 2 8 9)) (list 9 8 2))))
+(examples
+ (check-equal? (inverte empty) empty)
+ (check-equal? (inverte (list 2)) (list 2))
+ (check-equal? (inverte (list 2 8 9)) (list 9 8 2)))
 
 (define (inverte lst)
   (cond
@@ -425,7 +421,7 @@ Projetando funções com acumuladores
                   (list (first lst)))]))
 ```
 
-## Exemplo 7.4
+## Exemplo
 
 - Existe algum benefício em utilizar acumulador? \pause
 
@@ -442,7 +438,7 @@ Projetando funções com acumuladores
     - Vamos criar um acumulador que representa os elementos já vistos (uma lista)
 
 
-## Exemplo 7.4
+## Exemplo
 
 ```scheme
 (define (inverte lst0)

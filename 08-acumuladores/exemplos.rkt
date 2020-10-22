@@ -1,30 +1,24 @@
 #lang racket
 
-(require rackunit)
-(require rackunit/text-ui)
-
-;; Exemplo 7.1
+(require examples)
 
 ;; Lista(Número) -> Lista(Número)
 ;; Converte uma lista de distâncias relaticas para uma lista de distâncias
 ;; absolutas. O primeito item da lista representa a distância da origem.
 
-(define relativa->absoluta-tests
-  (test-suite
-   "relativa->absoluta tests"
-   (check-equal? (relativa->absoluta empty) empty)
-   (check-equal? (relativa->absoluta (list 50 40 70 30 30))
-                 (list 50 90 160 190 220))))
+(examples
+ (check-equal? (relativa->absoluta empty) empty)
+ (check-equal? (relativa->absoluta (list 50 40 70 30 30))
+               (list 50 90 160 190 220)))
 
 ;; Definição sem uso de acumulador
 #;
 (define (relativa->absoluta lst)
-  (define (somador n) (λ (x) (+ x n)))
   (cond
     [(empty? lst) empty]
     [else
      (cons (first lst)
-           (map (somador (first lst))
+           (map (curry + (first lst))
                 (relativa->absoluta (rest lst))))]))
 
 ;; Definição usando acumulador
@@ -38,23 +32,20 @@
                        (+ (first lst) acc-dist)))]))
   (rel->abs lst0 0))
 
-;; ---------------------------------------------------------------------
 
-;; Exemplo 7.2
+;; ---------------------------------------------------------------------
 
 ;; Lista -> Natural
 ;; Conta a quantidade de elementos de uma lista.
-(define tamanho-tests
-  (test-suite
-   "tamanho tests"
-   (check-equal? (tamanho empty)
-                 0)
-   (check-equal? (tamanho (list 4))
-                 1)
-   (check-equal? (tamanho (list 4 7))
-                 2)
-   (check-equal? (tamanho (list 4 8 -4))
-                 3)))
+(examples
+ (check-equal? (tamanho empty)
+               0)
+ (check-equal? (tamanho (list 4))
+               1)
+ (check-equal? (tamanho (list 4 7))
+               2)
+ (check-equal? (tamanho (list 4 8 -4))
+               3))
 
 ;; Definição sem uso de acumulador
 #;
@@ -78,23 +69,20 @@
     (add1 b))
   (reduz-acc soma1-no-segundo 0 lst))
 
-;; ---------------------------------------------------------------------
 
-;; Exemplo 7.3
+;; ---------------------------------------------------------------------
 
 ;; Lista(Número) -> Número
 ;; Soma os números de uma lista.
-(define soma-tests
-  (test-suite
-   "soma tests"
-   (check-equal? (soma empty)
-                 0)
-   (check-equal? (soma (list 3))
-                 3)
-   (check-equal? (soma (list 3 5))
-                 8)
-   (check-equal? (soma (list 3 5 -2))
-                 6)))
+(examples
+ (check-equal? (soma empty)
+               0)
+ (check-equal? (soma (list 3))
+               3)
+ (check-equal? (soma (list 3 5))
+               8)
+ (check-equal? (soma (list 3 5 -2))
+               6))
 
 ;; Definição sem acumulador
 #;
@@ -118,18 +106,15 @@
 (define (soma lst)
   (reduz-acc + 0 lst))
 
-;; ---------------------------------------------------------------------
 
-;; Exemplo 7.4
+;; ---------------------------------------------------------------------
 
 ;; Lista -> Lista
 ;; Inverte a ordem dos elmentos de lst.
-(define inverte-tests
-  (test-suite
-   "inverte tests"
-   (check-equal? (inverte empty) empty)
-   (check-equal? (inverte (list 2)) (list 2))
-   (check-equal? (inverte (list 2 8 9)) (list 9 8 2))))
+(examples
+ (check-equal? (inverte empty) empty)
+ (check-equal? (inverte (list 2)) (list 2))
+ (check-equal? (inverte (list 2 8 9)) (list 9 8 2)))
 
 ;; Definição sem uso de acumlador
 #;
@@ -171,20 +156,3 @@
       [else (iter (rest lst)
                   (f (first lst) acc))]))
   (iter lst0 base))
-
-;; ---------------------------------------------------------------------
-
-;;;;;;;;;;;;;;;;;;;;
-;; Funções para auxiliar nos testes
-
-;; Teste ... -> Void
-;; Executa um conjunto de testes.
-(define (executa-testes . testes)
-  (run-tests (test-suite "Todos os testes" testes))
-  (void))
-
-;; Chama a função para executar os testes.
-(executa-testes relativa->absoluta-tests
-                tamanho-tests
-                soma-tests
-                inverte-tests)

@@ -4,6 +4,8 @@
 
 # TODO
 
+- Apresentar a receita de projeto de forma diferente (https://course.ccs.neu.edu/cs5010sp15/recipe.html)
+
 - Veja TODO's específicos em cada arquivo
 
 - Expandir dados compostos para tipos de dados algébricos e incluir como projetar dados

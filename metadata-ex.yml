@@ -1,6 +1,6 @@
 author:
     - Marco A L Barbosa
-    - \newline \href{http://malbarbo.pro.br}{malbarbo.pro.br}
+    - \newline \href{https://malbarbo.pro.br}{malbarbo.pro.br}
 institute:
     - \href{http://din.uem.br}{Departamento de Informática} \newline \href{http://www.uem.br}{Universidade Estadual de Maringá}
 lang: pt-BR
@@ -14,6 +14,6 @@ license: |
     \scriptsize
     Os exercícios sem referências estão licenciados com uma Licença Creative
     Commons - Atribuição-CompartilhaIgual 4.0 Internacional. \\
-    \href{http://creativecommons.org/licenses/by-sa/4.0/}{\ccbysa} \\
-    \url{http://github.com/malbarbo/na-progfun}
+    \href{https://creativecommons.org/licenses/by-sa/4.0/}{\ccbysa} \\
+    \url{https://github.com/malbarbo/na-progfun}
     \end{center}

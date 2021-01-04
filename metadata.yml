@@ -6,6 +6,7 @@ institute:
 lang: pt-BR
 theme: metropolis
 themeoptions: numbering=fraction,sectionpage=simple,block=fill
+# See https://github.com/jgm/pandoc/issues/3007
 header-includes: |
     \usepackage{caption}
     \captionsetup[figure]{labelformat=empty}
@@ -14,6 +15,9 @@ header-includes: |
     \usepackage{menukeys}
     \usepackage{newunicodechar}
     \newunicodechar{λ}{\ensuremath{\lambda}}
+    \makeatletter
+    \beamer@ignorenonframefalse
+    \makeatother
 license: |
   \begin{tikzpicture}[overlay, remember picture]
     \linespread{0.75}

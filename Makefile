@@ -16,6 +16,7 @@ PANDOC=$(DEST)/bin/pandoc
 PANDOC_VERSION=2.10.1
 PANDOC_CMD=$(PANDOC) \
 		--pdf-engine=$(CURDIR)/$(TECTONIC) \
+		--from markdown-auto_identifiers \
 		--metadata-file ../metadata.yml \
 		--template ../templates/default.latex \
 		--standalone \

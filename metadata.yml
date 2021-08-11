@@ -1,16 +1,71 @@
-author:
-    - Marco A L Barbosa
-    - \newline \href{https://malbarbo.pro.br}{malbarbo.pro.br}
-institute:
-    - \href{http://din.uem.br}{Departamento de Informática} \newline \href{http://www.uem.br}{Universidade Estadual de Maringá}
+author: |
+    Marco A L Barbosa
+    \newline
+    \href{https://malbarbo.pro.br}{\color{black}{malbarbo.pro.br}}
+institute: |
+    \href{http://din.uem.br}{\color{black}{Departamento de Informática}}
+    \newline
+    \href{http://www.uem.br}{\color{black}{Universidade Estadual de Maringá}}
 lang: pt-BR
-theme: metropolis
-themeoptions: numbering=fraction,sectionpage=simple,block=fill
-# See https://github.com/jgm/pandoc/issues/3007
+# Usa as fontes disponíveis no tectonic
+# Evita warnings no slide de título (devido a informação da licensa)
+# Evita problemas com o polyglossia (https://github.com/reutenauer/polyglossia/issues/400)
+# Diminui a barra de título
+# Diminui o rodapé
+# Ajusta os espaço entre as linhas quando dividio em slides
+# Ajusta o espaço do título do bloco para o corpo do bloco (https://github.com/matze/mtheme/issues/307)
+# Ajusta a largura das colunas para a largura do texto apenas
+# Evita https://github.com/jgm/pandoc/issues/3007
+# Pacotes
 header-includes: |
+    \setsansfont[
+      Extension      = .otf,
+      UprightFont    = *-Light,
+      ItalicFont     = *-LightItalic,
+      BoldFont       = *-Regular,
+      BoldItalicFont = *-RegularItalic
+    ]{FiraSans}
+    \setmonofont[
+      Extension   = .otf,
+      UprightFont = *-Regular,
+      BoldFont    = *-Medium
+    ]{FiraMono}
+
+    \def\titlepage{%
+      \vspace{-1cm}
+      \usebeamertemplate{title page}%
+    }
+
+    \makeatletter
+
+    \def\bbl@cs#1{\csname bbl@#1\endcsname}
+
+    \setlength{\metropolis@frametitle@padding}{1.2ex}
+
+    \setbeamertemplate{footline}{%
+      \begin{beamercolorbox}[wd=\textwidth, ht=1mm, sep=0mm]{footline}
+        \usebeamerfont{page number in head/foot}%
+        \usebeamertemplate*{frame footer}
+        \hfill%
+        \usebeamertemplate*{frame numbering}
+      \end{beamercolorbox}%
+    }
+
+    \newcommand{\@minipagerestore}{\setlength{\parskip}{\metropolis@parskip}}
+
+    \let\oldblock\block
+    \let\endoldblock\endblock
+    \renewenvironment{block}[1]
+    {\begin{oldblock}{#1}\smallskip}
+    {\end{oldblock}}
+
+    \let\origcolumns\columns
+    \let\endorigcolumns\endcolumns
+    \renewenvironment{columns}[1][]{\origcolumns[onlytextwidth,#1]}{\endorigcolumns}
+
+    \makeatother
     \usepackage{caption}
     \captionsetup[figure]{labelformat=empty}
-    \usetikzlibrary{positioning}
     \usepackage{ccicons}
     \usepackage{menukeys}
     \usepackage{newunicodechar}
@@ -18,15 +73,26 @@ header-includes: |
     \makeatletter
     \beamer@ignorenonframefalse
     \makeatother
+    \usetikzlibrary{positioning}
+    \AtBeginDocument{
+      \letcs\oig{@orig\string\includegraphics}
+      \renewcommand<>\includegraphics[2][]{
+        \only#3{
+          {\centering\oig[{#1}]{#2}\par}
+        }
+      }
+    }
+    \hypersetup{colorlinks=true, linkcolor=.}
 license: |
   \begin{tikzpicture}[overlay, remember picture]
     \linespread{0.75}
     \node[above =0.1cm of current page.south, align=center] {
-        \href{https://creativecommons.org/licenses/by-sa/4.0/}{\ccbysa}\\
+        \href{http://creativecommons.org/licenses/by-sa/4.0/}{\color{black}{\ccbysa}}\\
         \vspace{-0.1cm}
-        \tiny Este trabalho está licenciado com uma Licença Creative Commons -
-        Atribuição-CompartilhaIgual 4.0 Internacional.\\
-        \tiny \url{https://github.com/malbarbo/na-progfun}
+        \tiny Este trabalho está licenciado com uma Licença Creative Commons - Atribuição-CompartilhaIgual 4.0 Internacional.\\
+        \tiny \href{http://github.com/malbarbo/na-progfun}{\color{black}{http://github.com/malbarbo/na-progfun}}
     };
   \end{tikzpicture}
 toc-title: Conteúdo
+theme: metropolis
+themeoptions: numbering=fraction,sectionpage=simple,block=fill

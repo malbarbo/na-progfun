@@ -190,7 +190,7 @@ Programa completo
 
 - Passo 6: Teste e depuração
 
-  - \keys{\ctrl + r} ou \keys{F5} para executar o programa (e os testes)
+  - ctrl + r ou F5 para executar o programa (e os testes)
 
 - Resultado
 

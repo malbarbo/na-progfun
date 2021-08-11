@@ -133,7 +133,7 @@ Na área de definições
 
 - Digite o código do programa
 
-- Pressione o botão executar/correr (\keys{\ctrl + r})
+- Pressione o botão executar/correr (ctrl + r))
 
 
 ## Uso

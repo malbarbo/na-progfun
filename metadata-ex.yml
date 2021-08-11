@@ -6,7 +6,6 @@ institute:
 lang: pt-BR
 header-includes: |
     \usepackage{ccicons}
-    \usepackage{menukeys}
     \usepackage{newunicodechar}
     \newunicodechar{λ}{\ensuremath{\lambda}}
 license: |

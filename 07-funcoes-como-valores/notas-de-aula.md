@@ -1295,7 +1295,7 @@ Funções anônimas
     ```
 
 - Em vez de utilizar a palavra `lambda`{.scheme}, podemos utilizar a letra $\lambda$
-  (\keys{\ctrl + \textbackslash} no DrRacket)
+  (ctrl + \textbackslash} no DrRacket)
 
 
 ## Funções anônimas

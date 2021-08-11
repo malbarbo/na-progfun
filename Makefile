@@ -1,6 +1,6 @@
 .PHONY: default all pdf handout tex clean
 
-SHELL=/bin/bash
+SHELL=bash
 DEST=target
 DEST_PDF=$(DEST)/pdfs
 DEST_PDF_HANDOUT=$(DEST)/pdfs/handout
@@ -13,14 +13,15 @@ EX_PDF=$(addprefix $(DEST_PDF)/, $(addsuffix -exercicios.pdf, $(EX)))
 TECTONIC=$(DEST)/bin/tectonic
 TECTONIC_VERSION=0.7.1
 PANDOC=$(DEST)/bin/pandoc
-PANDOC_VERSION=2.10.1
+PANDOC_VERSION=2.14.1
 PANDOC_CMD=$(PANDOC) \
-		--pdf-engine=$(CURDIR)/$(TECTONIC) \
+		-V mathspec \
 		--from markdown-auto_identifiers \
+		--pdf-engine=$(CURDIR)/$(TECTONIC) \
 		--metadata-file ../metadata.yml \
 		--template ../templates/default.latex \
-		--standalone \
-		--to beamer
+		--to beamer \
+		--standalone
 
 default:
 	@echo Executando make em paralelo [$(shell nproc) tarefas]
@@ -34,14 +35,14 @@ handout: $(NA_PDF_HANDOUT)
 
 ex: $(EX_PDF)
 
-$(DEST_PDF)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
+$(DEST_PDF)/%.pdf: %/notas-de-aula.md $(wildcard %/imagens/) templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
 	@mkdir -p $(DEST_PDF)
 	@echo $@
 	@cd $$(dirname $<) && \
 		../$(PANDOC_CMD) \
 		-o ../$@ notas-de-aula.md
 
-$(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
+$(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md $(wildcard %/imagens/) templates/default.latex metadata.yml $(PANDOC) $(TECTONIC) Makefile
 	@mkdir -p $(DEST_PDF_HANDOUT)
 	@echo $@
 	@cd $$(dirname $<) && \

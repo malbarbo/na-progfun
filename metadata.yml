@@ -67,7 +67,6 @@ header-includes: |
     \usepackage{caption}
     \captionsetup[figure]{labelformat=empty}
     \usepackage{ccicons}
-    \usepackage{menukeys}
     \usepackage{newunicodechar}
     \newunicodechar{λ}{\ensuremath{\lambda}}
     \makeatletter

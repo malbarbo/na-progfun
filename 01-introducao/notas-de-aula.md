@@ -109,18 +109,15 @@ $ drracket
 
 ## {.standout}
 
-\vspace{1cm}
-\begin{tikzpicture}[scale=0.94, transform shape]
+\begin{tikzpicture}[scale=0.85, transform shape]
     \node at (0, 0) {\includegraphics[width=\textwidth]{imagens/drracket-config.pdf}};
-    \draw[line width=1pt, red] (-5.35cm, -3.42cm) rectangle ++(3.1cm, 0.36cm);
-    \node[red, xshift=-2.9cm, yshift=-2.7cm] {Selecione esta opção};
+    \draw[line width=1pt, red] (-6.9cm, -4.4cm) rectangle ++(4.1cm, 0.4cm);
 \end{tikzpicture}
 
 
 ## {.standout}
 
-\vspace{1cm}
-\begin{tikzpicture}[scale=0.94, transform shape]
+\begin{tikzpicture}[scale=0.85, transform shape]
     \node at (0, 0) {\includegraphics[width=\textwidth]{imagens/drracket-exemplo.pdf}};
     \node[red, yshift=1cm] {Definições};
     \node[red, yshift=-2cm] {Interações};
@@ -168,17 +165,22 @@ Exemplos de interações
 
 
 
-Leitura recomendada
-===================
+Leitura
+=======
 
-## Leitura recomendada
+## Leitura
 
-[Introdução rápida ao Racket](http://docs.racket-lang.org/quick/)
+Recomendada
 
-[The Python paradox](http://www.paulgraham.com/pypar.html)
+- [Introdução rápida ao Racket](http://docs.racket-lang.org/quick/)
 
-[Programação funcional](https://en.wikipedia.org/wiki/Functional_programming)
+- [Programação funcional](https://en.wikipedia.org/wiki/Functional_programming)
 
-[Revenge of the Nerds](http://www.paulgraham.com/icad.html)
 
-[Beating the averages](http://www.paulgraham.com/avg.html)
+Extra
+
+- [The Python paradox](http://www.paulgraham.com/pypar.html)
+
+- [Revenge of the Nerds](http://www.paulgraham.com/icad.html)
+
+- [Beating the averages](http://www.paulgraham.com/avg.html)

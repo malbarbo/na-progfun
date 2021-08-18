@@ -8,85 +8,103 @@ Introdução
 
 ## Introdução
 
-<!-- TODO: adicionar funções number->string number? (outras?) !-->
 <!-- TODO: outros tipos pré-definidos? imagens? !-->
 <!-- TODO: comentários: ; ;; #; !-->
 <!-- TODO: falar de sexp !-->
 <!-- TODO: explicar passo a passo como criar test-suite !-->
 <!-- TODO: falar de #lang lazy (também é falado em streams) !-->
-<!-- TODO: versão final de expressão? !-->
 
-- O paradigma de programação funcional é baseado na definição e aplicação de
-  funções
+O paradigma de programação funcional é baseado na definição e aplicação de funções \pause
 
 - As funções são escritas em termos de expressões
 
-- Todas expressões produzem um resultado quando são avaliadas
+- Todas expressões produzem um resultado quando são avaliadas \pause
 
-- Mas o que são expressões e como o interpretador as avalia?
+Mas o que são expressões e como o interpretador as avalia?
 
 
 ## Definição de expressão (versão 0.1)
 
-- Uma expressão consiste de
+Uma expressão consiste de
 
-    - Um literal; ou
+- Um literal; ou
 
-    - Uma função primitiva
-
-
-## Tipos primitivos
-
-- Números
-
-    - Exatos
-
-        - Inteiros `1345`{.scheme}
-
-        - Racionais `1/3`{.scheme}
-
-        - Complexos com as partes real e imaginária exatas
-
-    - Inexatos
-
-        - Ponto flutuante `2.65`{.scheme}
-
-        - Complexos com parte real ou imaginária inexata
+- Uma função primitiva
 
 
-## Tipos primitivos
+## Literais de tipos primitivos
 
-- Booleano
+Números Exatos \pause
 
-    - `#t`{.scheme} verdadeiro
+- Inteiros `1345`{.scheme}
 
-    - `#f`{.scheme} falso
+- Racionais `1/3`{.scheme}
 
-- Strings
+- Complexos com as partes real e imaginária exatas
 
-    - `"Seu nome"`{.scheme}
+\pause
 
-- Muitos outros tipos
+Números Inexatos \pause
+
+- Ponto flutuante `2.65`{.scheme}
+
+- Complexos com parte real ou imaginária inexata
+
+
+
+## Literais de tipos primitivos
+
+Booleano \pause
+
+- `#t`{.scheme} verdadeiro
+
+- `#f`{.scheme} falso \pause
+
+
+Strings \pause
+
+- `"Seu nome"`{.scheme} \pause
+
+Muitos outros tipos
 
 
 ## Funções primitivas
 
-- Aritméticas: `+, -, *, /`{.scheme}
+Aritméticas: `+, -, *, /`{.scheme} \pause
 
-- Relacionais: `>, >=, <, <=, =`{.scheme}
+Relacionais: `>, >=, <, <=, =`{.scheme} \pause
 
-- Strings: `string-length`{.scheme}, `string-append`{.scheme},
-  `number->string`{.scheme}
+Strings: `string-length`{.scheme}, `string-append`{.scheme}, `number->string`{.scheme}, `string->number`{.scheme} \pause
 
-- Muitas outras
+Muitas outras...
 
 
 ## Processo de avaliação de expressões (versão 0.1)
 
+<div class="columns">
+<div class="column" width="50%">
+Uma expressão consiste de
+
+- Um literal; ou
+
+- Uma função primitiva
+
+\pause
+</div>
+<div class="column" width="50%">
+Como uma expressão é avaliada? \pause
+
 - Literal $\rightarrow$ valor que o literal representa
 
-- Função primitiva $\rightarrow$ sequência de instruções de máquina
-  associada com a função
+- Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função
+</div>
+</div>
+
+\pause
+
+Como a regra de avaliação de uma expressão está ligada com a definição de expressão? \pause
+
+Uma expressão é definida em termos de dois casos e por isso a regra de avaliação de expressões também é definida por dois casos.
 
 
 ## Exemplo de avaliação de expressões
@@ -103,119 +121,140 @@ Introdução
 ```
 
 
+## Expressões
+
+A definição de expressão que acabamos de ver parece bastante limitada, o que está faltando? \pause
+
+Uma forma de combinar expressões para formar novas expressões!
+
+
 
 Combinações
 ===========
 
 ## Combinações
 
-- Uma expressão que representa uma função pode ser combinada com outras
-  expressões para formar uma expressão que representa a aplicação da função
-  a estas expressões
+Uma expressão que é avaliada para uma função pode ser combinada com outras expressões para formar uma expressão que representa a aplicação da função a estas expressões. \pause Ah? \pause Ok, vamos ver alguns exemplos \pause
 
-    ```scheme
-    > (+ 12 56)
-    68
-    > (* 4 20)
-    80
-    > (> 4 5)
-    #f
-    > (string-append "Apenas " "um " "teste")
-    "Apenas um teste"
-    ```
+```scheme
+> (+ 12 56)
+68
+> (* 4 20)
+80
+> (> 4 5)
+#f
+> (string-append "Apenas " "um " "teste")
+"Apenas um teste"
+```
 
 
 ## Combinações
 
-- Este tipo de expressão é chamada de **combinação**
+Uma **combinação** consiste de uma lista de expressões entre parênteses
 
+- A expressão mais a esquerda é o **operador**
 
-## Combinações
+- As outras expressões são os **operandos** \pause
 
-- Uma combinação consiste de uma lista de expressões entre parênteses
+Qual o valor de uma combinação? \pause
 
-    - A expressão mais a esquerda é o **operador**
-
-    - As outras expressões são os **operandos**
-
-- O valor de uma combinação é obtido aplicando a função especificada pelo
-  operador aos argumentos (valores dos operandos)
+O resultado da aplicação da função especificada pelo operador aos valores dos operandos (argumentos).
 
 
 ## Notação prefixa
 
-- A convenção de colocar o operador a esquerda dos operandos é chamada de
-  **notação prefixa**
+Que tipo de notação é essa, parece estranha! \pause
+
+A convenção de colocar o operador a esquerda dos operandos é chamada de **notação prefixa**. \pause
+
+Quais as vantagens e desvantagens da notação prefixa?
 
 
 ## Vantagens da notação prefixa
 
-- Funções podem receber um número variado de argumentos
+Operadores aritméticos são tratados como as outras funções é podem receber um número variado de argumentos
 
-    ```scheme
-    > (* 2 8 10 1)
-    160
-    ```
+```scheme
+> (* 2 8 10 1)
+160
+```
 
 
 ## Vantagens da notação prefixa
 
-- Combinações podem ser aninhadas facilmente, isto é, os elementos das
-  combinações podem também ser combinações
+Combinações podem ser aninhadas facilmente, sem preocupações com prioridades das operações
 
-    ```scheme
-    > (+ (* 3 5) (- 10 6) 5)
-    24
-    > (+ (* 3
-            (+ (* 2 4)
-               (+ 3 5)))
-         (+ (- 10 7)
-            6))
-    57
-    ```
+```scheme
+> (+ (* 3 5) (- 10 6) 5)
+24
+> (+ (* 3
+        (+ (* 2 4)
+           (+ 3 5)))
+     (+ (- 10 7)
+        6))
+57
+```
+
+
+## Desvantagens da notação prefixa
+
+Diferente da forma que aprendemos... \pause
+
+Pode requerer muitos parênteses.
 
 
 ## Expressões
 
-- Vamos atualizar a definição de expressão para incluir as combinações
+Vamos atualizar a definição de expressão para incluir as combinações.
 
 
 ## Definição de expressão (versão 0.2)
 
-- Uma expressão consiste de
+<div class="columns">
+<div class="column" width="50%">
+Uma expressão consiste de
 
-    - Um literal; ou
+- Um literal; ou
 
-    - Uma função primitiva; ou
+- Uma função primitiva; ou
 
-    - Uma combinação
+- Uma combinação (lista de **expressões** entre parênteses)
+
+\pause
+</div>
+<div class="column" width="50%">
+Como uma expressão é avaliada? \pause
+
+- Literal $\rightarrow$ valor que o literal representa \pause
+
+- Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função \pause
+
+- Combinação \pause
+
+    - **Avalie cada expressão** da combinação, isto é, reduza cada expressão para um valor \pause
+
+      $\rightarrow$ Resultado da aplicação da função aos argumentos
+
+</div>
+</div>
 
 
-## Processo de avaliação de expressões (versão 0.2)
+## Definição de expressão (versão 0.2)
 
-- Literal $\rightarrow$ valor que o literal representa
+Algumas observações interessantes \pause
 
-- Função primitiva $\rightarrow$ sequência de instruções de máquina
-  associada com a função
+- Uma expressão é definida por três casos e a regra de avaliação também tem três casos. \pause
 
-- Combinação
+- Quando uma expressão é uma combinação, ela contém outras expressões. \pause Quando uma definição refere-se a si mesmo, dizemos que ela é uma definição com **autorreferência**. \pause O uso de autorreferência permite que expressões de tamanhos arbitrários sejam criadas. \pause
 
-    - **Avalie cada expressão** da combinação, isto é, reduza cada
-      expressão para um valor
+- O processo de avaliação para uma expressão que é uma combinação requer a chamada do processo de avaliação para suas expressões. \pause Quando um processo é definido em termos de si mesmo, dizemos que ele é **recursivo**. \pause O uso de recursividade permite que expressões de tamanho arbitrário sejam avaliadas. \pause
 
-    - Aplique a função aos argumentos
+- Uma autorreferência em uma definição implicada (geralmente) em uma recursão para processar os elementos que seguem a definição.
 
 
-## Avaliação de expressões
+## Definição de expressão (versão 0.2)
 
-- Observe que mesmo sendo um procedimento simples, ele pode ser usado para
-  avaliar expressões muito complicadas (como por exemplo, expressões com muitos
-  níveis de aninhamento)
-
-- Isto é possível porque o procedimento é recursivo
-
-- A recursão é uma ferramenta muito poderosa, e ela é essencial para a
-  programação funcional
+Estamos usando os conceitos de autorreferência e recursividade para entender o funcionamento da linguagem Racket (a estrutura das linguagens de programação são recursivas), mas iremos ver que estes conceitos são fundamentais também para criar programas no paradigma funcional.
 
 
 ## Avaliação de expressões
@@ -235,87 +274,88 @@ Combinações
 
 
 
+## Definições
+
+Vimos anteriormente que o paradigma de programação funcional é baseado na definição e aplicações de funções. \pause
+
+Como funções são definidas em termos de expressões, nós vimos primeiramente o que são expressões. \pause
+
+Agora vamos ver o que são definições e como fazer definições de novas funções.
+
+
 Definições
 ==========
 
 ## Definições
 
-- Definições servem para dar nome a objetos computacionais, sejam dados ou
-  funções
+Qual o propósito das definições? \pause
+
+Definições servem para dar nome a objetos computacionais, sejam dados ou funções. \pause
 
 - É a forma de abstração mais elementar
 
 
 ## Definições
 
-- Em Racket, definições são feitas com o `define`
+Em Racket, as definições são feitas com o `define`{.scheme}
 
-    ```scheme
-    (define x 10)
-    (define y (+ x 24))
-    ```
+```scheme
+(define x 10)
+(define y (+ x 24))
+```
 
-    ```scheme
-    > y
-    34
-    ```
-
-
-## Definições
-
-- Quando o interpretador encontra uma construção do tipo
-
-    ```scheme
-    (define <nome> <exp>)
-    ```
-
-    ele associa `<nome>` ao valor obtido pela avaliação de `<exp>`
-
-- A avaliação de um nome resulta no objeto associado a ele na sua definição
-
-- A memória que armazena as associações entre nomes e objetos é chamada de
-  **ambiente**
+```scheme
+> y
+34
+```
 
 
 ## Definições
 
-- O procedimento para avaliação de expressão não serve para definições
+Como o Racket interpreta um definição? \pause
 
-    - `(define x 10)`{.scheme} não significa aplicar a função `define`{.scheme}
-      a dois argumentos
+Quando o interpretador encontra uma construção do tipo
 
-    - O propósito do `define`{.scheme} é associar o valor `10`{.scheme}
-      ao nome `x`{.scheme}
+```scheme
+(define <nome> <exp>)
+```
 
-    - Ou seja, `(define x 10)`{.scheme} não é uma combinação
-
-
-## Definições
-
-- Exceções à regra geral de avaliação de expressões são chamadas de **formas
-  especiais**
-
-    - `define`{.scheme} é uma forma especial
-
-- Cada forma especial tem a sua própria regra de avaliação
-
-- O Racket possui poucas formas especiais, isto significa que é possível
-  aprender a sintaxe da linguagem rapidamente
+ele associa `<nome>` ao valor obtido pela avaliação de `<exp>` (a memória que armazena as associações entre nomes e objetos é chamada de **ambiente**).
 
 
 ## Definições
 
-- Também é possível criar definições de novas funções (chamadas de **funções
-  compostas**)
+Note que uma definição não é uma combinação (expressão) e por isso o procedimento para avaliação de expressão não serve para definições. \pause
 
-- A sintaxe geral é
+- `(define x 10)`{.scheme} não significa aplicar a função `define`{.scheme} a dois argumentos \pause
 
-    ```scheme
-    (define (<nome> <parametros>) <corpo>)
-    ```
+- O propósito do `define`{.scheme} é associar o valor `10`{.scheme} ao nome `x`{.scheme} \pause
+
+- Ou seja, `(define x 10)`{.scheme} não é uma combinação (expressão)
+
+
+## Programa
+
+Dessa forma, os programas em Racket são compostos de duas construções: expressões e definições. \pause
+
+De forma mais precisa, um programa em Racket é formado por uma sequência de definições e expressões.
 
 
 ## Definições
+
+Como vimos na definição `(define y (+ x 24))`{.scheme}, nomes podem aparecer em expressões, então precisamos atualizar a nossa definição de expressão. \pause Mas antes, vamos ver como definir novas funções.
+
+
+## Definição de função
+
+A sintaxe geral para definição de novas funções (**funções compostas**) é \pause
+
+```scheme
+(define (<nome> <parametro>...) <exp>)
+```
+
+
+## Definição de função
 
 ```scheme
 (define (quadrado x)
@@ -336,67 +376,48 @@ Definições
 25
 ```
 
+Observe que as funções compostas (definidas pelo usuário) são usadas da mesma forma que as funções pré-definidas.
 
-## Definições
 
-- Observe que as funções compostas (definidas pelo usuário) são usadas da mesma
-  forma que as funções pré-definidas
+## Definição de função
+
+Agora precisamos estender a definição de expressões para incluir nomes e alterar a regra de avaliação de expressões para considerar a aplicação de funções compostas.
 
 
 
 Modelo de substituição
 ======================
 
-## Modelo de substituição
-
-- A definição e o processo de avaliação de expressões devem ser estendidos para
-  comportar formas especiais e o uso de nomes definidos pelo usuário
-
-
 ## Definição de expressão (versão 0.3)
 
-- Uma expressão consiste de
+<div class="columns">
+<div class="column" width="35%">
+Uma expressão consiste de
 
-    - Um literal; ou
+- Um literal; ou
+- Uma função primitiva; ou
+- Um nome; ou
+- Uma combinação
 
-    - Uma função primitiva; ou
-
-    - Um nome; ou
-
-    - Uma forma especial; ou
-
-    - Uma combinação
-
-
-## Processo de avaliação de expressões (versão 0.3)
-
-\small
+\pause
+</div>
+<div class="column" width="60%">
+Avaliação
 
 - Literal $\rightarrow$ valor que o literal representa
-
-- Função primitiva $\rightarrow$ sequência de instruções de máquina
-  associada com a função
-
+- Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função
 - Nome $\rightarrow$ valor associado com o nome no ambiente
-
-- Forma especial $\rightarrow$ usar a regra específica de cada forma
-  especial
-
 - Combinação
-
-    - Avalie cada expressão da combinação
-
-    - Se o operador é uma função composta, avalie o corpo da função
-      composta **substituindo** cada ocorrência do parâmetro formal pelo
-      argumento correspondente
-
+    - **Avalie** cada expressão da combinação \pause
+    - Se o operador é uma função composta \pause, **avalie** o corpo da função composta **substituindo** cada ocorrência do parâmetro formal pelo argumento correspondente \pause
     - Senão, aplique a função primitiva aos argumentos
+</div>
+</div>
 
 
 ## Modelo de substituição
 
-- Essa forma de aplicar funções compostas é chamada de **modelo de
-  substituição**
+Essa forma de calcular o resultado da aplicação de funções compostas é chamada de **modelo de substituição**.
 
 
 ## Modelo de substituição
@@ -429,100 +450,144 @@ Modelo de substituição
 `136`{.scheme}
 
 
-## {.plain}
+## {.standout}
 
-\vspace{1cm}
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.9, transform shape]
     \node at (0, 0) {\includegraphics[width=\textwidth]{imagens/drracket-step.pdf}};
-    \draw[line width=1pt,red] (-5.36cm, -3.41cm) rectangle ++(2cm, 0.36cm);
-    \draw[line width=1pt,red] (-5.36cm, 2.26cm) rectangle ++(2.2cm, 0.35cm);
-    \draw[line width=1pt,red] (2.4cm, 2.67cm) rectangle ++(0.9cm, 0.36cm);
+    % Begin Student
+    \draw[line width=1pt,red] (-6.9cm, -4.4cm) rectangle ++(2.5cm, 0.36cm);
+    % lang
+    \draw[line width=1pt,red] (-6.9cm, 3.0cm) rectangle ++(2.6cm, 0.35cm);
+    % Step
+    \draw[line width=1pt,red] (3.15cm, 3.5cm) rectangle ++(1.10cm, 0.4cm);
 \end{tikzpicture}
 
 
 ## Modelo de substituição
 
-- Ao invés de avaliar os operandos e depois fazer a substituição, existe um
-  outro modo de avaliação que primeiro faz a substituição e apenas avalia os
-  operandos quando (e se) eles forem necessários
+Ao invés de avaliar os operandos e depois fazer a substituição, existe um outro modo de avaliação que primeiro faz a substituição e apenas avalia os operandos quando (e se) eles forem necessários. \pause
 
-    \scriptsize
+\scriptsize
 
-    ```scheme
-    (f 5)
-    (soma-quadrados (+ 5 1) (* 5 2))
-    (+ (quadrado (+ 5 1)) (quadrado (* 5 2)))
-    (+ (* (+ 5 1) (+ 5 1)) (* (* 5 2) (* 5 2)))
-    (+ (* 6 (+ 5 1)) (* (* 5 2) (* 5 2)))
-    (+ (* 6 6) (* (* 5 2) (* 5 2)))
-    (+ 36 (* (* 5 2) (* 5 2)))
-    (+ 36 (* 10 (* 5 2)))
-    (+ 36 (* 10 10))
-    (+ 36 100)
-    136
-    ```
+```scheme
+(f 5)
+(soma-quadrados (+ 5 1) (* 5 2))
+(+ (quadrado (+ 5 1)) (quadrado (* 5 2)))
+(+ (* (+ 5 1) (+ 5 1)) (* (* 5 2) (* 5 2)))
+(+ (* 6 (+ 5 1)) (* (* 5 2) (* 5 2)))
+(+ (* 6 6) (* (* 5 2) (* 5 2)))
+(+ 36 (* (* 5 2) (* 5 2)))
+(+ 36 (* 10 (* 5 2)))
+(+ 36 (* 10 10))
+(+ 36 100)
+136
+```
 
 \normalsize
 
-- Observe que a resposta obtida foi a mesma do método anterior
+Observe que a resposta obtida foi a mesma do método anterior.
 
 
 ## Modelo de substituição
 
-- Este método de avaliação alternativo de primeiro substituir e depois reduzir,
-  é chamado de **avaliação em ordem normal** (que é um tipo de avaliação
-  preguiçosa)
+Este método de avaliação alternativo de primeiro substituir e depois reduzir, é chamado de **avaliação em ordem normal** (que é um tipo de avaliação preguiçosa). \pause
 
-- O método de avaliação que primeiro avalia os argumentos e depois aplica
-  a função é chamado de **avaliação em ordem aplicativa**
+O método de avaliação que primeiro avalia os argumentos e depois aplica a função é chamado de **avaliação em ordem aplicativa**. \pause
 
-- O Racket usa por padrão a avaliação em ordem aplicativa
+O Racket usa por padrão a avaliação em ordem aplicativa.
 
-- O Haskell usa avaliação em ordem normal
+O Haskell usa avaliação em ordem normal.
+
+
+## Exercícios
+
+1. O seu amigo Alan está planejando uma viagem pro final do ano com a família e está considerando diversos destinos. Uma das coisas que ele está levando em consideração é o custo da viagem, que inclui, entre outras coisas, hospedagem, combustível e o pedágio. Para o cálculo do combustível ele pediu a sua ajuda, ele disse que sabe a distância que vai percorrer, o preço do litro do combustível e o rendimento do carro (quantos quilômetros o carro anda com um litro de combustível), mas que é muito chato ficar fazer o cálculo manualmente, então ele quer que você faça um programa para calcular o gasto de combustível em uma viagem.
+
+    \pause
+
+    ```scheme
+    (define (custo-combustivel distancia preco-do-litro rendimento)
+        (* (/ distancia rendimento) preco-do-litro))
+    ```
+
+
+## Exercícios
+
+2. Depois que você fez o programa para o Alan, a Márcia, amiga em comum de vocês, soube que você está oferecendo serviços desse tipo e também quer a sua ajuda. O problema da Márcia é que ela sempre tem que fazer a conta manualmente para saber se deve abastecer o carro com álcool ou gasolina. A conta que ela faz é verificar se o preço do álcool é até 70% do preço da gasolina, se sim, ela abastece o carro com álcool, senão ela abastece o carro com gasolina. Você pode ajudar a Márcia também?
+
+\pause
+
+É possível resolver este problema usando as coisas que vimos até aqui? \pause Não! \pause
+
+O que está faltando? \pause Algum tipo de expressão condicional. \pause
+
+Depois voltamos nesse problema!
 
 
 
 Condicional
 ===========
 
+
 ## Condicional
 
-- Vamos escrever uma função para calcular o valor absoluto de um número, isto é
+Utilizamos a construção `if`{.scheme} para especificar expressões condicionais. Sua forma geral é
 
-$$
-\mathrm{abs}(x) = \begin{cases}
+```scheme
+(if <predicado> <consequente> <alternativa>)
+```
+
+\pause
+
+Exemplos
+
+```scheme
+> (if (> 4 2) 10 7)
+10
+> (if (= 10 12) 10 7)
+7
+```
+
+
+## Condicional
+
+Qual a diferente do `if`{.scheme} do Racket em relação ao das outras linguagens? \pause
+
+O `if`{.scheme} do Racket é uma expressão, ele produz um valor como resultado. Na maioria das outras linguagens o `if`{.scheme} é uma sentença, ele não produz um resultado mas gera uma mudança no estado do programa. \pause
+
+O `if`{.scheme} é uma função? \pause Não. \pause
+
+Se o `if`{.scheme} fosse uma função ele seria avaliado usando a regra de avaliação de funções, que diz que todas as expressões dos argumentos da função devem ser avaliados antes da aplicação na função. O `if`{.scheme} avalia o consequente ou a alternativa, dependendo da condição, mas não os dois. \pause
+
+O `if`{.scheme} é uma **forma especial** e tem uma regra de avaliação específica. \pause (O Racket possui poucas formas especiais, isto significa que é possível aprender a sintaxe da linguagem rapidamente.)
+
+
+## Regra de avaliação do `if`{.scheme}
+
+Expressões `if`{.scheme} são avaliadas da seguinte maneira: \pause
+
+- Se o predicado não é um valor, avalie o predicado e o substitua pelo seu valor \pause
+
+- Se o predicado é `#t`{.scheme}, substitua toda a expressão `if`{.scheme} pelo consequente e avalie o consequente\pause
+
+- Se o predicado é `#f`{.scheme}, substitua toda a expressão `if`{.scheme} pela alternativa e avalie a alternativa
+
+
+## Exemplo
+
+Vamos escrever uma função para calcular o valor absoluto de um número, isto é
+
+$$\mathrm{abs}(x) = \begin{cases}
 x & \text{se } x \ge 0 \\\\
 -x & \text{caso contrário}
-\end{cases}
-$$
+\end{cases}$$
 
-## Condicional
-
-- A forma especial `if`{.scheme} é utilizada para especificar funções deste
-  tipo. Sua forma geral é
-
-    ```scheme
-    (if <predicado> <consequente> <alternativa>)
-    ```
+e ver o processo de avaliação dessa função.
 
 
 ## Condicional
 
-- Expressões `if`{.scheme} são avaliadas da seguinte maneira
-
-    - Se o predicado não é um valor, avalie o predicado e o substitua pelo seu
-      valor
-
-    - Se o predicado é `#t`{.scheme}, substitua toda a expressão `if`{.scheme}
-      pelo consequente
-
-    - Se o predicado é `#f`{.scheme}, substitua toda a expressão `if`{.scheme}
-      pela alternativa
-
-
-## Condicional
-
-\scriptsize
+\small
 
 ```scheme
 (define (abs x)
@@ -530,6 +595,8 @@ $$
       x
       (- x)))
 ```
+
+\pause
 
 ```scheme
 (abs -4)         ; Substitui (abs -4) pelo corpo ...
@@ -554,81 +621,101 @@ $$
 \pause
 
 ```scheme
-(- -4)           ; Reduz (- -4) para 4
+(- -4)           ; Reduz (- -4) para 4 - não mostrado...
 ```
+
+
+## Definição de expressão (versão 1.0)
+
+Vamos atualizar a nossa definição de expressão pra incluir formas especiais.
+
+
+## Definição de expressão (versão 1.0)
+
+<div class="columns">
+<div class="column" width="35%">
+Uma expressão consiste de
+
+- Um literal; ou
+- Uma função primitiva; ou
+- Um nome; ou
+- Uma forma especial; ou
+- Uma combinação
 
 \pause
+</div>
+<div class="column" width="60%">
+Avaliação
+
+- Literal $\rightarrow$ valor que o literal representa
+- Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função
+- Nome $\rightarrow$ valor associado com o nome no ambiente
+- Forma especial $\rightarrow$ avalie a forma especial usando a regra de avaliação específica
+- Combinação
+    - **Avalie** cada expressão da combinação
+    - Se o operador é uma função composta, **avalie** o corpo da função composta **substituindo** cada ocorrência do parâmetro formal pelo argumento correspondente
+    - Senão, aplique a função primitiva aos argumentos
+</div>
+</div>
+
+
+## Condicional
+
+A forma especial `cond` pode ser usada quando existem vários (pelo menos um) casos
 
 ```scheme
-4
+(define (abs x)
+  (cond
+    [(>= x 0) x]
+    [(< x 0) (- x)]))
 ```
 
 
 ## Condicional
 
-- A forma especial `cond` pode ser usada quando existem vários (pelo menos um)
-  casos
+Como as duas condições são mutuamente excludentes, podemos usar o `else`
 
-    ```scheme
-    (define (abs x)
-      (cond
-        [(>= x 0) x]
-        [(< x 0) (- x)]))
-    ```
-
-
-## Condicional
-
-- Como as duas condições são mutuamente excludentes, podemos usar o `else`
-
-    ```scheme
-    (define (abs x)
-      (cond
-        [(>= x 0) x]
-        [else (- x)]))
-    ```
+```scheme
+(define (abs x)
+  (cond
+    [(>= x 0) x]
+    [else (- x)]))
+```
 
 
 ## Condicional
 
 \small
 
-- A forma geral do `cond` é
+A forma geral do `cond` é
 
-    ```scheme
-    (cond
-      [<p1> <e1>]
-      [<p2> <e2>]
-      [<p3> <e3>]
-      ...
-      [else <en>])
-    ```
+```scheme
+(cond
+  [<p1> <e1>]
+  [<p2> <e2>]
+  [<p3> <e3>]
+  ...
+  [else <en>])
+```
 
-- Cada par `[<p> <e>]` é chamado de **cláusula** (parênteses e colchetes são
-  equivalentes em Racket)
+Cada par `[<p> <e>]` é chamado de **cláusula** (parênteses e colchetes são equivalentes em Racket).
 
-- A primeira expressão de uma cláusula é chamada de **predicado** (expressão
-  cujo o valor é interpretado como verdadeiro ou falso)
+A primeira expressão de uma cláusula é chamada de **predicado** (expressão cujo o valor é interpretado como verdadeiro ou falso).
 
-- A segunda expressão de uma cláusula é chamada de **consequente**
+A segunda expressão de uma cláusula é chamada de **consequente**.
 
 
 ## Condicional
 
-- Expressões `cond`{.scheme} são avaliadas da seguinte maneira
+Expressões `cond`{.scheme} são avaliadas da seguinte maneira:
 
-    - Se o primeiro predicado não é um valor, avalie o predicado e o substitua
-      pelo seu valor. Ou seja, substitua todo o `cond`{.scheme} por um novo
-      `cond`{.scheme} onde o primeiro predicado foi substituído pelo seu valor
+- Se o primeiro predicado não é um valor, avalie o predicado e o substitua pelo seu valor. Ou seja, substitua todo o `cond`{.scheme} por um novo `cond`{.scheme} onde o primeiro predicado foi substituído pelo seu valor
 
-    - Se o primeiro predicado é `#t`{.scheme} ou `else`{.scheme}, substitua
-      a expressão `cond` inteira pelo primeiro consequente
+- Se o primeiro predicado é `#t`{.scheme} ou `else`{.scheme}, substitua a expressão `cond` inteira pelo primeiro consequente e avalie o consequente
 
-    - Se o primeiro predicado é `#f`{.scheme}, remova a primeira cláusula. Isto
-      é, substitua o `cond`{.scheme} por um novo `cond`{.scheme} sem a primeira
-      cláusula
+- Se o primeiro predicado é `#f`{.scheme}, remova a primeira cláusula. Isto é, substitua o `cond`{.scheme} por um novo `cond`{.scheme} sem a primeira cláusula
 
-    - Se não tem mais cláusula, sinalize um erro
+- Se não tem mais cláusula, sinalize um erro
 
 
 ## Condicional
@@ -684,8 +771,7 @@ $$
 
 ## Exercício
 
-Defina as funções `e-logico` e `ou-logico` de tal forma que para os argumentos
-x e y:
+Defina as funções `e-logico` e `ou-logico` de tal forma que para os argumentos x e y:
 
 `(e-logico x y)` $\rightarrow$ `x` $\wedge$ `y`
 
@@ -712,49 +798,44 @@ Operadores lógicos
 
 ## Operadores lógicos
 
-- Predicados podem ser compostos usando as formas especiais `and`{.scheme}
-  e `or`{.scheme} e a função `not`{.scheme}
+Predicados podem ser compostos usando as formas especiais `and`{.scheme} e `or`{.scheme} e a função `not`{.scheme}
 
 
 ## `not`
 
-- A função `(not <e>)`{.scheme} produz `#t`{.scheme} quando `<e>` for avaliado
-  para um valor falso, e `#f`{.scheme} caso contrário
+A função `(not <e>)`{.scheme} produz `#t`{.scheme} quando `<e>` for avaliado para um valor falso, e `#f`{.scheme} caso contrário
 
-    ```scheme
-    > (not (> 5 2))
-    #f
-    > (not (< 5 2))
-    #t
-    ```
-
-
-## `and`
-
-- A forma geral do `and`{.scheme} é:
-
-    ```scheme
-    (and <e1> ... <en>)
-    ```
+```scheme
+> (not (> 5 2))
+#f
+> (not (< 5 2))
+#t
+```
 
 
 ## `and`
 
-- Expressões `and`{.scheme} são avaliadas da seguinte maneira
+A forma geral do `and`{.scheme} é:
 
-    - Se não existem expressões, produza `#t`{.scheme}
-
-    - Se a primeira expressão não é um valor, avalie a primeira expressão
-      e a substitua pelo seu valor
-
-    - Se a primeira expressão é `#f`{.scheme}, produza `#f`{.scheme}
-
-    - Se a primeira expressão é `#t`{.scheme}, substitua a expressão
-      `and`{.scheme} por uma nova expressão `and` sem a primeira expressão
+```scheme
+(and <e1> ... <en>)
+```
 
 
-- **Observação**: o passo a passo do Racket é um pouco diferente (não elimina
-  os valores `#t`{.scheme})
+## `and`
+
+Expressões `and`{.scheme} são avaliadas da seguinte maneira
+
+- Se não existem expressões, produza `#t`{.scheme}
+
+- Se a primeira expressão não é um valor, avalie a primeira expressão e a substitua pelo seu valor
+
+- Se a primeira expressão é `#f`{.scheme}, produza `#f`{.scheme}
+
+- Se a primeira expressão é `#t`{.scheme}, substitua a expressão `and`{.scheme} por uma nova expressão `and` sem a primeira expressão
+
+
+- **Observação**: o passo a passo do Racket é um pouco diferente (não elimina os valores `#t`{.scheme})
 
 
 ## `and`
@@ -809,30 +890,27 @@ Operadores lógicos
 
 ## `or`
 
-- A forma geral do `or`{.scheme} é:
+A forma geral do `or`{.scheme} é:
 
-    ```scheme
-    (or <e1> ... <en>)
-    ```
+```scheme
+(or <e1> ... <en>)
+```
 
 
 ## `or`
 
-- Expressões `or`{.scheme} são avaliadas da seguinte maneira
+Expressões `or`{.scheme} são avaliadas da seguinte maneira
 
-    - Se não existem expressões, produza `#f`{.scheme}
+- Se não existem expressões, produza `#f`{.scheme}
 
-    - Se a primeira expressão não é um valor, avalie a primeira expressão e a
-      substitua pelo seu valor
+- Se a primeira expressão não é um valor, avalie a primeira expressão e a substitua pelo seu valor
 
-    - Se a primeira expressão é `#t`{.scheme}, produza `#t`{.scheme}
+- Se a primeira expressão é `#t`{.scheme}, produza `#t`{.scheme}
 
-    - Se a primeira expressão é `#f`{.scheme}, substitua a expressão
-      `or`{.scheme} por uma nova expressão `or`{.scheme} sem a primeira
-      expressão
+- Se a primeira expressão é `#f`{.scheme}, substitua a expressão `or`{.scheme} por uma nova expressão `or`{.scheme} sem a primeira expressão
 
-- **Observação**: o passo a passo do Racket é um pouco diferente (não elimina
-  os valores `#f`{.scheme})
+
+**Observação**: o passo a passo do Racket é um pouco diferente (não elimina os valores `#f`{.scheme})
 
 
 ## Operadores lógicos
@@ -870,126 +948,105 @@ Operadores de equivalência
 
 ## Operadores de equivalência
 
-- São utilizados para verificar a relação de equivalência entre expressões
+Os operadores de equivalência são utilizados para verificar a relação de equivalência entre expressões. \pause
 
-- Não devem ser confundidos com o comparador `=`{.scheme}, utilizado apenas
-  para valores numéricos
+- Não devem ser confundidos com o comparador `=`{.scheme}, utilizado apenas para valores numéricos
 
-- Os principais operadores de equivalência são o `eq?`{.scheme},
-  `eqv?`{.scheme} e `equal?`{.scheme}
+- Os principais operadores de equivalência são o `eq?`{.scheme}, `eqv?`{.scheme} e `equal?`{.scheme}
 
 
 ## Operador `eq?`
 
-- A função `(eq? v1 v2)`{.scheme} produz `#t`{.scheme} se `v1` e `v2`
-  referenciam o mesmo objeto, `#f`{.scheme} caso contrário
+A função `(eq? v1 v2)`{.scheme} produz `#t`{.scheme} se `v1` e `v2` referenciam o mesmo objeto, `#f`{.scheme} caso contrário. \pause `eq?`{.scheme} é avaliada rapidamente pois compara apenas as referências. \pause Entretanto, o `eq?`{.scheme} pode não ser adequado, pois a geração dos objetos pode não ser clara
 
+\scriptsize
 
-## Operador `eq?`
-
-- `eq?`{.scheme} é avaliada rapidamente pois compara apenas as referências
-
-- Entretanto, o `eq?`{.scheme} pode não ser adequado, pois a geração dos
-  objetos pode não ser clara
-
-    \scriptsize
-
-    ```scheme
-    > (eq? 2 2)
-    #t
-    > (eq? (+ 3 5) (+ 5 3))
-    #t
-    > (eq? 2 2.0)
-    #f
-    > (eq? (expt 2 100) (expt 2 100))
-    #f
-    > (eq? (integer->char 955) (integer->char 955))
-    #f
-    ```
+```scheme
+> (eq? 2 2)
+#t
+> (eq? (+ 3 5) (+ 5 3))
+#t
+> (eq? 2 2.0)
+#f
+> (eq? (expt 2 100) (expt 2 100))
+#f
+> (eq? (integer->char 955) (integer->char 955))
+#f
+```
 
 \normalsize
 
-- Observe que nos três últimos exemplos, objetos distintos foram criados para
-  expressões avaliadas para um mesmo valor
+Observe que nos três últimos exemplos, objetos distintos foram criados para expressões avaliadas para um mesmo valor.
 
 
 ## Operador `eqv?`
 
-- Dois valores são `eqv?`{.scheme} *sse* eles são `eq?`{.scheme}, exceto para números e
-  caracteres
+Dois valores são `eqv?`{.scheme} *sse* eles são `eq?`{.scheme}, exceto para números e caracteres. \pause
+
+Dois números são `eqv?`{.scheme} se eles são precisamente iguais \pause
+
+```scheme
+> (eqv? (expt 2 100) (expt 2 100))
+#t
+> (eqv? 2 2.0)
+#f
+```
 
 
 ## Operador `eqv?`
 
-- Dois números são `eqv?`{.scheme} se eles são precisamente iguais
+Dois caracteres são `eqv?`{.scheme} quando seus resultados de `char->integer`{.scheme} forem iguais
 
-    ```scheme
-    > (eqv? (expt 2 100) (expt 2 100))
-    #t
-    > (eqv? 2 2.0)
-    #f
-    ```
-
-
-## Operador `eqv?`
-
-- Dois caracteres são `eqv?`{.scheme} quando seus resultados de
-  `char->integer`{.scheme} forem iguais
-
-    ```scheme
-    > (eqv? (integer->char 955) (integer->char 955))
-    #t
-    > (eqv? #\a #\z)
-    #f
-    ```
+```scheme
+> (eqv? (integer->char 955) (integer->char 955))
+#t
+> (eqv? #\a #\z)
+#f
+```
 
 
 ## Operador `eqv?`
 
-- Dois pares iguais não são `eqv?`{.scheme} entre si (recai ao `eq?`{.scheme})
+Dois pares iguais não são `eqv?`{.scheme} entre si (recai ao `eq?`{.scheme})
 
-    ```scheme
-    > (eqv? (cons 1 2) (cons 1 2))
-    #f
-    ```
+```scheme
+> (eqv? (cons 1 2) (cons 1 2))
+#f
+```
 
 
 ## Operador `equal?`
 
-- Dois valores são `equal?`{.scheme} *sse* eles são `eqv?`{.scheme}, a menos
-  que especificado de outra forma para um tipo de dado particular
+Dois valores são `equal?`{.scheme} *sse* eles são `eqv?`{.scheme}, a menos que especificado de outra forma para um tipo de dado particular. \pause
+
+Duas strings são `equal?`{.scheme} quando elas possuem o mesmo tamanho e contêm a mesma sequência de caracteres
+
+```scheme
+> (equal? "banana" "banana")
+#t
+> (equal? "banana" "abacaxi")
+#f
+```
 
 
 ## Operador `equal?`
 
-- Duas strings são `equal?`{.scheme} quando elas possuem o mesmo tamanho
-  e contêm a mesma sequência de caracteres
+Para estruturas que podem ser compostas, como pares, vetores e etc, o operador `equal?`{.scheme} checa a equivalência recursivamente \pause
 
-    ```scheme
-    > (equal? "banana" "banana")
-    #t
-    > (equal? "banana" "abacaxi")
-    #f
-    ```
-
-
-## Operador `equal?`
-
-- Para estruturas que podem ser compostas, como pares, vetores e etc,
-  o operador `equal?`{.scheme} checa a equivalência recursivamente
-
-    ```scheme
-    > (equal? (list 3 (list 4 2) 5) (list 3 (list 4 2) 5))
-    #t
-    > (equal? (list 3 2.0 1) (list 3 2 1))
-    #f
-    ```
+```scheme
+> (equal? (list 3 (list 4 2) 5) (list 3 (list 4 2) 5))
+#t
+> (equal? (list 3 2.0 1) (list 3 2 1))
+#f
+```
 
 
 Referências
 ===========
 
-## Referências básicas
+## Referências
+
+Básicas
 
 - [Introdução rápida ao Racket](http://docs.racket-lang.org/quick/index.html)
 
@@ -1002,7 +1059,7 @@ Referências
     do livro [SICP](https://mitpress.mit.edu/sicp/)
 
 
-## Referências complementares
+Complementares
 
 - Capítulos [1](http://www.scheme.com/tspl4/intro.html#./intro:h0)
     e [2](http://www.scheme.com/tspl4/start.html#./start:h0) do livro

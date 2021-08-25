@@ -3,9 +3,7 @@
 title: Fundamentos
 ---
 
-#.  [sicp 1.1] A seguir está uma lista de expressões. Qual é o resultado
-    impresso pelo interpretador Racket em resposta a cada expressão? Assuma que
-    as expressões serão avaliadas na ordem em que são apresentadas.
+#.  [sicp 1.1] Dado o seguinte programa, qual é o resultado impresso pelo Racket em resposta a cada expressão? Assuma que as expressões serão avaliadas na ordem em que são apresentadas.
 
     ```scheme
     10
@@ -14,7 +12,15 @@ title: Fundamentos
 
     (- 9 1)
 
+    (- 9)
+
     (/ 6 2)
+
+    (/ 4)
+
+    (*)
+
+    (+)
 
     (+ (* 2 4) (- 4 6))
 
@@ -42,25 +48,26 @@ title: Fundamentos
        (+ a 1))
     ```
 
-#.  [sicp 1.2] Traduza a seguinte expressão para a forma prefixa
-    $$\frac{5 + 4 + (2 - (3 - (6 + \frac{4}{5})))}{3 (6 - 2) (2 - 7)}$$
+#.  Qual das seguintes construções formam expressões sintaticamente válidas em Racket? Justifique.
 
-#.  [tspl 2.2.2] Experimente os procedimentos `+`, `-`, `*` e `/` e determine
-    as regras do Racket para o tipo do valor de retorno para cada procedimento
-    quando são dados diferentes tipos de argumentos numéricos.
+    a. `34 + 45`{.scheme}
+    b. `(aplicar * 1 3 4 5)`{.scheme}
+    c. `((if (> 0 8) - /) 10 20)`{.scheme}
+    d. `(+ - * /)`{.scheme}
+    e. `(if (> 4 9) 10)`{.scheme}
 
-#.  [sicp 1.4] O modelo de avaliação visto em sala permite combinações em que
-    os operadores são expressões compostas. Use esta observação para descrever
-    o comportamento do seguinte procedimento:
+#.  [sicp 1.2] Traduza a seguinte expressão para a forma prefixa $$\frac{5 + 4 + (2 - (3 - (6 + \frac{4}{5})))}{3 (6 - 2) (2 - 7)}$$
+
+#.  [tspl 2.2.2] Experimente os procedimentos `+`, `-`, `*` e `/` e determine as regras do Racket para o tipo do valor de retorno para cada procedimento quando são dados diferentes tipos de argumentos numéricos.
+
+#.  [sicp 1.4] O modelo de avaliação visto em sala permite combinações em que os operadores são expressões compostas. Use esta observação para descrever o comportamento do seguinte procedimento:
 
     ```scheme
     (define (a-plus-abs-b a b)
         ((if (> b 0) + -) a b))
     ```
 
-#.  [sicp 1.5] Ben Bitdiddle inventou um método para determinar se um
-    interpretador está usando avaliação com ordem aplicativa ou avaliação com
-    ordem normal. Ele definiu os seguintes procedimentos:
+#.  [sicp 1.5] Ben Bitdiddle inventou um método para determinar se um interpretador está usando avaliação com ordem aplicativa ou avaliação com ordem normal. Ele definiu os seguintes procedimentos:
 
     ```scheme
     (define (p) (p))
@@ -77,10 +84,7 @@ title: Fundamentos
         (test 0 (p))
     ```
 
-    Qual é o comportamento que Ben irá observar com um interpretador que usa
-    avaliação com ordem aplicativa? Qual é o comportamento que ele irá observar
-    com um interpretador que usa avaliação com ordem normal? Explique a sua
-    resposta.
+    Qual é o comportamento que Ben irá observar com um interpretador que usa avaliação com ordem aplicativa? Qual é o comportamento que ele irá observar com um interpretador que usa avaliação com ordem normal? Explique a sua resposta.
 
 
 # Referências

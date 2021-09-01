@@ -2,71 +2,133 @@
 
 (require examples)
 
-;; Número -> Número
-;; Produz o dobro de n.
+;;;;;;;
+;; Tipos de dados
+
+;; Preco é um número positivo com três casas decimais.
+
+;; Combustivel é um dos valores
+;; - "Alcool"
+;; - "Gasolina"
+
+;; Salario é um número positivo com duas casas decimais.
+
+;; Comprimento é um número positivo dado em metros.
+
+;; Massa é um número positivo dado em quilogramas.
+
+;; Alinhamento é um dos valores
+;; - "direita"
+;; - "esquerda"
+;; - "centro"
+
+
+;;;;;;;
+;; Constantes
+
+(define DENSIDADE-FERRO 7874) ; Em kg/m^2
+
+
+;;;;;;;
+;; Funções
+
+;; Preco Preco -> Combustivel
+;;
+;; Encontra o combustivel que deve ser utilizado no abastecimentos.
+;; Produz "Alcool" se preco-alcool menor ou igual a 70% do preco-gasolina,
+;; produz "Gasolina" caso contrário.
 (examples
- (check-equal? (dobro 0) 0)
- (check-equal? (dobro 4) 8)
- (check-equal? (dobro -2) -4))
+ (check-equal? (seleciona-combustivel 3.000 4.000) "Gasolina")
+ (check-equal? (seleciona-combustivel 2.900 4.200) "Alcool")
+ (check-equal? (seleciona-combustivel 3.500 5.000) "Alcool"))
 
-(define (dobro n)
-  (* 2 n))
+(define (seleciona-combustivel preco-alcool preco-gasolina)
+  (if (<= preco-alcool (* 0.7 preco-gasolina))
+      "Alcool"
+      "Gasolina"))
 
 
-;; Natural -> Boolean
-;; Devolve #t se n é par, #f caso contrário.
-;; Veja as funções pré-definidas even? e odd?
+;; Salario -> Salario
+
+;; Calcula o novo salário a partir de um percetual de aumento determinado a partir de salario-atual
+;; da seguinte forma:
+;; - salario-atual <= 1200, percentual de aumento de 10%
+;; - 1200 < salario-atual <= 3000, percentual de aumento de 7%
+;; - 3000 < salario-atual <= 8000, percentual de aumento de 3%
+;; - 8000 < salario-atual, sem aumento
+
 (examples
- (check-equal? (par? 2) #t)
- (check-equal? (par? 8) #t)
- (check-equal? (par? 9) #f))
+ (check-equal? (novo-salario 1000.00) 1100.00)
+ (check-equal? (novo-salario 1200.00) 1320.00)
+ (check-equal? (novo-salario 2000.00) 2140.00)
+ (check-equal? (novo-salario 3000.00) 3210.00)
+ (check-equal? (novo-salario 5000.00) 5150.00)
+ (check-equal? (novo-salario 8000.00) 8240.00)
+ (check-equal? (novo-salario 8000.01) 8000.01))
 
-(define (par? n)
-  (= (remainder n 2) 0))
+(define (novo-salario salario-atual)
+  (cond
+    [(<= salario-atual 1200) (* salario-atual 1.10)] ; 10% de aumento
+    [(<= salario-atual 3000) (* salario-atual 1.07)] ; 7% de aumento
+    [(<= salario-atual 8000) (* salario-atual 1.03)] ; 3% de aumento
+    [else salario-atual]))                           ; sem aumento
 
 
-;; String String -> String
-;; Devolve a maior palavra entre a e b. Se a e b tem o mesmo tamanho,
-;; devolve a.
+;; Comprimento Comprimento Comprimento -> Massa
+
+;; Calcula a massa de um tubo de ferro a partir da suas dimensões
 (examples
- (check-equal? (maior-palavra "sorte" "casa") "sorte")
- (check-equal? (maior-palavra "racket" "palavra") "palavra")
- (check-equal? (maior-palavra "racket" "coisas") "racket"))
+ (check-= (massa-tubo-ferro 0.05 0.03 0.1) 0.2472436 0.00000001))
 
-(define (maior-palavra a b)
-  (if (>= (string-length a)
-          (string-length b))
-      a
-      b))
+(define (massa-tubo-ferro diametro-externo diametro-interno altura)
+  (define area-da-base (* 3.14 (sqr (/ (- diametro-externo diametro-interno) 2))))
+  (define volume (* area-da-base altura))
+  (* volume DENSIDADE-FERRO))
 
-; Cada cidadão de um país, cuja moeda chama dinheiro,
-; tem que pagar imposto sobre a sua renda.
-; Cidadãos que recebem até 1000 dinheiros pagam 5% de
-; imposto. Cidadãos que recebem entre 1000 e 5000
-; dinheiros pagam 5% de imposto sobre 1000 dinheiros e
-; 10% sobre o que passar de 1000. Cidadãos que recebem
-; mais do 5000 dinheiros pagam 5% de imposto sobre 1000
-; dinheiros, 10% de imposto sobre 4000 dinheiros e 20%
-; sobre o que passar de 5000. Projete uma função que
-; calcule o imposto que um cidadão deve pagar dado a
-; sua renda.
 
-;; Número -> Número
-;; Calcula o imposto que um pessoa com a renda r deve
-;; pagar.
+;; String Number Alinhamento -> String
+;;
+;; Produz uma nova string a partir de s que tem exatamente num-chars caracteres
+;; e é alinhada de acordo com o alinhamento.
+;;
+;; Se s tem exatamente num-chars caracteres, então produz s.
+;;
+;; Se s tem mais do que num-chars caracteres, então s é truncada e ...
+;; é adicionado ao final para sinalizar que a string foi abreviada.
+;;
+;; Se s tem menos do que num-chars caracteres, então espaços são
+;; adicionados no início se alinhamento é "esquerda", no fim
+;; se alinhamento é "direita", ou no ínicio e fim se alinhamento
+;; e "centro". Nesse último caso, se a quantidade de espaços adicionados
+;; for impar, então no fim será adicionado 1 espaço a mais do que no início.
 (examples
- ; Até 1000 (inclusive)
- (check-equal? (calcula-imposto 900.0) 45.0) ; (* 900 0.05)
- (check-equal? (calcula-imposto 1000.0) 50.0) ; (* 1000 0.05)
- ; Entre 1000 e 5000 (inclusive)
- (check-equal? (calcula-imposto 3000.0) 250.0) ; (+ 50 (* (- 3000 1000) 0.1))
- (check-equal? (calcula-imposto 5000.0) 450.0) ; (+ 50 (* (- 5000 1000) 0.1))
- ; Mais do que 5000
- (check-equal? (calcula-imposto 10000.0) 1450.0)) ; (+ 450 (* (- 10000 5000) 0.2))
+ (check-equal? (ajusta-string "casa" 4 "direita") "casa")
+ (check-equal? (ajusta-string "casa" 4 "esquerda") "casa")
+ (check-equal? (ajusta-string "casa" 4 "centro") "casa")
+ (check-equal? (ajusta-string "casa verde" 7 "direita") "casa...")
+ (check-equal? (ajusta-string "casa verde" 7 "esquarda") "casa...")
+ (check-equal? (ajusta-string "casa verde" 7 "centro") "casa...")
+ (check-equal? (ajusta-string "casa verde" 9 "direita") "casa v...")
+ (check-equal? (ajusta-string "casa" 9 "direita") "     casa")
+ (check-equal? (ajusta-string "casa" 9 "esquerda") "casa     ")
+ (check-equal? (ajusta-string "casa" 9 "centro") "  casa   ")
+ (check-equal? (ajusta-string "casa" 10 "centro") "   casa   "))
 
-; (define (calcula-imposto r) 0) ; esboço
-
-(define (calcula-imposto r)
-  (cond [(<= r 1000) (* r 0.05)]
-        [(<= r 5000) (+ 50 (* (- r 1000) 0.1))]
-        [else (+ 450 (* (- r 5000) 0.2))]))
+(define (ajusta-string s num-chars alinhamento)
+  (cond
+    [(= (string-length s) num-chars) s]
+    [(> (string-length s) num-chars) (string-append (substring s 0 (- num-chars 3)) "...")]
+    [else
+     (define num-espacos (- num-chars (string-length s)))
+     (cond
+       [(equal? alinhamento "direita")
+        (string-append (make-string num-espacos #\space) s)]
+       [(equal? alinhamento "esquerda")
+        (string-append s (make-string num-espacos #\space))]
+       [else
+        (define num-espacos-inicio (quotient num-espacos 2))
+        (define num-espacos-fim (- num-espacos num-espacos-inicio))
+        (string-append
+         (make-string num-espacos-inicio #\space)
+         s
+         (make-string num-espacos-fim #\space))])]))

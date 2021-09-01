@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Funções
+title: Projeto de Funções
 ---
 
 ## Projeto de funções
@@ -397,7 +397,7 @@ Veja as funções de manipulação de strings em \url{https://docs.racket-lang.o
 
 **Análise** \pause
 
-- Calcular o novo salário a partir do salário atual. Se o salário for $<=$ R$ 1200, aumento de 10%, $>$ R$ 1200 e $<=$ R$ 3000, aumento de 7%, $>$ R$ 3000 e $<=$ R$ 8000, aumento de 3%, $>$ R$ 8000, sem aumento.
+- Calcular o novo salário a partir do salário atual. Se o salário for $\le$ R$ 1200, aumento de 10%, se $>$ R$ 1200 e $\le$ R$ 3000, aumento de 7%, se $>$ R$ 3000 e $\le$ R$ 8000, aumento de 3%, $>$ R$ 8000, sem aumento.
 
 \pause
 
@@ -502,8 +502,8 @@ Não podemos esquecer de fazer a verificação novamente!
 **Definição de tipos de dados**
 
 ```scheme
-;; Comprimento é um número positivo dado em metros
-;; Massa é um número positivo dado em quilogramas
+;; Comprimento é um número positivo dado em metros.
+;; Massa é um número positivo dado em quilogramas.
 ```
 
 
@@ -514,7 +514,7 @@ Não podemos esquecer de fazer a verificação novamente!
 ```scheme
 ; Comprimento Comprimento Comprimento -> Massa
 
-;; Calcula a massa de um tubo de ferro a partir da suas dimensões
+;; Calcula a massa de um tubo de ferro a partir das suas dimensões.
 (define (massa-tubo-ferro diametro-externo diametro-interno altura) ...)
 ```
 
@@ -528,6 +528,8 @@ Não podemos esquecer de fazer a verificação novamente!
 
 **Implementação** \pause
 
+Usamos conhecimentos específicos do domínio que foram levantados na análise. \pause
+
 ```scheme
 (define (massa-tubo-ferro diametro-externo diametro-interno altura)
   (* 3.14
@@ -539,6 +541,8 @@ Não podemos esquecer de fazer a verificação novamente!
 \pause
 
 **Verificação** \pause
+
+\small
 
 ```
 FAILURE
@@ -568,10 +572,11 @@ Comparação de igualdade de números de ponto flutuante quase não dá certo! \
 \small
 
 ```scheme
+(define PI 3.14)              ; Na prática precisamos de mais casas decimais!
 (define DENSIDADE-FERRO 7874) ; Em kg/m^2
 
 (define (massa-tubo-ferro diametro-externo diametro-interno altura)
-  (define area-da-base (* 3.14 (sqr (/ (- diametro-externo diametro-interno) 2))))
+  (define area-da-base (* PI (sqr (/ (- diametro-externo diametro-interno) 2))))
   (define volume (* area-da-base altura))
   (* volume DENSIDADE-FERRO))
 ```
@@ -585,7 +590,7 @@ Não podemos esquecer de fazer a verificação novamente!
 
 **Análise** \pause
 
-- Limitar um texto a um tamanho máximo (usando ... para sinalizar que o texto foi limitado) e alinhar o texto a direita, esquerda ou centralizado
+- Ajustar um texto a um tamanho específico, usando ..., se necessário, para sinalizar que o texto foi abreviado, e alinhar o texto a direita, a esquerda ou no centro.
 
 \pause
 
@@ -608,6 +613,7 @@ Não podemos esquecer de fazer a verificação novamente!
 ;;
 ;; Produz uma nova string a partir de s que tem exatamente num-chars
 ;; caracteres e é alinhada de acordo com o alinhamento.
+(define (ajusta-string s num-chars alinhamento) ...)
 ```
 
 \pause
@@ -712,13 +718,13 @@ Na especificação podemos notar um "e", indicando que a função faz duas coisa
 Agora colocamos essas duas funções em uma lista de trabalho, com um especificação inicial e depois procedemos para implementá-las seguindo as mesmas etapas
 
 ```scheme
-;; String Number -> Number
+;; String Number -> String
 ;;
 ;; Produz uma nova string a partir de s com no máximo num-chars.
 ;; ...
 (define (limita s num-chars) ...)
 
-;; String Number Alinhamento -> Number
+;; String Number Alinhamento -> String
 ;;
 ;; Produz uma nova string a partir de s alinhada de acordo com o alinhamento.
 ;; ...
@@ -726,10 +732,9 @@ Agora colocamos essas duas funções em uma lista de trabalho, com um especifica
 ```
 
 
-Referências
-===========
+## Referências
 
-## Referências básicas
+Básicas
 
 - [Vídeos BSL](https://www.youtube.com/playlist?list=PL6NenTZG6Krqu5RRQi3TUGc605rrGGGWw)
 

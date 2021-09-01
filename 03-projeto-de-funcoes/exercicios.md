@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Funções
+title: Projeto de Funções
 ---
 
 #. Defina uma função que encontre o máximo entre dois números dados.

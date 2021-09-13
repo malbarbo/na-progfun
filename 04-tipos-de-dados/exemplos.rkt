@@ -8,18 +8,9 @@
 ;; Ponto representa um ponto no plano cartesiano
 ;;   x : Número - a coordenada x
 ;;   y : Número - a coordenada y
-;; Exemplos
-#; (define p1 (ponto 3 4))
-#; (define p2 (ponto 8 2))
-;; Modelo
-#;
-(define (fn-para-ponto p)
-  (... (ponto-x p)
-       (ponto-y p)))
-
 
 ;; Ponto -> Número
-;; Calcula a distância de um ponto a origem.
+;; Calcula a distância do ponto p a origem.
 (examples
  (check-equal? (distancia-origem (ponto 3 4)) 5))
 
@@ -30,20 +21,17 @@
 
 ;; Exemplo: classificação retângulo
 
+;; Classificação é um dos valores:
+;; - "largo"
+;; - "alto"
+;; - "quadrado"
+
 (struct retangulo (largura altura) #:transparent)
 ;; Representa um retangulo
 ;;   largura : Número - a largura do retangulo
 ;;   altura  : Número - a altura do retangulo
-;; Exemplos
-#; (define r1 (retangulo 3 4))
-#; (define r2 (retangulo 1 2))
-;; Modelo
-#;
-(define (fn-para-retangulo r)
-  (... (retangulo-largura r)
-       (retangulo-altura r)))
 
-;; Retangulo -> String
+;; Retangulo -> Classificação
 ;; Classifica um retangulo em:
 ;;   largo    se largura > altura
 ;;   alto     se altura > largura
@@ -60,87 +48,38 @@
     [else "quadrado"]))
 
 
-;; Exemplo de enumeração
-
-;; Direção é um dos valores:
-;; - "Norte"
-;; - "Sul"
-;; - "Leste"
-;; - "Oeste"
-;; Interp. a direção em que o personagem está virado.
-
-#;
-(define (fn-para-direcao dir)
-  (cond [(string=? dir "Norte") (...)]
-        [(string=? dir "Sul") (...)]
-        [(string=? dir "Leste") (...)]
-        [(string=? dir "Oeste") (...)]))
-
-;; Direção -> Direção
-;; Calcula a nova direção a partir de dir após virar 90
-;; graus no sentido horário.
-(examples
- (check-equal? (vira-90 "Norte") "Leste")
- (check-equal? (vira-90 "Leste") "Sul")
- (check-equal? (vira-90 "Sul") "Oeste")
- (check-equal? (vira-90 "Oeste") "Norte"))
-
-; (define (vira-90 dir) "Norte") ; esboço
-(define (vira-90 dir)
-  (cond [(string=? dir "Norte") "Leste"]
-        [(string=? dir "Sul") "Oeste"]
-        [(string=? dir "Leste") "Sul"]
-        [(string=? dir "Oeste") "Norte"]))
-
-
 ;; Exemplo de união
 
-(struct sucesso (msg tempo))
-(struct erro (msg codigo))
-;; Mensagem é um dos valores:
-;; - ""                       Representa que nenhuma mensagem deve ser exbida
-;; - (sucesso String Número)  Representa uma situação de sucesso e o tempo da operação
-;; - (erro String Número)     Representa uma situação de erro com o seu código
+(struct sucesso (tempo msg))
+(struct erro (codigo msg))
+;; EstadoTarefa é um dos valores:
+;; - "Executando"             A tarefa está em execução
+;; - (sucesso Número String)  A tarefa finalizou com sucesso
+;; - (erro Número String)     A tarefa finalizou com falha
 
-#;
-(define EX-MSG-1 "")
-#;
-(define EX-MSG-2 (sucesso "Mundaça de preço realizada com sucesso" 23))
-#;
-(define EX-MSG-3 (erro "Acabou o estoque" 12))
-
-#;
-(define (fn-para-mensagem msg)
-  (cond [(and (string? msg) (string=? msg "")) (...)]
-        [(sucesso? msg) (... (sucesso-msg msg)
-                             (sucesso-tempo msg))]
-        [(erro? msg) (... (erro-msg msg)
-                          (erro-codigo msg))]))
-
-;; Mensagem -> String
-;; Produz uma string amigável para o usuário a partir de msg.
-;; Se msg for "", produz "".
+;; EstadoTarefa -> String
+;; Produz uma string amigável para o usuário para descrever o estado da tarefa.
 (examples
- (check-equal? (msg-usuario "") "")
- (check-equal? (msg-usuario (sucesso "Compra de ações" 12))
-               "A operação 'Compra de ações' foi realizada com sucesso! (12s)")
- (check-equal? (msg-usuario (erro "Compra de ações" 10))
-               "A operação 'Compra de ações' falhou... (erro 10)"))
+ (check-equal? (msg-usuario "Executando") "A tarefa está em execução.")
+ (check-equal? (msg-usuario (sucesso 12 "Os resultados estão corretos"))
+               "Tarefa concluída (12s): Os resultados estão corretos.")
+ (check-equal? (msg-usuario (erro 123 "Número inválido '12a'"))
+               "A tarefa falhou (err 123): Número inválido '12a'."))
 
-;(define (msg-usuario msg) ; esboço
-;  "")
-
-(define (msg-usuario msg)
-  (cond [(and (string? msg) (string=? msg "")) ""]
-        [(sucesso? msg) (string-append
-                         "A operação '"
-                         (sucesso-msg msg)
-                         "' foi realizada com sucesso! ("
-                         (number->string (sucesso-tempo msg))
-                         "s)")]
-        [(erro? msg) (string-append
-                      "A operação '"
-                      (erro-msg msg)
-                      "' falhou... (erro "
-                      (number->string (erro-codigo msg))
-                      ")")]))
+(define (msg-usuario estado)
+  (cond
+    [(and (string? estado) (string=? estado "Executando"))
+     "A tarefa está em execução."]
+    [(sucesso? estado)
+     (string-append "Tarefa concluída ("
+                    (number->string (sucesso-tempo estado))
+                    "s): "
+                    (sucesso-msg estado)
+                    ".")]
+    [(erro? estado)
+     (string-append
+      "A tarefa falhou (err "
+      (number->string (erro-codigo estado))
+      "): "
+      (erro-msg estado)
+      ".")]))

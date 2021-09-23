@@ -425,6 +425,54 @@ Agora é só preencher as lagunas!
 ```
 
 
+## Uniões em Rust
+
+\footnotesize
+
+```rust
+pub enum EstadoTarefa {
+    Executando,
+    Sucesso(u32, String),
+    Erro(u32, String)
+}
+
+pub fn mensagem(estado: &EstadoTarefa) -> String {
+    use EstadoTarefa::*;
+    match estado {
+        Executando =>
+            "A tarefa está em execução".to_string(),
+        Sucesso(tempo, msg) =>
+            format!("A tarefa foi concluída ({}s): {}", tempo, msg),
+        Erro(codigo, msg) =>
+            format!("A tarefa falhou (erro {}): {}", codigo, msg),
+    }
+}
+```
+
+
+## Uniões em Java
+
+\footnotesize
+
+```java
+sealed interface EstadoTarefa permits Executando, Sucesso, Erro {};
+record Executando() implements EstadoTarefa {};
+record Sucesso(int tempo, String sucesso) implements EstadoTarefa {};
+record Erro(int erro, String msg) implements EstadoTarefa {};
+
+static String mensagem(EstadoTarefa estado) {
+    return switch (estado) {
+        case Executando e ->
+            "A tarefa está executando";
+        case Sucesso s ->
+            String.format("A tarefa foi concluída (%ds): %s", s.tempo(), s.sucesso());
+        case Erro e ->
+            String.format("A tarefa falhou (erro %d): %s", e.erro(), e.msg());
+    };
+}
+```
+
+
 ## Tipos de dados
 
 Vimos duas formas diferentes de definir novos tipos de dados: \pause

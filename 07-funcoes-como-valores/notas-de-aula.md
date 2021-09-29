@@ -14,39 +14,32 @@ Introdução
 <!-- TODO: melhorar o agrupamento e os nomes das seções !-->
 <!-- TODO: dividir em mais de um módulo? !-->
 
-- As principais características que vimos até agora do paradigma funcional foram
+As principais características que vimos até agora do paradigma funcional foram \pause
 
-    - Ausência de mudança de estado
+- Ausência de mudança de estado; \pause
 
-    - Tipos algébricos
+- Tipos algébricos e autorreferências; \pause
 
-    - Recursão como forma de especificar iteração
+- Recursão como forma de especificar iteração. \pause
 
-\pause
-
-- Veremos a seguir outra característica essencial do paradigma funcional
+Veremos a seguir outra característica essencial do paradigma funcional.
 
 
 ## Introdução
 
 
-- Funções como entidades de primeira classe (ou funções como valores) \pause
+Funções como entidades de primeira classe (ou funções como valores) \pause
 
-    - Podem ser usadas, sem restrições, onde outros valores podem ser usados
-      (passado como parâmetro, retornado, armazenado em listas, etc)
+- Podem ser usadas, sem restrições, onde outros valores podem ser usados (passado como parâmetro, retornado, armazenado em listas, etc); \pause
 
-    - Podem ser construídas, sem restrições, onde outros valores também podem
-      (localmente, em expressões, etc)
+- Podem ser construídas, sem restrições, onde outros valores também podem (localmente, em expressões, etc); \pause
 
-    - Podem ser "tipadas" de forma similar a outro valores, ou seja, existe um
-      tipo associado com cada função e esse tipo podem ser usado para compor
-      outro tipos
+- Podem ser "tipadas" de forma similar a outro valores, ou seja, existe um tipo associado com cada função e esse tipo podem ser usado para compor outro tipos.
 
 
 ## Introdução
 
-- Uma **função de alta ordem** é aquela que recebe como parâmetro uma função ou
-  produz uma função com resultado
+Uma **função de alta ordem** é aquela que recebe como parâmetro uma função ou produz uma função com resultado.
 
 
 
@@ -56,17 +49,16 @@ Funções que recebem funções como parâmetro
 
 ## Funções que recebem funções como parâmetro
 
-- Como identificar a necessidade de utilizar funções como parâmetro? \pause
+Como identificar a necessidade de utilizar funções como parâmetro? \pause
 
-    - Encontrando similaridades entre funções
+Encontrando similaridades entre funções. \pause
 
-    - Vamos ver diversas funções e tentar identificar similaridades
+Vamos ver diversas funções e tentar identificar similaridades.
 
 
 ## Exemplo: contem-3? e contem-5?
 
-Vamos fazer um exemplo simples. Vamos criar uma função que abstrai
-o comportamento das funções `contem-3?` e `contem-5?`.
+Vamos fazer um exemplo simples. Vamos criar uma função que abstrai o comportamento das funções `contem-3?` e `contem-5?`.
 
 
 ## Exemplo: contem-3? e contem-5?
@@ -290,28 +282,25 @@ Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-
 
 ## Exemplo: `lista-quadrado` e `lista-soma1`
 
-Vamos criar uma função que abstrai o comportamento das funções `lista-quadrado`
-e `lista-soma1`.
+Vamos criar uma função que abstrai o comportamento das funções `lista-quadrado` e `lista-soma1`.
 
 
 ## Exemplo: `lista-quadrado` e `lista-soma1`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="53%">
 \scriptsize
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista cada número de lst
 ;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4))
-              (list 16))
+(check-equal? (lista-quadrado (list 4)) (list 16))
 (define (lista-quadrado lst)
   (cond
     [(empty? lst) empty]
-    [else
-     (cons (sqr (first lst))
-           (lista-quadrado (rest lst)))]))
+    [else (cons (sqr (first lst))
+                (lista-quadrado (rest lst)))]))
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com cada número de lst
 ;; somado de 1.
@@ -324,7 +313,7 @@ e `lista-soma1`.
                 (lista-soma1 (rest lst)))]))
 ```
 </div>
-<div class="column" width="50%">
+<div class="column" width="47%">
 \scriptsize
 
 \pause
@@ -352,21 +341,19 @@ e `lista-soma1`.
 ## Exemplo: `lista-quadrado` e `lista-soma1`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="53%">
 \scriptsize
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista cada número de lst
 ;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4))
-              (list 16))
+(check-equal? (lista-quadrado (list 4)) (list 16))
 (define (lista-quadrado lst)
   (cond
     [(empty? lst) empty]
-    [else
-     (cons (sqr (first lst))
-           (lista-quadrado (rest lst)))]))
+    [else (cons (sqr (first lst))
+                (lista-quadrado (rest lst)))]))
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com cada número de lst
 ;; somado de 1.
@@ -379,7 +366,7 @@ e `lista-soma1`.
                 (lista-soma1 (rest lst)))]))
 ```
 </div>
-<div class="column" width="50%">
+<div class="column" width="47%">
 \scriptsize
 
 ```scheme
@@ -405,21 +392,19 @@ e `lista-soma1`.
 ## Exemplo: `lista-quadrado` e `lista-soma1`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="53%">
 \scriptsize
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista cada número de lst
 ;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4))
-              (list 16))
+(check-equal? (lista-quadrado (list 4)) (list 16))
 (define (lista-quadrado lst)
   (cond
     [(empty? lst) empty]
-    [else
-     (cons (sqr (first lst))
-           (lista-quadrado (rest lst)))]))
+    [else (cons (sqr (first lst))
+                (lista-quadrado (rest lst)))]))
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com cada número de lst
 ;; somado de 1.
@@ -432,7 +417,7 @@ e `lista-soma1`.
                 (lista-soma1 (rest lst)))]))
 ```
 </div>
-<div class="column" width="50%">
+<div class="column" width="47%">
 \scriptsize
 
 ```scheme
@@ -458,15 +443,14 @@ e `lista-soma1`.
 ## Exemplo: `lista-quadrado` e `lista-soma1`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="53%">
 \scriptsize
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista cada número de lst
 ;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4))
-              (list 16))
+(check-equal? (lista-quadrado (list 4)) (list 16))
 (define (lista-quadrado lst)
     (mapeia sqr lst))
 
@@ -485,7 +469,7 @@ e `lista-soma1`.
 
 ```
 </div>
-<div class="column" width="50%">
+<div class="column" width="47%">
 \scriptsize
 
 ```scheme
@@ -515,8 +499,7 @@ map
 
 ## `map`
 
-Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-definida
-em Racket com o nome `map`.
+Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-definida em Racket com o nome `map`.
 
 \pause
 
@@ -549,8 +532,7 @@ em Racket com o nome `map`.
 
 ## Exemplo: `lista-positivos` e `lista-pares`
 
-Vamos criar uma função que abstrai o comportamento das funções `lista-positivos` e
-`lista-pares`.
+Vamos criar uma função que abstrai o comportamento das funções `lista-positivos` e `lista-pares`.
 
 
 ## Exemplo: `lista-positivos` e `lista-pares`
@@ -769,8 +751,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 
 ## `filter`
 
-Como resultado do exemplo anterior obtivemos a função `filtra`, que é
-pré-definida em Racket com o nome `filter`.
+Como resultado do exemplo anterior obtivemos a função `filtra`, que é pré-definida em Racket com o nome `filter`.
 
 ```scheme
 ;; (X -> Boolean) Lista(X) -> Lista(X)
@@ -799,8 +780,7 @@ pré-definida em Racket com o nome `filter`.
 
 ## Exemplo: soma e produto
 
-Vamos criar uma função que abstrai o comportamento das funções `soma` e
-`produto`.
+Vamos criar uma função que abstrai o comportamento das funções `soma` e `produto`.
 
 
 ## Exemplo: `soma` e `produto`
@@ -1011,8 +991,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e
 
 ## `foldr`
 
-Como resultado do exemplo anterior obtivemos a função `reduz`, que
-é pré-definida em Racket com o nome `foldr`.
+Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-definida em Racket com o nome `foldr`.
 
 ```scheme
 ;; (X Y -> Y) Y Lista(X) -> Y
@@ -1047,179 +1026,168 @@ Definições locais e fechamentos
 
 ## Definições locais e fechamentos
 
-- Considere as seguintes definições
+Considere as seguintes definições
 
-    ```scheme
-    (define (soma x) (+ x 5))
+```scheme
+(define (soma x) (+ x 5))
 
-    (define (lista-soma5 lst)
-      (map soma lst))
-    ```
+(define (lista-soma5 lst)
+  (map soma lst))
+```
 
-- Existem dois problemas com estas definições
+\pause
 
-    - A função `soma` tem um uso bastante restrito (supomos que ela é utilizada
-      apenas pela função `lista-soma5`), mas foi declarada em um escopo global
-      utilizando um nome fácil de ter conflito (outro programador pode escolher
-      o nome `soma` para outra função)
+Existem dois aspectos sobre este código que pode melhora, você consegue dizer quais são? \pause
 
-    - A função `lista-soma5` é bastante específica e pode ser generalizada
+- A função `soma` tem um uso bastante restrito (supomos que ela é utilizada apenas pela função `lista-soma5`), mas foi declarada em um escopo global utilizando um nome fácil de ter conflito (outro programador pode escolher o nome `soma` para outra função); \pause
 
-
-## Definições locais e fechamentos
-
-- O primeiro problema pode ser resolvido colocando a definição de `soma` dentro
-  da função `lista-soma5`, desta forma a função `soma` é visível apenas para
-  `lista-soma5`. Isto melhora o encapsulamento e libera o nome `soma`
-
-    ```scheme
-    (define (lista-soma5 lst)
-      (define (soma x)
-        (+ x 5))
-      (map soma lst))
-    ```
-
-- Este tipo de definição é chamada de **definição interna**
+- A função `lista-soma5` é bastante específica e pode ser generalizada.
 
 
 ## Definições locais e fechamentos
 
-- O segundo problema pode ser resolvido adicionado um parâmetro `n` e mudando
-  o nome da função `lista-soma5` para `lista-soma-n`
+O primeiro problema pode ser resolvido colocando a definição de `soma` dentro da função `lista-soma5`, desta forma a função `soma` é visível apenas para `lista-soma5`. Isto melhora o encapsulamento e libera o nome `soma`
 
-    ```scheme
-    (define (lista-soma-n n lst)
-      (define (soma x)
-        (+ x n))
-      (map soma lst))
-    ```
+\pause
 
-- Observe que `soma` utiliza a variável `n`
+```scheme
+(define (lista-soma5 lst)
+  (define (soma x)
+    (+ x 5))
+  (map soma lst))
+```
 
+\pause
 
-## Definições locais e fechamentos
-
-- Uma **variável livre** em relação a uma função é aquela que não é um
-  parâmetro da função e nem foi declarada localmente dentro da função
-
-- Como `soma` pode ser usada fora do contexto que ela foi declarada (como
-  quando ela for executada dentro da função `map`), soma deve "levar" junto com
-  ela as variáveis livres
+Este tipo de definição é chamada de **definição interna**.
 
 
 ## Definições locais e fechamentos
 
-- **Ambiente de referenciamento** é uma tabela com as referências para as
-  variáveis livres
+O segundo problema pode ser resolvido adicionado um parâmetro `n` e mudando o nome da função `lista-soma5` para `lista-soma-n` \pause
 
-- Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambiente
-  de referenciamento
+```scheme
+(define (lista-soma-n n lst)
+  (define (soma x)
+    (+ x n))
+  (map soma lst))
+```
 
-- Neste caso, quando `soma` é utilizada na chamada do `map` um fechamento é
-  passado como parâmetro
+\pause
 
-
-## Definições locais e fechamentos
-
-- Definições internas também são usadas para evitar computar a mesma expressão
-  mais que uma vez
+Observe que `soma` utiliza a variável `n`.
 
 
 ## Definições locais e fechamentos
 
-- Considere por exemplo esta função que remove os elementos consecutivos iguais
+Uma **variável livre** em relação a uma função é aquela que não é um parâmetro da função e nem foi declarada localmente dentro da função.
 
-    \small
-
-    ```scheme
-    (define (remove-duplicados lst)
-      (cond
-        [(empty? lst) empty]
-        [(empty? (rest lst)) lst]
-        [else
-         (if (equal? (first lst)
-                     (first (remove-duplicados (rest lst))))
-             (remove-duplicados (rest lst))
-             (cons (first lst)
-                   (remove-duplicados (rest lst))))]))
-    ```
-
-- As expressões `(first lst)` e `(remove-duplicados (rest lst))` são computadas
-  duas vezes
+Como `soma` pode ser usada fora do contexto que ela foi declarada (como quando ela for executada dentro da função `map`), soma deve "levar" junto com ela as variáveis livres.
 
 
 ## Definições locais e fechamentos
 
-- Criando definições internas obtemos
+**Ambiente de referenciamento** é uma tabela com as referências para as variáveis livres. \pause
 
-    ```scheme
-    (define (remove-duplicados lst)
-      (cond
-        [(empty? lst) empty]
-        [(empty? (rest lst)) lst]
-        [else
-         (define p (first lst))
-         (define r (remove-duplicados (rest lst)))
-         (if (equal? p (first r))
-             r
-             (cons p r))]))
-    ```
+Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambiente de referenciamento. \pause
 
-- Desta forma as expressões são computadas apenas uma vez
+Neste caso, quando `soma` é utilizada na chamada do `map` um fechamento é passado como parâmetro.
 
 
 ## Definições locais e fechamentos
 
-- O `define`{.scheme} não pode ser usado em alguns lugares, como por exemplo no
-  consequente ou alternativa do `if`{.scheme}
-
-- Em geral utilizamos `define`{.scheme} apenas no início da função, em outros
-  lugares utilizamos a forma especial `let`{.scheme}
+Definições internas também são usadas para evitar computar a mesma expressão mais que uma vez.
 
 
 ## Definições locais e fechamentos
 
-- A sintaxe do `let`{.scheme} é
+Considere por exemplo esta função que remove os elementos consecutivos iguais
 
-    ```scheme
-    (let ([var1 exp1]
-          [var2 exp2]
-          ...
-          [varn expn])
-      corpo)
-    ```
+\small
 
-- Os nomes `var1`, `var2`, ..., são locais ao `let`{.scheme}, ou seja, são
-  visíveis apenas no corpo do `let`{.scheme}
+```scheme
+(define (remove-duplicados lst)
+  (cond
+    [(empty? lst) empty]
+    [(empty? (rest lst)) lst]
+    [else
+     (if (equal? (first lst)
+                 (first (remove-duplicados (rest lst))))
+         (remove-duplicados (rest lst))
+         (cons (first lst)
+               (remove-duplicados (rest lst))))]))
+```
 
-- O resultado da avaliação do `corpo` é o resultado da expressão `let`{.scheme}
-
-
-## Definições locais e fechamentos
-
-- No `let`{.scheme} os nomes que estão sendo definidos não podem ser usados nas
-  definições dos nomes seguintes, por exemplo, não é possível utilizar o nome
-  `var1` na expressão de `var2`
-
-- `let*`{.scheme} não tem essa limitação
+As expressões `(first lst)` e `(remove-duplicados (rest lst))` são computadas duas vezes.
 
 
 ## Definições locais e fechamentos
 
-- Definições internas com o `let`{.scheme}
+Criando definições internas obtemos
 
-    ```scheme
-    (define (remove-duplicados lst)
-      (cond
-        [(empty? lst) empty]
-        [(empty? (rest lst)) lst]
-        [else
-         (let ([p (first lst)]
-               [r (remove-duplicados (rest lst))])
-           (if (equal? p (first r))
-               r
-               (cons p r)))]))
-    ```
+```scheme
+(define (remove-duplicados lst)
+  (cond
+    [(empty? lst) empty]
+    [(empty? (rest lst)) lst]
+    [else
+     (define p (first lst))
+     (define r (remove-duplicados (rest lst)))
+     (if (equal? p (first r))
+         r
+         (cons p r))]))
+```
+
+Desta forma as expressões são computadas apenas uma vez.
+
+
+## Definições locais e fechamentos
+
+O `define`{.scheme} não pode ser usado em alguns lugares, como por exemplo no consequente ou alternativa do `if`{.scheme}.
+
+Em geral utilizamos `define`{.scheme} apenas no início da função, em outros lugares utilizamos a forma especial `let`{.scheme}.
+
+
+## Definições locais e fechamentos
+
+A sintaxe do `let`{.scheme} é
+
+```scheme
+(let ([var1 exp1]
+      [var2 exp2]
+      ...
+      [varn expn])
+  corpo)
+```
+
+Os nomes `var1`, `var2`, ..., são locais ao `let`{.scheme}, ou seja, são visíveis apenas no corpo do `let`{.scheme}.
+
+O resultado da avaliação do `corpo` é o resultado da expressão `let`{.scheme}.
+
+
+## Definições locais e fechamentos
+
+No `let`{.scheme} os nomes que estão sendo definidos não podem ser usados nas definições dos nomes seguintes, por exemplo, não é possível utilizar o nome `var1` na expressão de `var2`.
+
+`let*`{.scheme} não tem essa limitação
+
+
+## Definições locais e fechamentos
+
+Definições internas com o `let`{.scheme}
+
+```scheme
+(define (remove-duplicados lst)
+  (cond
+    [(empty? lst) empty]
+    [(empty? (rest lst)) lst]
+    [else
+     (let ([p (first lst)]
+           [r (remove-duplicados (rest lst))])
+       (if (equal? p (first r))
+           r
+           (cons p r)))]))
+```
 
 
 ## Exemplo
@@ -1258,61 +1226,56 @@ Funções anônimas
 
 ## Funções anônimas
 
-- Da mesma forma que podemos utilizar expressões aritméticas sem precisar
-  nomeá-las, também podemos utilizar expressões que resultam em funções sem
-  precisar nomeá-las
+Da mesma forma que podemos utilizar expressões aritméticas sem precisar nomeá-las, também podemos utilizar expressões que resultam em funções sem precisar nomeá-las
 
 
 ## Funções anônimas
 
-- Quando fazemos um `define` de uma função, estamos especificando duas coisas:
-  **a função** e **o nome da função**. Quando escrevemos
+Quando fazemos um `define` de uma função, estamos especificando duas coisas:  **a função** e **o nome da função**. Quando escrevemos
 
-    ```scheme
-    (define (quadrado x)
-      (* x x))
-    ```
+```scheme
+(define (quadrado x)
+  (* x x))
+```
 
-- O Racket interpreta como
+O Racket interpreta como
 
-    ```scheme
-    (define quadrado
-      (lambda (x) (* x x)))
-    ```
+```scheme
+(define quadrado
+  (lambda (x) (* x x)))
+```
 
-- O que deixa claro a distinção entre criar a função e dar nome à função. Às
-  vezes é útil definir uma função sem dar nome a ela
+O que deixa claro a distinção entre criar a função e dar nome à função. Às vezes é útil definir uma função sem dar nome a ela.
 
 
 ## Funções anônimas
 
-- `lambda`{.scheme} é a forma especial usada para especificar funções.
-  A sintaxe do `lambda`{.scheme} é
+`lambda`{.scheme} é a palavra chave usada para especificar funções. A sintaxe do `lambda`{.scheme} é
 
-    ```scheme
-    (lambda (parametros ...)
-        corpo)
-    ```
+```scheme
+(lambda (parametros ...)
+    corpo)
+```
 
-- Em vez de utilizar a palavra `lambda`{.scheme}, podemos utilizar a letra $\lambda$
-  (ctrl + \textbackslash} no DrRacket)
+Em vez de utilizar a palavra `lambda`{.scheme}, podemos utilizar a letra $\lambda$ (ctrl + \textbackslash no DrRacket)
 
 
 ## Funções anônimas
 
-- Como e quando utilizar uma função anônima?
+Como e quando utilizar uma função anônima? \pause
 
-    - Como parâmetro, quando a função for pequena e necessária apenas naquele
-      local
+- Como parâmetro, quando a função for pequena e necessária apenas naquele local \pause
 
-        ```scheme
-        > (map (λ (x) (* x 2)) (list 3 8 -6))
-        '(6 16 -12)
-        > (filter (λ (x) (< x 10)) (list 3 20 -4 50))
-        '(3 -4)
-        ```
+    ```scheme
+    > (map (λ (x) (* x 2)) (list 3 8 -6))
+    '(6 16 -12)
+    > (filter (λ (x) (< x 10)) (list 3 20 -4 50))
+    '(3 -4)
+    ```
 
-    - Como resultado de função
+\pause
+
+- Como resultado de função
 
 
 
@@ -1321,22 +1284,20 @@ Funções que produzem funções
 
 ## Funções que produzem funções
 
-- Como identificar a necessidade de criar e utilizar funções que produzem
-  funções?
+Como identificar a necessidade de criar e utilizar funções que produzem funções? \pause
 
-    - Parametrizar a criação de funções fixando alguns parâmetros
+- Parametrizar a criação de funções fixando alguns parâmetros \pause
 
-    - Composição de funções
+- Composição de funções \pause
 
-    - ...
+- ... \pause
 
-    - Requer experiência
+- Requer experiência
 
 
 ## Exemplo: somador
 
-Defina uma função que receba um parâmetro $n$ e devolva uma função que soma o
-seu argumento a $n$.
+Defina uma função que receba um parâmetro $n$ e devolva uma função que soma o seu argumento a $n$.
 
 
 ## Exemplo: somador
@@ -1391,8 +1352,7 @@ seu argumento a $n$.
 
 ## Exemplo: negação
 
-Defina uma função que receba como parâmetro um predicado (função que retorna
-verdadeiro ou falso) e retorne uma função que retorna a negação do predicado.
+Defina uma função que receba como parâmetro um predicado (função que retorna verdadeiro ou falso) e retorne uma função que retorna a negação do predicado.
 
 - `negate` ([referência](https://docs.racket-lang.org/reference/procedures.html#%28def._%28%28lib._scheme%2Ffunction..rkt%29._negate%29%29))
 
@@ -1436,59 +1396,51 @@ Currying
 
 ## Currying
 
-- No cálculo lambda o currying permite definir funções que admitem múltiplos
-  parâmetros
+No cálculo lambda o currying permite definir funções que admitem múltiplos parâmetros. \pause
 
-- Aqui o currying permite a aplicação parcial das funções
+Aqui o currying permite a aplicação parcial das funções. \pause
 
-- Por exemplo, para uma função que admite dois argumentos, poderemos aplicá-la
-  apenas ao primeiro argumento e mais tarde ao segundo argumento, resultando no
-  valor esperado
+Por exemplo, para uma função que admite dois argumentos, poderemos aplicá-la apenas ao primeiro argumento e mais tarde ao segundo argumento, resultando no valor esperado.
 
 
 ## Currying
 
-- Exemplo
-
-    ```scheme
-    > (define f (λ (x) (λ (y) (* x y)))
-    > (define ((g x) y) (< x y))
-    > (map (f 2) (list 1 2 3 4))
-    '(2 4 6 8)
-    > (filter (g 2) (list 1 2 3 4))
-    '(3 4)
-    ```
+```scheme
+> (define f (λ (x) (λ (y) (* x y)))
+> (define ((g x) y) (< x y))
+> (map (f 2) (list 1 2 3 4))
+'(2 4 6 8)
+> (filter (g 2) (list 1 2 3 4))
+'(3 4)
+```
 
 
 ## `curry` e `curryr`
 
-- As funções pré-definidas `curry` e `curryr` são utilizadas para fixar
-  argumentos de funções
+As funções pré-definidas `curry` e `curryr` são utilizadas para fixar argumentos de funções
 
-    - `curry` fixa os argumentos da esquerda para direita
+- `curry` fixa os argumentos da esquerda para direita
 
-    - `curryr` fixa os argumentos da direita para esquerda
+- `curryr` fixa os argumentos da direita para esquerda
 
 
 ## `curry` e `curryr`
 
--  Exemplos
-
-    ```scheme
-    > (define e-4? (curry = 4))
-    > (e-4? 4)
-    #t
-    > (e-4? 5)
-    #f
-    > (filter e-4? (list 3 4 7 4 6))
-    '(4 4)
-    > (filter (curry < 3) (list 4 3 2 5 7 1))
-    '(4 5 7)
-    > (filter (curryr < 3) (list 4 3 2 5 7 1))
-    '(2 1)
-    > (map (curry + 5) (list 3 6 2))
-    '(8 11 7)
-    ```
+```scheme
+> (define e-4? (curry = 4))
+> (e-4? 4)
+#t
+> (e-4? 5)
+#f
+> (filter e-4? (list 3 4 7 4 6))
+'(4 4)
+> (filter (curry < 3) (list 4 3 2 5 7 1))
+'(4 5 7)
+> (filter (curryr < 3) (list 4 3 2 5 7 1))
+'(2 1)
+> (map (curry + 5) (list 3 6 2))
+'(8 11 7)
+```
 
 
 ## Exemplo: quicksort
@@ -1561,40 +1513,38 @@ Funções com número variado de parâmetros
 
 ## Funções com número variado de parâmetros
 
-- Muitas funções pré-definidas aceitam um número variado de parâmetros
+Muitas funções pré-definidas aceitam um número variado de parâmetros. \pause Como criar funções com esta característica? \pause
 
-- Como criar funções com esta característica?
+Forma geral
 
-- Forma geral
+```scheme
+(define (nome obrigatorios . opcionais) corpo)
+(define (nome . opcionais) corpo)
+(λ (obrigatorios . opcionais) corpo)
+(λ opcionais corpo)
+```
 
-    ```scheme
-    (define (nome obrigatorios . opcionais) corpo)
-    (define (nome . opcionais) corpo)
-    (λ (obrigatorios . opcionais) corpo)
-    (λ opcionais corpo)
-    ```
-
-- Os parâmetros opcionais são agrupados em uma lista
+Os parâmetros opcionais são agrupados em uma lista
 
 
 ## Funções com número variado de parâmetros
 
-- Exemplos
+Exemplos
 
-    ```scheme
-    > (define (f1 p1 p2 . outros) outros)
-    > (f1 4 5 7 -2 5)
-    '(7 -2 5)
-    > (f1 4 5)
-    '()
-    > (f1 4)
-    f1: arity mismatch;
-     the expected number of arguments does not match the given number
-      expected: at least 2
-      given: 1
-      arguments...:
-       4
-    ```
+```scheme
+> (define (f1 p1 p2 . outros) outros)
+> (f1 4 5 7 -2 5)
+'(7 -2 5)
+> (f1 4 5)
+'()
+> (f1 4)
+f1: arity mismatch;
+ the expected number of arguments does not match the given number
+  expected: at least 2
+  given: 1
+  arguments...:
+   4
+```
 
 
 
@@ -1603,31 +1553,18 @@ Referências
 
 ## Referências
 
+Básicas
+
 - [Videos Abstraction](https://www.youtube.com/playlist?list=PL6NenTZG6KroSmESv5ItvLft76ZR8q-Nd)
 
-- Texto "From Examples" do curso
-    [Introduction to Systematic Program Design - Part 1](https://class.coursera.org/programdesign-002/wiki/view?page=UsingAbstractFunctions)
-    (Necessário inscrever-se no curso)
+- Texto "From Examples" do curso [Introduction to Systematic Program Design - Part 1](https://class.coursera.org/programdesign-002/wiki/view?page=UsingAbstractFunctions) (Necessário inscrever-se no curso)
 
-- Seções
-    [19.1](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-25.html#node_sec_19.1) e
-    [20](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-27.html#node_chap_21)
-    do livro [HTDP](http://htdp.org)
+- Seções [19.1](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-25.html#node_sec_19.1) e [20](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-27.html#node_chap_21) do livro [HTDP](http://htdp.org)
 
-- Seções
-    [3.9](http://docs.racket-lang.org/reference/pairs.html) e
-    [3.17](http://docs.racket-lang.org/reference/procedures.html) da
-    [Referência Racket](http://docs.racket-lang.org/reference/)
+- Seções [3.9](http://docs.racket-lang.org/reference/pairs.html) e [3.17](http://docs.racket-lang.org/reference/procedures.html) da [Referência Racket](http://docs.racket-lang.org/reference/)
 
+Complementares
 
-## Referências complementares
+- Seções [1.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3) (1.3.1 e 1.3.2)   e [2.2.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-15.html#%_sec_2.2.3) do livro [SICP](https://mitpress.mit.edu/sicp/)
 
-- Seções
-    [1.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3)
-    (1.3.1 e 1.3.2)
-    e [2.2.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-15.html#%_sec_2.2.3)
-    do livro [SICP](https://mitpress.mit.edu/sicp/)
-
-- Seções [4.2](http://www.scheme.com/tspl4/binding.html#./binding:h2) e
-    [5.5](http://www.scheme.com/tspl4/control.html#./control:h5) do livro
-    [TSPL4](http://www.scheme.com/tspl4/)
+- Seções [4.2](http://www.scheme.com/tspl4/binding.html#./binding:h2) e [5.5](http://www.scheme.com/tspl4/control.html#./control:h5) do livro [TSPL4](http://www.scheme.com/tspl4/)

@@ -1,5 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: fazer o segundo exemplo passa a passo
+# TODO: adicionar mais exemplos?
 title: Combinação de modelos
 ---
 
@@ -8,8 +10,7 @@ Introdução
 
 ## Introdução
 
-Qual modelo utilizar quando a função consome dois ou mais tipos de dados e pelo menos um é definido por mais de uma cláusula?
-  \pause
+Qual modelo utilizar quando a função consome dois ou mais tipos de dados e pelo menos um é definido por mais de uma cláusula? \pause
 
 - Se apenas um dado é definido por mais que uma cláusula (como por exemplo, uma lista), utilizamos o modelo correspondente \pause
 

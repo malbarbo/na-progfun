@@ -4,11 +4,11 @@
 
 # TODO
 
-- Corrigir biblioteca exemplos
-
 - Apresentar a receita de projeto de forma diferente (https://course.ccs.neu.edu/cs5010sp15/recipe.html)
 
 - Veja TODO's específicos em cada arquivo
+
+- Rever o quicksort (pode existir valores iguais ao pivo?)
 
 - Expandir dados compostos para tipos de dados algébricos e incluir como projetar dados
 
@@ -48,8 +48,6 @@
 
 - Usar pigments para colorir o código Racket
 
-- Não usar itemização no primeiro nível dos slides
-
 - Adicionar um capítulo sobre "padrões de projeto"
 
     - tente criar funções total
@@ -59,3 +57,5 @@
     - continuação
 
     - encadeamento de continuação (and_then)
+
+Adicionar material sobre lambda calculo https://www.ics.uci.edu/~lopes/teaching/inf212W12/readings/lambda-calculus-handout.pdf

@@ -538,13 +538,12 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ## Exemplo: `lista-positivos` e `lista-pares`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="55%">
 \scriptsize
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores
-;; positivos de lst.
+;; Devolve uma lista com os valores positivos de lst.
 (define (lista-positivos lst)
   (cond
     [(empty? lst) empty]
@@ -553,8 +552,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
            (lista-positivos (rest lst)))]
     [else (lista-positivos (rest lst))]))
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores
-;; pares de lst.
+;; Devolve uma lista com os valores pares de lst.
 (define (lista-pares lst)
   (cond
     [(empty? lst) empty]
@@ -564,7 +562,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
     [else (lista-pares (rest lst))]))
 ```
 </div>
-<div class="column" width="50%">
+<div class="column" width="45%">
 \scriptsize
 
 \pause
@@ -592,13 +590,12 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ## Exemplo: `lista-positivos` e `lista-pares`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="55%">
 \scriptsize
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores
-;; positivos de lst.
+;; Devolve uma lista com os valores positivos de lst.
 (define (lista-positivos lst)
   (cond
     [(empty? lst) empty]
@@ -607,8 +604,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
            (lista-positivos (rest lst)))]
     [else (lista-positivos (rest lst))]))
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores
-;; pares de lst.
+;; Devolve uma lista com os valores pares de lst.
 (define (lista-pares lst)
   (cond
     [(empty? lst) empty]
@@ -618,7 +614,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
     [else (lista-pares (rest lst))]))
 ```
 </div>
-<div class="column" width="50%">
+<div class="column" width="45%">
 \scriptsize
 
 ```scheme
@@ -644,13 +640,12 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ## Exemplo: `lista-positivos` e `lista-pares`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="55%">
 \scriptsize
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores
-;; positivos de lst.
+;; Devolve uma lista com os valores positivos de lst.
 (define (lista-positivos lst)
   (cond
     [(empty? lst) empty]
@@ -659,8 +654,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
            (lista-positivos (rest lst)))]
     [else (lista-positivos (rest lst))]))
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores
-;; pares de lst.
+;; Devolve uma lista com os valores pares de lst.
 (define (lista-pares lst)
   (cond
     [(empty? lst) empty]
@@ -670,7 +664,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
     [else (lista-pares (rest lst))]))
 ```
 </div>
-<div class="column" width="50%">
+<div class="column" width="45%">
 \scriptsize
 
 ```scheme
@@ -696,13 +690,12 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ## Exemplo: `lista-positivos` e `lista-pares`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="55%">
 \scriptsize
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores
-;; positivos de lst.
+;; Devolve uma lista com os valores positivos de lst.
 (define (lista-positivos lst)
   (filtra positive? lst))
 
@@ -722,7 +715,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 
 ```
 </div>
-<div class="column" width="50%">
+<div class="column" width="45%">
 \scriptsize
 
 ```scheme

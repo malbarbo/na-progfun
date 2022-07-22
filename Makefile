@@ -8,6 +8,7 @@ DEST_TEX=$(DEST)/tex
 NA=$(patsubst %/,%,$(dir $(shell ls */notas-de-aula.md)))
 NA_PDF=$(addprefix $(DEST_PDF)/, $(addsuffix .pdf, $(NA)))
 NA_PDF_HANDOUT=$(addprefix $(DEST_PDF_HANDOUT)/, $(addsuffix .pdf, $(NA)))
+NA_TEX=$(addprefix $(DEST_TEX)/, $(addsuffix .tex, $(NA)))
 EX=$(patsubst %/,%,$(dir $(shell ls */exercicios.md)))
 EX_PDF=$(addprefix $(DEST_PDF)/, $(addsuffix -exercicios.pdf, $(EX)))
 EXS=$(patsubst %/,%,$(dir $(shell ls */exemplos.rkt)))
@@ -15,7 +16,7 @@ EXS_RKT=$(addprefix $(DEST)/, $(addsuffix -exemplos.rkt, $(EXS)))
 RES=$(patsubst %/,%,$(dir $(shell ls */resolvidos.rkt)))
 RES_RKT=$(addprefix $(DEST)/, $(addsuffix -resolvidos.rkt, $(RES)))
 TECTONIC=$(DEST)/bin/tectonic
-TECTONIC_VERSION=0.7.1
+TECTONIC_VERSION=0.9.0
 PANDOC=$(DEST)/bin/pandoc
 PANDOC_VERSION=2.14.1
 PANDOC_CMD=$(PANDOC) \
@@ -31,9 +32,11 @@ default:
 	@echo Executando make em paralelo [$(shell nproc) tarefas]
 	@make -s -j $(shell nproc) all
 
-all: pdf handout ex exs res
+all: tex pdf handout ex exs res
 
 pdf: $(NA_PDF)
+
+tex: $(NA_TEX)
 
 handout: $(NA_PDF_HANDOUT)
 
@@ -56,6 +59,13 @@ $(DEST_PDF_HANDOUT)/%.pdf: %/notas-de-aula.md $(wildcard %/imagens/) templates/d
 	@cd $$(dirname $<) && \
 		../$(PANDOC_CMD) \
 		-V classoption:handout \
+		-o ../$@ notas-de-aula.md
+
+$(DEST_TEX)/%.tex: %/notas-de-aula.md templates/default.latex metadata.yml $(PANDOC)
+	@mkdir -p $(DEST_TEX)
+	@echo $@
+	@cd $$(dirname $<) && \
+		../$(PANDOC_CMD) \
 		-o ../$@ notas-de-aula.md
 
 $(DEST_PDF)/%-exercicios.pdf: %/exercicios.md templates/default.latex metadata-ex.yml $(PANDOC) $(TECTONIC) Makefile

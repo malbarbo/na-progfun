@@ -23,7 +23,7 @@ header-includes: |
       UprightFont    = *-Light,
       ItalicFont     = *-LightItalic,
       BoldFont       = *-Regular,
-      BoldItalicFont = *-RegularItalic
+      BoldItalicFont = *-MediumItalic
     ]{FiraSans}
     \setmonofont[
       Extension   = .otf,

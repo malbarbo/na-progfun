@@ -3,16 +3,22 @@
 title: Programação funcional
 ---
 
-O quê?
-======
+O quê é?
+========
 
-## O quê?
+## O quê é?
 
-Paradigma de programação inspirado no cálculo lambda. \pause
+O que é programação imperativa? \pause
 
-A computação é especificada pela definição e aplicação de funções (programação imperativa é baseado em mudança de estado). \pause
+- Um paradigma de programação que usa sentenças para modificar o estado do programa. \pause
 
-- Evita dados mutáveis e feitos colaterais
+O que é programação funcional? \pause
+
+- Um paradigma de programação que usa aplicação e composição de funções para construir programas (inspirado no cálculo lambda). \pause
+
+- Evita mudança de estado. \pause
+
+- Evita feitos colaterais.
 
 
 
@@ -25,13 +31,9 @@ Um paradigma (linguagem) de programação é uma ferramenta. \pause
 
 Conhecer várias ferramentas permite utilizar a mais adequada para cada problema. \pause
 
-Em geral os programas são \pause
+Em geral os programas são mais simples, fáceis de entender e modificar. \pause
 
-- Mais simples, fáceis de entender e modificar. \pause
-
-- Mais fáceis de paralelizar. \pause
-
-Diversão! Programar (no paradigma funcional) é muito divertido.
+Diversão! Programar, no paradigma funcional, é muito divertido.
 
 
 

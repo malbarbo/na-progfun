@@ -199,7 +199,7 @@ Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-
 ;; Devolve #t se n está em lst,
 ;; #f caso contrário.
 (check-equal? (contem? 3 (list 4 3 1)) #t)
-(check-equal? (contem? 5 (list 4 3 1)) #f)
+(check-equal? (contem? 2 (list 4 3 1)) #f)
 (define (contem? n lst)
   (cond
     [(empty? lst) #f]
@@ -1011,6 +1011,28 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 > (foldr max 7 (list 7 2 18 -20))
 18
 ```
+
+
+
+## Funções `map`, `filter` e `foldr`
+
+Quando utilizar as funções `map`, `filter` e `foldr`? \pause
+
+- Quando a lista sempre é processa por inteiro. \pause
+
+- `map`: quando queremos aplicar uma função a cada elemento de uma lista de forma independente. \pause
+
+- `filter`: quando queremos selecionar alguns elementos de uma lista. \pause
+
+- `foldr`: quando queremos calcular um resultado de forma incremental analisando cada elemento de uma lista. \pause
+
+Na dúvida, faça o projeto da função recursiva e depois verifique se a função resultada é um caso específico de `map`, `filter` ou `foldr`.
+
+
+
+## Ordenação
+
+Defina uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem não decrescente. (Lembre-se de aplicar a receita de projeto, não tente implementar um método de ordenação qualquer, a receita te levará a implementar um método específico).
 
 
 

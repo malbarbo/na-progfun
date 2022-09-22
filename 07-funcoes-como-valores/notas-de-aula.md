@@ -786,7 +786,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ;; Lista(Número) -> Número
 ;; Devolve a soma dos números de lst.
 (check-equal? (soma (list 4 3 1)) 8)
-(define (soma? lst)
+(define (soma lst)
   (cond
     [(empty? lst) 0]
     [else (+ (first lst)
@@ -838,7 +838,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ;; Lista(Número) -> Número
 ;; Devolve a soma dos números de lst.
 (check-equal? (soma (list 4 3 1)) 8)
-(define (soma? lst)
+(define (soma lst)
   (cond
     [(empty? lst) 0]
     [else (+ (first lst)
@@ -888,7 +888,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ;; Lista(Número) -> Número
 ;; Devolve a soma dos números de lst.
 (check-equal? (soma (list 4 3 1)) 8)
-(define (soma? lst)
+(define (soma lst)
   (cond
     [(empty? lst) 0]
     [else (+ (first lst)
@@ -938,7 +938,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ;; Lista(Número) -> Número
 ;; Devolve a soma dos números de lst.
 (check-equal? (soma (list 4 3 1)) 8)
-(define (soma? lst)
+(define (soma lst)
   (reduz + 0 lst))
 
 
@@ -1026,13 +1026,15 @@ Quando utilizar as funções `map`, `filter` e `foldr`? \pause
 
 - `foldr`: quando queremos calcular um resultado de forma incremental analisando cada elemento de uma lista. \pause
 
-Na dúvida, faça o projeto da função recursiva e depois verifique se a função resultada é um caso específico de `map`, `filter` ou `foldr`.
+Na dúvida, faça o projeto da função recursiva e depois verifique se ela é um caso específico de `map`, `filter` ou `foldr`.
 
 
 
 ## Ordenação
 
-Defina uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem não decrescente. (Lembre-se de aplicar a receita de projeto, não tente implementar um método de ordenação qualquer, a receita te levará a implementar um método específico).
+Defina uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem não decrescente. (Lembre-se de aplicar a receita de projeto, não tente implementar um método de ordenação qualquer, a receita te levará a implementar um método específico). \pause
+
+Projeto feito em sala. Veja as soluções dos exercícios da lista de autorreferência.
 
 
 
@@ -1052,7 +1054,7 @@ Considere as seguintes definições
 
 \pause
 
-Existem dois aspectos sobre este código que pode melhora, você consegue dizer quais são? \pause
+Existem dois aspectos sobre neste código que podemos melhorar, quais são eles? \pause
 
 - A função `soma` tem um uso bastante restrito (supomos que ela é utilizada apenas pela função `lista-soma5`), mas foi declarada em um escopo global utilizando um nome fácil de ter conflito (outro programador pode escolher o nome `soma` para outra função); \pause
 
@@ -1090,23 +1092,36 @@ O segundo problema pode ser resolvido adicionado um parâmetro `n` e mudando o n
 
 \pause
 
-Observe que `soma` utiliza a variável `n`.
+Existe algo diferente na função `soma`? \pause Sim, `soma` utiliza a variável `n`, que não é um parâmetro e nem uma variável local dentro de `soma`.
 
 
 ## Definições locais e fechamentos
 
-Uma **variável livre** em relação a uma função é aquela que não é um parâmetro da função e nem foi declarada localmente dentro da função.
+Uma **variável livre** em relação a uma função é aquela que não é um parâmetro da função e nem foi declarada localmente dentro da função. \pause
 
-Como `soma` pode ser usada fora do contexto que ela foi declarada (como quando ela for executada dentro da função `map`), soma deve "levar" junto com ela as variáveis livres.
+Como uma função acessa um parâmetro ou uma variáveis local? \pause Geralmente, consultando o registro de ativação, o quadro, da sua chamada. \pause
+
+Como `soma` acessa a variável livre `n` já que ela não é armazenada no registro de ativação de `soma`? \pause
+
+A função `soma` deve "levar" junto com ela a variável livre `n`.
 
 
 ## Definições locais e fechamentos
 
-**Ambiente de referenciamento** é uma tabela com as referências para as variáveis livres. \pause
+O **ambiente léxico** é uma tabela com referências para as variáveis livres. \pause
 
-Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambiente de referenciamento. \pause
+Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambiente léxico. \pause
 
-Neste caso, quando `soma` é utilizada na chamada do `map` um fechamento é passado como parâmetro.
+No caso
+
+```scheme
+(define (lista-soma-n n lst)
+  (define (soma x)
+    (+ x n))
+  (map soma lst))
+```
+
+quando `soma` é utilizada na chamada do `map` um fechamento é passado como parâmetro.
 
 
 ## Definições locais e fechamentos
@@ -1335,13 +1350,18 @@ Defina uma função que receba um parâmetro $n$ e devolva uma função que soma
 
 ```scheme
 ;; Número -> (Número -> Número)
-;; Devolve uma função que recebe uma parâmetro x
-;; e faz a soma de n e x.
+;; Devolve uma função que recebe um parâmetro x
+;; e produz a soma de n e x.
 (examples
  (check-equal? ((somador 4) 3) 7)
  (check-equal? ((somador -2) 8) 6))
+(define (somador n) ...)
+```
 
-;; Vesão com função nomeada.
+\pause
+
+```scheme
+;; Versão com função nomeada.
 (define (somador n)
   (define (soma x)
     (+ n x))
@@ -1353,12 +1373,17 @@ Defina uma função que receba um parâmetro $n$ e devolva uma função que soma
 
 ```scheme
 ;; Número -> (Número -> Número)
-;; Devolve uma função que recebe uma parâmetro x
-;; e faz a soma de n e x.
+;; Devolve uma função que recebe um parâmetro x
+;; e produz a soma de n e x.
 (examples
  (check-equal? ((somador 4) 3) 7)
  (check-equal? ((somador -2) 8) 6))
+(define (somador n) ...)
+```
 
+\pause
+
+```scheme
 ;; Versão com função anônima.
 (define (somador n)
   (λ (x) (+ n x)))
@@ -1367,7 +1392,7 @@ Defina uma função que receba um parâmetro $n$ e devolva uma função que soma
 
 ## Exemplo: negação
 
-Defina uma função que receba como parâmetro um predicado (função que retorna verdadeiro ou falso) e retorne uma função que retorna a negação do predicado.
+Defina uma função que receba como parâmetro um predicado (função que retorna booleano) e retorne uma função que retorna a negação do predicado.
 
 - `negate` ([referência](https://docs.racket-lang.org/reference/procedures.html#%28def._%28%28lib._scheme%2Ffunction..rkt%29._negate%29%29))
 
@@ -1398,9 +1423,13 @@ Defina uma função que receba como parâmetro um predicado (função que retorn
  (check-equal? ((nega positive?) -3) #t)
  (check-equal? ((nega even?) 4) #f)
  (check-equal? ((nega even?) 3) #t))
+```
 
-(define (nega pred)
-  (λ (x) (not (pred x))))
+\pause
+
+```scheme
+(define (nega pred?)
+  (λ (x) (not (pred? x))))
 ```
 
 
@@ -1570,7 +1599,7 @@ Referências
 
 Básicas
 
-- [Videos Abstraction](https://www.youtube.com/playlist?list=PL6NenTZG6KroSmESv5ItvLft76ZR8q-Nd)
+- Vídeos [Abstractions](https://www.youtube.com/playlist?list=PL6NenTZG6KroSmESv5ItvLft76ZR8q-Nd)
 
 - Texto "From Examples" do curso [Introduction to Systematic Program Design - Part 1](https://class.coursera.org/programdesign-002/wiki/view?page=UsingAbstractFunctions) (Necessário inscrever-se no curso)
 

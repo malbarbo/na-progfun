@@ -40,11 +40,11 @@
     [(= 3 (first lst)) #t]
     [else (contem-3? (rest lst))]))
 
-;; Olhando para o corpo das funções contem-5? e contem-3? observa-se que a
+;; Olhando para o corpo das funções contem-5? e contem-3? observamos que a
 ;; única diferença é a ocorrência do valor 5 e 3.
 ;;
 ;; Vamos abstrair estas duas funções e criar a função contem? que além da
-;; lista, recebe como parâmetro n, que será usado no lugar do 5 (ou 3).
+;; lista, recebe como parâmetro n, que será usado no lugar do 5 ou 3.
 ;;
 ;; Em seguida vamos reescrever as funções contem-5? e contem-3? em termos da
 ;; função contem?.
@@ -114,13 +114,13 @@
     [else (cons (add1 (first lst))
                 (lista-soma1 (rest lst)))]))
 
-;; Olhando para o corpo das funções lista-soma1 e lista-sqr observa-se que a
+;; Olhando para o corpo das funções lista-soma1 e lista-sqr observamos que a
 ;; única diferença é a ocorrência da função sqr e add1.
 ;;
 ;; Da mesma forma que fizemos anteriormente vamos abstrair estas duas funções e
-;; criar a função mapeia (a função mapeia os elementos de uma lista usando um
+;; criar a função mapeia (a função mapeia os elementos de uma lista usando uma
 ;; função) que além da lista, recebe como parâmetro f, que será usado no lugar
-;; de sqr (ou add1).
+;; de sqr ou add1.
 ;;
 ;; Em seguida vamos definir as funções lista-soma1 e lista-sqr em termos da
 ;; função mapeia.
@@ -196,7 +196,7 @@
      (cons (first lst) (lista-pares (rest lst)))]
     [else (lista-pares (rest lst))]))
 
-;; Olhando para o corpo das funções lista-positivos e lista-pares observa-se
+;; Olhando para o corpo das funções lista-positivos e lista-pares observamos
 ;; que a única diferença é a ocorrência da função positive? e even?.
 ;;
 ;; Da mesma forma que fizemos anteriormente vamos abstrair estas duas funções e
@@ -208,7 +208,7 @@
 ;; da função filtra.
 
 ;; (X -> Boolean) Lista(X) -> Lista(X)
-;; Devolve uma lista com todos os elementos x de lst tal que (pred x) é #t.
+;; Devolve uma lista com todos os elementos x de lst tal que (pred? x) é #t.
 ;; Veja a função pré-definida filter.
 (examples
  (check-equal? (filtra even? empty)
@@ -239,7 +239,7 @@
 ;; produto.
 
 ;; Lista(Número) -> Número
-;; Calula a soma dos números de uma lista.
+;; Calula a soma dos números de lst.
 (examples
  (check-equal? (soma empty) 0)
  (check-equal? (soma (list 3)) 3)
@@ -255,7 +255,7 @@
              (soma (rest lst)))]))
 
 ;; Lista(Número) -> Número
-;; Calcula o produto dos números de uma lista.
+;; Calcula o produto dos números de lst.
 (examples
  (check-equal? (produto empty) 1)
  (check-equal? (produto (list 3)) 3)
@@ -270,13 +270,13 @@
     [else (* (first lst)
              (produto (rest lst)))]))
 
-;; Olhando para o corpo das funções soma e produto observa-se que as únicas
+;; Olhando para o corpo das funções soma e produto observamos que as únicas
 ;; diferenças são a ocorrência do valor 0 e 1 e da função + e *.
 ;;
-;; Da mesma forma que fizemos com as funções contem-5? e contem-3?  vamos
+;; Da mesma forma que fizemos com as funções contem-5? e contem-3? vamos
 ;; abstrair estas duas funções e criar a função reduz (a função reduz uma lista
 ;; a um valor) que além da lista, recebe como parâmetro f, que será usado no
-;; lugar de + (ou *) e base que será usado no lugar de 0 (ou 1).
+;; lugar de + ou * e base que será usado no lugar de 0 ou 1.
 ;;
 ;; Em seguida vamos reescrever as funções soma e produto em termos de reduz.
 
@@ -326,7 +326,7 @@
                 (concatena (rest lst1) lst2))]))
 
 ;; Analisando o corpo das funções reduz e concatena, percebemos que o parâmetro
-;; op deve ser cons e que o parâmetro base deve ser lst2. Desta forma,
+;; f deve ser cons e que o parâmetro base deve ser lst2. Desta forma,
 ;; definimos concatena em termos de reduz.
 (define (concatena lst1 lst2)
   (reduz cons lst2 lst1))
@@ -354,7 +354,7 @@
 ;; seu parâmetro a n.
 
 ;; Número -> (Número -> Número)
-;; Devolve uma função que recebe uma parâmetro x e faz a soma de n e x.
+;; Devolve uma função que recebe um parâmetro x e faz a soma de n e x.
 (examples
  (check-equal? ((somador 4) 3) 7)
  (check-equal? ((somador -2) 8) 6))
@@ -372,12 +372,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Defina uma função que recebe como parâmetro um predicado (função que retorna
-;; verdadeiro ou falso) e retorne uma função que retorna a negação do
-;; predicado.
+;; booleano) e retorne uma função que retorna a negação do predicado.
 
 ;; (X -> Boolean) -> (X -> Boolean)
-;; Devolve uma função que é semelhante a pred, mas que devolve a negação do
-;; resultado de pred.
+;; Devolve uma função que é semelhante a pred?, mas que devolve a negação do
+;; resultado de pred?.
 (examples
  (check-equal? ((nega positive?) 3) #f)
  (check-equal? ((nega positive?) -3) #t)
@@ -385,8 +384,8 @@
  (check-equal? ((nega even?) 3) #t))
 
 ;; Veja a função pré-definida negate.
-(define (nega pred)
-  (λ (x) (not (pred x))))
+(define (nega pred?)
+  (λ (x) (not (pred? x))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

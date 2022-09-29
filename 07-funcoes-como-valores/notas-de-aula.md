@@ -1450,7 +1450,7 @@ Por exemplo, para uma função que admite dois argumentos, poderemos aplicá-la 
 ## Currying
 
 ```scheme
-> (define f (λ (x) (λ (y) (* x y)))
+> (define f (λ (x) (λ (y) (* x y))))
 > (define ((g x) y) (< x y))
 > (map (f 2) (list 1 2 3 4))
 '(2 4 6 8)

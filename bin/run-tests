@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 R=$(mktemp)
 for f in $(find 0* flappybird -name '*.rkt'); do

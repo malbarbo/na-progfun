@@ -1489,7 +1489,7 @@ As funções pré-definidas `curry` e `curryr` são utilizadas para fixar argume
 
 ## Exemplo: quicksort
 
-Defina uma função que implemente o algoritmo de ordenação _quicksort_.
+Defina uma função que ordene uma lista de números distintos usando o algoritmo de ordenação _quicksort_.
 
 
 ## Exemplo: quicksort
@@ -1506,9 +1506,26 @@ Defina uma função que implemente o algoritmo de ordenação _quicksort_.
                (list 3))
  (check-equal? (quicksort (list 10 3 -4 5 9))
                (list -4 3 5 9 10))
- (check-equal? (quicksort (list 3 10 3 0 5 0 9))
-               (list 0 0 3 3 5 9 10)))
+ (check-equal? (quicksort (list 3 10 0 5 9))
+               (list 0 3 5 9 10)))
 ```
+
+
+## Exemplo: quicksort
+
+Como começar a implementação? \pause Usando o modelo baseado na definição de lista? \pause Não! \pause
+
+Se fizermos a implementação baseada no modelo vamos chegar no algoritmo de ordenação por inserção, como de fato já fizemos. \pause Aqui temos que implementar o algoritmo _quicksort_, que tem um funcionamento específico. \pause
+
+Qual é a ideia do _quicksort_? \pause
+
+- Selecionar um elemento da entrada como pivô. \pause
+
+- Separar os elementos menores que o pivô e ordená-los recursivamente. \pause
+
+- Separar os elementos maiores que o pivô e ordená-los recursivamente. \pause
+
+- Juntar a ordenação dos menores, com o pivô e com os maiores.
 
 
 ## Exemplo: quicksort
@@ -1519,13 +1536,22 @@ Defina uma função que implemente o algoritmo de ordenação _quicksort_.
 (define (quicksort lst)
   (if (empty? lst)
       empty
-      (let ([pivo (first lst)]
-            [resto (rest lst)])
-        (append (quicksort (filter (curryr < pivo) resto))
+      (let ([pivo (first lst)])
+        (append (quicksort (filter (curryr < pivo) lst))
                 (list pivo)
-                (quicksort (filter (curryr >= pivo) resto))))))
+                (quicksort (filter (curryr > pivo) lst))))))
 ```
 
+
+## Recursão natural vs generativa
+
+Qual a diferença na forma da recursão utilizada no _quicksort_ em relação as recursões do exemplos anteriores? \pause
+
+Nos exemplos anteriores, a recursão era feita para o resto da lista, já no _quicksort_, a recursão é feita para listas criadas a partir da lista de entrada. \pause
+
+Em uma **recursão estrutural**, as chamadas recursivas são feitas em componentes das entradas. \pause
+
+Em uma **recursão generativa**, as chamadas recursivas são feitas em dados gerados/construídos a partir da entrada.
 
 
 Outras funções de alta ordem

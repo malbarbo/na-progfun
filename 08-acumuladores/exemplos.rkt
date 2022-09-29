@@ -23,14 +23,16 @@
 
 ;; Definição usando acumulador
 (define (relativa->absoluta lst0)
-  (define (rel->abs lst acc-dist)
+  ;; acc-dist é a distância absoluta do item que estava antes do
+  ;; primeiro elemento de lst.
+  (define (iter lst acc-dist)
     (cond
       [(empty? lst) empty]
       [else
        (cons (+ (first lst) acc-dist)
-             (rel->abs (rest lst)
-                       (+ (first lst) acc-dist)))]))
-  (rel->abs lst0 0))
+             (iter (rest lst)
+                   (+ (first lst) acc-dist)))]))
+  (iter lst0 0))
 
 
 ;; ---------------------------------------------------------------------
@@ -57,6 +59,7 @@
 ;; Definição com o uso de acumlador
 #;
 (define (tamanho lst0)
+  ;; acc - Quantidade de elementos já vistos de lst0
   (define (iter lst acc)
     (cond
       [(empty? lst) acc]
@@ -95,6 +98,7 @@
 ;; Definição com uso de acumulador
 #;
 (define (soma lst0)
+  ;; acc - soma dos elementos já visitados de lst0
   (define (iter lst acc)
     (cond
       [(empty? lst) acc]
@@ -127,6 +131,7 @@
 ;; Definição com o uso de acumulador
 #;
 (define (inverte lst0)
+  ;; acc - elementos já visitados de lst0 em ordem inversa.
   (define (iter lst acc)
     (cond
       [(empty? lst) acc]

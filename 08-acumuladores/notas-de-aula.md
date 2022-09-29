@@ -1,9 +1,11 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: adicionar exemplos para a chamada da função com acumuladores
-# TODO: usar um exemplo inicial mais simples
 # TODO: mostrar o passa a passo da construção de funções com acumuladores (ver o livro!)
 # TODO: colocar as funções lado a lado para mostrar as semelhanças antes de escrever foldl
+# TODO: usar um exemplos "mais simples" para introduzir o conceito
+# TODO: apresentar uma forma diferente de projeto (como em fundamentos de algoritmos)? Seria necessário deixar de lado a ideia de que acumulador é algo se faz depois?
+# TODO: Ao invé de apresentar foldl e foldr separados, unir os dois assuntos em "percurso de listas"?
 title: Acumuladores
 ---
 
@@ -66,7 +68,7 @@ Para a entrada `(list 50 40 70 30 30)`{.scheme} a função produz `(list 50 90 1
 ```scheme
 (cons 50 (map (curry + 50) (list 40 110 140 170)))
 ```
- 
+
 
 ## Exemplo
 
@@ -203,7 +205,7 @@ Durante a chamada `(relativa->absoluta (list 2 7) 3)`{.scheme}, como é chamada 
 
 `(relativa->absoluta (rest (list 2 7)) 5)`{.scheme}. \pause Como obtemos `5`{.scheme}? \pause `(+ 2 3)`{.scheme} \pause
 
-De forma geral, como é chamada recursiva? \pause 
+De forma geral, como é chamada recursiva? \pause
 
 `(relativa->absoluta (rest lst) (+ (first lst) acc-dist))`{.scheme} \pause
 
@@ -521,7 +523,7 @@ Qual o significado do acumulador? \pause
 
 ```scheme
 (define (inverte lst0)
-  ;; acc - os elementos já visitados de lst0 em ordem inversa
+  ;; acc - elementos já visitados de lst0 em ordem inversa
   (define (iter lst acc)
     (cond
       [(empty? lst) acc]

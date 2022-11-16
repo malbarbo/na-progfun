@@ -38,7 +38,7 @@
 ;; ---------------------------------------------------------------------
 
 ;; Lista -> Natural
-;; Conta a quantidade de elementos de uma lista.
+;; Devolve a quantidade de elementos de lst.
 (examples
  (check-equal? (tamanho empty)
                0)
@@ -59,7 +59,7 @@
 ;; Definição com o uso de acumlador
 #;
 (define (tamanho lst0)
-  ;; acc - Quantidade de elementos já vistos de lst0
+  ;; acc - a quantidade de elementos já vistos de lst0
   (define (iter lst acc)
     (cond
       [(empty? lst) acc]
@@ -76,7 +76,7 @@
 ;; ---------------------------------------------------------------------
 
 ;; Lista(Número) -> Número
-;; Soma os números de uma lista.
+;; Soma os elementos de lst.
 (examples
  (check-equal? (soma empty)
                0)
@@ -98,7 +98,7 @@
 ;; Definição com uso de acumulador
 #;
 (define (soma lst0)
-  ;; acc - soma dos elementos já visitados de lst0
+  ;; acc - a soma dos elementos já visitados de lst0
   (define (iter lst acc)
     (cond
       [(empty? lst) acc]
@@ -131,7 +131,7 @@
 ;; Definição com o uso de acumulador
 #;
 (define (inverte lst0)
-  ;; acc - elementos já visitados de lst0 em ordem inversa.
+  ;; acc - os elementos já visitados de lst0 em ordem inversa.
   (define (iter lst acc)
     (cond
       [(empty? lst) acc]

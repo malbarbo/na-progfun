@@ -395,11 +395,16 @@ Veja as funções de manipulação de strings em \url{https://docs.racket-lang.o
 
 ## Resolução do exercício 1
 
+1. O governo deu uma aumento de salário para os funcionários públicos. O percentual de aumento depende do valor do salário atual. Para funcionários que ganham até R$ 1200 o aumento é de 10%, para funcionários que ganham entre R$ 1200 e R$ 3000 o aumento é de 7%, para funcionários que ganham entre R$ 3000 e R$ 8000, o aumento é de 3%, e finalmente, para os funcionários que ganham mais que R$ 8000 não haverá aumento. Projete uma função para calcular o novo salário de um funcionário qualquer.
+
+\pause
+
 **Análise** \pause
 
 - Calcular o novo salário a partir do salário atual. Se o salário for $\le$ R$ 1200, aumento de 10%, se $>$ R$ 1200 e $\le$ R$ 3000, aumento de 7%, se $>$ R$ 3000 e $\le$ R$ 8000, aumento de 3%, $>$ R$ 8000, sem aumento.
 
-\pause
+
+## Resolução do exercício 1
 
 **Definição de tipos de dados** \pause
 
@@ -407,7 +412,7 @@ Veja as funções de manipulação de strings em \url{https://docs.racket-lang.o
 ;; Salário é um número positivo com duas casas decimais
 ```
 
-## Resolução do exercício 1
+\pause
 
 **Especificação** \pause
 
@@ -486,30 +491,29 @@ Não podemos esquecer de fazer a verificação novamente!
 
 ## Resolução do exercício 2
 
+2. O Jorge precisa saber a massa de diversos pequenos tubos de ferro mas está sem uma balança. No entanto, ele possui um paquímetro e pode medir com precisão o diâmetro interno e externo e a altura dos tubos, agora ele só precisa de um programa para fazer os cálculos. Algum voluntário? \pause
+
 **Análise** \pause
 
 - Calcular a massa de um tubo de ferro a partir das suas dimensões \pause
-
 - Dimensões -> Volume -> Massa \pause
-
 - O volume de um tubo é dado por $\pi ((diametro\_externo - diametro\_interno)/2)^2 \times altura$ \pause
-
 - A massa é dado por $volume \times densidade$ \pause
+- A densidade do ferro é 7874 $kg/m^3$
 
-- A densidade do ferro é 7874 $kg/m^3$ \pause
 
+## Resolução do exercício 2
 
-**Definição de tipos de dados**
+**Definição de tipos de dados** \pause
 
 ```scheme
 ;; Comprimento é um número positivo dado em metros.
 ;; Massa é um número positivo dado em quilogramas.
 ```
 
+\pause
 
-## Resolução do exercício 2
-
-**Especificação**
+**Especificação** \pause
 
 ```scheme
 ; Comprimento Comprimento Comprimento -> Massa
@@ -517,6 +521,8 @@ Não podemos esquecer de fazer a verificação novamente!
 ;; Calcula a massa de um tubo de ferro a partir das suas dimensões.
 (define (massa-tubo-ferro diametro-externo diametro-interno altura) ...)
 ```
+
+\pause
 
 ```scheme
 (examples
@@ -588,11 +594,16 @@ Não podemos esquecer de fazer a verificação novamente!
 
 ## Resolução do exercício 3
 
+3. Em um determinado programa é preciso exibir textos em uma quantidade máxima de espaço (número de caracteres). Se o texto não cabe no espaço, apenas a parte inicial do texto que cabe no espaço junto de três pontos deve ser exibida. Além disso, o texto pode ser alinhado a direita, a esquerda ou centralizado. Projete um programa que transforme um texto para que possa ser exibido no espaço desejado.
+
+\pause
+
 **Análise** \pause
 
 - Ajustar um texto a um tamanho específico, usando ..., se necessário, para sinalizar que o texto foi abreviado, e alinhar o texto a direita, a esquerda ou no centro.
 
-\pause
+
+## Resolução do exercício 3
 
 **Definição de tipos de dados** \pause
 
@@ -624,21 +635,6 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
 ## Resolução do exercício 3
 
 ```scheme
-;; Se s tem exatamente num-chars caracteres, então produz s.
-;;
-;; Se s tem mais do que num-chars caracteres, então s é truncada e ...
-;; é adicionado ao final para sinalizar que a string foi abreviada.
-;;
-;; Se s tem menos do que num-chars caracteres, então espaços são
-;; adicionados no início se alinhamento é "esquerda", no fim
-;; se alinhamento é "direita", ou no ínicio e fim se alinhamento
-;; e "centro". Nesse último caso, se a quantidade de espaços adicionados
-;; for impar, então no fim será adicionado 1 espaço a mais do que no início.
-```
-
-## Resolução do exercício 3
-
-```scheme
 (examples
  (check-equal? (ajusta-string "casa" 4 "direita") "casa")
  (check-equal? (ajusta-string "casa" 4 "esquerda") "casa")
@@ -651,6 +647,22 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
  (check-equal? (ajusta-string "casa" 9 "esquerda") "casa     ")
  (check-equal? (ajusta-string "casa" 9 "centro") "  casa   ")
  (check-equal? (ajusta-string "casa" 10 "centro") "   casa   "))
+```
+
+
+## Resolução do exercício 3
+
+```scheme
+;; Se s tem exatamente num-chars caracteres, então produz s.
+;;
+;; Se s tem mais do que num-chars caracteres, então s é truncada e ...
+;; é adicionado ao final para sinalizar que a string foi abreviada.
+;;
+;; Se s tem menos do que num-chars caracteres, então espaços são
+;; adicionados no início se alinhamento é "esquerda", no fim
+;; se alinhamento é "direita", ou no ínicio e fim se alinhamento
+;; e "centro". Nesse último caso, se a quantidade de espaços adicionados
+;; for impar, então no fim será adicionado 1 espaço a mais do que no início.
 ```
 
 

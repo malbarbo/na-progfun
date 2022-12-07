@@ -503,17 +503,24 @@ O Haskell usa avaliação em ordem normal.
 
 1. O seu amigo Alan está planejando uma viagem pro final do ano com a família e está considerando diversos destinos. Uma das coisas que ele está levando em consideração é o custo da viagem, que inclui, entre outras coisas, hospedagem, combustível e o pedágio. Para o cálculo do combustível ele pediu a sua ajuda, ele disse que sabe a distância que vai percorrer, o preço do litro do combustível e o rendimento do carro (quantos quilômetros o carro anda com um litro de combustível), mas que é muito chato ficar fazer o cálculo manualmente, então ele quer que você faça um programa para calcular o gasto de combustível em uma viagem.
 
-    \pause
-
-    ```scheme
-    (define (custo-combustivel distancia preco-do-litro rendimento)
-        (* (/ distancia rendimento) preco-do-litro))
-    ```
-
 
 ## Exercícios
 
 2. Depois que você fez o programa para o Alan, a Márcia, amiga em comum de vocês, soube que você está oferecendo serviços desse tipo e também quer a sua ajuda. O problema da Márcia é que ela sempre tem que fazer a conta manualmente para saber se deve abastecer o carro com álcool ou gasolina. A conta que ela faz é verificar se o preço do álcool é até 70% do preço da gasolina, se sim, ela abastece o carro com álcool, senão ela abastece o carro com gasolina. Você pode ajudar a Márcia também?
+
+
+## Exercícios
+
+Solução exercício 1
+
+```scheme
+(define (custo-combustivel distancia preco-do-litro rendimento)
+    (* (/ distancia rendimento) preco-do-litro))
+```
+
+\pause
+
+Solução exercício 2
 
 \pause
 
@@ -673,7 +680,7 @@ A forma especial `cond` pode ser usada quando existem vários (pelo menos um) ca
 
 ## Condicional
 
-Como as duas condições são mutuamente excludentes, podemos usar o `else`
+Como as duas condições são mutuamente excludentes, podemos usar o `else`{.scheme}
 
 ```scheme
 (define (abs x)

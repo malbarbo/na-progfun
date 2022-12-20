@@ -435,13 +435,17 @@ Veja as funções de manipulação de strings em \url{https://docs.racket-lang.o
 
 ```scheme
 (examples
- (check-equal? (novo-salario 1000.00) 1100.00)
+ ; salario-atual <= 1200
+ (check-equal? (novo-salario 1000.00) 1100.00) ; (* 1000.00 1.10)
  (check-equal? (novo-salario 1200.00) 1320.00)
- (check-equal? (novo-salario 2000.00) 2140.00)
+ ; salario-atual <= 3000
+ (check-equal? (novo-salario 2000.00) 2140.00) ; (* 2000.00 1.07)
  (check-equal? (novo-salario 3000.00) 3210.00)
- (check-equal? (novo-salario 5000.00) 5150.00)
+ ; salario-atual <= 8000
+ (check-equal? (novo-salario 5000.00) 5150.00) ; (* 5000.00 1.03)
  (check-equal? (novo-salario 8000.00) 8240.00)
- (check-equal? (novo-salario 8000.01) 8000.01))
+ ; salario-atual > 8000
+ (check-equal? (novo-salario 8000.01) 8000.01)); 8000.00
 ```
 
 
@@ -526,6 +530,7 @@ Não podemos esquecer de fazer a verificação novamente!
 
 ```scheme
 (examples
+ ; (* pi (sqr (/ (- 0.05 0.03) 2)) 0.1 7874)
  (check-equal? (massa-tubo-ferro 0.05 0.03 0.1) 0.2472436))
 ```
 
@@ -631,12 +636,13 @@ Não podemos esquecer de fazer a verificação novamente!
 
 Essa especificação é precisa o bastante para fazermos uma implementação ou para usarmos essa função? \pause Não.
 
-
 ## Resolução do exercício 3
+
+\small
 
 ```scheme
 (examples
- (check-equal? (ajusta-string "casa" 4 "direita") "casa")
+ (check-equal? (ajusta-string "casa" 4 "direita") "casa") ; "casa"
  (check-equal? (ajusta-string "casa" 4 "esquerda") "casa")
  (check-equal? (ajusta-string "casa" 4 "centro") "casa")
  (check-equal? (ajusta-string "casa verde" 7 "direita") "casa...")
@@ -645,6 +651,51 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
  (check-equal? (ajusta-string "casa verde" 9 "direita") "casa v...")
  (check-equal? (ajusta-string "casa" 9 "direita") "     casa")
  (check-equal? (ajusta-string "casa" 9 "esquerda") "casa     ")
+ (check-equal? (ajusta-string "casa" 9 "centro") "  casa   ")
+ (check-equal? (ajusta-string "casa" 10 "centro") "   casa   "))
+```
+
+## Resolução do exercício 3
+
+\small
+
+```scheme
+(examples
+ ; (= (string-length s) num-chars)
+ (check-equal? (ajusta-string "casa" 4 "direita") "casa") ; "casa"
+ (check-equal? (ajusta-string "casa" 4 "esquerda") "casa")
+ (check-equal? (ajusta-string "casa" 4 "centro") "casa")
+```
+\pause
+
+```scheme
+ ; (> (string-length s) num-chars)
+ ; (string-append (substring "casa verde" 0 (- 4 3)) "...")
+ (check-equal? (ajusta-string "casa verde" 7 "direita") "casa...")
+ (check-equal? (ajusta-string "casa verde" 7 "esquarda") "casa...")
+ (check-equal? (ajusta-string "casa verde" 7 "centro") "casa...")
+ (check-equal? (ajusta-string "casa verde" 9 "direita") "casa v...")
+```
+
+## Resolução do exercício 3
+
+\footnotesize
+
+```scheme
+ ; (< (string-length s) num-chars)
+ ; (string-append (make-string (- 9 (string-length "casa")) #\space)
+ ;                             "casa")
+ (check-equal? (ajusta-string "casa" 9 "direita") "     casa")
+ ; (string-append (make-string "casa"
+ ;                             (- 9 (string-length "casa")) #\space))
+ (check-equal? (ajusta-string "casa" 9 "esquerda") "casa     ")
+ ; (define num-espacos-inicio (quotient (- num-chars (string-length "casa)) 2)
+ ; (define num-espacos-fim (- num-chars (string-length "casa)
+ ;                            num-espacos-inicio)
+ ; (string-append
+ ;   (make-string num-espacos-inicio #\space))
+ ;   "centro"
+ ;   (make-string num-espacos-fim #\space))
  (check-equal? (ajusta-string "casa" 9 "centro") "  casa   ")
  (check-equal? (ajusta-string "casa" 10 "centro") "   casa   "))
 ```

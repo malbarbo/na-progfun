@@ -520,9 +520,9 @@ Não podemos esquecer de fazer a verificação novamente!
 **Especificação** \pause
 
 ```scheme
-; Comprimento Comprimento Comprimento -> Massa
-
+;; Comprimento Comprimento Comprimento -> Massa
 ;; Calcula a massa de um tubo de ferro a partir das suas dimensões.
+;; Requer que (> diametro-externo diametro-interno)
 (define (massa-tubo-ferro diametro-externo diametro-interno altura) ...)
 ```
 
@@ -646,7 +646,7 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
  (check-equal? (ajusta-string "casa" 4 "esquerda") "casa")
  (check-equal? (ajusta-string "casa" 4 "centro") "casa")
  (check-equal? (ajusta-string "casa verde" 7 "direita") "casa...")
- (check-equal? (ajusta-string "casa verde" 7 "esquarda") "casa...")
+ (check-equal? (ajusta-string "casa verde" 7 "esquerda") "casa...")
  (check-equal? (ajusta-string "casa verde" 7 "centro") "casa...")
  (check-equal? (ajusta-string "casa verde" 9 "direita") "casa v...")
  (check-equal? (ajusta-string "casa" 9 "direita") "     casa")
@@ -670,7 +670,7 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
 
 ```scheme
  ; (> (string-length s) num-chars)
- ; (string-append (substring "casa verde" 0 (- 4 3)) "...")
+ ; (string-append (substring "casa verde" 0 (- 7 3)) "...")
  (check-equal? (ajusta-string "casa verde" 7 "direita") "casa...")
  (check-equal? (ajusta-string "casa verde" 7 "esquarda") "casa...")
  (check-equal? (ajusta-string "casa verde" 7 "centro") "casa...")
@@ -702,6 +702,8 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
 
 
 ## Resolução do exercício 3
+
+Detalhamento do propósito da função a partir do aprimoramento do nosso entendimento obtido com os exemplos.
 
 ```scheme
 ;; Se s tem exatamente num-chars caracteres, então produz s.

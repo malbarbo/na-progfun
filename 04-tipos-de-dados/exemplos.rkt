@@ -11,6 +11,8 @@
 
 ;; Ponto -> Número
 ;; Calcula a distância do ponto p a origem.
+;; A distância de um ponto (x, y) até a origem é calculada
+;; pela raiz quadrada de x^2 + y^2.
 (examples
  (check-equal? (distancia-origem (ponto 3 4)) 5))
 

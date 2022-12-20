@@ -37,25 +37,56 @@ Vamos definir uma estrutura para representar um ponto em um plano cartesiano.
 
 ## Estruturas
 
+<div class="columns">
+<div class="column" width="48%">
 \small
+
+Definição
 
 ```scheme
 (struct ponto (x y))
+```
+
+\pause
+
+Construção
+
+```scheme
 (define p1 (ponto 3 4))
+
 (define p2 (ponto 8 2))
+```
+</div>
+<div class="column" width="48%">
+
+\small
+
+\pause
+
+Uso seletores
+
+```scheme
 > (ponto-x p1)
 3
 > (ponto-y p1)
 4
 > (ponto-x p2)
 8
-> (ponto-y p2)
-2
+```
+
+\pause
+
+Uso predicado de verificação de tipo
+
+```scheme
 > (ponto? p1)
 #t
 > (ponto? "ola")
 #f
 ```
+</div>
+</div>
+
 
 
 ## Sintaxe de `struct`{.scheme}
@@ -146,6 +177,7 @@ Além de mudar a forma que o ponto é exibido, a palavra chave `#:transparent`{.
 ;; Por padrão, dois pontos são iguais se eles são
 ;; o mesmo ponto
 (struct ponto (x y))
+
 (define p1 (ponto 3 4))
 (define p2 (ponto 3 4))
 
@@ -162,6 +194,7 @@ Além de mudar a forma que o ponto é exibido, a palavra chave `#:transparent`{.
 ;; Com :#transparent, dois pontos são iguais se os seus
 ;; campos são iguais
 (struct ponto (x y) #:transparent)
+
 (define p1 (ponto 3 4))
 (define p2 (ponto 3 4))
 
@@ -218,17 +251,23 @@ Racket oferece a forma especial `struct-copy` ([referência](http://docs.racket-
 ## Alterando dados estruturados
 
 ```scheme
-> (define p2 (struct-copy ponto p1
-                                [y 5]))
+> (define p2 (struct-copy ponto p1 [y 5]))
 > p2
 (ponto 3 5)
-> (define p3 (struct-copy ponto p2
-                                [x 4]))
+```
+
+\pause
+
+```scheme
+> (define p3 (struct-copy ponto p2 [x 4]))
 > p3
 (ponto 4 5)
-> (define p4 (struct-copy ponto p2
-                                [y 9]
-                                [x 6]))
+```
+
+\pause
+
+```scheme
+> (define p4 (struct-copy ponto p2 [y 9] [x 6]))
 > p4
 (ponto 6 9)
 ```
@@ -243,11 +282,18 @@ Defina uma função que calcule a distância de um ponto a origem.
 ```scheme
 ;; Ponto -> Número
 ;; Calcula a distância do ponto p a origem.
+;; A distância de um ponto (x, y) até a origem é calculada
+;; pela raiz quadrada de x^2 + y^2.
 (examples
  (check-equal? (distancia-origem (ponto 0 7)) 7)
  (check-equal? (distancia-origem (ponto 1 0)) 1)
+ ;; (sqrt (+ (sqr 3) (sqr 4))
  (check-equal? (distancia-origem (ponto 3 4)) 5))
+```
 
+\pause
+
+```scheme
 (define (distancia-origem p)
   (sqrt (+ (sqr (ponto-x p))
            (sqr (ponto-y p)))))

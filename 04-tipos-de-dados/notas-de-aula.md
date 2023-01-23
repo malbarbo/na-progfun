@@ -63,7 +63,7 @@ Construção
 
 \pause
 
-Uso seletores
+Seletores
 
 ```scheme
 > (ponto-x p1)
@@ -76,7 +76,7 @@ Uso seletores
 
 \pause
 
-Uso predicado de verificação de tipo
+Verificação de tipo
 
 ```scheme
 > (ponto? p1)
@@ -100,23 +100,30 @@ Uma aproximação da sintaxe do `struct`{.scheme} é
 
 ## Funções definidas na criação de uma estrutura
 
-Funções definidas pelo `struct`{.scheme}
+<div class="columns">
+<div class="column" width="48%">
+Funções definidas com `struct`{.scheme}
+
+\small
 
 ```scheme
 ;; Construtor
 id-estrutura
 
-;; Predicado que teste se o valor é do tipo definido
+;; Predicado que verifica se um objeto
+;; é do tipo da estrutura
 id-estrutura?
 
 ;; Seletores
 id-estrutura-id-campo
 ```
+</div>
+<div class="column" width="48%">
+\pause
 
+Por exemplo, a estrutura
 
-## Funções definidas na criação de uma estrutura
-
-A estrutura
+\small
 
 ```scheme
 (struct ponto (x y))
@@ -137,16 +144,24 @@ ponto-y
 ```
 
 
+</div>
+</div>
+
+
 ## Estruturas transparentes
 
 Por padrão, ao exibir um dado estruturado o interpretador não exibe os campos do dado (para preservar o encapsulamento)
+
+\pause
 
 ```scheme
 (struct ponto (x y))
 ```
 
+\pause
+
 ```scheme
-> (ponto 3 4)
+> (ponto (+ 1 2) 4)
 #<ponto>
 ```
 
@@ -155,13 +170,17 @@ Por padrão, ao exibir um dado estruturado o interpretador não exibe os campos 
 
 Podemos usar a palavra chave `#:transparent`{.scheme} para tornar a estrutura "transparente"
 
+\pause
+
 ```scheme
 (struct ponto (x y) #:transparent)
 ```
 
+\pause
+
 ```scheme
 ; mesmo formato de criação e de exibição
-> (ponto 3 4)
+> (ponto (+ 1 2) 4)
 (ponto 3 4)
 ```
 
@@ -222,7 +241,11 @@ Junto com a definição de uma estrutura, também faremos a descrição do prop�
 
 ## Alterando dados estruturados
 
-Se quisermos mudar um campo de um dado estruturado, temos que criar uma cópia com o campo alterado.
+Podemos utilizar os seletores para consultar o valor de um campo, mas como alterar o valor de um campo? \pause Não tem como! \pause Lembrem-se, estamos estudando o paradigma funcional, onde não existe mudança de estado! \pause
+
+Ao invés de modificar o campo de uma instância da estrutura, criamos uma cópia da instância com o campo alterado.
+
+\pause
 
 Vamos criar um ponto `p2` que é como `p1`, mas com o valor 5 para o campo `y`.
 
@@ -240,7 +263,7 @@ Este método é limitado \pause
 
 - Se a estrutura tem muitos campos e desejamos alterar apenas um campo, temos que especificar a cópia de todos os outros \pause
 
-- Se a estrutura é alterada, todas as operações de "cópia" devem ser alteradas
+- Se a estrutura é alterada pela adição ou remoção de campos, então, todas as operações de "cópia" da estrutura no código devem ser alteradas
 
 
 ## Alterando dados estruturados
@@ -300,29 +323,13 @@ Defina uma função que calcule a distância de um ponto a origem.
 ```
 
 
-## Exercício: classificação retângulo
 
-Defina uma estrutura para representar um retângulo. Em seguida defina uma função que classifique um retângulo em largo (largura maior que altura), alto (altura maior que largura) ou quadrado (altura igual a largura).
-
-
-## Exercício: horas, minutos e segundos
-
-Defina uma função que converta uma quantidade de segundos para uma quantidade de horas, minutos e segundos equivalente. A quantidade de segundos e de minutos da resposta deve ser menor que 60.
-
-
-## Exercício: conflito
-
-Uma determinada sala de reunião pode ser usada das 8:00h às 18:00h. Cada interessado em utilizar a sala faz uma reserva indicando o intervalo de tempo que gostaria de utilizar a sala. Como parte de um sistema de reservas, você deve projetar uma função que verifique se duas reservas podem ser atendidas, ou seja, não têm conflito de horário.
-
-
-## Exercício: contagem
+## Exemplo contagem
 
 Em um sistema de enquete cada possível resposta é identificada por uma cor: verde, vermelho, azul ou branco. Após todos os participantes responderem a enquete, é necessário contabilizar a quantidade de vezes que cada resposta foi selecionada. Como parte desse sistema, você deve projetar uma função que receba a contabilização atual das respostas e uma nova resposta e produza a contabilização atualizada.
 
 
 ## Tipos enumerados
-
-Como representar a classificação de um retângulo em alto, largo ou quadrado? \pause
 
 Como representar uma cor que pode ser verde, vermelho, azul ou branco? \pause
 
@@ -336,6 +343,110 @@ Embora o Racket não suporte a definição de tipos enumerados, podemos registra
 ;; - "vermelho"
 ;; - "azul"
 ;; - "branco"
+```
+
+## Definição de tipos de dados
+
+\small
+
+```scheme
+(struct contagem (verde vermelho azul branco) #:transparent)
+;; Uma contagem das respostas de cada cor
+;;   verde: Número - número de respostas verde
+;;   vermelho: Número - número de respostas vermelho
+;;   azul: Número - número de respostas azul
+;;   branco: Número - número de respostas branco
+
+;; Resposta é um dos valores
+;; - "verde"
+;; - "vermelho"
+;; - "azul"
+;; - "branco"
+```
+
+
+## Especificação
+
+\small
+
+```scheme
+;; Resposta Contagem -> Contagem
+;; Atualiza a contagem cont adicionando a resposta res.
+(define (atualiza-contagem res cont) ...)
+```
+
+\pause
+
+Exemplos \pause
+
+```scheme
+(examples
+ (check-equal? (atualiza-contagem "verde" (contagem 4 5 1 2))
+               (contagem 5 5 1 2))
+```
+\pause
+
+```scheme
+               ;; (struct-copy contagem (contagem 4 5 1 2)
+               ;;              [verde (add1 (contagem-verde (contagem 4 5 1 2)))])
+```
+
+\pause
+
+```scheme
+ (check-equal? (atualiza-contagem "vermelho" (contagem 4 5 1 2))
+               (contagem 4 6 1 2))
+ ...
+```
+
+
+## Especificação
+
+Quantos exemplos são necessários para funções que processam valores de tipos enumerados? \pause Pelo menos um para cada valor da enumeração. \pause
+
+Como iniciamos a implementação de uma função que processa um valor de tipo enumerado? \pause Criando um caso para cada valor da enumeração.
+
+## Implementação
+
+\small
+
+```scheme
+(define (atualiza-contagem res cont)
+  (cond
+    [(equal? res "verde")
+
+
+    [(equal? res "vermelho")
+
+
+    [(equal? res "azul")
+
+
+    [(equal? res "branco")
+
+                                                            ]))
+```
+
+
+## Implementação
+
+\small
+
+```scheme
+(define (atualiza-contagem res cont)
+  (cond
+    [(equal? res "verde")
+     (struct-copy contagem
+                  cont [verde (add1 (contagem-verde cont))])]
+    [(equal? res "vermelho")
+     (struct-copy contagem
+                  cont [vermelho (add1 (contagem-vermelho cont))])]
+    [(equal? res "azul")
+     (struct-copy contagem
+                  cont [azul (add1 (contagem-azul cont))])]
+    [(equal? res "branco")
+     (struct-copy contagem
+                  cont [branco (add1 (contagem-branco cont))])]))
 ```
 
 
@@ -357,7 +468,7 @@ Vamos tentar uma estrutura.
 ```scheme
 (struct estado-tarefa (executando tempo msg_sucesso codigo_err msg_err))
 ;; Representa o estado de uma tarefa
-;; executando: Bool - true se a tarefa está em execução, false caso contrário
+;; executando: Bool - #t se a tarefa está em execução, #f caso contrário
 ;; tempo: Número - tempo que durou a execução da tarefa
 ;; msg_sucesso: String - mensagem caso a tarefa tenha sido executada com sucesso
 ;; codigo_err: Número - código de erro se a execução da tarefa falhou
@@ -370,7 +481,7 @@ Vamos tentar uma estrutura.
 
 Qual é o problema dessa representação? \pause
 
-Possíveis estados inválidos. \pause O que significa `(estado-tarefa true 10 "Ótimo desempenho" 123 "Falha na conexão)`? \pause
+Possíveis estados inválidos. \pause O que significa `(estado-tarefa #t 10 "Ótimo desempenho" 123 "Falha na conexão")`{.scheme}? \pause
 
 Como evitar esse problema?
 
@@ -409,7 +520,8 @@ Agora podemos ir para a especificação da função. \pause
 ;; EstadoTarefa -> String
 ;; Produz uma string amigável para o usuário para descrever o estado da tarefa.
 (examples
- (check-equal? (msg-usuario "Executando") "A tarefa está em execução.")
+ (check-equal? (msg-usuario "Executando")
+               "A tarefa está em execução.")
  (check-equal? (msg-usuario (sucesso 12 "Os resultados estão corretos"))
                "Tarefa concluída (12s): Os resultados estão corretos.")
  (check-equal? (msg-usuario (erro 123 "Número inválido '12a'"))
@@ -462,12 +574,11 @@ Agora é só preencher as lagunas!
                     (sucesso-msg estado)
                     ".")]
     [(erro? estado)
-     (string-append
-      "A tarefa falhou (err "
-      (number->string (erro-codigo estado))
-      "): "
-      (erro-msg estado)
-      ".")]))
+     (string-append "A tarefa falhou (err "
+                    (number->string (erro-codigo estado))
+                    "): "
+                    (erro-msg estado)
+                    ".")]))
 ```
 
 

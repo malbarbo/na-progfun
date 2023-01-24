@@ -30,7 +30,7 @@ for cap in sorted(os.listdir()):
             print(f'{target}: {cap}/{item}/*')
             print(f'\t@echo {target}')
             print(f'\t@mkdir -p {DEST}')
-            print(f'\t@zip {target} -r {cap}/{item}')
+            print(f'\t@zip {target} -x *.swp -r {cap}/{item}')
             print()
         elif item == 'notas-de-aula.md':
             base = os.path.splitext(item)[0]

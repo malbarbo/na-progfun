@@ -1,9 +1,10 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: falar da simplificação de cond aninhados
+# TODO: introduzir com mais detalhes o conceito de união
 # TODO: falar mais sobre tipos algébricos
 # TODO: falar do princípio: “Make Invalid States Unrepresentable”
-# TODO: falar do "expression problem"
+# TODO: falar do "expression problem"?
 title: Tipos de dados
 ---
 
@@ -456,7 +457,7 @@ Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma ta
 
 \pause
 
-Como representar o estado de uma tarefa? \pause (Segunda etapa do processo de projeto de funções - Definição dos tipos de dados) \pause
+Como representar o estado de uma tarefa? \pause
 
 Vamos tentar uma estrutura.
 
@@ -488,7 +489,7 @@ Como evitar esse problema?
 
 ## Uniões
 
-Podemos criar uma união de classes de valores. Veja o vídeo da aula para mais detalhes! \pause
+Podemos criar uma união de classes de valores. \pause
 
 \footnotesize
 
@@ -510,15 +511,21 @@ Podemos criar uma união de classes de valores. Veja o vídeo da aula para mais 
 ```
 
 
-## Uniões
-
-Agora podemos ir para a especificação da função. \pause
+## Especificação
 
 \small
 
 ```scheme
 ;; EstadoTarefa -> String
 ;; Produz uma string amigável para o usuário para descrever o estado da tarefa.
+(define (msg-usuario estado) "")
+```
+
+\pause
+
+Quantos exemplos são necessários? \pause Pelo menos um para cada classe de valor. \pause Note que o exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída.
+
+```scheme
 (examples
  (check-equal? (msg-usuario "Executando")
                "A tarefa está em execução.")
@@ -526,19 +533,14 @@ Agora podemos ir para a especificação da função. \pause
                "Tarefa concluída (12s): Os resultados estão corretos.")
  (check-equal? (msg-usuario (erro 123 "Número inválido '12a'"))
                "A tarefa falhou (err 123): Número inválido '12a'."))
-(define (msg-usuario estado) "")
 ```
 
-\pause
 
-Note que o exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída. \pause Note também que como `EstadoTarefa` é definido como a união de três classes de valores, então precisamos de pelo menos um exemplo para cada classe de valores.
+## Implementação
 
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstatoTarefa`. \pause São três casos, dependendo do caso, podemos usar seletores específicos.
 
 ## Uniões
-
-Agora vamos para a implementação. \pause
-
-Mesmo sem saber detalhes da implementação, podemos definir uma estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstatoTarefa`. \pause São três casos, dependendo do caso, podemos usar seletores específicos \pause
 
 \small
 
@@ -546,21 +548,21 @@ Mesmo sem saber detalhes da implementação, podemos definir uma estrutura do co
 (define (msg-usuario estado)
   (cond
     [(and (string? estado) (string=? estado "Executando"))
-     ...]
+    ]
     [(sucesso? estado)
-     ... (sucesso-tempo estado) ... (sucesso-msg estado)]
+     ... (sucesso-tempo estado)
+     ... (sucesso-msg estado)
+    ]
     [(erro? estado)
-     ... (erro-codigo estado) ... (erro-msg estado)]))
+     ... (erro-codigo estado)
+     ... (erro-msg estado)
+    ]))
 ```
-
-\pause
-
-Agora é só preencher as lagunas!
 
 
 ## Uniões
 
-\scriptsize
+\small
 
 ```scheme
 (define (msg-usuario estado)
@@ -568,40 +570,88 @@ Agora é só preencher as lagunas!
     [(and (string? estado) (string=? estado "Executando"))
      "A tarefa está em execução."]
     [(sucesso? estado)
-     (string-append "Tarefa concluída ("
-                    (number->string (sucesso-tempo estado))
-                    "s): "
-                    (sucesso-msg estado)
-                    ".")]
+     (format "Tarefa concluída (~as): ~a."
+             (sucesso-tempo estado)
+             (sucesso-msg estado))]
     [(erro? estado)
-     (string-append "A tarefa falhou (err "
-                    (number->string (erro-codigo estado))
-                    "): "
-                    (erro-msg estado)
-                    ".")]))
+     (format "A tarefa falhou (err ~a): ~a."
+             (erro-codigo estado)
+             (erro-msg estado))]))
+```
+
+
+## Uniões em Python
+
+\small
+
+```python
+from dataclasses import dataclass
+from typing import Literal
+
+@dataclass
+class Sucesso:
+    duracao: int
+    msg: str
+
+@dataclass
+class Erro:
+    codigo: int
+    msg: str
+
+EstadoTarefa = Literal["Executando"] | Sucesso | Erro
+```
+
+
+## Uniões em Python
+
+\small
+
+```python
+def mensagem(estado: EstadoTarefa) -> str:
+    if isinstance(estado, str):
+        return 'A tarefa está em execução'
+    elif isinstance(estado, Sucesso):
+        return 'A tafera finalizou com sucesso ({}s): {}'.format(estado.duracao,
+                                                                 estado.msg)
+    else:
+        return 'A tafera falhou (error {}): {}'.format(estado.codigo, estado.msg)
+```
+
+
+## Uniões em Python
+
+\small
+
+```python
+def mensagem(estado: EstadoTarefa) -> str:
+    match estado:
+        case str(estado):
+            return 'A tarefa está em execução'
+        case Sucesso(duracao, msg):
+            return f'A tafera finalizou com sucesso ({duracao}s): {msg}'
+        case Erro(codigo, msg):
+            return f'A tafera falhou (error {codigo}): {msg}'
 ```
 
 
 ## Uniões em Rust
 
-\footnotesize
+\small
 
 ```rust
 pub enum EstadoTarefa {
     Executando,
     Sucesso(u32, String),
-    Erro(u32, String)
+    Erro(u32, String),
 }
-
 pub fn mensagem(estado: &EstadoTarefa) -> String {
-    use EstadoTarefa::*;
     match estado {
-        Executando =>
+        EstadoTarefa::Executando =>
             "A tarefa está em execução".to_string(),
-        Sucesso(tempo, msg) =>
-            format!("A tarefa foi concluída ({}s): {}", tempo, msg),
-        Erro(codigo, msg) =>
-            format!("A tarefa falhou (erro {}): {}", codigo, msg),
+        EstadoTarefa::Sucesso(tempo, msg) =>
+            format!("A tarefa finalizou com sucesso ({tempo}s): {msg}"),
+        EstadoTarefa::Erro(codigo, msg) =>
+            format!("A tarefa falhou (erro {codigo}): {msg}"),
     }
 }
 ```

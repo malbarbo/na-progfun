@@ -451,7 +451,7 @@ Como iniciamos a implementação de uma função que processa um valor de tipo e
 ```
 
 
-## Problema
+## Problema - Estado tarefa
 
 Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em um tempo específico e com um mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro.
 
@@ -462,7 +462,7 @@ Como representar o estado de uma tarefa? \pause
 Vamos tentar uma estrutura.
 
 
-## Problema
+## Problema - Estado tarefa
 
 \small
 
@@ -487,11 +487,37 @@ Possíveis estados inválidos. \pause O que significa `(estado-tarefa #t 10 "Ót
 Como evitar esse problema?
 
 
-## Uniões
+## Problema - Estado tarefa
 
-Podemos criar uma união de classes de valores. \pause
+Analisando a descrição do problema conseguimos separar o estado da tarefa em três casos: \pause
 
-\footnotesize
+- Em execução \pause
+- Sucesso, com um tempo e uma mensagem \pause
+- Falhado, com um código e uma mensagem \pause
+
+Esses casos são excludentes, ou seja, se a tarefa se enquadra em um deles, não devemos armazenar informações sobre os outros (caso contrário, seria possível criar um estado inconsistente). \pause
+
+E como expressar esse tipo de dado? \pause Usando união de tipos.
+
+
+## Uniões e Estruturas
+
+Vamos ver uma analogia para nos auxilar a entender o conceito de união. \pause
+
+Se consideramos um tipo de dado como um conjunto de possíveis valores daquele tipo, então podemos dizer que: \pause
+
+- Os valores possíveis para um tipo definido por uma estrutura (tipo produto) é o produto cartesiano dos valores possíveis de cada um do seus campos; \pause
+
+- Os valores possíveis para um tipo definido por uma união (tipo soma) é a união dos valores de cada tipo (classe de valores) da união. \pause
+
+Antes de vermos como expressar uniões em Racket, vamos ver como uniões funcionam em um sistema estático de tipo (discutido em sala).
+
+
+## Definição de tipos de dados
+
+Agora podemos prosseguir com o projeto do programa em Racket. \pause Antes de definir o tipo que representa o estado da tarefa, precisamos definir os tipos para sucesso e erro. \pause
+
+\small
 
 ```scheme
 (struct sucesso (tempo msg))
@@ -503,7 +529,15 @@ Podemos criar uma união de classes de valores. \pause
 ;; Representa o estado de uma tarefa que finalizou a execução com falha
 ;; código: Número - o código da falha
 ;; msg   : String - mensagem de erro gerada pela tarefa
+```
 
+## Definição de tipos de dados
+
+Agora podemos definir o tipo para estado da tarefa como uma união de três casos:
+
+\small
+
+```scheme
 ;; EstadoTarefa é um dos valores:
 ;; - "Executando"             A tarefa está em execução
 ;; - (sucesso Número String)  A tarefa finalizou com sucesso
@@ -523,7 +557,7 @@ Podemos criar uma união de classes de valores. \pause
 
 \pause
 
-Quantos exemplos são necessários? \pause Pelo menos um para cada classe de valor. \pause Note que o exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída.
+Quantos exemplos são necessários? \pause Pelo menos um para cada classe de valor. \pause (Note que o exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída) \pause
 
 ```scheme
 (examples
@@ -560,7 +594,7 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 ```
 
 
-## Uniões
+## Implementação
 
 \small
 
@@ -578,6 +612,11 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
              (erro-codigo estado)
              (erro-msg estado))]))
 ```
+
+
+## União em outras linguagens
+
+A união de tipos é bastante útil e com a popularização da programação funcional, também tem sido adicionada a diversas linguagens de programação. Vamos ver algumas delas.
 
 
 ## Uniões em Python
@@ -659,7 +698,7 @@ pub fn mensagem(estado: &EstadoTarefa) -> String {
 
 ## Uniões em Java
 
-\footnotesize
+\small
 
 ```java
 sealed interface EstadoTarefa permits Executando, Sucesso, Erro {};
@@ -680,7 +719,7 @@ static String mensagem(EstadoTarefa estado) {
 ```
 
 
-## Tipos de dados
+## Revisão
 
 Vimos duas formas diferentes de definir novos tipos de dados: \pause
 
@@ -714,3 +753,7 @@ Básicas
 Complementares
 
 - Seções [4.1](http://docs.racket-lang.org/reference/structures.html) da [Referência Racket](http://docs.racket-lang.org/reference/)
+
+Leitura recomendada
+
+- [Expression problem](https://en.wikipedia.org/wiki/Expression_problem)

@@ -69,9 +69,9 @@ A lista vazia.
 
 Uma **ListaDeNúmeros** é um dos valores: \pause
 
-- `(vazia)`; ou \pause
+- `(vazia)`{.scheme}; ou \pause
 
-- `(link Número ListaDeNúmeros)`, onde link é uma estrutura com dois campos: `primeiro` e `resto` \pause
+- `(link Número ListaDeNúmeros)`{.scheme}, onde link é uma estrutura com dois campos: `primeiro`{.scheme} e `resto`{.scheme} \pause
 
 Definição no Racket
 
@@ -168,6 +168,20 @@ Vamos fazer uma alteração no modelo `fn-para-ldn` e adicionar uma chamada recu
 
 ## Listas
 
+<div class="columns">
+<div class="column" width="43%">
+
+\small
+Uma **ListaDeNúmeros** é um dos valores: \pause
+
+- `(vazia)`{.scheme}; ou \pause
+
+- `(link Número ListaDeNúmeros)`{.scheme}, onde link é uma estrutura com dois campos: `primeiro`{.scheme} e `resto`{.scheme} \pause
+</div>
+<div class="column" width="53%">
+
+\small
+
 Modelo para funções que a entrada é ListaDeNúmeros
 
 ```scheme
@@ -178,10 +192,12 @@ Modelo para funções que a entrada é ListaDeNúmeros
      (... (link-primeiro ldn)
           (fn-para-ldn (link-resto ldn)))]))
 ```
+</div>
+</div>
 
 \pause
 
-Observe a relação com a definição de `ListaDeNúmeros`
+Observe a relação entre a definição de `ListaDeNúmeros` e o modelo
 
 - A definição tem dois casos, o modelo também
 
@@ -378,43 +394,44 @@ Agora temos o primeiro elemento e a soma do resto da lista, como podemos combina
 
 ## Exemplo: soma
 
-Verificação: Ok.
+Verificação: Ok. \pause
 
-Revisão: exercício.
+Revisão: Ok.
 
 
 ## Listas
 
 O Racket já vem com listas pré-definidas
 
-- `empty` ao invés de `(vazia)`
+- `empty`{.scheme} ao invés de `(vazia)`{.scheme}
 
-- `cons` ao invés de `link`
+- `cons`{.scheme} ao invés de `link`{.scheme}
 
-- `first` ao invés de `link-primeiro`
+- `first`{.scheme} ao invés de `link-primeiro`{.scheme}
 
-- `rest` ao invés de `link-resto`
+- `rest`{.scheme} ao invés de `link-resto`{.scheme}
+
+\pause
 
 Outras funções (os propósitos são aproximados)
 
-- `empty?` verifica se uma lista é vazia
+- `empty?`{.scheme} verifica se uma lista é vazia
 
-- `cons?` verifica se uma lista não é vazia
+- `cons?`{.scheme} verifica se uma lista não é vazia
 
-- `list?` verifica se um valor é uma lista
+- `list?`{.scheme} verifica se um valor é uma lista
 
 
 ## Listas
 
 Uma **ListaDeNúmeros** é um dos valores
 
-- `empty`; ou
+- `empty`{.scheme}; ou
 
-- `(cons Número ListaDeNúmeros)`
+- `(cons Número ListaDeNúmeros)`{.scheme}
 
 
 ## Listas
-
 
 ```scheme
 ;; Modelo para funções com entrada ListaDeNúmeros
@@ -994,7 +1011,7 @@ Um número **Natural** é
 
 - $0$; ou
 
-- `(add1 n)` onde $n$ é um número **Natural**
+- `(add1 n)`{.scheme} onde $n$ é um número **Natural**
 
 \pause
 
@@ -1349,7 +1366,7 @@ Um número **Inteiro>=a** é
 
 - $a$; ou
 
-- `(add1 n)` onde $n$ é um número **Inteiro>=a**
+- `(add1 n)`{.scheme} onde $n$ é um número **Inteiro>=a**
 
 \pause
 
@@ -1629,9 +1646,9 @@ Observações finais
 
 ## Observações finais
 
-Usamos dados com autorreferências quando queremos representar dados de tamanhos arbitrários. \pause
+Usamos tipos com autorreferências quando queremos representar dados de tamanhos arbitrários. \pause
 
-- Usamos funções recursivas para processar dados com autorreferências. \pause
+- Usamos funções recursivas para processar dados de tipos com autorreferências. \pause
 
 Para ser bem formada, uma definição com autorreferência deve ter: \pause
 

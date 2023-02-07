@@ -1,6 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Combinação de modelos
+# TODO: deixar o exercício conta troco? Não usa recursão natural...
 ---
 
 #.  Utilizando apenas as funções primitivas `zero?`, `add1` e `sub1`, escreva

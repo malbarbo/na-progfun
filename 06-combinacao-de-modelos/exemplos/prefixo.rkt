@@ -2,20 +2,6 @@
 
 (require examples)
 
-;; Uma ListaDeNúmeros é um dos valores:
-;; - empty
-;; - (cons Número ListaDeNúmeros)
-#; (define lst0 empty)
-#; (define lst1 (cons 2 (cons 4 empty)))
-#;
-(define (fn-para-ldn ldn)
-  (cond
-    [(empty? ldn) ...]
-    [else
-     (... (first ldn)
-          (fn-para-ldn (rest ldn)))]))
-
-
 ;; ListaDeNúmeros ListaDeNúmeros -> Boolean
 ;; Devolve #t se lsta é prefixo de lstb. #f caso contrário.
 ;;
@@ -50,27 +36,3 @@
           (prefixo? (rest lsta) (rest lstb)))]))
 
 
-;; ListaDeNúmeros Natural -> Qualquer
-;; Devolve o elemento na posição k da lista.
-;; O primeiro elemento está na posição 0.
-;;
-;;                               k
-;;                  +------------+-------------------+
-;;                  |      0     | (add1 ...)        |
-;;     +------------+------------+-------------------+
-;;     |   empty    |              erro              |
-;; lst +------------+------------+-------------------+
-;;     | (cons ...) |(first lst) |  recursão natural |
-;;     +------------+------------+-------------------+
-(examples
- (check-exn exn:fail? (thunk (lista-ref empty 0)))
- (check-exn exn:fail? (thunk (lista-ref empty 2)))
- (check-equal? (lista-ref (list 3 2 8) 0) 3)
- (check-equal? (lista-ref (list 3 2 8 10) 2) 8)
- (check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4))))
-
-(define (lista-ref lst k)
-  (cond
-    [(empty? lst) (error "Lista vazia")]
-    [(zero? k) (first lst)]
-    [else (lista-ref (rest lst) (sub1 k))]))

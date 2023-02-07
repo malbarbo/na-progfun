@@ -6,8 +6,6 @@
 
 - Criar um tópico de planejamento
 
-- Colocar cada exemplo e solução em um arquivo próprio dentro do diretório adequado
-
 - Apresentar a receita de projeto de forma diferente (https://course.ccs.neu.edu/cs5010sp15/recipe.html)
 
 - Veja TODO's específicos em cada arquivo
@@ -27,8 +25,6 @@
 - Adicionar exemplos em outras linguagens
 
 - Agregar todas as referências em um arquivo e fazer citações
-
-- Separar cada exemplo em seu arquivo?
 
 - Atualizar urls
     - htdp 2 versão

@@ -1672,7 +1672,7 @@ Básicas
 
 - [Vídeos Naturals](https://www.youtube.com/playlist?list=PL6NenTZG6KroGNU9XgT5G5Dt2M6YGjZMF)
 
-- Capítulos [8 a 12](https://htdp.org/2019-02-24/part_two.html) do livro
+- Capítulos [8 a 12](https://htdp.org/2022-8-7/Book/part_two.html) do livro
   [HTDP](http://htdp.org)
 
 - Seções
@@ -1690,7 +1690,5 @@ Complementares
 - Seções [3.9](http://docs.racket-lang.org/reference/pairs.html) da [Referência Racket](http://docs.racket-lang.org/reference/)
 
 - Seção [6.3](http://www.scheme.com/tspl4/objects.html#./objects:h3) do livro [TSPL4](http://www.scheme.com/tspl4/)
-
-- Capítulo [9.3](https://htdp.org/2018-01-06/Book/part_two.html#%28part._sec~3anats%29) do livro [HTDP](http://htdp.org)
 </div>
 </div>

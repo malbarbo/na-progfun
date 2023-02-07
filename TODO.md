@@ -26,9 +26,6 @@
 
 - Agregar todas as referências em um arquivo e fazer citações
 
-- Atualizar urls
-    - htdp 2 versão
-
 - Mencionar linguagem lazy no cap 2 (fundamentos?)
 
     - Discussão sobre if, and or serem formas especiais se avaliação aplicativa

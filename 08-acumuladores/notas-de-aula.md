@@ -638,6 +638,6 @@ Referências
 
 Básicas
 
-- Seções [30](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-38.html#node_chap_30) e [31](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-39.html#node_chap_31) do livro [HTDP](http://htdp.org).
+- Capítulos [31](https://htdp.org/2022-8-7/Book/part_six.html#%28part._ch~3aaccumulator-samples%29) e [32](https://htdp.org/2022-8-7/Book/part_six.html#%28part._sec~3adesign-accu%29) do livro [HTDP](http://htdp.org).
 
 - Seção [1.2](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-11.html#%_sec_1.2) do livro [SICP](https://mitpress.mit.edu/sicp/).

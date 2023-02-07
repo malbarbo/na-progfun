@@ -1629,7 +1629,7 @@ Básicas
 
 - Texto "From Examples" do curso [Introduction to Systematic Program Design - Part 1](https://class.coursera.org/programdesign-002/wiki/view?page=UsingAbstractFunctions) (Necessário inscrever-se no curso)
 
-- Seções [19.1](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-25.html#node_sec_19.1) e [20](http://www.htdp.org/2003-09-26/Book/curriculum-Z-H-27.html#node_chap_21) do livro [HTDP](http://htdp.org)
+- Capítulos [14](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3add-similarities%29) e [15](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3aabstract%29) do livro [HTDP](http://htdp.org)
 
 - Seções [3.9](http://docs.racket-lang.org/reference/pairs.html) e [3.17](http://docs.racket-lang.org/reference/procedures.html) da [Referência Racket](http://docs.racket-lang.org/reference/)
 

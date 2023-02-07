@@ -4,6 +4,8 @@
 
 # TODO
 
+- Criar um tópico de planejamento
+
 - Colocar cada exemplo e solução em um arquivo próprio dentro do diretório adequado
 
 - Apresentar a receita de projeto de forma diferente (https://course.ccs.neu.edu/cs5010sp15/recipe.html)

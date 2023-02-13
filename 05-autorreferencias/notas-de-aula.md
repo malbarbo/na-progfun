@@ -171,9 +171,9 @@ Vamos fazer uma alteração no modelo `fn-para-ldn` e adicionar uma chamada recu
 <div class="column" width="43%">
 
 \small
-Uma **ListaDeNúmeros** é um dos valores: \pause
+Uma ListaDeNúmeros é um dos valores:
 
-- `(vazia)`{.scheme}; ou \pause
+- `(vazia)`{.scheme}; ou
 
 - `(link Número ListaDeNúmeros)`{.scheme}, onde link é uma estrutura com dois campos: `primeiro`{.scheme} e `resto`{.scheme} \pause
 </div>
@@ -235,8 +235,6 @@ E agora, como escrevemos a implementação? \pause Vamos partir do modelo que cr
 
 ## Exemplo: soma
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -245,11 +243,16 @@ E agora, como escrevemos a implementação? \pause Vamos partir do modelo que cr
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7))
- ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8))
- ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
+ (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
 (define (fn-para-ldn ldn)
   (cond
     [(vazia? ldn) ...]
@@ -259,17 +262,19 @@ E agora, como escrevemos a implementação? \pause Vamos partir do modelo que cr
 ```
 \pause
 </div>
-<div class="column" width="28%">
+<div class="column" width="48%">
+
+\small
+
 O que fazemos agora? \pause
 
 Mudamos o nome da função tanto na definição quanto na chamada recursiva.
 </div>
 </div>
 
+
 ## Exemplo: soma
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -278,11 +283,15 @@ Mudamos o nome da função tanto na definição quanto na chamada recursiva.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7))
- ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8))
- ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
+ (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```scheme
 (define (soma ldn)
   (cond
     [(vazia? ldn) ...]
@@ -292,7 +301,8 @@ Mudamos o nome da função tanto na definição quanto na chamada recursiva.
 ```
 \pause
 </div>
-<div class="column" width="28%">
+<div class="column" width="48%">
+\small
 O que fazemos agora? \pause
 
 Vamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é vazia? \pause 0.
@@ -302,8 +312,6 @@ Vamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é v
 
 ## Exemplo: soma
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -312,11 +320,16 @@ Vamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é v
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7))
- ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8))
- ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
+ (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
 (define (soma ldn)
   (cond
     [(vazia? ldn) 0]
@@ -326,7 +339,9 @@ Vamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é v
 ```
 \pause
 </div>
-<div class="column" width="28%">
+<div class="column" width="48%">
+\small
+
 O que fazemos agora? \pause
 
 Analisamos o caso em que a lista não é vazia. O modelo está sugerindo fazer a chamada recursiva para o resto da lista. \pause
@@ -338,8 +353,6 @@ Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos ass
 
 ## Exemplo: soma
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -348,11 +361,16 @@ Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos ass
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7))
- ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8))
- ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
+ (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
 (define (soma ldn)
   (cond
     [(vazia? ldn) 0]
@@ -361,8 +379,16 @@ Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos ass
           (soma (link-resto ldn)))]))
 ```
 </div>
-<div class="column" width="28%">
-Agora temos o primeiro elemento e a soma do resto da lista, como podemos combinar esses dois valores para obter a soma dos elementos da lista? \pause Somando.
+<div class="column" width="48%">
+\small
+
+No exemplo 2 queremos obter a soma de `(link 3 (vazia))`{.scheme} que é `3`{.scheme}. O que temos para compor o resultado? \pause
+
+- `3`{.scheme}, que é `(link-primeiro ldn)`{.scheme}
+- `0`{.scheme}, que é `(soma (link-resto ldn))`{.scheme}
+
+\pause
+Como obtemos o resultado que queremos? \pause `(+ 3 0)`{.scheme}
 
 </div>
 </div>
@@ -377,10 +403,95 @@ Agora temos o primeiro elemento e a soma do resto da lista, como podemos combina
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7))
- ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8))
- ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
+ (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+```
+
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
+(define (soma ldn)
+  (cond
+    [(vazia? ldn) 0]
+    [else
+     (... (link-primeiro ldn)
+          (soma (link-resto ldn)))]))
+```
+</div>
+<div class="column" width="48%">
+\small
+
+No exemplo 3 queremos obter a soma de `(link 2 (link 5 (vazia)))`{.scheme} que é `7`{.scheme}. O que temos para compor o resultado? \pause
+
+- `2`{.scheme}, que é `(link-primeiro ldn)`{.scheme}
+- `5`{.scheme}, que é `(soma (link-resto ldn))`{.scheme}
+
+\pause
+Como obtemos o resultado que queremos? \pause `(+ 2 5)`{.scheme}
+
+</div>
+</div>
+
+## Exemplo: soma
+
+\footnotesize
+
+```scheme
+;; ListaDeNúmeros -> Número
+;; Soma os valores de ldn.
+(examples
+ (check-equal? (soma (vazia)) 0)
+ (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
+ (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
+ (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+```
+
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
+(define (soma ldn)
+  (cond
+    [(vazia? ldn) 0]
+    [else
+     (... (link-primeiro ldn)
+          (soma (link-resto ldn)))]))
+```
+</div>
+<div class="column" width="48%">
+\small
+
+No exemplo 4 queremos obter a soma de `(link 4 (link 1 (link 3 (vazia)))`{.scheme} que é `8`{.scheme}. O que temos para compor o resultado? \pause
+
+- `4`{.scheme}, que é `(link-primeiro ldn)`{.scheme}
+- `4`{.scheme}, que é `(soma (link-resto ldn))`{.scheme}
+
+\pause
+Como obtemos o resultado que queremos? \pause `(+ 4 4)`{.scheme}
+
+</div>
+</div>
+
+
+## Exemplo: soma
+
+Agora que compreendemos como o resultado é formado, podemos completar o corpo da função. \pause
+
+\footnotesize
+
+```scheme
+;; ListaDeNúmeros -> Número
+;; Soma os valores de ldn.
+(examples
+ (check-equal? (soma (vazia)) 0)
+ (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
+ (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
+ (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
 
 (define (soma ldn)
   (cond
@@ -423,14 +534,21 @@ Outras funções (os propósitos são aproximados)
 
 ## Listas
 
+<div class="columns">
+<div class="column" width="44%">
+
+\small
+
 Uma **ListaDeNúmeros** é um dos valores
 
 - `empty`{.scheme}; ou
 
 - `(cons Número ListaDeNúmeros)`{.scheme}
 
+</div>
+<div class="column" width="54%">
 
-## Listas
+\small
 
 ```scheme
 ;; Modelo para funções com entrada ListaDeNúmeros
@@ -438,9 +556,13 @@ Uma **ListaDeNúmeros** é um dos valores
 (define (fn-para-ldn ldn)
   (cond
     [(empty? ldn) ...]
-    [else ... (first ldn)
-          ... (fn-para-ldn (rest ldn)) ... ]))
+    [else
+      ... (first ldn)
+      ... (fn-para-ldn (rest ldn)) ... ]))
 ```
+
+</div>
+</div>
 
 
 ## Listas
@@ -521,8 +643,6 @@ Defina uma função que verifique se um dado valor está em uma lista de número
 
 ## Exemplo: contém
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -535,8 +655,15 @@ Defina uma função que verifique se um dado valor está em uma lista de número
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```scheme
 (define (contem? ldn v) #f)
+
 
 
 
@@ -544,7 +671,8 @@ Defina uma função que verifique se um dado valor está em uma lista de número
 
 ```
 </div>
-<div class="column" width="28%">
+<div class="column" width="48%">
+\small
 Iniciamos com a especificação.
 </div>
 </div>
@@ -552,8 +680,6 @@ Iniciamos com a especificação.
 
 ## Exemplo: contém
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -566,16 +692,25 @@ Iniciamos com a especificação.
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
 (define (fn-para-ldn ldn)
   (cond
     [(empty? ldn) ...]
     [else
       ... (first ldn)
       ... (fn-para-ldn (rest ldn)) ... ]))
+
 ```
 </div>
-<div class="column" width="28%">
+<div class="column" width="48%">
+\small
 Para implementação partimos do modelo.
 </div>
 </div>
@@ -583,8 +718,6 @@ Para implementação partimos do modelo.
 
 ## Exemplo: contém
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -597,25 +730,32 @@ Para implementação partimos do modelo.
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
 (define (contem? ldn v)
   (cond
     [(empty? ldn) ... v]
     [else
       ... (first ldn)
+      ... v
       ... (contem? (rest ldn) v) ... ]))
 ```
 </div>
-<div class="column" width="28%">
-Em seguida ajeitamos o nome da função e adicionamos o parâmetro `v`.
+<div class="column" width="48%">
+\small
+Em seguida ajeitamos o nome da função e adicionamos o parâmetro `v` na definição, na chamada recursiva e como valor disponível nos dois casos.
 </div>
 </div>
 
 
 ## Exemplo: contém
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -628,16 +768,25 @@ Em seguida ajeitamos o nome da função e adicionamos o parâmetro `v`.
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
 (define (contem? ldn v)
   (cond
     [(empty? ldn) #f]
     [else
       ... (first ldn)
+      ... v
       ... (contem? (rest ldn) v) ... ]))
 ```
 </div>
-<div class="column" width="28%">
+<div class="column" width="48%">
+\small
 Analisando os exemplos definimos o caso em que a lista é vazia.
 </div>
 </div>
@@ -645,8 +794,6 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
 
 ## Exemplo: contém
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -659,7 +806,52 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
+(define (contem? ldn v)
+  (cond
+    [(empty? ldn) #f]
+    [else
+      ... (first ldn)
+      ... v
+      ... (contem? (rest ldn) v) ... ]))
+```
+</div>
+<div class="column" width="48%">
+\small
+
+Agora analisamos o caso em que a `ldn` não é vazia. \pause Temos `(first ldn)`{.scheme}, `v` e `(contem? (rest ldn) v)`{.scheme} (se o resto de `ldn` contém `v`). \pause Como combinar esses elementos para determinar `(contem? ldn v)` (se `ldn` contém `v`)?
+</div>
+</div>
+
+## Exemplo: contém
+
+\footnotesize
+
+```scheme
+;; ListaDeNúmeros Número -> Booleano
+;; Produz #t se v está em ldn; #f caso contrário
+(examples
+ (check-equal? (contem? empty 3) #f)
+ (check-equal? (contem? (cons 3 empty) 3) #t)
+ (check-equal? (contem? (cons 3 empty) 4) #f)
+ (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
+ (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
+ (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
+```
+
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
 (define (contem? ldn v)
   (cond
     [(empty? ldn) #f]
@@ -669,16 +861,16 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
          (contem? (rest ldn) v))]))
 ```
 </div>
-<div class="column" width="28%">
-Analisando os exemplos definimos o caso em que a lista não é vazia.
+<div class="column" width="48%">
+\small
+
+Quando `(first ldn)` é igual a `v`, podemos gerar a resposta `#t`{.scheme} diretamente, independente da resposta da chamada recursiva. \pause Caso contrário, a resposta se `ldn` contém `v` e a mesma se `(rest ldn)` contém `v`, ou seja, a resposta para `(contem? ldn v)`{.scheme} é a equivalente a `(contem? (rest ldn) v)`.
 </div>
 </div>
 
 
 ## Exemplo: contém
 
-<div class="columns">
-<div class="column" width="68%">
 \footnotesize
 
 ```scheme
@@ -691,7 +883,13 @@ Analisando os exemplos definimos o caso em que a lista não é vazia.
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
+```
 
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```scheme
 (define (contem? ldn v)
   (cond
     [(empty? ldn) #f]
@@ -700,7 +898,7 @@ Analisando os exemplos definimos o caso em que a lista não é vazia.
          (contem? (rest ldn) v))]))
 ```
 </div>
-<div class="column" width="28%">
+<div class="column" width="48%">
 Revisão.
 </div>
 </div>
@@ -874,6 +1072,7 @@ Defina uma função que soma um valor `x` em cada elemento de uma lista de núme
 
 
 
+
 ```
 </div>
 <div class="column" width="28%">
@@ -904,6 +1103,7 @@ Iniciamos com a especificação.
     [(empty? ldn) ... x]
     [else
       ... (first ldn)
+      ... x
       ... (soma-x (rest ldn) x) ... ]))
 ```
 </div>
@@ -935,6 +1135,7 @@ Para implementação partimos do modelo e ajustamos o nome e adicionamos o parâ
     [(empty? ldn) empty]
     [else
       ... (first ldn)
+      ... x
       ... (soma-x (rest ldn) x) ... ]))
 ```
 </div>
@@ -967,6 +1168,7 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
     [else
      (cons (+ x (first ldn))
            (soma-x (rest ldn) x))]))
+
 ```
 </div>
 <div class="column" width="28%">
@@ -1146,7 +1348,7 @@ Implementação: o outro caso.
 
 ## Exemplo: lista de números
 
-Dado um número natural $n$, defina uma função que devolva a lista `(list 1 2 ... n-1 n)`.
+Dado um número natural $n$, defina uma função que devolva `(list 1 2 ... n-1 n)`{.scheme}.
 
 
 ## Exemplo: lista de números
@@ -1217,7 +1419,7 @@ Implementação: caso base.
 
 ## Exemplo: lista de números
 
-Implementação: o outro caso (veja o vídeo da aula para entender como chegamos nesse código).
+Implementação: o outro caso.
 
 \small
 
@@ -1639,11 +1841,11 @@ Defina uma função que aplaine uma lista aninhada, isto é, transforme uma list
 
 
 
-Observações finais
-==================
+Revisão
+=======
 
 
-## Observações finais
+## Revisão
 
 Usamos tipos com autorreferências quando queremos representar dados de tamanhos arbitrários. \pause
 
@@ -1656,6 +1858,77 @@ Para ser bem formada, uma definição com autorreferência deve ter: \pause
 - Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes \pause
 
 As vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência.
+
+
+Limitações
+==========
+
+
+## Limitações
+
+Cada tipo com autorreferência tem um modelo de função que podemos usar como ponto de partida para implementar funções que processam o tipo de dado. \pause
+
+Embora o modelo seja um ponto de partida, em algumas situações ele pode não ser útil.
+
+
+## Palíndromo
+
+Considere o problema de verificar se uma lista de números é palíndromo (a lista tem os mesmos elementos quando lida da direita para a esquerda e da esquerda para direita). \pause
+
+Para verificar se `(list 5 4 1 4)`{.scheme} é palíndromo, o modelo sugere verificar se `(list 4 1 4)`{.scheme} é palíndromo. \pause
+
+Como a verificação se `(list 4 1 4)`{.scheme} é palíndromo pode nos ajudar a determinar se `(list 5 4 1 4)`{.scheme} é palíndromo? \pause Ou seja, a solução para o resto pode nós ajustar a compor o resultado para o todo? \pause Não...
+
+
+## Número primo
+
+Considere o problema de verificar se um número natural $n$ é primo (tem exatamente dois divisores distintos, $1$ e $n$). \pause
+
+Para verificar se $n = 13$ é primo, o modelo sugere verificar se $12$ é primo. \pause
+
+Como a verificação se $12$ é primo pode nos ajudar a determinar se $13$ é primo? \pause Não pode...
+
+
+## Limitações
+
+O problema nos dois casos é o mesmo: a solução do problema original não pode ser obtida a partir da solução do subproblema gerado pela decomposição estrutural do dado. \pause
+
+Como fazemos nesse caso? \pause Temos algumas opções: \pause
+
+- Redefinimos o problema de forma que a solução para o subproblema estrutural possa ser usado na construção da solução do problema original; \pause
+
+- Fazemos uma decomposição em subproblemas de maneira não estrutural e utilizamos a solução desses subproblemas para construir a solução do problema original; \pause
+
+- Criamos uma plano (sequência de etapas) para construir a solução sem necessariamente pensar na decomposição estrutural da entrada.
+
+
+## Redefinição do problema
+
+Para o problema do número primo, podemos rescrever o problema da seguinte forma: Dado dois números naturais $n$ e $a \le n$, projete uma função que determine a quantidade de divisores de $n$ que são $\le a$. \pause
+
+Se temos a quantidade de divisores de $n$ que são $\le a - 1$, como obtermos a quantidade de divisores de $n$ que são $\le a$? \pause Somando 1 se $a$ é divisor de $n$. \pause
+
+Como podemos utilizar essa função para determinar se um número $n$ é primo? \pause Com a expressão `(= (num-divisores n n) 2)`{.scheme}
+
+
+## Decomposição não estrutural
+
+Para o problema da lista palíndromo, vamos considerar a entrada `(list 4 1 5 1 4)`{.scheme}.
+
+Como podemos obter um subproblema da entrada de maneira que a resposta para o subproblema possa nos ajudar a compor a resposta para o problema original? \pause Removendo o primeiro e último elemento da lista. \pause
+
+Se sabemos que uma lista `lst` sem o primeiro e o último elemento é palíndromo, como determinar se `lst` é palíndromo? \pause Verificando se o primeiro e o último elemento de `lst` são iguais. \pause
+
+Funções recursivas que operam em subproblemas arbitrários (não estruturais) são chamadas de **funções recursivas generativas**. \pause O projeto desse tipo de função pode requerer um "momento eureka" e por isso tentamos primeiramente resolver os problemas com recursão estrutural.
+
+
+## Plano
+
+Ainda para o problema da lista palíndromo, ao invés de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos pensar em um plano, uma sequencia de etapas que resolvam problemas intermediários mas que gerem o resultado que estamos esperando no final. \pause
+
+Por exemplo, podemos primeiramente inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
+
+Note que para este caso precisaríamos projetar duas novas funções. Estas funções poderiam ser implementadas usando recursão estrutural.
 
 
 

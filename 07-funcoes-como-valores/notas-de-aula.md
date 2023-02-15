@@ -1,7 +1,8 @@
 ---
-# TODO: colocar o código lado a lado e a generalização
-# TODO: explicar como a anotação de tipo de função funciona
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: explicar como a anotação de tipo de função funciona
+# TODO: explicitar que existe uma "algebra" de funções (assim como uma algebra de número, strings, etc)
+# TODO: check-equal? está fora de examples
 title: Funções como valores
 ---
 
@@ -94,7 +95,7 @@ Vamos fazer um exemplo simples. Vamos criar uma função que abstrai o comportam
 
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-5?`.
+Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-5?`. \pause
 
 ```scheme
 
@@ -267,15 +268,15 @@ Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-
 
     - Criar parâmetros para o que muda
 
-    - Copiar o corpo e substituir o que muda pelos parâmetros criados
+    - Copiar o corpo e substituir o que muda pelos parâmetros criados \pause
 
-2. Escrever os testes
+2. Escrever os exemplos
 
-    - Reutilizar os testes das funções existentes
+    - Reutilizar os exemplos das funções existentes \pause
 
-3. Escrever o propósito
+3. Escrever o propósito \pause
 
-4. Escrever a assinatura
+4. Escrever a assinatura \pause
 
 5. Reescrever o código da funções iniciais em termos da nova função
 
@@ -293,7 +294,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista cada número de lst
+;; Devolve uma lista com cada número de lst
 ;; elevado ao quadrado.
 (check-equal? (lista-quadrado (list 4)) (list 16))
 (define (lista-quadrado lst)
@@ -453,7 +454,6 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 (check-equal? (lista-quadrado (list 4)) (list 16))
 (define (lista-quadrado lst)
     (mapeia sqr lst))
-
 
 
 
@@ -670,7 +670,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ```scheme
 ;; (Num -> Boolean) Lista(Num) -> Lista(Num)
 ;; Devolve uma lista com todos os elementos
-;; x de lst tal que (pred x) é #t.
+;; x de lst tal que (pred? x) é #t.
 (check-equal? (filtra even? (list 4 2 7)
               (list 4 2)
 (check-equal? (filtra positive? (list 3 -2))
@@ -721,7 +721,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ```scheme
 ;; (Num -> Boolean) Lista(Num) -> Lista(Num)
 ;; Devolve uma lista com todos os elementos
-;; x de lst tal que (pred x) é #t.
+;; x de lst tal que (pred? x) é #t.
 (check-equal? (filtra even? (list 4 2 7)
               (list 4 2)
 (check-equal? (filtra positive? (list 3 -2))
@@ -745,6 +745,8 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ## `filter`
 
 Como resultado do exemplo anterior obtivemos a função `filtra`, que é pré-definida em Racket com o nome `filter`.
+
+\pause
 
 ```scheme
 ;; (X -> Boolean) Lista(X) -> Lista(X)
@@ -985,6 +987,8 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ## `foldr`
 
 Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-definida em Racket com o nome `foldr`.
+
+\pause
 
 ```scheme
 ;; (X Y -> Y) Y Lista(X) -> Y
@@ -1499,7 +1503,7 @@ Defina uma função que ordene uma lista de números distintos usando o algoritm
 ```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Ordena uma lista de números usando o quicksort.
-(test-suite
+(examples
  (check-equal? (quicksort empty)
                empty)
  (check-equal? (quicksort (list 3))

@@ -3,6 +3,7 @@
 # TODO: explicar como a anotação de tipo de função funciona
 # TODO: explicitar que existe uma "algebra" de funções (assim como uma algebra de número, strings, etc)
 # TODO: check-equal? está fora de examples
+# TODO: remover explicação recursão generativa? Foi adicionado em autorreferencias
 title: Funções como valores
 ---
 

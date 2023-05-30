@@ -582,13 +582,13 @@ Vamos observar as semelhanças das funções `tamanho`{.scheme}, `soma`{.scheme}
 Vamos criar uma função chamada `reduz-acc`{.scheme} (pré-definida em Racket com o nome `foldl`{.scheme}) que abstrai este comportamento.
 
 
-## Função `foldl`
+## Função `reduz-acc` / `foldl`
 
 ```scheme
 ;; (X Y -> Y) Y Lista(X) -> Y
-;; (reduz-acc f base (list x1 x2 ... xn) devolve
+;; A chamada
+;; (reduz-acc f base (list x1 x2 ... xn) produz
 ;; (f xn ... (f x2 (f x1 base)))
-;; Veja a função pré-definida foldl.
 (define (reduz-acc f base lst0)
   (define (iter lst acc)
     (cond

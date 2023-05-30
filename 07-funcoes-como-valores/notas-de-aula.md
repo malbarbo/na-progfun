@@ -753,12 +753,12 @@ Como resultado do exemplo anterior obtivemos a função `filtra`, que é pré-de
 ;; (X -> Boolean) Lista(X) -> Lista(X)
 ;; Devolve uma lista com todos os elementos de lst
 ;; tal que pred? é #t.
-(define (filtra pred? lst)
+(define (filter pred? lst)
   (cond
     [(empty? lst) empty]
     [(pred? (first lst))
      (cons (first lst)
-           (filtra pred? (rest lst)))]
+           (filter pred? (rest lst)))]
     [else
      (filtra pred? (rest lst))]))
 ```

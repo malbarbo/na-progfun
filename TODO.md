@@ -56,3 +56,28 @@
     - encadeamento de continuação (and_then)
 
 Adicionar material sobre lambda calculo https://www.ics.uci.edu/~lopes/teaching/inf212W12/readings/lambda-calculus-handout.pdf
+
+
+# Vantagens e desvantagens baseado no vídeo Richard Feldman 
+
+Aspectos subjetivos
+
+- simples
+- elegante
+- facilidade em raciocinar sobre
+
+Aspectos concretos
+
+Desempenho
+    - cache (memorização)
+    - pré-computação
+    - paralelização
+
+Desenvolvimento
+    - teste
+    - revisão
+    - depuração
+
+Ecossistema
+    - Estilo programação funcional
+    - Linguagem de programação funcional

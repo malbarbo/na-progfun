@@ -14,7 +14,9 @@ O que é programação imperativa? \pause
 
 O que é programação funcional? \pause
 
-- Um paradigma de programação que usa aplicação e composição de funções para construir programas (inspirado no cálculo lambda). \pause
+- Um paradigma de programação que usa aplicação e composição de funções para construir programas. \pause
+
+    - Cada função é uma árvore de expressões que mapeia valores de entrada para valores de saída. \pause
 
 - Evita mudança de estado. \pause
 
@@ -44,7 +46,7 @@ Como?
 
 Escolher uma linguagem. \pause
 
-Ler a fundamentação teórica e as referências da linguagem. \pause
+Ler a fundamentação do paradigma e as referências da linguagem. \pause
 
 Praticar lendo e escrevendo código.
 
@@ -53,11 +55,9 @@ Praticar lendo e escrevendo código.
 
 Escolher uma linguagem \pause
 
-- Racket \pause
+- Racket (variante moderna do Lisp) \pause
 
 - Bom suporte ao paradigma funcional
-
-- Variante moderna do Lisp
 
 - Ambiente integrado DrRacket
 
@@ -86,7 +86,7 @@ Ler a fundamentação teórica e as referências da linguagem \pause
 
 Praticar lendo e escrevendo código \pause
 
-- Muitos exemplos
+- Muitos exemplos \pause
 
 - Muitos exercícios
 
@@ -139,15 +139,15 @@ Na área de definições
 
 Na área de interações
 
-- Teste as definições usando REPL (Read Eval Print Loop)
+- Teste as definições usando REPL (_Read Eval Print Loop_)
 
-- Entre com uma expressão (Read)
+- Entre com uma expressão (_Read_)
 
-- A expressão é avaliada (Eval)
+- A expressão é avaliada (_Eval_)
 
-- O resultado da expressão é impressa (Print)
+- O resultado da expressão é impressa (_Print_)
 
-- Repetida o processo (Loop)
+- Repetida o processo (_Loop_)
 
 
 ## Uso

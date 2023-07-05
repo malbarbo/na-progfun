@@ -72,7 +72,7 @@ Como?
    - [Guia](http://docs.racket-lang.org/guide/index.html)
   e [Referência](http://docs.racket-lang.org/reference/) do Racket
 
-   - Livro [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
+   - Livro [Structure and Interpretation of Computer Programs](https://web.mit.edu/6.001/6.037/sicp.pdf)
 
    - Livro [The Scheme Programming Languague](http://www.scheme.com/tspl4/ )
 

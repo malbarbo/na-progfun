@@ -13,7 +13,7 @@ o paradigma de programação lógico.
 <br />
 <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">
 Notas de aula de Paradigma de Programação Funcional</span> de
-<a xmlns:cc="http://creativecommons.org/ns#" href="http://mabarbo.pro.br" property="cc:attributionName" rel="cc:attributionURL">
+<a xmlns:cc="http://creativecommons.org/ns#" href="http://malbarbo.pro.br" property="cc:attributionName" rel="cc:attributionURL">
 Marco A L Barbosa</a>
 está licenciado com uma Licença
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">

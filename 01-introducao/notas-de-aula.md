@@ -16,7 +16,7 @@ O que é programação funcional? \pause
 
 - Um paradigma de programação que usa aplicação e composição de funções para construir programas. \pause
 
-    - Cada função é uma árvore de expressões que mapeia valores de entrada para valores de saída. \pause
+    - Cada função é uma conjunto de expressões que mapeia valores de entrada para valores de saída. \pause
 
 - Evita mudança de estado. \pause
 
@@ -31,12 +31,7 @@ Por quê?
 
 Um paradigma (linguagem) de programação é uma ferramenta. \pause
 
-Conhecer várias ferramentas permite utilizar a mais adequada para cada problema. \pause
-
-Em geral os programas são mais simples, fáceis de entender e modificar. \pause
-
-Diversão! Programar, no paradigma funcional, é muito divertido.
-
+Conhecer várias ferramentas permite utilizar a mais adequada para cada problema.
 
 
 Como?
@@ -44,51 +39,51 @@ Como?
 
 ## Como?
 
-Escolher uma linguagem. \pause
+1) Escolher uma linguagem. \pause
 
-Ler a fundamentação do paradigma e as referências da linguagem. \pause
+2) Estudar as construções do paradigma e as referências da linguagem. \pause
 
-Praticar lendo e escrevendo código.
-
-
-## Como?
-
-Escolher uma linguagem \pause
-
-- Racket (variante moderna do Lisp) \pause
-
-- Bom suporte ao paradigma funcional
-
-- Ambiente integrado DrRacket
-
-- Documentação extensa
-
-- Fácil instalação
+3) Praticar lendo e escrevendo código.
 
 
 ## Como?
 
-Ler a fundamentação teórica e as referências da linguagem \pause
+1) Escolher uma linguagem \pause
 
-- [A Tutorial Introduction to the Lambda Calculus](http://www.inf.fu-berlin.de/lehre/WS03/alpi/lambda.pdf)
+   - Racket (variante moderna do Lisp) \pause
 
-- Livro [How to Design Programs](http://htdp.org/)
+   - Bom suporte ao paradigma funcional
 
-- [Guia](http://docs.racket-lang.org/guide/index.html)
+   - Ambiente integrado DrRacket
+
+   - Documentação extensa
+
+   - Fácil instalação
+
+
+## Como?
+
+2) Estudar as construções do paradigma e as referências da linguagem \pause
+
+   - [A Tutorial Introduction to the Lambda Calculus](http://www.inf.fu-berlin.de/lehre/WS03/alpi/lambda.pdf)
+
+   - Livro [How to Design Programs](http://htdp.org/)
+
+   - [Guia](http://docs.racket-lang.org/guide/index.html)
   e [Referência](http://docs.racket-lang.org/reference/) do Racket
 
-- Livro [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
+   - Livro [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
 
-- Livro [The Scheme Programming Languague](http://www.scheme.com/tspl4/ )
+   - Livro [The Scheme Programming Languague](http://www.scheme.com/tspl4/ )
 
 
 ## Como?
 
-Praticar lendo e escrevendo código \pause
+3) Praticar lendo e escrevendo código \pause
 
-- Muitos exemplos \pause
+   - Muitos exemplos \pause
 
-- Muitos exercícios
+   - Muitos exercícios
 
 
 

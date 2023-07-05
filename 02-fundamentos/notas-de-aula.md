@@ -1066,7 +1066,7 @@ Básicas
 
 - Capítulo [2 - Functions and Programs](https://htdp.org/2023-5-12/Book/part_one.html#%28part._ch~3afuncs-progs%29) (texto longo e detalhado) do livro [HTDP](https://htdp.org/2023-5-12/Book/index.html)
 
-- Seção [1.1 - The Elements of Programming](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book-Z-H-10.html#%_sec_1.1) (texto mais direto) do livro [SICP](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book.html)
+- Seção [1.1 - The Elements of Programming](https://web.mit.edu/6.001/6.037/sicp.pdf#section.1.1) (texto mais direto) do livro [SICP](https://web.mit.edu/6.001/6.037/sicp.pdf)
 
 
 Complementares

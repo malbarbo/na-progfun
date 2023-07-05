@@ -81,7 +81,6 @@ header-includes: |
         }
       }
     }
-    \hypersetup{colorlinks=true, linkcolor=.}
 license: |
   \begin{tikzpicture}[overlay, remember picture]
     \linespread{0.75}
@@ -95,4 +94,7 @@ license: |
 toc-title: Conteúdo
 theme: metropolis
 themeoptions: numbering=fraction,sectionpage=simple,block=fill
+colorlinks: true
+linkcolor: Black
+urlcolor: Magenta
 aspectratio: 169

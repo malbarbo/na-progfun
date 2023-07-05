@@ -10,17 +10,17 @@ Introdução
 
 <!-- TODO: outros tipos pré-definidos? imagens? !-->
 <!-- TODO: comentários: ; ;; #; !-->
-<!-- TODO: falar de sexp !-->
-<!-- TODO: explicar passo a passo como criar test-suite !-->
 <!-- TODO: falar de #lang lazy (também é falado em streams) !-->
 
 O paradigma de programação funcional é baseado na definição e aplicação de funções \pause
 
-- As funções são escritas em termos de expressões
+- Cada função é uma conjunto de expressões que mapeia valores de entrada para valores de saída. \pause
 
-- Todas expressões produzem um resultado quando são avaliadas \pause
+Mas o que são expressões? \pause
 
-Mas o que são expressões e como o interpretador as avalia?
+- Uma expressão é uma entidade sintática que quando avaliada produz um valor. \pause
+
+Vamos ver uma sequência de definições de expressões e regras de avaliação.
 
 
 ## Definição de expressão (versão 0.1)
@@ -102,9 +102,9 @@ Como uma expressão é avaliada? \pause
 
 \pause
 
-Como a regra de avaliação de uma expressão está ligada com a definição de expressão? \pause
+Como a regra de avaliação de expressão está ligada com a definição de expressão? \pause
 
-Uma expressão é definida em termos de dois casos e por isso a regra de avaliação de expressões também é definida por dois casos.
+Uma expressão é definida em termos de dois casos e por isso a regra de avaliação de expressão também é definida por dois casos.
 
 
 ## Exemplo de avaliação de expressões
@@ -134,7 +134,7 @@ Combinações
 
 ## Combinações
 
-Uma expressão que é avaliada para uma função pode ser combinada com outras expressões para formar uma expressão que representa a aplicação da função a estas expressões. \pause Ah? \pause Ok, vamos ver alguns exemplos \pause
+Uma expressão que é avaliada para uma função pode ser combinada com outras expressões para formar uma nova expressão que representa a aplicação da função a estas expressões. \pause Ah? \pause Ok, vamos ver alguns exemplos \pause
 
 ```scheme
 > (+ 12 56)
@@ -156,23 +156,25 @@ Uma **combinação** consiste de uma lista de expressões entre parênteses
 
 - As outras expressões são os **operandos** \pause
 
-Qual o valor de uma combinação? \pause
+Qual é o valor produzido pela avaliação de uma combinação? \pause
 
-O resultado da aplicação da função especificada pelo operador aos valores dos operandos (argumentos).
-
-
-## Notação prefixa
-
-Que tipo de notação é essa, parece estranha! \pause
-
-A convenção de colocar o operador a esquerda dos operandos é chamada de **notação prefixa**. \pause
-
-Quais as vantagens e desvantagens da notação prefixa?
+- O resultado da aplicação do valor (função) do operador aos valores dos operandos.
 
 
-## Vantagens da notação prefixa
+## Notação prefixa e expressões S
 
-Operadores aritméticos são tratados como as outras funções é podem receber um número variado de argumentos
+Que tipo de notação é essa!? Parece estranha! \pause
+
+- A convenção de colocar o operador a esquerda dos operandos é chamada de **notação prefixa**. \pause
+
+- A forma como isso é expresso no Racket é através de [expressões S](https://en.wikipedia.org/wiki/S-expression) (sexp). \pause Expressões S são usadas para denotar listas aninhadas (árvores). \pause
+
+Quais as vantagens e desvantagens de usar sexps?
+
+
+## Vantagens das sexps
+
+Operadores aritméticos são tratados como as outras funções e podem receber um número variado de argumentos
 
 ```scheme
 > (* 2 8 10 1)
@@ -180,7 +182,7 @@ Operadores aritméticos são tratados como as outras funções é podem receber 
 ```
 
 
-## Vantagens da notação prefixa
+## Vantagens das sexps
 
 Combinações podem ser aninhadas facilmente, sem preocupações com prioridades das operações
 
@@ -196,11 +198,16 @@ Combinações podem ser aninhadas facilmente, sem preocupações com prioridades
 ```
 
 
-## Desvantagens da notação prefixa
+## Vantagens das sexps
+
+Um programa inteiro pode ser representado com uma sequência de sexp e podemos fazer programas que processam outros programas mais facilmente (Racket e outras linguagens são [homoicônicas](https://en.wikipedia.org/wiki/Homoiconicity)).
+
+
+## Desvantagens das sexps
 
 Diferente da forma que aprendemos... \pause
 
-Pode requerer muitos parênteses.
+Pode requerer mais parênteses.
 
 
 ## Expressões
@@ -269,7 +276,7 @@ Estamos usando os conceitos de autorreferência e recursividade para entender o 
 `(+ (* 3 16) (+ (- 10 7) 6))                  ; (* 3 16) -> 48`{.scheme} \pause
 `(+ 48 (+ (- 10 7) 6))                        ; (- 10 7) -> 3`{.scheme}  \pause
 `(+ 48 (+ 3 6))                               ; (+ 3 6) -> 9`{.scheme}   \pause
-`(+ 48 9)                                     ; (+48 9) -> 57`{.scheme} \newline \pause
+`(+ 48 9)                                     ; (+ 48 9) -> 57`{.scheme} \newline \pause
 `57`{.scheme}
 
 
@@ -297,7 +304,7 @@ Definições servem para dar nome a objetos computacionais, sejam dados ou funç
 
 ## Definições
 
-Em Racket, as definições são feitas com o `define`{.scheme}
+Em Racket, as definições são feitas com o `define`{.scheme} \pause
 
 ```scheme
 (define x 10)
@@ -397,7 +404,7 @@ Uma expressão consiste de
 - Um literal; ou
 - Uma função primitiva; ou
 - Um nome; ou
-- Uma combinação
+- Uma combinação (lista de **expressões** entre parênteses)
 
 \pause
 </div>
@@ -408,7 +415,7 @@ Avaliação
 - Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função
 - Nome $\rightarrow$ valor associado com o nome no ambiente
 - Combinação
-    - **Avalie** cada expressão da combinação \pause
+    - **Avalie cada expressão** da combinação \pause
     - Se o operador é uma função composta \pause, **avalie** o corpo da função composta **substituindo** cada ocorrência do parâmetro formal pelo argumento correspondente \pause
     - Senão, aplique a função primitiva aos argumentos
 </div>
@@ -1055,19 +1062,13 @@ Referências
 
 Básicas
 
-- [Introdução rápida ao Racket](http://docs.racket-lang.org/quick/index.html)
+- Capítulos [1 - Welcome to Racket](http://docs.racket-lang.org/guide/intro.html) e [2 - Racket Essentials](http://docs.racket-lang.org/guide/to-scheme.html) (2.1 e 2.2) do [Guia Racket](http://docs.racket-lang.org/guide/index.html)
 
-- Capítulos [1](http://docs.racket-lang.org/guide/intro.html)
-    e [2](http://docs.racket-lang.org/guide/to-scheme.html) (2.1 e 2.2) do
-    [Guia Racket](http://docs.racket-lang.org/guide/index.html)
+- Capítulo [2 - Functions and Programs](https://htdp.org/2023-5-12/Book/part_one.html#%28part._ch~3afuncs-progs%29) (texto longo e detalhado) do livro [HTDP](https://htdp.org/2023-5-12/Book/index.html)
 
-- Seção
-    [1.1](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-10.html#%_sec_1.1)
-    do livro [SICP](https://mitpress.mit.edu/sicp/)
+- Seção [1.1 - The Elements of Programming](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book-Z-H-10.html#%_sec_1.1) (texto mais direto) do livro [SICP](https://mitp-content-server.mit.edu/books/content/sectbyfn/books_pres_0/6515/sicp.zip/full-text/book/book.html)
 
 
 Complementares
 
-- Capítulos [1](http://www.scheme.com/tspl4/intro.html#./intro:h0)
-    e [2](http://www.scheme.com/tspl4/start.html#./start:h0) do livro
-    [TSLP4](http://www.scheme.com/tspl4/)
+- Capítulos [1](http://www.scheme.com/tspl4/intro.html#./intro:h0) e [2](http://www.scheme.com/tspl4/start.html#./start:h0) do livro [TSLP4](http://www.scheme.com/tspl4/)

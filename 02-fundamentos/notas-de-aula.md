@@ -150,7 +150,7 @@ Uma expressão que é avaliada para uma função pode ser combinada com outras e
 
 ## Combinações
 
-Uma **combinação** consiste de uma lista de expressões entre parênteses
+Uma **combinação** consiste de uma lista não vazia de expressões entre parênteses
 
 - A expressão mais a esquerda é o **operador**
 
@@ -225,7 +225,7 @@ Uma expressão consiste de
 
 - Uma função primitiva; ou
 
-- Uma combinação (lista de **expressões** entre parênteses)
+- Uma combinação (lista não vazia de **expressões** entre parênteses)
 
 \pause
 </div>
@@ -404,7 +404,7 @@ Uma expressão consiste de
 - Um literal; ou
 - Uma função primitiva; ou
 - Um nome; ou
-- Uma combinação (lista de **expressões** entre parênteses)
+- Uma combinação (lista não vazia de **expressões** entre parênteses)
 
 \pause
 </div>

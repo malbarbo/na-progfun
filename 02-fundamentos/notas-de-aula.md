@@ -506,32 +506,33 @@ O Racket usa por padrão a avaliação em ordem aplicativa.
 O Haskell usa avaliação em ordem normal.
 
 
-## Exercícios
+## Exercício
 
 1. O seu amigo Alan está planejando uma viagem pro final do ano com a família e está considerando diversos destinos. Uma das coisas que ele está levando em consideração é o custo da viagem, que inclui, entre outras coisas, hospedagem, combustível e o pedágio. Para o cálculo do combustível ele pediu a sua ajuda, ele disse que sabe a distância que vai percorrer, o preço do litro do combustível e o rendimento do carro (quantos quilômetros o carro anda com um litro de combustível), mas que é muito chato ficar fazer o cálculo manualmente, então ele quer que você faça um programa para calcular o gasto de combustível em uma viagem.
 
-
-## Exercícios
-
-2. Depois que você fez o programa para o Alan, a Márcia, amiga em comum de vocês, soube que você está oferecendo serviços desse tipo e também quer a sua ajuda. O problema da Márcia é que ela sempre tem que fazer a conta manualmente para saber se deve abastecer o carro com álcool ou gasolina. A conta que ela faz é verificar se o preço do álcool é até 70% do preço da gasolina, se sim, ela abastece o carro com álcool, senão ela abastece o carro com gasolina. Você pode ajudar a Márcia também?
-
-
-## Exercícios
-
-Solução exercício 1
+## Solução exercício 1
 
 ```scheme
 (define (custo-combustivel distancia preco-do-litro rendimento)
     (* (/ distancia rendimento) preco-do-litro))
 ```
 
-\pause
+```scheme
+> (custo-combustivel 400 5 10)
+200
+```
 
-Solução exercício 2
+Discutimos em sala como construímos essas função.
 
-\pause
 
-É possível resolver este problema usando as coisas que vimos até aqui? \pause Não! \pause
+## Exercício
+
+2. Depois que você fez o programa para o Alan, a Márcia, amiga em comum de vocês, soube que você está oferecendo serviços desse tipo e também quer a sua ajuda. O problema da Márcia é que ela sempre tem que fazer a conta manualmente para saber se deve abastecer o carro com álcool ou gasolina. A conta que ela faz é verificar se o preço do álcool é até 70% do preço da gasolina, se sim, ela abastece o carro com álcool, senão ela abastece o carro com gasolina. Você pode ajudar a Márcia também?
+
+
+## Solução exercício 1
+
+É possível resolver este problema (produzindo uma resposta `"alcool"`{.scheme} ou `"gasolina"`{.scheme}) usando as coisas que vimos até aqui? \pause Não! \pause
 
 O que está faltando? \pause Algum tipo de expressão condicional. \pause
 
@@ -556,10 +557,10 @@ Utilizamos a construção `if`{.scheme} para especificar expressões condicionai
 Exemplos
 
 ```scheme
-> (if (> 4 2) 10 7)
-10
-> (if (= 10 12) 10 7)
-7
+> (if (> 4 2) (+ 10 2) (* 7 3))
+12
+> (if (= 10 12) (+ 10 2) (* 7 3))
+21
 ```
 
 
@@ -592,7 +593,7 @@ Expressões `if`{.scheme} são avaliadas da seguinte maneira: \pause
 Vamos escrever uma função para calcular o valor absoluto de um número, isto é
 
 $$\mathrm{abs}(x) = \begin{cases}
-x & \text{se } x \ge 0 \\\\
+x & \text{se } x \ge 0 \\
 -x & \text{caso contrário}
 \end{cases}$$
 
@@ -675,33 +676,40 @@ Avaliação
 
 ## Condicional
 
-A forma especial `cond` pode ser usada quando existem vários (pelo menos um) casos
+A forma especial `cond`{.scheme} pode ser usada quando existem vários (pelo menos um) casos. \pause Por exemplo, podemos utilizar o `cond`{.scheme} ao invés de `if`{.scheme}s na função que determina o sinal de um número. \pause
+
+<div class="columns">
+<div class="column" width="50%">
 
 ```scheme
-(define (abs x)
-  (cond
-    [(>= x 0) x]
-    [(< x 0) (- x)]))
+(define (sinal x)
+  (if (> x 0)
+      1
+      (if (= x 0)
+          0
+          -1)))
 ```
+
+</div>
+<div class="column" width="50%">
+
+```scheme
+(define (sinal x)
+  (cond
+    [(> x 0) 1]
+    [(= x 0) 0]
+    [else -1]))
+```
+
+</div>
+</div>
 
 
 ## Condicional
 
-Como as duas condições são mutuamente excludentes, podemos usar o `else`{.scheme}
-
-```scheme
-(define (abs x)
-  (cond
-    [(>= x 0) x]
-    [else (- x)]))
-```
-
-
-## Condicional
-
-\small
-
-A forma geral do `cond` é
+<div class="columns">
+<div class="column" width="50%">
+A forma geral do `cond`{.scheme} é
 
 ```scheme
 (cond
@@ -712,11 +720,16 @@ A forma geral do `cond` é
   [else <en>])
 ```
 
+</div>
+<div class="column" width="50%">
+\pause
 Cada par `[<p> <e>]` é chamado de **cláusula** (parênteses e colchetes são equivalentes em Racket).
 
 A primeira expressão de uma cláusula é chamada de **predicado** (expressão cujo o valor é interpretado como verdadeiro ou falso).
 
 A segunda expressão de uma cláusula é chamada de **consequente**.
+</div>
+</div>
 
 
 ## Condicional
@@ -736,75 +749,200 @@ Expressões `cond`{.scheme} são avaliadas da seguinte maneira:
 
 \scriptsize
 
+<div class="columns">
+<div class="column" width="50%">
+
 ```scheme
-(define (abs x)
+(define (sinal x)
   (cond
-    [(>= x 0) x]
-    [else (- x)]))
+    [(> x 0) 1]
+    [(= x 0) 0]
+    [else -1]))
 ```
 
 ```scheme
-(abs -4)         ; Substitui (abs -4) pelo corpo ...
+(sinal 0)     ; Substitui (sinal 0) pelo corpo
+              ; corpo da função...
 ```
 
 \pause
 
 ```scheme
-(cond            ; Como o primeiro predicado não é um valor,
-  [(>= -4 0) -4] ; a expressão (>= -4 0) é avaliada
-  [else (- -4)]) ; e substituída pelo seu valor
+(cond
+  [(> 0 0) 1] ; Como o primeiro predicado (> 0 0)
+  [(= 0 0) 0] ; não é um valor, ele é avaliado
+  [else -1]))
 ```
 
 \pause
 
 ```scheme
-(cond            ; Como o primeiro predicado é falso, a primeira
-  [#f -4]        ; cláusula é removida
-  [else (- -4)]) ;
+(cond
+  [#f 1]      ; Como o primeiro predicado é #f
+  [(= 0 0) 0] ; a primeira cláusula é removida
+  [else -1]))
+```
+
+</div>
+<div class="column" width="50%">
+
+\pause
+
+```scheme
+(cond
+  [(= 0 0) 0] ; Como o primeiro predicado (= 0 0)
+  [else -1])) ; não é um valor, ele é avaliado
 ```
 
 \pause
 
 ```scheme
-(cond            ; Como o primeiro predicado é else,
-  [else (- -4)]) ; o cond é substituído pelo primeiro consequente
+(cond
+  [#t 0]      ; Como o primeiro predicado é #t
+  [else -1])) ; o cond é substituído pelo consequente
+              ; da primeira cláusula
 ```
 
 \pause
 
 ```scheme
-(- -4)           ; Reduz (- -4) para 4
+0
 ```
 
-\pause
-
-```scheme
-4
-```
+</div>
+</div>
 
 
 ## Exercício
 
-Defina as funções `e-logico` e `ou-logico` de tal forma que para os argumentos x e y:
+<div class="columns">
+<div class="column" width="50%">
 
-`(e-logico x y)` $\rightarrow$ `x` $\wedge$ `y`
+Defina a função `e-logico`{.scheme} que recebe os argumentos booleanos `x`{.scheme} e `y`{.scheme} e produz como resposta o e lógico entre eles, isto é \pause
 
-`(ou-logico x y)` $\rightarrow$ `x` $\vee$ `y`
+```scheme
+> (e-logico #f #f)
+#f
+> (e-logico #f #t)
+#f
+> (e-logico #t #f)
+#f
+> (e-logico #t #t)
+#t
+```
+
+</div>
+<div class="column" width="50%">
+
+\pause
+
+Observe o exemplos e responda: \pause
+
+Se verificarmos o valor de `x`, e ele for `#t`{.scheme}, como calculamos o valor da função? \pause Verificando o valor de `y`, se for `#t`{.scheme}, o valor da função é `#t`{.scheme}, senão, o valor da função é `#f`{.scheme}. \pause
+
+E se `x` não for `#t`{.scheme}? \pause O valor da função é `#f`{.scheme}. \pause
+
+```scheme
+(define (e-logico)
+  (if (equal? x #t)
+      (if (equal? y #t)
+          #t
+          #f)
+      #f))
+```
+
+</div>
+</div>
+
+
+## Exercício
+
+<div class="columns">
+<div class="column" width="50%">
+
+Podemos simplificar a função?
+
+```scheme
+(define (e-logico)
+  (if (equal? x #t)
+      (if (equal? y #t)
+          #t
+          #f)
+      #f))
+```
+
+\pause
+
+Sim!
+
+\pause
+
+A expressão `(equal? a #t)`{.scheme} produz o mesmo valor que a expressão `a`{.scheme} (desde que `a`{.scheme} seja booleano). \pause Portanto, podemos escrever \pause
+
+</div>
+<div class="column" width="50%">
+
+```scheme
+(define (e-logico)
+  (if x
+      (if y #t #f)
+      #f))
+```
+
+\pause
+
+Mais alguma simplificação? \pause Sim, a expressão `(if y #t #f)`{.scheme} é equivalente a expressão `y`{.scheme} (para `y` booleano). \pause Então, podemos escrever
+
+```scheme
+(define (e-logico x y)
+  (if x y #f))
+```
+
+</div>
+</div>
+
+
+## Exercício
+
+<div class="columns">
+<div class="column" width="50%">
+
+Defina a função `ou-logico`{.scheme} que recebe os argumentos booleanos `x`{.scheme} e `y`{.scheme} e produz como resposta o ou lógico entre eles, isto é \pause
+
+```scheme
+> (ou-logico #f #f)
+#f
+> (ou-logico #f #t)
+#t
+> (ou-logico #t #f)
+#t
+> (ou-logico #t #t)
+#t
+```
+
+</div>
+<div class="column" width="50%">
 
 \pause
 
 ```scheme
-(define (e-logico x y)
-  (if x
-    y
-    #f))
-
 (define (ou-logico x y)
-  (if x
-    #t
-    y))
+  (if x #t y))
 ```
 
+</div>
+</div>
+
+
+## Limitações
+
+Existe alguma implicação em definirmos `e-logico` e `ou-logico` como funções? \pause
+
+Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são avaliados antes das funções serem avaliadas e isso impede que algumas otimizações sejam feitas. \pause Especificamente, na implementação do `e-logico`, se a primeira expressão for `#f`{.scheme}, não é necessário executar a segunda expressão. De forma semelhante, no `ou-logico`, se a primeira expressão for `#t`{.scheme}, não é necessário executar a segunda expressão. \pause
+
+Essa otimização, chamada de avaliação em curto-circuito, é usada em outras linguagens e permitem escrever condições dependentes, do tipo `x != 0 e 10 / x == 2`, o que não é possível se todos os argumentos para o `e` são avaliados. \pause
+
+Vamos ver em seguida que o `e` e o `ou` em Racket são formas especiais.
 
 
 Operadores lógicos
@@ -817,7 +955,7 @@ Predicados podem ser compostos usando as formas especiais `and`{.scheme} e `or`{
 
 ## `not`
 
-A função `(not <e>)`{.scheme} produz `#t`{.scheme} quando `<e>` for avaliado para um valor falso, e `#f`{.scheme} caso contrário
+A função `(not <e>)`{.scheme} produz `#t`{.scheme} quando `<e>` for avaliado `#f`{.scheme}, e `#f`{.scheme} caso contrário
 
 ```scheme
 > (not (> 5 2))

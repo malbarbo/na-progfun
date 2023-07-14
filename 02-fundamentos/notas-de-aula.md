@@ -364,24 +364,45 @@ A sintaxe geral para definição de novas funções (**funções compostas**) é
 
 ## Definição de função
 
+<div class="columns">
+<div class="column" width="50%">
+
 ```scheme
 (define (quadrado x)
   (* x x))
+
 (define (soma-quadrados a b)
   (+ (quadrado a) (quadrado b)))
 
 ```
+
+</div>
+<div class="column" width="50%">
 
 \pause
 
 ```scheme
 > (quadrado 5)
 25
+```
+
+\pause
+
+```scheme
 > (quadrado (+ 2 6))
 64
+```
+
+\pause
+
+```scheme
 > (soma-quadrados (+ 2 2) 3)
 25
 ```
+</div>
+</div>
+
+\pause
 
 Observe que as funções compostas (definidas pelo usuário) são usadas da mesma forma que as funções pré-definidas.
 
@@ -510,19 +531,45 @@ O Haskell usa avaliação em ordem normal.
 
 1. O seu amigo Alan está planejando uma viagem pro final do ano com a família e está considerando diversos destinos. Uma das coisas que ele está levando em consideração é o custo da viagem, que inclui, entre outras coisas, hospedagem, combustível e o pedágio. Para o cálculo do combustível ele pediu a sua ajuda, ele disse que sabe a distância que vai percorrer, o preço do litro do combustível e o rendimento do carro (quantos quilômetros o carro anda com um litro de combustível), mas que é muito chato ficar fazer o cálculo manualmente, então ele quer que você faça um programa para calcular o gasto de combustível em uma viagem.
 
+
 ## Solução exercício 1
+
+<div class="columns">
+<div class="column" width="50%">
+Exemplo de entrada
+
+- Distância: 400 Km
+- Preço do litro: R\$ 5
+- Rendimento: 10 Km/l \pause
+
+</div>
+<div class="column" width="50%">
+
+Saída \pause
+
+- Quantidade de litros (Distância / Rendimento): $400 / 10 \rightarrow 40$ \pause
+- Custo (Quantidade de litros $\times$ Preço do litro): $40 \times 5 \rightarrow 200$
+
+</div>
+</div>
+
+\pause
+
+Implementação \pause
 
 ```scheme
 (define (custo-combustivel distancia preco-do-litro rendimento)
     (* (/ distancia rendimento) preco-do-litro))
 ```
 
+\pause
+
+Verificação
+
 ```scheme
 > (custo-combustivel 400 5 10)
 200
 ```
-
-Discutimos em sala como construímos essas função.
 
 
 ## Exercício
@@ -938,9 +985,9 @@ Defina a função `ou-logico`{.scheme} que recebe os argumentos booleanos `x`{.s
 
 Existe alguma implicação em definirmos `e-logico` e `ou-logico` como funções? \pause
 
-Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são avaliados antes das funções serem avaliadas e isso impede que algumas otimizações sejam feitas. \pause Especificamente, na implementação do `e-logico`, se a primeira expressão for `#f`{.scheme}, não é necessário executar a segunda expressão. De forma semelhante, no `ou-logico`, se a primeira expressão for `#t`{.scheme}, não é necessário executar a segunda expressão. \pause
+Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são avaliados antes das funções serem avaliadas e isso impede que algumas otimizações sejam feitas. \pause Especificamente, na implementação do `e-logico`, se a primeira expressão for `#f`{.scheme}, não é necessário avaliar a segunda expressão. De forma semelhante, no `ou-logico`, se a primeira expressão for `#t`{.scheme}, não é necessário avaliar a segunda expressão. \pause
 
-Essa otimização, chamada de avaliação em curto-circuito, é usada em outras linguagens e permitem escrever condições dependentes, do tipo `x != 0 e 10 / x == 2`, o que não é possível se todos os argumentos para o `e` são avaliados. \pause
+Essa otimização, chamada de **avaliação em curto-circuito**, é usada em outras linguagens e permitem escrever condições dependentes, como por exemplo `x != 0 e 10 / x == 2`{.c}, o que não é possível se todos os argumentos para o `e` são avaliados. \pause
 
 Vamos ver em seguida que o `e` e o `ou` em Racket são formas especiais.
 
@@ -955,7 +1002,7 @@ Predicados podem ser compostos usando as formas especiais `and`{.scheme} e `or`{
 
 ## `not`
 
-A função `(not <e>)`{.scheme} produz `#t`{.scheme} quando `<e>` for avaliado `#f`{.scheme}, e `#f`{.scheme} caso contrário
+A função `(not exp)`{.scheme} produz `#t`{.scheme} quando `exp` é `#f`{.scheme}, e `#f`{.scheme} caso contrário
 
 ```scheme
 > (not (> 5 2))
@@ -992,12 +1039,11 @@ Expressões `and`{.scheme} são avaliadas da seguinte maneira
 
 ## `and`
 
-\scriptsize
+\small
 
 ```scheme
-(and (> 4 2) #t (= 3 3))   ; A primeira expressão não é um valor,
-                           ; logo ela é avalida e substiuída pelo
-                           ; seu valor
+(and (> 4 2) #t (= 3 3))   ; A primeira expressão não é um valor, logo ela
+                           ; é avalida e substiuída pelo seu valor
 ```
 
 \pause
@@ -1010,8 +1056,7 @@ Expressões `and`{.scheme} são avaliadas da seguinte maneira
 \pause
 
 ```scheme
-(and #t (= 3 3))           ; A primeira expressão é #t, então
-                           ; ela é removida do and
+(and #t (= 3 3))           ; A primeira expressão é #t, então ela é removida
 ```
 
 \pause
@@ -1023,8 +1068,7 @@ Expressões `and`{.scheme} são avaliadas da seguinte maneira
 \pause
 
 ```scheme
-(and #t)                   ; A primeira expressão é #t, então
-                           ; ela é removida do and
+(and #t)                   ; A primeira expressão é #t, então ela é removida
 ```
 
 \pause
@@ -1067,7 +1111,7 @@ Expressões `or`{.scheme} são avaliadas da seguinte maneira
 
 ## Operadores lógicos
 
-\scriptsize
+\small
 
 ```scheme
 (or (< 4 2) #t (= 3 3))  ; A primeira expressão não é um valor,
@@ -1088,88 +1132,37 @@ Expressões `or`{.scheme} são avaliadas da seguinte maneira
 (or #t (= 3 3))          ; A primeira expressão é #t; produz #t
 ```
 
+\pause
+
 ```scheme
 #t
 ```
 
 
 
-Operadores de equivalência
-==========================
+Igualdade
+=========
 
 
-## Operadores de equivalência
+## Igualdade
 
-Os operadores de equivalência são utilizados para verificar a relação de equivalência entre expressões. \pause
+Igualdade é o conceito de determinar se dois objetos são "os mesmos". \pause
 
-- Não devem ser confundidos com o comparador `=`{.scheme}, utilizado apenas para valores numéricos
-
-- Os principais operadores de equivalência são o `eq?`{.scheme}, `eqv?`{.scheme} e `equal?`{.scheme}
-
-
-## Operador `eq?`
-
-A função `(eq? v1 v2)`{.scheme} produz `#t`{.scheme} se `v1` e `v2` referenciam o mesmo objeto, `#f`{.scheme} caso contrário. \pause `eq?`{.scheme} é avaliada rapidamente pois compara apenas as referências. \pause Entretanto, o `eq?`{.scheme} pode não ser adequado, pois a geração dos objetos pode não ser clara
-
-\scriptsize
+É um conceito diferente de igualdade para números (função `=`{.scheme}, que verifica se dois valores são numericamente iguais). \pause
 
 ```scheme
-> (eq? 2 2)
-#t
-> (eq? (+ 3 5) (+ 5 3))
-#t
-> (eq? 2 2.0)
-#f
-> (eq? (expt 2 100) (expt 2 100))
-#f
-> (eq? (integer->char 955) (integer->char 955))
-#f
+    > (= 2 2.0)
+    #t
 ```
 
-\normalsize
+\pause
 
-Observe que nos três últimos exemplos, objetos distintos foram criados para expressões avaliadas para um mesmo valor.
-
-
-## Operador `eqv?`
-
-Dois valores são `eqv?`{.scheme} *sse* eles são `eq?`{.scheme}, exceto para números e caracteres. \pause
-
-Dois números são `eqv?`{.scheme} se eles são precisamente iguais \pause
-
-```scheme
-> (eqv? (expt 2 100) (expt 2 100))
-#t
-> (eqv? 2 2.0)
-#f
-```
+As principais funções de igualdade em Racket são `equal?`{.scheme} e `eq?`{.scheme}.
 
 
-## Operador `eqv?`
+## `equal?`
 
-Dois caracteres são `eqv?`{.scheme} quando seus resultados de `char->integer`{.scheme} forem iguais
-
-```scheme
-> (eqv? (integer->char 955) (integer->char 955))
-#t
-> (eqv? #\a #\z)
-#f
-```
-
-
-## Operador `eqv?`
-
-Dois pares iguais não são `eqv?`{.scheme} entre si (recai ao `eq?`{.scheme})
-
-```scheme
-> (eqv? (cons 1 2) (cons 1 2))
-#f
-```
-
-
-## Operador `equal?`
-
-Dois valores são `equal?`{.scheme} *sse* eles são `eqv?`{.scheme}, a menos que especificado de outra forma para um tipo de dado particular. \pause
+Cada tipo de objeto determina a sua implementação `equal?`{.scheme}, mas em geral, duas referências são `equal?`{.scheme} se elas referenciam o mesmo objeto, ou se o conteúdo dos objetos são os mesmos. \pause
 
 Duas strings são `equal?`{.scheme} quando elas possuem o mesmo tamanho e contêm a mesma sequência de caracteres
 
@@ -1181,9 +1174,9 @@ Duas strings são `equal?`{.scheme} quando elas possuem o mesmo tamanho e contê
 ```
 
 
-## Operador `equal?`
+## `equal?`
 
-Para estruturas que podem ser compostas, como pares, vetores e etc, o operador `equal?`{.scheme} checa a equivalência recursivamente \pause
+Para estruturas que podem ser compostas, como listas, a função `equal?`{.scheme} checa a igualdade recursivamente \pause
 
 ```scheme
 > (equal? (list 3 (list 4 2) 5) (list 3 (list 4 2) 5))
@@ -1191,6 +1184,45 @@ Para estruturas que podem ser compostas, como pares, vetores e etc, o operador `
 > (equal? (list 3 2.0 1) (list 3 2 1))
 #f
 ```
+
+
+## `eq?`
+
+A função `(eq? v1 v2)`{.scheme} produz `#t`{.scheme} se `v1` e `v2` referenciam o mesmo objeto, `#f`{.scheme} caso contrário. \pause `eq?`{.scheme} é avaliada rapidamente pois compara apenas as referências. \pause Entretanto, o `eq?`{.scheme} pode não ser adequado, pois a geração dos objetos pode não ser clara \pause
+
+
+<div class="columns">
+<div class="column" width="40%">
+
+```scheme
+> (eq? 2 2)
+#t
+> (eq? (+ 3 5) (+ 5 3))
+#t
+> (eq? 2 2.0)
+#f
+```
+
+\pause
+
+</div>
+<div class="column" width="60%">
+
+```scheme
+> (eq? (expt 2 100) (expt 2 100))
+#f
+> (eq? (integer->char 955)
+       (integer->char 955))
+#f
+```
+
+</div>
+</div>
+
+\pause
+
+
+Observe que nos dois últimos exemplos, objetos distintos foram criados para expressões avaliadas para um mesmo valor.
 
 
 Referências

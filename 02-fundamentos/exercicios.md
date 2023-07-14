@@ -1,6 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Fundamentos
+urlcolor: Black
 ---
 
 #.  [sicp 1.1] Dado o seguinte programa, qual é o resultado impresso pelo Racket em resposta a cada expressão? Assuma que as expressões serão avaliadas na ordem em que são apresentadas.
@@ -85,6 +86,42 @@ title: Fundamentos
     ```
 
     Qual é o comportamento que Ben irá observar com um interpretador que usa avaliação com ordem aplicativa? Qual é o comportamento que ele irá observar com um interpretador que usa avaliação com ordem normal? Explique a sua resposta.
+
+
+#.  Faça uma função chamada `tres-digitos?` que recebe um número natural `n` e verifica se `n` tem exatamente 3 dígitos. Não use `if`{.scheme} nem `cond`{.scheme}. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+
+    ```{.scheme}
+    > (tres-digitos? 8)
+    #f
+    > (tres-digitos? 98)
+    #f
+    > (tres-digitos? 182)
+    #t
+    > (tres-digitos? 1234)
+    #f
+    ```
+
+
+#.  Faça uma função chamada `traco-meio?` que recebe uma string `s` e verifica se o caractere no meio de `s` é `"-"` . Não use `if`{.scheme} nem `cond`{.scheme}. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+
+    ```{.scheme}
+    > (traco-meio? "lero-lero")
+    #t
+    > (traco-meio? "quase-meio")
+    #f
+    > (traco-meio? "-")
+    #t
+    ```
+
+
+#.  Faça uma função chamada `adiciona-ponto` que recebe um string `frase` e adiciona um ponto final na `frase` se ela ainda não tiver um. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+
+    ```{.scheme}
+    > (adiciona-ponto "Vou contar")
+    "Vou contar."
+    > (adiciona-ponto "Corri.")
+    "Corri."
+    ```
 
 
 # Referências

@@ -124,6 +124,18 @@ urlcolor: Black
     ```
 
 
+#.  Faça uma função chamada `ordem` que recebe três números distintos, `a`, `b` e `c` e determina se a sequencia `a, b, c` está em ordem crescente, decrescente ou não está em ordem. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+
+    ```{.scheme}
+    > (ordem 3 8 12)
+    "crescente"
+    > (ordem 3 1 4)
+    "sem ordem"
+    > (ordem 3 1 0)
+    "decrescente"
+    ```
+
+
 # Referências
 
 -   [sicp]. [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)

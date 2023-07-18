@@ -61,7 +61,7 @@ urlcolor: Blue
     ```
 
 
-1) Faça uma função chamada `exclamacao` que recebe dois argumento, uma string `frase` e um número natural `n`, e produza a mesma frase adicionando `n` pontos de exclamação no final da frase. Veja a documentação do tipo [string](https://docs.racket-lang.org/reference/strings.html) (funções `string-append` e `make-string`. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+1) Faça uma função chamada `exclamacao` que recebe dois argumento, uma string `frase` e um número natural `n`, e produz a mesma frase adicionando `n` pontos de exclamação no final da frase. Veja a documentação do tipo [string](https://docs.racket-lang.org/reference/strings.html) (funções `string-append` e `make-string`. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
 
     ```{.scheme}
     > (exclamacao "Nossa" 3)
@@ -73,7 +73,7 @@ urlcolor: Blue
     ```
 
 
-1) Faça uma função chamada `censura` que recebe dois argumento, uma string `frase` e um número natural `n`, e produza uma nova frase trocando as as primeiras `n` letras da frase de entrada por `n` `"x"`. Veja a documentação do tipo [string](https://docs.racket-lang.org/reference/strings.html) (funções `string-append`, `substring` e `make-string`) . Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+1) Faça uma função chamada `censura` que recebe dois argumento, uma string `frase` e um número natural `n`, e produz uma nova frase trocando as as primeiras `n` letras da frase de entrada por `n` `"x"`. Veja a documentação do tipo [string](https://docs.racket-lang.org/reference/strings.html) (funções `string-append`, `substring` e `make-string`) . Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
 
     ```{.scheme}
     > (censura "droga de lanche!" 5)

@@ -1,16 +1,15 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Fundamentos
+# TODO: outros tipos pré-definidos? imagens?
+# TODO: comentários: ; ;; #;
+# TODO: falar de #lang lazy (também é falado em streams)
 ---
 
 Introdução
 ==========
 
 ## Introdução
-
-<!-- TODO: outros tipos pré-definidos? imagens? !-->
-<!-- TODO: comentários: ; ;; #; !-->
-<!-- TODO: falar de #lang lazy (também é falado em streams) !-->
 
 O paradigma de programação funcional é baseado na definição e aplicação de funções \pause
 

@@ -1,6 +1,9 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Projeto de Funções
+title: Projeto de funções
+# TODO: substituir Definição de tipos de dados por Projeto de dados? https://course.ccs.neu.edu/cs5010sp15/recipe.html#%28part._data%29
+# TODO: melhorar a parte de garantias e restrições
+# TODO: falar sobre comentários na implementação
 ---
 
 ## Projeto de funções
@@ -12,9 +15,9 @@ Depois que você fez o programa para o Alan, a Márcia, amiga em comum de vocês
 Como proceder para projetar este programa?
 
 
-## Projeto de programas
+## Projeto de funções
 
-Para entender e "sentir" melhor como é programar no paradigma funcional, vamos seguir algumas etapas para projetar programas \pause
+Vamos usar um processo de projeto funções \pause
 
 - Análise \pause
 - Definição dos tipos de dados \pause
@@ -23,18 +26,32 @@ Para entender e "sentir" melhor como é programar no paradigma funcional, vamos 
 - Verificação \pause
 - Revisão \pause
 
-Vamos treinar com problemas simples, para depois utilizar o processo em outros problemas. \pause
+Esse processo é inspirado no livro [How to Design Programs](http://htdp.org).
 
-Obs: esse processo é inspirado no livro [How to Design Programs](http://htdp.org).
+
+## Objetivos
+
+Cada etapa tem um objetivo e depende das etapas anteriores \pause
+
+- Análise: \pause identificar o problema a ser resolvido \pause
+- Definição dos tipos de dados: \pause definir como as informações serão representadas \pause
+- Especificação: \pause especificar com precisão o que a função deve fazer \pause
+- Implementação: \pause implementar a função de acordo com a especificação \pause
+- Verificação: \pause verificar se a implementação está de acordo com a especificação \pause
+- Revisão: \pause identificar e fazer melhorias na especificação e implementação \pause
+
+Note que as vezes precisamos alterar a ordem das etapas, por exemplo, às vezes estamos na implementação e encontramos uma nova condição e devemos voltar e alterar a especificação. \pause
+
+Mas devemos evitar fazer a implementação diretamente!
 
 
 ## Projeto de programas
 
-Cada etapa depende da anterior, mas às vezes pode ser necessário mudar a ordem. \pause
+Mas esse processe serve para projetar funções, como projetamos programas? \pause
 
-Por exemplo, às vezes estamos na implementação e encontramos uma nova condição e devemos voltar e alterar a especificação. \pause
+Um programa é composto de várias funções, então temos que decompor o programa em funções e aplicar o processo para projetar cada função. \pause
 
-Mas devemos evitar fazer a implementação diretamente!
+Vamos treinar com problemas simples, de uma função, depois vamos utilizar o processo em problemas mais elaborados.
 
 
 ## Análise
@@ -86,7 +103,7 @@ Representações: \pause
 \small
 
 ```scheme
-;; Preco é um número positivo com até três dígitos.
+;; Preco é um número positivo
 
 ;; Combustivel é um dos valores
 ;; - "Alcool"
@@ -114,7 +131,6 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 
 ```scheme
 ;; Preco é um número positivo
-;; com até três dígitos.
 
 ;; Combustivel é um dos valores
 ;; - "Alcool"
@@ -128,7 +144,7 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 **Especificação**
 
 - Assinatura da função
-- Descrição do que a função deve fazer
+- Propósito (o que a função faz)
 - Exemplos de entrada e saída
 
 \pause
@@ -157,9 +173,9 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 
 Exemplos \pause
 
-- Álcool 3.000, Gasolina 4.000, \pause produz "Gasolina" pois 3.000 > 0.7 * 4.000 \pause
-- Álcool 2.900, Gasolina 4.200, \pause produz "Alcool" pois 2.900 < 0.7 * 4.200 \pause
-- Álcool 3.500, Gasolina 5.000, \pause não está claro na especificação o que fazer quando o preço do álcool é exatamente 70% (3.500 = 0.7 * 5.000)! \pause
+- Álcool 3.00, Gasolina 4.00, \pause produz "Gasolina" ($3.00 < 0.7 \times 4.000$ é falso) \pause
+- Álcool 2.90, Gasolina 4.20, \pause produz "Alcool" ($2.90 < 0.7 \times 4.200$ é verdadeiro) \pause
+- Álcool 3.50, Gasolina 5.00, \pause não está claro na especificação o que fazer quando o preço do álcool é exatamente 70% ($3.500 = 0.7 \times 5.000$)! \pause
 
 Precisamos tomar uma decisão e modificar o propósito para ficar mais preciso. \pause Vamos assumir que exatamente 70% também implica no uso do álcool (quais são as outras possibilidades?). \pause O propósito modificado fica \pause
 
@@ -171,6 +187,35 @@ Precisamos tomar uma decisão e modificar o propósito para ficar mais preciso. 
 ;; Produz "Alcool" se preco-alcool for menor ou igual a 70% do preco-gasolina,
 ;; produz "Gasolina" caso contrário.
 ```
+
+
+## Propósito
+
+No propósito da função descrevemos **o quê** a função faz, e não **como** ela faz (que é a implementação - as vezes precisamos dizer como ela faz, mas isso é raro). \pause
+
+No propósito também informamos as garantias da saída e as restrições sobre os parâmetros.
+
+
+## Diferença de "o quê" e "como"
+
+Número par \pause
+
+- O quê: verifica se um número é par \pause
+- Como: faz o resto da divisão do número por 2 e compara com 0; ou; faz a divisão inteira do número e multiplica por 2 e compara com o número \pause
+
+Ordenação \pause
+
+- O quê: ordena os elementos de uma lista em ordem não decrescente \pause
+- Como: ordenação por seleção, por inserção, por intercalação, etc
+
+
+## Especificação
+
+Para saber se a especificação está boa, faça a segunda pergunta: \pause
+
+Um outro programador, que não tem acesso ao problema original e nem a análise, tem as informações necessárias na especificação para fazer uma implementação e verificação inicial? \pause
+
+Se a resposta for sim, então a especificação está boa, senão ela está incompleta.
 
 
 ## Implementação
@@ -193,11 +238,11 @@ Precisamos tomar uma decisão e modificar o propósito para ficar mais preciso. 
   ...)
 ```
 
-3.000, 4.000, então "Gasolina" (3.000 > 0.7 * 4.000)
+3.00, 4.00, "Gasolina" ($3.00 \le 0.7 \times 4.00$ é false)
 
-2.900, 4.200, então "Alcool" (2.900 < 0.7 * 4.200)
+2.90, 4.20, "Alcool" ($2.90 \le 0.7 \times 4.20$ é true)
 
-3.500, 5.000, então "Alcool" (3.500 == 0.7 * 5.000)
+3.50, 5.00, "Alcool" ($3.50 \le 0.7 \times 5.00$ é true)
 
 \pause
 
@@ -216,6 +261,8 @@ Precisamos tomar uma decisão e modificar o propósito para ficar mais preciso. 
 ## Implementação
 
 Temos dois casos, o preço do álcool é menor ou igual a 70% do preço da gasolina e o caso contrário. \pause Cada caso produz uma resposta direta \pause
+
+\small
 
 ```scheme
 ;; Preco Preco -> Combustivel
@@ -241,8 +288,8 @@ Temos dois casos, o preço do álcool é menor ou igual a 70% do preço da gasol
 ;; Encontra o combustivel que deve ser
 ;; utilizado no abastecimento. Produz
 ;; "Alcool" se preco-alcool menor ou
-;; igual a 70% do preco-gasolina, produz
-;; "Gasolina" caso contrário.
+;; igual a 70% do preco-gasolina,
+;; produz "Gasolina" caso contrário.
 (define (seleciona-combustivel
          preco-alcool
          preco-gasolina)
@@ -254,7 +301,7 @@ Temos dois casos, o preço do álcool é menor ou igual a 70% do preço da gasol
 
 \vspace{-0.3cm}
 
-3.000, 4.000, então "Gasolina". 2.900, 4.200, então "Alcool". 3.500, 5.000, então "Alcool".
+3.00, 4.00, então "Gasolina". 2.90, 4.20, então "Alcool". 3.50, 5.00, então "Alcool".
 
 \pause
 
@@ -303,7 +350,7 @@ Preparem-se, agora vem uma sequência de muitas perguntas! \pause
 
 De forma geral, o fato de uma função produzir a resposta correta para alguns exemplos, implica que a função está correta? \pause Não! \pause
 
-Então porque "perder tempo" fazendo os exemplos? \pause O primeiro objetivo dos exemplos é ajudar o programador a entender como a função funciona e ilustrar o seu funcionamento para que a especificação fique mais clara. \pause Depois esses exemplos podem ser usados como uma forma inicial de verificação, que mesmo não mostrando que a função funciona corretamente, aumenta a confiança do programador que o código está correto. \pause
+Então porque "perder tempo" fazendo os exemplos? \pause O primeiro objetivo dos exemplos é ajudar o programador a entender como a função funciona e o segundo ilustrar o seu funcionamento para que a especificação fique mais clara. \pause Depois esses exemplos podem ser usados como uma forma inicial de verificação, que mesmo não mostrando que a função funciona corretamente, aumenta a confiança do programador que o código está correto. \pause
 
 Já que os exemplos são uma verificação inicial, então temos que ampliar a verificação? \pause Sim. \pause De que forma? \pause Testes de propriedades, fuzzing, etc. \pause Para esta disciplina, vamos utilizar apenas os exemplos para fazer a verificação.
 
@@ -312,7 +359,18 @@ Já que os exemplos são uma verificação inicial, então temos que ampliar a v
 
 Nós fizemos os exemplos em linguagem natural e no momento de verificar os exemplos nós "traduzimos" para o Racket e fizemos as chamadas da funções de forma manual na janela de interações. \pause Podemos melhorar esse processo? \pause Sim. \pause
 
-Vamos escrever os exemplos diretamente em forma de código de maneira que eles possam ser executados automaticamente quando necessário. Para isso vamos usar um biblioteca, feita especialmente para essa disciplina. \pause
+Vamos escrever os exemplos diretamente em forma de código de maneira que eles possam ser executados automaticamente quando necessário. Para isso vamos usar um biblioteca, feita especialmente para essa disciplina.
+
+
+## {.plain}
+
+\center
+
+\Huge
+
+**Biblioteca de testes**
+
+\normalsize
 
 Para instalar a biblioteca selecione o menu "File -> Install Package...", digite o endereço "https://github.com/malbarbo/racket-test-examples.git" e clique em "Install".
 
@@ -331,9 +389,9 @@ Para instalar a biblioteca selecione o menu "File -> Install Package...", digite
 ;; Produz "Alcool" se preco-alcool menor ou igual a 70% do preco-gasolina,
 ;; produz "Gasolina" caso contrário.
 (examples
- (check-equal? (seleciona-combustivel 3.000 4.000) "Gasolina")
- (check-equal? (seleciona-combustivel 2.900 4.200) "Alcool")
- (check-equal? (seleciona-combustivel 3.500 5.000) "Alcool"))
+ (check-equal? (seleciona-combustivel 3.00 4.00) "Gasolina")
+ (check-equal? (seleciona-combustivel 2.90 4.20) "Alcool")
+ (check-equal? (seleciona-combustivel 3.50 5.00) "Alcool"))
 
 (define (seleciona-combustivel preco-alcool preco-gasolina)
   (if (<= preco-alcool (* 0.7 preco-gasolina))
@@ -366,7 +424,7 @@ Porque um teste pode falhar? \pause
 
 \pause
 
-- Podemos melhor o código? \pause
+- Podemos melhorar a especificação e o código? \pause
 - Podemos fazer simplificações eliminando casos especiais (generalizando)? \pause
 - Podemos criar abstrações (definição de constantes e funções)? \pause
 - Podemos renomear os objetos?
@@ -416,6 +474,8 @@ Veja as funções de manipulação de strings em \url{https://docs.racket-lang.o
 
 **Especificação** \pause
 
+\small
+
 ```scheme
 ;; Salario -> Salario
 
@@ -432,6 +492,8 @@ Veja as funções de manipulação de strings em \url{https://docs.racket-lang.o
 ## Resolução do exercício 1
 
 **Especificação** \pause
+
+\small
 
 ```scheme
 (examples
@@ -519,6 +581,8 @@ Não podemos esquecer de fazer a verificação novamente!
 
 **Especificação** \pause
 
+\small
+
 ```scheme
 ;; Comprimento Comprimento Comprimento -> Massa
 ;; Calcula a massa de um tubo de ferro a partir das suas dimensões.
@@ -541,6 +605,8 @@ Não podemos esquecer de fazer a verificação novamente!
 
 Usamos conhecimentos específicos do domínio que foram levantados na análise. \pause
 
+\small
+
 ```scheme
 (define (massa-tubo-ferro diametro-externo diametro-interno altura)
   (* 3.14
@@ -550,6 +616,8 @@ Usamos conhecimentos específicos do domínio que foram levantados na análise. 
 ```
 
 \pause
+
+\normalsize
 
 **Verificação** \pause
 
@@ -655,6 +723,12 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
  (check-equal? (ajusta-string "casa" 10 "centro") "   casa   "))
 ```
 
+\pause
+
+\normalsize
+
+O que está faltando aqui? \pause A forma como as saídas foram computadas! \pause Lembrem-se, o objetivo inicial do exemplos é ajudar o programador a entender como a função deve funcionar.
+
 ## Resolução do exercício 3
 
 \small
@@ -679,23 +753,34 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
 
 ## Resolução do exercício 3
 
-\footnotesize
+\small
 
 ```scheme
- ; (< (string-length s) num-chars)
+ ; (and (< (string-length s) num-chars) (equal? alinhamento "direita"))
  ; (string-append (make-string (- 9 (string-length "casa")) #\space)
- ;                             "casa")
+ ;                "casa")
  (check-equal? (ajusta-string "casa" 9 "direita") "     casa")
- ; (string-append (make-string "casa"
- ;                             (- 9 (string-length "casa")) #\space))
+
+ ; (and (< (string-length s) num-chars) (equal? alinhamento "esquerda"))
+ ; (string-append "casa"
+ ;                (make-string (- 9 (string-length "casa")) #\space))
  (check-equal? (ajusta-string "casa" 9 "esquerda") "casa     ")
- ; (define num-espacos-inicio (quotient (- num-chars (string-length "casa)) 2)
- ; (define num-espacos-fim (- num-chars (string-length "casa)
- ;                            num-espacos-inicio)
+```
+
+## Resolução do exercício 3
+
+\small
+
+```scheme
+ ; (and (< (string-length s) num-chars) (equal? alinhamento "centro"))
+ ; (string-append "casa"
  ; (string-append
  ;   (make-string num-espacos-inicio #\space))
  ;   "centro"
  ;   (make-string num-espacos-fim #\space))
+ ; onde
+ ; num-espacos-inicio é (quotient (- num-chars (string-length "casa)) 2)
+ ; num-espacos-fim é (- num-chars (string-length "casa) num-espacos-inicio)
  (check-equal? (ajusta-string "casa" 9 "centro") "  casa   ")
  (check-equal? (ajusta-string "casa" 10 "centro") "   casa   "))
 ```
@@ -705,17 +790,19 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
 
 Detalhamento do propósito da função a partir do aprimoramento do nosso entendimento obtido com os exemplos.
 
+\small
+
 ```scheme
 ;; Se s tem exatamente num-chars caracteres, então produz s.
 ;;
 ;; Se s tem mais do que num-chars caracteres, então s é truncada e ...
 ;; é adicionado ao final para sinalizar que a string foi abreviada.
 ;;
-;; Se s tem menos do que num-chars caracteres, então espaços são
-;; adicionados no início se alinhamento é "esquerda", no fim
-;; se alinhamento é "direita", ou no ínicio e fim se alinhamento
-;; e "centro". Nesse último caso, se a quantidade de espaços adicionados
-;; for impar, então no fim será adicionado 1 espaço a mais do que no início.
+;; Se s tem menos do que num-chars caracteres, então espaços são adicionados
+;; no início se alinhamento é "esquerda", no fim se alinhamento é "direita",
+;; ou no ínicio e fim se alinhamento e "centro". Nesse último caso, se a
+;; quantidade de espaços adicionados for ímpar, então no fim será adicionado
+;; 1 espaço a mais do que no início.
 ```
 
 

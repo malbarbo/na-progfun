@@ -446,7 +446,7 @@ Talvez você tenha problemas com o `check-equal?` e número inexatos... Como voc
 
 ## Exercícios
 
-3. Em um determinado programa é preciso exibir textos em uma quantidade máxima de espaço (número de caracteres). Se o texto não cabe no espaço, apenas a parte inicial do texto que cabe no espaço junto de três pontos deve ser exibida. Além disso, o texto pode ser alinhado a direita, a esquerda ou centralizado. Projete um programa que transforme um texto para que possa ser exibido no espaço desejado.
+3. Em um determinado programa é preciso exibir textos em uma quantidade máxima de espaço (número de caracteres). Se o texto não cabe no espaço, apenas a parte inicial do texto que cabe no espaço junto de três pontos deve ser exibida. Além disso, o texto pode ser alinhado a direita, a esquerda ou centralizado. Projete uma função que transforme um texto para que possa ser exibido no espaço desejado.
 
 Veja as funções de manipulação de strings em \url{https://docs.racket-lang.org/reference/strings.html}, particularmente a função [`make-string`](https://docs.racket-lang.org/reference/strings.html#%28def._%28%28quote._~23~25kernel%29._make-string%29%29]).
 
@@ -667,7 +667,7 @@ Não podemos esquecer de fazer a verificação novamente!
 
 ## Resolução do exercício 3
 
-3. Em um determinado programa é preciso exibir textos em uma quantidade máxima de espaço (número de caracteres). Se o texto não cabe no espaço, apenas a parte inicial do texto que cabe no espaço junto de três pontos deve ser exibida. Além disso, o texto pode ser alinhado a direita, a esquerda ou centralizado. Projete um programa que transforme um texto para que possa ser exibido no espaço desejado.
+3. Em um determinado programa é preciso exibir textos em uma quantidade máxima de espaço (número de caracteres). Se o texto não cabe no espaço, apenas a parte inicial do texto que cabe no espaço junto de três pontos deve ser exibida. Além disso, o texto pode ser alinhado a direita, a esquerda ou centralizado. Projete uma função que transforme um texto para que possa ser exibido no espaço desejado.
 
 \pause
 

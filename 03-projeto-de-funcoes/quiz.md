@@ -1,6 +1,6 @@
 # Questão 1
 
-Quais são as etapas do processo de projeto de funções?
+Quais são as etapas (em ordem) do processo de projeto de funções?
 
 a) Análise, definição dos tipos de dados, especificação, implementação, verificação e revisão
 
@@ -62,11 +62,11 @@ e) Facilitar o processo para quem está aprendendo
 
 Sobre a etapa de verificação no processo de projeto de funções é correto afirmar que:
 
-a) Para bons programadores, é opcional
+a) É opcional para bons programadores
 
-b) Se todos os exemplos funcionam corretamente, então a implementação não tem falhas
+b) Se todos os exemplos funcionam corretamente, então a verificação está completa e a implementação não tem falhas
 
-c) Os exemplos servem como uma verificação inicial
+c) Os exemplos podem ser usados em uma verificação inicial
 
 d) Quanto mais exemplos melhor
 
@@ -105,7 +105,7 @@ e) As vezes é necessário mudar um pouco a ordem das etapas
 
 # Questão 8
 
-Sobre a etapa de especificação no processo de projeto de funções é correto afirmar que:
+Sobre a especificação de uma função é correto afirmar que:
 
 a) Deve ser suficiente para um programador fazer uma implementação e a verificação inicial
 
@@ -116,3 +116,33 @@ c) É formada pelo propósito da função e pelos exemplos
 d) É formada pelos exemplos e assinatura da função
 
 e) Deve conter o pseudo código da implementação
+
+
+# Questão 9
+
+Sobre a etapa de projeto de tipos de dados no processo de projeto de funções é correto afirmar que:
+
+a) Vem antes da especificação e implementação porque é mais fácil
+
+b) Vem logo após a análise pois os tipos são necessários na especificação
+
+c) Não é necessária se as informações são numéricas
+
+d) É a etapa mais simples
+
+e) É a etapa mais complicada
+
+
+# Questão 10
+
+Sobre a etapa de implementação no processo de projeto de funções é correto afirmar que:
+
+a) É a etapa mais difícil e importante
+
+b) É facilitada mediante uma boa especificação
+
+c) Pode ser a primeira etapa se o problema é fácil
+
+d) Requer conhecimentos avançados da linguagem de programação
+
+e) Nenhuma das anteriores

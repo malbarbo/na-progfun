@@ -30,7 +30,7 @@ urlcolor: Black
     ;; para o formato "ano/mes/dia".
     ;;
     ;; Requer que o dia e o mes tenha dois dígitos e que
-    ;; o ano tenha quartro digitos.
+    ;; o ano tenha quatro digitos.
 
     (examples
      (check-equal? (data-dma->data-amd "19/07/2023") "2023/07/19")

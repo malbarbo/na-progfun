@@ -4,6 +4,10 @@ title: Fundamentos
 # TODO: outros tipos pré-definidos? imagens?
 # TODO: comentários: ; ;; #;
 # TODO: falar de #lang lazy (também é falado em streams)
+# TODO: esclarecer o que é uma definição
+# TODO: esclarecer o que é o modelo de substituição e adicionar perguntas/exercícios
+# TODO: esclarecer o que é função composta
+# TODO: ver as perguntas e melhoras as definições nos slides
 ---
 
 Introdução

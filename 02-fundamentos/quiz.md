@@ -1,3 +1,9 @@
+---
+# vim: set spell spelllang=pt_br sw=4:
+title: Quiz - Fundamentos
+# TODO: confrontar com o arquivo perguntas.md e apliar esse quiz
+---
+
 # Questão 1
 
 Sobre o paradigma de programação funcional, é correto afirmar que:

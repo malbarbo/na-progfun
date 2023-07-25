@@ -1,6 +1,10 @@
 ---
+# vim: set spell spelllang=pt_br sw=4:
 title: Aula prática 01
 urlcolor: Blue
+# TODO: adicionar as soluções
+# TODO: pensar nos objetivos dessa atividade e verificar se os exercícios são adequados
+# TODO: perdir explicitamente o uso de if, cond, and e or
 ---
 
 1) Reveja o material da [introdução](https://malbarbo.pro.br/arquivos/2023/11917/01-introducao-notas-de-aula.pdf) e [fundamentos](https://malbarbo.pro.br/arquivos/2023/11917/02-fundamentos-notas-de-aula.pdf) (até a parte de condicional) e responda [esse](https://forms.gle/7iKbMkTS5UHNEYRv8) quiz (não vale nota).
@@ -73,7 +77,7 @@ urlcolor: Blue
     ```
 
 
-1) Faça uma função chamada `censura` que recebe dois argumento, uma string `frase` e um número natural `n`, e produz uma nova frase trocando as as primeiras `n` letras da frase de entrada por `n` `"x"`. Veja a documentação do tipo [string](https://docs.racket-lang.org/reference/strings.html) (funções `string-append`, `substring` e `make-string`) . Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+1) Faça uma função chamada `censura` que recebe dois argumento, uma string `frase` e um número natural `n`, e produz uma nova frase trocando as as primeiras `n` letras da frase de entrada por `n` `"x"`. Veja a documentação do tipo [string](https://docs.racket-lang.org/reference/strings.html) (funções `string-append`, `substring` e `make-string`). Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
 
     ```{.scheme}
     > (censura "droga de lanche!" 5)
@@ -83,7 +87,7 @@ urlcolor: Blue
     ```
 
 
-1) Faça uma função `maximo` que encontre o máximo entre dois números dados. Confira na janela de interações se a função funciona de acordo com os  exemplos a seguir
+1) Faça uma função `maximo` que encontre o máximo entre dois números dados. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
 
     ```{.scheme}
     > (maximo 3 5)
@@ -95,7 +99,7 @@ urlcolor: Blue
     ```
 
 
-1) Faça uma função `maximo3` que encontre o máximo entre três números dados. Confira na janela de interações se a função funciona de acordo com os  exemplos a seguir
+1) Faça uma função `maximo3` que encontre o máximo entre três números dados. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
 
     ```{.scheme}
     > (maximo3 8 5 2)

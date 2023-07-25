@@ -173,9 +173,9 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 
 Exemplos \pause
 
-- Álcool 3.00, Gasolina 4.00, \pause produz "Gasolina" ($3.00 < 0.7 \times 4.000$ é falso) \pause
-- Álcool 2.90, Gasolina 4.20, \pause produz "Alcool" ($2.90 < 0.7 \times 4.200$ é verdadeiro) \pause
-- Álcool 3.50, Gasolina 5.00, \pause não está claro na especificação o que fazer quando o preço do álcool é exatamente 70% ($3.500 = 0.7 \times 5.000$)! \pause
+- Álcool 3.00, Gasolina 4.00, \pause produz "Gasolina" ($3.00 < 0.7 \times 4.00$ é falso) \pause
+- Álcool 2.90, Gasolina 4.20, \pause produz "Alcool" ($2.90 < 0.7 \times 4.20$ é verdadeiro) \pause
+- Álcool 3.50, Gasolina 5.00, \pause não está claro na especificação o que fazer quando o preço do álcool é exatamente 70% ($3.50 = 0.7 \times 5.00$)! \pause
 
 Precisamos tomar uma decisão e modificar o propósito para ficar mais preciso. \pause Vamos assumir que exatamente 70% também implica no uso do álcool (quais são as outras possibilidades?). \pause O propósito modificado fica \pause
 
@@ -260,7 +260,7 @@ Se a resposta for sim, então a especificação está boa, senão ela está inco
 
 ## Implementação
 
-Temos dois casos, o preço do álcool é menor ou igual a 70% do preço da gasolina e o caso contrário. \pause Cada caso produz uma resposta direta \pause
+Temos duas formas de reposta, `"Alcool"`{.scheme} e `"Gasolina"`{.scheme}, portanto, precisamos de uma condição para distinguir quando utilizar cada resposta. \pause No caso, a reposta é `"Alcool"`{.scheme} se `preco-alcool`{.scheme} é menor ou igual a 70% do preço de `preco-gasolina`; e `"Gasolina"`{.scheme} caso contrário. \pause
 
 \small
 
@@ -318,7 +318,7 @@ Temos dois casos, o preço do álcool é menor ou igual a 70% do preço da gasol
 Vamos utilizar os exemplos que criamos na especificação para verificar se a resposta é a esperada. \pause
 
 ```scheme
-> (seleciona-combustivel 3.000 4.000)
+> (seleciona-combustivel 3.00 4.00)
 "Gasolina"
 ```
 
@@ -327,7 +327,7 @@ Vamos utilizar os exemplos que criamos na especificação para verificar se a re
 \pause
 
 ```scheme
-> (seleciona-combustivel 2.900 4.200)
+> (seleciona-combustivel 2.90 4.20)
 "Alcool"
 ```
 
@@ -336,7 +336,7 @@ Vamos utilizar os exemplos que criamos na especificação para verificar se a re
 \pause
 
 ```scheme
-> (seleciona-combustivel 3.500 5.000)
+> (seleciona-combustivel 3.50 5.00)
 "Alcool"
 ```
 
@@ -352,12 +352,12 @@ De forma geral, o fato de uma função produzir a resposta correta para alguns e
 
 Então porque "perder tempo" fazendo os exemplos? \pause O primeiro objetivo dos exemplos é ajudar o programador a entender como a função funciona e o segundo ilustrar o seu funcionamento para que a especificação fique mais clara. \pause Depois esses exemplos podem ser usados como uma forma inicial de verificação, que mesmo não mostrando que a função funciona corretamente, aumenta a confiança do programador que o código está correto. \pause
 
-Já que os exemplos são uma verificação inicial, então temos que ampliar a verificação? \pause Sim. \pause De que forma? \pause Testes de propriedades, fuzzing, etc. \pause Para esta disciplina, vamos utilizar apenas os exemplos para fazer a verificação.
+Já que os exemplos são uma verificação inicial, então temos que ampliar a verificação? \pause Sim! \pause De que forma? \pause Testes de propriedades, fuzzing, etc. \pause Para esta disciplina, vamos utilizar apenas os exemplos para fazer a verificação.
 
 
 ## Verificação
 
-Nós fizemos os exemplos em linguagem natural e no momento de verificar os exemplos nós "traduzimos" para o Racket e fizemos as chamadas da funções de forma manual na janela de interações. \pause Podemos melhorar esse processo? \pause Sim. \pause
+Nós fizemos os exemplos em linguagem natural e no momento de verificar os exemplos nós "traduzimos" para o Racket e fizemos as chamadas da funções de forma manual na janela de interações. \pause Podemos melhorar esse processo? \pause Sim! \pause
 
 Vamos escrever os exemplos diretamente em forma de código de maneira que eles possam ser executados automaticamente quando necessário. Para isso vamos usar um biblioteca, feita especialmente para essa disciplina.
 
@@ -430,39 +430,18 @@ Porque um teste pode falhar? \pause
 - Podemos renomear os objetos?
 
 
-## Exercícios
+## Exemplo - aumento de salário
 
-1. O governo deu uma aumento de salário para os funcionários públicos. O percentual de aumento depende do valor do salário atual. Para funcionários que ganham até R$ 1200 o aumento é de 10%, para funcionários que ganham entre R$ 1200 e R$ 3000 o aumento é de 7%, para funcionários que ganham entre R$ 3000 e R$ 8000, o aumento é de 3%, e finalmente, para os funcionários que ganham mais que R$ 8000 não haverá aumento. Projete uma função para calcular o novo salário de um funcionário qualquer.
+O governo deu uma aumento de salário para os funcionários públicos. O percentual de aumento depende do valor do salário atual. Para funcionários que ganham até R$ 1200 o aumento é de 10%, para funcionários que ganham entre R$ 1200 e R$ 3000 o aumento é de 7%, para funcionários que ganham entre R$ 3000 e R$ 8000, o aumento é de 3%, e finalmente, para os funcionários que ganham mais que R$ 8000 não haverá aumento. Projete uma função para calcular o novo salário de um funcionário qualquer. \pause
 
-
-## Exercícios
-
-2. O Jorge precisa saber a massa de diversos pequenos tubos de ferro mas está sem uma balança. No entanto, ele possui um paquímetro e pode medir com precisão o diâmetro interno e externo e a altura dos tubos, agora ele só precisa de um programa para fazer os cálculos. Algum voluntário? \pause
-
-Este é um desafio! Tente seguir o processo, procure informações sobre o domínio do problema, se você não conseguir avançar, passe para o próximo problema. \pause
-
-Talvez você tenha problemas com o `check-equal?` e número inexatos... Como você pode contornar esses problemas?
-
-
-## Exercícios
-
-3. Em um determinado programa é preciso exibir textos em uma quantidade máxima de espaço (número de caracteres). Se o texto não cabe no espaço, apenas a parte inicial do texto que cabe no espaço junto de três pontos deve ser exibida. Além disso, o texto pode ser alinhado a direita, a esquerda ou centralizado. Projete uma função que transforme um texto para que possa ser exibido no espaço desejado.
-
-Veja as funções de manipulação de strings em \url{https://docs.racket-lang.org/reference/strings.html}, particularmente a função [`make-string`](https://docs.racket-lang.org/reference/strings.html#%28def._%28%28quote._~23~25kernel%29._make-string%29%29]).
-
-
-## Resolução do exercício 1
-
-1. O governo deu uma aumento de salário para os funcionários públicos. O percentual de aumento depende do valor do salário atual. Para funcionários que ganham até R$ 1200 o aumento é de 10%, para funcionários que ganham entre R$ 1200 e R$ 3000 o aumento é de 7%, para funcionários que ganham entre R$ 3000 e R$ 8000, o aumento é de 3%, e finalmente, para os funcionários que ganham mais que R$ 8000 não haverá aumento. Projete uma função para calcular o novo salário de um funcionário qualquer.
-
-\pause
+Qual o primeiro passo?
 
 **Análise** \pause
 
-- Calcular o novo salário a partir do salário atual. Se o salário for $\le$ R$ 1200, aumento de 10%, se $>$ R$ 1200 e $\le$ R$ 3000, aumento de 7%, se $>$ R$ 3000 e $\le$ R$ 8000, aumento de 3%, $>$ R$ 8000, sem aumento.
+Calcular o novo salário a partir do salário atual. Se o salário for $\le$ R$ 1200, aumento de 10%, se $>$ R$ 1200 e $\le$ R$ 3000, aumento de 7%, se $>$ R$ 3000 e $\le$ R$ 8000, aumento de 3%, $>$ R$ 8000, sem aumento.
 
 
-## Resolução do exercício 1
+## Exemplo - aumento de salário
 
 **Definição de tipos de dados** \pause
 
@@ -489,31 +468,123 @@ Veja as funções de manipulação de strings em \url{https://docs.racket-lang.o
 ```
 
 
-## Resolução do exercício 1
+## Exemplo - aumento de salário
 
-**Especificação** \pause
+\small
+
+`(examples`{.scheme}
+
+` ; salario-atual <= 1200`{.scheme}
+
+` (check-equal? (novo-salario 1000.00)`{.scheme} \pause `1100.00)`{.scheme}
+
+\pause
+
+Falta alguma coisa nesse exemplo específico? \pause Sim! \pause Além do resultado esperado, é interessante fazer um comentário sobre como resultado foi obtido. \pause Esse comentário irá nos auxiliar na etapa de implementação. \pause
+
+```scheme
+ ; salario-atual <= 1200
+ (check-equal? (novo-salario 1000.00) 1100.00) ; (* 1000.00 1.10)
+ (check-equal? (novo-salario 1200.00) 1320.00)
+```
+
+Note que também adicionamos um exemplo para o caso limite.
+
+
+## Exemplo - aumento de salário
 
 \small
 
 ```scheme
-(examples
- ; salario-atual <= 1200
- (check-equal? (novo-salario 1000.00) 1100.00) ; (* 1000.00 1.10)
- (check-equal? (novo-salario 1200.00) 1320.00)
  ; salario-atual <= 3000
  (check-equal? (novo-salario 2000.00) 2140.00) ; (* 2000.00 1.07)
  (check-equal? (novo-salario 3000.00) 3210.00)
+```
+
+```scheme
  ; salario-atual <= 8000
  (check-equal? (novo-salario 5000.00) 5150.00) ; (* 5000.00 1.03)
  (check-equal? (novo-salario 8000.00) 8240.00)
+```
+
+```scheme
  ; salario-atual > 8000
  (check-equal? (novo-salario 8000.01) 8000.01)); 8000.00
 ```
 
 
-## Resolução do exercício 1
+## Exemplo - aumento de salário
 
 **Implementação** \pause
+
+Quantas formas distintas de produzir o resultado da função identificamos nos exemplos? \pause Quatro formas (veja os comentários dos exemplos). \pause
+
+Como existe mais de uma forma de resposta, então precisamos usar seleção. \pause Quantos casos vamos precisar? \pause Como são quatro formas de resposta, então precisamos de quatro casos, um para cada forma.\pause Com essas informações já conseguimos esboçar o corpo da função
+
+\small
+
+```scheme
+(define (novo-salario salario-atual)
+  (cond
+    []
+    []
+    []
+    []))
+```
+
+
+## Exemplo - aumento de salário
+
+Agora olhamos para os exemplos, identificamos as condições que caracterizam cada caso, e fazemos a implementação. \pause
+
+Qual a condição que caracteriza o primeiro caso? \pause `(<= salario-atual 1200)`{.scheme} \pause
+
+Qual é a forma da resposta para esse caso? \pause `(* salario-atual 1.1)`{.scheme} \pause
+
+Agora podemos preencher o primeiro caso \pause
+
+\small
+
+```scheme
+(define (novo-salario salario-atual)
+  (cond
+    [(<= salario-atual 1200) (* salario-atual 1.1)]
+    []
+    []
+    []))
+```
+
+
+## Exemplo - aumento de salário
+
+Repetindo esse processo para os demais casos e chegamos na seguinte implementação
+
+\pause
+
+\small
+
+```scheme
+(define (novo-salario salario-atual)
+  (cond
+    [(<= salario-atual 1200) (* salario-atual 1.1)]
+    [(and (< 1200 salario-atual) (<= salario-atual 3000)) (* salario-atual 1.07)]
+    [(and (< 3000 salario-atual) (<= salario-atual 8000)) (* salario-atual 1.03)]
+    [(> salario-atual 8000) salario-atual]))
+```
+
+
+## Exemplo - aumento de salário
+
+**Verificação**
+
+```
+7 success(es) 0 failure(s) 0 error(s) 7 test(s) run
+```
+
+
+## Exemplo - aumento de salário
+
+**Revisão**
 
 \small
 
@@ -528,16 +599,16 @@ Veja as funções de manipulação de strings em \url{https://docs.racket-lang.o
 
 \pause
 
-**Verificação**
+\normalsize
 
-```
-7 success(es) 0 failure(s) 0 error(s) 7 test(s) run
-```
+Como podemos melhorar o código? \pause
+
+- Eliminando condições redundantes \pause
+
+- Adicionando comentários sobre os número "mágicos"
 
 
-## Resolução do exercício 1
-
-**Revisão** \pause
+## Exemplo - aumento de salário
 
 \small
 
@@ -545,30 +616,52 @@ Veja as funções de manipulação de strings em \url{https://docs.racket-lang.o
 (define (novo-salario salario-atual)
   (cond
     [(<= salario-atual 1200) (* salario-atual 1.10)] ; 10% de aumento
-    [(<= salario-atual 3000) (* salario-atual 1.07)] ; 7% de aumento
-    [(<= salario-atual 8000) (* salario-atual 1.03)] ; 3% de aumento
+    [(<= salario-atual 3000) (* salario-atual 1.07)] ;  7% de aumento
+    [(<= salario-atual 8000) (* salario-atual 1.03)] ;  3% de aumento
     [else salario-atual]))                           ; sem aumento
 ```
 
 \pause
 
+\normalsize
+
 Não podemos esquecer de fazer a verificação novamente!
 
 
-## Resolução do exercício 2
+## Exemplo - massa tudo de ferro
 
-2. O Jorge precisa saber a massa de diversos pequenos tubos de ferro mas está sem uma balança. No entanto, ele possui um paquímetro e pode medir com precisão o diâmetro interno e externo e a altura dos tubos, agora ele só precisa de um programa para fazer os cálculos. Algum voluntário? \pause
+O Jorge precisa saber a massa de diversos pequenos tubos de ferro mas está sem uma balança. No entanto, ele possui um paquímetro e pode medir com precisão o diâmetro interno e externo e a altura dos tubos, agora ele só precisa de um programa para fazer os cálculos. Algum voluntário? \pause
+
+Alguma coisa parece complicada nesse exercício?
+
+
+## Exemplo - massa tudo de ferro
+
+Nesse exercício precisamos de conhecimento de um domínio (área), que talvez ainda não tenhamos, isso pode fazer o problema parecer mais difícil do que realmente é. \pause Mas então, como proceder nesses casos? \pause
+
+Precisamos de uma pessoa (ou livros) que possam nos instruir sobre o conhecimento do domínio, geralmente os interessados no software podem indicar tais pessoas. \pause
+
+O importante é entender que o desenvolvedor de software geralmente resolve o problema de outras pessoas, e esses problemas podem envolver conhecimentos que não temos e por isso precisamos estar dispostos a estudar e aprender o conhecimento de outras áreas. \pause
+
+Vamos resolver esse problema, por onde começamos?
+
+
+## Exemplo - massa tudo de ferro
 
 **Análise** \pause
 
-- Calcular a massa de um tubo de ferro a partir das suas dimensões \pause
-- Dimensões -> Volume -> Massa \pause
-- O volume de um tubo é dado por $\pi ((diametro\_externo - diametro\_interno)/2)^2 \times altura$ \pause
-- A massa é dado por $volume \times densidade$ \pause
-- A densidade do ferro é 7874 $kg/m^3$
+- Calcular a massa de um tubo de ferro a partir das suas dimensões. \pause Como as dimensões de um tubo de ferro está relacionada com a massa do tubo? \pause
+
+- Dimensões $\rightarrow$ Volume $\rightarrow$ Massa \pause
+
+- Como determinamos o volume de um tubo de ferro a partir das suas dimensões? \pause O volume de um tubo é dado por $\pi ((diametro\_externo - diametro\_interno)/2)^2 \times altura$ \pause
+
+- Como obtemos a massa a partir do volume? \pause A massa é dado por $volume \times densidade$. \pause
+
+- Qual a densidade do ferro? \pause A densidade do ferro é 7874 $kg/m^3$.
 
 
-## Resolução do exercício 2
+## Exemplo - massa tudo de ferro
 
 **Definição de tipos de dados** \pause
 
@@ -599,11 +692,13 @@ Não podemos esquecer de fazer a verificação novamente!
 ```
 
 
-## Resolução do exercício 2
+## Exemplo - massa tudo de ferro
 
 **Implementação** \pause
 
-Usamos conhecimentos específicos do domínio que foram levantados na análise. \pause
+Precisamos utilizar seleção na implementação? \pause Não! \pause Por quê? \pause Porque só existe uma forma de resposta, ou seja, a resposta é sempre calcula com a mesma expressão. \pause
+
+E que expressão é essa? \pause A que identificamos na análise do problema e utilizamos para calcular a resposta do exemplo. \pause
 
 \small
 
@@ -615,9 +710,8 @@ Usamos conhecimentos específicos do domínio que foram levantados na análise. 
      7874)) ; densidade do ferro
 ```
 
-\pause
 
-\normalsize
+## Exemplo - massa tudo de ferro
 
 **Verificação** \pause
 
@@ -632,7 +726,7 @@ expected:   0.2472436
 ```
 
 
-## Resolução do exercício 2
+## Exemplo - massa tudo de ferro
 
 Comparação de igualdade de números de ponto flutuante quase não dá certo! \pause Nesses casos, usamos `check-=` que permite especificar uma margem de erro. \pause
 
@@ -642,11 +736,30 @@ Comparação de igualdade de números de ponto flutuante quase não dá certo! \
 ```
 
 
-## Resolução do exercício 2
+## Exemplo - massa tudo de ferro
 
 **Revisão**
 
-\pause
+\small
+
+```scheme
+(define (massa-tubo-ferro diametro-externo diametro-interno altura)
+  (* 3.14
+     (sqr (/ (- diametro-externo diametro-interno) 2))
+     altura
+     7874)) ; densidade do ferro
+```
+
+\normalsize
+
+O que podemos melhorar? \pause
+
+- Definir constantes para os número "mágicos" \pause
+
+- Separar o cálculo do volume em etapas
+
+
+## Exemplo - massa tudo de ferro
 
 \small
 
@@ -662,21 +775,24 @@ Comparação de igualdade de números de ponto flutuante quase não dá certo! \
 
 \pause
 
+\normalsize
+
 Não podemos esquecer de fazer a verificação novamente!
 
 
-## Resolução do exercício 3
 
-3. Em um determinado programa é preciso exibir textos em uma quantidade máxima de espaço (número de caracteres). Se o texto não cabe no espaço, apenas a parte inicial do texto que cabe no espaço junto de três pontos deve ser exibida. Além disso, o texto pode ser alinhado a direita, a esquerda ou centralizado. Projete uma função que transforme um texto para que possa ser exibido no espaço desejado.
+## Exemplo - ajuste texto
 
-\pause
+Em um determinado programa é preciso exibir textos em uma quantidade máxima de espaço (número de caracteres). Se o texto não cabe no espaço, apenas a parte inicial do texto que cabe no espaço junto de três pontos deve ser exibida. Além disso, o texto pode ser alinhado a direita, a esquerda ou centralizado. Projete uma função que transforme um texto para que possa ser exibido no espaço desejado.
+
+
+## Exemplo - ajuste texto
 
 **Análise** \pause
 
-- Ajustar um texto a um tamanho específico, usando ..., se necessário, para sinalizar que o texto foi abreviado, e alinhar o texto a direita, a esquerda ou no centro.
+Ajustar um texto a um tamanho específico, usando ..., se necessário, para sinalizar que o texto foi abreviado, e alinhar o texto a direita, a esquerda ou no centro.
 
-
-## Resolução do exercício 3
+\pause
 
 **Definição de tipos de dados** \pause
 
@@ -688,7 +804,7 @@ Não podemos esquecer de fazer a verificação novamente!
 ```
 
 
-## Resolução do exercício 3
+## Exemplo - ajuste texto
 
 **Especificação** \pause
 
@@ -704,7 +820,8 @@ Não podemos esquecer de fazer a verificação novamente!
 
 Essa especificação é precisa o bastante para fazermos uma implementação ou para usarmos essa função? \pause Não.
 
-## Resolução do exercício 3
+
+## Exemplo - ajuste texto
 
 \small
 
@@ -723,13 +840,17 @@ Essa especificação é precisa o bastante para fazermos uma implementação ou 
  (check-equal? (ajusta-string "casa" 10 "centro") "   casa   "))
 ```
 
-\pause
 
-\normalsize
+## Exemplo - ajuste texto
 
-O que está faltando aqui? \pause A forma como as saídas foram computadas! \pause Lembrem-se, o objetivo inicial do exemplos é ajudar o programador a entender como a função deve funcionar.
+O que está faltando nos exemplos? \pause
 
-## Resolução do exercício 3
+A forma como as saídas foram computadas e as respectivas condições! \pause
+
+Lembrem-se, o objetivo inicial dos exemplos é ajudar o programador a entender como a função deve funcionar.
+
+
+## Exemplo - ajuste texto
 
 \small
 
@@ -751,7 +872,8 @@ O que está faltando aqui? \pause A forma como as saídas foram computadas! \pau
  (check-equal? (ajusta-string "casa verde" 9 "direita") "casa v...")
 ```
 
-## Resolução do exercício 3
+
+## Exemplo - ajuste texto
 
 \small
 
@@ -767,26 +889,26 @@ O que está faltando aqui? \pause A forma como as saídas foram computadas! \pau
  (check-equal? (ajusta-string "casa" 9 "esquerda") "casa     ")
 ```
 
-## Resolução do exercício 3
+
+## Exemplo - ajuste texto
 
 \small
 
 ```scheme
  ; (and (< (string-length s) num-chars) (equal? alinhamento "centro"))
- ; (string-append "casa"
  ; (string-append
  ;   (make-string num-espacos-inicio #\space))
  ;   "centro"
  ;   (make-string num-espacos-fim #\space))
  ; onde
- ; num-espacos-inicio é (quotient (- num-chars (string-length "casa)) 2)
- ; num-espacos-fim é (- num-chars (string-length "casa) num-espacos-inicio)
+ ; num-espacos-inicio é (quotient (- 9 (string-length "casa)) 2)
+ ; num-espacos-fim é (- 9 (string-length "casa) num-espacos-inicio)
  (check-equal? (ajusta-string "casa" 9 "centro") "  casa   ")
  (check-equal? (ajusta-string "casa" 10 "centro") "   casa   "))
 ```
 
 
-## Resolução do exercício 3
+## Exemplo - ajuste texto
 
 Detalhamento do propósito da função a partir do aprimoramento do nosso entendimento obtido com os exemplos.
 
@@ -832,7 +954,7 @@ Detalhamento do propósito da função a partir do aprimoramento do nosso entend
 ```
 
 
-## Resolução do exercício 3
+## Exemplo - ajuste texto
 
 **Verificação** \pause
 
@@ -843,7 +965,7 @@ Detalhamento do propósito da função a partir do aprimoramento do nosso entend
 - Exercício para o leitor!
 
 
-## Resolução do exercício 3
+## Exemplo - ajuste texto
 
 **Implementação**, versão alternativa \pause
 
@@ -865,7 +987,8 @@ Na especificação podemos notar um "e", indicando que a função faz duas coisa
           alinhamento))
 ```
 
-## Resolução do exercício 3
+
+## Exemplo - ajuste texto
 
 Agora colocamos essas duas funções em uma lista de trabalho, com um especificação inicial e depois procedemos para implementá-las seguindo as mesmas etapas
 

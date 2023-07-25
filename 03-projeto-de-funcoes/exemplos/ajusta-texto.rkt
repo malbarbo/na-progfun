@@ -43,9 +43,13 @@
  ; direita
  ; (string-append (make-string (- 9 (string-length "casa")) #\space)
  ;                             "casa")
+ (check-equal? (ajusta-string "casa" 9 "direita") "     casa")
+
  ; esquerda
  ; (string-append (make-string "casa"
  ;                             (- 9 (string-length "casa")) #\space))
+ (check-equal? (ajusta-string "casa" 9 "esquerda") "casa     ")
+
  ; centro
  ; (define num-espacos-inicio (quotient (- num-chars (string-length "casa)) 2)
  ; (define num-espacos-fim (- num-chars (string-length "casa)
@@ -54,8 +58,6 @@
  ;   (make-string num-espacos-inicio #\space))
  ;   "centro"
  ;   (make-string num-espacos-fim #\space))
- (check-equal? (ajusta-string "casa" 9 "direita") "     casa")
- (check-equal? (ajusta-string "casa" 9 "esquerda") "casa     ")
  (check-equal? (ajusta-string "casa" 9 "centro") "  casa   ")
  (check-equal? (ajusta-string "casa" 10 "centro") "   casa   "))
 

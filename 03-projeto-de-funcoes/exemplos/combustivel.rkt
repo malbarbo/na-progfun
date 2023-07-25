@@ -5,7 +5,7 @@
 ;;;;;;;
 ;; Tipos de dados
 
-;; Preco é um número positivo com três casas decimais.
+;; Preco é um número positivo.
 
 ;; Combustivel é um dos valores
 ;; - "Alcool"
@@ -21,10 +21,10 @@
 ;; produz "Gasolina" caso contrário.
 (examples
  ; (<= preco-alcool preco-gasolina)
- (check-equal? (seleciona-combustivel 3.000 4.000) "Gasolina")
- (check-equal? (seleciona-combustivel 2.900 4.200) "Alcool")
+ (check-equal? (seleciona-combustivel 3.00 4.00) "Gasolina")
+ (check-equal? (seleciona-combustivel 2.90 4.20) "Alcool")
  ; (> preco-alcool preco-gasolina)
- (check-equal? (seleciona-combustivel 3.500 5.000) "Alcool"))
+ (check-equal? (seleciona-combustivel 3.50 5.00) "Alcool"))
 
 (define (seleciona-combustivel preco-alcool preco-gasolina)
   (if (<= preco-alcool (* 0.7 preco-gasolina))

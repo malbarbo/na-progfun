@@ -1,13 +1,15 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Fundamentos
+# TODO: adicionar mais exemplos das operações primitivas
+# TODO: mostrar que +, *, etc funcionam com número arbitrário de parâmetros (relacionais mais que 1)
 # TODO: outros tipos pré-definidos? imagens?
 # TODO: comentários: ; ;; #;
 # TODO: falar de #lang lazy (também é falado em streams)
 # TODO: esclarecer o que é uma definição
 # TODO: esclarecer o que é o modelo de substituição e adicionar perguntas/exercícios
 # TODO: esclarecer o que é função composta
-# TODO: ver as perguntas e melhoras as definições nos slides
+# TODO: rever as perguntas e melhorar as definições nos slides
 ---
 
 Introdução

@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Aula prática 01
+title: Fundamentos - Prática
 urlcolor: Blue
 # TODO: adicionar as soluções
 # TODO: pensar nos objetivos dessa atividade e verificar se os exercícios são adequados

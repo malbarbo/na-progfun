@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Fundamentos
+title: Fundamentos - Exercícios
 urlcolor: Black
 # TODO: remover exercícios do sicp e tspl
 # TODO: adiconar exercícios de and e or

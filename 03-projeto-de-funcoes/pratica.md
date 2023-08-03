@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Aula prática 02
+title: Projeto de funções - Prática
 urlcolor: Blue
 ---
 

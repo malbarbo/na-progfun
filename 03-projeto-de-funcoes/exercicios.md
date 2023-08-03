@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Projeto de funções
+title: Projeto de funções - Exercícios
 urlcolor: Black
 ---
 

@@ -93,13 +93,13 @@ urlcolor: Black
 #) Faça uma função chamada `tres-digitos?` que recebe um número natural `n` e verifica se `n` tem exatamente 3 dígitos. Não use `if`{.scheme} nem `cond`{.scheme}. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
 
     ```{.scheme}
-    > (tres-digitos? 8)
+    > (tres-digitos? 99)
     #f
-    > (tres-digitos? 98)
-    #f
-    > (tres-digitos? 182)
+    > (tres-digitos? 100)
     #t
-    > (tres-digitos? 1234)
+    > (tres-digitos? 999)
+    #t
+    > (tres-digitos? 1000)
     #f
     ```
 

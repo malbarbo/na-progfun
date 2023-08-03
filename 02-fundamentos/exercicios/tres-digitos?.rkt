@@ -14,10 +14,10 @@
 ;;
 ;; Produz #t se n tem três digitos, #f caso contrário.
 (examples
-  (check-equal? (tres-digitos? 8) #f)
-  (check-equal? (tres-digitos? 98) #f)
-  (check-equal? (tres-digitos? 182) #t)
-  (check-equal? (tres-digitos? 1234) #f))
+  (check-equal? (tres-digitos? 99) #f)
+  (check-equal? (tres-digitos? 100) #t)
+  (check-equal? (tres-digitos? 999) #t)
+  (check-equal? (tres-digitos? 1000) #f))
 
 (define (tres-digitos? n)
   (<= 100 n 999))

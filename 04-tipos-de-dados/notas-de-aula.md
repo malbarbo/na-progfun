@@ -614,6 +614,44 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 ```
 
 
+## Uniões em Racket tipado (typed racket)
+
+As uniões no racket sem tipagem estática de dados são muito flexiveis.
+A linguagem racket possui uma variante com tipagem estática de dados, a qual permite que as uniões sejam mais restritas. 
+
+## Uniões em Racket tipado (typed racket)
+```scheme
+#lang typed/racket
+
+(struct sucesso ([duracao : Number]
+                 [msg : String]))
+
+(struct erro ([codigo : Number]
+              [msg : String]))
+
+(define-type EstadoTarefa (U sucesso erro "Executando"))
+```
+## Uniões em Racket tipado (typed racket)
+
+```scheme
+
+(: mensagem (-> EstadoTarefa String))
+(define (mensagem estado)
+  (cond
+    [(string? estado) 
+     "A tarefa está em execução"]
+    [(Sucesso? estado)
+     (format "A tarefa finalizou com sucesso (~as): ~a."
+             (Sucesso-duracao estado)
+             (Sucesso-msg estado))]
+    [(Erro? estado)
+     (format "A tarefa falhou (erro ~a): ~a."
+             (Erro-codigo estado)
+             (Erro-msg estado))]))
+```
+
+
+
 ## União em outras linguagens
 
 A união de tipos é bastante útil e com a popularização da programação funcional, também tem sido adicionada a diversas linguagens de programação. Vamos ver algumas delas.

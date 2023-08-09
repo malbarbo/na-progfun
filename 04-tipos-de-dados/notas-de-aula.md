@@ -14,6 +14,17 @@ Introdução
 
 ## Introdução
 
+A segunda etapa no processo de projeto de funções é a definição de tipos de dados. \pause
+
+Nessa etapa identificamos as informações do problema e como elas são representadas no programa. \pause
+
+Essa etapa pode ter parecido, até então, muito simples ou talvez até desnecessária, isto porque as informações que precisamos representar até agora eram "simples". \pause
+
+No entanto, essa etapa é muito importante no projeto de programas, de fato, vamos ver que para muitos casos, os tipos de dados vão guiar o restante das estas do projeto.
+
+
+## Introdução
+
 Os tipos de dados que vimos até agora são atômicos, isto é, não podem ser decompostos. \pause
 
 Estamos interessados em representar dados onde dois ou mais valores devem ficar juntos: \pause
@@ -77,7 +88,7 @@ Seletores
 
 \pause
 
-Verificação de tipo
+Teste de tipo
 
 ```scheme
 > (ponto? p1)
@@ -144,9 +155,25 @@ ponto-x
 ponto-y
 ```
 
+</div>
+</div>
 
-</div>
-</div>
+
+## Funções definidas na criação de uma estrutura
+
+Note que o construtor, o predicado de tipo e os seletores criados por `struct`{.scheme} são funções comuns, e portando são utilizados como todas as outras funções.
+
+```
+> (struct ponto (x y))
+> ponto
+#<procedure:ponto>
+> ponto?
+#<procedure:ponto?>
+> ponto-x
+#<procedure:ponto-x>
+> ponto-y
+#<procedure:ponto-y>
+```
 
 
 ## Estruturas transparentes
@@ -195,7 +222,7 @@ Além de mudar a forma que o ponto é exibido, a palavra chave `#:transparent`{.
 
 ```scheme
 ;; Por padrão, dois pontos são iguais se eles são
-;; o mesmo ponto
+;; o mesmo ponto.
 (struct ponto (x y))
 
 (define p1 (ponto 3 4))
@@ -212,7 +239,7 @@ Além de mudar a forma que o ponto é exibido, a palavra chave `#:transparent`{.
 
 ```scheme
 ;; Com :#transparent, dois pontos são iguais se os seus
-;; campos são iguais
+;; campos são iguais.
 (struct ponto (x y) #:transparent)
 
 (define p1 (ponto 3 4))
@@ -275,6 +302,7 @@ Racket oferece a forma especial `struct-copy` ([referência](http://docs.racket-
 ## Alterando dados estruturados
 
 ```scheme
+> (define p1 (ponto 3 4))
 > (define p2 (struct-copy ponto p1 [y 5]))
 > p2
 (ponto 3 5)
@@ -291,6 +319,8 @@ Racket oferece a forma especial `struct-copy` ([referência](http://docs.racket-
 \pause
 
 ```scheme
+> ; podemos especificar o novo valor de mais de um campo
+> ; não faz sentido para ponto... mas vale o exemplo!
 > (define p4 (struct-copy ponto p2 [y 9] [x 6]))
 > p4
 (ponto 6 9)
@@ -300,6 +330,7 @@ Racket oferece a forma especial `struct-copy` ([referência](http://docs.racket-
 ## Exemplo: distância
 
 Defina uma função que calcule a distância de um ponto a origem.
+
 
 ## Exemplo: distância
 

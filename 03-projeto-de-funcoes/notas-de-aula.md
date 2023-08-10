@@ -213,7 +213,7 @@ Ordenação \pause
 
 Para saber se a especificação está boa, faça a segunda pergunta: \pause
 
-Um outro programador, que não tem acesso ao problema original e nem a análise, tem as informações necessárias na especificação para fazer uma implementação e verificação inicial? \pause
+Um outro desenvolvedor, que não tem acesso ao problema original e nem a análise, tem as informações necessárias na especificação para fazer uma implementação e verificação inicial? \pause
 
 Se a resposta for sim, então a especificação está boa, senão ela está incompleta.
 
@@ -350,7 +350,7 @@ Preparem-se, agora vem uma sequência de muitas perguntas! \pause
 
 De forma geral, o fato de uma função produzir a resposta correta para alguns exemplos, implica que a função está correta? \pause Não! \pause
 
-Então porque "perder tempo" fazendo os exemplos? \pause O primeiro objetivo dos exemplos é ajudar o programador a entender como a função funciona e o segundo ilustrar o seu funcionamento para que a especificação fique mais clara. \pause Depois esses exemplos podem ser usados como uma forma inicial de verificação, que mesmo não mostrando que a função funciona corretamente, aumenta a confiança do programador que o código está correto. \pause
+Então porque "perder tempo" fazendo os exemplos? \pause O primeiro objetivo dos exemplos é ajudar o projetista a entender como a função funciona e o segundo ilustrar o seu funcionamento para que a especificação fique mais clara. \pause Depois esses exemplos podem ser usados como uma forma inicial de verificação, que mesmo não mostrando que a função funciona corretamente, aumenta a confiança do desenvolvedor que o código está correto. \pause
 
 Já que os exemplos são uma verificação inicial, então temos que ampliar a verificação? \pause Sim! \pause De que forma? \pause Testes de propriedades, fuzzing, etc. \pause Para esta disciplina, vamos utilizar apenas os exemplos para fazer a verificação.
 
@@ -847,7 +847,7 @@ O que está faltando nos exemplos? \pause
 
 A forma como as saídas foram computadas e as respectivas condições! \pause
 
-Lembrem-se, o objetivo inicial dos exemplos é ajudar o programador a entender como a função deve funcionar.
+Lembrem-se, o objetivo inicial dos exemplos é ajudar o projetista a entender como a função deve funcionar.
 
 
 ## Exemplo - ajuste texto

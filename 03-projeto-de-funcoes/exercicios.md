@@ -2,6 +2,7 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Projeto de funções - Exercícios
 urlcolor: Black
+# TODO: trocar ab->string por palavra-duplicada
 ---
 
 #. Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.

@@ -728,14 +728,14 @@ A linguagem racket possui uma variante com tipagem estática de dados, a qual pe
   (cond
     [(string? estado) 
      "A tarefa está em execução"]
-    [(Sucesso? estado)
+    [(sucesso? estado)
      (format "A tarefa finalizou com sucesso (~as): ~a."
-             (Sucesso-duracao estado)
-             (Sucesso-msg estado))]
-    [(Erro? estado)
+             (sucesso-duracao estado)
+             (sucesso-msg estado))]
+    [(erro? estado)
      (format "A tarefa falhou (erro ~a): ~a."
-             (Erro-codigo estado)
-             (Erro-msg estado))]))
+             (erro-codigo estado)
+             (erro-msg estado))]))
 ```
 
 

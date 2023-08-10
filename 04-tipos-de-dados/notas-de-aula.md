@@ -20,7 +20,50 @@ Nessa etapa identificamos as informações do problema e como elas são represen
 
 Essa etapa pode ter parecido, até então, muito simples ou talvez até desnecessária, isto porque as informações que precisamos representar até agora eram "simples". \pause
 
-No entanto, essa etapa é muito importante no projeto de programas, de fato, vamos ver que para muitos casos, os tipos de dados vão guiar o restante das estas do projeto.
+No entanto, essa etapa é muito importante no projeto de programas, de fato, vamos ver que para muitos casos, os tipos de dados vão guiar o restante das etapas do projeto. \pause
+
+Vamos começar com a definição do que é um tipo de dado.
+
+
+## Definição
+
+Um **tipo de dado** é um conjunto de valores que uma variável pode assumir. \pause
+
+Exemplos \pause
+
+- Booleano $= \{ verdadeiro, falso \}$ \pause
+- Combustível = $\{ alcool, gasolina \}$ \pause
+- Natural = $\{ 0, 1, 2, \dots \}$ \pause
+- Inteiro = $\{\dots, -2, -1, 0, 1, 2, \dots \}$ \pause
+- String = $\{$ '', 'a', 'b', $\dots \}$
+- String que começa com a = $\{$ 'a', 'aa', 'ab', $\dots \}$
+
+
+## Requisitos de um tipo de dado
+
+Durante a etapa de definição de tipos de dados identificamos as informações e definimos como elas são representadas no programa. \pause
+
+Como determinar se um tipo de dado é adequado para representar uma informação?
+
+
+## Requisitos de um tipo de dado
+
+Um inteiro é adequado para representar a quantidade de pessoas em um planeta? \pause E um natural? \pause E `unsigned int`{.c} em C? \pause
+
+- Um inteiro não é adequado pois um número inteiro pode ser negativo mas a quantidade de pessoas em um planeta não pode, ou seja, o tipo de dado permite a representação de valores inválidos. \pause
+
+- `unsigned int`{.c} não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, nem todos os valores válidos podem ser representados. \pause
+
+- Um natural é adequado. Cada valor do conjunto dos naturais representa um valor válido de informação, e cada possível valor de informação pode ser representado por um número natural.
+
+
+## Requisitos de um tipo de dado
+
+Diretrizes para projeto de tipos de dados:
+
+- Faça os valores válidos representáveis.
+
+- Faça os valores inválidos irrepresentáveis.
 
 
 ## Introdução

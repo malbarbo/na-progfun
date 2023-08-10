@@ -16,13 +16,13 @@ urlcolor: Blue
     ;; que 18 anos ou 65 ou mais. Produz #f caso contrário.
 
     (examples
-     (check-equal? (insento-tarifa? 17) #t)
-     (check-equal? (insento-tarifa? 18) #t)
-     (check-equal? (insento-tarifa? 50) #f)
-     (check-equal? (insento-tarifa? 65) #t)
-     (check-equal? (insento-tarifa? 70) #t))
+     (check-equal? (isento-tarifa? 17) #t)
+     (check-equal? (isento-tarifa? 18) #t)
+     (check-equal? (isento-tarifa? 50) #f)
+     (check-equal? (isento-tarifa? 65) #t)
+     (check-equal? (isento-tarifa? 70) #t))
 
-    (define (insento-tarifa? id)
+    (define (isento-tarifa? id)
       #f)
     ```
 
@@ -45,7 +45,7 @@ urlcolor: Blue
       0)
     ```
 
-#. Escreva a especificação para a seguinte implementação de função. Observe que a especificação sozinha deve ser suficiente para um programador fazer uma implementação.
+#. Escreva a especificação para a seguinte implementação de função. Observe que a especificação sozinha deve ser suficiente para um desenvolvedor fazer uma implementação.
 
     ```scheme
     (define (qualificacao num-questoes num-acertos faltas)
@@ -56,10 +56,10 @@ urlcolor: Blue
         [else "aprovado"]))
     ```
 
-#. Um banco emprega diferentes taxas de correção anual para um investimento dependendo do valor aplicado no início de cada    ano. Para valores até R$ 2000 a taxa de correção é de 10%, para valores entre R$ 2000 e R$ 5000 a taxa de correção é de 12%,  para valores maiores que R$ 5000 a taxa de correção é de 13%. Projete uma função que calcule quanto um investimento realizado no início do ano irá render após dois anos aplicados no banco.
+#. Um banco emprega diferentes taxas de correção anual para um investimento dependendo do valor aplicado no início de cada ano. Para valores até R$ 2000 a taxa de correção é de 10%, para valores entre R$ 2000 e R$ 5000 a taxa de correção é de 12%, para valores maiores que R$ 5000 a taxa de correção é de 13%. Projete uma função que calcule quanto um investimento realizado no início do ano irá render após dois anos aplicados no banco.
 
-#. Rotacionar uma string `n` posições a direita significa mover os últimos `n` caracteres da string para as primeiras `n` posições da string. Por exemplo, rotacionar a string `"marcelio"`{.python} 5 posições a direita produz a string `"celiomar"`{.python}. Projete uma função que receba como entrada uma string e um número `n` e produza uma nova string rotacionando a string de entrada `n` posições a direita.
+#. Rotacionar uma string `n` posições a direita significa mover os últimos `n` caracteres da string para as primeiras `n` posições da string. Por exemplo, rotacionar a string `"marcelio"`{.scheme} 5 posições a direita produz a string `"celiomar"`{.scheme}. Projete uma função que receba como entrada uma string e um número `n` e produza uma nova string rotacionando a string de entrada `n` posições a direita.
 
-#. Você está fazendo um programa e precisa verificar se um texto digitado pelo usuário está de acordo com algumas regras. A   regra “sem espaços extras” requer que o texto não comece e não termine com espaços. Projete uma função que verifique se um   texto qualquer está de acordo com a regra “sem espaços extras”.
+#. Você está fazendo um programa e precisa verificar se um texto digitado pelo usuário está de acordo com algumas regras. A regra “sem espaços extras” requer que o texto não comece e não termine com espaços. Projete uma função que verifique se um texto qualquer está de acordo com a regra “sem espaços extras”.
 
 #. Faça a execução passo a passo das funções definidas nos exercícios anteriores para alguns exemplos. Para isto você deve criar um novo arquivo, mudar a linguagem para "Beginning Student" e copiar o código da função e da chamada de exemplo.

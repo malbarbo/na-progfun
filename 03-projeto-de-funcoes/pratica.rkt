@@ -9,13 +9,13 @@
 ;; que 18 anos ou 65 ou mais. Produz #f caso contrário.
 
 (examples
- (check-equal? (insento-tarifa? 17) #t)
- (check-equal? (insento-tarifa? 18) #t)
- (check-equal? (insento-tarifa? 50) #f)
- (check-equal? (insento-tarifa? 65) #t)
- (check-equal? (insento-tarifa? 70) #t))
+ (check-equal? (isento-tarifa? 17) #t)
+ (check-equal? (isento-tarifa? 18) #t)
+ (check-equal? (isento-tarifa? 50) #f)
+ (check-equal? (isento-tarifa? 65) #t)
+ (check-equal? (isento-tarifa? 70) #t))
 
-(define (insento-tarifa? id)
+(define (isento-tarifa? id)
   #f)
 
 

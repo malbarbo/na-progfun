@@ -66,6 +66,11 @@ Diretrizes para projeto de tipos de dados:
 - Faça os valores inválidos irrepresentáveis.
 
 
+
+Estruturas
+==========
+
+
 ## Introdução
 
 Os tipos de dados que vimos até agora são atômicos, isto é, não podem ser decompostos. \pause
@@ -399,6 +404,10 @@ Defina uma função que calcule a distância de um ponto a origem.
 
 
 
+Enumerações
+===========
+
+
 ## Exemplo contagem
 
 Em um sistema de enquete cada possível resposta é identificada por uma cor: verde, vermelho, azul ou branco. Após todos os participantes responderem a enquete, é necessário contabilizar a quantidade de vezes que cada resposta foi selecionada. Como parte desse sistema, você deve projetar uma função que receba a contabilização atual das respostas e uma nova resposta e produza a contabilização atualizada.
@@ -523,6 +532,11 @@ Como iniciamos a implementação de uma função que processa um valor de tipo e
      (struct-copy contagem
                   cont [branco (add1 (contagem-branco cont))])]))
 ```
+
+
+
+Uniões
+======
 
 
 ## Problema - Estado tarefa
@@ -724,6 +738,10 @@ A linguagem racket possui uma variante com tipagem estática de dados, a qual pe
              (Erro-msg estado))]))
 ```
 
+
+
+Outras linguagens
+=================
 
 
 ## União em outras linguagens

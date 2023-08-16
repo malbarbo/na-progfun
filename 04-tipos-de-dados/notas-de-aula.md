@@ -75,7 +75,7 @@ Estruturas
 
 Os tipos de dados que vimos até agora são atômicos, isto é, não podem ser decompostos. \pause
 
-Agora queremos representar dados onde dois ou mais valores devem ficar juntos: \pause
+Agora veremos como representar dados onde dois ou mais valores devem ficar juntos: \pause
 
 - Registro de um aluno;
 
@@ -83,7 +83,7 @@ Agora queremos representar dados onde dois ou mais valores devem ficar juntos: \
 
 - Informações de um produto. \pause
 
-Chamamos estes tipos de dados de **estruturas**.
+Chamamos estes tipos de dados de **dados compostos** ou **estruturas**.
 
 
 ## Estruturas
@@ -556,24 +556,29 @@ Como procedemos agora? \pause Generalizando a forma de resposta para os exemplos
 
 ## Exemplo - Campo minado
 
-Campo minado é um famoso jogo de computador. O jogo consiste de um campo retangular de quadrados que podem ser abertos clicando sobre eles. Em alguns quadrados estão escondidos minas, o objetivo do jogo é abrir todos os quadrados que não têm minas. Se o jogador abrir um quadrado com uma mina, o jogo termina e o jogador perdei.
+Campo minado é um famoso jogo de computador. O jogo consiste de um campo retangular de quadrados que podem ou não conter minas escondidas. Os quadrados podem ser abertos clicando sobre eles. O objetivo do jogo é abrir todos os quadrados que não têm minas. Se o jogador abrir um quadrado com uma mina, o jogo termina e o jogador perdei.
 
-Como guia para explorar o campo, cada quadrado aberto exibe o número de minas nos quadrados ao seu redor (no máximo 8). Quando um quadrado sem minas ao redor é aberto, todos os quadrados ao seu redor também são aberto; O usuário pode colocar uma bandeira sobre um quadrado fechado para sinalizar uma possível mina e impedir que ele seja aberto. Uma bandeira também pode ser removida de um quadrado.
+Como guia para explorar o campo, cada quadrado aberto exibe o número de minas nos quadrados ao seu redor (no máximo 8). Quando um quadrado sem minas ao redor é aberto, todos os quadrados ao seu redor também são abertos. O usuário pode colocar uma bandeira sobre um quadrado fechado para sinalizar uma possível mina e impedir que ele seja aberto. Uma bandeira também pode ser removida de um quadrado.
 
 
 ## Exemplo - Campo minado
 
-![](imagens/campo-minado.png){width=7cm}
+![](imagens/campo-minado.png){width=8cm}
+
+
+## Exemplo - Campo minado
 
 Projete um tipo de dado para representar um quadrado em um jogo de campo minado. Não é necessário armazenar o número de bombas ao redor do quadrado pois esse valor pode ser calculado dinamicamente.
 
 
 ## Exemplo - Campo minado
 
-Em uma primeira tentativa poderíamos pensar: o quadrado pode ter uma mina ou não, pode estar fechado ou aberto e pode ter uma bandeira ou não. \pause Como são três item relacionados, vamos definir uma estrutura. Além disso, cada item tem dois estados possíveis, então vamos usar booleano para representar cada item. \pause
+Em uma primeira tentativa poderíamos pensar: o quadrado pode ter uma mina ou não, pode estar fechado ou aberto e pode ter uma bandeira ou não. \pause Como são três item relacionados, então definiríamos uma estrutura. Além disso, cada item tem dois estados possíveis, então poderíamos usar booleano para representar cada estado. \pause
+
+\small
 
 ```scheme
-(struct quadrado (mina? aberto? bandeira?))
+(struct quadrado (mina? aberto? bandeira?) #:transparent)
 ;; Representa um quadrado no jogo campo minado
 ;;  mina?    : Bool - #t se tem uma mina no quadrado, #f caso contrário
 ;;  aberto?  : Bool - #t se o quadrado está aberto, #f caso contrário
@@ -640,7 +645,7 @@ Para resolver a situação podemos "juntar" os campo `aberto?` e `bandeira?` em 
 ;; - "fechado"
 ;; - "com-bandeira"
 
-(struct quadrado (mina? estado))
+(struct quadrado (mina? estado) #:transparent)
 ;; Representa um quadrado no jogo campo minado
 ;;  mina? : Bool - #t se tem uma mina no quadrado, #f caso contrário
 ;;  estado: Estado - o estado do quadrado
@@ -654,6 +659,76 @@ Quantas possíveis instâncias distintas existem de `quadrado`? \pause O campo `
 ## Exemplo - Ação campo minado
 
 Agora que temos uma representação adequada para um quadrado, podemos avançar e projetar uma função que determina como um quadrado irá ficar após a ação de um usuário. O usuário pode fazer uma ação para abrir um quadrado, adicionar uma bandeira ou remover uma bandeira.
+
+
+## Exemplo - Ação campo minado
+
+Análise \pause
+
+- Determinar o novo estado de um quadrado a partir da ação do usuário \pause
+
+Definição de tipos de dados \pause
+
+\small
+
+```scheme
+;; Acao é um dos valores
+;; - "abrir"
+;; - "adicionar-bandeira"
+;; - "remover-bandeira"
+```
+
+
+## Exemplo - Ação campo minado
+
+Especificação \pause
+
+Quais são as entradas para a função? \pause Um quadrado e uma ação. \pause
+
+Qual é a saída da função? \pause Um quadrado. \pause
+
+Qual é o campo do quadrado de entrada que pode mudar? \pause Apenas o estado. \pause
+
+Do que depende a mudança do estado? \pause Do estado atual e da ação. \pause
+
+Se o comportamento de uma função depende apenas de um valor enumerado, quantos exemplos precisamos colocar na especificação? \pause Um para cada valor da enumeração. \pause
+
+A função que estamos projetando depende de apenas um valor enumerado? \pause Não. \pause Depende de dois, o valor do estado e o valor da ação. \pause
+
+Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemplos.
+
+
+## Exemplo - Ação campo minado
+
+| estado/ação   |     abrir      |   adicionar    |   remover     |
+|:-------------:|:--------------:|:--------------:|:-------------:|
+| aberto        |      -         |       -        |      -        |
+| fechado       |    aberto      | com-bandeira   |      -        |
+| com-bandeira  |      -         |       -        |   fechado     |
+
+\pause
+
+\small
+
+```scheme
+(examples
+  (check-equal? (atualiza-quadrado (quadrado #f "aberto") "abrir")
+                (quadrado #f "aberto"))
+  (check-equal? (atualiza-quadrado (quadrado #f "fechado") "abrir")
+                (quadrado #f "aberto"))
+  ...)
+```
+
+
+## Exemplo - Ação campo minado
+
+Implementação \pause
+
+Se o comportamento de uma função depende apenas de um valor enumerado, qual é a estrutura inicial do corpo da função? \pause Uma seleção com uma condição para cada valor enumerado. \pause
+
+Qual seria a estrutura inicial do corpo da função que estamos projetando? \pause Uma seleção com uma condição para cada combinação dos valores enumerados da entrada; ou; uma seleção aninhada. \pause
+
+
 
 
 Uniões

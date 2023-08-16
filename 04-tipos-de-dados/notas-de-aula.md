@@ -513,13 +513,13 @@ Como iniciamos a implementação de uma função que processa um valor de tipo e
   (cond
     [(equal? res "verde")
 
-
+                                                            ]
     [(equal? res "vermelho")
 
-
+                                                            ]
     [(equal? res "azul")
 
-
+                                                            ]
     [(equal? res "branco")
 
                                                             ]))

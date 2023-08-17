@@ -1,10 +1,10 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-# TODO: falar da simplificação de cond aninhados
 # TODO: introduzir com mais detalhes o conceito de união
 # TODO: falar mais sobre tipos algébricos
 # TODO: falar do "expression problem"?
 # TODO: colocar explicitamente a definição de estrutura, enumeração e união
+# TODO: falar explicitamente de casamento de padrões
 title: Tipos de dados
 ---
 
@@ -681,6 +681,8 @@ Definição de tipos de dados \pause
 
 ## Exemplo - Ação campo minado
 
+\small
+
 Especificação \pause
 
 Quais são as entradas para a função? \pause Um quadrado e uma ação. \pause
@@ -695,16 +697,16 @@ Se o comportamento de uma função depende apenas de um valor enumerado, quantos
 
 A função que estamos projetando depende de apenas um valor enumerado? \pause Não. \pause Depende de dois, o valor do estado e o valor da ação. \pause
 
-Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemplos.
+Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemplos. \pause Vamos fazer uma tabela para não esquecer de nenhum caso!
 
 
 ## Exemplo - Ação campo minado
 
 | estado/ação   |     abrir      |   adicionar    |   remover     |
 |:-------------:|:--------------:|:--------------:|:-------------:|
-| aberto        |      -         |       -        |      -        |
-| fechado       |    aberto      | com-bandeira   |      -        |
-| com-bandeira  |      -         |       -        |   fechado     |
+| aberto \pause |      -         |       -        |      -        |
+| fechado \pause|    aberto      | com-bandeira   |      -        |
+| com-bandeira \pause|      -    |       -        |   fechado     |
 
 \pause
 
@@ -714,6 +716,7 @@ Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemp
 (examples
   (check-equal? (atualiza-quadrado (quadrado #f "aberto") "abrir")
                 (quadrado #f "aberto"))
+  ; (struct-copy quadrado q [estado "aberto"])
   (check-equal? (atualiza-quadrado (quadrado #f "fechado") "abrir")
                 (quadrado #f "aberto"))
   ...)
@@ -726,9 +729,103 @@ Implementação \pause
 
 Se o comportamento de uma função depende apenas de um valor enumerado, qual é a estrutura inicial do corpo da função? \pause Uma seleção com uma condição para cada valor enumerado. \pause
 
-Qual seria a estrutura inicial do corpo da função que estamos projetando? \pause Uma seleção com uma condição para cada combinação dos valores enumerados da entrada; ou; uma seleção aninhada. \pause
+A função que estamos projetando depende de dois valores enumerados, qual deve ser a estrutura inicial do corpo da função? \pause Uma seleção de dois níveis, cada nível para um valor enumerado; \pause ou; uma seleção com uma condição para cada par dos valores enumerados.
 
 
+## Exemplo - Ação campo minado
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+\vspace{-0.15cm}
+
+```scheme
+(define (atualiza-quadrado q acao)
+  (define estado (quadrado-estado q))
+  (cond
+    [(equal? estado "aberto")
+     (cond
+       [(equal? acao "abrir") ...]
+       [(equal? acao "adicionar-bomba") ...]
+       [(equal? acao "remover-bomba") ...])]
+    [(equal? estado "fechado")
+     (cond
+       [(equal? acao "abrir") ...]
+       [(equal? acao "adicionar-bomba") ...]
+       [(equal? acao "remover-bomba") ...])]
+    [(equal? estado "fechado")
+     (cond
+       [(equal? acao "abrir") ...]
+       [(equal? acao "adicionar-bomba") ...]
+       [(equal? acao "remover-bomba") ...])]))
+
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+\vspace{-0.15cm}
+
+```scheme
+(define (atualiza-quadrado q acao)
+  (define estado (quadrado-estado q))
+  (cond [(and (equal? estado "aberto")
+              (equal? acao "abrir")) ...]
+        [(and (equal? estado "aberto")
+              (equal? acao "adicionar-bomba")) ...]
+        [(and (equal? estado "aberto")
+              (equal? acao "remover-bomba")) ...]
+        [(and (equal? estado "fechado")
+              (equal? acao "abrir")) ...]
+        [(and (equal? estado "fechado")
+              (equal? acao "adicionar-bomba")) ...]
+        [(and (equal? estado "fechado")
+              (equal? acao "remover-bomba")) ...]
+        [(and (equal? estado "com-bomba")
+              (equal? acao "abrir")) ...]
+        [(and (equal? estado "com-bomba")
+              (equal? acao "adicionar-bomba")) ...]
+        [(and (equal? estado "com-bomba")
+              (equal? acao "remover-bomba")) ...]))
+```
+</div>
+</div>
+
+
+## Exemplo - Ação campo minado
+
+| estado/ação   |     abrir      |   adicionar    |   remover     |
+|:-------------:|:--------------:|:--------------:|:-------------:|
+| aberto        |      -         |       -        |      -        |
+| fechado       |    aberto      | com-bandeira   |      -        |
+| com-bandeira  |      -         |       -        |   fechado     |
+
+\pause
+
+Se olharmos a tabela de exemplos, vamos notar que em apenas 3 casos precisamos atualizar o quadrado, então, não é necessário colocar explicitamente no código os 9 casos, podemos simplificar o código antes mesmo de escrevê-lo!
+
+
+## Exemplo - Ação campo minado
+
+\small
+
+```scheme
+(define (atualiza-quadrado q acao)
+  (define estado (quadrado-estado q))
+  (cond
+    [(and (equal? estado "fechado")
+          (equal? acao "abrir"))
+     (struct-copy quadrado q [estado "aberto"])]
+    [(and (equal? estado "fechado")
+          (equal? acao "adicionar-bandeira"))
+     (struct-copy quadrado q [estado "com-bandeira"])]
+    [(and (equal? estado "com-bandeira")
+          (equal? acao "remover-bandeira"))
+     (struct-copy quadrado q [estado "fechado"])]
+    [else q]))
+```
 
 
 Uniões
@@ -901,9 +998,11 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 ## Uniões em Racket tipado (typed racket)
 
 As uniões no racket sem tipagem estática de dados são muito flexiveis.
-A linguagem racket possui uma variante com tipagem estática de dados, a qual permite que as uniões sejam mais restritas. 
+A linguagem racket possui uma variante com tipagem estática de dados, a qual permite que as uniões sejam mais restritas.
+
 
 ## Uniões em Racket tipado (typed racket)
+
 ```scheme
 #lang typed/racket
 
@@ -913,16 +1012,17 @@ A linguagem racket possui uma variante com tipagem estática de dados, a qual pe
 (struct erro ([codigo : Number]
               [msg : String]))
 
-(define-type EstadoTarefa (U sucesso erro "Executando"))
+(define-type EstadoTarefa (U "Executando" sucesso erro))
 ```
+
+
 ## Uniões em Racket tipado (typed racket)
 
 ```scheme
-
 (: mensagem (-> EstadoTarefa String))
 (define (mensagem estado)
   (cond
-    [(string? estado) 
+    [(string? estado)
      "A tarefa está em execução"]
     [(sucesso? estado)
      (format "A tarefa finalizou com sucesso (~as): ~a."
@@ -933,7 +1033,6 @@ A linguagem racket possui uma variante com tipagem estática de dados, a qual pe
              (erro-codigo estado)
              (erro-msg estado))]))
 ```
-
 
 
 Outras linguagens

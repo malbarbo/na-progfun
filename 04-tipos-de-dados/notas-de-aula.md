@@ -556,7 +556,7 @@ Como procedemos agora? \pause Generalizando a forma de resposta para os exemplos
 
 ## Exemplo - Campo minado
 
-Campo minado é um famoso jogo de computador. O jogo consiste de um campo retangular de quadrados que podem ou não conter minas escondidas. Os quadrados podem ser abertos clicando sobre eles. O objetivo do jogo é abrir todos os quadrados que não têm minas. Se o jogador abrir um quadrado com uma mina, o jogo termina e o jogador perdei.
+Campo minado é um famoso jogo de computador. O jogo consiste de um campo retangular de quadrados que podem ou não conter minas escondidas. Os quadrados podem ser abertos clicando sobre eles. O objetivo do jogo é abrir todos os quadrados que não têm minas. Se o jogador abrir um quadrado com uma mina, o jogo termina e o jogador perde.
 
 Como guia para explorar o campo, cada quadrado aberto exibe o número de minas nos quadrados ao seu redor (no máximo 8). Quando um quadrado sem minas ao redor é aberto, todos os quadrados ao seu redor também são abertos. O usuário pode colocar uma bandeira sobre um quadrado fechado para sinalizar uma possível mina e impedir que ele seja aberto. Uma bandeira também pode ser removida de um quadrado.
 
@@ -754,7 +754,7 @@ A função que estamos projetando depende de dois valores enumerados, qual deve 
        [(equal? acao "abrir") ...]
        [(equal? acao "adicionar-bomba") ...]
        [(equal? acao "remover-bomba") ...])]
-    [(equal? estado "fechado")
+    [(equal? estado "com-bandeira")
      (cond
        [(equal? acao "abrir") ...]
        [(equal? acao "adicionar-bomba") ...]

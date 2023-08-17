@@ -12,6 +12,11 @@
 ;;  mina? : Bool - #t se tem uma mina no quadrado, #f caso contrário
 ;;  estado: Estado - o estado do quadrado
 
+;; Acao é um dos valores
+;; - "abrir"
+;; - "adicionar-bandeira"
+;; - "remover-bandeira"
+
 ;; Quadrado Acao -> Acao
 ;;
 ;; Atualiza o estado do quadrado q dado a acao do usuário.
@@ -36,6 +41,7 @@
   ; (struct-copy quadrado q [estado "aberto"])
   (check-equal? (atualiza-quadrado (quadrado #f "fechado") "abrir")
                 (quadrado #f "aberto"))
+  ; (struct-copy quadrado q [estado "com-bandeira"])
   (check-equal? (atualiza-quadrado (quadrado #f "fechado") "adicionar-bandeira")
                 (quadrado #f "com-bandeira"))
   (check-equal? (atualiza-quadrado (quadrado #f "fechado") "remover-bandeira")
@@ -45,6 +51,7 @@
                 (quadrado #f "com-bandeira"))
   (check-equal? (atualiza-quadrado (quadrado #f "com-bandeira") "adicionar-bandeira")
                 (quadrado #f "com-bandeira"))
+  ; (struct-copy quadrado q [estado "fechado"])
   (check-equal? (atualiza-quadrado (quadrado #f "com-bandeira") "remover-bandeira")
                 (quadrado #f "fechado")))
 

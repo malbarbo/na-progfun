@@ -1,10 +1,15 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: introduzir com mais detalhes o conceito de união
-# TODO: falar mais sobre tipos algébricos
 # TODO: falar do "expression problem"?
 # TODO: colocar explicitamente a definição de estrutura, enumeração e união
+# TODO: falar mais sobre tipos algébricos
 # TODO: falar explicitamente de casamento de padrões
+# TODO: ajustar o exemplo: contabilização vs contagem
+# TODO: melhorar o exemplo de união (usar outros campos, eles parecem muito iguais, exemplo de leitura de um arquivo)
+# TODO: adicionar mais um exemplo de união
+# TODO: mostrar um exemplo de união em outra linguagem (remover discutido em sala)
+# TODO: melhorar revisão final
 title: Tipos de dados
 ---
 
@@ -527,7 +532,7 @@ Como iniciamos a implementação de uma função que processa um valor de tipo e
 
 \pause
 
-Como procedemos agora? \pause Generalizando a forma de resposta para os exemplos com a mesma resposta.
+Agora completamos o corpo considerando cada forma de resposta dos exemplos.
 
 
 ## Implementação
@@ -628,7 +633,7 @@ Temos dois estados inválidos!
 \pause
 Como evitar estes estados inválidos? \pause Primeiro temos que entender o problema. \pause
 
-A questão é que apenas 3 das 4 possíveis combinações dos valores dos campos `aberto?` e `banderira?` são válidos: aberto, fechado ou com bandeira. \pause
+A questão é que apenas 3 das 4 possíveis combinações dos valores dos campos `aberto?` e `bandeira?` são válidos: aberto, fechado ou fechado com bandeira. \pause
 
 Para resolver a situação podemos "juntar" os campo `aberto?` e `bandeira?` em um campo `estado` que pode assumir um desses três valores.
 </div>
@@ -883,13 +888,18 @@ E como expressar esse tipo de dado? \pause Usando união de tipos.
 
 ## Uniões e Estruturas
 
-Vamos ver uma analogia para nos auxilar a entender o conceito de união. \pause
+Definimos anteriormente um tipo de dado como um conjunto de possíveis valores, agora vamos discutir qual é a relação entre definição de tipos de dados e operações com conjunto. \pause
 
-Se consideramos um tipo de dado como um conjunto de possíveis valores daquele tipo, então podemos dizer que: \pause
+- Os valores possíveis para um tipo definido por uma estrutura (**tipo produto**) é o produto cartesiano dos valores possíveis de cada um do seus campos; \pause
 
-- Os valores possíveis para um tipo definido por uma estrutura (tipo produto) é o produto cartesiano dos valores possíveis de cada um do seus campos; \pause
+- Os valores possíveis para um tipo definido por uma união (**tipo soma**) é a união dos valores de cada tipo (classe de valores) da união. \pause
 
-- Os valores possíveis para um tipo definido por uma união (tipo soma) é a união dos valores de cada tipo (classe de valores) da união. \pause
+- Chamamos de **tipo algébrico de dado** um tipo soma de tipos produtos.
+
+
+## Uniões e Estruturas
+
+Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o caso do quadrado e como é para o caso do estado da tarefa. \pause
 
 Antes de vermos como expressar uniões em Racket, vamos ver como uniões funcionam em um sistema estático de tipo (discutido em sala).
 
@@ -995,16 +1005,32 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 ```
 
 
+## Considerações
+
+Nos vimos que os tipos algébricos de dados podem ser usados para modelar informações de forma mais precisa, aumentando a confiabilidade do programa. \pause
+
+Mas a sua utilidade pode ser ampliada se a linguagem oferecer algum tipo de verificação estática que suporte tipos algébricos. \pause
+
+Considere por exemplo uma alteração nos requisitos do nosso projeto: as tarefas agora podem ficar em uma fila antes de iniciar a execução. \pause
+
+Supondo que o programa utilize `EstadoTarefa` em mais que um lugar, como podemos saber todos os lugares que precisamos alterar o código para levar em consideração o novo estado "Fila"? \pause
+
+Em Racket não podemos... \pause mas em Typed Racket podemos!
+
+
 ## Uniões em Racket tipado (typed racket)
 
-As uniões no racket sem tipagem estática de dados são muito flexiveis.
-A linguagem racket possui uma variante com tipagem estática de dados, a qual permite que as uniões sejam mais restritas.
 
+<div class="columns">
+<div class="column" width="40%">
+\scriptsize
 
-## Uniões em Racket tipado (typed racket)
+Considere as seguintes definições
 
 ```scheme
 #lang typed/racket
+
+(struct executando ())
 
 (struct sucesso ([duracao : Number]
                  [msg : String]))
@@ -1012,17 +1038,21 @@ A linguagem racket possui uma variante com tipagem estática de dados, a qual pe
 (struct erro ([codigo : Number]
               [msg : String]))
 
-(define-type EstadoTarefa (U "Executando" sucesso erro))
+(define-type EstadoTarefa
+  (U executando sucesso erro))
 ```
 
+</div>
+<div class="column" width="60%">
+\scriptsize
 
-## Uniões em Racket tipado (typed racket)
+E a função
 
 ```scheme
-(: mensagem (-> EstadoTarefa String))
-(define (mensagem estado)
+(: msg-usuario (-> EstadoTarefa String))
+(define (msg-usuario estado)
   (cond
-    [(string? estado)
+    [(executando? estado)
      "A tarefa está em execução"]
     [(sucesso? estado)
      (format "A tarefa finalizou com sucesso (~as): ~a."
@@ -1034,6 +1064,18 @@ A linguagem racket possui uma variante com tipagem estática de dados, a qual pe
              (erro-msg estado))]))
 ```
 
+O que acontece alteramos a definição do estado da tarefa da seguinte maneira?
+
+```scheme
+(struct executando ())
+(define-type EstadoTarefa
+    (U fila executando sucesso erro))
+```
+
+</div>
+</div>
+
+
 
 Outras linguagens
 =================
@@ -1041,7 +1083,9 @@ Outras linguagens
 
 ## União em outras linguagens
 
-A união de tipos é bastante útil e com a popularização da programação funcional, também tem sido adicionada a diversas linguagens de programação. Vamos ver algumas delas.
+Podemos usar tipos algébricos em outras linguagens? \pause Sim, de fato, com o aumento do uso do paradigma funcional, muitas linguagens, mesmo algumas mais antigas como Java e Python, ganharam suporte a essa forma de tipo de dados. \pause
+
+Vamos ver alguns exemplos.
 
 
 ## Uniões em Python
@@ -1096,6 +1140,10 @@ def mensagem(estado: EstadoTarefa) -> str:
         case Erro(codigo, msg):
             return f'A tafera falhou (error {codigo}): {msg}'
 ```
+
+\pause
+
+Aqui usamos **casamento de padrões** para decompor cada tipo produto em seus componentes.
 
 
 ## Uniões em Rust
@@ -1182,5 +1230,3 @@ Complementares
 Leitura recomendada
 
 - [Expression problem](https://en.wikipedia.org/wiki/Expression_problem)
-
--->

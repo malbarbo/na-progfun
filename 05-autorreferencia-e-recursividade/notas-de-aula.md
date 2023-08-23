@@ -2,7 +2,7 @@
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: adicionar uma definição para árvore (recursão indireta)
 # TODO: adicionar informações sobre a parada de recursão generativa (ver HTDP)
-title: Autorreferências
+title: Autorreferência e recursividade
 ---
 
 

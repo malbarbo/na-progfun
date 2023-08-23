@@ -2,7 +2,7 @@
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: adicionar exercícios de map
 # TODO: problemas ao invés de exercícios?
-title: Autorreferência
+title: Autorreferência e recursividade - Prática
 ---
 
 #.  Defina uma função que calcule a quantidade de elementos de uma lista.

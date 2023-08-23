@@ -2,8 +2,9 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Tipos de dados - Prática
 urlcolor: Blue
-# TODO: adicionar um exercícios simples de estrutura
-# TODO: adicionar um exercícios simples de união
+# TODO: reorganizar os exercícios entre prática e exercícios
+# TODO: adicionar exercícios simples de estrutura
+# TODO: adicionar exercícios simples de união
 ---
 
 #. O desempenho de um time de futebol em um determinado campeonato é dado pelo número de pontos, número de vitórias e saldo de gols (diferenças entre todos os gols marcados e sofridos). Cada jogo ganho pelo time dá 3 pontos e empate 1 ponto. Projete uma função que atualize o desempenho de um time a partir do resultado do seu último jogo (gols feitos e gols sofrido).

@@ -6,10 +6,10 @@
 # TODO: falar mais sobre tipos algébricos
 # TODO: falar explicitamente de casamento de padrões
 # TODO: ajustar o exemplo: contabilização vs contagem
-# TODO: melhorar o exemplo de união (usar outros campos, eles parecem muito iguais, exemplo de leitura de um arquivo)
 # TODO: adicionar mais um exemplo de união
 # TODO: mostrar um exemplo de união em outra linguagem (remover discutido em sala)
 # TODO: melhorar revisão final
+# TODO: adicionar mais referências sobre projeto de tipos de dados
 title: Tipos de dados
 ---
 
@@ -839,7 +839,7 @@ Uniões
 
 ## Problema - Estado tarefa
 
-Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em um tempo específico e com um mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro.
+Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com um mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro.
 
 \pause
 
@@ -853,10 +853,10 @@ Vamos tentar uma estrutura.
 \small
 
 ```scheme
-(struct estado-tarefa (executando tempo msg_sucesso codigo_err msg_err))
+(struct estado-tarefa (executando duracao msg_sucesso codigo_err msg_err))
 ;; Representa o estado de uma tarefa
 ;; executando: Bool - #t se a tarefa está em execução, #f caso contrário
-;; tempo: Número - tempo que durou a execução da tarefa
+;; duracao: Número - tempo que durou a execução da tarefa
 ;; msg_sucesso: String - mensagem caso a tarefa tenha sido executada com sucesso
 ;; codigo_err: Número - código de erro se a execução da tarefa falhou
 ;; msg_err: String - mensagem de erro se a execução da tarefa falhou
@@ -878,7 +878,7 @@ Como evitar esse problema?
 Analisando a descrição do problema conseguimos separar o estado da tarefa em três casos: \pause
 
 - Em execução \pause
-- Sucesso, com um tempo e uma mensagem \pause
+- Sucesso, com uma duração e uma mensagem \pause
 - Falhado, com um código e uma mensagem \pause
 
 Esses casos são excludentes, ou seja, se a tarefa se enquadra em um deles, não devemos armazenar informações sobre os outros (caso contrário, seria possível criar um estado inconsistente). \pause
@@ -911,10 +911,10 @@ Agora podemos prosseguir com o projeto do programa em Racket. \pause Antes de de
 \small
 
 ```scheme
-(struct sucesso (tempo msg))
+(struct sucesso (duracao msg))
 ;; Representa o estado de uma tarefa que finalizou a execução com sucesso
-;; tempo: Número - tempo de execução em segundos
-;; msg  : String - mensagem de sucesso gerada pela tarefa
+;; duracao: Número - tempo de execução em segundos
+;; msg    : String - mensagem de sucesso gerada pela tarefa
 
 (struct erro (codigo msg))
 ;; Representa o estado de uma tarefa que finalizou a execução com falha
@@ -975,7 +975,7 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
     [(and (string? estado) (string=? estado "Executando"))
     ]
     [(sucesso? estado)
-     ... (sucesso-tempo estado)
+     ... (sucesso-duracao estado)
      ... (sucesso-msg estado)
     ]
     [(erro? estado)
@@ -996,7 +996,7 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
      "A tarefa está em execução."]
     [(sucesso? estado)
      (format "Tarefa concluída (~as): ~a."
-             (sucesso-tempo estado)
+             (sucesso-duracao estado)
              (sucesso-msg estado))]
     [(erro? estado)
      (format "A tarefa falhou (err ~a): ~a."
@@ -1019,7 +1019,6 @@ Em Racket não podemos... \pause mas em Typed Racket podemos!
 
 
 ## Uniões em Racket tipado (typed racket)
-
 
 <div class="columns">
 <div class="column" width="40%">
@@ -1064,17 +1063,26 @@ E a função
              (erro-msg estado))]))
 ```
 
-O que acontece alteramos a definição do estado da tarefa da seguinte maneira?
+</div>
+</div>
+
+
+## Uniões em Racket tipado (typed racket)
+
+O que acontece se alteramos a definição do estado da tarefa da seguinte maneira?
 
 ```scheme
 (struct executando ())
-(define-type EstadoTarefa
-    (U fila executando sucesso erro))
+(define-type EstadoTarefa (U fila executando sucesso erro))
 ```
 
-</div>
-</div>
+\pause
 
+O analisador estático do Racket indica um erro no `cond`{.scheme}, pois nem todos os casos são tratados.
+
+\pause
+
+Algo semelhante acontece em diversas outras linguagens que têm verificador estático.
 
 
 Outras linguagens
@@ -1083,7 +1091,7 @@ Outras linguagens
 
 ## União em outras linguagens
 
-Podemos usar tipos algébricos em outras linguagens? \pause Sim, de fato, com o aumento do uso do paradigma funcional, muitas linguagens, mesmo algumas mais antigas como Java e Python, ganharam suporte a essa forma de tipo de dados. \pause
+Podemos usar tipos algébricos em outras linguagens? \pause Sim, de fato, com o aumento do uso do paradigma funcional, muitas linguagens, mesmo algumas mais antigas como Java e Python, ganharam suporte a essa forma de definição de tipo de dados. \pause
 
 Vamos ver alguns exemplos.
 
@@ -1148,7 +1156,7 @@ Aqui usamos **casamento de padrões** para decompor cada tipo produto em seus co
 
 ## Uniões em Rust
 
-\small
+\footnotesize
 
 ```rust
 pub enum EstadoTarefa {
@@ -1160,23 +1168,25 @@ pub fn mensagem(estado: &EstadoTarefa) -> String {
     match estado {
         EstadoTarefa::Executando =>
             "A tarefa está em execução".to_string(),
-        EstadoTarefa::Sucesso(tempo, msg) =>
-            format!("A tarefa finalizou com sucesso ({tempo}s): {msg}"),
+        EstadoTarefa::Sucesso(duracao, msg) =>
+            format!("A tarefa finalizou com sucesso ({duracao}s): {msg}"),
         EstadoTarefa::Erro(codigo, msg) =>
             format!("A tarefa falhou (erro {codigo}): {msg}"),
     }
 }
 ```
 
+Usamos novamente casamento de padrões para decompor `Sucesso` e `Erro` em seu componentes.
+
 
 ## Uniões em Java
 
-\small
+\footnotesize
 
 ```java
 sealed interface EstadoTarefa permits Executando, Sucesso, Erro {};
 record Executando() implements EstadoTarefa {};
-record Sucesso(int tempo, String sucesso) implements EstadoTarefa {};
+record Sucesso(int duracao, String msg) implements EstadoTarefa {};
 record Erro(int erro, String msg) implements EstadoTarefa {};
 
 static String mensagem(EstadoTarefa estado) {
@@ -1184,29 +1194,42 @@ static String mensagem(EstadoTarefa estado) {
         case Executando e ->
             "A tarefa está executando";
         case Sucesso s ->
-            String.format("A tarefa foi concluída (%ds): %s", s.tempo(), s.sucesso());
+            String.format("A tarefa foi concluída (%ds): %s", s.duracao(), s.msg());
         case Erro e ->
             String.format("A tarefa falhou (erro %d): %s", e.erro(), e.msg());
     };
 }
 ```
 
+A [JEP 405](https://openjdk.org/jeps/405), que ainda está em _preview_, permite o uso de padrões para decompor registros.
+
 
 ## Revisão
 
-Vimos duas formas diferentes de definir novos tipos de dados: \pause
+Vimos como mais detalhes como desenvolver a etapa de definição de tipos de dados. \pause
 
-- Estruturas: quando diversos valores relacionados são agrupados para representar uma entidade \pause
+Aprendemos que devemos considerar dois princípios no projeto de tipos de dados \pause
 
-- Uniões: quando uma entidade é descrita pela união de diversas classes de valores \pause
+- Faça os valores válidos representáveis. \pause
+- Faça os valores inválidos irrepresentáveis. \pause
 
-No contexto de programação funcional, essas construções de tipos são chamadas de tipos de dados algébricos \pause
+Vimos como definir novos tipos de dados usando: \pause
 
-- As estruturas são chamadas de tipos produto \pause
+- Estruturas (tipo produto) \pause
+- Enumerações (tipo soma) \pause
+- Uniões (tipo soma)
 
-- As uniões são chamadas de tipos somas \pause
 
-Essa "analogia" com a álgebra é interessante pois nos permite entender mais facilmente alguns aspectos da construção de tipos.
+## Revisão
+
+Discutimos como os tipos de dados guiam o processo de projeto de programas: \pause
+
+- Um tipo soma com N casos sugere pelo menos N exemplos; \pause
+
+- Um tipo soma com N casos sugere um corpo com uma análise de N casos. \pause
+
+Por fim, vimos que um analisador estático amplia bastante a utilidade dos tipos algébricos de dados, garantindo que o código trate todos os casos na análise de tipos soma.
+
 
 
 Referências
@@ -1220,12 +1243,10 @@ Básicas
 
 - [Vídeos Reference](https://www.youtube.com/watch?v=tp44seRHLUQ&list=PL6NenTZG6KrptkOEMyLWDnF0ZjSpVTHAE)
 
-- Seções [5.1](http://docs.racket-lang.org/guide/define-struct.html) do [Guia Racket](http://docs.racket-lang.org/guide/)
+- [Vídeo Making Impossible States Impossible](https://www.youtube.com/watch?v=IcgmSRJHu_8)
 
+- [Seções](http://docs.racket-lang.org/guide/define-struct.html) 5.1 a 5.5 do [Guia Racket](http://docs.racket-lang.org/guide/)
 
-Complementares
-
-- Seções [4.1](http://docs.racket-lang.org/reference/structures.html) da [Referência Racket](http://docs.racket-lang.org/reference/)
 
 Leitura recomendada
 

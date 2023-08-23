@@ -2,7 +2,7 @@
 
 (require examples)
 
-(struct sucesso (tempo msg))
+(struct sucesso (duracao msg))
 (struct erro (codigo msg))
 ;; EstadoTarefa é um dos valores:
 ;; - "Executando"             A tarefa está em execução
@@ -25,7 +25,7 @@
      "A tarefa está em execução."]
     [(sucesso? estado)
      (format "Tarefa concluída (~as): ~a."
-             (sucesso-tempo estado)
+             (sucesso-duracao estado)
              (sucesso-msg estado))]
     [(erro? estado)
      (format "A tarefa falhou (err ~a): ~a."

@@ -9,8 +9,8 @@ pub fn mensagem(estado: &EstadoTarefa) -> String {
     match estado {
         Executando =>
             "A tarefa está em execução".to_string(),
-        Sucesso(tempo, msg) =>
-            format!("A tarefa finalizou com sucesso ({tempo}s): {msg}"),
+        Sucesso(duracao, msg) =>
+            format!("A tarefa finalizou com sucesso ({duracao}s): {msg}"),
         Erro(codigo, msg) =>
             format!("A tarefa falhou (erro {codigo}): {msg}"),
     }

@@ -34,14 +34,13 @@ Vamos tentar criar uma definição para lista de números.
 
 ## Listas
 
-A ideia é criar uma estrutura com dois campos. O primeiro campo representa um valor na lista e o segundo campo representa o restante da lista (que é uma lista). \pause
+A ideia é criar uma estrutura com dois campos. O primeiro campo representa o primeiro item na lista e o segundo campo representa o restante da lista (que é uma lista). \pause
 
 ```scheme
 (struct lista (primeiro resto) #:transparent)
 ;; Representa uma lista de números
-;;  primeiro: Número - é o primeiro elemento
-;;                     da lista
-;;  resto:    Lista  - é o restante da lista
+;;  primeiro: Número - primeiro elemento da lista
+;;  resto:    Lista  - restante da lista
 ```
 
 
@@ -163,7 +162,7 @@ Qual o resultado de `(link-rest ldn)`? \pause Uma lista, que é uma união. \pau
 
 Um valor atômico pode ser processado diretamente, mas como processar uma lista? \pause Fazendo análise dos casos... \pause
 
-Vamos fazer uma alteração no modelo `fn-para-ldn` e adicionar uma chamada recursiva para processar `(link-resto ldn)`. Essa alteração pode parecer meio "mágica" no início, mas ela vai ficar mais clara no futuro.
+Vamos fazer uma alteração no modelo `fn-para-ldn` e adicionar uma chamada recursiva para processar `(link-resto ldn)`. Essa alteração pode parecer meio "mágica" agora, mas ela vai ficar mais clara em breve.
 
 
 ## Listas
@@ -197,10 +196,9 @@ Modelo para funções que a entrada é ListaDeNúmeros
 
 \pause
 
-Observe a relação entre a definição de `ListaDeNúmeros` e o modelo
+Quais são as relações entre a definição de `ListaDeNúmeros` e o modelo? \pause
 
-- A definição tem dois casos, o modelo também
-
+- A definição tem dois casos, o modelo também \pause
 - A autorreferência na definição do dado sugere uma chamada recursiva no modelo
 
 
@@ -512,6 +510,9 @@ Revisão: Ok.
 
 ## Listas
 
+<div class="columns">
+<div class="column" width="48%">
+
 O Racket já vem com listas pré-definidas
 
 - `empty`{.scheme} ao invés de `(vazia)`{.scheme}
@@ -523,6 +524,8 @@ O Racket já vem com listas pré-definidas
 - `rest`{.scheme} ao invés de `link-resto`{.scheme}
 
 \pause
+</div>
+<div class="column" width="48%">
 
 Outras funções (os propósitos são aproximados)
 
@@ -531,6 +534,9 @@ Outras funções (os propósitos são aproximados)
 - `cons?`{.scheme} verifica se uma lista não é vazia
 
 - `list?`{.scheme} verifica se um valor é uma lista
+
+</div>
+</div>
 
 
 ## Listas
@@ -552,7 +558,7 @@ Uma **ListaDeNúmeros** é um dos valores
 \small
 
 ```scheme
-;; Modelo para funções com entrada ListaDeNúmeros
+;; Modelo de funções para ListaDeNúmeros
 #;
 (define (fn-para-ldn ldn)
   (cond

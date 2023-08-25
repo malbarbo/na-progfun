@@ -156,9 +156,9 @@ Em Racket \pause
 
 ## Listas
 
-Qual é o resultado de `(link-primeiro ldn)`? \pause Um número, que é um valor atômico. \pause
+Qual é o tipo do resultado de `(link-primeiro ldn)`? \pause Um número, que é um valor atômico. \pause
 
-Qual o resultado de `(link-rest ldn)`? \pause Uma lista, que é uma união. \pause
+Qual é o tipo do resultado de `(link-resto ldn)`? \pause Uma lista, que é uma união. \pause
 
 Um valor atômico pode ser processado diretamente, mas como processar uma lista? \pause Fazendo análise dos casos... \pause
 
@@ -1987,7 +1987,7 @@ Funções recursivas que operam em subproblemas obtidos pela decomposição estr
 
 Funções recursivas que operam em subproblemas arbitrários (não estruturais) são chamadas de **funções recursivas generativas**. \pause
 
-O projeto de função recursivas generativas pode requerer um "_insite_" e por isso tentamos primeiramente resolver os problemas com recursão estrutural.
+O projeto de função recursivas generativas pode requerer um "_insight_" e por isso tentamos primeiramente resolver os problemas com recursão estrutural.
 
 
 ## Plano

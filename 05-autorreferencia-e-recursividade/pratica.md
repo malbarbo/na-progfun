@@ -4,8 +4,6 @@ title: Autorreferência e recursividade - Prática
 urlcolor: Black
 ---
 
-#. Projete uma função que determine a quantidade de elementos de uma lista de números.
-
 #. Projete uma função que concatene todas os elementos de uma lista de strings.
 
 #. Projete uma função que calcule o produto de todos os elementos de uma lista de números.
@@ -14,7 +12,9 @@ urlcolor: Black
 
 #. Projete uma função que verifique se algum dos elementos de uma lista de booleanos é verdadeiro.
 
-#. Projete uma função que que remova todas as strings que não começam com `A` de uma lista de strings.
+#. Projete uma função que determine a quantidade de elementos de uma lista de números. Dica: o primeiro elemento pode ser ignorado.
+
+#. Projete uma função que remova todas as strings que não começam com `A` de uma lista de strings.
 
 #. Projete uma função que crie uma lista de números a partir de uma lista de strings convertendo cada string para um número. Assuma que todas as strings representam números válidos. Veja a função `string->number`.
 

@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Projeto de funções - Exercícios
+title: Projeto de funções - Problemas
 urlcolor: Black
 # TODO: trocar ab->string por palavra-duplicada
 ---

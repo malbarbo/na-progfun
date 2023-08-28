@@ -1,9 +1,10 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Fundamentos - Exercícios
+title: Fundamentos - Problemas
 urlcolor: Black
 # TODO: remover exercícios do sicp e tspl
-# TODO: adiconar exercícios de and e or
+# TODO: adicionar exercícios de and e or
+# TODO: renomear para problemas, reorganizar os exercícios entre prática e problemas
 ---
 
 #) [sicp 1.1] Dado o seguinte programa, qual é o resultado impresso pelo Racket em resposta a cada expressão? Assuma que as expressões serão avaliadas na ordem em que são apresentadas.

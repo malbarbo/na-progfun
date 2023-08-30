@@ -28,11 +28,11 @@ urlcolor: Black
 
 <!-- Ajuste caso base -->
 
-#. Projete uma função que determine o tamanho máximo entre todas as strings de uma lista não vazia de strings. Dica: Mude o caso base.
+@. Projete uma função que determine o tamanho máximo entre todas as strings de uma lista não vazia de strings. Dica: Mude o caso base.
 
-#. Projete uma função que verifique se uma lista de números está em ordem não decrescente. Dica: use dois casos base.
+@. Projete uma função que verifique se uma lista de números está em ordem não decrescente. Dica: use dois casos base.
 
 
 <!-- Funções auxiliares -->
 
-#. Projete uma função que indique se em uma lista de inteiros existem mais valores positivos ou negativos. Dica: crie duas funções auxiliares, uma para contar os positivos e outra os negativos.
+@. Projete uma função que indique se em uma lista de inteiros existem mais valores positivos ou negativos. Dica: crie duas funções auxiliares, uma para contar os positivos e outra os negativos.

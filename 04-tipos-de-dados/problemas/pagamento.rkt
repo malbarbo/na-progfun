@@ -35,7 +35,7 @@
 
 (define (valor-final-compra valor forma-pagamento)
   (cond
-    ; o and não é necessário, está aqui apenas recurso pedagógico
+    ; o and não é necessário, está aqui apenas como recurso pedagógico
     ; dinheiro ou pix
     [(and (string? forma-pagamento)
           (or (equal? forma-pagamento "dinheiro")

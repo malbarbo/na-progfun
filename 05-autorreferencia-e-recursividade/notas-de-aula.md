@@ -2,6 +2,8 @@
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: adicionar uma definição para árvore (recursão indireta)
 # TODO: adicionar informações sobre a parada de recursão generativa (ver HTDP)
+# TODO: apresentar os exemplos de forma mais abstrata, os alunos têm dificuldades
+#       para entender por causa da sintaxe do Racket...
 title: Autorreferência e recursividade
 ---
 
@@ -916,7 +918,7 @@ Revisão.
 Defina uma função que remova todos os número negativos de uma lista de números.
 
 
-## Exemplo: remove negativos (especificação)
+## Exemplo: remove negativos
 
 <div class="columns">
 <div class="column" width="68%">
@@ -1056,7 +1058,7 @@ Revisão: exercício.
 Defina uma função que soma um valor `x` em cada elemento de uma lista de números.
 
 
-## Exemplo: soma x (especificação)
+## Exemplo: soma x
 
 <div class="columns">
 <div class="column" width="68%">
@@ -1190,6 +1192,97 @@ Verificação: Ok.
 
 Revisão: Ok.
 
+
+## Exemplos: junta com "," e "e"
+
+Projete uma função que junte todos os elementos de uma lista de strings (não vazias) separando-os com `", "`{.scheme} ou/e `" e "`{.scheme}, de acordo com a gramática do Português.
+
+
+## Exemplos: junta com "," e "e"
+
+\scriptsize
+
+```scheme
+;; ListaDeStrings -> String
+;; Parece difícil escrever o propósito...
+;; Vamos fazer os exemplos primeiro.
+(define (junta-virgula-e lst) "")
+```
+
+Exemplos \pause
+
+`(junta-virgula-e empty)`{.scheme} \pause $\rightarrow$ `""`{.scheme} \pause
+
+`(junta-virgula-e (list "maça"))`{.scheme} \pause $\rightarrow$ `"maça"`{.scheme} \pause
+
+`(junta-virgula-e (list "banana" "maça"))`{.scheme} \pause $\rightarrow$ `"banana e maça"`{.scheme} \pause
+
+`(junta-virgula-e (list "mamão" "banana" "maça"))`{.scheme} \pause $\rightarrow$ `"mamão, banana e maça"`{.scheme} \pause
+
+`(junta-virgula-e (list "aveia" "mamão" "banana" "maça"))`{.scheme} \pause $\rightarrow$ `"aveia, mamão, banana e maça"`{.scheme} \pause
+
+\normalsize
+
+Em todos os exemplos as repostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma especifica, que não é recursiva. \pause
+
+Então precisamos criar três casos base
+
+
+## Exemplos: junta com "," e "e"
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```scheme
+;; ListaDeStrings -> String
+;; Se a lista é vazia, devolve "".
+;; Se a lista tem apenas um elemento, devolve
+;; esse elemento.
+;; Senão, junta as strings de lst, separando-as
+;; com ", ", com exceção da última string, que
+;; é separada com " e ".
+(examples
+  (check-equal? (junta-virgula-e empty) "")
+  (check-equal?
+    (junta-virgula-e (list "maça")) "maça")
+  (check-equal?
+    (junta-virgula-e (list "mamão" "banana"
+                           "maça"))
+    "mamão, banana e maça")
+  (check-equal?
+    (junta-virgula-e (list "aveia" "mamão"
+                           "banana" "maça"))
+    "aveia, mamão, banana e maça"))
+(define (junta-virgula-e lst) "")
+```
+</div>
+<div class="column" width="48%">
+
+\pause
+
+Implementação
+
+\pause
+
+\scriptsize
+
+```scheme
+(define (junta-virgula-e lst)
+  (cond
+    [(empty? lst) ""]
+    [(empty? (rest lst)) (first lst)]
+    [(empty? (rest (rest lst)))
+     (string-append (first lst)
+                    " e "
+                    (second lst))]
+    [else
+      (string-append (first lst)
+                     ","
+                     (junta-virgula-e (rest lst)))]))
+```
+</div>
+</div>
 
 
 Números Naturais

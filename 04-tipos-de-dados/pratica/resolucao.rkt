@@ -36,13 +36,13 @@
 
 (examples
   (check-equal? (imagem-cabe-na-tela? (resolucao 300 400)
-                                     (resolucao 330 450)) #t)
+                                      (resolucao 330 450)) #t)
   (check-equal? (imagem-cabe-na-tela? (resolucao 330 450)
-                                     (resolucao 330 450)) #t)
+                                      (resolucao 330 450)) #t)
   (check-equal? (imagem-cabe-na-tela? (resolucao 331 400) ; altura não cabe
-                                     (resolucao 330 450)) #f)
+                                      (resolucao 330 450)) #f)
   (check-equal? (imagem-cabe-na-tela? (resolucao 330 451) ; largura não cabe
-                                     (resolucao 330 450)) #f))
+                                      (resolucao 330 450)) #f))
 
 (define (imagem-cabe-na-tela? i t)
   (and (<= (resolucao-altura i) (resolucao-altura t))
@@ -51,12 +51,13 @@
 
 ;; Resolucao -> Aspecto
 ;;
-;; Determina o aspector da resolucao r.
+;; Determina o aspecto da resolucao r.
 ;; Uma resolução altura x largura tem aspecto x:y se altura * x = largura * y.
 ;; Os valores de x e y considerados são aqueles da definição do tipo Aspecto.
+
 (examples
-  (check-equal? (aspecto (resolucao 1080 1920)) "16:9")
   (check-equal? (aspecto (resolucao 1024 768)) "3:4")
+  (check-equal? (aspecto (resolucao 1080 1920)) "16:9")
   (check-equal? (aspecto (resolucao 600 600)) "outro"))
 
 (define (aspecto r)

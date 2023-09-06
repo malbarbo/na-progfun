@@ -11,14 +11,17 @@
 ;; Representa um circulo
 ;; - raio: natural - o raio do círculo
 
+;; Figura é um dos valores
+;; - (retangulo natural natural)
+;; - (ciculo natural)
+
+
 (define PI 3.14)
 
-;; Figura é um dos valores
-;; (retangulo natural natural)
-;; (ciculo natural)
 
 ;; Figura -> Real
 ;; Calcula a área de fig.
+
 (examples
   (check-= (area (retangulo 3.0 4.0)) 12.0 0.0)
   (check-= (area (circulo 2.0)) 12.56 0.0))
@@ -29,6 +32,7 @@
                          (retangulo-largura fig))]
     [(circulo? fig) (* PI
                        (sqr (circulo-raio fig)))]))
+
 
 ;; Figura -> Boolean
 ;;
@@ -75,6 +79,7 @@
                               (circulo 3)) #t)
   (check-equal? (figura-cabe? (circulo 4)
                               (circulo 3)) #f))
+
 (define (figura-cabe? a b)
   (cond
     [(and (retangulo? a) (retangulo? b))

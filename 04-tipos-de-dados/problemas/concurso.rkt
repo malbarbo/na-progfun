@@ -19,6 +19,7 @@
 ;; - inscricao: natural
 ;; - pontos: natutal de 0 a 100
 
+
 ;; Candidado Candidado -> Candidado
 ;; Determina qual dos candidos, a ou b, ficou melhor classificado.
 ;; A classificação é determinada pelo maior número de pontos, e se houver

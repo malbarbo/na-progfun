@@ -1728,6 +1728,165 @@ Um número **Inteiro>=a** é
 </div>
 
 
+Limitações
+==========
+
+
+## Limitações
+
+Cada tipo com autorreferência tem um modelo de função que podemos usar como ponto de partida para implementar funções que processam o tipo de dado. \pause
+
+Embora o modelo seja um ponto de partida, em algumas situações ele pode não ser útil.
+
+
+## Palíndromo
+
+Considere o problema de verificar se uma lista de números é palíndromo (a lista tem os mesmos elementos quando lida da direita para a esquerda e da esquerda para direita). \pause
+
+Para verificar se `(list 5 4 1 4)`{.scheme} é palíndromo, o modelo sugere verificar se `(list 4 1 4)`{.scheme} é palíndromo. \pause
+
+Como a verificação se `(list 4 1 4)`{.scheme} é palíndromo pode nos ajudar a determinar se `(list 5 4 1 4)`{.scheme} é palíndromo? \pause Ou seja, a solução para o resto pode nós ajustar a compor o resultado para o todo? \pause Não...
+
+
+## Número primo
+
+Considere o problema de verificar se um número natural $n$ é primo (tem exatamente dois divisores distintos, $1$ e $n$). \pause
+
+Para verificar se $n = 13$ é primo, o modelo sugere verificar se $12$ é primo. \pause
+
+Como a verificação se $12$ é primo pode nos ajudar a determinar se $13$ é primo? \pause Não pode...
+
+
+## Limitações
+
+O problema nos dois casos é o mesmo: a solução do problema original não pode ser obtida a partir da solução do subproblema gerado pela decomposição estrutural do dado. \pause
+
+Como fazemos nesse caso? \pause Temos algumas opções: \pause
+
+- Redefinimos o problema de forma que a solução para o subproblema estrutural possa ser usado na construção da solução do problema original; \pause
+
+- Fazemos uma decomposição em subproblema(s) de maneira não estrutural e utilizamos a solução desse(s) subproblema(s) para construir a solução do problema original; \pause
+
+- Criamos uma plano (sequência de etapas) para construir a solução sem necessariamente pensar na decomposição da entrada em subproblemas do mesmo tipo.
+
+
+## Redefinição do problema
+
+Para o problema do número primo, podemos rescrever o problema da seguinte forma: Dado dois números naturais $n$ e $a \le n$, projete uma função que determine a quantidade de divisores de $n$ que são $\le a$. \pause
+
+Se temos a quantidade de divisores de $n$ que são $\le a - 1$, como obtemos a quantidade de divisores de $n$ que são $\le a$? \pause Somando 1 se $a$ é divisor de $n$. \pause
+
+Como podemos utilizar essa função para determinar se um número $n$ é primo? \pause Com a expressão `(= (num-divisores n n) 2)`{.scheme}
+
+## Número primo
+
+\scriptsize
+
+```scheme
+;; Natural -> Boolean
+;; Produz #t se n é um número primo, isto é, tem exatamente dois divisores distintos (1 e n).
+;; Produz #f caso contrário.
+(examples
+ (check-equal? (primo? 1) #f)
+ (check-equal? (primo? 2) #t)
+ (check-equal? (primo? 6) #f)
+ (check-equal? (primo? 7) #t)
+ (check-equal? (primo? 10) #f))
+(define (primo? n)
+  ;; Natural Natural -> Natural
+  ;; Calcula o número de divirores de n que são <= a.
+  (define (num-divisores n a)
+    (cond
+      [(zero? a) 0]
+      [(= (remainder n a) 0) (add1 (num-divisores n (sub1 a)))]
+      [else (num-divisores n (sub1 a))]))
+  (= (num-divisores n n) 2))
+```
+
+
+## Decomposição não estrutural
+
+Para o problema da lista palíndromo, vamos considerar a entrada `(list 4 1 5 1 4)`{.scheme}.
+
+Como podemos obter um subproblema da entrada de maneira que a resposta para o subproblema possa nos ajudar a compor a resposta para o problema original? \pause Removendo o primeiro e último elemento da lista. \pause
+
+Se sabemos que uma lista `lst` sem o primeiro e o último elemento é palíndromo, como determinar se `lst` é palíndromo? \pause Verificando se o primeiro e o último elemento de `lst` são iguais.
+
+
+## Palíndromo 1
+
+\scriptsize
+
+```scheme
+;; Lista -> Booleano
+;; Produz #t se lst é palindromo, isto é, tem os mesmos elementos
+;; quando lida da direita para esquerda e da esquerda para direita.
+;; Produz #f caso contrário.
+(examples
+ (check-equal? (palindromo? empty) #t)
+ (check-equal? (palindromo? (list 2)) #t)
+ (check-equal? (palindromo? (list 1 2)) #f)
+ (check-equal? (palindromo? (list 3 3)) #t)
+ (check-equal? (palindromo? (list 3 7 3)) #t)
+ (check-equal? (palindromo? (list 3 7 3 3)) #f))
+(define (palindromo? lst)
+  (cond
+    [(empty? lst) #t]
+    [(empty? (rest lst)) #t]
+    [else (and (equal? (first lst) (last lst))
+               (palindromo? (sem-extremos lst)))]))
+```
+
+\normalsize
+
+Exercício: Implemente a função `sem-extremos` e revise a função `palindromo?`.
+
+
+## Decomposição não estrutural
+
+Funções recursivas que operam em subproblemas obtidos pela decomposição estrutural dos dados são chamadas de **funções recursivas estruturais**. \pause
+
+Funções recursivas que operam em subproblemas arbitrários (não estruturais) são chamadas de **funções recursivas generativas**. \pause
+
+O projeto de função recursivas generativas pode requerer um "_insight_" e por isso tentamos primeiramente resolver os problemas com recursão estrutural.
+
+
+## Plano
+
+Ainda para o problema da lista palíndromo, ao invés de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos pensar em um plano, uma sequencia de etapas que resolva problemas intermediários mas que gerem o resultado que estamos esperando no final. \pause
+
+Por exemplo, podemos primeiramente inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
+
+Note que para este caso precisaríamos projetar duas novas funções. Estas funções poderiam ser implementadas usando recursão estrutural.
+
+
+## Palíndromo 2
+
+\scriptsize
+
+```scheme
+;; Lista -> Booleano
+;; Produz #t se lst é palindromo, isto é, tem os mesmos elementos
+;; quando lida da direita pra esquerda e da esquerda para direita.
+;; Produz #f caso contrário.
+(examples
+ (check-equal? (palindromo? empty) #t)
+ (check-equal? (palindromo? (list 2)) #t)
+ (check-equal? (palindromo? (list 1 2)) #f)
+ (check-equal? (palindromo? (list 3 3)) #t)
+ (check-equal? (palindromo? (list 3 7 3)) #t)
+ (check-equal? (palindromo? (list 3 7 3 3)) #f))
+(define (palindromo? lst)
+  (equal? lst (reverse lst)))
+```
+
+\pause
+
+\normalsize
+
+Note que usamos as funções pré-definidas `equal?` e `reverse`. Como exercício, implemente essas funções.
+
+
 Árvores binárias
 ================
 
@@ -2027,164 +2186,6 @@ Para ser bem formada, uma definição com autorreferência deve ter: \pause
 
 As vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência.
 
-
-Limitações
-==========
-
-
-## Limitações
-
-Cada tipo com autorreferência tem um modelo de função que podemos usar como ponto de partida para implementar funções que processam o tipo de dado. \pause
-
-Embora o modelo seja um ponto de partida, em algumas situações ele pode não ser útil.
-
-
-## Palíndromo
-
-Considere o problema de verificar se uma lista de números é palíndromo (a lista tem os mesmos elementos quando lida da direita para a esquerda e da esquerda para direita). \pause
-
-Para verificar se `(list 5 4 1 4)`{.scheme} é palíndromo, o modelo sugere verificar se `(list 4 1 4)`{.scheme} é palíndromo. \pause
-
-Como a verificação se `(list 4 1 4)`{.scheme} é palíndromo pode nos ajudar a determinar se `(list 5 4 1 4)`{.scheme} é palíndromo? \pause Ou seja, a solução para o resto pode nós ajustar a compor o resultado para o todo? \pause Não...
-
-
-## Número primo
-
-Considere o problema de verificar se um número natural $n$ é primo (tem exatamente dois divisores distintos, $1$ e $n$). \pause
-
-Para verificar se $n = 13$ é primo, o modelo sugere verificar se $12$ é primo. \pause
-
-Como a verificação se $12$ é primo pode nos ajudar a determinar se $13$ é primo? \pause Não pode...
-
-
-## Limitações
-
-O problema nos dois casos é o mesmo: a solução do problema original não pode ser obtida a partir da solução do subproblema gerado pela decomposição estrutural do dado. \pause
-
-Como fazemos nesse caso? \pause Temos algumas opções: \pause
-
-- Redefinimos o problema de forma que a solução para o subproblema estrutural possa ser usado na construção da solução do problema original; \pause
-
-- Fazemos uma decomposição em subproblema(s) de maneira não estrutural e utilizamos a solução desse(s) subproblema(s) para construir a solução do problema original; \pause
-
-- Criamos uma plano (sequência de etapas) para construir a solução sem necessariamente pensar na decomposição da entrada em subproblemas do mesmo tipo.
-
-
-## Redefinição do problema
-
-Para o problema do número primo, podemos rescrever o problema da seguinte forma: Dado dois números naturais $n$ e $a \le n$, projete uma função que determine a quantidade de divisores de $n$ que são $\le a$. \pause
-
-Se temos a quantidade de divisores de $n$ que são $\le a - 1$, como obtemos a quantidade de divisores de $n$ que são $\le a$? \pause Somando 1 se $a$ é divisor de $n$. \pause
-
-Como podemos utilizar essa função para determinar se um número $n$ é primo? \pause Com a expressão `(= (num-divisores n n) 2)`{.scheme}
-
-## Número primo
-
-\scriptsize
-
-```scheme
-;; Natural -> Boolean
-;; Produz #t se n é um número primo, isto é, tem exatamente dois divisores distintos (1 e n).
-;; Produz #f caso contrário.
-(examples
- (check-equal? (primo? 1) #f)
- (check-equal? (primo? 2) #t)
- (check-equal? (primo? 6) #f)
- (check-equal? (primo? 7) #t)
- (check-equal? (primo? 10) #f))
-(define (primo? n)
-  ;; Natural Natural -> Natural
-  ;; Calcula o número de divirores de n que são <= a.
-  (define (num-divisores n a)
-    (cond
-      [(zero? a) 0]
-      [(= (remainder n a) 0) (add1 (num-divisores n (sub1 a)))]
-      [else (num-divisores n (sub1 a))]))
-  (= (num-divisores n n) 2))
-```
-
-
-## Decomposição não estrutural
-
-Para o problema da lista palíndromo, vamos considerar a entrada `(list 4 1 5 1 4)`{.scheme}.
-
-Como podemos obter um subproblema da entrada de maneira que a resposta para o subproblema possa nos ajudar a compor a resposta para o problema original? \pause Removendo o primeiro e último elemento da lista. \pause
-
-Se sabemos que uma lista `lst` sem o primeiro e o último elemento é palíndromo, como determinar se `lst` é palíndromo? \pause Verificando se o primeiro e o último elemento de `lst` são iguais.
-
-
-## Palíndromo 1
-
-\scriptsize
-
-```scheme
-;; Lista -> Booleano
-;; Produz #t se lst é palindromo, isto é, tem os mesmos elementos
-;; quando lida da direita para esquerda e da esquerda para direita.
-;; Produz #f caso contrário.
-(examples
- (check-equal? (palindromo? empty) #t)
- (check-equal? (palindromo? (list 2)) #t)
- (check-equal? (palindromo? (list 1 2)) #f)
- (check-equal? (palindromo? (list 3 3)) #t)
- (check-equal? (palindromo? (list 3 7 3)) #t)
- (check-equal? (palindromo? (list 3 7 3 3)) #f))
-(define (palindromo? lst)
-  (cond
-    [(empty? lst) #t]
-    [(empty? (rest lst)) #t]
-    [else (and (equal? (first lst) (last lst))
-               (palindromo? (sem-extremos lst)))]))
-```
-
-\normalsize
-
-Exercício: Implemente a função `sem-extremos` e revise a função `palindromo?`.
-
-
-## Decomposição não estrutural
-
-Funções recursivas que operam em subproblemas obtidos pela decomposição estrutural dos dados são chamadas de **funções recursivas estruturais**. \pause
-
-Funções recursivas que operam em subproblemas arbitrários (não estruturais) são chamadas de **funções recursivas generativas**. \pause
-
-O projeto de função recursivas generativas pode requerer um "_insight_" e por isso tentamos primeiramente resolver os problemas com recursão estrutural.
-
-
-## Plano
-
-Ainda para o problema da lista palíndromo, ao invés de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos pensar em um plano, uma sequencia de etapas que resolva problemas intermediários mas que gerem o resultado que estamos esperando no final. \pause
-
-Por exemplo, podemos primeiramente inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
-
-Note que para este caso precisaríamos projetar duas novas funções. Estas funções poderiam ser implementadas usando recursão estrutural.
-
-
-## Palíndromo 2
-
-\scriptsize
-
-```scheme
-;; Lista -> Booleano
-;; Produz #t se lst é palindromo, isto é, tem os mesmos elementos
-;; quando lida da direita pra esquerda e da esquerda para direita.
-;; Produz #f caso contrário.
-(examples
- (check-equal? (palindromo? empty) #t)
- (check-equal? (palindromo? (list 2)) #t)
- (check-equal? (palindromo? (list 1 2)) #f)
- (check-equal? (palindromo? (list 3 3)) #t)
- (check-equal? (palindromo? (list 3 7 3)) #t)
- (check-equal? (palindromo? (list 3 7 3 3)) #f))
-(define (palindromo? lst)
-  (equal? lst (reverse lst)))
-```
-
-\pause
-
-\normalsize
-
-Note que usamos as funções pré-definidas `equal?` e `reverse`. Como exercício, implemente essas funções.
 
 
 Referências

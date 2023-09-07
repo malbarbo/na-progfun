@@ -10,7 +10,7 @@ urlcolor: Black
 
 @. Projete uma função que calcule o produto de todos os elementos de uma lista de números. Dica: considere que o produto dos elementos de uma lista vazia é 1.
 
-@. Projete uma função que crie uma lista de números a partir de uma lista de strings convertendo cada string para um número. Assuma que todas as strings representam números válidos. Veja a função `string->number`.
+@. Projete uma função que crie uma lista de números a partir de uma lista de strings convertendo cada string para um número. Assuma que todas as strings representam números válidos. Use função `string->number` para converter uma string para um número, como em `(string->number "123") ; resulta em 123`{.scheme}.
 
 @. Projete uma função que determine a quantidade de elementos de uma lista de números. Dica: o primeiro elemento pode ser ignorado.
 

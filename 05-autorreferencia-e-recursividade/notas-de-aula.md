@@ -561,7 +561,6 @@ Uma **ListaDeNúmeros** é um dos valores
 
 ```scheme
 ;; Modelo de funções para ListaDeNúmeros
-#;
 (define (fn-para-ldn ldn)
   (cond
     [(empty? ldn) ...]
@@ -1308,6 +1307,9 @@ Se um número natural pode ser visto como dado composto \pause
 
 ## Definição
 
+<div class="columns">
+<div class="column" width="48%">
+
 Um número **Natural** é
 
 - $0$; ou
@@ -1315,8 +1317,14 @@ Um número **Natural** é
 - `(add1 n)`{.scheme} onde $n$ é um número **Natural**
 
 \pause
-
 Baseado nesta definição, criamos um modelo para funções com números naturais
+
+</div>
+<div class="column" width="48%">
+
+\pause
+
+\small
 
 ```scheme
 (define (fn-para-natural n)
@@ -1326,6 +1334,9 @@ Baseado nesta definição, criamos um modelo para funções com números naturai
       (... n
            (fn-para-natural (sub1 n)))]))
 ```
+
+</div>
+</div>
 
 
 ## Definição
@@ -1340,7 +1351,7 @@ Baseado nesta definição, criamos um modelo para funções com números naturai
 > (add1 8)
 9
 ;; decompõe um natural
-;; semelhante ao rest
+;; semelhante a rest
 > (sub1 8)
 7
 ;; verifica se um natural é 0
@@ -1369,7 +1380,8 @@ Especificação
 (examples
  (check-equal? (soma-nat 0) 0)
  (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
- (check-equal? (soma-nat 3) 6)) ; (+ 3 (+ 2 (+ 1 0)))
+ (check-equal? (soma-nat 2) 3)  ; (+ 2 1 0)
+ (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
 (define (soma-nat n) 0)
 
 
@@ -1382,7 +1394,7 @@ Especificação
 
 ## Exemplo: soma naturais
 
-Implementação: modelo.
+Implementação: a partir do modelo.
 
 \small
 
@@ -1392,7 +1404,8 @@ Implementação: modelo.
 (examples
  (check-equal? (soma-nat 0) 0)
  (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
- (check-equal? (soma-nat 3) 6)) ; (+ 3 (+ 2 (+ 1 0)))
+ (check-equal? (soma-nat 2) 3)  ; (+ 2 1 0)
+ (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
 (define (soma-nat n)
   (cond
     [(zero? n) ...]
@@ -1414,7 +1427,8 @@ Implementação: o caso base.
 (examples
  (check-equal? (soma-nat 0) 0)
  (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
- (check-equal? (soma-nat 3) 6)) ; (+ 3 (+ 2 (+ 1 0)))
+ (check-equal? (soma-nat 2) 3)  ; (+ 2 1 0)
+ (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
 (define (soma-nat n)
   (cond
     [(zero? n) 0]
@@ -1436,7 +1450,8 @@ Implementação: o outro caso.
 (examples
  (check-equal? (soma-nat 0) 0)
  (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
- (check-equal? (soma-nat 3) 6)) ; (+ 3 (+ 2 (+ 1 0)))
+ (check-equal? (soma-nat 2) 3)  ; (+ 2 1 0)
+ (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
 (define (soma-nat n)
   (cond
     [(zero? n) 0]
@@ -1463,8 +1478,10 @@ Especificação
 (examples
   (check-equal? (lista-num 0) empty)
   (check-equal? (lista-num 1) (cons 1 empty))
+  (check-equal? (lista-num 2) (cons 1 (cons 2 empty)))
   (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
 (define (lista-num n) empty)
+
 
 
 
@@ -1485,6 +1502,7 @@ Implementação: modelo.
 (examples
   (check-equal? (lista-num 0) empty)
   (check-equal? (lista-num 1) (cons 1 empty))
+  (check-equal? (lista-num 2) (cons 1 (cons 2 empty)))
   (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
 (define (lista-num n)
   (cond
@@ -1507,6 +1525,7 @@ Implementação: caso base.
 (examples
   (check-equal? (lista-num 0) empty)
   (check-equal? (lista-num 1) (cons 1 empty))
+  (check-equal? (lista-num 2) (cons 1 (cons 2 empty)))
   (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
 (define (lista-num n)
   (cond
@@ -1529,6 +1548,7 @@ Implementação: o outro caso.
 (examples
   (check-equal? (lista-num 0) empty)
   (check-equal? (lista-num 1) (cons 1 empty))
+  (check-equal? (lista-num 2) (cons 1 (cons 2 empty)))
   (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
 (define (lista-num n)
   (cond
@@ -1543,12 +1563,16 @@ Implementação: o outro caso.
 
 Especificação para `cons-fim`.
 
-\small
+\footnotesize
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
 ;; Adiciona n ao final de ldn.
 (define (cons-fim n ldn) ldn)
+
+
+
+
 
 
 
@@ -1565,16 +1589,20 @@ Especificação para `cons-fim`.
 
 Especificação para `cons-fim`.
 
-\small
+\footnotesize
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
 ;; Adiciona n ao final de ldn.
 (examples
-  (check-equal? (cons-fim 3 empty) (cons 3 empty))
+  (check-equal? (cons-fim 3 empty)
+                (cons 3 empty))
+  (check-equal? (cons-fim 4 (cons 3 empty))
+                (cons 3 (cons 4 empty)))
   (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
                 (cons 3 (cons 4 (cons 1 empty)))))
 (define (cons-fim n ldn) ldn)
+
 
 
 
@@ -1587,13 +1615,16 @@ Especificação para `cons-fim`.
 
 Implementação: modelo.
 
-\small
+\footnotesize
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
 ;; Adiciona n ao final de ldn.
 (examples
-  (check-equal? (cons-fim 3 empty) (cons 3 empty))
+  (check-equal? (cons-fim 3 empty)
+                (cons 3 empty))
+  (check-equal? (cons-fim 4 (cons 3 empty))
+                (cons 3 (cons 4 empty)))
   (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
                 (cons 3 (cons 4 (cons 1 empty)))))
 (define (cons-fim n ldn)
@@ -1609,13 +1640,16 @@ Implementação: modelo.
 
 Implementação: caso base.
 
-\small
+\footnotesize
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
 ;; Adiciona n ao final de ldn.
 (examples
-  (check-equal? (cons-fim 3 empty) (cons 3 empty))
+  (check-equal? (cons-fim 3 empty)
+                (cons 3 empty))
+  (check-equal? (cons-fim 4 (cons 3 empty))
+                (cons 3 (cons 4 empty)))
   (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
                 (cons 3 (cons 4 (cons 1 empty)))))
 (define (cons-fim n ldn)
@@ -1631,13 +1665,16 @@ Implementação: caso base.
 
 Implementação: outro caso.
 
-\small
+\footnotesize
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
 ;; Adiciona n ao final de ldn.
 (examples
-  (check-equal? (cons-fim 3 empty) (cons 3 empty))
+  (check-equal? (cons-fim 3 empty)
+                (cons 3 empty))
+  (check-equal? (cons-fim 4 (cons 3 empty))
+                (cons 3 (cons 4 empty)))
   (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
                 (cons 3 (cons 4 (cons 1 empty)))))
 (define (cons-fim n ldn)
@@ -1663,15 +1700,20 @@ Podemos generalizar a definição de número natural para incluir um limite infe
 
 ## Definição Inteiro
 
+<div class="columns">
+<div class="column" width="45%">
 Um número **Inteiro>=a** é
 
 - $a$; ou
 
 - `(add1 n)`{.scheme} onde $n$ é um número **Inteiro>=a**
 
+</div>
+<div class="column" width="52%">
+
 \pause
 
-Modelo
+\small
 
 ```scheme
 (define (fn-para-inteiro>=a n)
@@ -1682,6 +1724,8 @@ Modelo
            (fn-para-inteiro>=a (sub1 n)))]))
 ```
 
+</div>
+</div>
 
 
 Árvores binárias
@@ -1705,13 +1749,23 @@ Como podemos definir uma árvore binária?
 
 ## Árvores binárias
 
-Uma **ÁrvoreBináriaDeNúmeros** é \pause
+<div class="columns">
+<div class="column" width="48%">
 
-- `empty`; ou
+Uma **ÁrvoreBinária** é \pause
 
-- `(no Número ÁrvoreBináriaDeNúmeros ÁrvoreBináriaDeNúmeros)`, onde `no` é uma estrutura com os campos `valor`, `esq` e `dir`
+\small
+
+- `empty`{.scheme}; ou
+
+- `(no Número ÁrvoreBinária ÁrvoreBinária)`, onde `no` é uma estrutura com os campos `valor`, `esq` e `dir`
 
 \pause
+
+</div>
+<div class="column" width="48%">
+
+\small
 
 Modelo
 
@@ -1724,6 +1778,9 @@ Modelo
            (fn-para-abdn (no-esq t))
            (fn-para-abdn (no-dir t)))]))
 ```
+
+</div>
+</div>
 
 
 ## Exemplo: altura árvore
@@ -1808,20 +1865,28 @@ Chamamos este tipo de lista de lista aninhada. \pause Como podemos definir uma l
 
 ## Listas aninhadas
 
-Uma **ListaAninhadaDeNúmeros** é
+<div class="columns">
+<div class="column" width="52%">
 
-- `empty`; ou
+Uma **ListaAninhada** é
 
-- `(cons ListaAninhadaDeNúmeros ListaAninhadaDeNúmeros)`
+\small
 
-- `(cons Número ListaAninhadaDeNúmeros)`
+- `empty`{.scheme}; ou
 
+- `(cons ListaAninhada ListaAninhada)`{.scheme}
 
-## Listas aninhadas
+- `(cons Número ListaAninhada)`{.scheme}
+
+</div>
+<div class="column" width="46%">
+\pause
+
+Modelo
+
+\small
 
 ```scheme
-;; Modelo
-#;
 (define (fn-para-ladn ldn)
   (cond
     [(empty? ldn) ...]
@@ -1832,6 +1897,9 @@ Uma **ListaAninhadaDeNúmeros** é
      (... (first ldn)
           (fn-para-ladn (rest ldn)))]))
 ```
+
+</div>
+</div>
 
 
 ## Exemplo: soma*

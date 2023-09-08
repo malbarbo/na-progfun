@@ -1909,6 +1909,22 @@ Para ser bem formada, uma definição com autorreferência deve ter: \pause
 As vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência.
 
 
+## Revisão
+
+Existem dois tipos de recursão: estrutural e generativa. \pause
+
+- A recursão estrutural é aquela feita na decomposição natural do dado (para as partes que são autorreferências na definição do dado). \pause
+
+- A recursão generativa é aquela que não é estrutural. \pause
+
+A recursão estrutural só pode ser utilizada quando solução do problema pode ser expressa em termos da solução do problema estrutural. Para os demais problemas podemos tentar três abordagem: \pause
+
+- Alterar o problema e utilizar recursão natural; \pause
+
+- Usar recursão generativa; \pause
+
+- Usar um plano (sequência de etapas)
+
 
 Referências
 ===========

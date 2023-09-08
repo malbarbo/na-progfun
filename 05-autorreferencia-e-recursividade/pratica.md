@@ -2,6 +2,7 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Autorreferência e recursividade - Prática
 urlcolor: Black
+# TODO: adicionar mais exercícios de map e filter.
 ---
 
 <!-- Básico -->
@@ -25,14 +26,35 @@ urlcolor: Black
 
 @. Projete uma função que verifique se algum dos elementos de uma lista de booleanos é verdadeiro. Se a sua implementação inicial utilizar `if`{.scheme} para fazer a chamada recursiva, simplifique o código removendo o `if`{.scheme}.
 
+@. Defina uma função que que receba como entrada uma lista `lst` e devolva uma lista com os mesmos elementos de `lst` mas em ordem contrária.
+
 
 <!-- Ajuste caso base -->
 
-@. Projete uma função que determine o tamanho máximo entre todas as strings de uma lista não vazia de strings. Dica: Mude o caso base.
+@. Projete uma função que devolva o último elemento de uma lista não vazia de números.
+
+@. Projete uma função que determine o tamanho máximo entre todas as strings de uma lista não vazia de strings.
 
 @. Projete uma função que verifique se uma lista de números está em ordem não decrescente. Dica: use dois casos base.
 
 
-<!-- Funções auxiliares -->
+<!-- Funções auxiliares - plano -->
 
-@. Projete uma função que indique se em uma lista de inteiros existem mais valores positivos ou negativos. Dica: crie duas funções auxiliares, uma para contar os positivos e outra os negativos.
+@. Projete uma função que indique se em uma lista de inteiros existem mais valores positivos ou negativos. Dica: crie um plano e use funções auxiliares.
+
+@. Projete uma função que calcule a amplitude dos valores de uma lista não vazia de números, isto é, a diferença entre o valor máximo e mínimo da lista. Dica: crie um plano e use funções auxiliares.
+
+
+<!-- Números naturais -->
+
+@. Projete uma função que receba como parâmetro um número natural $n$ e calcule o produto dos números $1, 2, \cdots, n$.
+
+@. Projete uma função que receba como entrada um número $a$ (diferente de 0) e um número natural $n$ e calcule o valor $a^n$.
+
+@. Projete uma função que receba como entrada dois números naturais maiores que zero, $n$ e $x$, e devolva uma lista com os divisores de $x$ que são menores ou iguais a $n$ (não se preocupe com a ordem dos valores na resposta).
+
+@. Um número natural é perfeito se a soma dos seu divisores, exceto ele mesmo, é igual a ele. Por exemplo, o número $6$ é perfeito porque $6 = 1 + 2 + 3$. Projete uma função que use uma sequência de etapas para verificar se um número natural é perfeito.
+
+@. Recursão indireta é quando duas (ou mais) funções chama uma a outra. Defina duas funções `impar?` e `par?`, uma em termos da outra.
+
+@. Utilizando apenas as funções primitivas `zero?`, `add1` e `sub1`, escreva as funções `+`, `-` e `*`. Cada função deve receber como parâmetro dois números naturais e executar a operação aritmética apropriada.

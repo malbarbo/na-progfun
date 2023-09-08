@@ -4,6 +4,10 @@
 
 # TODO
 
+- Organizar os TODO's
+
+- Colocar seções nos slides
+
 - Criar um tópico de planejamento
 
 - Apresentar a receita de projeto de forma diferente (https://course.ccs.neu.edu/cs5010sp15/recipe.html)
@@ -13,8 +17,6 @@
 - Rever o quicksort (pode existir valores iguais ao pivo?)
 
 - Expandir dados compostos para tipos de dados algébricos e incluir como projetar dados
-
-- Renomear a aula "combinação de modelos" para o que? Ou junto com autorreferência?
 
 - Fazer mais aulas de laboratório e resolver exercícios da lista
 

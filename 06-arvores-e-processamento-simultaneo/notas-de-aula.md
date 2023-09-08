@@ -2,7 +2,7 @@
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: fazer o segundo exemplo passa a passo
 # TODO: adicionar mais exemplos?
-title: Combinação de modelos
+title: Árvores e processamento simultâneo
 ---
 
 Introdução

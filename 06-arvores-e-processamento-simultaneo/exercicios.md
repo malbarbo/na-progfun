@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Combinação de modelos
+title: Árvores e processamento simultâneo - Exercícios
 # TODO: deixar o exercício conta troco? Não usa recursão natural...
 ---
 

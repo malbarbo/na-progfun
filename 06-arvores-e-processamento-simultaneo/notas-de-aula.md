@@ -5,6 +5,287 @@
 title: Árvores e processamento simultâneo
 ---
 
+
+Árvores binárias
+================
+
+
+## Árvores binárias
+
+Como podemos definir uma árvore binária?
+
+```
+        3
+      /   \
+     4     7
+    /     / \
+   3     8   9
+            /
+           10
+```
+
+
+## Árvores binárias
+
+<div class="columns">
+<div class="column" width="48%">
+
+Uma **ÁrvoreBinária** é \pause
+
+\small
+
+- `empty`{.scheme}; ou
+
+- `(no Número ÁrvoreBinária ÁrvoreBinária)`, onde `no` é uma estrutura com os campos `valor`, `esq` e `dir`
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+\small
+
+Modelo
+
+```scheme
+(define (fn-para-abdn t)
+  (cond
+    [(empty? t) ...]
+    [else
+      (... (no-valor t)
+           (fn-para-abdn (no-esq t))
+           (fn-para-abdn (no-dir t)))]))
+```
+
+</div>
+</div>
+
+
+## Exemplo: altura árvore
+
+Defina uma função que calcule a altura de uma árvore binária. A altura de uma árvore binária é a distância entre a raiz e o seu descendente mais afastado. Uma árvore com um único nó tem altura 0.
+
+
+## Exemplo: altura árvore
+
+\scriptsize
+
+```scheme
+;;     t4  3
+;;       /   \
+;;  t3  4     7  t2
+;;     /     / \
+;;    3     8   9  t1
+;;             /
+;;        t0  10
+;; ÁrvoreBináriaDeNúmeros -> Natural
+(check-equal? (altura empty) ?)
+(check-equal? (altura t0) 0)
+(check-equal? (altura t1) 1)
+(check-equal? (altura t2) 2)
+(check-equal? (altura t3) 1)
+(check-equal? (altura t4) 3)
+(define (altura t)
+  (cond
+    [(empty? t) ...]
+    [else (... (no-valor t)
+               (altura (no-esq t))
+               (altura (no-dir t)))]))
+```
+
+
+## Exemplo: altura árvore
+
+\scriptsize
+
+```scheme
+;;     t4  3
+;;       /   \
+;;  t3  4     7  t2
+;;     /     / \
+;;    3     8   9  t1
+;;             /
+;;        t0  10
+;; ÁrvoreBináriaDeNúmeros -> Natural
+(check-equal? (altura empty) -1)
+(check-equal? (altura t0) 0)
+(check-equal? (altura t1) 1)
+(check-equal? (altura t2) 2)
+(check-equal? (altura t3) 1)
+(check-equal? (altura t4) 3)
+(define (altura t)
+  (cond
+    [(empty? t) -1]
+    [else (add1 (max
+                 (altura (no-esq t))
+                 (altura (no-dir t))))]))
+```
+
+
+
+Listas aninhadas
+================
+
+
+## Listas aninhadas
+
+Às vezes é necessário criar uma lista, que contenha outras listas, e estas listas contenham outras listas, etc. \pause
+
+```scheme
+> (list 1 4 (list 5 empty (list 2) 9) 10)
+'(1 4 (5 () (2) 9) 10)
+```
+
+\pause
+
+Chamamos este tipo de lista de lista aninhada. \pause Como podemos definir uma lista aninhada?
+
+
+## Listas aninhadas
+
+<div class="columns">
+<div class="column" width="52%">
+
+Uma **ListaAninhada** é
+
+\small
+
+- `empty`{.scheme}; ou
+
+- `(cons ListaAninhada ListaAninhada)`{.scheme}
+
+- `(cons Número ListaAninhada)`{.scheme}
+
+</div>
+<div class="column" width="46%">
+\pause
+
+Modelo
+
+\small
+
+```scheme
+(define (fn-para-ladn ldn)
+  (cond
+    [(empty? ldn) ...]
+    [(list? (first ldn))
+     (... (fn-para-ladn (first ldn))
+          (fn-para-ladn (rest ldn)))]
+    [else
+     (... (first ldn)
+          (fn-para-ladn (rest ldn)))]))
+```
+
+</div>
+</div>
+
+
+## Exemplo: soma*
+
+Defina uma função que some todos os números de uma lista aninhada de números.
+
+
+## Exemplo: soma*
+
+\scriptsize
+
+```scheme
+;; ListaAninhadaDeNúmeros -> Número
+;; Devolve a soma de todos os elementos de ldn.
+(examples
+ (check-equal? (soma* empty)
+               0)
+ (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               30))
+(define (soma* ldn)
+  (cond
+    [(empty? ldn) ...]
+    [(list? (first ldn))
+     (... (soma* (first ldn))
+          (soma* (rest ldn)))]
+    [else
+     (... (first ldn)
+          (soma* (rest ldn)))]))
+```
+
+
+## Exemplo: soma*
+
+\scriptsize
+
+```scheme
+;; ListaAninhadaDeNúmeros -> Número
+;; Devolve a soma de todos os elementos de ldn.
+(examples
+ (check-equal? (soma* empty)
+               0)
+ (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               30))
+(define (soma* ldn)
+  (cond
+    [(empty? ldn) 0]
+    [(list? (first ldn))
+     (+ (soma* (first ldn))
+        (soma* (rest ldn)))]
+    [else
+     (+ (first ldn)
+        (soma* (rest ldn)))]))
+```
+
+
+## Exemplo: aplaina
+
+Defina uma função que aplaine uma lista aninhada, isto é, transforme uma lista aninhada em uma lista sem listas aninhadas com os mesmos elementos e na mesma ordem da lista aninhada.
+
+
+## Exemplo: aplaina
+
+\scriptsize
+
+```scheme
+;; ListaAninhadaDeNúmeros -> ListaDeNúmeros
+;; Devolve uma versão não aninhada de ldn, isto é, uma lista com os mesmos
+;; elementos de ldn, mas sem aninhamento.
+(examples
+ (check-equal? (aplaina empty) empty)
+ (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               (list 1 3 4 5 4 6 7)))
+(define (aplaina ldn)
+  (cond
+    [(empty? ldn) ...]
+    [(list? (first ldn))
+     (... (aplaina (first ldn))
+          (aplaina (rest ldn)))]
+    [else
+     (... (first ldn)
+          (aplaina (rest ldn)))]))
+```
+
+
+## Exemplo: aplaina
+
+\scriptsize
+
+```scheme
+;; ListaAninhadaDeNúmeros -> ListaDeNúmeros
+;; Devolve uma versão não aninhada de ldn, isto é, uma lista com os mesmos
+;; elementos de ldn, mas sem aninhamento.
+(examples
+ (check-equal? (aplaina empty) empty)
+ (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
+               (list 1 3 4 5 4 6 7)))
+(define (aplaina ldn)
+  (cond
+    [(empty? ldn) empty]
+    [(list? (first ldn))
+     (append (aplaina (first ldn))
+             (aplaina (rest ldn)))]
+    [else
+     (cons (first ldn)
+           (aplaina (rest ldn)))]))
+```
+
+
 Introdução
 ==========
 

@@ -27,7 +27,7 @@
   ;; Requer que lst tenha pelo menos dois elementos
   (define (sem-extremos lst)
     (rest (sem-ultimo lst)))
-  
+
   (cond
     [(empty? lst) #t]
     [(empty? (rest lst)) #t]

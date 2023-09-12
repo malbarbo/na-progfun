@@ -3,9 +3,10 @@
 (require examples)
 
 ;; ListaDeNúmeros Natural -> Natural
+;;
 ;; Devolve a quantidade de formas diferentes que se pode dar troco de um valor
 ;; a partir de uma lista de valores de moedas
-
+;;
 ;;                        moedas
 ;;             +-------+--------------------+
 ;;             | empty |     (cons ...)     |
@@ -19,11 +20,11 @@
 
 (examples
  (check-equal? (conta-troco 4 (list 1 2)) 3)
- ;; 1+1+1+1, 1+1+2, 2+2
+ ; 1+1+1+1, 1+1+2, 2+2
  (check-equal? (conta-troco 6 (list 2 3)) 2)
- ;; 2+2+2, 3+3
+ ; 2+2+2, 3+3
  (check-equal? (conta-troco 10 (list 2 3 4)) 5))
- ;; 2+2+2+2+2, 2+2+2+4, 2+2+3+3, 2+4+4, 3+3+4
+ ; 2+2+2+2+2, 2+2+2+4, 2+2+3+3, 2+4+4, 3+3+4
 
 (define (conta-troco valor moedas)
   (cond

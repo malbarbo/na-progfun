@@ -2,9 +2,9 @@
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: colocar uma sequência de exemplos (como feito em sala) para
 #       levar os alunos a determinar o código para altura-arvore
-# TODO: adicionar uma situação problema para lista aninhada
-# TODO: fazer o segundo exemplo passa a passo
-# TODO: adicionar mais exemplos?
+# TODO: adicionar uma situação problema para lista aninhada (ou trocar por arvóre n-ária)
+# TODO: mais detalhes sobre processamento simultâneo
+# TODO: adicionar revisão
 title: Árvores e processamento simultâneo
 ---
 
@@ -96,6 +96,8 @@ Defina uma função que calcule a altura de uma árvore binária. A altura de um
 (define t3 (no 4 (no 3 empty empty) empty))
 (define t4 (no 3 t2 t3))
 ```
+
+\pause
 
 </div>
 <div class="column" width="48%">
@@ -349,7 +351,7 @@ Processamento simultâneo
 
 ## Introdução
 
-Como implementar uma função que consome dois argumentos e os dois são de tipos de dados uniões? \pause Temos três possibilidades: \pause
+Como implementar uma função que consome dois argumentos e os dois são de tipos com autorreferência? \pause Temos três possibilidades: \pause
 
 - Tratar um dos argumentos como atômico e utilizar o modelo do tipo de dado do outro argumento. \pause
 
@@ -435,6 +437,98 @@ Então usamos o modelo para processar `lsta`.
       (cons (first lsta)
             (concatena (rest lsta) lstb))]))
 ```
+
+
+## Exemplo: soma ponderada
+
+Projete uma função que calcule a soma ponderada a partir de uma lista de números e uma lista de pesos.
+
+
+## Exemplo: soma ponderada
+
+\scriptsize
+
+```scheme
+;; ListaDeNúmeros ListaDeNúmeros -> Número
+;;
+;; Calcula a soma ponderada dos valores de lst cosiderando que cada
+;; elemento de lst tem como peso o elemento correspondente em pesos.
+;;
+;; Requer que lst e pesos tenham o mesmo tamanho
+
+(examples
+  (check-equal? (soma-ponderada empty empty) 0)
+  (check-equal? (soma-ponderada (list 4) (list 2)) 8) ; (+ 0 (* 4 2))
+  (check-equal? (soma-ponderada (list 3 4) (list 5 2)) 23) ; (+ (* 3 5) (* 4 2))
+  (check-equal? (soma-ponderada (list 5 3 4) (list 1 5 2)) 28)) ; (+ (* 5 1) (* 3 5) (* 4 2))
+```
+
+\pause
+
+\small
+
+O requisito de que `lst` e `pesos` têm o mesmo tamanho pode ser explorado para inicial a implementação: \pause
+
+- Quando `lst` é vazia, `pesos` também é. \pause
+- Quando `lst` e `pesos` não são vazia, temos `(first lst)`{.scheme}, `(rest lst)`{.scheme}, `(first pesos)`{.scheme} e `(rest pesos)`{.scheme} \pause
+- Para a chamada recursiva, temos `(rest lst)` e `(rest pesos)`, que têm o mesmo tamanho.
+
+
+## Exemplo: soma ponderada
+
+\scriptsize
+
+```scheme
+;; ListaDeNúmeros ListaDeNúmeros -> Número
+;;
+;; Calcula a soma ponderada dos valores de lst cosiderando que cada
+;; elemento de lst tem como peso o elemento correspondente em pesos.
+;;
+;; Requer que lst e pesos tenham o mesmo tamanho
+
+(examples
+  (check-equal? (soma-ponderada empty empty) 0)
+  (check-equal? (soma-ponderada (list 4) (list 2)) 8) ; (+ 0 (* 4 2))
+  (check-equal? (soma-ponderada (list 3 4) (list 5 2)) 23) ; (+ (* 3 5) (* 4 2))
+  (check-equal? (soma-ponderada (list 5 3 4) (list 1 5 2)) 28)) ; (+ (* 5 1) (* 3 5) (* 4 2))
+
+(define (soma-ponderada lst pesos)
+  (cond
+    [(empty? lst) ...]
+    [else
+      ... (first lst)
+          (first pesos)
+          (soma-ponderada (rest lst) (rest pesos))]))
+```
+
+
+## Exemplo: soma ponderada
+
+\scriptsize
+
+```scheme
+;; ListaDeNúmeros ListaDeNúmeros -> Número
+;;
+;; Calcula a soma ponderada dos valores de lst cosiderando que cada
+;; elemento de lst tem como peso o elemento correspondente em pesos.
+;;
+;; Requer que lst e pesos tenham o mesmo tamanho
+
+(examples
+  (check-equal? (soma-ponderada empty empty) 0)
+  (check-equal? (soma-ponderada (list 4) (list 2)) 8) ; (+ 0 (* 4 2))
+  (check-equal? (soma-ponderada (list 3 4) (list 5 2)) 23) ; (+ (* 3 5) (* 4 2))
+  (check-equal? (soma-ponderada (list 5 3 4) (list 1 5 2)) 28)) ; (+ (* 5 1) (* 3 5) (* 4 2))
+
+(define (soma-ponderada lst pesos)
+  (cond
+    [(empty? lst) 0]
+    [else
+      (+ (* (first lst)
+            (first pesos))
+         (soma-ponderada (rest lst) (rest pesos)))]))
+```
+
 
 
 ## Exemplo: prefixo

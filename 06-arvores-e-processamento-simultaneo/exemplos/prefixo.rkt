@@ -3,6 +3,7 @@
 (require examples)
 
 ;; ListaDeNúmeros ListaDeNúmeros -> Boolean
+;;
 ;; Devolve #t se lsta é prefixo de lstb. #f caso contrário.
 ;;
 ;; É interessante deixar a tabela no código

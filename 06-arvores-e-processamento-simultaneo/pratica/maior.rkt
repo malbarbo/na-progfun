@@ -3,6 +3,7 @@
 (require examples)
 
 ;; Natural Natural -> Boolean
+;;
 ;; Devolve true se a é maior que b, falso caso contrário.
 ;;
 ;;                             b
@@ -12,7 +13,8 @@
 ;;   |      0     |           #f                  |
 ;; a +------------+------------+------------------+
 ;;   | (add1 ...) |      #t    | recursão natural |
-;;    +------------+------------+------------------+
+;;   +------------+------------+------------------+
+
 (examples
  (check-equal? (>? 0 0) #f)
  (check-equal? (>? 0 2) #f)

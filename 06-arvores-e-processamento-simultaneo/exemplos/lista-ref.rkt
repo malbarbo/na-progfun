@@ -3,6 +3,7 @@
 (require examples)
 
 ;; ListaDeNúmeros Natural -> Qualquer
+;;
 ;; Devolve o elemento na posição k da lista.
 ;; O primeiro elemento está na posição 0.
 ;;
@@ -14,6 +15,7 @@
 ;; lst +------------+------------+-------------------+
 ;;     | (cons ...) |(first lst) |  recursão natural |
 ;;     +------------+------------+-------------------+
+
 (examples
  (check-exn exn:fail? (thunk (lista-ref empty 0)))
  (check-exn exn:fail? (thunk (lista-ref empty 2)))

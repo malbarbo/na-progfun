@@ -3,6 +3,7 @@
 (require examples)
 
 ;; ListaDeNúmero ListaDeNúmeros -> ListaDeNúmeros
+;;
 ;; Produz uma nova lista com os elementos de lsta seguidos
 ;; dos elementos de lstb.
 

@@ -1,10 +1,16 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Árvores e processamento simultâneo - Exercícios
-# TODO: mover o exercício da contagem do troco para recursão generativa
+# TODO: adicionar exercício com duas listas de entrada
 ---
 
 <!-- Árvores -->
+
+@. Projete uma função que receba como entrada uma árvore binária `t` e um número `n` e devolva uma nova árvore binária que é como `t` mas com `n` somado a cada elemento.
+
+@. Projete uma função que verifique se uma árvore binária é uma árvore binária de busca. Uma árvore binária de busca tem as seguintes propriedades: 1) A subárvore a esquerda contém valores nos nós menores que o valor no nó raiz. 2) A subárvore a direita contém valores nos nós maiores que o valor no nó raiz. 3) As subárvores a esquerda e a direita também são árvores binárias de busca.
+
+@. Projete uma função que verifique se um elemento está em uma árvore binária de busca.
 
 @. Projete uma função que receba como entrada uma lista aninhada `lst` e devolva uma nova lista aninhada como os mesmo elementos de `lst`, mas em ordem reversa.
 
@@ -13,16 +19,17 @@ title: Árvores e processamento simultâneo - Exercícios
     '(70 (10) (50 (11 10) 9) 8 (3 2))
     ```
 
-@. Projete uma função que receba como entrada uma árvore binária `t` e um número `n` e devolva uma nova árvore binária que é como `t` mas com `n` somado a cada elemento.
-
-@. Projete uma função que verifique se uma árvore binária é uma árvore binária de busca. Uma árvore binária de busca tem as seguintes propriedades: 1) A subárvore a esquerda contém valores nos nós menores que o valor no nó raiz. 2) A subárvore a direita contém valores nos nós maiores que o valor no nó raiz. 3) As subárvores a esquerda e a direita também são árvores binárias de busca.
-
-@. Projete uma função que verifique se um elemento está em uma árvore binária de busca.
-
 
 <!-- Processamento simultâneo -->
 
 @. Utilizando apenas as funções primitivas `zero?`, `add1` e `sub1`, escreva as funções `>`, `>=`, `<`, `<=` e `=`. Cada função deve receber como parâmetro dois números naturais e executar a operação de comparação apropriada.
+
+@. Defina uma função que receba como entrada duas listas de números em ordem crescente, e devolva uma nova lista com os elementos das duas listas de entrada em ordem crescente.
+
+    ```scheme
+    > (intercala (list 3 7 12) (list 2 4 5))
+    '(2 3 4 5 7 12)
+    ```
 
 @. Projete uma função que devolve os $n$ primeiros elementos de uma lista.
 
@@ -65,21 +72,3 @@ title: Árvores e processamento simultâneo - Exercícios
     > (rotaciona-esquerda (list 10 20 30 40 50) 2)
     '(30 40 50 10 20)
     ```
-
-@. Projete uma função que receba como entrada duas lista `lsta` e `lstb`, e devolva uma nova lista com os elementos de `lsta` seguidos dos elementos de `lstb`.
-
-    ```scheme
-    > (append (list 3 7 12) (list 2 4 5))
-    '(3 7 12 2 4 5)
-    ```
-
-@. Defina uma função que receba como entrada duas listas de números em ordem crescente, e devolva uma nova lista com os elementos das duas listas de entrada em ordem crescente.
-
-    ```scheme
-    > (merge (list 3 7 12) (list 2 4 5))
-    '(2 3 4 5 7 12)
-    ```
-
-<!--
-@. Escreva uma função que conte de quantas formas diferentes podemos dar um valor de troco a partir de uma lista de valores de moedas. Por exemplo, existem 3 formas de dar o troco para o valor 4 se você tiver moedas de 1 e 2: $1 + 1 + 1 + 1$, $1 + 1 + 2$, $2 + 2$.
--->

@@ -10,13 +10,7 @@
 ;; Uma ÁrvoreBináriaDeNúmeros é um dos valores:
 ;;   - empty; ou
 ;;   - (no Número ÁrvoreBináriaDeNúmeros ÁrvoreBináriaDeNúmeros)
-;; Exemplos
-#;
-(define arvore-vazia empty)
-#;
-(define t1 (no 3 empty empty))
-#;
-(define t2 (no 9 t1 (no 7 empty empty)))
+
 ;; Modelo
 #;
 (define (fn-para-abdn t)
@@ -45,9 +39,11 @@
 (define t4 (no 3 t2 t3))
 
 ;; ÁrvoreBináriaDeNúmeros -> Natural
+;;
 ;; Devolve a altura da árvore binária. A altura de uma árvore binária é a
 ;; distância da raiz a seu descendente mais afastado. Uma árvore com um único
 ;; nó tem altura 0. Uma árvore vazia tem altura -1.
+
 (examples
  (check-equal? (altura empty) -1)
  (check-equal? (altura t0) 0)

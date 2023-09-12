@@ -1279,7 +1279,7 @@ Implementação
                     (second lst))]
     [else
       (string-append (first lst)
-                     ","
+                     ", "
                      (junta-virgula-e (rest lst)))]))
 ```
 </div>

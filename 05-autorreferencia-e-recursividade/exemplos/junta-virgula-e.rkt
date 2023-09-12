@@ -3,10 +3,12 @@
 (require examples)
 
 ;; ListaDeStrings -> String
+;;
 ;; Se a lista é vazia, devolve "".
 ;; Se a lista tem apenas um elemento, devolve esse elemento.
 ;; Senão, junta as strings de lst, separando-as com ", ",
 ;; com exceção da última string, que é separada com " e ".
+
 (examples
   (check-equal? (junta-virgula-e empty) "")
   (check-equal? (junta-virgula-e (list "maça")) "maça")
@@ -25,5 +27,5 @@
                     (second lst))]
     [else
       (string-append (first lst)
-                     ","
+                     ", "
                      (junta-virgula-e (rest lst)))]))

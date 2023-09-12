@@ -19,8 +19,11 @@
      (... n
           (fun-for-natural (sub1 n)))]))
 
+
 ;; Natural -> Natural
+;;
 ;; Devolve a soma 1 + 2 + ... + n.
+
 (examples
  (check-equal? (soma-nat 0) 0)
  (check-equal? (soma-nat 1) 1)

@@ -9,11 +9,7 @@
 ;; - (vazia)
 ;; - (link Número ListaDeNúmeros)
 
-#;(define ldn0 (vazia))
-#;(define ldn1 (link 10 (vazia)))
-#;(define ldn2 (link 5 (link 4 (vazia))))
-#;(define ldn3 (link 20 ldn1))
-
+;; Modelo
 #;
 (define (fn-para-ldn ldn)
   (cond
@@ -22,8 +18,11 @@
      (... (link-primeiro ldn)
           (fn-para-ldn (link-resto ldn)))]))
 
+
 ;; ListaDeNúmeros -> Número
+;;
 ;; Soma os valores de ldn.
+
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)

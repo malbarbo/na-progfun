@@ -2,10 +2,10 @@
 
 (require examples)
 
-;; Projete uma função que some um dado valor x a cada elemento de uma lista.
-
 ;; ListaDeNúmeros Número -> ListaDeNúmeros
+;;
 ;; Produz uma nova lista somando x a cada elemento de ldn.
+
 (examples
  (check-equal? (soma-x empty 4)
                empty)
@@ -13,8 +13,6 @@
                (cons 9 (cons 7 empty)))
  (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
                (cons 1 (cons -3 (cons 2 empty)))))
-
-; (define (soma-x ldn x) empty)
 
 (define (soma-x ldn x)
   (cond

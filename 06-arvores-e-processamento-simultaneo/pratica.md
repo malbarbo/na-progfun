@@ -1,7 +1,8 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Árvores e processamento simultâneo - Exercícios
-# TODO: adicionar exercício com duas listas de entrada
+title: Árvores e processamento simultâneo - Prática
+urlcolor: Blue
+# TODO: adicionar mais exercícios com duas listas de entrada
 ---
 
 <!-- Árvores -->

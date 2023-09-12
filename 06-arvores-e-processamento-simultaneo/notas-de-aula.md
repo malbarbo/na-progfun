@@ -1,5 +1,8 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: colocar uma sequência de exemplos (como feito em sala) para
+#       levar os alunos a determinar o código para altura-arvore
+# TODO: adicionar uma situação problema para lista aninhada
 # TODO: fazer o segundo exemplo passa a passo
 # TODO: adicionar mais exemplos?
 title: Árvores e processamento simultâneo
@@ -30,13 +33,19 @@ Como podemos definir uma árvore binária?
 <div class="columns">
 <div class="column" width="48%">
 
-Uma **ÁrvoreBinária** é \pause
-
 \small
+
+Uma **ÁrvoreBinária** é \pause
 
 - `empty`{.scheme}; ou
 
 - `(no Número ÁrvoreBinária ÁrvoreBinária)`, onde `no` é uma estrutura com os campos `valor`, `esq` e `dir`
+
+\pause
+
+```scheme
+(struct no (valor esq dir) #:transparent)
+```
 
 \pause
 
@@ -48,13 +57,13 @@ Uma **ÁrvoreBinária** é \pause
 Modelo
 
 ```scheme
-(define (fn-para-abdn t)
+(define (fn-para-ab t)
   (cond
     [(empty? t) ...]
     [else
       (... (no-valor t)
-           (fn-para-abdn (no-esq t))
-           (fn-para-abdn (no-dir t)))]))
+           (fn-para-ab (no-esq t))
+           (fn-para-ab (no-dir t)))]))
 ```
 
 </div>
@@ -68,6 +77,8 @@ Defina uma função que calcule a altura de uma árvore binária. A altura de um
 
 ## Exemplo: altura árvore
 
+<div class="columns">
+<div class="column" width="48%">
 \scriptsize
 
 ```scheme
@@ -78,13 +89,32 @@ Defina uma função que calcule a altura de uma árvore binária. A altura de um
 ;;    3     8   9  t1
 ;;             /
 ;;        t0  10
-;; ÁrvoreBináriaDeNúmeros -> Natural
-(check-equal? (altura empty) ?)
-(check-equal? (altura t0) 0)
-(check-equal? (altura t1) 1)
-(check-equal? (altura t2) 2)
-(check-equal? (altura t3) 1)
-(check-equal? (altura t4) 3)
+
+(define t0 (no 10 empty empty))
+(define t1 (no 9 t0 empty))
+(define t2 (no 7 (no 8 empty empty) t1))
+(define t3 (no 4 (no 3 empty empty) empty))
+(define t4 (no 3 t2 t3))
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```scheme
+;; ÁrvoreBinária -> Natural
+;; Devolve a altura da árvore binária. A altura de
+;; uma árvore binária é a distância da raiz a seu
+;; descendente mais afastado. Uma árvore com um
+;; único nó tem altura 0.
+(examples
+  (check-equal? (altura empty) ?)
+  (check-equal? (altura t0) 0)
+  (check-equal? (altura t1) 1)
+  (check-equal? (altura t2) 2)
+  (check-equal? (altura t3) 1)
+  (check-equal? (altura t4) 3))
 (define (altura t)
   (cond
     [(empty? t) ...]
@@ -93,9 +123,14 @@ Defina uma função que calcule a altura de uma árvore binária. A altura de um
                (altura (no-dir t)))]))
 ```
 
+</div>
+</div>
+
 
 ## Exemplo: altura árvore
 
+<div class="columns">
+<div class="column" width="48%">
 \scriptsize
 
 ```scheme
@@ -106,20 +141,43 @@ Defina uma função que calcule a altura de uma árvore binária. A altura de um
 ;;    3     8   9  t1
 ;;             /
 ;;        t0  10
-;; ÁrvoreBináriaDeNúmeros -> Natural
-(check-equal? (altura empty) -1)
-(check-equal? (altura t0) 0)
-(check-equal? (altura t1) 1)
-(check-equal? (altura t2) 2)
-(check-equal? (altura t3) 1)
-(check-equal? (altura t4) 3)
+
+(define t0 (no 10 empty empty))
+(define t1 (no 9 t0 empty))
+(define t2 (no 7 (no 8 empty empty) t1))
+(define t3 (no 4 (no 3 empty empty) empty))
+(define t4 (no 3 t2 t3))
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```scheme
+;; ÁrvoreBinária -> Natural
+;; Devolve a altura da árvore binária. A altura de
+;; uma árvore binária é a distância da raiz a seu
+;; descendente mais afastado. Uma árvore com um
+;; único nó tem altura 0. Uma árvore vazia tem
+;; altura -1.
+(examples
+  (check-equal? (altura empty) -1)
+  (check-equal? (altura t0) 0)
+  (check-equal? (altura t1) 1)
+  (check-equal? (altura t2) 2)
+  (check-equal? (altura t3) 1)
+  (check-equal? (altura t4) 3))
 (define (altura t)
   (cond
     [(empty? t) -1]
-    [else (add1 (max
-                 (altura (no-esq t))
-                 (altura (no-dir t))))]))
+    [else (add1 (max (altura (no-esq t))
+                     (altura (no-dir t))))]))
 ```
+
+</div>
+</div>
+
 
 
 
@@ -146,9 +204,9 @@ Chamamos este tipo de lista de lista aninhada. \pause Como podemos definir uma l
 <div class="columns">
 <div class="column" width="52%">
 
-Uma **ListaAninhada** é
-
 \small
+
+Uma **ListaAninhada** é
 
 - `empty`{.scheme}; ou
 
@@ -190,7 +248,7 @@ Defina uma função que some todos os números de uma lista aninhada de números
 \scriptsize
 
 ```scheme
-;; ListaAninhadaDeNúmeros -> Número
+;; ListaAninhada -> Número
 ;; Devolve a soma de todos os elementos de ldn.
 (examples
  (check-equal? (soma* empty)
@@ -214,7 +272,7 @@ Defina uma função que some todos os números de uma lista aninhada de números
 \scriptsize
 
 ```scheme
-;; ListaAninhadaDeNúmeros -> Número
+;; ListaAninhada -> Número
 ;; Devolve a soma de todos os elementos de ldn.
 (examples
  (check-equal? (soma* empty)
@@ -243,7 +301,7 @@ Defina uma função que aplaine uma lista aninhada, isto é, transforme uma list
 \scriptsize
 
 ```scheme
-;; ListaAninhadaDeNúmeros -> ListaDeNúmeros
+;; ListaAninhada -> ListaDeNúmeros
 ;; Devolve uma versão não aninhada de ldn, isto é, uma lista com os mesmos
 ;; elementos de ldn, mas sem aninhamento.
 (examples
@@ -267,7 +325,7 @@ Defina uma função que aplaine uma lista aninhada, isto é, transforme uma list
 \scriptsize
 
 ```scheme
-;; ListaAninhadaDeNúmeros -> ListaDeNúmeros
+;; ListaAninhada -> ListaDeNúmeros
 ;; Devolve uma versão não aninhada de ldn, isto é, uma lista com os mesmos
 ;; elementos de ldn, mas sem aninhamento.
 (examples
@@ -286,20 +344,98 @@ Defina uma função que aplaine uma lista aninhada, isto é, transforme uma list
 ```
 
 
-Introdução
-==========
+Processamento simultâneo
+========================
 
 ## Introdução
 
-Qual modelo utilizar quando a função consome dois ou mais tipos de dados e pelo menos um é definido por mais de uma cláusula? \pause
+Como implementar uma função que consome dois argumentos e os dois são de tipos de dados uniões? \pause Temos três possibilidades: \pause
 
-- Se apenas um dado é definido por mais que uma cláusula (como por exemplo, uma lista), utilizamos o modelo correspondente \pause
+- Tratar um dos argumentos como atômico e utilizar o modelo do tipo de dado do outro argumento. \pause
 
-- Se mais que dois dados de entrada são definidos por mais que uma cláusula, devemos fazer uma combinação dos modelos
+- Processar os dois argumentos de forma sincronizada. \pause
+
+- Considerar todos os casos possíveis.
 
 
-Exemplos
-========
+## Exemplo: concatenação
+
+Projete uma função que contatene duas listas de números.
+
+
+## Exemplo: concatenação
+
+\scriptsize
+
+```scheme
+;; ListaDeNúmero ListaDeNúmeros -> ListaDeNúmeros
+;; Produz uma nova lista com os elementos de lsta seguidos
+;; dos elementos de lstb.
+(examples
+  (check-equal? (concatena empty (list 10 4 6))
+                (list 10 4 6))
+  (check-equal? (concatena (cons 3 empty) (list 10 4 6))
+                (cons 3 (list 10 4 6)))
+  (check-equal? (concatena (cons 7 (cons 3 empty)) (list 10 4 6))
+                (cons 7 (cons 3 (list 10 4 6)))))
+```
+
+\pause
+
+\normalsize
+
+Pelo propósito e pelos exemplos, qual dos argumentos pode ser tratado como atômico, isto é, não precisa ser decomposto? \pause `lstb`. \pause
+
+Então usamos o modelo para processar `lsta`.
+
+
+## Exemplo: concatenação
+
+\scriptsize
+
+```scheme
+;; ListaDeNúmero ListaDeNúmeros -> ListaDeNúmeros
+;; Produz uma nova lista com os elementos de lsta seguidos
+;; dos elementos de lstb.
+(examples
+  (check-equal? (concatena empty (list 10 4 6))
+                (list 10 4 6))
+  (check-equal? (concatena (cons 3 empty) (list 10 4 6))
+                (cons 3 (list 10 4 6)))
+  (check-equal? (concatena (cons 7 (cons 3 empty)) (list 10 4 6))
+                (cons 7 (cons 3 (list 10 4 6)))))
+(define (concatena lsta lstb)
+  (cond
+    [(empty? lsta) ... lstb]
+    [else
+      ... (first lsta)
+          (concatena (rest lsta) lstb)]))
+```
+
+
+## Exemplo: concatenação
+
+\scriptsize
+
+```scheme
+;; ListaDeNúmero ListaDeNúmeros -> ListaDeNúmeros
+;; Produz uma nova lista com os elementos de lsta seguidos
+;; dos elementos de lstb.
+(examples
+  (check-equal? (concatena empty (list 10 4 6))
+                (list 10 4 6))
+  (check-equal? (concatena (cons 3 empty) (list 10 4 6))
+                (cons 3 (list 10 4 6)))
+  (check-equal? (concatena (cons 7 (cons 3 empty)) (list 10 4 6))
+                (cons 7 (cons 3 (list 10 4 6)))))
+(define (concatena lsta lstb)
+  (cond
+    [(empty? lsta) lstb]
+    [else
+      (cons (first lsta)
+            (concatena (rest lsta) lstb))]))
+```
+
 
 ## Exemplo: prefixo
 
@@ -667,5 +803,7 @@ Exemplos \pause
 ## Referências
 
 Básicas
+
+- Capítulo [23](https://htdp.org/2023-8-14/Book/part_four.html#%28part._ch~3asimu%29) [HTDP](http://htdp.org)
 
 - [Vídeos 2 one-of](https://www.youtube.com/playlist?list=PL6NenTZG6KrqrfIGWPW9CCVtXyugDk_eQ)

@@ -31,7 +31,7 @@ Como podemos definir uma árvore binária?
 ## Árvores binárias
 
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="56%">
 
 \small
 
@@ -50,7 +50,7 @@ Uma **ÁrvoreBinária** é \pause
 \pause
 
 </div>
-<div class="column" width="48%">
+<div class="column" width="42%">
 
 \small
 
@@ -353,16 +353,16 @@ Processamento simultâneo
 
 Como implementar uma função que consome dois argumentos e os dois são de tipos com autorreferência? \pause Temos três possibilidades: \pause
 
-- Tratar um dos argumentos como atômico e utilizar o modelo do tipo de dado do outro argumento. \pause
+1) Tratar um dos argumentos como atômico e utilizar o modelo do tipo de dado do outro argumento. \pause
 
-- Processar os dois argumentos de forma sincronizada. \pause
+2) Processar os dois argumentos de forma sincronizada. \pause
 
-- Considerar todos os casos possíveis.
+3) Considerar todos os casos possíveis.
 
 
-## Exemplo: concatenação
+## Exemplo caso 1: concatenação
 
-Projete uma função que contatene duas listas de números.
+Projete uma função que concatene duas listas de números.
 
 
 ## Exemplo: concatenação
@@ -370,16 +370,20 @@ Projete uma função que contatene duas listas de números.
 \scriptsize
 
 ```scheme
-;; ListaDeNúmero ListaDeNúmeros -> ListaDeNúmeros
+;; ListaDeNúmeros ListaDeNúmeros -> ListaDeNúmeros
 ;; Produz uma nova lista com os elementos de lsta seguidos
 ;; dos elementos de lstb.
 (examples
-  (check-equal? (concatena empty (list 10 4 6))
-                (list 10 4 6))
-  (check-equal? (concatena (cons 3 empty) (list 10 4 6))
-                (cons 3 (list 10 4 6)))
-  (check-equal? (concatena (cons 7 (cons 3 empty)) (list 10 4 6))
-                (cons 7 (cons 3 (list 10 4 6)))))
+  (check-equal? (concatena empty
+                           (cons 10 (cons 4 (cons 6 empty))))
+                (cons 10 (cons 4 (cons 6 empty))))
+  (check-equal? (concatena (cons 3 empty)
+                           (cons 10 (cons 4 (cons 6 empty))))
+                (cons 3 (cons 10 (cons 4 (cons 6 empty)))))
+  (check-equal? (concatena (cons 7 (cons 3 empty))
+                           (cons 10 (cons 4 (cons 6 empty))))
+                (cons 7 (cons 3 (cons 10 (cons 4 (cons 6 empty)))))))
+(define (concatena lsta lstb) empty)
 ```
 
 \pause
@@ -400,12 +404,15 @@ Então usamos o modelo para processar `lsta`.
 ;; Produz uma nova lista com os elementos de lsta seguidos
 ;; dos elementos de lstb.
 (examples
-  (check-equal? (concatena empty (list 10 4 6))
-                (list 10 4 6))
-  (check-equal? (concatena (cons 3 empty) (list 10 4 6))
-                (cons 3 (list 10 4 6)))
-  (check-equal? (concatena (cons 7 (cons 3 empty)) (list 10 4 6))
-                (cons 7 (cons 3 (list 10 4 6)))))
+  (check-equal? (concatena empty
+                           (cons 10 (cons 4 (cons 6 empty))))
+                (cons 10 (cons 4 (cons 6 empty))))
+  (check-equal? (concatena (cons 3 empty)
+                           (cons 10 (cons 4 (cons 6 empty))))
+                (cons 3 (cons 10 (cons 4 (cons 6 empty)))))
+  (check-equal? (concatena (cons 7 (cons 3 empty))
+                           (cons 10 (cons 4 (cons 6 empty))))
+                (cons 7 (cons 3 (cons 10 (cons 4 (cons 6 empty)))))))
 (define (concatena lsta lstb)
   (cond
     [(empty? lsta) ... lstb]
@@ -424,12 +431,15 @@ Então usamos o modelo para processar `lsta`.
 ;; Produz uma nova lista com os elementos de lsta seguidos
 ;; dos elementos de lstb.
 (examples
-  (check-equal? (concatena empty (list 10 4 6))
-                (list 10 4 6))
-  (check-equal? (concatena (cons 3 empty) (list 10 4 6))
-                (cons 3 (list 10 4 6)))
-  (check-equal? (concatena (cons 7 (cons 3 empty)) (list 10 4 6))
-                (cons 7 (cons 3 (list 10 4 6)))))
+  (check-equal? (concatena empty
+                           (cons 10 (cons 4 (cons 6 empty))))
+                (cons 10 (cons 4 (cons 6 empty))))
+  (check-equal? (concatena (cons 3 empty)
+                           (cons 10 (cons 4 (cons 6 empty))))
+                (cons 3 (cons 10 (cons 4 (cons 6 empty)))))
+  (check-equal? (concatena (cons 7 (cons 3 empty))
+                           (cons 10 (cons 4 (cons 6 empty))))
+                (cons 7 (cons 3 (cons 10 (cons 4 (cons 6 empty)))))))
 (define (concatena lsta lstb)
   (cond
     [(empty? lsta) lstb]
@@ -450,10 +460,8 @@ Projete uma função que calcule a soma ponderada a partir de uma lista de núme
 
 ```scheme
 ;; ListaDeNúmeros ListaDeNúmeros -> Número
-;;
 ;; Calcula a soma ponderada dos valores de lst cosiderando que cada
 ;; elemento de lst tem como peso o elemento correspondente em pesos.
-;;
 ;; Requer que lst e pesos tenham o mesmo tamanho
 
 (examples
@@ -461,16 +469,18 @@ Projete uma função que calcule a soma ponderada a partir de uma lista de núme
   (check-equal? (soma-ponderada (list 4) (list 2)) 8) ; (+ 0 (* 4 2))
   (check-equal? (soma-ponderada (list 3 4) (list 5 2)) 23) ; (+ (* 3 5) (* 4 2))
   (check-equal? (soma-ponderada (list 5 3 4) (list 1 5 2)) 28)) ; (+ (* 5 1) (* 3 5) (* 4 2))
+
+(define (soma-ponderada lst pesos) 0)
 ```
 
 \pause
 
 \small
 
-O requisito de que `lst` e `pesos` têm o mesmo tamanho pode ser explorado para inicial a implementação: \pause
+O requisito de que `lst` e `pesos` têm o mesmo tamanho pode ser explorado no corpo inicial: \pause
 
 - Quando `lst` é vazia, `pesos` também é. \pause
-- Quando `lst` e `pesos` não são vazia, temos `(first lst)`{.scheme}, `(rest lst)`{.scheme}, `(first pesos)`{.scheme} e `(rest pesos)`{.scheme} \pause
+- Quando `lst` e `pesos` não são vazias, temos `(first lst)`{.scheme}, `(rest lst)`{.scheme}, `(first pesos)`{.scheme} e `(rest pesos)`{.scheme} \pause
 - Para a chamada recursiva, temos `(rest lst)` e `(rest pesos)`, que têm o mesmo tamanho.
 
 
@@ -480,10 +490,8 @@ O requisito de que `lst` e `pesos` têm o mesmo tamanho pode ser explorado para 
 
 ```scheme
 ;; ListaDeNúmeros ListaDeNúmeros -> Número
-;;
 ;; Calcula a soma ponderada dos valores de lst cosiderando que cada
 ;; elemento de lst tem como peso o elemento correspondente em pesos.
-;;
 ;; Requer que lst e pesos tenham o mesmo tamanho
 
 (examples
@@ -508,10 +516,8 @@ O requisito de que `lst` e `pesos` têm o mesmo tamanho pode ser explorado para 
 
 ```scheme
 ;; ListaDeNúmeros ListaDeNúmeros -> Número
-;;
 ;; Calcula a soma ponderada dos valores de lst cosiderando que cada
 ;; elemento de lst tem como peso o elemento correspondente em pesos.
-;;
 ;; Requer que lst e pesos tenham o mesmo tamanho
 
 (examples
@@ -531,7 +537,7 @@ O requisito de que `lst` e `pesos` têm o mesmo tamanho pode ser explorado para 
 
 
 
-## Exemplo: prefixo
+## Exemplo caso 3: prefixo
 
 Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é `lstb` começa com `lsta`.
 
@@ -768,6 +774,7 @@ lsta +------------+------------+--------------------+
      +------------+------------+--------------------+
 ```
 
+\pause
 
 ```scheme
 (define (prefixo? lsta lstb)
@@ -783,15 +790,31 @@ lsta +------------+------------+--------------------+
 
 ## Exemplo: prefixo
 
-Agora completamos a implementação
+\scriptsize
+
+Completando a implementação ...
+
+```text
+                             lstb
+                  +------------+--------------------+
+                  |    empty   |     (cons ...)     |
+     +------------+------------+--------------------+
+     |   empty    |              #t                 |
+lsta +------------+------------+--------------------+
+     | (cons ...) |     #f     |  primeiros iguais  |
+     |            |            | e recursão natural |
+     +------------+------------+--------------------+
+```
+
 
 ```scheme
 (define (prefixo? lsta lstb)
   (cond
-    [(empty? lsta) #t]
-    [(empty? lstb) #f]
-    [else
-      (and (equal? (first lsta) (first lstb))
+    [(empty? lsta) #t]    ;; os casos foram
+    [(empty? lstb) #f]    ;; escolhidos por ordem
+    [else                 ;; de simplicidade
+      (and (equal? (first lsta)
+                   (first lstb))
            (prefixo? (rest lsta) (rest lstb)))]))
 ```
 
@@ -817,22 +840,49 @@ Especificação
 
 ## Exemplo: $k$-ésimo
 
+\scriptsize
+
 Exemplos \pause
 
+```scheme
+;; ListaDeNúmeros Natural -> Número
+;; Devolve o elemento na posição k da lst.
+;; O primeiro elemento está na posição 0.
+;;                                k
+;;                  +-------------+-------------------+
+;;                  |      0      |    (add1 ...)     |
+;;     +------------+-------------+-------------------+
+;;     |   empty    |     OK      |        OK         |
+;; lst +------------+-------------+-------------------+
+;;     | (cons ...) |     OK      |        OK         |
+;;     +------------+-------------+-------------------+
+(check-exn exn:fail? (thunk (lista-ref empty 0)))
+(check-exn exn:fail? (thunk (lista-ref empty 2)))
+(check-equal? (lista-ref (list 3 2 8) 0) 3)
+(check-equal? (lista-ref (list 3 2 8 10) 2) 8)
+(check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4)))))
+(define (lista-ref k lst) 0)
+```
+
+
+## Exemplo: $k$-ésimo
+
 \scriptsize
+
+Implementação
 
 ```scheme
 ;; ListaDeNúmeros Natural -> Número
 ;; Devolve o elemento na posição k da lst.
 ;; O primeiro elemento está na posição 0.
-;;                               k
-;;                  +------------+-------------------+
-;;                  |      0     | (add1 ...)        |
-;;     +------------+------------+-------------------+
-;;     |   empty    |    OK      |       OK          |
-;; lst +------------+------------+-------------------+
-;;     | (cons ...) |    OK      |       OK          |
-;;     +------------+------------+-------------------+
+;;                                k
+;;                  +-------------+-------------------+
+;;                  |      0      |    (add1 ...)     |
+;;     +------------+-------------+-------------------+
+;;     |   empty    |           erro                  |
+;; lst +------------+-------------+-------------------+
+;;     | (cons ...) | (first lst) |     recursão      |
+;;     +------------+-------------+-------------------+
 (check-exn exn:fail? (thunk (lista-ref empty 0)))
 (check-exn exn:fail? (thunk (lista-ref empty 2)))
 (check-equal? (lista-ref (list 3 2 8) 0) 3)
@@ -848,39 +898,14 @@ Exemplos \pause
 
 ```scheme
 ;; ListaDeNúmeros Natural -> Número
-;; Devolve o elemento na posição k da lst.
-;; O primeiro elemento está na posição 0.
-;;                               k
-;;                  +------------+-------------------+
-;;                  |      0     | (add1 ...)        |
-;;     +------------+------------+-------------------+
-;;     |   empty    |          erro                  |
-;; lst +------------+------------+-------------------+
-;;     | (cons ...) | (first lst)|     recursão      |
-;;     +------------+------------+-------------------+
-(check-exn exn:fail? (thunk (lista-ref empty 0)))
-(check-exn exn:fail? (thunk (lista-ref empty 2)))
-(check-equal? (lista-ref (list 3 2 8) 0) 3)
-(check-equal? (lista-ref (list 3 2 8 10) 2) 8)
-(check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4)))))
-(define (lista-ref k lst) 0)
-```
-
-
-## Exemplo: $k$-ésimo
-
-\scriptsize
-
-```scheme
-;; ListaDeNúmeros Natural -> Número
-;;                               k
-;;                  +------------+-------------------+
-;;                  |      0     | (add1 ...)        |
-;;     +------------+------------+-------------------+
-;;     |   empty    |          erro                  |
-;; lst +------------+------------+-------------------+
-;;     | (cons ...) | (first lst)|     recursão      |
-;;     +------------+------------+-------------------+
+;;                                k
+;;                  +-------------+-------------------+
+;;                  |      0      |    (add1 ...)     |
+;;     +------------+-------------+-------------------+
+;;     |   empty    |           erro                  |
+;; lst +------------+-------------+-------------------+
+;;     | (cons ...) | (first lst) |     recursão      |
+;;     +------------+-------------+-------------------+
 (check-exn exn:fail? (thunk (lista-ref empty 0)))
 (check-exn exn:fail? (thunk (lista-ref empty 2)))
 (check-equal? (lista-ref (list 3 2 8) 0) 3)

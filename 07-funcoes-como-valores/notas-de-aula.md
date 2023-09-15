@@ -348,7 +348,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista cada número de lst
+;; Devolve uma lista com cada número de lst
 ;; elevado ao quadrado.
 (check-equal? (lista-quadrado (list 4)) (list 16))
 (define (lista-quadrado lst)
@@ -399,7 +399,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista cada número de lst
+;; Devolve uma lista com cada número de lst
 ;; elevado ao quadrado.
 (check-equal? (lista-quadrado (list 4)) (list 16))
 (define (lista-quadrado lst)
@@ -1034,12 +1034,99 @@ Quando utilizar as funções `map`, `filter` e `foldr`? \pause
 Na dúvida, faça o projeto da função recursiva e depois verifique se ela é um caso específico de `map`, `filter` ou `foldr`.
 
 
+## Ordenação
+
+Projete uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem não decrescente.
+
 
 ## Ordenação
 
-Defina uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem não decrescente. (Lembre-se de aplicar a receita de projeto, não tente implementar um método de ordenação qualquer, a receita te levará a implementar um método específico). \pause
+<div class="columns">
+<div class="column" width="48%">
 
-Projeto feito em sala. Veja as soluções dos exercícios da lista de autorreferência.
+\scriptsize
+
+```scheme
+;; ListaDeNúmeros -> ListaDeNúmeros
+;; Devolve uma nova lista com os mesmos
+;; elemento de lst em ordem não decrescente.
+(examples
+ (check-equal? (ordena empty)
+               empty)
+ (check-equal? (ordena (list 2))
+               (list 2))
+ (check-equal? (ordena (list 5 2))
+               (list 2 5))
+ (check-equal? (ordena (list 3 5 2))
+               (list 2 3 5))
+ (check-equal? (ordena (list 4 3 5 2))
+               (list 2 3 4 5)))
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```scheme
+(define (ordena lst)
+  (cond
+    [(empty? lst) empty]
+    [else
+      ...
+      (first lst)
+      (ordena (rest lst))]))
+```
+
+\pause
+
+\normalsize
+
+Como combinamos o resultado da chamada recursiva com o primeiro elemento? \pause Inserimos o primeiro elemento de forma ordenada.
+</div>
+</div>
+
+
+
+## Ordenação
+
+<div class="columns">
+<div class="column" width="48%">
+
+\scriptsize
+
+```scheme
+(define (ordena lst)
+  (cond
+    [(empty? lst) empty]
+    [else
+      (insere-ordenado
+        (first lst)
+        (ordena (rest lst)))]))
+```
+
+\pause
+
+\normalsize
+
+Podemos usar `map` , `filter` ou `foldr` para implementar a função ordena? \pause Sim, podemos usar o `foldr`! \pause
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```scheme
+(define (ordena lst)
+  (foldr insere-ordenado empty lst))
+```
+
+\scriptsize
+
+</div>
+</div>
 
 
 

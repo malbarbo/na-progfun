@@ -94,7 +94,7 @@ Defina uma função que calcule a altura de uma árvore binária. A altura de um
 (define t1 (no 9 t0 empty))
 (define t2 (no 7 (no 8 empty empty) t1))
 (define t3 (no 4 (no 3 empty empty) empty))
-(define t4 (no 3 t2 t3))
+(define t4 (no 3 t3 t2))
 ```
 
 \pause

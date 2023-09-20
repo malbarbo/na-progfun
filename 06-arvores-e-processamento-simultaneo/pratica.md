@@ -3,6 +3,7 @@
 title: Árvores e processamento simultâneo - Prática
 urlcolor: Blue
 # TODO: adicionar mais exercícios com duas listas de entrada
+# TODO: criar uma lista de problemas
 ---
 
 <!-- Árvores -->

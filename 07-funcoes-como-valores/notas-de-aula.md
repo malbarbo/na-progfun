@@ -4,6 +4,7 @@
 # TODO: explicitar que existe uma "algebra" de funções (assim como uma algebra de número, strings, etc)
 # TODO: check-equal? está fora de examples
 # TODO: remover explicação recursão generativa? Foi adicionado em autorreferencias
+# TODO: remover seção de funções com número variado de parâmetros?
 title: Funções como valores
 ---
 

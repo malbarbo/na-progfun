@@ -1035,7 +1035,98 @@ Quando utilizar as funções `map`, `filter` e `foldr`? \pause
 Na dúvida, faça o projeto da função recursiva e depois verifique se ela é um caso específico de `map`, `filter` ou `foldr`.
 
 
-## Ordenação
+## Exemplo: sinal
+
+Projete uma função que receba como parâmetro uma lista de número e produza uma nova lista com o sinal (1, 0 ou -1) de cada número da lista.
+
+
+## Exemplo: sinal
+
+\scriptsize
+
+```scheme
+;; Sinal é um dos valores 1, 0, -1
+
+;; Lista(Número) -> Lista(Sinal)
+;;
+;; Produz uma lista com o sinal de cada elemento de lst.
+(examples
+  (check-equal? (sinais (list 10 0 2 -4 -1 0 8))
+                (list 1 0 1 -1 -1 0 1)))
+```
+
+\normalsize
+
+\pause
+
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `filter`.
+
+
+## Exemplo: sinal
+
+\scriptsize
+
+```scheme
+(define (sinais lst)
+  (define (sinal n)
+    (cond
+      [(> n 0) 1]
+      [(= n 0) 0]
+      [(< n 0) -1]))
+  (map sinal lst))
+```
+
+
+## Exemplo: pontos nos eixos
+
+Projete uma função que receba como entrada uma lista de pontos no plano cartesiano e indique quais estão sobre o eixo x ou eixo y.
+
+
+## Exemplo: pontos nos eixos
+
+\scriptsize
+
+```scheme
+(struct ponto (x y) #:transparent)
+
+;; Lista(Ponto) -> Lista(Ponto)
+;;
+;; Indica quais elementos de pontos estão sobre o
+;; eixo x (coordenada y 0) ou eixo (coordenado x 0).
+(examples
+  (check-equal? (seleciona-no-eixo
+                  (list (ponto 3 0) (ponto 1 3) (ponto 2 0)
+                        (ponto 0 2) (ponto 0 0) (ponto 4 7)))
+                (list (ponto 3 0) (ponto 2 0) (ponto 0 2) (ponto 0 0))))
+```
+
+\normalsize
+
+\pause
+
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `filter`.
+
+
+## Exemplo: pontos nos eixos
+
+\scriptsize
+
+```scheme
+(define (seleciona-no-eixo pontos)
+  ;; Ponto -> Bool
+  ;; Devolve #t se p está sobre o eixo x ou y.
+  (define (no-eixo? p)
+    (or (zero? (ponto-x p)) (zero? (ponto-y p))))
+  (filter no-eixo? pontos))
+```
+
+
+## Exemplos: strings com maior tamanho
+
+Projete uma função que receba como entrada uma lista de strings e devolva uma lista com as strings de tamanho máximo entre todas as strings da lista.
+
+
+## Exemplo: Ordenação
 
 Projete uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem não decrescente.
 

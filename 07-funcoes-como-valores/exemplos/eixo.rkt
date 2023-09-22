@@ -11,7 +11,7 @@
 ;; Lista(Ponto) -> Lista(Ponto)
 ;;
 ;; Indica quais elementos de pontos estão sobre o
-;; eixo x (coordenada y 0) ou eixo (coordenado x 0).
+;; eixo x (coordenada y 0) ou eixo y (coordenado x 0).
 
 (examples
   (check-equal? (seleciona-no-eixo
@@ -22,6 +22,7 @@
 (define (seleciona-no-eixo pontos)
   ;; Ponto -> Bool
   ;; Devolve #t se p está sobre o eixo x ou y.
+  ;; #f caso contrário.
   (define (no-eixo? p)
     (or (zero? (ponto-x p)) (zero? (ponto-y p))))
   (filter no-eixo? pontos))

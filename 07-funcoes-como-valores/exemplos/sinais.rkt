@@ -12,6 +12,8 @@
                 (list 1 0 1 -1 -1 0 1)))
 
 (define (sinais lst)
+  ;; Número -> Sinal
+  ;; Determina o sinal de n.
   (define (sinal n)
     (cond
       [(> n 0) 1]

@@ -1042,7 +1042,7 @@ Projete uma função que receba como parâmetro uma lista de número e produza u
 
 ## Exemplo: sinal
 
-\scriptsize
+\small
 
 ```scheme
 ;; Sinal é um dos valores 1, 0, -1
@@ -1064,10 +1064,12 @@ Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim,
 
 ## Exemplo: sinal
 
-\scriptsize
+\small
 
 ```scheme
 (define (sinais lst)
+  ;; Número -> Sinal
+  ;; Determina o sinal de n.
   (define (sinal n)
     (cond
       [(> n 0) 1]
@@ -1084,7 +1086,7 @@ Projete uma função que receba como entrada uma lista de pontos no plano cartes
 
 ## Exemplo: pontos nos eixos
 
-\scriptsize
+\small
 
 ```scheme
 (struct ponto (x y) #:transparent)
@@ -1092,7 +1094,7 @@ Projete uma função que receba como entrada uma lista de pontos no plano cartes
 ;; Lista(Ponto) -> Lista(Ponto)
 ;;
 ;; Indica quais elementos de pontos estão sobre o
-;; eixo x (coordenada y 0) ou eixo (coordenado x 0).
+;; eixo x (coordenada y 0) ou eixo y (coordenado x 0).
 (examples
   (check-equal? (seleciona-no-eixo
                   (list (ponto 3 0) (ponto 1 3) (ponto 2 0)
@@ -1109,21 +1111,82 @@ Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim,
 
 ## Exemplo: pontos nos eixos
 
-\scriptsize
+\small
 
 ```scheme
 (define (seleciona-no-eixo pontos)
   ;; Ponto -> Bool
   ;; Devolve #t se p está sobre o eixo x ou y.
+  ;; #f caso contrário.
   (define (no-eixo? p)
     (or (zero? (ponto-x p)) (zero? (ponto-y p))))
   (filter no-eixo? pontos))
 ```
 
 
-## Exemplos: strings com maior tamanho
+## Exemplos: strings de tamanho máximo
 
 Projete uma função que receba como entrada uma lista de strings e devolva uma lista com as strings de tamanho máximo entre todas as strings da lista.
+
+
+## Exemplos: strings com maior tamanho
+
+\small
+
+```scheme
+;; Lista(String) -> Lista(String)
+;;
+;; Cria uma lista com os elementos de lst que têm tamanho máximo entre
+;; todos os elementos de lst.
+(examples
+  (check-equal? (maiores (list "oi" "casa" "aba" "boi" "eita" "a" "cadê"))
+                (list "casa" "eita" "cadê")))
+```
+
+\normalsize
+
+\pause
+
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não diretamente... \pause
+
+Precisamos separar a solução em duas etapas: encontrar o tamanho máximo e depois selecionar as strings com tamanho máximo.
+
+
+## Exemplos: strings com maior tamanho
+
+\small
+
+```scheme
+;; Lista(String) -> Número
+;;
+;; Devolve o tamanho máximo entre todas as strings de lst.
+(examples
+  (check-equal? (tamanho-maximo (list "oi" "casa" "aba" "boi" "eita" "a" "cadê"))
+                4))
+```
+
+\pause
+
+\normalsize
+
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não diretamente... \pause
+
+Podemos usar o `map` para obter uma lista com o tamanho de cada string e depois usar o `foldr` para determinar o valor máximo.
+
+\pause
+
+\small
+
+```scheme
+(define (tamanho-maximo lst)
+  (foldr max 0 (map string-length lst)))
+```
+
+\pause
+
+\normalsize
+
+Agora podemos implementar a função `maiores`.
 
 
 ## Exemplo: Ordenação

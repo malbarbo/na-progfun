@@ -1042,29 +1042,34 @@ Projete uma função que receba como parâmetro uma lista de número e produza u
 
 ## Exemplo: sinal
 
-\small
+<div class="columns">
+<div class="column" width="55%">
+\footnotesize
 
 ```scheme
 ;; Sinal é um dos valores 1, 0, -1
 
 ;; Lista(Número) -> Lista(Sinal)
 ;;
-;; Produz uma lista com o sinal de cada elemento de lst.
+;; Produz uma lista com o sinal de cada
+;; elemento de lst.
 (examples
   (check-equal? (sinais (list 10 0 2 -4 -1 0 8))
                 (list 1 0 1 -1 -1 0 1)))
+
+(define (sinais lst) empty)
 ```
 
-\normalsize
+\small
 
 \pause
 
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `filter`.
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `filter`. \pause
 
+</div>
+<div class="column" width="40%">
 
-## Exemplo: sinal
-
-\small
+\footnotesize
 
 ```scheme
 (define (sinais lst)
@@ -1078,6 +1083,9 @@ Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim,
   (map sinal lst))
 ```
 
+</div>
+</div>
+
 
 ## Exemplo: pontos nos eixos
 
@@ -1086,115 +1094,60 @@ Projete uma função que receba como entrada uma lista de pontos no plano cartes
 
 ## Exemplo: pontos nos eixos
 
-\small
+<div class="columns">
+<div class="column" width="55%">
+
+\footnotesize
 
 ```scheme
 (struct ponto (x y) #:transparent)
 
 ;; Lista(Ponto) -> Lista(Ponto)
-;;
-;; Indica quais elementos de pontos estão sobre o
-;; eixo x (coordenada y 0) ou eixo y (coordenado x 0).
+;; Indica quais elementos de pontos estão
+;; sobre o eixo x (coordenada y 0) ou
+;; eixo y (coordenado x 0).
 (examples
   (check-equal? (seleciona-no-eixo
-                  (list (ponto 3 0) (ponto 1 3) (ponto 2 0)
-                        (ponto 0 2) (ponto 0 0) (ponto 4 7)))
-                (list (ponto 3 0) (ponto 2 0) (ponto 0 2) (ponto 0 0))))
+                  (list (ponto 3 0) (ponto 1 3)
+                        (ponto 2 0) (ponto 0 2)
+                        (ponto 0 0) (ponto 4 7)))
+                (list (ponto 3 0) (ponto 2 0)
+                      (ponto 0 2) (ponto 0 0))))
+(define (seleciona-no-eixo pontos) empty)
 ```
 
-\normalsize
+\small
 
 \pause
 
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `filter`.
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `filter`. \pause
 
+</div>
+<div class="column" width="40%">
 
-## Exemplo: pontos nos eixos
-
-\small
+\footnotesize
 
 ```scheme
 (define (seleciona-no-eixo pontos)
   ;; Ponto -> Bool
-  ;; Devolve #t se p está sobre o eixo x ou y.
-  ;; #f caso contrário.
+  ;; Devolve #t se p está sobre o
+  ;; eixo x ou y. #f caso contrário.
   (define (no-eixo? p)
-    (or (zero? (ponto-x p)) (zero? (ponto-y p))))
+    (or (zero? (ponto-x p))
+        (zero? (ponto-y p))))
   (filter no-eixo? pontos))
 ```
 
-
-## Exemplos: strings de tamanho máximo
-
-Projete uma função que receba como entrada uma lista de strings e devolva uma lista com as strings de tamanho máximo entre todas as strings da lista.
+</div>
+</div>
 
 
-## Exemplos: strings com maior tamanho
-
-\small
-
-```scheme
-;; Lista(String) -> Lista(String)
-;;
-;; Cria uma lista com os elementos de lst que têm tamanho máximo entre
-;; todos os elementos de lst.
-(examples
-  (check-equal? (maiores (list "oi" "casa" "aba" "boi" "eita" "a" "cadê"))
-                (list "casa" "eita" "cadê")))
-```
-
-\normalsize
-
-\pause
-
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não diretamente... \pause
-
-Precisamos separar a solução em duas etapas: encontrar o tamanho máximo e depois selecionar as strings com tamanho máximo.
-
-
-## Exemplos: strings com maior tamanho
-
-\small
-
-```scheme
-;; Lista(String) -> Número
-;;
-;; Devolve o tamanho máximo entre todas as strings de lst.
-(examples
-  (check-equal? (tamanho-maximo (list "oi" "casa" "aba" "boi" "eita" "a" "cadê"))
-                4))
-```
-
-\pause
-
-\normalsize
-
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não diretamente... \pause
-
-Podemos usar o `map` para obter uma lista com o tamanho de cada string e depois usar o `foldr` para determinar o valor máximo.
-
-\pause
-
-\small
-
-```scheme
-(define (tamanho-maximo lst)
-  (foldr max 0 (map string-length lst)))
-```
-
-\pause
-
-\normalsize
-
-Agora podemos implementar a função `maiores`.
-
-
-## Exemplo: Ordenação
+## Exemplo: ordenação
 
 Projete uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem não decrescente.
 
 
-## Ordenação
+## Exemplo: ordenação
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1203,8 +1156,8 @@ Projete uma função que receba como entrada uma lista de números e devolva uma
 
 ```scheme
 ;; ListaDeNúmeros -> ListaDeNúmeros
-;; Devolve uma nova lista com os mesmos
-;; elemento de lst em ordem não decrescente.
+;; Cria uma lista com os elementos de lst
+;; em ordem não decrescente.
 (examples
  (check-equal? (ordena empty)
                empty)
@@ -1216,9 +1169,14 @@ Projete uma função que receba como entrada uma lista de números e devolva uma
                (list 2 3 5))
  (check-equal? (ordena (list 4 3 5 2))
                (list 2 3 4 5)))
+(define (ordena lst) empty)
 ```
 
 \pause
+
+\small
+
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não está claro... \pause Vamos tentar fazer a implementação usando o modelo. \pause
 
 </div>
 <div class="column" width="48%">
@@ -1237,15 +1195,26 @@ Projete uma função que receba como entrada uma lista de números e devolva uma
 
 \pause
 
-\normalsize
+\small
 
-Como combinamos o resultado da chamada recursiva com o primeiro elemento? \pause Inserimos o primeiro elemento de forma ordenada.
+Como combinamos o resultado da chamada recursiva com o primeiro elemento? \pause Inserindo o primeiro elemento de forma ordenada. \pause
+
+\scriptsize
+
+```scheme
+(define (ordena lst)
+  (cond
+    [(empty? lst) empty]
+    [else
+      (insere-ordenado (first lst)
+                       (ordena (rest lst))])))
+```
+
 </div>
 </div>
 
 
-
-## Ordenação
+## Exemplo: ordenação
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1257,19 +1226,33 @@ Como combinamos o resultado da chamada recursiva com o primeiro elemento? \pause
   (cond
     [(empty? lst) empty]
     [else
-      (insere-ordenado
-        (first lst)
-        (ordena (rest lst)))]))
+      (insere-ordenado (first lst)
+                       (ordena (rest lst))])))
+```
+
+\small
+
+E então, podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause
+
+\scriptsize
+
+```scheme
+(define (foldr f base lst)
+  (cond
+    [(empty? lst) base]
+    [else
+      (f (first lst)
+         (foldr f base (rest lst)))]))
 ```
 
 \pause
 
-\normalsize
-
-Podemos usar `map` , `filter` ou `foldr` para implementar a função ordena? \pause Sim, podemos usar o `foldr`! \pause
-
 </div>
 <div class="column" width="48%">
+
+\small
+
+Sim! Podemos usar o `foldr`. \pause
 
 \scriptsize
 
@@ -1278,7 +1261,133 @@ Podemos usar `map` , `filter` ou `foldr` para implementar a função ordena? \pa
   (foldr insere-ordenado empty lst))
 ```
 
-\scriptsize
+\pause
+
+\small
+
+Exercício: projete a função `insere-ordenado`.
+
+</div>
+</div>
+
+
+## Exemplos: maiores strings
+
+Projete uma função que receba como entrada uma lista de strings e devolva uma lista com as strings de tamanho máximo entre todas as strings da lista.
+
+
+## Exemplos: maiores strings
+
+\footnotesize
+
+```scheme
+;; Lista(String) -> Lista(String)
+;; Cria uma lista com os elementos de lst que têm tamanho
+;; máximo entre todos os elementos de lst.
+(examples
+  (check-equal? (maiores-strings
+                  (list "oi" "casa" "aba" "boi" "eita" "a" "cadê"))
+                (list "casa" "eita" "cadê")))
+
+(define (maiores-strings lst) empty)
+```
+
+\small
+
+\pause
+
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não diretamente... \pause
+
+Precisamos separar a solução em duas etapas: encontrar o tamanho máximo e depois selecionar as strings com tamanho máximo.
+
+
+## Exemplos: maiores strings
+
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
+;; Lista(String) -> Número
+;;
+;; Devolve o tamanho máximo entre todas
+;; as strings de lst.
+(examples
+  (check-equal? (tamanho-maximo
+                  (list "oi" "casa" "aba"
+                        "boi" "eita" "a"
+                        "cadê"))
+                4))
+```
+
+\pause
+
+\small
+
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, usando o `foldr`, mas parece complicado... \pause
+
+</div>
+<div class="column" width="48%">
+
+\small
+
+A função para o `foldr` teria que fazer duas coisas, determinar o tamanho de uma string e indicar qual é o máximo entre dois tamanhos. \pause
+
+Podemos separar as etapas de obter os tamanhos e encontrar máximo, usamos o `map` para obter uma lista com os tamanhos e o `foldr` para determinar o valor máximo. \pause
+
+\footnotesize
+
+```scheme
+(define (tamanho-maximo lst)
+  (foldr max 0 (map string-length lst)))
+```
+
+\pause
+
+\small
+
+Agora podemos implementar a função `maiores-strings`.
+
+</div>
+</div>
+
+
+## Exemplos: maiores strings
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```scheme
+;; Lista(String) -> Lista(String)
+(define (maiores-strings lst)
+  (define tmax (tamanho-maximo lst))
+```
+
+\pause
+
+```scheme
+  ;; String -> Booleano
+  ;; Devolve #t se o tamanho de
+  ;; s é igual a tmax. #f caso contrário.
+  (define (tamanho-maximo? s)
+    (= (string-length s) tmax))
+```
+
+\pause
+
+```scheme
+  (filter tamanho-maximo? lst))
+```
+
+</div>
+<div class="column" width="48%">
+\pause
+
+Existe algo diferente na função `tamanho-maximo?`? \pause
+
+Sim, `tamanho-maximo?` utiliza a variável `tmax`, que não é um parâmetro e nem uma variável local dentro de `tamanho-maximo?`.
 
 </div>
 </div>
@@ -1290,67 +1399,44 @@ Definições locais e fechamentos
 
 ## Definições locais e fechamentos
 
-Considere as seguintes definições
+Uma **declaração local** é aquela que não é feita no escopo global. \pause As declarações locais, como a de `tmax` e `tamanho-maximo?`, ajudam na escrita e leitura do código e melhoram o encapsulamento.
 
-```scheme
-(define (soma x) (+ x 5))
+Uma **variável livre** em relação a uma função é aquela que não é global, não é um parâmetro da função e nem foi declarada localmente dentro da função. \pause
 
-(define (lista-soma5 lst)
-  (map soma lst))
-```
-
-\pause
-
-Existem dois aspectos sobre neste código que podemos melhorar, quais são eles? \pause
-
-- A função `soma` tem um uso bastante restrito (supomos que ela é utilizada apenas pela função `lista-soma5`), mas foi declarada em um escopo global utilizando um nome fácil de ter conflito (outro programador pode escolher o nome `soma` para outra função); \pause
-
-- A função `lista-soma5` é bastante específica e pode ser generalizada.
+Como uma função acessa um parâmetro ou uma variáveis local? \pause Geralmente, consultando o registro de ativação, o quadro, da sua chamada.
 
 
 ## Definições locais e fechamentos
 
-O primeiro problema pode ser resolvido colocando a definição de `soma` dentro da função `lista-soma5`, desta forma a função `soma` é visível apenas para `lista-soma5`. Isto melhora o encapsulamento e libera o nome `soma`
 
-\pause
-
-```scheme
-(define (lista-soma5 lst)
-  (define (soma x)
-    (+ x 5))
-  (map soma lst))
-```
-
-\pause
-
-Este tipo de definição é chamada de **definição interna**.
-
-
-## Definições locais e fechamentos
-
-O segundo problema pode ser resolvido adicionado um parâmetro `n` e mudando o nome da função `lista-soma5` para `lista-soma-n` \pause
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
 
 ```scheme
-(define (lista-soma-n n lst)
-  (define (soma x)
-    (+ x n))
-  (map soma lst))
+;; Lista(String) -> Lista(String)
+(define (maiores-strings lst)
+  (define tmax (tamanho-maximo lst))
+
+  ;; String -> Booleano
+  ;; Devolve #t se o tamanho de
+  ;; s é igual a tmax. #f caso contrário.
+  (define (tamanho-maximo? s)
+    (= (string-length s) tmax))
+
+  (filter tamanho-maximo? lst))
 ```
 
+</div>
+<div class="column" width="48%">
 \pause
 
-Existe algo diferente na função `soma`? \pause Sim, `soma` utiliza a variável `n`, que não é um parâmetro e nem uma variável local dentro de `soma`.
+Como `tamanho-maximo?` acessa a variável livre `tmax` já que ela não é armazenada no registro de ativação de `tamanho-maximo?`? \pause
 
+A função `tamanho-maximo?` deve "levar" junto com ela a variável livre `tmax`.
 
-## Definições locais e fechamentos
-
-Uma **variável livre** em relação a uma função é aquela que não é um parâmetro da função e nem foi declarada localmente dentro da função. \pause
-
-Como uma função acessa um parâmetro ou uma variáveis local? \pause Geralmente, consultando o registro de ativação, o quadro, da sua chamada. \pause
-
-Como `soma` acessa a variável livre `n` já que ela não é armazenada no registro de ativação de `soma`? \pause
-
-A função `soma` deve "levar" junto com ela a variável livre `n`.
+</div>
+</div>
 
 
 ## Definições locais e fechamentos
@@ -1359,21 +1445,28 @@ O **ambiente léxico** é uma tabela com referências para as variáveis livres.
 
 Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambiente léxico. \pause
 
-No caso
+\footnotesize
 
 ```scheme
-(define (lista-soma-n n lst)
-  (define (soma x)
-    (+ x n))
-  (map soma lst))
+;; Lista(String) -> Lista(String)
+(define (maiores-strings lst)
+  (define tmax (tamanho-maximo lst))
+  ;; String -> Booleano
+  ;; Devolve #t se o tamanho de
+  ;; s é igual a tmax. #f caso contrário.
+  (define (tamanho-maximo? s)
+    (= (string-length s) tmax))
+  (filter tamanho-maximo? lst))
 ```
 
-quando `soma` é utilizada na chamada do `map` um fechamento é passado como parâmetro.
+\normalsize
+
+Quando `tamanho-maximo` é utilizada na chamada do `map` um fechamento é passado como parâmetro.
 
 
 ## Definições locais e fechamentos
 
-Definições internas também são usadas para evitar computar a mesma expressão mais que uma vez.
+Até agora, as definições locais que fizemos apareceram no início de uma função, mas as definições também podem aparecer em outros locais.
 
 
 ## Definições locais e fechamentos
@@ -1400,7 +1493,7 @@ As expressões `(first lst)` e `(remove-duplicados (rest lst))` são computadas 
 
 ## Definições locais e fechamentos
 
-Criando definições internas obtemos
+Podemos utilizar definições locais para armazenar o resultado de expressões e evitar que elas sejam computadas repetidas vezes.
 
 ```scheme
 (define (remove-duplicados lst)
@@ -1414,8 +1507,6 @@ Criando definições internas obtemos
          r
          (cons p r))]))
 ```
-
-Desta forma as expressões são computadas apenas uma vez.
 
 
 ## Definições locais e fechamentos

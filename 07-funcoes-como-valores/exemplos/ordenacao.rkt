@@ -2,9 +2,34 @@
 
 (require examples)
 
+;; ListaDeNúmeros -> ListaDeNúmeros
+;;
+;; Cria uma lista com os elementos de lst
+;; em ordem não decrescente.
+
+(examples
+ (check-equal? (ordena empty)
+               empty)
+ (check-equal? (ordena (list 2))
+               (list 2))
+ (check-equal? (ordena (list 3 2))
+               (list 2 3))
+ (check-equal? (ordena (list 5 -2 3))
+               (list -2 3 5))
+ (check-equal? (ordena (list 1 9 5 -2 8 3))
+               (list -2 1 3 5 8 9)))
+
+(define (ordena lst)
+  (foldr insere-ordenado empty lst))
+
+
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Devolve uma nova lista como os mesmo elementos de lst e o n em ordem não
-;; decrescente. Esta função supõe que lst está ordenada.
+;;
+;; Devolve uma nova lista como os mesmo elementos
+;; de lst junto com n em ordem não decrescente.
+;;
+;; Requer que lst esteja em ordem não decrescente.
+
 (examples
  (check-equal? (insere-ordenado 2 empty)
                (list 2))
@@ -27,22 +52,3 @@
     [(< n (first lst)) (cons n lst)]
     [else (cons (first lst)
                 (insere-ordenado n (rest lst)))]))
-
-
-;; ListaDeNúmeros -> ListaDeNúmeros
-;; Devolve uma nova lista com os mesmos elemento de lst em ordem não
-;; decrescente.
-(examples
- (check-equal? (ordena empty)
-               empty)
- (check-equal? (ordena (list 2))
-               (list 2))
- (check-equal? (ordena (list 3 2))
-               (list 2 3))
- (check-equal? (ordena (list 5 -2 3))
-               (list -2 3 5))
- (check-equal? (ordena (list 1 9 5 -2 8 3))
-               (list -2 1 3 5 8 9)))
-
-(define (ordena lst)
-  (foldr insere-ordenado empty lst))

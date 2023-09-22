@@ -8,14 +8,19 @@
 ;; todos os elementos de lst.
 
 (examples
-  (check-equal? (maiores (list "oi" "casa" "aba" "boi" "eita" "a" "cadê"))
+  (check-equal? (maiores-strings (list "oi" "casa" "aba" "boi" "eita" "a" "cadê"))
                 (list "casa" "eita" "cadê")))
 
-(define (maiores lst)
+(define (maiores-strings lst)
   (define maximo (tamanho-maximo lst))
-  (define (tamanho=maximo? s)
+
+  ;; String -> Booleano
+  ;; Devolve #t se o tamanho de
+  ;; s é igual a tmax. #f caso contrário.
+  (define (tamanho-maximo? s)
     (= (string-length s) maximo))
-  (filter tamanho=maximo? lst))
+
+  (filter tamanho-maximo? lst))
 
 
 ;; Lista(String) -> Número

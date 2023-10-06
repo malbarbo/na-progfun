@@ -2,11 +2,8 @@
 
 (require examples)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Defina uma função que implemente o algoritmo de ordenação quicksort.
-
 ;; Lista(Número) -> Lista(Número)
-;; Ordena uma lista de números usando o quicksort.
+;; Ordena lst em ordem não decrescente usado o quicksort.
 (examples
  (check-equal? (quicksort empty)
                empty)
@@ -18,9 +15,10 @@
                (list 0 3 5 9 10)))
 
 (define (quicksort lst)
-  (if (empty? lst)
-      empty
-      (let ([pivo (first lst)])
-        (append (quicksort (filter (curryr < pivo) lst))
-                (list pivo)
-                (quicksort (filter (curryr > pivo) lst))))))
+  (cond
+    [(empty? lst) empty]
+    [else
+     (define pivo (first lst))
+     (append (quicksort (filter (curry > pivo) lst))
+             (list pivo)
+             (quicksort (filter (curry < pivo) lst)))]))

@@ -1,6 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Funções como valores - Prática
+urlcolor: Blue
 # TODO: adicionar exercícios diretos para treinar let e funções anônimas?
 ---
 

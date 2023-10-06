@@ -1836,7 +1836,7 @@ Defina uma função que ordene uma lista de números distintos usando o algoritm
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Ordena uma lista de números usando o quicksort.
+;; Ordena lst em ordem não decrescente usado o quicksort.
 (examples
  (check-equal? (quicksort empty)
                empty)
@@ -1872,12 +1872,13 @@ Qual é a ideia do _quicksort_? \pause
 
 ```scheme
 (define (quicksort lst)
-  (if (empty? lst)
-      empty
-      (let ([pivo (first lst)])
-        (append (quicksort (filter (curryr < pivo) lst))
-                (list pivo)
-                (quicksort (filter (curryr > pivo) lst))))))
+  (cond
+    [(empty? lst) empty]
+    [else
+     (define pivo (first lst))
+     (append (quicksort (filter (curry > pivo) lst))
+             (list pivo)
+             (quicksort (filter (curry < pivo) lst)))]))
 ```
 
 

@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Recusão generativa
+title: Recursão generativa
 ---
 
 Introdução
@@ -86,7 +86,7 @@ Dado uma lista de números e um número positivo $n$, projete uma função que a
 
 ## Exemplo: quicksort
 
-Defina uma função que ordene uma lista de números distintos usando o algoritmo de ordenação _quicksort_. \pause
+Defina uma função que ordene uma lista de números usando o algoritmo de ordenação _quicksort_. \pause
 
 Qual é a ideia do _quicksort_? \pause
 
@@ -135,9 +135,27 @@ Qual é a ideia do _quicksort_? \pause
 
 \normalsize
 
-O que acontece se a lista tiver elementos repetidos? \pause A função para não terminar! \pause
+O que acontece se a lista tiver elementos repetidos? \pause Faça o teste no DrRacket e veja! \pause
 
-Isso porque a chamada recursiva poderá ser feita para a mesma lista de entrada.
+O que acontece se alterarmos `>` para `>=`? \pause A função não termina (discutido em sala).
+
+
+## Exemplo: quicksort
+
+Versão corrigida.
+
+\small
+
+```scheme
+(define (quicksort lst)
+  (cond
+    [(empty? lst) empty]
+    [else
+     (define pivo (first lst))
+     (append (quicksort (filter (curry >= pivo) (rest lst)))
+             (list pivo)
+             (quicksort (filter (curry < pivo) (rest lst))))]))
+```
 
 
 ## Processo de projeto

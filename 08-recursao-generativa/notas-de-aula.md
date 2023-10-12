@@ -32,13 +32,57 @@ Se alguns dos subproblemas gerados são do mesmo tipo do problema inicial, podem
 
 A recursão generativa é mais poderosa que a recursão estrutural, \pause porém, \pause projetar funções que usam recursão generativa não é um processo tão direto quando funções que usam recursão estrutural. \pause A etapa principal é "gerar" os subproblemas, e isto pode requerer um momento "eureka". \pause
 
-De qualquer forma, vários elementos do processo de projeto também são revelantes para funções generativas. \pause
+De qualquer forma, o processo de projeto de funções, com alguns ajustes, também serve para projetar funções com recursão generativa. \pause
 
-Vamos ver a seguir o projeto de algumas funções que usam recursão generativa.
+Vamos ver alguns exemplos.
+
 
 
 Projeto de funções generativas
 ==============================
+
+
+## Exemplo: agrupamento
+
+Dado uma lista de números e um número positivo $n$, projete uma função que agrupe os elementos da lista de entrada em grupos (listas) de $n$ elementos.
+
+
+## Exemplo: agrupamento
+
+\small
+
+```scheme
+;; (Lista Número) InteiroPositivo -> (Lista (Lista Número))
+;;
+;; Agrupa os elementos de lst em listas
+;; com n elementos. Apenas a última lista
+;; do resultado pode ficar com menos que n
+;; elementos.
+(examples
+ (check-equal? (agrupa empty 2) empty)
+ (check-equal? (agrupa (list 4 1 5) 1)
+               (list (list 4) (list 1) (list 5)))
+ (check-equal? (agrupa (list 4 1 5 7 8) 2)
+               (list (list 4 1) (list 5 7) (list 8)))
+ (check-equal? (agrupa (list 4 1 5 7 8) 3)
+               (list (list 4 1 5) (list 7 8))))
+```
+
+
+## Exemplo: agrupamento
+
+\small
+
+```scheme
+(define (agrupa lst n)
+  (cond
+    [(empty? lst) empty]
+    [(< (length lst) n) (list lst)]
+    [else
+     (cons (take lst n)
+           (agrupa (drop lst n) n))]))
+```
+
 
 ## Exemplo: quicksort
 
@@ -46,13 +90,11 @@ Defina uma função que ordene uma lista de números distintos usando o algoritm
 
 Qual é a ideia do _quicksort_? \pause
 
-- Selecionar um elemento da entrada como pivô. \pause
+- Separar os elementos da entrada (não trivial) em duas listas: uma com os menores do que o primeiro e outra com os maiores do que o primeiro \pause
 
-- Separar os elementos menores que o pivô e ordená-los recursivamente. \pause
+- Ordenar as duas listas recursivamente \pause
 
-- Separar os elementos maiores que o pivô e ordená-los recursivamente. \pause
-
-- Juntar a ordenação dos menores, com o pivô e com os maiores.
+- Juntar a ordenação dos menores, com o primeiro e com a ordenação dos maiores.
 
 
 ## Exemplo: quicksort
@@ -89,6 +131,30 @@ Qual é a ideia do _quicksort_? \pause
              (quicksort (filter (curry < pivo) lst)))]))
 ```
 
+\pause
+
+\normalsize
+
+O que acontece se a lista tiver elementos repetidos? \pause A função para não terminar! \pause
+
+Isso porque a chamada recursiva poderá ser feita para a mesma lista de entrada.
+
+
+## Processo de projeto
+
+O que precisamos ajustar no processo de projeto de funções? \pause
+
+Na etapa de implementação temos que: \pause
+
+- Determinar se o problema pode ser resolvido diretamente \pause
+
+- Determinar como resolver o problema diretamente \pause
+
+- Definir como decompor o problema em subproblemas que são mais facilmente resolvidos do que o problema original \pause
+
+- Definir combinar as soluções dos subproblemas para resolver o problema inicial \pause
+
+- Argumentar que a função termina para todas as entradas
 
 
 ## Referências

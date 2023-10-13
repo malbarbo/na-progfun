@@ -28,7 +28,7 @@ Dado uma lista de distâncias relativas entre pontos (começando da origem) em u
 
 ## Exemplo
 
-\small
+\scriptsize
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
@@ -42,11 +42,7 @@ Dado uma lista de distâncias relativas entre pontos (começando da origem) em u
                 (list 50 90 160 190 220)))
 ```
 
-## Exemplo
-
-\small
-
-Na implementação, começamos com o modelo \pause
+\pause
 
 ```scheme
 (define (relativa->absoluta lst)
@@ -57,11 +53,19 @@ Na implementação, começamos com o modelo \pause
           (relativa->absoluta (rest lst)))]))
 ```
 
-\pause
+## Exemplo
 
-Como combinar `(first lst)`{.scheme} com a resposta para `(rest lst)`{.scheme} para obter a resposta para `lst`{.scheme}? \pause
+Para a entrada `(list 50 40 70 30 30)`{.scheme} a função deve produzir como saída `(list 50 90 160 190 220)`{.scheme}. \pause
 
-Para a entrada `(list 50 40 70 30 30)`{.scheme} a função produz `(list 50 90 160 190 220)`{.scheme}. Como combinar `50`{.scheme} com `(list 40 110 140 170)`{.scheme} para gerar `(list 50 90 160 190 220)`{.scheme}?
+Como combinar `(first lst)`{.scheme} com `(relativa->absoluta (rest lst))`{.scheme} para obter a resposta para `lst`{.scheme}? \pause
+
+```scheme
+(list 50 40 70 30 30)   ->   (list 50 90 160 190 220)
+
+                            50  (list 40 110 140 170)
+                             ^  ^
+                   (first lst)  (relativa->absoluta (rest lst))
+```
 
 \pause
 

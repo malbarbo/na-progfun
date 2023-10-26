@@ -1,6 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Acumuladores - Prática
+urlcolor: Blue
 ---
 
 @. Analise os exemplos e exercícios de listas e reescreva as funções, se houver benefício, usando acumuladores. Descreva o benefício e o propósito do acumulador. Utilize a função `foldl` onde for apropriado.

@@ -6,10 +6,14 @@ title: Fundamentos
 # TODO: outros tipos pré-definidos? imagens?
 # TODO: comentários: ; ;; #;
 # TODO: falar de #lang lazy (também é falado em streams)
+# TODO: Discussão sobre if, and or serem formas especiais se avaliação aplicativa é usada e funções normais se avaliação em ordem normal é usada
 # TODO: esclarecer o que é uma definição
 # TODO: esclarecer o que é o modelo de substituição e adicionar perguntas/exercícios
 # TODO: esclarecer o que é função composta
 # TODO: rever as perguntas e melhorar as definições nos slides
+# TODO: falar de estilo de código
+# TODO: falar de tratamento de erro
+# TODO: falar da forma . op . ?
 ---
 
 Introdução

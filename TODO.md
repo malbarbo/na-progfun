@@ -4,44 +4,11 @@
 
 # TODO
 
-- Organizar os TODO's
-
 - Colocar seções nos slides
-
-- Criar um tópico de planejamento
 
 - Apresentar a receita de projeto de forma diferente (https://course.ccs.neu.edu/cs5010sp15/recipe.html)
 
-- Veja TODO's específicos em cada arquivo
-
-- Rever o quicksort (pode existir valores iguais ao pivo?)
-
-- Expandir dados compostos para tipos de dados algébricos e incluir como projetar dados
-
-- Fazer mais aulas de laboratório e resolver exercícios da lista
-
-- Adicionar soluções para os exercícios dos cap 6, 7, 8
-
-- Adicionar conteúdo sobre estilo de código
-
-- Adicionar exemplos em outras linguagens
-
 - Agregar todas as referências em um arquivo e fazer citações
-
-- Mencionar linguagem lazy no cap 2 (fundamentos?)
-
-    - Discussão sobre if, and or serem formas especiais se avaliação aplicativa
-      é usada e funções normais se avaliação em ordem normal é usada
-
-- Falar de geração e tratamento de erros
-
-- Traduzir os termos "list comprehension" e "streams"?
-
-- Falar da forma . op .
-
-- Falar sobre comentários
-
-- Falar do append e outras funções de lista no cap 2 - dados compostos (cap3)
 
 - Evitar copiar e colar. Tentar usar \only
 

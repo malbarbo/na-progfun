@@ -1,8 +1,9 @@
 ---
-# TODO: adicionar informações sobre haskell
-# TODO: destacar as aplicações de streams
 # vim: set spell spelllang=pt_br sw=4:
 title: Sequências e streams
+# TODO: adicionar informações sobre haskell
+# TODO: destacar as aplicações de streams
+# TODO: traduzir os termos "list comprehension" e "streams"?
 ---
 
 Sequências

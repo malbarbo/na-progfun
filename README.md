@@ -1,6 +1,6 @@
 # Notas de aula sobre o paradigma de programação funcional
 
-Se preferir, faça o download dos [pdfs](http://malbarbo.pro.br/ensino/2014/5200/).
+Se preferir, faça o download dos [pdfs](http://malbarbo.pro.br/ensino/2023/11917/).
 
 Veja também as [notas de aula](https://github.com/malbarbo/na-proglog) sobre
 o paradigma de programação lógico.

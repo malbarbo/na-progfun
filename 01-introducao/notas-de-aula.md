@@ -131,8 +131,7 @@ O código entra em loop!
 
 ## Mudança de estado
 
-<div class="columns">
-<div class="column" width="65%">
+\small
 
 ```python
 def soma_indices(lst: list[int],
@@ -146,17 +145,19 @@ def soma_indices(lst: list[int],
                  b: int):
     return indice(lst, a) + indice(lst, b)
 ```
-</div>
-<div class="column" width="35%">
 
 \pause
 
-Essa duas definições são equivalentes? \pause Depende da definição de `indice`! \pause
+\normalsize
 
-Não é possível pensar localmente sobre o funcionamento da função `soma_indices`, pois a função `indice` pode ter efeitos colaterais.
-</div>
-</div>
+Essa duas definições são equivalentes? \pause Depende da definição de `indice`!
 
+
+## Pensar localmente
+
+O uso de mudança de estado compartilhado e efeitos colaterais dificulta pensar localmente sobre o funcionamento do código. \pause
+
+Por outros lado, podemos **pensar localmente** sobre o um código que não tem mudança de estados e nem efeitos colaterais.
 
 
 Como?

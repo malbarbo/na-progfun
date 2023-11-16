@@ -10,18 +10,15 @@ O quê é?
 
 O que é programação imperativa? \pause
 
-- Um paradigma de programação que usa sentenças para modificar o estado do programa. \pause
+- Um paradigma de programação onde os programas são descritos com sentenças que modificam o estado do programa. \pause
 
 O que é programação funcional? \pause
 
-- Um paradigma de programação que usa aplicação e composição de funções para construir programas. \pause
-
-    - Cada função é uma conjunto de expressões que mapeia valores de entrada para valores de saída. \pause
+- Um paradigma de programação onde os programas são descritos com aplicação e composição de funções. \pause
 
 - Evita mudança de estado. \pause
 
-- Evita feitos colaterais.
-
+- Evita efeitos colaterais.
 
 
 Por quê?
@@ -31,7 +28,135 @@ Por quê?
 
 Um paradigma (linguagem) de programação é uma ferramenta. \pause
 
-Conhecer várias ferramentas permite utilizar a mais adequada para cada problema.
+Conhecer várias ferramentas permite utilizar a mais adequada para cada problema. \pause
+
+Compartilhamento de dados junto com mudança de estado é difícil!
+
+
+## Mudança de estado
+
+<div class="columns">
+<div class="column" width="50%">
+Qual o valor de `lst`?
+
+```python
+>>> lst = [0] * 3
+>>> lst
+[0, 0, 0]
+>>> lst[1] = 10
+>>> lst
+```
+
+\pause
+
+```python
+[0, 10, 0]
+```
+
+\pause
+
+</div>
+<div class="column" width="50%">
+Qual o valor de `lst`?
+
+```python
+>>> lst = [[]] * 3
+>>> lst
+[[], [], []]
+>>> lst[1].append(2)
+>>> lst
+```
+
+\pause
+
+```python
+[[2], [2], [2]]
+```
+
+</div>
+</div>
+
+
+## Mudança de estado
+
+<div class="columns">
+<div class="column" width="50%">
+
+```python
+def adiciona_todos(
+        dest: list[int],
+        fonte: list[int]):
+    '''
+    Adiciona todos os elementos
+    de *fonte* no final
+    de *dest*.
+    '''
+    for x in fonte:
+        dest.append(x)
+```
+
+\pause
+
+</div>
+<div class="column" width="50%">
+
+Qual o valor de `lst`?
+
+```python
+>>> lst = [4, 3, 1]
+>>> adiciona_todos(lst, [6, 2])
+>>> lst
+```
+
+\pause
+
+```python
+[4, 3, 1, 6, 2]
+```
+
+\pause
+
+```python
+>>> adiciona_todos(lst, lst)
+>>> lst
+```
+
+\pause
+
+O código entra em loop!
+
+</div>
+</div>
+
+
+## Mudança de estado
+
+<div class="columns">
+<div class="column" width="65%">
+
+```python
+def soma_indices(lst: list[int],
+                 a: int,
+                 b: int):
+    return indice(lst, b) + indice(lst, a)
+
+
+def soma_indices(lst: list[int],
+                 a: int,
+                 b: int):
+    return indice(lst, a) + indice(lst, b)
+```
+</div>
+<div class="column" width="35%">
+
+\pause
+
+Essa duas definições são equivalentes? \pause Depende da definição de `indice`! \pause
+
+Não é possível pensar localmente sobre o funcionamento da função `soma_indices`, pois a função `indice` pode ter efeitos colaterais.
+</div>
+</div>
+
 
 
 Como?

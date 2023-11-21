@@ -7,7 +7,6 @@ title: Fundamentos
 # TODO: comentários: ; ;; #;
 # TODO: falar de #lang lazy (também é falado em streams)
 # TODO: Discussão sobre if, and or serem formas especiais se avaliação aplicativa é usada e funções normais se avaliação em ordem normal é usada
-# TODO: esclarecer o que é uma definição
 # TODO: esclarecer o que é o modelo de substituição e adicionar perguntas/exercícios
 # TODO: esclarecer o que é função composta
 # TODO: rever as perguntas e melhorar as definições nos slides
@@ -143,25 +142,46 @@ Combinações
 
 ## Combinações
 
-Uma expressão que é avaliada para uma função pode ser combinada com outras expressões para formar uma nova expressão que representa a aplicação da função a estas expressões. \pause Ah? \pause Ok, vamos ver alguns exemplos \pause
+Alguns exemplos de combinações em Racket
 
 ```scheme
 > (+ 12 56)
 68
-> (* 4 20)
-80
-> (> 4 5)
+> (> 4 (+ 1 5))
 #f
 > (string-append "Apenas " "um " "teste")
 "Apenas um teste"
 ```
+
+\pause
+
+Baseado nesses exemplos, como podemos definir o que é um combinação?
+
+
+## Combinações
+
+Primeira tentativa
+
+Uma combinação começa com abre parêntese, seguido de uma função primitiva, seguido de zero ou mais literais, seguido de fecha parêntese.
+
+\pause
+
+Essa definição é adequada? \pause Não! \pause
+
+O exemplo `(> 4 (+ 1 5))`{.scheme} não está de acordo com essa definição! \pause
+
+Segunda tentativa \pause
+
+Uma combinação começa com abre parêntese, seguido de uma função primitiva, seguido de zero ou mais expressões, seguido de fecha parêntese. \pause
+
+Vamos usar uma definição mais genérica.
 
 
 ## Combinações
 
 Uma **combinação** consiste de uma lista não vazia de expressões entre parênteses
 
-- A expressão mais a esquerda é o **operador**
+- A expressão mais a esquerda é o **operador** (deve ser avaliada para uma função)
 
 - As outras expressões são os **operandos** \pause
 
@@ -249,7 +269,7 @@ Como uma expressão é avaliada? \pause
 
     - **Avalie cada expressão** da combinação, isto é, reduza cada expressão para um valor \pause
 
-      $\rightarrow$ Resultado da aplicação da função aos argumentos
+      $\rightarrow$ resultado da aplicação da função aos argumentos
 
 </div>
 </div>
@@ -276,6 +296,8 @@ Estamos usando os conceitos de autorreferência e recursividade para entender o 
 ## Avaliação de expressões
 
 <!-- TODO: fazer uma animação -->
+
+Exemplo de avaliação de um expressão \pause
 
 \small
 
@@ -442,12 +464,12 @@ Uma expressão consiste de
 Avaliação
 
 - Literal $\rightarrow$ valor que o literal representa
-- Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função
-- Nome $\rightarrow$ valor associado com o nome no ambiente
+- Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função \pause
+- Nome $\rightarrow$ valor associado com o nome no ambiente \pause
 - Combinação
     - **Avalie cada expressão** da combinação \pause
-    - Se o operador é uma função composta \pause, **avalie** o corpo da função composta **substituindo** cada ocorrência do parâmetro formal pelo argumento correspondente \pause
-    - Senão, aplique a função primitiva aos argumentos
+    - Se o operador é uma função primitiva, aplique a função aos argumentos \pause
+    - Senão (o operador é uma função composta) \pause, **avalie** o corpo da função **substituindo** cada ocorrência do parâmetro formal pelo argumento correspondente
 </div>
 </div>
 
@@ -592,7 +614,7 @@ Verificação
 
 O que está faltando? \pause Algum tipo de expressão condicional. \pause
 
-Depois voltamos nesse problema!
+Depois voltamos à esse problema!
 
 
 
@@ -692,7 +714,7 @@ e ver o processo de avaliação dessa função.
 \pause
 
 ```scheme
-(- -4)           ; Reduz (- -4) para 4 - não mostrado...
+(- -4)           ; Reduz (- -4) para 4 (não mostrado...)
 ```
 
 
@@ -723,9 +745,9 @@ Avaliação
 - Nome $\rightarrow$ valor associado com o nome no ambiente
 - Forma especial $\rightarrow$ avalie a forma especial usando a regra de avaliação específica
 - Combinação
-    - **Avalie** cada expressão da combinação
-    - Se o operador é uma função composta, **avalie** o corpo da função composta **substituindo** cada ocorrência do parâmetro formal pelo argumento correspondente
-    - Senão, aplique a função primitiva aos argumentos
+    - Avalie cada expressão da combinação
+    - Se o operador é uma função primitiva, aplique a função aos argumentos
+    - Senão (o operador é uma função composta), avalie o corpo da função substituindo cada ocorrência do parâmetro formal pelo argumento correspondente
 </div>
 </div>
 
@@ -1232,6 +1254,7 @@ A função `(eq? v1 v2)`{.scheme} produz `#t`{.scheme} se `v1` e `v2` referencia
 
 
 Observe que nos dois últimos exemplos, objetos distintos foram criados para expressões avaliadas para um mesmo valor.
+
 
 
 Referências

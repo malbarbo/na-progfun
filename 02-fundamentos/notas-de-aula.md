@@ -13,6 +13,7 @@ title: Fundamentos
 # TODO: falar de estilo de código
 # TODO: falar de tratamento de erro
 # TODO: falar da forma . op . ?
+# TODO: mudar a definição do paradigma funcional para redução de expressões para valores
 ---
 
 Introdução
@@ -91,7 +92,7 @@ Muitas outras...
 
 <div class="columns">
 <div class="column" width="50%">
-Uma expressão consiste de
+Uma **expressão** consiste de
 
 - Um literal; ou
 
@@ -100,7 +101,7 @@ Uma expressão consiste de
 \pause
 </div>
 <div class="column" width="50%">
-Como uma expressão é avaliada? \pause
+Regra para **avaliação de expressão** \pause
 
 - Literal $\rightarrow$ valor que o literal representa
 
@@ -162,7 +163,7 @@ Baseado nesses exemplos, como podemos definir o que é um combinação?
 
 Primeira tentativa
 
-Uma combinação começa com abre parêntese, seguido de uma função primitiva, seguido de zero ou mais literais, seguido de fecha parêntese.
+Uma combinação começa com abre parêntese, seguido de uma função primitiva, seguido de um ou mais **literais**, seguido de fecha parêntese.
 
 \pause
 
@@ -172,14 +173,14 @@ O exemplo `(> 4 (+ 1 5))`{.scheme} não está de acordo com essa definição! \p
 
 Segunda tentativa \pause
 
-Uma combinação começa com abre parêntese, seguido de uma função primitiva, seguido de zero ou mais expressões, seguido de fecha parêntese. \pause
+Uma combinação começa com abre parêntese, seguido de uma função primitiva, seguido de uma ou mais **expressões**, seguido de fecha parêntese. \pause
 
 Vamos usar uma definição mais genérica.
 
 
 ## Combinações
 
-Uma **combinação** consiste de uma lista não vazia de expressões entre parênteses
+Uma **combinação** consiste de uma lista não vazia de **expressões** entre parênteses
 
 - A expressão mais a esquerda é o **operador** (deve ser avaliada para uma função)
 
@@ -248,7 +249,7 @@ Vamos atualizar a definição de expressão para incluir as combinações.
 
 <div class="columns">
 <div class="column" width="50%">
-Uma expressão consiste de
+Uma **expressão** consiste de
 
 - Um literal; ou
 
@@ -259,7 +260,7 @@ Uma expressão consiste de
 \pause
 </div>
 <div class="column" width="50%">
-Como uma expressão é avaliada? \pause
+Regra para **avaliação de expressão** \pause
 
 - Literal $\rightarrow$ valor que o literal representa \pause
 
@@ -435,7 +436,12 @@ A sintaxe geral para definição de novas funções (**funções compostas**) é
 
 \pause
 
-Observe que as funções compostas (definidas pelo usuário) são usadas da mesma forma que as funções pré-definidas.
+Observações: \pause
+
+- A forma que uma função é definida é semelhante a forma que ela é chamada: \
+  `(quadrado x)`{.scheme} vs `(quadrado 5)`{.scheme} \pause
+
+- As funções compostas (definidas pelo usuário) são usadas da mesma forma que as funções pré-definidas.
 
 
 ## Definição de função
@@ -451,7 +457,7 @@ Modelo de substituição
 
 <div class="columns">
 <div class="column" width="35%">
-Uma expressão consiste de
+Uma **expressão** consiste de
 
 - Um literal; ou
 - Uma função primitiva; ou
@@ -461,7 +467,7 @@ Uma expressão consiste de
 \pause
 </div>
 <div class="column" width="60%">
-Avaliação
+Regra para **avaliação de expressão**
 
 - Literal $\rightarrow$ valor que o literal representa
 - Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função \pause
@@ -560,7 +566,18 @@ O Haskell usa avaliação em ordem normal.
 
 ## Exercício
 
-1. O seu amigo Alan está planejando uma viagem pro final do ano com a família e está considerando diversos destinos. Uma das coisas que ele está levando em consideração é o custo da viagem, que inclui, entre outras coisas, hospedagem, combustível e o pedágio. Para o cálculo do combustível ele pediu a sua ajuda, ele disse que sabe a distância que vai percorrer, o preço do litro do combustível e o rendimento do carro (quantos quilômetros o carro anda com um litro de combustível), mas que é muito chato ficar fazer o cálculo manualmente, então ele quer que você faça um programa para calcular o gasto de combustível em uma viagem.
+1. O seu amigo Alan está planejando uma viagem pro final do ano com a família e está considerando diversos destinos. Uma das coisas que ele está levando em consideração é o custo da viagem, que inclui, entre outras coisas, hospedagem, combustível e o pedágio. Para o cálculo do combustível ele pediu a sua ajuda, ele disse que sabe a distância que vai percorrer, o preço do litro do combustível e o rendimento do carro (quantos quilômetros o carro anda com um litro de combustível), mas que é muito chato ficar fazendo o cálculo manualmente, então ele quer que você faça um programa para calcular o custo do combustível em uma viagem.
+
+
+## Solução exercício 1
+
+O que de fato precisa ser feito? \pause
+
+Calcular o custo do combustível (saída) em uma viagem sabendo a distância do percurso, o preço do litro do combustível e o rendimento do carro (entradas). \pause
+
+Como determinar o processo (forma) que a saída é computada a partir da entrada? \pause
+
+Fazendo exemplos específicos e generalizando o processo.
 
 
 ## Solução exercício 1
@@ -584,7 +601,8 @@ Saída \pause
 </div>
 </div>
 
-\pause
+
+## Solução exercício 1
 
 Implementação \pause
 
@@ -595,7 +613,11 @@ Implementação \pause
 
 \pause
 
-Verificação
+Verificação \pause
+
+Como verificar se a implementação faz o que é esperado? \pause
+
+Executando os exemplos que fizemos anteriormente: \pause
 
 ```scheme
 > (custo-combustivel 400 5 10)
@@ -727,7 +749,7 @@ Vamos atualizar a nossa definição de expressão pra incluir formas especiais.
 
 <div class="columns">
 <div class="column" width="35%">
-Uma expressão consiste de
+Uma **expressão** consiste de
 
 - Um literal; ou
 - Uma função primitiva; ou
@@ -738,7 +760,7 @@ Uma expressão consiste de
 \pause
 </div>
 <div class="column" width="60%">
-Avaliação
+Regra para **avaliação de expressão**
 
 - Literal $\rightarrow$ valor que o literal representa
 - Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função

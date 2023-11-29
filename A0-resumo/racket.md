@@ -4,7 +4,7 @@ title: Resumo da linguagem Racket
 urlcolor: Black
 toc: true
 numbersections: true
-license: 
+license:
 ---
 
 # Tipos de dados e operações primitivas
@@ -44,6 +44,19 @@ Multiplicação e divisão
 7
 ```
 
+Exponenciação e radiciação
+
+```scheme
+> (sqr 4) ; quadrado
+16
+> (sqrt 4) ; raiz quadrada
+2
+> (expt 2 10) ; exponenciação
+1024
+> (expt 27 1/3) ; raiz cúbica
+3.0
+```
+
 Divisão inteira e resto da divisão
 
 ```scheme
@@ -51,6 +64,21 @@ Divisão inteira e resto da divisão
 2
 > (remainder 15 6)
 3
+```
+
+Desigualdade
+
+```scheme
+> (> 3)
+#t
+> (>= 3 2 1) ; (and (>= 3 2) (>= 2 1))
+#t
+> (>= 3 2 3) ; (and (>= 3 2) (>= 2 3))
+#f
+> (<= 4)
+#t
+>(< 10 20 40) ; (and (< 10 20) (< 20 40))
+#t
 ```
 
 Conversão para string
@@ -163,6 +191,31 @@ ou
 #t
 > (or #f (> 5 10) (= 4 1))
 #f
+```
+
+
+## Igualdade
+
+Números
+
+```scheme
+> ; Os valores são númericamente iguais?
+> (= 2)
+> (= 2 2.0)
+#t
+> (= 2 2.0 8/4)
+#t
+```
+
+Outros objetos
+
+```scheme
+> ; Referenciam o mesmo objeto?
+> (eq? (substring "banana" 1 4) (substring "cabana" 3 6))
+#f
+> ; O conteúdo dos objetos referenciados são iguais?
+> (equal? (substring "banana" 1 4) (substring "cabana" 3 6))
+#t
 ```
 
 

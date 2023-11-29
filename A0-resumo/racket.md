@@ -81,6 +81,19 @@ Desigualdade
 #t
 ```
 
+Máximo e mínimo
+
+```scheme
+> (max 10)
+10
+> (max 5 6 2 4)
+6
+> (min 8)
+8
+> (min -1 -2.1)
+-2.1
+```
+
 Conversão para string
 
 ```scheme
@@ -139,6 +152,15 @@ Substring
 "eia "
 > (substring "cadeia de teste" 10)
 "teste"
+```
+
+Maiúsculas e Minúsculas
+
+```scheme
+> (string-downcase "NÃO GRITA @2#1!")
+"não grita @2#1!"
+> (string-upcase "gol!")
+"GOL!"
 ```
 
 Repetição de caractere

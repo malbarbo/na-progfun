@@ -19,21 +19,4 @@
   (check-equal? (maximo 6 6) 6))
 
 (define (maximo a b)
-  (if (>= a b) a b)) ; veja a função pré-definida max
-
-
-;; Número Número Número -> Número
-;;
-;; Devolve o valor máximo entre a, b e c.
-(examples
-  (check-equal? (maximo3 8 5 2) 8)
-  (check-equal? (maximo3 4 6 1) 6)
-  (check-equal? (maximo3 6 6 7) 7))
-
-(define (maximo3 a b c)
-  ; Você consegue escrever uma versão que usa o operador >= apenas duas vezes?
-  ; Se sim, seja o primeiro a enviar para o professor e ganhe 0,1 na nota da prova!
-  ; ou (maximo (maximo a b) c)
-  (if (>= a b)
-      (if (>= a c) a c)
-      (if (>= b c) b c)))
+  (if (>= a b) a b))

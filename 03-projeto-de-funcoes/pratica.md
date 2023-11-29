@@ -4,9 +4,7 @@ title: Projeto de funções - Prática
 urlcolor: Blue
 ---
 
-#. Reveja o material de [projeto de funções](https://malbarbo.pro.br/arquivos/2023/11917/03-projeto-de-funcoes-notas-de-aula.pdf) e responda [esse](https://forms.gle/askYNranaxiDhv4aA) quiz (não vale nota).
-
-#. Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
+@) Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
 
     ```scheme
     ;; InteiroPositivo -> Boolean
@@ -26,7 +24,7 @@ urlcolor: Blue
       #f)
     ```
 
-#. Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
+@) Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
 
     ```scheme
     ;; Inteiro -> Inteiro
@@ -45,7 +43,54 @@ urlcolor: Blue
       0)
     ```
 
-#. Escreva a especificação para a seguinte implementação de função. Observe que a especificação sozinha deve ser suficiente para um desenvolvedor fazer uma implementação.
+@) Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
+
+    ```scheme
+    ;; InteiroPositivo -> Boolean
+    ;;
+    ;; Produz #t se uma pessoa com a idade n é supercentenária,
+    ;; isto é, tem 110 anos ou mais, #f caso contrário.
+
+    (examples
+     (check-equal? (supercentenario 101) #f)
+     (check-equal? (supercentenario 110) #f)
+     (check-equal? (supercentenario 112) #t))
+
+    (define (supercentaniro n)
+      #f)
+    ```
+
+@) Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
+
+    ```scheme
+    ;; String -> String
+    ;;
+    ;; Transforma a data de entrada do formato "dia/mes/ano"
+    ;; para o formato "ano/mes/dia".
+    ;;
+    ;; Requer que o dia e o mes tenha dois dígitos e que
+    ;; o ano tenha quatro digitos.
+
+    (examples
+     (check-equal? (data-dma->data-amd "19/07/2023") "2023/07/19")
+     (check-equal? (data-dma->data-amd "01/01/1980") "1980/01/01")
+     (check-equal? (data-dma->data-amd "02/02/2002") "2002/02/20"))
+
+    (define (data-dma->data-amd data)
+      data)
+    ```
+
+@) Escreva a especificação para a seguinte implementação de função. Observe que a especificação sozinha deve ser suficiente para um programador fazer uma implementação.
+
+    ```scheme
+    (define (tamanho-nome nome)
+      (cond
+        [(<= (string-length nome) 4) "curto"]
+        [(<= (string-length nome) 10) "médio"]
+        [else "longo"]))
+    ```
+
+@) Escreva a especificação para a seguinte implementação de função. Observe que a especificação sozinha deve ser suficiente para um desenvolvedor fazer uma implementação.
 
     ```scheme
     (define (qualificacao num-questoes num-acertos faltas)
@@ -56,10 +101,63 @@ urlcolor: Blue
         [else "aprovado"]))
     ```
 
-#. Um banco emprega diferentes taxas de correção anual para um investimento dependendo do valor aplicado no início de cada ano. Para valores até R$ 2000 a taxa de correção é de 10%, para valores entre R$ 2000 e R$ 5000 a taxa de correção é de 12%, para valores maiores que R$ 5000 a taxa de correção é de 13%. Projete uma função que calcule quanto um investimento realizado no início do ano irá render após dois anos aplicados no banco.
 
-#. Rotacionar uma string `n` posições a direita significa mover os últimos `n` caracteres da string para as primeiras `n` posições da string. Por exemplo, rotacionar a string `"marcelio"`{.scheme} 5 posições a direita produz a string `"celiomar"`{.scheme}. Projete uma função que receba como entrada uma string e um número `n` e produza uma nova string rotacionando a string de entrada `n` posições a direita.
+@) Uma polegada é um medida de comprimento utilizado no sistema imperial e corresponde a 2,54cm.
 
-#. Você está fazendo um programa e precisa verificar se um texto digitado pelo usuário está de acordo com algumas regras. A regra “sem espaços extras” requer que o texto não comece e não termine com espaços. Projete uma função que verifique se um texto qualquer está de acordo com a regra “sem espaços extras”.
+    a. Projete uma função que converta uma medida em centímetros para polegadas.
 
-#. Faça a execução passo a passo das funções definidas nos exercícios anteriores para alguns exemplos. Para isto você deve criar um novo arquivo, mudar a linguagem para "Beginning Student" e copiar o código da função e da chamada de exemplo.
+    b. Projete uma função que converta uma medida em polegadas para centímetros.
+
+@) Projete uma função que recebe dois número positivos, um `valor` e uma `porcentagem`, e calcula o resultado de aumentar a `porcentagem` ao `valor`.
+
+@) Faça uma função chamada `zera-dezena-e-unidade` que recebe um número natural `n` e devolve um novo número que é como `n` mas tem o valor da dezena e unidade zero. Veja a função [quotient](https://docs.racket-lang.org/reference/generic-numbers.html#%28def.\_%28%28quote.\_~23~25kernel%29.\_quotient%29%29) Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+
+    ```{.scheme}
+    > (zera-dezena-e-unidade 19)
+    0
+    > (zera-dezena-e-unidade 341)
+    300
+    > (zera-dezena-e-unidade 5251)
+    5200
+    ```
+
+@) Faça uma função chamada `censura` que recebe dois argumento, uma string `frase` e um número natural `n`, e produz uma nova frase trocando as as primeiras `n` letras da frase de entrada por `n` `"x"`. Veja a documentação do tipo [string](https://docs.racket-lang.org/reference/strings.html) (funções `string-append`, `substring` e `make-string`). Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+
+    ```{.scheme}
+    > (censura "droga de lanche!" 5)
+    "xxxxx de lanche!"
+    > (censura "ferrou geral!" 6)
+    "xxxxxx geral!"
+    ```
+
+@) Faça uma função chamada `traco-meio?` que recebe uma string `s` e verifica se o caractere no meio de `s` é `"-"`. Não use `if`{.scheme} nem `cond`{.scheme}. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+
+    ```{.scheme}
+    > (traco-meio? "lero-lero")
+    #t
+    > (traco-meio? "quase-meio")
+    #f
+    > (traco-meio? "-")
+    #t
+    ```
+
+
+@) Faça uma função `maximo3` que encontre o máximo entre três números dados. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+
+    ```{.scheme}
+    > (maximo3 8 5 2)
+    8
+    > (maximo3 4 6 1)
+    6
+    > (maximo3 6 6 7)
+    7
+    ```
+
+@) Faça uma função chamada `adiciona-ponto` que recebe um string `frase` e adiciona um ponto final na `frase` se ela ainda não tiver um. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+
+    ```{.scheme}
+    > (adiciona-ponto "Vou contar")
+    "Vou contar."
+    > (adiciona-ponto "Corri.")
+    "Corri."
+    ```

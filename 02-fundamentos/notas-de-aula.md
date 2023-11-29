@@ -1,8 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Fundamentos
-# TODO: adicionar mais exemplos das operações primitivas
-# TODO: mostrar que +, *, etc funcionam com número arbitrário de parâmetros (relacionais mais que 1)
 # TODO: outros tipos pré-definidos? imagens?
 # TODO: comentários: ; ;; #;
 # TODO: falar de #lang lazy (também é falado em streams)
@@ -14,6 +12,8 @@ title: Fundamentos
 # TODO: falar de tratamento de erro
 # TODO: falar da forma . op . ?
 # TODO: mudar a definição do paradigma funcional para redução de expressões para valores
+# TODO: deixar para falar que o operador é da combinação é uma expressão?
+# TODO: mostrar diagrama de sintaxe?
 ---
 
 Introdução

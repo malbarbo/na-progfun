@@ -21,6 +21,6 @@
 
 (define (ordem a b c)
   (cond
-    [(<= a b c) "crescente"]
-    [(<= c b a) "decrescente"]
+    [(< a b c) "crescente"]
+    [(< c b a) "decrescente"]
     [else "sem ordem"]))

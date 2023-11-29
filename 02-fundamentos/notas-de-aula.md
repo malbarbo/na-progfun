@@ -1199,7 +1199,7 @@ Igualdade
 
 ## Igualdade
 
-Igualdade é o conceito de determinar se dois objetos são "os mesmos". \pause
+Igualdade é o conceito de determinar se dois valores são "iguais". \pause
 
 É um conceito diferente de igualdade para números (função `=`{.scheme}, que verifica se dois valores são numericamente iguais). \pause
 
@@ -1220,10 +1220,8 @@ Cada tipo de objeto determina a sua implementação `equal?`{.scheme}, mas em ge
 Duas strings são `equal?`{.scheme} quando elas possuem o mesmo tamanho e contêm a mesma sequência de caracteres
 
 ```scheme
-> (equal? "banana" "banana")
+> (equal? (substring "banana" 1 4) (substring "cabana" 3 6))
 #t
-> (equal? "banana" "abacaxi")
-#f
 ```
 
 
@@ -1243,40 +1241,14 @@ Para estruturas que podem ser compostas, como listas, a função `equal?`{.schem
 
 A função `(eq? v1 v2)`{.scheme} produz `#t`{.scheme} se `v1` e `v2` referenciam o mesmo objeto, `#f`{.scheme} caso contrário. \pause `eq?`{.scheme} é avaliada rapidamente pois compara apenas as referências. \pause Entretanto, o `eq?`{.scheme} pode não ser adequado, pois a geração dos objetos pode não ser clara \pause
 
-
-<div class="columns">
-<div class="column" width="40%">
-
 ```scheme
-> (eq? 2 2)
+> (eq? (+ 2 1) (- 5 2))
 #t
-> (eq? (+ 3 5) (+ 5 3))
-#t
-> (eq? 2 2.0)
-#f
-```
-
-\pause
-
-</div>
-<div class="column" width="60%">
-
-```scheme
 > (eq? (expt 2 100) (expt 2 100))
 #f
-> (eq? (integer->char 955)
-       (integer->char 955))
+> (eq? (substring "banana" 1 4) (substring "cabana" 3 6))
 #f
 ```
-
-</div>
-</div>
-
-\pause
-
-
-Observe que nos dois últimos exemplos, objetos distintos foram criados para expressões avaliadas para um mesmo valor.
-
 
 
 Referências

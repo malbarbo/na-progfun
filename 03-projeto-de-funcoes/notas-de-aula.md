@@ -191,7 +191,7 @@ Precisamos tomar uma decisão e modificar o propósito para ficar mais preciso. 
 
 ## Propósito
 
-No propósito da função descrevemos **o quê** a função faz, e não **como** ela faz (que é a implementação - as vezes precisamos dizer como ela faz, mas isso é raro). \pause
+No propósito da função descrevemos **o que** a função faz, e não **como** ela faz (que é a implementação - as vezes precisamos dizer como ela faz, mas isso é raro). \pause
 
 No propósito também informamos as garantias da saída e as restrições sobre os parâmetros.
 
@@ -211,11 +211,11 @@ Ordenação \pause
 
 ## Especificação
 
-Para saber se a especificação está boa, faça a segunda pergunta: \pause
+Para saber se a especificação está adequada, faça a segunda pergunta: \pause
 
 Um outro desenvolvedor, que não tem acesso ao problema original e nem a análise, tem as informações necessárias na especificação para fazer uma implementação e verificação inicial? \pause
 
-Se a resposta for sim, então a especificação está boa, senão ela está incompleta.
+Se a resposta for sim, então a especificação está adequada, senão ela está incompleta.
 
 
 ## Implementação
@@ -260,7 +260,7 @@ Se a resposta for sim, então a especificação está boa, senão ela está inco
 
 ## Implementação
 
-Temos duas formas de reposta, `"Alcool"`{.scheme} e `"Gasolina"`{.scheme}, portanto, precisamos de uma condição para distinguir quando utilizar cada resposta. \pause No caso, a reposta é `"Alcool"`{.scheme} se `preco-alcool`{.scheme} é menor ou igual a 70% do preço de `preco-gasolina`; e `"Gasolina"`{.scheme} caso contrário. \pause
+Temos duas formas de resposta, `"Alcool"`{.scheme} e `"Gasolina"`{.scheme}, portanto, precisamos de uma condição para distinguir quando utilizar cada resposta. \pause No caso, a resposta é `"Alcool"`{.scheme} se `preco-alcool`{.scheme} é menor ou igual a 70% do preço de `preco-gasolina`; e `"Gasolina"`{.scheme} caso contrário. \pause
 
 \small
 
@@ -350,7 +350,7 @@ Preparem-se, agora vem uma sequência de muitas perguntas! \pause
 
 De forma geral, o fato de uma função produzir a resposta correta para alguns exemplos, implica que a função está correta? \pause Não! \pause
 
-Então porque "perder tempo" fazendo os exemplos? \pause O primeiro objetivo dos exemplos é ajudar o projetista a entender como a função funciona e o segundo ilustrar o seu funcionamento para que a especificação fique mais clara. \pause Depois esses exemplos podem ser usados como uma forma inicial de verificação, que mesmo não mostrando que a função funciona corretamente, aumenta a confiança do desenvolvedor que o código está correto. \pause
+Então porque "perder tempo" fazendo os exemplos? \pause O primeiro objetivo dos exemplos é ajudar o projetista a entender como a saída pode ser obtida a partir das entradas e o segundo é ilustrar o seu funcionamento para que a especificação fique mais clara. \pause Depois esses exemplos podem ser usados como uma forma inicial de verificação, que mesmo não mostrando que a função funciona corretamente, aumenta a confiança do desenvolvedor que o código está correto. \pause
 
 Já que os exemplos são uma verificação inicial, então temos que ampliar a verificação? \pause Sim! \pause De que forma? \pause Testes de propriedades, fuzzing, etc. \pause Para esta disciplina, vamos utilizar apenas os exemplos para fazer a verificação.
 

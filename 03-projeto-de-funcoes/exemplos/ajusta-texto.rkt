@@ -63,8 +63,10 @@
 
 (define (ajusta-string s num-chars alinhamento)
   (cond
-    [(= (string-length s) num-chars) s]
-    [(> (string-length s) num-chars) (string-append (substring s 0 (- num-chars 3)) "...")]
+    [(= (string-length s) num-chars)
+     s]
+    [(> (string-length s) num-chars)
+     (string-append (substring s 0 (- num-chars 3)) "...")]
     [else
      (define num-espacos (- num-chars (string-length s)))
      (cond

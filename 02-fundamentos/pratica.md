@@ -4,6 +4,7 @@ title: Fundamentos - Prática
 urlcolor: Black
 # TODO: adicionar as soluções
 # TODO: pensar nos objetivos dessa atividade e verificar se os exercícios são adequados
+# TODO: completar 10 exercícios
 ---
 
 @) [sicp 1.1] Dado o seguinte programa, qual é o resultado impresso pelo Racket em resposta a cada expressão? Assuma que as expressões serão avaliadas na ordem em que são apresentadas.

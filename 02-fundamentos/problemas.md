@@ -4,6 +4,7 @@ title: Fundamentos - Problemas
 urlcolor: Black
 license:
 # TODO: adicionar exercícios de and e or
+# TODO: completar 10 exercícios
 ---
 
 

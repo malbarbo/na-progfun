@@ -1,5 +1,7 @@
 #lang racket
 
+(require examples)
+
 ;; Número Número Número -> Número
 ;;
 ;; Devolve o valor máximo entre a, b e c.

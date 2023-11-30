@@ -1,7 +1,9 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Projeto de funções - Prática
-urlcolor: Blue
+urlcolor: Black
+license:
+# TODO: criar um problema para o exercício da censura e mover para problemas
 ---
 
 @) Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
@@ -68,8 +70,8 @@ urlcolor: Blue
     ;; Transforma a data de entrada do formato "dia/mes/ano"
     ;; para o formato "ano/mes/dia".
     ;;
-    ;; Requer que o dia e o mes tenha dois dígitos e que
-    ;; o ano tenha quatro digitos.
+    ;; Requer que o dia e o mês tenham dois dígitos e que
+    ;; o ano tenha quatro dígitos.
 
     (examples
      (check-equal? (data-dma->data-amd "19/07/2023") "2023/07/19")
@@ -78,6 +80,13 @@ urlcolor: Blue
 
     (define (data-dma->data-amd data)
       data)
+    ```
+
+@) Escreva a especificação para a seguinte implementação de função. Observe que a especificação sozinha deve ser suficiente para um desenvolvedor fazer uma implementação.
+
+    ```scheme
+    (define (aumenta valor porcentagem)
+      (* valor (+ 1 (/ porcentagem 100))))
     ```
 
 @) Escreva a especificação para a seguinte implementação de função. Observe que a especificação sozinha deve ser suficiente para um programador fazer uma implementação.
@@ -90,74 +99,12 @@ urlcolor: Blue
         [else "longo"]))
     ```
 
-@) Escreva a especificação para a seguinte implementação de função. Observe que a especificação sozinha deve ser suficiente para um desenvolvedor fazer uma implementação.
+@) Projete uma função que adicione um ponto final a uma frase se ela não acabar com um.
 
-    ```scheme
-    (define (qualificacao num-questoes num-acertos faltas)
-      (define aproveitamento (/ num-acertos num-questoes))
-      (cond
-        [(or (< aproveitamento 0.3) (> faltas 0.25)) "reprovado"]
-        [(< aproveitamento 0.6) "nova-tentativa"]
-        [else "aprovado"]))
-    ```
+@) Projete uma função que determine se uma palavra tem um traço (`"-"`) no meio, como por exemplo, `"lero-lero"`{.scheme}. Não use `if`{.scheme} nem `cond`{.scheme}.
 
+@) Projete uma função que encontre o máximo entre três números dados. Não use a função pré-definida `max`{.scheme}.
 
-@) Uma polegada é um medida de comprimento utilizado no sistema imperial e corresponde a 2,54cm.
+@) Projete uma função que receba como parâmetro uma string e um número natural $n$ e substitua os primeiros $n$ caracteres da string por $n$ letras $x$.
 
-    a. Projete uma função que converta uma medida em centímetros para polegadas.
-
-    b. Projete uma função que converta uma medida em polegadas para centímetros.
-
-@) Projete uma função que recebe dois número positivos, um `valor` e uma `porcentagem`, e calcula o resultado de aumentar a `porcentagem` ao `valor`.
-
-@) Faça uma função chamada `zera-dezena-e-unidade` que recebe um número natural `n` e devolve um novo número que é como `n` mas tem o valor da dezena e unidade zero. Veja a função [quotient](https://docs.racket-lang.org/reference/generic-numbers.html#%28def.\_%28%28quote.\_~23~25kernel%29.\_quotient%29%29) Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
-
-    ```{.scheme}
-    > (zera-dezena-e-unidade 19)
-    0
-    > (zera-dezena-e-unidade 341)
-    300
-    > (zera-dezena-e-unidade 5251)
-    5200
-    ```
-
-@) Faça uma função chamada `censura` que recebe dois argumento, uma string `frase` e um número natural `n`, e produz uma nova frase trocando as as primeiras `n` letras da frase de entrada por `n` `"x"`. Veja a documentação do tipo [string](https://docs.racket-lang.org/reference/strings.html) (funções `string-append`, `substring` e `make-string`). Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
-
-    ```{.scheme}
-    > (censura "droga de lanche!" 5)
-    "xxxxx de lanche!"
-    > (censura "ferrou geral!" 6)
-    "xxxxxx geral!"
-    ```
-
-@) Faça uma função chamada `traco-meio?` que recebe uma string `s` e verifica se o caractere no meio de `s` é `"-"`. Não use `if`{.scheme} nem `cond`{.scheme}. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
-
-    ```{.scheme}
-    > (traco-meio? "lero-lero")
-    #t
-    > (traco-meio? "quase-meio")
-    #f
-    > (traco-meio? "-")
-    #t
-    ```
-
-
-@) Faça uma função `maximo3` que encontre o máximo entre três números dados. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
-
-    ```{.scheme}
-    > (maximo3 8 5 2)
-    8
-    > (maximo3 4 6 1)
-    6
-    > (maximo3 6 6 7)
-    7
-    ```
-
-@) Faça uma função chamada `adiciona-ponto` que recebe um string `frase` e adiciona um ponto final na `frase` se ela ainda não tiver um. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
-
-    ```{.scheme}
-    > (adiciona-ponto "Vou contar")
-    "Vou contar."
-    > (adiciona-ponto "Corri.")
-    "Corri."
-    ```
+@) Faça a execução passo a passo das funções definidas nos exercícios anteriores para alguns exemplos. Para isto você deve criar um novo arquivo, mudar a linguagem para "Beginning Student" e copiar o código da função e da chamada de exemplo.

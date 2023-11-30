@@ -2,6 +2,7 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Tipos de dados - Problemas
 urlcolor: Black
+# TODO: adicionar problema imposto de renda no Brasil, faixas, considerando os descontos, indicar mais vantasos simplificado ou completo
 ---
 
 <!-- Enumeração -->

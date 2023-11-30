@@ -1226,7 +1226,7 @@ Exemplos \pause
 
 \normalsize
 
-Em todos os exemplos as repostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma especifica, que não é recursiva. \pause
+Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma especifica, que não é recursiva. \pause
 
 Então precisamos criar três casos base
 

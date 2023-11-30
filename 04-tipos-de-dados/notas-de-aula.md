@@ -425,7 +425,7 @@ Em um sistema de enquete cada possível resposta é identificada por uma cor: ve
 
 Análise \pause
 
-- Atualizar a contabilização de repostas considerando um nova resposta. \pause
+- Atualizar a contabilização de respostas considerando um nova resposta. \pause
 
 - Uma resposta pode ser verde, vermelho, azul ou branco. \pause
 

@@ -58,7 +58,7 @@ license:
      (check-equal? (supercentenario 110) #f)
      (check-equal? (supercentenario 112) #t))
 
-    (define (supercentaniro n)
+    (define (supercentenario n)
       #f)
     ```
 

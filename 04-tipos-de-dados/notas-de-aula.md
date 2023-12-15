@@ -10,6 +10,7 @@
 # TODO: mostrar um exemplo de união em outra linguagem (remover discutido em sala)
 # TODO: melhorar revisão final
 # TODO: adicionar mais referências sobre projeto de tipos de dados
+# TODO: colocar exemplo de dataclass e replace do python (struct-copy)
 title: Tipos de dados
 ---
 

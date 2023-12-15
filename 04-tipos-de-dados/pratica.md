@@ -2,6 +2,7 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Tipos de dados - Prática
 urlcolor: Blue
+# TODO: revisar e adicionar mais exercícios (10?)
 ---
 
 <!-- Enumerações -->

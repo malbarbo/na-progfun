@@ -3,6 +3,7 @@
 title: Tipos de dados - Problemas
 urlcolor: Black
 # TODO: adicionar problema imposto de renda no Brasil, faixas, considerando os descontos, indicar mais vantasos simplificado ou completo
+# TODO: revisar os problemas e tentar deixar apenas problemas interessantes (práticos)
 ---
 
 <!-- Enumeração -->

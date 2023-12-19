@@ -282,7 +282,7 @@ Outros objetos
 
 Na descrição a seguir `<id>` denota um nome (identificador) qualquer, `expr` uma expressão e `...` repetição da construção.
 
-## Definição
+## Definições
 
 A forma geral para definições é:
 
@@ -389,9 +389,77 @@ TODO
 
 # Definição de tipos de dados
 
+Nessa seção mostramos como definir e usar estruturas, enumerações e uniões.
+
 ## Estruturas
 
+Uma aproximação da forma geral para definição de estruturas é
+
+```scheme
+(struct <nome> (<campo1> ...))
+```
+
+Esta construção gera as seguintes funções
+
+```scheme
+; Construtor
+nome
+
+; Predicado que verifica se um objeto é do tipo da estrutura
+nome?
+
+; Seletores
+nome-campo1
+```
+
+Por exemplos, a definição
+
+```scheme
+(struct ponto (x y))
+```
+
+Gera as funções `ponto`, `ponto?`, `ponto-x` e `ponto-y`, que podem ser usadas da seguinte forma:
+
+```scheme
+> (define p (ponto 3 4))
+> (ponto? p) ; p é uma instância de ponto
+#t
+> (ponto? 23) ; 23 não é uma instância de ponto
+#f
+> (ponto-x p)
+3
+> (ponto-y p)
+4
+> ; Por padrão, o estado interno não é exibido
+> p
+#<ponto>
+> ; Por padrão, a comparação é por referência
+> (equal? p (ponto 3 4))
+#f
+> (equal? p p)
+#t
+```
+
+Podemos adicionar `#:transparent`{.scheme} a definição de uma estrutura. Isso altera a forma que valores do tipo da estrutura são exibidos e comparados:
+
+```scheme
+> (struct ponto (x y) #:transparent)
+> (define p (ponto (+ 2 1) 4))
+> ; Agora estado interno é exibido
+> p
+(ponto 3 4)
+> ; Agora a compração é pela igualdade dos campos
+> (equal? p (ponto 3 4))
+#t
+> (equal? p p)
+#t
+```
+
+
+## Enumerações
+
 TODO
+
 
 ## Uniões
 

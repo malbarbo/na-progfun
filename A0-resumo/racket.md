@@ -98,14 +98,40 @@ Máximo e mínimo
 -2.1
 ```
 
-Conversão para string
+Conversão
 
 ```scheme
+> (inexact->exact 4.0)
+4
+> (inexact->exact 2.5)
+5/2
+> (exact->inexact 3)
+3.0
 > (number->string 10)
 "10"
 > (number->string 9.3)
 "9.3")
 ```
+
+Teto, piso e arredondamento
+
+```scheme
+> ; teto - menor inteiro maior ou igual
+> (ceiling 3.0)
+3.0
+> (ceiling 3.2)
+4.0
+> ; piso - menor inteiro menor ou igual
+> (floor 3.0)
+3.0
+> (floor 3.7)
+3.0
+> (round 4.1)
+4.0
+> (round 4.5)
+5.0
+```
+
 
 Outras funções
 
@@ -114,6 +140,8 @@ Outras funções
 9
 > (sub1 7)
 6
+> (zero? 0)
+#t
 > (even? 10) ; par
 #t
 > (odd? 10) ; ímpar

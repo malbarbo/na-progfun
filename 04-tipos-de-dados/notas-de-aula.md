@@ -3,14 +3,10 @@
 # TODO: introduzir com mais detalhes o conceito de união
 # TODO: falar do "expression problem"?
 # TODO: colocar explicitamente a definição de estrutura, enumeração e união
-# TODO: falar mais sobre tipos algébricos
-# TODO: falar explicitamente de casamento de padrões
 # TODO: ajustar o exemplo: contabilização vs contagem
-# TODO: adicionar mais um exemplo de união
-# TODO: mostrar um exemplo de união em outra linguagem (remover discutido em sala)
-# TODO: melhorar revisão final
-# TODO: adicionar mais referências sobre projeto de tipos de dados
+# TODO: remover (discutido em sala) adicionando um exemplo inicial
 # TODO: colocar exemplo de dataclass e replace do python (struct-copy)
+# TODO: adicionar mais referências sobre projeto de tipos de dados
 title: Tipos de dados
 ---
 

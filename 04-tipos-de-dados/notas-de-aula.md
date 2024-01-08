@@ -1073,7 +1073,7 @@ E a função
 O que acontece se alteramos a definição do estado da tarefa da seguinte maneira?
 
 ```scheme
-(struct executando ())
+(struct fila ())
 (define-type EstadoTarefa (U fila executando sucesso erro))
 ```
 

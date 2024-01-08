@@ -1,14 +1,14 @@
 #lang typed/racket
 
-(struct executando ())
+(struct executando () #:transparent)
 
 (struct sucesso
   ([duracao : Number]
-   [msg : String]))
+   [msg : String]) #:transparent)
 
 (struct erro
   ([codigo : Number]
-   [msg : String]))
+   [msg : String]) #:transparent)
 
 (define-type EstadoTarefa (U executando sucesso erro))
 

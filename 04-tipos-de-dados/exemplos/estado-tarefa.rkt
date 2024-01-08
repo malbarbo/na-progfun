@@ -2,17 +2,28 @@
 
 (require examples)
 
+(struct executando ())
+;; Representa que uma tarefa está em execução.
+
 (struct sucesso (duracao msg))
+;; Representa o estado de uma tarefa que finalizou a execução com sucesso
+;; duracao: Número - tempo de execução em segundos
+;; msg    : String - mensagem de sucesso gerada pela tarefa
+
 (struct erro (codigo msg))
+;; Representa o estado de uma tarefa que finalizou a execução com falha
+;; código: Número - o código da falha
+;; msg   : String - mensagem de erro gerada pela tarefa
+
 ;; EstadoTarefa é um dos valores:
-;; - "Executando"             A tarefa está em execução
+;; - (executando)             A tarefa está em execução
 ;; - (sucesso Número String)  A tarefa finalizou com sucesso
 ;; - (erro Número String)     A tarefa finalizou com falha
 
 ;; EstadoTarefa -> String
 ;; Produz uma string amigável para o usuário para descrever o estado da tarefa.
 (examples
- (check-equal? (msg-usuario "Executando")
+ (check-equal? (msg-usuario (executando))
                "A tarefa está em execução.")
  (check-equal? (msg-usuario (sucesso 12 "Os resultados estão corretos"))
                "Tarefa concluída (12s): Os resultados estão corretos.")
@@ -21,7 +32,7 @@
 
 (define (msg-usuario estado)
   (cond
-    [(and (string? estado) (string=? estado "Executando"))
+    [(executando? estado)
      "A tarefa está em execução."]
     [(sucesso? estado)
      (format "Tarefa concluída (~as): ~a."

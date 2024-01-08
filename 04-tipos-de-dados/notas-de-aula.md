@@ -880,7 +880,7 @@ Analisando a descrição do problema conseguimos separar o estado da tarefa em t
 
 - Em execução \pause
 - Sucesso, com uma duração e uma mensagem \pause
-- Falhado, com um código e uma mensagem \pause
+- Erro, com um código e uma mensagem \pause
 
 Esses casos são excludentes, ou seja, se a tarefa se enquadra em um deles, não devemos armazenar informações sobre os outros (caso contrário, seria possível criar um estado inconsistente). \pause
 
@@ -900,18 +900,21 @@ Definimos anteriormente um tipo de dado como um conjunto de possíveis valores, 
 
 ## Uniões e Estruturas
 
-Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o caso do quadrado e como é para o caso do estado da tarefa. \pause
+Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o quadrado do campo minado e como é para o caso do estado da tarefa. \pause
 
 Antes de vermos como expressar uniões em Racket, vamos ver como uniões funcionam em um sistema estático de tipo (discutido em sala).
 
 
 ## Definição de tipos de dados
 
-Agora podemos prosseguir com o projeto do programa em Racket. \pause Antes de definir o tipo que representa o estado da tarefa, precisamos definir os tipos para sucesso e erro. \pause
+Agora podemos prosseguir com o projeto do programa em Racket. \pause
 
 \small
 
 ```scheme
+(struct executando ())
+;; Representa que uma tarefa está em execução.
+
 (struct sucesso (duracao msg))
 ;; Representa o estado de uma tarefa que finalizou a execução com sucesso
 ;; duracao: Número - tempo de execução em segundos
@@ -931,7 +934,7 @@ Agora podemos definir o tipo para estado da tarefa como uma união de três caso
 
 ```scheme
 ;; EstadoTarefa é um dos valores:
-;; - "Executando"             A tarefa está em execução
+;; - (executando)             A tarefa está em execução
 ;; - (sucesso Número String)  A tarefa finalizou com sucesso
 ;; - (erro Número String)     A tarefa finalizou com falha
 ```
@@ -953,7 +956,7 @@ Quantos exemplos são necessários? \pause Pelo menos um para cada classe de val
 
 ```scheme
 (examples
- (check-equal? (msg-usuario "Executando")
+ (check-equal? (msg-usuario (executando))
                "A tarefa está em execução.")
  (check-equal? (msg-usuario (sucesso 12 "Os resultados estão corretos"))
                "Tarefa concluída (12s): Os resultados estão corretos.")
@@ -973,16 +976,16 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 ```scheme
 (define (msg-usuario estado)
   (cond
-    [(and (string? estado) (string=? estado "Executando"))
-    ]
+    [(executando? estado)
+     ...]
     [(sucesso? estado)
+     ...
      ... (sucesso-duracao estado)
-     ... (sucesso-msg estado)
-    ]
+     ... (sucesso-msg estado)]
     [(erro? estado)
+     ...
      ... (erro-codigo estado)
-     ... (erro-msg estado)
-    ]))
+     ... (erro-msg estado)]))
 ```
 
 
@@ -993,7 +996,7 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 ```scheme
 (define (msg-usuario estado)
   (cond
-    [(and (string? estado) (string=? estado "Executando"))
+    [(executando? estado)
      "A tarefa está em execução."]
     [(sucesso? estado)
      (format "Tarefa concluída (~as): ~a."
@@ -1083,7 +1086,14 @@ O analisador estático do Racket indica um erro no `cond`{.scheme}, pois nem tod
 
 \pause
 
-Algo semelhante acontece em diversas outras linguagens que têm verificador estático.
+\small
+
+```
+Type Checker: type mismatch
+  expected: String
+  given: Void
+```
+
 
 
 Outras linguagens
@@ -1102,8 +1112,9 @@ Vamos ver alguns exemplos.
 \small
 
 ```python
-from dataclasses import dataclass
-from typing import Literal
+@dataclass
+class Executando:
+    pass
 
 @dataclass
 class Sucesso:
@@ -1115,7 +1126,7 @@ class Erro:
     codigo: int
     msg: str
 
-EstadoTarefa = Literal["Executando"] | Sucesso | Erro
+EstadoTarefa = Executando | Sucesso | Erro
 ```
 
 
@@ -1125,7 +1136,7 @@ EstadoTarefa = Literal["Executando"] | Sucesso | Erro
 
 ```python
 def mensagem(estado: EstadoTarefa) -> str:
-    if isinstance(estado, str):
+    if isinstance(estado, Executando):
         return 'A tarefa está em execução'
     elif isinstance(estado, Sucesso):
         return 'A tafera finalizou com sucesso ({}s): {}'.format(estado.duracao,
@@ -1142,7 +1153,7 @@ def mensagem(estado: EstadoTarefa) -> str:
 ```python
 def mensagem(estado: EstadoTarefa) -> str:
     match estado:
-        case str(estado):
+        case Executando():
             return 'A tarefa está em execução'
         case Sucesso(duracao, msg):
             return f'A tafera finalizou com sucesso ({duracao}s): {msg}'
@@ -1207,18 +1218,17 @@ A [JEP 405](https://openjdk.org/jeps/405), que ainda está em _preview_, permite
 
 ## Revisão
 
-Vimos como mais detalhes como desenvolver a etapa de definição de tipos de dados. \pause
+Vimos com mais detalhes como desenvolver a etapa de definição de tipos de dados. \pause
 
 Aprendemos que devemos considerar dois princípios no projeto de tipos de dados \pause
 
 - Faça os valores válidos representáveis. \pause
 - Faça os valores inválidos irrepresentáveis. \pause
 
-Vimos como definir novos tipos de dados usando: \pause
+Vimos como definir novos tipos de dados usando tipos algébricos: \pause
 
 - Estruturas (tipo produto) \pause
-- Enumerações (tipo soma) \pause
-- Uniões (tipo soma)
+- Uniões e enumerações (tipo soma)
 
 
 ## Revisão

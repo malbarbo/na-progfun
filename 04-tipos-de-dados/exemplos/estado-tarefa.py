@@ -2,6 +2,10 @@ from dataclasses import dataclass
 from typing import Literal
 
 @dataclass
+class Executando:
+    pass
+
+@dataclass
 class Sucesso:
     duracao: int
     msg: str
@@ -11,10 +15,10 @@ class Erro:
     codigo: int
     msg: str
 
-EstadoTarefa = Literal["Executando"] | Sucesso | Erro
+EstadoTarefa = Executando | Sucesso | Erro
 
 def mensagem1(estado: EstadoTarefa) -> str:
-    if isinstance(estado, str):
+    if isinstance(estado, Executando):
         return 'A tarefa está em execução'
     elif isinstance(estado, Sucesso):
         return 'A tafera finalizou com sucesso ({}s): {}'.format(estado.duracao, estado.msg)
@@ -23,7 +27,7 @@ def mensagem1(estado: EstadoTarefa) -> str:
 
 def mensagem2(estado: EstadoTarefa) -> str:
     match estado:
-        case str(estado):
+        case Executando():
             return 'A tarefa está em execução'
         case Sucesso(duracao, msg):
             return f'A tafera finalizou com sucesso ({duracao}s): {msg}'

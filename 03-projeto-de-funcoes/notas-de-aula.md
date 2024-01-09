@@ -4,6 +4,7 @@ title: Projeto de funções
 # TODO: substituir Definição de tipos de dados por Projeto de dados? https://course.ccs.neu.edu/cs5010sp15/recipe.html#%28part._data%29
 # TODO: melhorar a parte de garantias e restrições
 # TODO: falar sobre comentários na implementação
+# TODO: adicionar revisão no final
 ---
 
 ## Projeto de funções

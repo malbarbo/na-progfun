@@ -143,6 +143,9 @@ Qual é a forma para o corpo de uma função que o tipo da entrada ListaDeNúmer
 
 ## Listas
 
+<div class="columns">
+<div class="column" width="45%">
+
 Uma condicional com dois casos: \pause
 
 - A lista é vazia \pause
@@ -159,8 +162,8 @@ Em Racket \pause
           (link-resto ldn))]))
 ```
 
-
-## Listas
+</div>
+<div class="column" width="52%">
 
 Qual é o tipo do resultado de `(link-primeiro ldn)`? \pause Um número, que é um valor atômico. \pause
 
@@ -169,6 +172,10 @@ Qual é o tipo do resultado de `(link-resto ldn)`? \pause Uma lista, que é uma 
 Um valor atômico pode ser processado diretamente, mas como processar uma lista? \pause Fazendo análise dos casos... \pause
 
 Vamos fazer uma alteração no modelo `fn-para-ldn` e adicionar uma chamada recursiva para processar `(link-resto ldn)`. Essa alteração pode parecer meio "mágica" agora, mas ela vai ficar mais clara em breve.
+
+</div>
+</div>
+
 
 
 ## Listas
@@ -349,12 +356,49 @@ Vamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é v
 
 O que fazemos agora? \pause
 
-Analisamos o caso em que a lista não é vazia. O modelo está sugerindo fazer a chamada recursiva para o resto da lista. \pause
-
-Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos assumir que ela produz a resposta correta para o resto da lista.
+Analisamos o caso em que a lista não é vazia. O modelo está sugerindo fazer a chamada recursiva para o resto da lista.
 
 </div>
 </div>
+
+
+## Exemplo: soma
+
+\footnotesize
+
+```scheme
+;; ListaDeNúmeros -> Número
+;; Soma os valores de ldn.
+(examples
+ (check-equal? (soma (vazia)) 0)
+ (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
+ (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
+ (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+```
+
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```scheme
+(define (soma ldn)
+  (cond
+    [(vazia? ldn) 0]
+    [else
+     (... (link-primeiro ldn)
+          (soma (link-resto ldn)))]))
+```
+
+</div>
+<div class="column" width="48%">
+\small
+
+Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos **assumir** que ela produz a resposta correta para o resto da lista.
+
+</div>
+</div>
+
 
 ## Exemplo: soma
 
@@ -533,13 +577,14 @@ O Racket já vem com listas pré-definidas
 </div>
 <div class="column" width="48%">
 
-Outras funções (os propósitos são aproximados)
+Outras funções pré-definidas (os propósitos são aproximados)
+
+- `list?`{.scheme} verifica se um valor é uma lista
 
 - `empty?`{.scheme} verifica se uma lista é vazia
 
 - `cons?`{.scheme} verifica se uma lista não é vazia
 
-- `list?`{.scheme} verifica se um valor é uma lista
 
 </div>
 </div>
@@ -1228,7 +1273,7 @@ Exemplos \pause
 
 Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma especifica, que não é recursiva. \pause
 
-Então precisamos criar três casos base
+Então precisamos criar três casos base.
 
 
 ## Exemplos: junta com "," e "e"
@@ -1776,7 +1821,7 @@ Como fazemos nesse caso? \pause Temos algumas opções: \pause
 
 ## Redefinição do problema
 
-Para o problema do número primo, podemos rescrever o problema da seguinte forma: Dado dois números naturais $n$ e $a \le n$, projete uma função que determine a quantidade de divisores de $n$ que são $\le a$. \pause
+Para o problema do número primo, podemos reescrever o problema da seguinte forma: Dado dois números naturais $n$ e $a \le n$, projete uma função que determine a quantidade de divisores de $n$ que são $\le a$. \pause
 
 Se temos a quantidade de divisores de $n$ que são $\le a - 1$, como obtemos a quantidade de divisores de $n$ que são $\le a$? \pause Somando 1 se $a$ é divisor de $n$. \pause
 

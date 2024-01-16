@@ -1318,8 +1318,10 @@ Implementação
 ```scheme
 (define (junta-virgula-e lst)
   (cond
-    [(empty? lst) ""]
-    [(empty? (rest lst)) (first lst)]
+    [(empty? lst)
+     ""]
+    [(empty? (rest lst))
+     (first lst)]
     [(empty? (rest (rest lst)))
      (string-append (first lst)
                     " e "
@@ -1794,7 +1796,7 @@ Considere o problema de verificar se uma lista de números é palíndromo (a lis
 
 Para verificar se `(list 5 4 1 4)`{.scheme} é palíndromo, o modelo sugere verificar se `(list 4 1 4)`{.scheme} é palíndromo. \pause
 
-Como a verificação se `(list 4 1 4)`{.scheme} é palíndromo pode nos ajudar a determinar se `(list 5 4 1 4)`{.scheme} é palíndromo? \pause Ou seja, a solução para o resto pode nós ajustar a compor o resultado para o todo? \pause Não...
+Como a verificação se `(list 4 1 4)`{.scheme} é palíndromo pode nos ajudar a determinar se `(list 5 4 1 4)`{.scheme} é palíndromo? \pause Ou seja, a solução para o resto pode nós ajustar a compor o resultado para o todo? \pause Não pode...
 
 
 ## Número primo

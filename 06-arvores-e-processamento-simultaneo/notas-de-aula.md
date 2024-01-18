@@ -1,5 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: adicionar uma definição para árvore (recursão indireta)
 # TODO: colocar uma sequência de exemplos (como feito em sala) para
 #       levar os alunos a determinar o código para altura-arvore
 # TODO: adicionar uma situação problema para lista aninhada (ou trocar por arvóre n-ária)

@@ -505,6 +505,8 @@ Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-de
 
 \pause
 
+\small
+
 ```scheme
 ;; (X -> Y) Lista(X) -> Lista(Y)
 ;; Devolve uma lista aplicando f a cada elemento de lst,
@@ -521,14 +523,40 @@ Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-de
 
 ## `map` - exemplos
 
+\small
+
 ```scheme
 > (map add1 (list 4 6 10))
-'(5 7 11)
-> (map list (list 7 2 18))
-'((7) (2) (18))
-> (map length (list (list 7 2) (list 18) empty))
-'(2 1 0)
+```
 
+\pause
+
+```scheme
+'(5 7 11)
+```
+
+\pause
+
+```scheme
+> (map list (list 7 2 18))
+```
+
+\pause
+
+```scheme
+'((7) (2) (18))
+```
+
+\pause
+
+```scheme
+> (map length (list (list 7 2) (list 18) empty))
+```
+
+\pause
+
+```scheme
+'(2 1 0)
 ```
 
 
@@ -750,6 +778,8 @@ Como resultado do exemplo anterior obtivemos a função `filtra`, que é pré-de
 
 \pause
 
+\small
+
 ```scheme
 ;; (X -> Boolean) Lista(X) -> Lista(X)
 ;; Devolve uma lista com todos os elementos de lst
@@ -767,11 +797,40 @@ Como resultado do exemplo anterior obtivemos a função `filtra`, que é pré-de
 
 ## `filter` - exemplos
 
+\small
+
 ```scheme
-> (filter negative? (list 4 6 10))
-'()
-> (filter even? (list 7 2 18))
-'(2 18)
+> (filter zero? (list 4 0 6 0 0 10))
+```
+
+\pause
+
+```scheme
+'(0 0 0)
+```
+
+\pause
+
+```scheme
+> (filter non-empty-string? (list "casa" "" "rio" ""))
+```
+
+\pause
+
+```scheme
+'("casa" "rio")
+```
+
+\pause
+
+```scheme
+> (filter cons? (list (list 1 3) empty (list 4) empty))
+```
+
+\pause
+
+```scheme
+'('(1 3) '(4))
 ```
 
 
@@ -992,6 +1051,8 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 
 \pause
 
+\small
+
 ```scheme
 ;; (X Y -> Y) Y Lista(X) -> Y
 ;; A chamada
@@ -1008,14 +1069,40 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 
 ## `foldr` - exemplos
 
+\small
 
 ```scheme
 > (foldr + 0 (list 4 6 10))
+```
+
+\pause
+
+```scheme
 20
+```
+
+\pause
+
+```scheme
+> (foldr max 30 (list 7 2 18 -20))
+```
+
+\pause
+
+```scheme
+30
+```
+
+\pause
+
+```scheme
 > (foldr cons empty (list 7 2 18))
+```
+
+\pause
+
+```scheme
 '(7 2 18)
-> (foldr max 7 (list 7 2 18 -20))
-18
 ```
 
 
@@ -1399,7 +1486,7 @@ Definições locais e fechamentos
 
 ## Definições locais e fechamentos
 
-Uma **declaração local** é aquela que não é feita no escopo global. \pause As declarações locais, como a de `tmax` e `tamanho-maximo?`, ajudam na escrita e leitura do código e melhoram o encapsulamento.
+Uma **declaração local** é aquela que não é feita no escopo global. \pause As declarações locais, como a de `tmax` e `tamanho-maximo?`, ajudam na escrita e leitura do código e melhoram o encapsulamento. \pause
 
 Uma **variável livre** em relação a uma função é aquela que não é global, não é um parâmetro da função e nem foi declarada localmente dentro da função. \pause
 

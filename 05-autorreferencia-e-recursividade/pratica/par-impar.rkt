@@ -13,6 +13,7 @@
  (check-equal? (par? 4) #t))
 
 (define (par? a)
+  ;; FIXME: simplifique a função.
   (if (zero? a)
       #t
       (impar? (sub1 a))))
@@ -28,6 +29,7 @@
  (check-equal? (impar? 4) #f))
 
 (define (impar? a)
+  ;; FIXME: simplifique a função.
   (if (zero? a)
       #f
       (par? (sub1 a))))

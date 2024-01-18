@@ -4,7 +4,7 @@
 
 ;; ListaDeNúmeros Número -> Booleano
 ;;
-;; Produz #t se v está em ldn; #f caso contrário.
+;; Produz #t se v está em lst; #f caso contrário.
 
 (examples
  (check-equal? (contem? empty 3) #f)
@@ -14,9 +14,9 @@
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
  (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
 
-(define (contem? ldn v)
+(define (contem? lst v)
   (cond
-    [(empty? ldn) #f]
+    [(empty? lst) #f]
     [else
-     (or (= v (first ldn))
-         (contem? (rest ldn) v))]))
+     (or (= v (first lst))
+         (contem? (rest lst) v))]))

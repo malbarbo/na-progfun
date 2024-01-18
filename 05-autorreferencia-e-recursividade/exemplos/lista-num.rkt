@@ -21,7 +21,7 @@
 
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
 ;;
-;; Adiciona n ao final de ldn.
+;; Adiciona n ao final de lst.
 
 (examples
  (check-equal? (cons-fim 3 empty)
@@ -29,9 +29,9 @@
  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
                (cons 3 (cons 4 (cons 1 empty)))))
 
-(define (cons-fim n ldn)
+(define (cons-fim n lst)
   (cond
-    [(empty? ldn) (cons n empty)]
+    [(empty? lst) (cons n empty)]
     [else
-     (cons (first ldn)
-           (cons-fim n (rest ldn)))]))
+     (cons (first lst)
+           (cons-fim n (rest lst)))]))

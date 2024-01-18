@@ -5,7 +5,7 @@
 ;; ListaDeBool -> Bool
 ;;
 ;; Produz #t se todos elementos de lst são #t, produz #f caso contrário.
-;; Produz #t se a ldn é vazia.
+;; Produz #t se a lst é vazia.
 
 (examples
   (check-equal? (todos-true empty) #t)

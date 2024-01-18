@@ -225,15 +225,15 @@ Modelo
 \small
 
 ```scheme
-(define (fn-para-ladn ldn)
+(define (fn-para-ladn lst)
   (cond
-    [(empty? ldn) ...]
-    [(list? (first ldn))
-     (... (fn-para-ladn (first ldn))
-          (fn-para-ladn (rest ldn)))]
+    [(empty? lst) ...]
+    [(list? (first lst))
+     (... (fn-para-ladn (first lst))
+          (fn-para-ladn (rest lst)))]
     [else
-     (... (first ldn)
-          (fn-para-ladn (rest ldn)))]))
+     (... (first lst)
+          (fn-para-ladn (rest lst)))]))
 ```
 
 </div>
@@ -251,21 +251,21 @@ Defina uma função que some todos os números de uma lista aninhada de números
 
 ```scheme
 ;; ListaAninhada -> Número
-;; Devolve a soma de todos os elementos de ldn.
+;; Devolve a soma de todos os elementos de lst.
 (examples
  (check-equal? (soma* empty)
                0)
  (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
                30))
-(define (soma* ldn)
+(define (soma* lst)
   (cond
-    [(empty? ldn) ...]
-    [(list? (first ldn))
-     (... (soma* (first ldn))
-          (soma* (rest ldn)))]
+    [(empty? lst) ...]
+    [(list? (first lst))
+     (... (soma* (first lst))
+          (soma* (rest lst)))]
     [else
-     (... (first ldn)
-          (soma* (rest ldn)))]))
+     (... (first lst)
+          (soma* (rest lst)))]))
 ```
 
 
@@ -275,21 +275,21 @@ Defina uma função que some todos os números de uma lista aninhada de números
 
 ```scheme
 ;; ListaAninhada -> Número
-;; Devolve a soma de todos os elementos de ldn.
+;; Devolve a soma de todos os elementos de lst.
 (examples
  (check-equal? (soma* empty)
                0)
  (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
                30))
-(define (soma* ldn)
+(define (soma* lst)
   (cond
-    [(empty? ldn) 0]
-    [(list? (first ldn))
-     (+ (soma* (first ldn))
-        (soma* (rest ldn)))]
+    [(empty? lst) 0]
+    [(list? (first lst))
+     (+ (soma* (first lst))
+        (soma* (rest lst)))]
     [else
-     (+ (first ldn)
-        (soma* (rest ldn)))]))
+     (+ (first lst)
+        (soma* (rest lst)))]))
 ```
 
 
@@ -304,21 +304,21 @@ Defina uma função que aplaine uma lista aninhada, isto é, transforme uma list
 
 ```scheme
 ;; ListaAninhada -> ListaDeNúmeros
-;; Devolve uma versão não aninhada de ldn, isto é, uma lista com os mesmos
-;; elementos de ldn, mas sem aninhamento.
+;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
+;; elementos de lst, mas sem aninhamento.
 (examples
  (check-equal? (aplaina empty) empty)
  (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
                (list 1 3 4 5 4 6 7)))
-(define (aplaina ldn)
+(define (aplaina lst)
   (cond
-    [(empty? ldn) ...]
-    [(list? (first ldn))
-     (... (aplaina (first ldn))
-          (aplaina (rest ldn)))]
+    [(empty? lst) ...]
+    [(list? (first lst))
+     (... (aplaina (first lst))
+          (aplaina (rest lst)))]
     [else
-     (... (first ldn)
-          (aplaina (rest ldn)))]))
+     (... (first lst)
+          (aplaina (rest lst)))]))
 ```
 
 
@@ -328,21 +328,21 @@ Defina uma função que aplaine uma lista aninhada, isto é, transforme uma list
 
 ```scheme
 ;; ListaAninhada -> ListaDeNúmeros
-;; Devolve uma versão não aninhada de ldn, isto é, uma lista com os mesmos
-;; elementos de ldn, mas sem aninhamento.
+;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
+;; elementos de lst, mas sem aninhamento.
 (examples
  (check-equal? (aplaina empty) empty)
  (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
                (list 1 3 4 5 4 6 7)))
-(define (aplaina ldn)
+(define (aplaina lst)
   (cond
-    [(empty? ldn) empty]
-    [(list? (first ldn))
-     (append (aplaina (first ldn))
-             (aplaina (rest ldn)))]
+    [(empty? lst) empty]
+    [(list? (first lst))
+     (append (aplaina (first lst))
+             (aplaina (rest lst)))]
     [else
-     (cons (first ldn)
-           (aplaina (rest ldn)))]))
+     (cons (first lst)
+           (aplaina (rest lst)))]))
 ```
 
 

@@ -55,7 +55,7 @@ A ideia é criar uma estrutura com dois campos. O primeiro campo representa o pr
 Utilizando esta definição, vamos tentar representar uma lista com os valores  4, 2 e 8. \pause
 
 ```scheme
-(define ldn (lista 4 (lista 2 (lista 8 ???))))
+(define lst (lista 4 (lista 2 (lista 8 ???))))
 ```
 
 \pause
@@ -95,19 +95,19 @@ Definição no Racket
 \footnotesize
 
 ```scheme
-> (define ldn1 (link 3 (vazia)))          ; Lista com o 3
-> (define ldn2 (link 8 (link 7 (vazia)))) ; Lista com o 8 e 7
-> ldn1
+> (define lst1 (link 3 (vazia)))          ; Lista com o 3
+> (define lst2 (link 8 (link 7 (vazia)))) ; Lista com o 8 e 7
+> lst1
 (link 3 (vazia))
-> ldn2
+> lst2
 (link 8 (link 7 (vazia)))
-> (link-primeiro ldn2)
+> (link-primeiro lst2)
 8
-> (link-resto ldn2)
+> (link-resto lst2)
 (link 7 (vazia))
-> (link-resto ldn1)
+> (link-resto lst1)
 (vazia)
-> (link-primeiro (link-resto ldn1))
+> (link-primeiro (link-resto lst1))
 . . link-primeiro: contract violation
   expected: link?
   given: (vazia)
@@ -120,16 +120,16 @@ Definição no Racket
 
 ```scheme
 ;; Lista com os elementos 8 e 7
-> (define ldn2 (link 8 (link 7 (vazia))))
+> (define lst2 (link 8 (link 7 (vazia))))
 ;; Define uma lista a partir de uma lista existente
-> (define ldn3 (link 4 ldn2))
-> ldn3
+> (define lst3 (link 4 lst2))
+> lst3
 (link 4 (link 8 (link 7 (vazia))))
-> (link-primeiro ldn3)
+> (link-primeiro lst3)
 4
-> (link-resto ldn3)
+> (link-resto lst3)
 (link 8 (link 7 (vazia)))
-> (link-primeiro (link-resto ldn3))
+> (link-primeiro (link-resto lst3))
 8
 ```
 
@@ -154,24 +154,24 @@ Uma condicional com dois casos: \pause
 Em Racket \pause
 
 ```scheme
-(define (fn-para-ldn ldn)
+(define (fn-para-lst lst)
   (cond
-    [(vazia? ldn) ...]
+    [(vazia? lst) ...]
     [else
-     (... (link-primeiro ldn)
-          (link-resto ldn))]))
+     (... (link-primeiro lst)
+          (link-resto lst))]))
 ```
 
 </div>
 <div class="column" width="52%">
 
-Qual é o tipo do resultado de `(link-primeiro ldn)`? \pause Um número, que é um valor atômico. \pause
+Qual é o tipo do resultado de `(link-primeiro lst)`? \pause Um número, que é um valor atômico. \pause
 
-Qual é o tipo do resultado de `(link-resto ldn)`? \pause Uma lista, que é uma união. \pause
+Qual é o tipo do resultado de `(link-resto lst)`? \pause Uma lista, que é uma união. \pause
 
 Um valor atômico pode ser processado diretamente, mas como processar uma lista? \pause Fazendo análise dos casos... \pause
 
-Vamos fazer uma alteração no modelo `fn-para-ldn` e adicionar uma chamada recursiva para processar `(link-resto ldn)`. Essa alteração pode parecer meio "mágica" agora, mas ela vai ficar mais clara em breve.
+Vamos fazer uma alteração no modelo `fn-para-lst` e adicionar uma chamada recursiva para processar `(link-resto lst)`. Essa alteração pode parecer meio "mágica" agora, mas ela vai ficar mais clara em breve.
 
 </div>
 </div>
@@ -197,12 +197,12 @@ Uma ListaDeNúmeros é um dos valores:
 Modelo para funções que a entrada é ListaDeNúmeros
 
 ```scheme
-(define (fn-para-ldn ldn)
+(define (fn-para-lst lst)
   (cond
-    [(vazia? ldn) ...]
+    [(vazia? lst) ...]
     [else
-     (... (link-primeiro ldn)
-          (fn-para-ldn (link-resto ldn)))]))
+     (... (link-primeiro lst)
+          (fn-para-lst (link-resto lst)))]))
 ```
 </div>
 </div>
@@ -229,14 +229,14 @@ Especificação
 
 ```scheme
 ;; ListaDeNúmeros -> Número
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
  (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
 
-(define (soma ldn) 0)
+(define (soma lst) 0)
 ```
 
 \pause
@@ -251,7 +251,7 @@ E agora, como escrevemos a implementação? \pause Vamos partir do modelo que cr
 
 ```scheme
 ;; ListaDeNúmeros -> Número
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
@@ -265,12 +265,12 @@ E agora, como escrevemos a implementação? \pause Vamos partir do modelo que cr
 \footnotesize
 
 ```scheme
-(define (fn-para-ldn ldn)
+(define (fn-para-lst lst)
   (cond
-    [(vazia? ldn) ...]
+    [(vazia? lst) ...]
     [else
-     (... (link-primeiro ldn)
-          (fn-para-ldn (link-resto ldn)))]))
+     (... (link-primeiro lst)
+          (fn-para-lst (link-resto lst)))]))
 ```
 \pause
 </div>
@@ -291,7 +291,7 @@ Mudamos o nome da função tanto na definição quanto na chamada recursiva.
 
 ```scheme
 ;; ListaDeNúmeros -> Número
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
@@ -304,12 +304,12 @@ Mudamos o nome da função tanto na definição quanto na chamada recursiva.
 \footnotesize
 
 ```scheme
-(define (soma ldn)
+(define (soma lst)
   (cond
-    [(vazia? ldn) ...]
+    [(vazia? lst) ...]
     [else
-     (... (link-primeiro ldn)
-          (soma (link-resto ldn)))]))
+     (... (link-primeiro lst)
+          (soma (link-resto lst)))]))
 ```
 \pause
 </div>
@@ -328,7 +328,7 @@ Vamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é v
 
 ```scheme
 ;; ListaDeNúmeros -> Número
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
@@ -342,12 +342,12 @@ Vamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é v
 \footnotesize
 
 ```scheme
-(define (soma ldn)
+(define (soma lst)
   (cond
-    [(vazia? ldn) 0]
+    [(vazia? lst) 0]
     [else
-     (... (link-primeiro ldn)
-          (soma (link-resto ldn)))]))
+     (... (link-primeiro lst)
+          (soma (link-resto lst)))]))
 ```
 \pause
 </div>
@@ -368,7 +368,7 @@ Analisamos o caso em que a lista não é vazia. O modelo está sugerindo fazer a
 
 ```scheme
 ;; ListaDeNúmeros -> Número
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
@@ -382,12 +382,12 @@ Analisamos o caso em que a lista não é vazia. O modelo está sugerindo fazer a
 \footnotesize
 
 ```scheme
-(define (soma ldn)
+(define (soma lst)
   (cond
-    [(vazia? ldn) 0]
+    [(vazia? lst) 0]
     [else
-     (... (link-primeiro ldn)
-          (soma (link-resto ldn)))]))
+     (... (link-primeiro lst)
+          (soma (link-resto lst)))]))
 ```
 
 </div>
@@ -406,7 +406,7 @@ Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos **a
 
 ```scheme
 ;; ListaDeNúmeros -> Número
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
@@ -420,12 +420,12 @@ Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos **a
 \footnotesize
 
 ```scheme
-(define (soma ldn)
+(define (soma lst)
   (cond
-    [(vazia? ldn) 0]
+    [(vazia? lst) 0]
     [else
-     (... (link-primeiro ldn)
-          (soma (link-resto ldn)))]))
+     (... (link-primeiro lst)
+          (soma (link-resto lst)))]))
 ```
 </div>
 <div class="column" width="48%">
@@ -433,8 +433,8 @@ Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos **a
 
 No exemplo 2 queremos obter a soma de `(link 3 (vazia))`{.scheme} que é `3`{.scheme}. O que temos para compor o resultado? \pause
 
-- `3`{.scheme}, que é `(link-primeiro ldn)`{.scheme}
-- `0`{.scheme}, que é `(soma (link-resto ldn))`{.scheme}
+- `3`{.scheme}, que é `(link-primeiro lst)`{.scheme}
+- `0`{.scheme}, que é `(soma (link-resto lst))`{.scheme}
 
 \pause
 Como obtemos o resultado que queremos? \pause `(+ 3 0)`{.scheme}
@@ -448,7 +448,7 @@ Como obtemos o resultado que queremos? \pause `(+ 3 0)`{.scheme}
 
 ```scheme
 ;; ListaDeNúmeros -> Número
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
@@ -462,12 +462,12 @@ Como obtemos o resultado que queremos? \pause `(+ 3 0)`{.scheme}
 \footnotesize
 
 ```scheme
-(define (soma ldn)
+(define (soma lst)
   (cond
-    [(vazia? ldn) 0]
+    [(vazia? lst) 0]
     [else
-     (... (link-primeiro ldn)
-          (soma (link-resto ldn)))]))
+     (... (link-primeiro lst)
+          (soma (link-resto lst)))]))
 ```
 </div>
 <div class="column" width="48%">
@@ -475,8 +475,8 @@ Como obtemos o resultado que queremos? \pause `(+ 3 0)`{.scheme}
 
 No exemplo 3 queremos obter a soma de `(link 2 (link 5 (vazia)))`{.scheme} que é `7`{.scheme}. O que temos para compor o resultado? \pause
 
-- `2`{.scheme}, que é `(link-primeiro ldn)`{.scheme}
-- `5`{.scheme}, que é `(soma (link-resto ldn))`{.scheme}
+- `2`{.scheme}, que é `(link-primeiro lst)`{.scheme}
+- `5`{.scheme}, que é `(soma (link-resto lst))`{.scheme}
 
 \pause
 Como obtemos o resultado que queremos? \pause `(+ 2 5)`{.scheme}
@@ -490,7 +490,7 @@ Como obtemos o resultado que queremos? \pause `(+ 2 5)`{.scheme}
 
 ```scheme
 ;; ListaDeNúmeros -> Número
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
@@ -504,12 +504,12 @@ Como obtemos o resultado que queremos? \pause `(+ 2 5)`{.scheme}
 \footnotesize
 
 ```scheme
-(define (soma ldn)
+(define (soma lst)
   (cond
-    [(vazia? ldn) 0]
+    [(vazia? lst) 0]
     [else
-     (... (link-primeiro ldn)
-          (soma (link-resto ldn)))]))
+     (... (link-primeiro lst)
+          (soma (link-resto lst)))]))
 ```
 </div>
 <div class="column" width="48%">
@@ -517,8 +517,8 @@ Como obtemos o resultado que queremos? \pause `(+ 2 5)`{.scheme}
 
 No exemplo 4 queremos obter a soma de `(link 4 (link 1 (link 3 (vazia)))`{.scheme} que é `8`{.scheme}. O que temos para compor o resultado? \pause
 
-- `4`{.scheme}, que é `(link-primeiro ldn)`{.scheme}
-- `4`{.scheme}, que é `(soma (link-resto ldn))`{.scheme}
+- `4`{.scheme}, que é `(link-primeiro lst)`{.scheme}
+- `4`{.scheme}, que é `(soma (link-resto lst))`{.scheme}
 
 \pause
 Como obtemos o resultado que queremos? \pause `(+ 4 4)`{.scheme}
@@ -535,19 +535,19 @@ Agora que compreendemos como o resultado é formado, podemos completar o corpo d
 
 ```scheme
 ;; ListaDeNúmeros -> Número
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
  (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
 
-(define (soma ldn)
+(define (soma lst)
   (cond
-    [(vazia? ldn) 0]
+    [(vazia? lst) 0]
     [else
-     (+ (link-primeiro ldn)
-        (soma (link-resto ldn)))]))
+     (+ (link-primeiro lst)
+        (soma (link-resto lst)))]))
 ```
 
 
@@ -610,12 +610,12 @@ Uma **ListaDeNúmeros** é um dos valores
 
 ```scheme
 ;; Modelo de funções para ListaDeNúmeros
-(define (fn-para-ldn ldn)
+(define (fn-para-lst lst)
   (cond
-    [(empty? ldn) ...]
+    [(empty? lst) ...]
     [else
-      ... (first ldn)
-      ... (fn-para-ldn (rest ldn)) ... ]))
+      ... (first lst)
+      ... (fn-para-lst (rest lst)) ... ]))
 ```
 
 </div>
@@ -627,19 +627,19 @@ Uma **ListaDeNúmeros** é um dos valores
 \footnotesize
 
 ```scheme
-> (define ldn1 (cons 3 empty)) ; Lista com o elemento 3
-> (define ldn2 (cons 8 (cons 7 empty))) ; Lista com 8 e 7
-> ldn1
+> (define lst1 (cons 3 empty)) ; Lista com o elemento 3
+> (define lst2 (cons 8 (cons 7 empty))) ; Lista com 8 e 7
+> lst1
 '(3)
-> ldn2
+> lst2
 '(8 7)
-> (first ldn2)
+> (first lst2)
 8
-> (rest ldn2)
+> (rest lst2)
 '(7)
-> (rest (rest ldn2))
+> (rest (rest lst2))
 '()
-> (first (rest ldn1))
+> (first (rest lst1))
 . . first: contract violation
   expected: (and/c list? (not/c empty?))
     given: '()
@@ -652,16 +652,16 @@ Uma **ListaDeNúmeros** é um dos valores
 
 ```scheme
 ;; Lista com os elementos 8 e 7
-> (define ldn2 (cons 8 (cons 7 empty)))
+> (define lst2 (cons 8 (cons 7 empty)))
 ;; Defini uma lista a partir de uma lista existente
-> (define ldn3 (cons 4 ldn2))
-> ldn3
+> (define lst3 (cons 4 lst2))
+> lst3
 '(4 8 7)
-> (first ldn3)
+> (first lst3)
 4
-> (rest ldn3)
+> (rest lst3)
 '(8 7)
-> (first (rest ldn3))
+> (first (rest lst3))
 8
 ```
 
@@ -704,7 +704,7 @@ Defina uma função que verifique se um dado valor está em uma lista de número
 
 ```scheme
 ;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em ldn; #f caso contrário.
+;; Produz #t se v está em lst; #f caso contrário.
 (examples
  (check-equal? (contem? empty 3) #f)
  (check-equal? (contem? (cons 3 empty) 3) #t)
@@ -719,7 +719,7 @@ Defina uma função que verifique se um dado valor está em uma lista de número
 \footnotesize
 
 ```scheme
-(define (contem? ldn v) #f)
+(define (contem? lst v) #f)
 
 
 
@@ -741,7 +741,7 @@ Iniciamos com a especificação.
 
 ```scheme
 ;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em ldn; #f caso contrário.
+;; Produz #t se v está em lst; #f caso contrário.
 (examples
  (check-equal? (contem? empty 3) #f)
  (check-equal? (contem? (cons 3 empty) 3) #t)
@@ -757,12 +757,12 @@ Iniciamos com a especificação.
 \footnotesize
 
 ```scheme
-(define (fn-para-ldn ldn)
+(define (fn-para-lst lst)
   (cond
-    [(empty? ldn) ...]
+    [(empty? lst) ...]
     [else
-      ... (first ldn)
-      ... (fn-para-ldn (rest ldn)) ... ]))
+      ... (first lst)
+      ... (fn-para-lst (rest lst)) ... ]))
 
 ```
 </div>
@@ -779,7 +779,7 @@ Para implementação partimos do modelo.
 
 ```scheme
 ;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em ldn; #f caso contrário.
+;; Produz #t se v está em lst; #f caso contrário.
 (examples
  (check-equal? (contem? empty 3) #f)
  (check-equal? (contem? (cons 3 empty) 3) #t)
@@ -795,13 +795,13 @@ Para implementação partimos do modelo.
 \footnotesize
 
 ```scheme
-(define (contem? ldn v)
+(define (contem? lst v)
   (cond
-    [(empty? ldn) ... v]
+    [(empty? lst) ... v]
     [else
-      ... (first ldn)
+      ... (first lst)
       ... v
-      ... (contem? (rest ldn) v) ... ]))
+      ... (contem? (rest lst) v) ... ]))
 ```
 </div>
 <div class="column" width="48%">
@@ -817,7 +817,7 @@ Em seguida ajeitamos o nome da função e adicionamos o parâmetro `v` na defini
 
 ```scheme
 ;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em ldn; #f caso contrário
+;; Produz #t se v está em lst; #f caso contrário
 (examples
  (check-equal? (contem? empty 3) #f)
  (check-equal? (contem? (cons 3 empty) 3) #t)
@@ -833,13 +833,13 @@ Em seguida ajeitamos o nome da função e adicionamos o parâmetro `v` na defini
 \footnotesize
 
 ```scheme
-(define (contem? ldn v)
+(define (contem? lst v)
   (cond
-    [(empty? ldn) #f]
+    [(empty? lst) #f]
     [else
-      ... (first ldn)
+      ... (first lst)
       ... v
-      ... (contem? (rest ldn) v) ... ]))
+      ... (contem? (rest lst) v) ... ]))
 ```
 </div>
 <div class="column" width="48%">
@@ -855,7 +855,7 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
 
 ```scheme
 ;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em ldn; #f caso contrário
+;; Produz #t se v está em lst; #f caso contrário
 (examples
  (check-equal? (contem? empty 3) #f)
  (check-equal? (contem? (cons 3 empty) 3) #t)
@@ -871,19 +871,19 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
 \footnotesize
 
 ```scheme
-(define (contem? ldn v)
+(define (contem? lst v)
   (cond
-    [(empty? ldn) #f]
+    [(empty? lst) #f]
     [else
-      ... (first ldn)
+      ... (first lst)
       ... v
-      ... (contem? (rest ldn) v) ... ]))
+      ... (contem? (rest lst) v) ... ]))
 ```
 </div>
 <div class="column" width="48%">
 \small
 
-Agora analisamos o caso em que a `ldn` não é vazia. \pause Temos `(first ldn)`{.scheme}, `v` e `(contem? (rest ldn) v)`{.scheme} (se o resto de `ldn` contém `v`). \pause Como combinar esses elementos para determinar `(contem? ldn v)` (se `ldn` contém `v`)?
+Agora analisamos o caso em que a `lst` não é vazia. \pause Temos `(first lst)`{.scheme}, `v` e `(contem? (rest lst) v)`{.scheme} (se o resto de `lst` contém `v`). \pause Como combinar esses elementos para determinar `(contem? lst v)` (se `lst` contém `v`)?
 </div>
 </div>
 
@@ -893,7 +893,7 @@ Agora analisamos o caso em que a `ldn` não é vazia. \pause Temos `(first ldn)`
 
 ```scheme
 ;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em ldn; #f caso contrário
+;; Produz #t se v está em lst; #f caso contrário
 (examples
  (check-equal? (contem? empty 3) #f)
  (check-equal? (contem? (cons 3 empty) 3) #t)
@@ -909,19 +909,19 @@ Agora analisamos o caso em que a `ldn` não é vazia. \pause Temos `(first ldn)`
 \footnotesize
 
 ```scheme
-(define (contem? ldn v)
+(define (contem? lst v)
   (cond
-    [(empty? ldn) #f]
+    [(empty? lst) #f]
     [else
-     (if (= v (first ldn))
+     (if (= v (first lst))
          #t
-         (contem? (rest ldn) v))]))
+         (contem? (rest lst) v))]))
 ```
 </div>
 <div class="column" width="48%">
 \small
 
-Quando `(first ldn)` é igual a `v`, podemos gerar a resposta `#t`{.scheme} diretamente, independente da resposta da chamada recursiva. \pause Caso contrário, a resposta se `ldn` contém `v` e a mesma se `(rest ldn)` contém `v`, ou seja, a resposta para `(contem? ldn v)`{.scheme} é a equivalente a `(contem? (rest ldn) v)`.
+Quando `(first lst)` é igual a `v`, podemos gerar a resposta `#t`{.scheme} diretamente, independente da resposta da chamada recursiva. \pause Caso contrário, a resposta se `lst` contém `v` e a mesma se `(rest lst)` contém `v`, ou seja, a resposta para `(contem? lst v)`{.scheme} é a equivalente a `(contem? (rest lst) v)`.
 </div>
 </div>
 
@@ -932,7 +932,7 @@ Quando `(first ldn)` é igual a `v`, podemos gerar a resposta `#t`{.scheme} dire
 
 ```scheme
 ;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em ldn; #f caso contrário
+;; Produz #t se v está em lst; #f caso contrário
 (examples
  (check-equal? (contem? empty 3) #f)
  (check-equal? (contem? (cons 3 empty) 3) #t)
@@ -947,12 +947,12 @@ Quando `(first ldn)` é igual a `v`, podemos gerar a resposta `#t`{.scheme} dire
 \footnotesize
 
 ```scheme
-(define (contem? ldn v)
+(define (contem? lst v)
   (cond
-    [(empty? ldn) #f]
+    [(empty? lst) #f]
     [else
-     (or (= v (first ldn))
-         (contem? (rest ldn) v))]))
+     (or (= v (first lst))
+         (contem? (rest lst) v))]))
 ```
 </div>
 <div class="column" width="48%">
@@ -974,7 +974,7 @@ Defina uma função que remova todos os número negativos de uma lista de númer
 
 ```scheme
 ;; ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista removendo os valores negativos de ldn.
+;; Produz uma nova lista removendo os valores negativos de lst.
 (examples
  (check-equal? (remove-negativos empty) empty)
  (check-equal? (remove-negativos (cons -1 (cons 2 (cons -3 empty))))
@@ -982,7 +982,7 @@ Defina uma função que remova todos os número negativos de uma lista de númer
  (check-equal? (remove-negativos (cons 3 (cons 4 (cons -2 empty))))
                (cons 3 (cons 4 empty))))
 
-(define (remove-negativos ldn) empty)
+(define (remove-negativos lst) empty)
 
 
 
@@ -1006,7 +1006,7 @@ Iniciamos com a especificação.
 
 ```scheme
 ;; ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista removendo os valores negativos de ldn.
+;; Produz uma nova lista removendo os valores negativos de lst.
 (examples
  (check-equal? (remove-negativos empty) empty)
  (check-equal? (remove-negativos (cons -1 (cons 2 (cons -3 empty))))
@@ -1014,12 +1014,12 @@ Iniciamos com a especificação.
  (check-equal? (remove-negativos (cons 3 (cons 4 (cons -2 empty))))
                (cons 3 (cons 4 empty))))
 
-(define (remove-negativos ldn)
+(define (remove-negativos lst)
   (cond
-    [(empty? ldn) ...]
+    [(empty? lst) ...]
     [else
-      ... (first ldn)
-      ... (remove-negativos (rest ldn)) ... ]))
+      ... (first lst)
+      ... (remove-negativos (rest lst)) ... ]))
 
 
 ```
@@ -1038,7 +1038,7 @@ Para implementação partimos do modelo e ajustamos o nome.
 
 ```scheme
 ;; ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista removendo os valores negativos de ldn.
+;; Produz uma nova lista removendo os valores negativos de lst.
 (examples
  (check-equal? (remove-negativos empty) empty)
  (check-equal? (remove-negativos (cons -1 (cons 2 (cons -3 empty))))
@@ -1046,12 +1046,12 @@ Para implementação partimos do modelo e ajustamos o nome.
  (check-equal? (remove-negativos (cons 3 (cons 4 (cons -2 empty))))
                (cons 3 (cons 4 empty))))
 
-(define (remove-negativos ldn)
+(define (remove-negativos lst)
   (cond
-    [(empty? ldn) empty]
+    [(empty? lst) empty]
     [else
-      ... (first ldn)
-      ... (remove-negativos (rest ldn)) ... ]))
+      ... (first lst)
+      ... (remove-negativos (rest lst)) ... ]))
 
 
 ```
@@ -1070,7 +1070,7 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
 
 ```scheme
 ;; ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista removendo os valores negativos de ldn.
+;; Produz uma nova lista removendo os valores negativos de lst.
 (examples
  (check-equal? (remove-negativos empty) empty)
  (check-equal? (remove-negativos (cons -1 (cons 2 (cons -3 empty))))
@@ -1078,14 +1078,14 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
  (check-equal? (remove-negativos (cons 3 (cons 4 (cons -2 empty))))
                (cons 3 (cons 4 empty))))
 
-(define (remove-negativos ldn)
+(define (remove-negativos lst)
   (cond
-    [(empty? ldn) empty]
+    [(empty? lst) empty]
     [else
-     (if (< (first ldn) 0)
-         (remove-negativos (rest ldn))
-         (cons (first ldn)
-               (remove-negativos (rest ldn))))]))
+     (if (< (first lst) 0)
+         (remove-negativos (rest lst))
+         (cons (first lst)
+               (remove-negativos (rest lst))))]))
 ```
 </div>
 <div class="column" width="28%">
@@ -1114,7 +1114,7 @@ Defina uma função que soma um valor `x` em cada elemento de uma lista de núme
 
 ```scheme
 ;; ListaDeNúmeros Número -> ListaDeNúmeros
-;; Produz uma nova lista somando x a cada elemento de ldn.
+;; Produz uma nova lista somando x a cada elemento de lst.
 (examples
  (check-equal? (soma-x empty 4)
                empty)
@@ -1123,7 +1123,7 @@ Defina uma função que soma um valor `x` em cada elemento de uma lista de núme
  (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
                (cons 1 (cons -3 (cons 2 empty)))))
 
-(define (soma-x ldn x) empty)
+(define (soma-x lst x) empty)
 
 
 
@@ -1146,7 +1146,7 @@ Iniciamos com a especificação.
 
 ```scheme
 ;; ListaDeNúmeros Número -> ListaDeNúmeros
-;; Produz uma nova lista somando x a cada elemento de ldn.
+;; Produz uma nova lista somando x a cada elemento de lst.
 (examples
  (check-equal? (soma-x empty 4)
                empty)
@@ -1155,13 +1155,13 @@ Iniciamos com a especificação.
  (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
                (cons 1 (cons -3 (cons 2 empty)))))
 
-(define (soma-x ldn x)
+(define (soma-x lst x)
   (cond
-    [(empty? ldn) ... x]
+    [(empty? lst) ... x]
     [else
-      ... (first ldn)
+      ... (first lst)
       ... x
-      ... (soma-x (rest ldn) x) ... ]))
+      ... (soma-x (rest lst) x) ... ]))
 ```
 </div>
 <div class="column" width="28%">
@@ -1178,7 +1178,7 @@ Para implementação partimos do modelo e ajustamos o nome e adicionamos o parâ
 
 ```scheme
 ;; ListaDeNúmeros Número -> ListaDeNúmeros
-;; Produz uma nova lista somando x a cada elemento de ldn.
+;; Produz uma nova lista somando x a cada elemento de lst.
 (examples
  (check-equal? (soma-x empty 4)
                empty)
@@ -1187,13 +1187,13 @@ Para implementação partimos do modelo e ajustamos o nome e adicionamos o parâ
  (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
                (cons 1 (cons -3 (cons 2 empty)))))
 
-(define (soma-x ldn x)
+(define (soma-x lst x)
   (cond
-    [(empty? ldn) empty]
+    [(empty? lst) empty]
     [else
-      ... (first ldn)
+      ... (first lst)
       ... x
-      ... (soma-x (rest ldn) x) ... ]))
+      ... (soma-x (rest lst) x) ... ]))
 ```
 </div>
 <div class="column" width="28%">
@@ -1210,7 +1210,7 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
 
 ```scheme
 ;; ListaDeNúmeros Número -> ListaDeNúmeros
-;; Produz uma nova lista somando x a cada elemento de ldn.
+;; Produz uma nova lista somando x a cada elemento de lst.
 (examples
  (check-equal? (soma-x empty 4)
                empty)
@@ -1219,12 +1219,12 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
  (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
                (cons 1 (cons -3 (cons 2 empty)))))
 
-(define (soma-x ldn x)
+(define (soma-x lst x)
   (cond
-    [(empty? ldn) empty]
+    [(empty? lst) empty]
     [else
-     (cons (+ x (first ldn))
-           (soma-x (rest ldn) x))]))
+     (cons (+ x (first lst))
+           (soma-x (rest lst) x))]))
 
 ```
 </div>
@@ -1618,8 +1618,8 @@ Especificação para `cons-fim`.
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de ldn.
-(define (cons-fim n ldn) ldn)
+;; Adiciona n ao final de lst.
+(define (cons-fim n lst) lst)
 
 
 
@@ -1644,7 +1644,7 @@ Especificação para `cons-fim`.
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de ldn.
+;; Adiciona n ao final de lst.
 (examples
   (check-equal? (cons-fim 3 empty)
                 (cons 3 empty))
@@ -1652,7 +1652,7 @@ Especificação para `cons-fim`.
                 (cons 3 (cons 4 empty)))
   (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
                 (cons 3 (cons 4 (cons 1 empty)))))
-(define (cons-fim n ldn) ldn)
+(define (cons-fim n lst) lst)
 
 
 
@@ -1670,7 +1670,7 @@ Implementação: modelo.
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de ldn.
+;; Adiciona n ao final de lst.
 (examples
   (check-equal? (cons-fim 3 empty)
                 (cons 3 empty))
@@ -1678,12 +1678,12 @@ Implementação: modelo.
                 (cons 3 (cons 4 empty)))
   (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
                 (cons 3 (cons 4 (cons 1 empty)))))
-(define (cons-fim n ldn)
+(define (cons-fim n lst)
   (cond
-    [(empty? ldn) ... n]
+    [(empty? lst) ... n]
     [else
-     (... (first ldn)
-          (cons-fim n (rest ldn)))]))
+     (... (first lst)
+          (cons-fim n (rest lst)))]))
 ```
 
 
@@ -1695,7 +1695,7 @@ Implementação: caso base.
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de ldn.
+;; Adiciona n ao final de lst.
 (examples
   (check-equal? (cons-fim 3 empty)
                 (cons 3 empty))
@@ -1703,12 +1703,12 @@ Implementação: caso base.
                 (cons 3 (cons 4 empty)))
   (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
                 (cons 3 (cons 4 (cons 1 empty)))))
-(define (cons-fim n ldn)
+(define (cons-fim n lst)
   (cond
-    [(empty? ldn) (cons n empty)]
+    [(empty? lst) (cons n empty)]
     [else
-     (... (first ldn)
-          (cons-fim n (rest ldn)))]))
+     (... (first lst)
+          (cons-fim n (rest lst)))]))
 ```
 
 
@@ -1720,7 +1720,7 @@ Implementação: outro caso.
 
 ```scheme
 ;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de ldn.
+;; Adiciona n ao final de lst.
 (examples
   (check-equal? (cons-fim 3 empty)
                 (cons 3 empty))
@@ -1728,12 +1728,12 @@ Implementação: outro caso.
                 (cons 3 (cons 4 empty)))
   (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
                 (cons 3 (cons 4 (cons 1 empty)))))
-(define (cons-fim n ldn)
+(define (cons-fim n lst)
   (cond
-    [(empty? ldn) (cons n empty)]
+    [(empty? lst) (cons n empty)]
     [else
-     (cons (first ldn)
-           (cons-fim n (rest ldn)))]))
+     (cons (first lst)
+           (cons-fim n (rest lst)))]))
 ```
 
 

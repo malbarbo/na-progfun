@@ -4,8 +4,8 @@
 
 ;; ListaAninhadaDeNúmeros -> ListaDeNúmeros
 ;;
-;; Devolve uma versão não aninhada de ldn, isto é, uma lista com os mesmos
-;; elementos de ldn, mas sem aninhamento.
+;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
+;; elementos de lst, mas sem aninhamento.
 
 (examples
  (check-equal? (aplaina empty) empty)
@@ -16,13 +16,13 @@
  (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
                (list 1 3 4 5 4 6 7)))
 
-(define (aplaina ldn)
+(define (aplaina lst)
   (cond
-    [(empty? ldn) empty]
-    [(list? (first ldn))
-     (append (aplaina (first ldn))
-             (aplaina (rest ldn)))]
-    [(empty? ldn) empty]
+    [(empty? lst) empty]
+    [(list? (first lst))
+     (append (aplaina (first lst))
+             (aplaina (rest lst)))]
+    [(empty? lst) empty]
     [else
-     (cons (first ldn)
-           (aplaina (rest ldn)))]))
+     (cons (first lst)
+           (aplaina (rest lst)))]))

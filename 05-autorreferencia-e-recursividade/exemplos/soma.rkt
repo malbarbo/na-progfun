@@ -11,26 +11,26 @@
 
 ;; Modelo
 #;
-(define (fn-para-ldn ldn)
+(define (fn-para-lst lst)
   (cond
-    [(vazia? ldn) ...]
-    [(link? ldn)
-     (... (link-primeiro ldn)
-          (fn-para-ldn (link-resto ldn)))]))
+    [(vazia? lst) ...]
+    [(link? lst)
+     (... (link-primeiro lst)
+          (fn-para-lst (link-resto lst)))]))
 
 
 ;; ListaDeNúmeros -> Número
 ;;
-;; Soma os valores de ldn.
+;; Soma os valores de lst.
 
 (examples
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
 
-(define (soma ldn)
+(define (soma lst)
   (cond
-    [(vazia? ldn) 0]
+    [(vazia? lst) 0]
     [else
-     (+ (link-primeiro ldn)
-        (soma (link-resto ldn)))]))
+     (+ (link-primeiro lst)
+        (soma (link-resto lst)))]))

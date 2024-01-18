@@ -13,20 +13,20 @@
 
 ;; Modelo
 #;
-(define (fn-para-ladn ldn)
+(define (fn-para-ladn lst)
   (cond
-    [(empty? ldn) ...]
-    [(list? (first ldn))
-     (... (fn-para-ladn (first ldn))
-          (fn-para-ladn (rest ldn)))]
+    [(empty? lst) ...]
+    [(list? (first lst))
+     (... (fn-para-ladn (first lst))
+          (fn-para-ladn (rest lst)))]
     [else
-     (... (first ldn)
-          (fn-para-ladn (rest ldn)))]))
+     (... (first lst)
+          (fn-para-ladn (rest lst)))]))
 
 
 ;; ListaAninhadaDeNúmeros -> Número
 ;;
-;; Devolve a soma de todos os elementos de ldn.
+;; Devolve a soma de todos os elementos de lst.
 
 (examples
  (check-equal? (soma* empty)
@@ -38,12 +38,12 @@
  (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
                30))
 
-(define (soma* ldn)
+(define (soma* lst)
   (cond
-    [(empty? ldn) 0]
-    [(list? (first ldn))
-     (+ (soma* (first ldn))
-        (soma* (rest ldn)))]
+    [(empty? lst) 0]
+    [(list? (first lst))
+     (+ (soma* (first lst))
+        (soma* (rest lst)))]
     [else
-     (+ (first ldn)
-        (soma* (rest ldn)))]))
+     (+ (first lst)
+        (soma* (rest lst)))]))

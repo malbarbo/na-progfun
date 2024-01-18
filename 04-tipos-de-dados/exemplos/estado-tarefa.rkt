@@ -2,7 +2,7 @@
 
 (require examples)
 
-(struct executando () #:tranparent)
+(struct executando () #:transparent)
 ;; Representa que uma tarefa está em execução.
 
 (struct sucesso (duracao msg) #:transparent)
@@ -10,7 +10,7 @@
 ;; duracao: Número - tempo de execução em segundos
 ;; msg    : String - mensagem de sucesso gerada pela tarefa
 
-(struct erro (codigo msg) #:tranparent)
+(struct erro (codigo msg) #:transparent)
 ;; Representa o estado de uma tarefa que finalizou a execução com falha
 ;; código: Número - o código da falha
 ;; msg   : String - mensagem de erro gerada pela tarefa

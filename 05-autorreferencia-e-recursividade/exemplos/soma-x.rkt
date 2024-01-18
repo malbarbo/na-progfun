@@ -4,7 +4,7 @@
 
 ;; ListaDeNúmeros Número -> ListaDeNúmeros
 ;;
-;; Produz uma nova lista somando x a cada elemento de ldn.
+;; Produz uma nova lista somando x a cada elemento de lst.
 
 (examples
  (check-equal? (soma-x empty 4)
@@ -14,9 +14,9 @@
  (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
                (cons 1 (cons -3 (cons 2 empty)))))
 
-(define (soma-x ldn x)
+(define (soma-x lst x)
   (cond
-    [(empty? ldn) empty]
+    [(empty? lst) empty]
     [else
-     (cons (+ x (first ldn))
-           (soma-x (rest ldn) x))]))
+     (cons (+ x (first lst))
+           (soma-x (rest lst) x))]))

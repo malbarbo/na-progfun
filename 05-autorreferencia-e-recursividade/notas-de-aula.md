@@ -1,9 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-# TODO: mover a parte de recrusão generativa
-# TODO: falar de planejamento
-# TODO: adicionar uma definição para árvore (recursão indireta)
-# TODO: apresentar os exemplos de forma mais abstrata, os alunos têm dificuldades
+# TODO: apresentar os exemplos de forma mais abstrata, semelhante ao
+#       juntar com ponto e vírgula. Os alunos têm dificuldades
 #       para entender por causa da sintaxe do Racket...
 # TODO: adicionar exemplos com lista de estruturas
 # TODO: ver HTDP e separar a funções que geram listas

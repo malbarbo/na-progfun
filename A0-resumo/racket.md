@@ -252,6 +252,99 @@ or
 ```
 
 
+## Listas
+
+Construção
+
+```scheme
+> ; Lista vazia
+> empty
+'()
+> ; Lista com o elemento 3
+> (cons 3 empty)
+'(3)
+> ; Lista com os elementos 1 7 3
+> (cons 1 (cons 7 (cons 3 empty)))
+'(1 7 3)
+> (list 1 7 3)
+'(1 7 3)
+```
+
+Decomposição
+
+```scheme
+> (define lst (cons 1 (cons 7 (cons 3 empty))))
+> (first lst)
+1
+> (rest lst)
+'(7 3)
+> (first (rest lst))
+7
+> (second lst)
+7
+```
+
+Predicados
+
+```scheme
+> (list? empty)
+#t
+> (list? (cons 3 (cons 2 empty))); ou (list? (list 3 2))
+#t
+> (empty? empty) ; ou (empty? (list))
+#t
+> (empty? (cons 3 empty)) ; ou (empty? (list 3))
+#f
+> (cons? empty) ; ou (cons? (list))
+#f
+> (cons? (cons 3 empty)) ; ou (cons? (list 3))
+#t
+```
+
+Map
+
+```scheme
+> (map add1 (list 4 6 10))
+'(5 7 11)
+> (map list (list 7 2 18))
+'((7) (2) (18))
+> (map length (list (list 7 2) (list 18) empty))
+'(2 1 0)
+```
+
+Filter
+
+```scheme
+> (filter (negate zero?) (list 4 0 6 0 0 10))
+'(4 6 10)
+> (filter non-empty-string? (list "casa" "" "rio" ""))
+'("casa" "rio")
+> (filter cons? (list (list 1 3) empty (list 4) empty))
+'((1 3) (4))
+```
+
+Fold
+
+```scheme
+> (foldr + 0 (list 4 6 10))
+20
+> (foldr max 30 (list 7 2 18 -20))
+30
+> (foldr cons empty (list 7 2 18))
+'(7 2 18)
+```
+
+
+```scheme
+> (foldl + 0 (list 4 6 10))
+20
+> (foldl max 30 (list 7 2 18 -20))
+30
+> (foldl cons empty (list 7 2 18))
+'(18 2 7)
+```
+
+
 ## Igualdade
 
 Números
@@ -458,14 +551,39 @@ Podemos adicionar `#:transparent`{.scheme} a definição de uma estrutura. Isso 
 
 ## Enumerações
 
-TODO
+Racket não oferece uma forma de declarar enumerações, mas podemos fazer isso em forma de comentários. Por exemplo, para declarar a cor de um semáforo que pode ser verde, amarelo ou vermelho fazemos:
+
+```scheme
+;; Cor é um dos valores
+;; - "verde"
+;; - "amarelo"
+;; - "vermelho"
+```
 
 
 ## Uniões
 
-TODO
+Racket não oferece uma forma de declarar uniões, mas podemos fazer isso em forma de comentários. Por exemplo, para declarar o estado de uma tarefa que pode estar em execução, tem sido concluído com sucesso ou com erro, podemos fazer:
 
+```scheme
+(struct executando () #:transparent)
+;; Representa que uma tarefa está em execução.
 
+(struct sucesso (duracao msg) #:transparent)
+;; Representa o estado de uma tarefa que finalizou a execução com sucesso
+;; duracao: Número - tempo de execução em segundos
+;; msg    : String - mensagem de sucesso gerada pela tarefa
+
+(struct erro (codigo msg) #:transparent)
+;; Representa o estado de uma tarefa que finalizou a execução com falha
+;; código: Número - o código da falha
+;; msg   : String - mensagem de erro gerada pela tarefa
+
+;; EstadoTarefa é um dos valores:
+;; - (executando)             A tarefa está em execução
+;; - (sucesso Número String)  A tarefa finalizou com sucesso
+;; - (erro Número String)     A tarefa finalizou com falha
+```
 
 # Exemplos de programas
 
@@ -595,4 +713,47 @@ Seguem alguns exemplos
          (make-string num-espacos-inicio #\space)
          s
          (make-string num-espacos-fim #\space))])]))
+```
+
+## Máxima repetição
+
+```scheme
+;; Lista(Número) -> Número
+;;
+;; Determina a máxima repetição de lst. Isto é, a maior quantidade
+;; de vezes que qualquer elemento de lst se repete.
+(examples
+ (check-equal? (maxima-repeticao empty) 0)
+ (check-equal? (maxima-repeticao (cons 3 empty)) 1)
+ (check-equal? (maxima-repeticao (cons 4 (cons 3 empty))) 1)
+ (check-equal? (maxima-repeticao (cons 3 (cons 3 empty))) 2)
+ (check-equal? (maxima-repeticao (cons 2 (cons 3 (cons 3 empty)))) 2)
+ (check-equal? (maxima-repeticao (cons 3 (cons 2 (cons 3 (cons 3 empty))))) 3))
+(define (maxima-repeticao lst)
+  (cond
+    [(empty? lst) 0]
+    [else
+     (max
+      (numero-de-vezes (first lst) lst)
+      (maxima-repeticao (rest lst)))]))
+
+;; Número Lista(Número) -> Número
+;;
+;; Conta a quantidade de vezes que n aparece em lst.
+(examples
+ (check-equal? (numero-de-vezes 5 empty) 0)
+ (check-equal? (numero-de-vezes 5 (cons 5 empty)) 1)
+ (check-equal? (numero-de-vezes 5 (cons 4 empty)) 0)
+ (check-equal? (numero-de-vezes 5 (cons 3 (cons 5 empty))) 1)
+ (check-equal? (numero-de-vezes 5 (cons 5 (cons 5 empty))) 2)
+ (check-equal? (numero-de-vezes 5 (cons 2 (cons 3 (cons 5 empty)))) 1)
+ (check-equal? (numero-de-vezes 5 (cons 5 (cons 3 (cons 5 empty)))) 2))
+
+(define (numero-de-vezes n lst)
+  (cond
+    [(empty? lst) 0]
+    [else
+     (if (= n (first lst))
+         (add1 (numero-de-vezes n (rest lst)))
+         (numero-de-vezes n (rest lst)))]))
 ```

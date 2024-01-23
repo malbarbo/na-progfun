@@ -830,7 +830,7 @@ Como resultado do exemplo anterior obtivemos a função `filtra`, que é pré-de
 \pause
 
 ```scheme
-'('(1 3) '(4))
+'((1 3) (4))
 ```
 
 
@@ -1151,7 +1151,7 @@ Projete uma função que receba como parâmetro uma lista de número e produza u
 
 \pause
 
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `filter`. \pause
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `map`. \pause
 
 </div>
 <div class="column" width="40%">

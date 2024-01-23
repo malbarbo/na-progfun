@@ -181,13 +181,17 @@ Concatenação
 "aa"
 ```
 
-Substring
+Substring e divisão
 
 ```scheme
 > (substring "cadeia de teste" 3 7)
 "eia "
 > (substring "cadeia de teste" 10)
 "teste"
+> (string-split "apenas um   teste")
+'("apenas" "um" "teste")
+> (string-split "   ")
+'()
 ```
 
 Maiúsculas e Minúsculas
@@ -197,6 +201,17 @@ Maiúsculas e Minúsculas
 "não grita @2#1!"
 > (string-upcase "gol!")
 "GOL!"
+```
+
+Comparação
+
+```scheme
+> (string<=? "casa" "outra")
+#t
+> (string<=? "casa" "Casa")
+#f
+> (string<=? "as" "asa")
+#t
 ```
 
 Repetição de caractere
@@ -282,6 +297,17 @@ Decomposição
 7
 > (second lst)
 7
+```
+
+Concatenação
+
+```scheme
+> (append (list 5 1 2) (list 8 1))
+'(5 1 2 8 1)
+> (append empty (list 5 4))
+'(5 4)
+> (append (list 5 8 4) empty)
+'(5 8 4)
 ```
 
 Predicados

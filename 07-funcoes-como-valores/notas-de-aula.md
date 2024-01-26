@@ -1421,7 +1421,7 @@ Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim,
 
 A função para o `foldr` teria que fazer duas coisas, determinar o tamanho de uma string e indicar qual é o máximo entre dois tamanhos. \pause
 
-Podemos separar as etapas de obter os tamanhos e encontrar máximo, usamos o `map` para obter uma lista com os tamanhos e o `foldr` para determinar o valor máximo. \pause
+Podemos separar as etapas de obter os tamanhos e encontrar o máximo, usamos o `map` para obter uma lista com os tamanhos e o `foldr` para determinar o valor máximo. \pause
 
 \footnotesize
 

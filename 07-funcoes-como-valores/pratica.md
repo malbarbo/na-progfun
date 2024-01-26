@@ -52,14 +52,14 @@ urlcolor: Blue
 @. Defina uma função que receba como parâmetro um predicado (função de um argumento que retorna um valor booleano) e uma lista, e conte quantos elementos da lista satisfazem o predicado. Exemplo
 
     ```scheme
-    > (count positive? (list 1 -1 2 3 -2 5))
+    > (conta positive? (list 1 -1 2 3 -2 5))
     4
     ```
 
-@. [sicp 1.41] Defina a função `double` que receba como parâmetro uma função de um parâmetro e retorne uma função que aplique a função original duas vezes. Por exemplo, dado que a função `add1` adiciona 1 ao seu parâmetro, então `((double add1) 3)`{.scheme} retorna `5`{.scheme}. Qual é o valor retornado por
+@. [sicp 1.41] Defina a função `duas-vezes` que receba como parâmetro uma função de um parâmetro e retorne uma função que aplique a função original duas vezes. Por exemplo, dado que a função `add1` adiciona 1 ao seu parâmetro, então `((duas-vezes add1) 3)`{.scheme} retorna `5`{.scheme}. Qual é o valor retornado por
 
     ```scheme
-    (((double (double double)) add1) 5)
+    (((duas-vezes (duas-vezes duas-vezes)) add1) 5)
     ```
 
 @. [sicp 2.4] A seguir é apresentado uma representação procedural para um par. Para esta representação, verifique que `(first (cons x y))`{.scheme} produz `x` para quaisquer objetos `x` e `y`.

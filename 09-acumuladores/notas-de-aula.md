@@ -609,9 +609,7 @@ Redefinimos as funções em termos de `reduz-acc`
 
 ```scheme
 (define (tamanho lst)
-  (define (soma1-no-segundo a b)
-    (add1 b))
-  (reduz-acc soma1-no-segundo 0 lst))
+  (reduz-acc (lambda (_ tam) (add1 tam))  0 lst))
 
 (define (soma lst)
   (reduz-acc + 0 lst))

@@ -502,8 +502,49 @@ Exemplos
 
 ## `let`{.scheme}
 
-TODO
+A sintaxe do `let`{.scheme} é
 
+```scheme
+(let ([var1 exp1]
+      [var2 exp2]
+      ...
+      [varn expn])
+  corpo)
+```
+
+Os nomes `var1`, `var2`, ..., são locais ao `let`{.scheme}, ou seja, são visíveis apenas no corpo do `let`{.scheme}.
+
+O resultado da avaliação do `corpo` é o resultado da expressão `let`{.scheme}.
+
+No `let`{.scheme} os nomes que estão sendo definidos não podem ser usados nas definições dos nomes seguintes, por exemplo, não é possível utilizar o nome `var1` na expressão de `var2`.
+
+`let*`{.scheme} não tem essa limitação.
+
+Exemplos
+
+```scheme
+> (let ([a 7]
+        [d 8])
+    (+ (* a a) d))
+57
+> (+ (let ([a 10]
+           [b 20]) (* a b))
+     30)
+230
+> (let ([x 9])
+   (* x
+      (let ([x (/ x 3)])
+        (+ x x))))
+54
+> (let ([a 7]
+        [b (* 2 a)])
+    (add1 b))
+; a: undefined; cannot reference an identifier before its definition
+> (let* ([a 7]
+         [b (* 2 a)])
+    (add1 b))
+15
+```
 
 
 # Definição de tipos de dados

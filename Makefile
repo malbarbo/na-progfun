@@ -1,4 +1,4 @@
-.PHONY: default all pdf zip handout tex clean clean-all
+.PHONY: default all pdf zip handout tex clean clean-all atualiza-template
 
 DEST=target
 
@@ -6,7 +6,7 @@ TECTONIC=$(DEST)/bin/tectonic
 TECTONIC_VERSION=0.9.0
 
 PANDOC=$(DEST)/bin/pandoc
-PANDOC_VERSION=3.1.4
+PANDOC_VERSION=3.1.11.1
 
 PANDOC_NOTAS_CMD=$(PANDOC) \
 		-V mathspec \
@@ -48,6 +48,9 @@ $(TECTONIC):
 	mkdir -p $(DEST)/bin/
 	curl -L https://github.com/tectonic-typesetting/tectonic/releases/download/tectonic@$(TECTONIC_VERSION)/tectonic-$(TECTONIC_VERSION)-x86_64-unknown-linux-musl.tar.gz \
 		| tar xz -C $(DEST)/bin/
+
+atualiza-template:
+	pandoc --print-default-template=beamer > templates/default.latex
 
 clean:
 	@echo Removendo $(DEST)/*.pdf

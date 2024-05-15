@@ -12,7 +12,6 @@ lang: pt-BR
 # Evita problemas com o polyglossia (https://github.com/reutenauer/polyglossia/issues/400)
 # Diminui a barra de título
 # Diminui o rodapé
-# Ajusta os espaço entre as linhas quando dividio em slides
 # Ajusta o espaço do título do bloco para o corpo do bloco (https://github.com/matze/mtheme/issues/307)
 # Ajusta a largura das colunas para a largura do texto apenas
 # Evita https://github.com/jgm/pandoc/issues/3007
@@ -50,8 +49,6 @@ header-includes: |
         \usebeamertemplate*{frame numbering}
       \end{beamercolorbox}%
     }
-
-    \newcommand{\@minipagerestore}{\setlength{\parskip}{\metropolis@parskip}}
 
     \let\oldblock\block
     \let\endoldblock\endblock

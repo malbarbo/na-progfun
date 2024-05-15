@@ -74,7 +74,7 @@ O uso de lista de strings na entrada e saída da função principal permite que 
 Com isso você pode executar o seu programa na linha de comando para ele ler os resultados do arquivo `jogos.txt` e mostrar a classificação na tela:
 
 ```
-racket classificao.rkt < jogos.txt
+racket classificacao.rkt < jogos.txt
 ```
 
 Note que internamente o seu programa deve trabalhar com estruturas, ele não deve trabalhar com strings nem para o resultado e nem para o desempenho. Dessa forma, a primeira coisa que seu programa deve fazer é transformar a lista de strings de entrada em uma lista de resultados e a última coisa deve ser transformar a classificação em uma lista de strings.

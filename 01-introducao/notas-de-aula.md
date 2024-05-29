@@ -16,9 +16,9 @@ O que é programação funcional? \pause
 
 - Um paradigma de programação onde os programas são descritos com aplicação e composição de funções. \pause
 
-- Evita mudança de estado. \pause
+- Evita mudança de estado \pause (mudança do valor das variáveis) \pause
 
-- Evita efeitos colaterais.
+- Evita efeitos colaterais \pause (qualquer efeito que seja observável além do valor de saída de função, como a mudança dos parâmetro e variáveis global, exceções, entrada e saída, etc).
 
 
 Por quê?
@@ -39,6 +39,8 @@ Compartilhamento de dados junto com mudança de estado é difícil!
 <div class="column" width="50%">
 Qual o valor de `lst`?
 
+\small
+
 ```python
 >>> lst = [0] * 3
 >>> lst
@@ -58,6 +60,8 @@ Qual o valor de `lst`?
 </div>
 <div class="column" width="50%">
 Qual o valor de `lst`?
+
+\small
 
 ```python
 >>> lst = [[]] * 3
@@ -82,6 +86,8 @@ Qual o valor de `lst`?
 <div class="columns">
 <div class="column" width="50%">
 
+\small
+
 ```python
 def adiciona_todos(
         dest: list[int],
@@ -101,6 +107,8 @@ def adiciona_todos(
 <div class="column" width="50%">
 
 Qual o valor de `lst`?
+
+\small
 
 ```python
 >>> lst = [4, 3, 1]
@@ -123,41 +131,38 @@ Qual o valor de `lst`?
 
 \pause
 
-O código entra em loop!
+A execução não para!
 
 </div>
 </div>
 
 
-## Mudança de estado
+## Efeitos colaterais
+
+As duas definições a seguir são equivalentes?
 
 \small
 
 ```python
-def soma_indices(lst: list[int],
-                 a: int,
-                 b: int):
+def soma_indices(lst: list[int], a: int, b: int) -> int:
     return indice(lst, b) + indice(lst, a)
 
-
-def soma_indices(lst: list[int],
-                 a: int,
-                 b: int):
+def soma_indices(lst: list[int], a: int, b: int) -> int:
     return indice(lst, a) + indice(lst, b)
 ```
 
-\pause
-
 \normalsize
 
-Essa duas definições são equivalentes? \pause Depende da definição de `indice`!
+\pause
+
+Não é possível afirmar que as duas definições são equivalentes sem olhar o código da função `indice`. Se a função `indice` tem efeitos colaterais, então as definições podem não ser equivalentes.
 
 
-## Pensar localmente
+## Efeitos colaterais
 
-O uso de mudança de estado compartilhado e efeitos colaterais dificulta pensar localmente sobre o funcionamento do código. \pause
+A possibilidade de efeitos colaterais **dificulta pensar localmente** sobre o funcionamento do código. \pause
 
-Por outros lado, podemos **pensar localmente** sobre o um código que não tem mudança de estados e nem efeitos colaterais.
+A ausência de efeitos colaterais **permite pensar localmente** sobre o funcionamento do código.
 
 
 Como?

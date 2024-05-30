@@ -53,11 +53,11 @@ atualiza-template:
 	pandoc --print-default-template=beamer > templates/default.latex
 
 clean:
-	@echo Removendo $(DEST)/*.pdf
-	@rm -rf $(DEST)/*.pdf
+	@echo Removendo $(DEST)/*.pdf $(DEST)/handout/*.pdf
+	@rm -rf $(DEST)/*.pdf $(DEST)/handout/*.pdf
 
 clean-all:
-	@echo Removendo $(DEST) Makefile.inc
+	@echo Removendo $(DEST)
 	@rm -rf $(DEST)
 
 include $(DEST)/Makefile.inc

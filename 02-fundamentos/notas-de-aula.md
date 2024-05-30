@@ -85,7 +85,7 @@ Relacionais: `>, >=, <, <=, =`{.scheme} \pause
 
 Strings: `string-length`{.scheme}, `string-append`{.scheme}, `number->string`{.scheme}, `string->number`{.scheme} \pause
 
-Muitas outras...
+Veja um seleção de funções no Resumo da Linguagem Racket, disponível na página da disciplina.
 
 
 ## Processo de avaliação de expressões (versão 0.1)
@@ -555,13 +555,13 @@ Observe que a resposta obtida foi a mesma do método anterior.
 
 ## Modelo de substituição
 
-Este método de avaliação alternativo de primeiro substituir e depois reduzir, é chamado de **avaliação em ordem normal** (que é um tipo de avaliação preguiçosa). \pause
+Este método de avaliação alternativo de primeiro substituir e depois reduzir, é chamado de **avaliação em ordem normal** (avaliação preguiçosa). \pause
 
-O método de avaliação que primeiro avalia os argumentos e depois aplica a função é chamado de **avaliação em ordem aplicativa**. \pause
+O método de avaliação que primeiro avalia os argumentos e depois aplica a função é chamado de **avaliação em ordem aplicativa** (avaliação ansiosa). \pause
 
 O Racket usa por padrão a avaliação em ordem aplicativa.
 
-O Haskell usa avaliação em ordem normal.
+O Haskell usa a avaliação em ordem normal.
 
 
 ## Exercício
@@ -1055,7 +1055,7 @@ Predicados podem ser compostos usando as formas especiais `and`{.scheme} e `or`{
 
 ## `not`
 
-A função `(not exp)`{.scheme} produz `#t`{.scheme} quando `exp` é `#f`{.scheme}, e `#f`{.scheme} caso contrário
+A função `(not expr)`{.scheme} produz `#t`{.scheme} quando `expr` é `#f`{.scheme}, e `#f`{.scheme} caso contrário
 
 ```scheme
 > (not (> 5 2))

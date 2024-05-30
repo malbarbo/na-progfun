@@ -1,6 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Programação funcional
+title: Introdução
 ---
 
 O quê é?

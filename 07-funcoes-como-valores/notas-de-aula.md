@@ -2,9 +2,10 @@
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: explicar como a anotação de tipo de função funciona
 # TODO: explicitar que existe uma "algebra" de funções (assim como uma algebra de número, strings, etc)
-# TODO: check-equal? está fora de examples
 # TODO: rever referências
 # TODO: remover seção de funções com número variado de parâmetros?
+# TODO: falar de curring antes da nega. Analogia com outras linguagens soma(10, 20) vs soma(10)(20).
+
 title: Funções como valores
 ---
 

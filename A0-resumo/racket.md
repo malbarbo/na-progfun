@@ -4,6 +4,7 @@ title: Resumo da linguagem Racket
 urlcolor: Black
 toc: true
 numbersections: true
+date: \today
 license:
 ---
 

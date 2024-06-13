@@ -54,7 +54,7 @@ license:
 
 <!-- Funções diretas com números e strings -->
 
-Para implementar os exercícios a seguir, use apenas as funções primitivas presentes no material "Resumo da linguagem Racket" disponível na página da disciplina.
+Na implementação dos exercício a seguir use apenas as funções presentes no material "Resumo da linguagem Racket" disponível na página da disciplina.
 
 @) Faça uma função chamada `area-retangulo` que recebe dois argumentos, a `largura` e a `altura` de um retângulo, e calcula a sua área. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
 

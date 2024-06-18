@@ -12,7 +12,7 @@
 
 ;; Número Número Número -> String
 ;;
-;; Determinar se a sequência a, b, c está em ordem "crescente",
+;; Determina se a sequência a, b, c está em ordem "crescente",
 ;; "decrescente" ou "sem ordem".
 (examples
   (check-equal? (ordem 3 8 12) "crescente")

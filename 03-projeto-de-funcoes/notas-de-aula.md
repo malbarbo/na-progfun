@@ -9,7 +9,7 @@ title: Projeto de funções
 
 ## Projeto de funções
 
-Vamos voltar para o problema da Márcia. \pause
+Vamos voltar ao problema da Márcia. \pause
 
 Depois que você fez o programa para o Alan, a Márcia, amiga em comum de vocês, soube que você está oferecendo serviços desse tipo e também quer a sua ajuda. O problema da Márcia é que ela sempre tem que fazer a conta manualmente para saber se deve abastecer o carro com álcool ou gasolina. A conta que ela faz é verificar se o preço do álcool é até 70% do preço da gasolina, se sim, ela abastece o carro com álcool, senão ela abastece o carro com gasolina. Você pode ajudar a Márcia também? \pause
 
@@ -82,7 +82,7 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 ## Definição dos tipos de dados
 
 <div class="columns">
-<div class="column" width="40%">
+<div class="column" width="38%">
 **Análise**
 
 Determinar o combustível que será utilizado. Se o preço do álcool for até 70% do preço da gasolina, então deve-se usar o álcool, senão a gasolina.
@@ -123,7 +123,7 @@ Mesmo Racket sendo uma linguagem com vinculação dinâmica de tipos e não tend
 ## Especificação
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 **Análise**
 
 Determinar o combustível que será utilizado. Se o preço do álcool for até 70% do preço da gasolina, então deve-se usar o álcool, senão a gasolina.
@@ -141,7 +141,7 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 \pause
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 **Especificação**
 
 - Assinatura da função
@@ -222,9 +222,9 @@ Se a resposta for sim, então a especificação está adequada, senão ela está
 ## Implementação
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="46%">
 
-\small
+\footnotesize
 
 ```scheme
 ;; Preco Preco -> Combustivel
@@ -238,6 +238,8 @@ Se a resposta for sim, então a especificação está adequada, senão ela está
           preco-gasolina)
   ...)
 ```
+
+\small
 
 3.00, 4.00, "Gasolina" ($3.00 \le 0.7 \times 4.00$ é false)
 
@@ -280,7 +282,7 @@ Temos duas formas de resposta, `"Alcool"`{.scheme} e `"Gasolina"`{.scheme}, port
 ## Verificação
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 
 \small
 
@@ -307,7 +309,7 @@ Temos duas formas de resposta, `"Alcool"`{.scheme} e `"Gasolina"`{.scheme}, port
 \pause
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 **Verificação** \pause
 
 - A implementação está de acordo com a especificação? \pause
@@ -435,7 +437,7 @@ Porque um teste pode falhar? \pause
 
 O governo deu uma aumento de salário para os funcionários públicos. O percentual de aumento depende do valor do salário atual. Para funcionários que ganham até R$ 1200 o aumento é de 10%, para funcionários que ganham entre R$ 1200 e R$ 3000 o aumento é de 7%, para funcionários que ganham entre R$ 3000 e R$ 8000, o aumento é de 3%, e finalmente, para os funcionários que ganham mais que R$ 8000 não haverá aumento. Projete uma função para calcular o novo salário de um funcionário qualquer. \pause
 
-Qual o primeiro passo?
+Qual é o primeiro passo? \pause
 
 **Análise** \pause
 
@@ -631,7 +633,7 @@ Não podemos esquecer de fazer a verificação novamente!
 
 ## Exemplo - massa tudo de ferro
 
-O Jorge precisa saber a massa de diversos pequenos tubos de ferro mas está sem uma balança. No entanto, ele possui um paquímetro e pode medir com precisão o diâmetro interno e externo e a altura dos tubos, agora ele só precisa de um programa para fazer os cálculos. Algum voluntário? \pause
+O Jorge precisa determinar a massa de diversos pequenos tubos de ferro mas está sem uma balança. No entanto, ele possui um paquímetro e pode medir com precisão o diâmetro interno e externo e a altura dos tubos, agora ele só precisa de um programa para fazer os cálculos. Algum voluntário? \pause
 
 Alguma coisa parece complicada nesse exercício?
 
@@ -642,9 +644,9 @@ Nesse exercício precisamos de conhecimento de um domínio (área), que talvez a
 
 Precisamos de uma pessoa (ou livros) que possam nos instruir sobre o conhecimento do domínio, geralmente os interessados no software podem indicar tais pessoas. \pause
 
-O importante é entender que o desenvolvedor de software geralmente resolve o problema de outras pessoas, e esses problemas podem envolver conhecimentos que não temos e por isso precisamos estar dispostos a estudar e aprender o conhecimento de outras áreas. \pause
+O importante é entender que os desenvolvedores de softwares geralmente resolvem problemas de outras pessoas, e esses problemas podem envolver conhecimentos que não temos e por isso precisamos estar dispostos a estudar e aprender o conhecimento de outras áreas. \pause
 
-Vamos resolver esse problema, por onde começamos?
+Vamos resolver esse problema? Por onde começamos?
 
 
 ## Exemplo - massa tudo de ferro

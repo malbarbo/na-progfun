@@ -27,7 +27,7 @@
 ;;
 ;; Se consideramos s sendo uma string com infinitas repeticoes
 ;; de msg separadas por espaço, então essa função produz uma
-;; reposta que é equivalente a substring de s que começa
+;; resposta que é equivalente a substring de s que começa
 ;; na posição m e tem tam caracteres.
 ;;
 ;; Requer que a quantidade de caracteres de msg seja maior que tam.

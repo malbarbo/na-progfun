@@ -5,7 +5,7 @@
 ;; Estado é um dos valores
 ;; - "aberto"
 ;; - "fechado"
-;; - "com-bandeira"
+;; - "fechado-com-bandeira"
 
 (struct quadrado (mina? estado) #:transparent)
 ;; Representa um quadrado no jogo campo minado
@@ -23,11 +23,11 @@
 ;; A atualização é feita conforme a tabela a seguir, onde
 ;; - significa que o quadrado permanece como estava.
 ;;
-;; | estado/ação  |     abrir      |   adicionar    |   remover     |
-;; |-------------:|:--------------:|:--------------:|:-------------:|
-;; | aberto       |      -         |       -        |      -        |
-;; | fechado      |    aberto      | com-bandeira   |      -        |
-;; | com-bandeira |      -         |       -        |   fechado     |
+;; | estado/ação          |  abrir  |      adicionar       | remover |
+;; |---------------------:|:-------:|:--------------------:|:-------:|
+;; | aberto               |   -     |          -           |    -    |
+;; | fechado              | aberto  | fechado-com-bandeira |    -    |
+;; | fechado-com-bandeira |   -     |          -           | fechado |
 ;;
 (examples
   ; aberto
@@ -41,18 +41,18 @@
   ; (struct-copy quadrado q [estado "aberto"])
   (check-equal? (atualiza-quadrado (quadrado #f "fechado") "abrir")
                 (quadrado #f "aberto"))
-  ; (struct-copy quadrado q [estado "com-bandeira"])
+  ; (struct-copy quadrado q [estado "fechado-com-bandeira"])
   (check-equal? (atualiza-quadrado (quadrado #f "fechado") "adicionar-bandeira")
-                (quadrado #f "com-bandeira"))
+                (quadrado #f "fechado-com-bandeira"))
   (check-equal? (atualiza-quadrado (quadrado #f "fechado") "remover-bandeira")
                 (quadrado #f "fechado"))
-  ; com-bandeira
-  (check-equal? (atualiza-quadrado (quadrado #f "com-bandeira") "abrir")
-                (quadrado #f "com-bandeira"))
-  (check-equal? (atualiza-quadrado (quadrado #f "com-bandeira") "adicionar-bandeira")
-                (quadrado #f "com-bandeira"))
+  ; fechado-com-bandeira
+  (check-equal? (atualiza-quadrado (quadrado #f "fechado-com-bandeira") "abrir")
+                (quadrado #f "fechado-com-bandeira"))
+  (check-equal? (atualiza-quadrado (quadrado #f "fechado-com-bandeira") "adicionar-bandeira")
+                (quadrado #f "fechado-com-bandeira"))
   ; (struct-copy quadrado q [estado "fechado"])
-  (check-equal? (atualiza-quadrado (quadrado #f "com-bandeira") "remover-bandeira")
+  (check-equal? (atualiza-quadrado (quadrado #f "fechado-com-bandeira") "remover-bandeira")
                 (quadrado #f "fechado")))
 
 (define (atualiza-quadrado q acao)
@@ -63,8 +63,8 @@
      (struct-copy quadrado q [estado "aberto"])]
     [(and (equal? estado "fechado")
           (equal? acao "adicionar-bandeira"))
-     (struct-copy quadrado q [estado "com-bandeira"])]
-    [(and (equal? estado "com-bandeira")
+     (struct-copy quadrado q [estado "fechado-com-bandeira"])]
+    [(and (equal? estado "fechado-com-bandeira")
           (equal? acao "remover-bandeira"))
      (struct-copy quadrado q [estado "fechado"])]
     [else q]))

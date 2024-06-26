@@ -45,25 +45,25 @@ Exemplos \pause
 
 Durante a etapa de definição de tipos de dados identificamos as informações e definimos como elas são representadas no programa. \pause
 
-Como determinar se um tipo de dado é adequado para representar uma informação?
+Como determinar se um tipo de dado **é adequado** para representar uma informação?
 
 
 ## Requisitos de um tipo de dado
 
-Um inteiro é adequado para representar a quantidade de pessoas em um planeta? \pause E um natural? \pause E `unsigned int`{.c} em C? \pause
+Um inteiro é adequado para representar a quantidade de pessoas em um planeta? \pause E um natural de 32 bits? \pause E um natural? \pause
 
 - Um inteiro não é adequado pois um número inteiro pode ser negativo mas a quantidade de pessoas em um planeta não pode, ou seja, o tipo de dado permite a representação de valores inválidos. \pause
 
-- `unsigned int`{.c} não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, nem todos os valores válidos podem ser representados. \pause
+- Uma natural de 32 bits não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, nem todos os valores válidos podem ser representados. \pause
 
-- Um natural é adequado. Cada valor do conjunto dos naturais representa um valor válido de informação, e cada possível valor de informação pode ser representado por um número natural.
+- Um natural adequado. Cada valor do conjunto dos naturais representa um valor válido de informação, e cada possível valor de informação pode ser representado por um número natural.
 
 
 ## Requisitos de um tipo de dado
 
-Diretrizes para projeto de tipos de dados:
+Diretrizes para projeto de tipos de dados: \pause
 
-- Faça os valores válidos representáveis.
+- Faça os valores válidos representáveis. \pause
 
 - Faça os valores inválidos irrepresentáveis.
 
@@ -377,12 +377,12 @@ Racket oferece a forma especial `struct-copy` ([referência](http://docs.racket-
 ```
 
 
-## Exemplo: distância
+## Exemplo - distância
 
 Defina uma função que calcule a distância de um ponto a origem.
 
 
-## Exemplo: distância
+## Exemplo - distância
 
 \small
 
@@ -413,118 +413,92 @@ Enumerações
 ===========
 
 
-## Exemplo contagem
+## Exemplo - tíquete do RU
 
-Em um sistema de enquete cada possível resposta é identificada por uma cor: verde, vermelho, azul ou branco. Após todos os participantes responderem a enquete, é necessário contabilizar a quantidade de vezes que cada resposta foi selecionada. Como parte desse sistema, você deve projetar uma função que receba a contabilização atual das respostas e uma nova resposta e produza a contabilização atualizada.
+O RU da UEM cobra um valor por tíquete que depende da relação do usuário com a universidade. Para alunos e servidores que recebem até 3 salários mínimos o tíquete custa R$ 5,00, para servidores que recebem acima de 3 salários mínimos e docentes R$ 10,00, para pessoas da comunidade externa, R$ 19,00. Como parte de um sistema de cobrança você deve projetar uma função que determine quanto deve ser cobrado de um usuário por um quantidade de tíquetes.
 
 
-## Exemplo contagem
+## Exemplo - tíquete do RU
 
 Análise \pause
 
-- Atualizar a contabilização de respostas considerando um nova resposta. \pause
+- Quanto deve ser cobrado de um usuário por uma quantidade de tíquetes \pause
 
-- Uma resposta pode ser verde, vermelho, azul ou branco. \pause
+- O usuário pode ser aluno ou servidor (até 3 sal) - R$ 5, servidor (acima de 3 sal) ou docente - R$ 10, ou externo R$ 19. \pause
 
 Definição de tipos de dados \pause
 
-- As informações são a contabilização dos votos e a resposta.
+- As informações são a quantidade, o tipo de usuário e o valor que deve ser cobrado.
 
 
-## Definição de tipos de dados
+## Exemplo - tíquete do RU
 
-Como representar uma resposta que pode ser verde, vermelho, azul ou branco? \pause
+Como representar um tipo de usuário? \pause
 
 Enumerando os seus valores em um tipo enumerado. \pause
 
-Embora o Racket não suporte a definição de tipos enumerados, podemos registrar em forma de comentários os possíveis valores de um "tipo". \pause
-
-```scheme
-;; Resposta é um dos valores:
-;; - "verde"
-;; - "vermelho"
-;; - "azul"
-;; - "branco"
-```
-
-
-## Definição de tipos de dados
-
-Como representar a contabilização de votos? \pause
-
-Com uma estrutura com um campo para contar a quantidade de cada tipo de resposta. \pause
-
-```scheme
-(struct contagem (verde vermelho azul branco) #:transparent)
-;; Uma contagem das respostas de cada cor
-;;   verde   : Número - número de respostas verde
-;;   vermelho: Número - número de respostas vermelho
-;;   azuli   : Número - número de respostas azul
-;;   branco  : Número - número de respostas branco
-```
-
-
-## Especificação
+Embora o Racket não suporte a definição de tipos enumerados, podemos registrar em forma de comentários os possíveis valores de um "tipo" (como fizemos com combustível e alinhamento) \pause
 
 \small
 
 ```scheme
-;; Resposta Contagem -> Contagem
-;; Atualiza a contagem cont considerano a nova resposta res.
-(define (atualiza-contagem res cont) ...)
+;; TipoUsuario é um dos valores:
+;; - "aluno"
+;; - "servidor<=3" - servidor que recebe até 3 salários mínimos
+;; - "servidor>3" - servidor que recebe acima de 3 salários mínimos
+;; - "docente"
+;; - "externo"
 ```
 
-\pause
 
-Exemplos \pause
+## Exemplo - tíquete do RU
+
+\small
+
+```scheme
+;; TipoUsuario InteiroPositivo -> NúmeroPositivo
+;; Determina o custo de *quant* tíquetes para um usuário do tipo *tp*.
+;; O custo de um tíquete é
+;; - "aluno"        5,0
+;; - "servidor<=3"  5,0
+;; - "servidor>3"  10,0
+;; - "docente"     10,0
+;; - "externo"     19,0
+(define (custo-tiquetes tp quant) ...)
+```
+
+
+## Exemplo - tíquete do RU
+
+Quantos exemplos são necessários para funções que processam valores de tipos enumerados? \pause Pelo menos um para cada valor da enumeração. \pause
+
+\small
 
 ```scheme
 (examples
- (check-equal? (atualiza-contagem "verde" (contagem 4 5 1 2))
-               (contagem 5 5 1 2))
-```
-\pause
-
-```scheme
-               ;; (struct-copy contagem (contagem 4 5 1 2)
-               ;;              [verde (add1 (contagem-verde (contagem 4 5 1 2)))])
+  (check-equal? (custo-tiquetes "aluno" 3) 15.0) ; (* 3 5.0)
+  ...)
 ```
 
 \pause
 
-```scheme
- (check-equal? (atualiza-contagem "vermelho" (contagem 4 5 1 2))
-               (contagem 4 6 1 2))
- ...
-```
-
-
-## Especificação
-
-Quantos exemplos são necessários para funções que processam valores de tipos enumerados? \pause Pelo menos um para cada valor da enumeração. \pause
+\normalsize
 
 Como iniciamos a implementação de uma função que processa um valor de tipo enumerado? \pause Criando um caso para cada valor da enumeração.
 
 
-## Implementação
+## Exemplo - tíquete do RU
 
 \small
 
 ```scheme
-(define (atualiza-contagem res cont)
+(define (custo-tiquetes tp quant)
   (cond
-    [(equal? res "verde")
-
-                                                            ]
-    [(equal? res "vermelho")
-
-                                                            ]
-    [(equal? res "azul")
-
-                                                            ]
-    [(equal? res "branco")
-
-                                                            ]))
+    [(equal? tp "aluno")                    ]
+    [(equal? tp "servidor<=3")              ]
+    [(equal? tp "servidor>3")                ]
+    [(equal? tp "docente")                   ]
+    [(equal? tp "externo")                   ]))
 ```
 
 \pause
@@ -532,33 +506,30 @@ Como iniciamos a implementação de uma função que processa um valor de tipo e
 Agora completamos o corpo considerando cada forma de resposta dos exemplos.
 
 
-## Implementação
+## Exemplo - tíquete do RU
 
 \small
 
 ```scheme
-(define (atualiza-contagem res cont)
+(define (custo-tiquetes tp quant)
   (cond
-    [(equal? res "verde")
-     (struct-copy contagem
-                  cont [verde (add1 (contagem-verde cont))])]
-    [(equal? res "vermelho")
-     (struct-copy contagem
-                  cont [vermelho (add1 (contagem-vermelho cont))])]
-    [(equal? res "azul")
-     (struct-copy contagem
-                  cont [azul (add1 (contagem-azul cont))])]
-    [(equal? res "branco")
-     (struct-copy contagem
-                  cont [branco (add1 (contagem-branco cont))])]))
+    [(equal? tp "aluno")       (* quant 5.0)]
+    [(equal? tp "servidor<=3") (* quant 5.0)]
+    [(equal? tp "servidor>3")  (* quant 10.0)]
+    [(equal? tp "docente")     (* quant 10.0)]
+    [(equal? tp "externo")     (* quant 19.0)]))
 ```
 
-\ 
+\pause
+
+Podemos simplificar? \pause Sim, podemos agrupas os casos iguais.
 
 
 ## Exemplo - Campo minado
 
 Campo minado é um famoso jogo de computador. O jogo consiste de um campo retangular de quadrados que podem ou não conter minas escondidas. Os quadrados podem ser abertos clicando sobre eles. O objetivo do jogo é abrir todos os quadrados que não têm minas. Se o jogador abrir um quadrado com uma mina, o jogo termina e o jogador perde.
+
+\pause
 
 Como guia para explorar o campo, cada quadrado aberto exibe o número de minas nos quadrados ao seu redor (no máximo 8). Quando um quadrado sem minas ao redor é aberto, todos os quadrados ao seu redor também são abertos. O usuário pode colocar uma bandeira sobre um quadrado fechado para sinalizar uma possível mina e impedir que ele seja aberto. Uma bandeira também pode ser removida de um quadrado.
 
@@ -593,7 +564,6 @@ Em uma primeira tentativa poderíamos pensar: o quadrado pode ter uma mina ou n�
 Nós vimos duas diretrizes para o projeto de tipo de dado
 
 - Faça os valores válidos representáveis.
-
 - Faça os valores inválidos irrepresentáveis. \pause
 
 A definição de `quadrado` está de acordo com essas diretrizes? \pause Vamos verificar! \pause
@@ -645,7 +615,7 @@ Para resolver a situação podemos "juntar" os campo `aberto?` e `bandeira?` em 
 ;; Estado é um dos valores
 ;; - "aberto"
 ;; - "fechado"
-;; - "com-bandeira"
+;; - "fechado-com-bandeira"
 
 (struct quadrado (mina? estado) #:transparent)
 ;; Representa um quadrado no jogo campo minado
@@ -660,7 +630,7 @@ Quantas possíveis instâncias distintas existem de `quadrado`? \pause O campo `
 
 ## Exemplo - Ação campo minado
 
-Agora que temos uma representação adequada para um quadrado, podemos avançar e projetar uma função que determina como um quadrado irá ficar após a ação de um usuário. O usuário pode fazer uma ação para abrir um quadrado, adicionar uma bandeira ou remover uma bandeira.
+Agora que temos uma representação adequada para um quadrado, podemos avançar e projetar uma função que determina como um quadrado ficará após a ação de um usuário. O usuário pode fazer uma ação para abrir um quadrado, adicionar uma bandeira ou remover uma bandeira.
 
 
 ## Exemplo - Ação campo minado
@@ -704,15 +674,16 @@ Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemp
 
 ## Exemplo - Ação campo minado
 
-| estado/ação   |     abrir      |   adicionar    |   remover     |
-|:-------------:|:--------------:|:--------------:|:-------------:|
-| aberto \pause |      -         |       -        |      -        |
-| fechado \pause|    aberto      | com-bandeira   |      -        |
-| com-bandeira \pause|      -    |       -        |   fechado     |
+\small
+
+| estado/ação                |     abrir      |   adicionar          |   remover     |
+|:--------------------------:|:--------------:|:--------------------:|:-------------:|
+| aberto \pause              |      -         |       -              |      - \pause |
+| fechado \pause             |    aberto      | fechado-com-bandeira |      - \pause |
+| fechado-com-bandeira \pause|      -         |       -              |   fechado     |
 
 \pause
 
-\small
 
 ```scheme
 (examples
@@ -756,7 +727,7 @@ A função que estamos projetando depende de dois valores enumerados, qual deve 
        [(equal? acao "abrir") ...]
        [(equal? acao "adicionar-bomba") ...]
        [(equal? acao "remover-bomba") ...])]
-    [(equal? estado "com-bandeira")
+    [(equal? estado "fechado-com-bandeira")
      (cond
        [(equal? acao "abrir") ...]
        [(equal? acao "adicionar-bomba") ...]
@@ -798,13 +769,17 @@ A função que estamos projetando depende de dois valores enumerados, qual deve 
 
 ## Exemplo - Ação campo minado
 
-| estado/ação   |     abrir      |   adicionar    |   remover     |
-|:-------------:|:--------------:|:--------------:|:-------------:|
-| aberto        |      -         |       -        |      -        |
-| fechado       |    aberto      | com-bandeira   |      -        |
-| com-bandeira  |      -         |       -        |   fechado     |
+\small
+
+| estado/ação          |     abrir      |   adicionar          |   remover     |
+|:--------------------:|:--------------:|:--------------------:|:-------------:|
+| aberto               |      -         |       -              |      -        |
+| fechado              |    aberto      | fechado-com-bandeira |      -        |
+| fechado-com-bandeira |      -         |       -              |   fechado     |
 
 \pause
+
+\normalsize
 
 Se olharmos a tabela de exemplos, vamos notar que em apenas 3 casos precisamos atualizar o quadrado, então, não é necessário colocar explicitamente no código os 9 casos, podemos simplificar o código antes mesmo de escrevê-lo!
 
@@ -822,8 +797,8 @@ Se olharmos a tabela de exemplos, vamos notar que em apenas 3 casos precisamos a
      (struct-copy quadrado q [estado "aberto"])]
     [(and (equal? estado "fechado")
           (equal? acao "adicionar-bandeira"))
-     (struct-copy quadrado q [estado "com-bandeira"])]
-    [(and (equal? estado "com-bandeira")
+     (struct-copy quadrado q [estado "fechado-com-bandeira"])]
+    [(and (equal? estado "fechado-com-bandeira")
           (equal? acao "remover-bandeira"))
      (struct-copy quadrado q [estado "fechado"])]
     [else q]))
@@ -1022,9 +997,10 @@ Em Racket não podemos... \pause mas em Typed Racket podemos!
 
 <div class="columns">
 <div class="column" width="40%">
-\scriptsize
 
 Considere as seguintes definições
+
+\footnotesize
 
 ```scheme
 #lang typed/racket
@@ -1042,10 +1018,11 @@ Considere as seguintes definições
 ```
 
 </div>
-<div class="column" width="60%">
-\scriptsize
+<div class="column" width="56%">
 
 E a função
+
+\footnotesize
 
 ```scheme
 (: msg-usuario (-> EstadoTarefa String))
@@ -1071,6 +1048,8 @@ E a função
 
 O que acontece se alteramos a definição do estado da tarefa da seguinte maneira?
 
+\footnotesize
+
 ```scheme
 (struct fila ())
 (define-type EstadoTarefa (U fila executando sucesso erro))
@@ -1078,11 +1057,13 @@ O que acontece se alteramos a definição do estado da tarefa da seguinte maneir
 
 \pause
 
+\normalsize
+
 O analisador estático do Racket indica um erro no `cond`{.scheme}, pois nem todos os casos são tratados.
 
 \pause
 
-\small
+\footnotesize
 
 ```
 Type Checker: type mismatch

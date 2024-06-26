@@ -23,9 +23,10 @@
 ;; Calcula a massa de um tubo de ferro a partir da suas dimensões
 ;; Requer que (> diametro-externo diametro-interno)
 (examples
- (check-= (massa-tubo-ferro 0.05 0.03 0.1) 0.2472436 0.00000001))
+ (check-= (massa-tubo-ferro 0.05 0.03 0.1) 0.9889744 0.00000001))
 
 (define (massa-tubo-ferro diametro-externo diametro-interno altura)
-  (define area-da-base (* PI (sqr (/ (- diametro-externo diametro-interno) 2))))
-  (define volume (* area-da-base altura))
+  (define area-externa (* PI (sqr (/ diametro-externo 2))))
+  (define area-interna (* PI (sqr (/ diametro-interno 2))))
+  (define volume (* (- area-externa area-interna) altura))
   (* volume DENSIDADE-FERRO))

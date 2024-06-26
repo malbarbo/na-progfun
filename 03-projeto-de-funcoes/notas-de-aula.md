@@ -657,7 +657,9 @@ Vamos resolver esse problema? Por onde começamos?
 
 - Dimensões $\rightarrow$ Volume $\rightarrow$ Massa \pause
 
-- Como determinamos o volume de um tubo de ferro a partir das suas dimensões? \pause O volume de um tubo é dado por $\pi ((diametro\_externo - diametro\_interno)/2)^2 \times altura$ \pause
+- Como determinamos o volume de um tubo de ferro a partir das suas dimensões? \pause
+
+    $$\pi \times \left ( \left ( \frac{diametro\_externo}{2} \right ) ^2 - \left ( \frac{diametro\_interno}{2} \right ) ^2 \right ) \times altura$$ \pause
 
 - Como obtemos a massa a partir do volume? \pause A massa é dado por $volume \times densidade$. \pause
 
@@ -690,8 +692,8 @@ Vamos resolver esse problema? Por onde começamos?
 
 ```scheme
 (examples
- ; (* pi (sqr (/ (- 0.05 0.03) 2)) 0.1 7874)
- (check-equal? (massa-tubo-ferro 0.05 0.03 0.1) 0.2472436))
+ ; (* 3.14 (- (sqr (/ 0.05 2)) (sqr (/ 0.03 2))) 0.1 7874)
+ (check-equal? (massa-tubo-ferro 0.05 0.03 0.1) 0.9889744))
 ```
 
 
@@ -708,7 +710,8 @@ E que expressão é essa? \pause A que identificamos na análise do problema e u
 ```scheme
 (define (massa-tubo-ferro diametro-externo diametro-interno altura)
   (* 3.14
-     (sqr (/ (- diametro-externo diametro-interno) 2))
+     (- (sqr (/ diametro-externo 2))
+        (sqr (/ diametro-interno 2)))
      altura
      7874)) ; densidade do ferro
 ```
@@ -724,8 +727,8 @@ E que expressão é essa? \pause A que identificamos na análise do problema e u
 FAILURE
 name:       check-equal?
 location:   exercicios-resolvidos.rkt:48:1
-actual:     0.24724360000000015
-expected:   0.2472436
+actual:     0.9889744000000004
+expected:   0.9889744
 ```
 
 
@@ -735,7 +738,7 @@ Comparação de igualdade de números de ponto flutuante quase não dá certo! \
 
 ```scheme
 (examples
- (check-= (massa-tubo-ferro 0.05 0.03 0.1) 0.2472436 0.00000001))
+ (check-= (massa-tubo-ferro 0.05 0.03 0.1) 0.9889744 0.00000001))
 ```
 
 
@@ -748,7 +751,8 @@ Comparação de igualdade de números de ponto flutuante quase não dá certo! \
 ```scheme
 (define (massa-tubo-ferro diametro-externo diametro-interno altura)
   (* 3.14
-     (sqr (/ (- diametro-externo diametro-interno) 2))
+     (- (sqr (/ diametro-externo 2))
+        (sqr (/ diametro-interno 2)))
      altura
      7874)) ; densidade do ferro
 ```
@@ -771,8 +775,9 @@ O que podemos melhorar? \pause
 (define DENSIDADE-FERRO 7874) ; Em kg/m^2
 
 (define (massa-tubo-ferro diametro-externo diametro-interno altura)
-  (define area-da-base (* PI (sqr (/ (- diametro-externo diametro-interno) 2))))
-  (define volume (* area-da-base altura))
+  (define area-externa (* PI (sqr (/ diametro-externo 2))))
+  (define area-interna (* PI (sqr (/ diametro-interno 2))))
+  (define volume (* (- area-externa area-interna) altura))
   (* volume DENSIDADE-FERRO))
 ```
 

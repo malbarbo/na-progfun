@@ -17,13 +17,13 @@
   (check-equal? (custo-tiquetes "servidor>3"  5) 50.0)
   (check-equal? (custo-tiquetes "docente"     2) 20.0)
   (check-equal? (custo-tiquetes "externo"     2) 38.0))
-(define (custo-tiquetes tp quant)
+(define (custo-tiquetes tu quant)
   (cond
-    [(or (equal? tp "aluno")
-         (equal? tp "servidor<=3"))
+    [(or (equal? tu "aluno")
+         (equal? tu "servidor<=3"))
       (* quant 5.0)]
-    [(or (equal? tp "servidor>3")
-         (equal? tp "docente"))
+    [(or (equal? tu "servidor>3")
+         (equal? tu "docente"))
       (* quant 10.0)]
-    [(equal? tp "externo")
+    [(equal? tu "externo")
      (* quant 19.0)]))

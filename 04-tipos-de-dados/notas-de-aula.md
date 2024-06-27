@@ -457,14 +457,14 @@ Embora o Racket não suporte a definição de tipos enumerados, podemos registra
 
 ```scheme
 ;; TipoUsuario InteiroPositivo -> NúmeroPositivo
-;; Determina o custo de *quant* tíquetes para um usuário do tipo *tp*.
+;; Determina o custo de *quant* tíquetes para um usuário do tipo *tu*.
 ;; O custo de um tíquete é
 ;; - "aluno"        5,0
 ;; - "servidor<=3"  5,0
 ;; - "servidor>3"  10,0
 ;; - "docente"     10,0
 ;; - "externo"     19,0
-(define (custo-tiquetes tp quant) ...)
+(define (custo-tiquetes tu quant) ...)
 ```
 
 
@@ -492,13 +492,13 @@ Como iniciamos a implementação de uma função que processa um valor de tipo e
 \small
 
 ```scheme
-(define (custo-tiquetes tp quant)
+(define (custo-tiquetes tu quant)
   (cond
-    [(equal? tp "aluno")                    ]
-    [(equal? tp "servidor<=3")              ]
-    [(equal? tp "servidor>3")                ]
-    [(equal? tp "docente")                   ]
-    [(equal? tp "externo")                   ]))
+    [(equal? tu "aluno")                    ]
+    [(equal? tu "servidor<=3")              ]
+    [(equal? tu "servidor>3")                ]
+    [(equal? tu "docente")                   ]
+    [(equal? tu "externo")                   ]))
 ```
 
 \pause
@@ -513,11 +513,11 @@ Agora completamos o corpo considerando cada forma de resposta dos exemplos.
 ```scheme
 (define (custo-tiquetes tp quant)
   (cond
-    [(equal? tp "aluno")       (* quant 5.0)]
-    [(equal? tp "servidor<=3") (* quant 5.0)]
-    [(equal? tp "servidor>3")  (* quant 10.0)]
-    [(equal? tp "docente")     (* quant 10.0)]
-    [(equal? tp "externo")     (* quant 19.0)]))
+    [(equal? tu "aluno")       (* quant 5.0)]
+    [(equal? tu "servidor<=3") (* quant 5.0)]
+    [(equal? tu "servidor>3")  (* quant 10.0)]
+    [(equal? tu "docente")     (* quant 10.0)]
+    [(equal? tu "externo")     (* quant 19.0)]))
 ```
 
 \pause

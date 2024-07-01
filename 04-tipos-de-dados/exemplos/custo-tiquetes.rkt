@@ -2,6 +2,13 @@
 
 (require examples)
 
+;; TipoUsuario é um dos valores:
+;; - "aluno"
+;; - "servidor<=3" - servidor que recebe até 3 salários mínimos
+;; - "servidor>3" - servidor que recebe acima de 3 salários mínimos
+;; - "docente"
+;; - "externo"
+
 ;; TipoUsuario InteiroPositivo -> NúmeroPositivo
 ;; Determina o custo de *quant* tíquetes para um usuário do tipo *tp*.
 ;; O custo de um tíquete é

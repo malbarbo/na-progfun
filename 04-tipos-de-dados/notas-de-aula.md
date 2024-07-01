@@ -1,11 +1,11 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: usar um exemplo mais interessante do que Ponto
+# TODO: colocar explicitamente a definição de estrutura, enumeração e união
+# TODO: falar o que é uma instância
 # TODO: introduzir com mais detalhes o conceito de união
 # TODO: falar do "expression problem"?
-# TODO: colocar explicitamente a definição de estrutura, enumeração e união
-# TODO: ajustar o exemplo: contabilização vs contagem
 # TODO: remover (discutido em sala) adicionando um exemplo inicial
-# TODO: colocar exemplo de dataclass e replace do python (struct-copy)
 # TODO: adicionar mais referências sobre projeto de tipos de dados
 title: Tipos de dados
 ---
@@ -56,7 +56,7 @@ Um inteiro é adequado para representar a quantidade de pessoas em um planeta? \
 
 - Uma natural de 32 bits não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, nem todos os valores válidos podem ser representados. \pause
 
-- Um natural adequado. Cada valor do conjunto dos naturais representa um valor válido de informação, e cada possível valor de informação pode ser representado por um número natural.
+- Um natural é adequado. Cada valor do conjunto dos naturais representa um valor válido de informação, e cada possível valor de informação pode ser representado por um número natural.
 
 
 ## Requisitos de um tipo de dado
@@ -213,6 +213,8 @@ ponto-y
 
 Note que o construtor, o predicado de tipo e os seletores criados por `struct`{.scheme} são funções comuns, e portando são utilizados como todas as outras funções.
 
+\small
+
 ```
 > (struct ponto (x y))
 > ponto
@@ -228,7 +230,7 @@ Note que o construtor, o predicado de tipo e os seletores criados por `struct`{.
 
 ## Estruturas transparentes
 
-Por padrão, ao exibir um dado estruturado o interpretador não exibe os campos do dado (para preservar o encapsulamento)
+Por padrão, ao exibir uma instância de uma estrutura o Racket não exibe o valor dos campos (para preservar o encapsulamento)
 
 \pause
 
@@ -304,7 +306,7 @@ Além de mudar a forma que o ponto é exibido, a palavra chave `#:transparent`{.
 
 ## Definindo estruturas
 
-Junto com a definição de uma estrutura, também faremos a descrição do propósito e campos da estrutura.
+Junto com a definição de uma estrutura, também faremos a descrição do seu propósito e do seus campos.
 
 
 ## Definindo estruturas
@@ -351,6 +353,8 @@ Racket oferece a forma especial `struct-copy` ([referência](http://docs.racket-
 
 ## Alterando dados estruturados
 
+\small
+
 ```scheme
 > (define p1 (ponto 3 4))
 > (define p2 (struct-copy ponto p1 [y 5]))
@@ -375,6 +379,63 @@ Racket oferece a forma especial `struct-copy` ([referência](http://docs.racket-
 > p4
 (ponto 6 9)
 ```
+
+
+## Exemplo - outras linguagens
+
+A ideia de estruturas imutáveis que são "atualizadas" através de cópias está presentes em diversas linguagens. \pause Python a esquerda e Rust a direita.
+
+\pause
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```python
+from dataclasses import dataclass, replace
+
+@dataclass(frozen=True)
+class Ponto:
+    x: int
+    y: int
+
+>>> p = Ponto(10, 20)
+
+>>> # Atribuição inválida, p é imutável
+>>> p.x = 8
+
+>>> # Cria uma cópia de p alterando x para 8
+>>> p1 = replace(p, x=8)
+>>> p1
+Ponto(x=8, y=20)
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```rust
+struct Ponto {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p = Ponto { x: 10, y: 20 };
+
+    // Atribuição inválida, p é imutável
+    p.x = 8;
+
+    // Cria uma cópia de p alterando x para 8
+    let p1 = Ponto {x: 8, ..p};
+    assert_eq!(p1.x, 8);
+    assert_eq!(p1.y, 20);
+}
+```
+
+</div>
+</div>
 
 
 ## Exemplo - distância
@@ -435,13 +496,123 @@ Definição de tipos de dados \pause
 
 Como representar um tipo de usuário? \pause
 
-Enumerando os seus valores em um tipo enumerado. \pause
+Criando um tipo **enumeração** com os valores possíveis para o tipo. \pause
 
-Embora o Racket não suporte a definição de tipos enumerados, podemos registrar em forma de comentários os possíveis valores de um "tipo" (como fizemos com combustível e alinhamento) \pause
+Racket não suporta a criação de tipos enumerados. Vamos ver exemplos de Python e Rust e depois veremos como proceder com Racket.
+
+
+## Enumeração - Python
+
+<div class="columns">
+<div class="column" width="48%">
+
+\small
+
+```python
+class TipoUsuario(Enum):
+    '''
+    Representa um tipo de usuário
+    do RU da UEM.
+    '''
+    ALUNO = auto()
+    # Servidores que recebem até
+    # 3 salários mínimos.
+    SERVIDOR_ATE_3 = auto()
+    # Servidores que recebem mais
+    # do que 3 salários mínimos.
+    SERVIDOR_MAISQ_3 = auto()
+    DOCENTE = auto()
+    EXTERNO = auto()
+```
+
+</div>
+<div class="column" width="48%">
+\pause
+
+\small
+
+```python
+tp: TipoUsuario = TipoUsuario.ALUNO
+# Comparação por igualdade
+assert tp != TipoUsuario.DOCENTE
+```
+
+\pause
+
+```python
+# Representação textual
+assert tp.name == "ALUNO"
+```
+
+\pause
+
+```python
+# Verificação de tipo (mypy)
+# atribuição inválida
+tp = "externo"
+```
+
+</div>
+</div>
+
+
+## Enumeração - Python
+
+<div class="columns">
+<div class="column" width="48%">
+
+\small
+
+```rust
+/// Representa o tipo de um usuário do
+/// RU da UEM.
+#[derive(PartialEq, Debug)]
+enum TipoUsuario {
+    Aluno,
+    // Servidor que recebe até 3
+    // salários mínimos.
+    ServidorAte3,
+    // Servidor que recebe mais
+    // do que 3 salários mínimos.
+    ServidorMaisq3,
+    Docente,
+    Externo,
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+\small
+
+```rust
+let mut tp = TipoUsuario::ServidorAte3;
+// Comparação por igualdade
+assert!(tp == TipoUsuario::ServidorAte3);
+```
+
+\pause
+
+```rust
+// Verificação de tipo
+// Atribuição inválida
+tp = "servidor";
+```
+
+</div>
+</div>
+
+
+## Exemplo - tíquete do RU
+
+Embora o Racket não suporte a definição de tipos enumerados, podemos registrar em forma de comentários os possíveis valores de um "tipo" (como fizemos com combustível e alinhamento). \pause Mesmo que o Racket não "entenda" os comentários, eles são úteis pois registram a intenção do projetista. \pause
 
 \small
 
 ```scheme
+;; TipoUsuario representa um tipo de usuário do RU da UEM.
 ;; TipoUsuario é um dos valores:
 ;; - "aluno"
 ;; - "servidor<=3" - servidor que recebe até 3 salários mínimos
@@ -452,6 +623,8 @@ Embora o Racket não suporte a definição de tipos enumerados, podemos registra
 
 
 ## Exemplo - tíquete do RU
+
+Especificação
 
 \small
 
@@ -489,6 +662,8 @@ Como iniciamos a implementação de uma função que processa um valor de tipo e
 
 ## Exemplo - tíquete do RU
 
+Implementação
+
 \small
 
 ```scheme
@@ -508,6 +683,8 @@ Agora completamos o corpo considerando cada forma de resposta dos exemplos.
 
 ## Exemplo - tíquete do RU
 
+Implementação
+
 \small
 
 ```scheme
@@ -522,7 +699,18 @@ Agora completamos o corpo considerando cada forma de resposta dos exemplos.
 
 \pause
 
-Podemos simplificar? \pause Sim, podemos agrupas os casos iguais.
+Podemos simplificar? \pause Sim, podemos agrupas os casos iguais. Fica como atividade.
+
+
+## Verificadores estáticos
+
+O que acontece se esquecermos de tratar um caso de um tipo enumerado na implementação de uma função em Racket? \pause
+
+O programa continua funcionando como o esperado se aquela entrada nunca for utilizada. \pause No entanto, o código irá falhar ou produzir uma resposta incorreta se a entrada para o caso que está faltando for utilizada. \pause
+
+Os testes podem nos ajudar nesses casos, mas não é garantido. \pause Por exemplo, suponha que existam várias funções que processam dados do tipo `TipoUsuario`, e que adicionamos mais um valor possível para o tipo, por exemplo `"visitante"`, como saber todos os lugares que o código precisa ser atualizado? \pause Os testes e o Racket não nos ajudam nesse casos... \pause
+
+Já o mypy e o compilador do Rust sinalizam casos que não estão sendo tratados. Como são analisadores estáticos, elas fazem isso sem precisarem executar o código.
 
 
 ## Exemplo - Campo minado

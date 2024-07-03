@@ -4,6 +4,7 @@
 # TODO: colocar explicitamente a definição de estrutura, enumeração e união
 # TODO: falar o que é uma instância
 # TODO: introduzir com mais detalhes o conceito de união
+# TODO: melhorar o exemplo de união
 # TODO: falar do "expression problem"?
 # TODO: remover (discutido em sala) adicionando um exemplo inicial
 # TODO: adicionar mais referências sobre projeto de tipos de dados
@@ -16,9 +17,9 @@ Introdução
 
 ## Introdução
 
-A segunda etapa no processo de projeto de funções é a definição de tipos de dados. \pause
+Qual é a segunda etapa no processo de projeto de funções? \pause Definição de tipos de dados. \pause
 
-Nessa etapa identificamos as informações do problema e como elas serão representadas no programa. \pause
+Qual o propósito dessa etapa? \pause Identificar as informações e definir como elas serão representadas. \pause
 
 Essa etapa pode ter parecido, até então, muito simples ou talvez até desnecessária, isto porque as informações que precisávamos representar eram "simples". \pause
 
@@ -125,7 +126,7 @@ Construção
 
 \pause
 
-Seletores
+Decomposição
 
 ```scheme
 > (ponto-x p1)
@@ -230,7 +231,7 @@ Note que o construtor, o predicado de tipo e os seletores criados por `struct`{.
 
 ## Estruturas transparentes
 
-Por padrão, ao exibir uma instância de uma estrutura o Racket não exibe o valor dos campos (para preservar o encapsulamento)
+Por padrão, ao exibir uma instância de uma estrutura o Racket não exibe o valor dos campos (para preservar o encapsulamento).
 
 \pause
 
@@ -248,7 +249,7 @@ Por padrão, ao exibir uma instância de uma estrutura o Racket não exibe o val
 
 ## Estruturas transparentes
 
-Podemos usar a palavra chave `#:transparent`{.scheme} para tornar a estrutura "transparente"
+Podemos usar a palavra chave `#:transparent`{.scheme} para tornar a estrutura "transparente" (podemos ver os valores dos campos).
 
 \pause
 
@@ -267,7 +268,7 @@ Podemos usar a palavra chave `#:transparent`{.scheme} para tornar a estrutura "t
 
 ## Estruturas transparentes e a função `equal?`
 
-Além de mudar a forma que o ponto é exibido, a palavra chave `#:transparent`{.scheme} também altera o funcionamento da função `equal?`
+Além de mudar a forma que o ponto é exibido, a palavra chave `#:transparent`{.scheme} também altera o funcionamento da função `equal?`{.scheme}.
 
 
 ## Estruturas transparentes e a função `equal?`
@@ -327,7 +328,7 @@ Ao invés de modificar o campo de uma instância da estrutura, criamos uma cópi
 
 \pause
 
-Vamos criar um ponto `p2` que é como `p1`, mas com o valor 5 para o campo `y`.
+Vamos criar um ponto `p2` que é como `p1`, mas com o valor 5 para o campo `y`. \pause
 
 ```scheme
 > (define p1 (ponto 3 4))
@@ -339,7 +340,7 @@ Vamos criar um ponto `p2` que é como `p1`, mas com o valor 5 para o campo `y`.
 
 ## Alterando dados estruturados
 
-Este método é limitado \pause
+Quais são as limitações desse método? \pause
 
 - Se a estrutura tem muitos campos e desejamos alterar apenas um campo, temos que especificar a cópia de todos os outros \pause
 
@@ -383,7 +384,7 @@ Racket oferece a forma especial `struct-copy` ([referência](http://docs.racket-
 
 ## Exemplo - outras linguagens
 
-A ideia de estruturas imutáveis que são "atualizadas" através de cópias está presentes em diversas linguagens. \pause Python a esquerda e Rust a direita.
+A ideia de estruturas imutáveis que são "atualizadas" através de cópias está presentes em diversas linguagens. \pause A seguir temos um exemplo em Python e outro em Rust.
 
 \pause
 
@@ -409,6 +410,8 @@ class Ponto:
 >>> p1
 Ponto(x=8, y=20)
 ```
+
+\pause
 
 </div>
 <div class="column" width="48%">
@@ -483,7 +486,7 @@ O RU da UEM cobra um valor por tíquete que depende da relação do usuário com
 
 Análise \pause
 
-- Quanto deve ser cobrado de um usuário por uma quantidade de tíquetes \pause
+- Determinar quanto deve ser cobrado de um usuário por uma quantidade de tíquetes \pause
 
 - O usuário pode ser aluno ou servidor (até 3 sal) - R$ 5, servidor (acima de 3 sal) ou docente - R$ 10, ou externo R$ 19. \pause
 
@@ -498,7 +501,9 @@ Como representar um tipo de usuário? \pause
 
 Criando um tipo **enumeração** com os valores possíveis para o tipo. \pause
 
-Racket não suporta a criação de tipos enumerados. Vamos ver exemplos de Python e Rust e depois veremos como proceder com Racket.
+O Racket não suporta a criação de tipos enumerados, mas mesmo assim podemos utilizar o conceito. \pause
+
+Vamos ver exemplos em Python e Rust e depois veremos como fazer em Racket.
 
 
 ## Enumeração - Python
@@ -607,7 +612,7 @@ tp = "servidor";
 
 ## Exemplo - tíquete do RU
 
-Embora o Racket não suporte a definição de tipos enumerados, podemos registrar em forma de comentários os possíveis valores de um "tipo" (como fizemos com combustível e alinhamento). \pause Mesmo que o Racket não "entenda" os comentários, eles são úteis pois registram a intenção do projetista. \pause
+Embora o Racket não suporte a definição de tipos enumerados, podemos registrar em forma de comentários os possíveis valores para o tipo (como fizemos com combustível e alinhamento). \pause Mesmo que o Racket não "entenda" os comentários, eles são úteis pois registram a intenção do projetista. \pause
 
 \small
 
@@ -650,6 +655,8 @@ Quantos exemplos são necessários para funções que processam valores de tipos
 ```scheme
 (examples
   (check-equal? (custo-tiquetes "aluno" 3) 15.0) ; (* 3 5.0)
+  (check-equal? (custo-tiquetes "servido<=3" 2) 10.0) ; (* 2 5.0)
+  (check-equal? (custo-tiquetes "servido>3" 2) 20.0) ; (* 2 10.0)
   ...)
 ```
 
@@ -740,7 +747,7 @@ Em uma primeira tentativa poderíamos pensar: o quadrado pode ter uma mina ou n�
 
 ```scheme
 (struct quadrado (mina? aberto? bandeira?) #:transparent)
-;; Representa um quadrado no jogo campo minado
+;; Representa um quadrado no jogo campo minado.
 ;;  mina?    : Bool - #t se tem uma mina no quadrado, #f caso contrário
 ;;  aberto?  : Bool - #t se o quadrado está aberto, #f caso contrário
 ;;  bandeira?: Bool - #t se tem uma bandeira no quadrado, #f caso contrário
@@ -800,13 +807,13 @@ Para resolver a situação podemos "juntar" os campo `aberto?` e `bandeira?` em 
 \small
 
 ```scheme
-;; Estado é um dos valores
+;; Estado é um dos valores:
 ;; - "aberto"
 ;; - "fechado"
 ;; - "fechado-com-bandeira"
 
 (struct quadrado (mina? estado) #:transparent)
-;; Representa um quadrado no jogo campo minado
+;; Representa um quadrado no jogo campo minado.
 ;;  mina? : Bool - #t se tem uma mina no quadrado, #f caso contrário
 ;;  estado: Estado - o estado do quadrado
 ```
@@ -832,7 +839,7 @@ Definição de tipos de dados \pause
 \small
 
 ```scheme
-;; Acao é um dos valores
+;; Acao é um dos valores:
 ;; - "abrir"
 ;; - "adicionar-bandeira"
 ;; - "remover-bandeira"
@@ -875,6 +882,7 @@ Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemp
 
 ```scheme
 (examples
+  ; q
   (check-equal? (atualiza-quadrado (quadrado #f "aberto") "abrir")
                 (quadrado #f "aberto"))
   ; (struct-copy quadrado q [estado "aberto"])
@@ -1014,7 +1022,7 @@ Vamos tentar uma estrutura.
 
 ```scheme
 (struct estado-tarefa (executando duracao msg_sucesso codigo_err msg_err))
-;; Representa o estado de uma tarefa
+;; Representa o estado de uma tarefa.
 ;; executando: Bool - #t se a tarefa está em execução, #f caso contrário
 ;; duracao: Número - tempo que durou a execução da tarefa
 ;; msg_sucesso: String - mensagem caso a tarefa tenha sido executada com sucesso
@@ -1022,13 +1030,13 @@ Vamos tentar uma estrutura.
 ;; msg_err: String - mensagem de erro se a execução da tarefa falhou
 ```
 
-\normalsize
-
 \pause
 
 Qual é o problema dessa representação? \pause
 
-Possíveis estados inválidos. \pause O que significa `(estado-tarefa #t 10 "Ótimo desempenho" 123 "Falha na conexão")`{.scheme}? \pause
+Possíveis estados inválidos. \pause O que significa
+
+`(estado-tarefa #t 10 "Ótimo desempenho" 123 "Falha na conexão")`{.scheme}? \pause
 
 Como evitar esse problema?
 
@@ -1075,12 +1083,12 @@ Agora podemos prosseguir com o projeto do programa em Racket. \pause
 ;; Representa que uma tarefa está em execução.
 
 (struct sucesso (duracao msg))
-;; Representa o estado de uma tarefa que finalizou a execução com sucesso
+;; Representa o estado de uma tarefa que finalizou a execução com sucesso.
 ;; duracao: Número - tempo de execução em segundos
 ;; msg    : String - mensagem de sucesso gerada pela tarefa
 
 (struct erro (codigo msg))
-;; Representa o estado de uma tarefa que finalizou a execução com falha
+;; Representa o estado de uma tarefa que finalizou a execução com falha.
 ;; código: Número - o código da falha
 ;; msg   : String - mensagem de erro gerada pela tarefa
 ```
@@ -1274,7 +1282,7 @@ Vamos ver alguns exemplos.
 
 ## Uniões em Python
 
-\small
+\footnotesize
 
 ```python
 @dataclass
@@ -1297,7 +1305,7 @@ EstadoTarefa = Executando | Sucesso | Erro
 
 ## Uniões em Python
 
-\small
+\footnotesize
 
 ```python
 def mensagem(estado: EstadoTarefa) -> str:
@@ -1313,7 +1321,7 @@ def mensagem(estado: EstadoTarefa) -> str:
 
 ## Uniões em Python
 
-\small
+\footnotesize
 
 ```python
 def mensagem(estado: EstadoTarefa) -> str:

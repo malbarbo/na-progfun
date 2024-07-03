@@ -5,6 +5,9 @@ title: |
        | Tipos de dados
 urlcolor: Blue
 license:
+# TODO: adicionar problema imposto de renda no Brasil, faixas, considerando os descontos, indicar mais vantasos simplificado ou completo
+# TODO: revisar os problemas e tentar deixar apenas problemas interessantes (práticos)
+# TODO: adicionar problema de cálculo de tarifa em pedágio (moto, carro, caminhão por eixo)
 ---
 
 # Começando

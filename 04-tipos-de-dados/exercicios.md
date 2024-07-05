@@ -43,22 +43,26 @@ license:
 
 @) Projete uma enumeração para representar as direções norte, leste, sul e oeste. Em seguida,
 
-    a) Projete uma função que indique a direção oposta de uma direção.
+    a) Projete uma função que indique a direção oposta de uma dada direção.
 
     a) Projete uma função que indique qual é direção que está a 90 graus no sentido horário de outra direção.
 
-    a) Projete uma função que indique qual é direção que está a 90 graus no sentido anti-horário de outra direção. Use a função do item b para fazer a implementação (não use seleção nem operações aritméticas nessa implementação).
+    a) Projete uma função que indique qual é direção que está a 90 graus no sentido anti-horário de outra direção. Use a função do item b para fazer a implementação (não use seleção).
 
-@) Projete uma enumeração para representar o estado de um elevador que pode estar parado, subindo ou descendo. Em seguida,
+    a) Projete uma função que receba como entrada duas direções e indique quantos graus uma pessoa que está virado para a primeira direção precisa virar no sentido horário para virar para a segunda direção.
 
-    a) Sabendo que um elevador está parado e irá atender imediatamente uma solicitação, projete uma função que determine, a partir do andar atual e do andar solicitado, qual será a condição do elevador ao atender a solicitação.
+@) Projete uma enumeração para representar a situação de um elevador que pode estar parado, subindo ou descendo. Em seguida,
+
+    a) Sabendo que um elevador está parado e irá atender imediatamente uma solicitação, projete uma função que determine, a partir do andar atual e do andar solicitado, qual será a situação do elevador imediatamente após receber a solicitação.
 
     b) Sabendo que um elevador só pode começar a se movimentar se estiver parado, projete uma função que verifique se o elevador pode passar de um estado para outro. Faça uma tabela que mostre as nove possibilidades de entrada da função e a saída de cada possibilidade. Faça os exemplos a partir da tabela. Faça a implementação simplificada a partir da tabela.
 
 
 <!-- Estruturas -->
 
-@) Projete um estrutura para representar uma data com dia, ano e mês. Em seguida
+@) Projete uma estrutura para representar uma data com dia, ano e mês. Em seguida,
+
+    a) Projete uma função que receba como entrada uma string que representa uma data no formato "dd/mm/aaaa", e converta a string para a data equivalente.
 
     a) Projete uma função que verifique se uma data é o último dia do ano.
 
@@ -66,15 +70,13 @@ license:
 
     a) (Desafio) Projete uma função que verifique se uma data é válida. Considere que em anos bissextos fevereiro tem 29 dias e que um ano é bissexto se é múltiplo de 400 ou é múltiplo de 4 mas não é múltiplo de 100.
 
-@) Projete uma estrutura para representar resoluções (altura e largura em pixels) de telas e imagens. Em seguida
+@) Projete uma estrutura para representar resoluções (largura e altura em pixels) de telas e imagens. Em seguida,
 
     a) Projete uma função que determine quantos mega pixels uma imagem tem dada a sua resolução. O número de megapixel pode ser caculado multiplicando-se a altura e largura e dividindo-se por 1 milhão.
 
-    a) Projete uma função que receba duas resoluções, uma de uma imagem e outra de uma tela, e verifique se a imagem pode ser exibida completamente na tela sem a necessidade de rotação ou redução de tamanho.
+    a) Projete uma função que indique se uma resolução tem aspecto (razão entre largura e altura) de 4:3, 16:9 ou outro (projete um tipo enumerado para representar o aspecto). Por exemplo, a resolução $1920 \times 1080$ tem aspecto 16:9, pois $1920 \times 9 = 1080 \times 16$.
 
-    a) Projete uma função que indique se uma resolução tem aspecto (razão entre largura e altura) de 4:3, 16:9 ou outro (projete um tipo enumerado para representar o aspecto). Por exemplo, a resolução $1080 \times 1920$ tem aspecto 16:9, pois $1080 \times 16 = 1920 \times 9$.
-
-    <!-- TODO: adicionar um item sobre fator de escala -->
+    a) Projete uma função que receba duas resoluções, uma de uma imagem e outra de uma tela, e verifique se a imagem pode ser exibida completamente na tela sem a necessidade de rotação ou mudança de tamanho.
 
 
 <!-- Uniões -->
@@ -139,8 +141,6 @@ license:
     | Comprimento (C)  |  16 cm | 60 cm  |
     | Largura (L)      |  11 cm | 60 cm  |
     | Soma (C + L)     |  27 cm | 120 cm |
-
-    \newpage
 
     | Caixa            | Mínimo | Máximo |
     |------------------+-------:+-------:|

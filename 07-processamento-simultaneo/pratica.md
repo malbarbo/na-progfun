@@ -6,21 +6,6 @@ urlcolor: Blue
 # TODO: criar uma lista de problemas
 ---
 
-<!-- Árvores -->
-
-@. Projete uma função que receba como entrada uma árvore binária `t` e um número `n` e devolva uma nova árvore binária que é como `t` mas com `n` somado a cada elemento.
-
-@. Projete uma função que verifique se uma árvore binária é uma árvore binária de busca. Uma árvore binária de busca tem as seguintes propriedades: 1) A subárvore a esquerda contém valores nos nós menores que o valor no nó raiz. 2) A subárvore a direita contém valores nos nós maiores que o valor no nó raiz. 3) As subárvores a esquerda e a direita também são árvores binárias de busca.
-
-@. Projete uma função que verifique se um elemento está em uma árvore binária de busca.
-
-@. Projete uma função que receba como entrada uma lista aninhada `lst` e devolva uma nova lista aninhada como os mesmo elementos de `lst`, mas em ordem reversa.
-
-    ```scheme
-    > (reverse* (list (list 2 3) 8 (list 9 (list 10 11) 50) (list 10) 70))
-    '(70 (10) (50 (11 10) 9) 8 (3 2))
-    ```
-
 
 <!-- Processamento simultâneo -->
 

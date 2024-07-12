@@ -81,8 +81,8 @@ Definição no Racket
 
 ```scheme
 (struct vazia () #:transparent)
-
 (struct link (primeiro resto) #:transparent)
+
 ;; Uma ListaDeNúmeros é um dos valores
 ;;   - (vazia); ou
 ;;   - (link Numero ListaDeNúmeros)
@@ -160,6 +160,8 @@ Em Racket \pause
      (... (link-primeiro lst)
           (link-resto lst))]))
 ```
+
+\pause
 
 </div>
 <div class="column" width="52%">

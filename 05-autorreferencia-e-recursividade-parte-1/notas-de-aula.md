@@ -20,10 +20,15 @@ Projete uma função que some uma sequência de números. \pause
 
 Como representar e processar uma quantidade de dados arbitrária? \pause
 
-- Vamos criar tipos de dados com autorreferência, isto é, tipos de dados que são definidos em termos deles mesmos \pause
+- Vamos criar tipos de dados com autorreferência
 
 - Vamos usar funções recursivas para processar dados com autorreferência
 
+\pause
+
+Um **tipos de dado com autorreferência** é aquele definido em termos dele mesmo, de forma direta ou indireta. \pause
+
+Uma **função recursiva** é aquela que chama ela mesmo, de forma direta ou indireta. \pause
 
 
 Listas
@@ -59,10 +64,17 @@ Utilizando esta definição, vamos tentar representar uma lista com os valores  
 
 \pause
 
-O problema com esta definição é que ela não tem fim. Uma lista é definida em termos de outra lista, que é definida em termos de outra lista, etc.
+O problema com esta definição é que ela não tem fim. Uma lista é definida em termos de outra lista, que é definida em termos de outra lista, etc. Ou seja, a definição não é bem formada.
 
 
 ## Listas
+
+Para ser bem formada, uma definição com autorreferência deve ter: \pause
+
+- Pelo menos um caso base (sem autorreferência): são utilizados para criar os valores diretamente pause \pause
+- Pelo menos um caso com autorreferência: são utilizados para criar novos valores a partir de valores existentes
+
+\pause
 
 Precisamos de uma maneira de criar uma lista diretamente, que não seja em termos de outra lista. Que lista pode ser essa? \pause
 
@@ -213,8 +225,7 @@ Modelo para funções que a entrada é ListaDeNúmeros
 Quais são as relações entre a definição de `ListaDeNúmeros` e o modelo? \pause
 
 - A definição tem dois casos, o modelo também \pause
-- A autorreferência na definição do dado sugere uma chamada recursiva no modelo
-
+- A **autorreferência na definição** do dado sugere uma **chamada recursiva** no modelo
 
 
 ## Exemplo: soma
@@ -1334,6 +1345,25 @@ Implementação
 ```
 </div>
 </div>
+
+
+Revisão
+=======
+
+
+## Revisão
+
+Usamos tipos com autorreferências quando queremos representar dados de tamanhos arbitrários. \pause
+
+- Usamos funções recursivas para processar dados de tipos com autorreferências. \pause
+
+Para ser bem formada, uma definição com autorreferência deve ter: \pause
+
+- Pelo menos um caso base (sem autorreferência): \pause são utilizados para criar os valores iniciais \pause
+
+- Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes \pause
+
+
 
 
 

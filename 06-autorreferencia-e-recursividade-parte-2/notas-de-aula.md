@@ -966,7 +966,10 @@ Para ser bem formada, uma definição com autorreferência deve ter: \pause
 
 - Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes \pause
 
+
+<!--
 As vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência.
+-->
 
 
 ## Revisão

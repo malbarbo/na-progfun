@@ -3,9 +3,10 @@
 title: |
        | Programação Funcional
        | Autorreferência e recursividade - Parte I
-urlcolor: Black
+urlcolor: Blue
 license:
 # TODO: adicionar mais exercícios de map e filter.
+# TODO: adicionar exercícios de lista de estruturas.
 ---
 
 # Começando
@@ -18,7 +19,7 @@ license:
 
 @) O que é uma função recursiva?
 
-@) Qual é o modelo de função que utilizamos para implementar funções que recebem como parâmetro uma lista?
+@) Qual é o modelo de função associado com a definição do tipo lista?
 
 
 # Praticando
@@ -35,8 +36,6 @@ license:
 @) Projete uma função que crie uma lista de números a partir de uma lista de strings convertendo cada string para um número. Assuma que todas as strings representam números válidos.
 
 <!-- Básico - filter -->
-
-@) Projete uma função que remova todas as strings que não começam com `A` de uma lista de strings.
 
 @) Projete uma função que crie uma nova lista removendo todas os valores nulos de uma lista de inteiros.
 

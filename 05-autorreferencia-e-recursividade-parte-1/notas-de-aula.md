@@ -26,9 +26,9 @@ Como representar e processar uma quantidade de dados arbitrária? \pause
 
 \pause
 
-Um **tipos de dado com autorreferência** é aquele definido em termos dele mesmo, de forma direta ou indireta. \pause
+Um **tipo de dado com autorreferência** é aquele definido em termos de si mesmo, de forma direta ou indireta. \pause
 
-Uma **função recursiva** é aquela que chama ela mesmo, de forma direta ou indireta. \pause
+Uma **função recursiva** é aquela que chama a si mesma, de forma direta ou indireta.
 
 
 Listas
@@ -46,6 +46,8 @@ Vamos tentar criar uma definição para lista de números.
 
 A ideia é criar uma estrutura com dois campos. O primeiro campo representa o primeiro item na lista e o segundo campo representa o restante da lista (que é uma lista). \pause
 
+\small
+
 ```scheme
 (struct lista (primeiro resto) #:transparent)
 ;; Representa uma lista de números
@@ -53,10 +55,16 @@ A ideia é criar uma estrutura com dois campos. O primeiro campo representa o pr
 ;;  resto:    Lista  - restante da lista
 ```
 
+\pause
+
+\normalsize
+
+Observe a autorreferência!
+
 
 ## Listas
 
-Utilizando esta definição, vamos tentar representar uma lista com os valores  4, 2 e 8. \pause
+Utilizando esta definição, vamos tentar criar uma lista com os valores 4, 2 e 8. \pause
 
 ```scheme
 (define lst (lista 4 (lista 2 (lista 8 ???))))
@@ -64,19 +72,19 @@ Utilizando esta definição, vamos tentar representar uma lista com os valores  
 
 \pause
 
-O problema com esta definição é que ela não tem fim. Uma lista é definida em termos de outra lista, que é definida em termos de outra lista, etc. Ou seja, a definição não é bem formada.
+O problema com esta definição é que as listas não tem fim. Uma lista tem uma parte que é uma lista, que tem uma parte que é uma lista, etc. Ou seja, a definição não é bem formada.
 
 
 ## Listas
 
-Para ser bem formada, uma definição com autorreferência deve ter: \pause
+Para ser **bem formada**, uma definição com autorreferência deve ter: \pause
 
-- Pelo menos um caso base (sem autorreferência): são utilizados para criar os valores diretamente pause \pause
-- Pelo menos um caso com autorreferência: são utilizados para criar novos valores a partir de valores existentes
+- Pelo menos um caso base (sem autorreferência) \pause
+- Pelo menos um caso com autorreferência \pause
 
-\pause
+O caso base descreve valores que podem ser criados diretamente, já o(s) caso(s) com autorreferência permite(m) a criação de novos valores a partir de valores existentes. \pause
 
-Precisamos de uma maneira de criar uma lista diretamente, que não seja em termos de outra lista. Que lista pode ser essa? \pause
+O que está faltando na nossa definição de lista? \pause Um caso base, ou seja, uma forma de criar uma lista que não dependa de outra lista. \pause Que lista pode ser essa? \pause
 
 A lista vazia.
 
@@ -92,12 +100,13 @@ Uma **ListaDeNúmeros** é um dos valores: \pause
 Definição no Racket
 
 ```scheme
-(struct vazia () #:transparent)
-(struct link (primeiro resto) #:transparent)
-
 ;; Uma ListaDeNúmeros é um dos valores
 ;;   - (vazia); ou
 ;;   - (link Numero ListaDeNúmeros)
+
+(struct vazia () #:transparent)
+(struct link (primeiro resto) #:transparent)
+
 ```
 
 
@@ -147,36 +156,45 @@ Definição no Racket
 
 ## Listas
 
-Nós vimos anteriormente que a forma do dado de entrada de uma função sugere uma forma para o corpo da função. \pause
+Nós vimos anteriormente que o tipo de dado de entrada de uma função pode sugerir uma forma para o corpo da função. \pause
 
-Qual é a forma para o corpo de uma função que o tipo da entrada ListaDeNúmeros sugere?
+- Qual é a forma do corpo da função que um tipo enumerado de entrada sugere? \pause Um `cond`{.scheme} com um caso para cada valor da enumeração. \pause
+
+- Qual é a forma do corpo da função que um tipo união de entrada sugere? \pause Um `cond`{.scheme} com um caso para cada classe da união. \pause
+
+Qual é a forma do corpo da função que o tipo de entrada ListaDeNúmeros sugere?
 
 
 ## Listas
 
 <div class="columns">
-<div class="column" width="45%">
+<div class="column" width="42%">
 
 Uma condicional com dois casos: \pause
 
 - A lista é vazia \pause
+
 - A lista é um link \pause
 
+\ \
+
 Em Racket \pause
+
+\small
 
 ```scheme
 (define (fn-para-lst lst)
   (cond
     [(vazia? lst) ...]
-    [else
-     (... (link-primeiro lst)
-          (link-resto lst))]))
+    [(link? lst)
+     ... (link-primeiro lst)
+         (link-resto lst)]))
 ```
 
 \pause
 
 </div>
-<div class="column" width="52%">
+<div class="column" width="55%">
 
 Qual é o tipo do resultado de `(link-primeiro lst)`? \pause Um número, que é um valor atômico. \pause
 
@@ -188,7 +206,6 @@ Vamos fazer uma alteração no modelo `fn-para-lst` e adicionar uma chamada recu
 
 </div>
 </div>
-
 
 
 ## Listas
@@ -213,12 +230,14 @@ Modelo para funções que a entrada é ListaDeNúmeros
 (define (fn-para-lst lst)
   (cond
     [(vazia? lst) ...]
-    [else
-     (... (link-primeiro lst)
-          (fn-para-lst (link-resto lst)))]))
+    [(link? lst)
+     ... (link-primeiro lst)
+         (fn-para-lst (link-resto lst))]))
 ```
 </div>
 </div>
+
+\ \
 
 \pause
 
@@ -235,6 +254,25 @@ Defina uma função que some os valores de uma lista de números.
 
 ## Exemplo: soma
 
+Rascunho
+
+\pause
+
+`soma vazia` \pause $\rightarrow$ \pause `?` \pause
+
+`soma 4` \pause $\rightarrow$ \pause `4` \pause
+
+`soma 7 4` \pause $\rightarrow$ \pause `13` \pause
+
+`soma 2 7 4` \pause $\rightarrow$ \pause `15` \pause
+
+`soma 5 2 7 4` \pause $\rightarrow$ \pause `20` \pause
+
+O que você consegue observar sobre a forma que a resposta é computada?
+
+
+## Exemplo: soma
+
 Especificação
 
 \small
@@ -246,7 +284,7 @@ Especificação
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
 
 (define (soma lst) 0)
 ```
@@ -268,7 +306,7 @@ E agora, como escrevemos a implementação? \pause Vamos partir do modelo que cr
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
 ```
 
 <div class="columns">
@@ -308,7 +346,7 @@ Mudamos o nome da função tanto na definição quanto na chamada recursiva.
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
 ```
 
 <div class="columns">
@@ -345,7 +383,7 @@ Vamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é v
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
 ```
 
 <div class="columns">
@@ -385,7 +423,7 @@ Analisamos o caso em que a lista não é vazia. O modelo está sugerindo fazer a
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
 ```
 
 <div class="columns">
@@ -423,7 +461,7 @@ Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos **a
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
 ```
 
 <div class="columns">
@@ -465,7 +503,7 @@ Como obtemos o resultado que queremos? \pause `(+ 3 0)`{.scheme}
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
 ```
 
 <div class="columns">
@@ -507,7 +545,7 @@ Como obtemos o resultado que queremos? \pause `(+ 2 5)`{.scheme}
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
 ```
 
 <div class="columns">
@@ -527,13 +565,13 @@ Como obtemos o resultado que queremos? \pause `(+ 2 5)`{.scheme}
 <div class="column" width="48%">
 \small
 
-No exemplo 4 queremos obter a soma de `(link 4 (link 1 (link 3 (vazia)))`{.scheme} que é `8`{.scheme}. O que temos para compor o resultado? \pause
+No exemplo 4 queremos obter a soma de `(link 5 (link 1 (link 3 (vazia)))`{.scheme} que é `9`{.scheme}. O que temos para compor o resultado? \pause
 
-- `4`{.scheme}, que é `(link-primeiro lst)`{.scheme}
+- `5`{.scheme}, que é `(link-primeiro lst)`{.scheme}
 - `4`{.scheme}, que é `(soma (link-resto lst))`{.scheme}
 
 \pause
-Como obtemos o resultado que queremos? \pause `(+ 4 4)`{.scheme}
+Como obtemos o resultado que queremos? \pause `(+ 5 4)`{.scheme}
 
 </div>
 </div>
@@ -541,7 +579,7 @@ Como obtemos o resultado que queremos? \pause `(+ 4 4)`{.scheme}
 
 ## Exemplo: soma
 
-Agora que compreendemos como o resultado é formado, podemos completar o corpo da função. \pause
+Agora que compreendemos como o resultado é formado, podemos completar o corpo da função.
 
 \footnotesize
 
@@ -552,7 +590,7 @@ Agora que compreendemos como o resultado é formado, podemos completar o corpo d
  (check-equal? (soma (vazia)) 0)
  (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
  (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 4 (link 1 (link 3 (vazia))))) 8)) ; (+ 4 (+ 1 (+ 3 0)))
+ (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
 
 (define (soma lst)
   (cond
@@ -895,7 +933,7 @@ Analisando os exemplos definimos o caso em que a lista é vazia.
 <div class="column" width="48%">
 \small
 
-Agora analisamos o caso em que a `lst` não é vazia. \pause Temos `(first lst)`{.scheme}, `v` e `(contem? (rest lst) v)`{.scheme} (se o resto de `lst` contém `v`). \pause Como combinar esses elementos para determinar `(contem? lst v)` (se `lst` contém `v`)?
+Agora analisamos o caso em que `lst` não é vazia. \pause Temos `(first lst)`{.scheme}, `v` e `(contem? (rest lst) v)`{.scheme} (se o resto de `lst` contém `v`). \pause Como combinar esses elementos para determinar `(contem? lst v)` (se `lst` contém `v`)?
 </div>
 </div>
 
@@ -1361,10 +1399,7 @@ Para ser bem formada, uma definição com autorreferência deve ter: \pause
 
 - Pelo menos um caso base (sem autorreferência): \pause são utilizados para criar os valores iniciais \pause
 
-- Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes \pause
-
-
-
+- Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes
 
 
 Referências

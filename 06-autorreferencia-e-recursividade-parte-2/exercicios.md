@@ -1,8 +1,24 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Autorreferência e recursividade - Prática
-urlcolor: Black
+title: |
+       | Programação Funcional
+       | Autorreferência e recursividade - Parte II
+urlcolor: Blue
+license:
 ---
+
+# Começando
+
+@) Quando devemos ver um número natural como um dado composto?
+
+@) Qual é o modelo de função associado com a definição do tipo natural?
+
+@) O que é recursão estrutural?
+
+@) Quando não podemos utilizar recursão estrutural para resolver um problema?
+
+@) O que é recursão generativa?
+
 
 # Praticando
 

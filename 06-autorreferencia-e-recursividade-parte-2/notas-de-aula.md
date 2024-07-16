@@ -41,7 +41,10 @@ Um número **Natural** é
 - `(add1 n)`{.scheme} onde $n$ é um número **Natural**
 
 \pause
-Baseado nesta definição, criamos um modelo para funções com números naturais
+
+\ \
+
+Baseado nesta definição, criamos um modelo para funções com números naturais.
 
 </div>
 <div class="column" width="48%">
@@ -807,7 +810,7 @@ Considere o problema de verificar se uma lista de números é palíndromo (a lis
 
 Para verificar se `(list 5 4 1 4)`{.scheme} é palíndromo, o modelo sugere verificar se `(list 4 1 4)`{.scheme} é palíndromo. \pause
 
-Como a verificação se `(list 4 1 4)`{.scheme} é palíndromo pode nos ajudar a determinar se `(list 5 4 1 4)`{.scheme} é palíndromo? \pause Ou seja, a solução para o resto pode nós ajustar a compor o resultado para o todo? \pause Não pode...
+Como a verificação se `(list 4 1 4)`{.scheme} é palíndromo pode nos ajudar a determinar se `(list 5 4 1 4)`{.scheme} é palíndromo? \pause Ou seja, a solução para o resto pode nos ajustar a compor o resultado para o todo? \pause Não pode...
 
 
 ## Número primo
@@ -966,10 +969,7 @@ Para ser bem formada, uma definição com autorreferência deve ter: \pause
 
 - Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes \pause
 
-
-<!--
 As vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência.
--->
 
 
 ## Revisão

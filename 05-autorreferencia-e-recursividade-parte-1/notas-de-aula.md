@@ -258,15 +258,19 @@ Rascunho
 
 \pause
 
-`soma vazia` \pause $\rightarrow$ \pause `?` \pause
+\small
 
-`soma 4` \pause $\rightarrow$ \pause `4` \pause
+`soma vazia` \pause $\rightarrow$ `?` \pause
 
-`soma 7 4` \pause $\rightarrow$ \pause `13` \pause
+`soma 4` \pause $\rightarrow$ `4` \pause
 
-`soma 2 7 4` \pause $\rightarrow$ \pause `15` \pause
+`soma 7 4` \pause $\rightarrow$ `13` \pause
 
-`soma 5 2 7 4` \pause $\rightarrow$ \pause `20` \pause
+`soma 2 7 4` \pause $\rightarrow$ `15` \pause
+
+`soma 5 2 7 4` \pause $\rightarrow$ `20` \pause
+
+\normalsize
 
 O que você consegue observar sobre a forma que a resposta é computada?
 
@@ -606,6 +610,67 @@ Agora que compreendemos como o resultado é formado, podemos completar o corpo d
 Verificação: Ok. \pause
 
 Revisão: Ok.
+
+
+## Exemplo: soma em Python
+
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```python
+@dataclass
+class Link:
+    primeiro: int
+    resto: Lista
+
+Lista = Link | None
+```
+
+\pause
+
+Exemplos
+
+```python
+>>> # Lista com o valor 1
+>>> lst = Link(1, None)
+>>> # Lista com o valor 7 4 1
+>>> lst = Link(7, Link(4, lst))
+>>> lst.primeiro
+7
+>>> # segundo
+>>> lst.resto.primeiro
+4
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```python
+def soma(lst: Lista) -> int:
+    '''Soma os valores de *lst*.
+    >>> soma(None)
+    0
+    >>> soma(Link(3, None))
+    3
+    >>> soma(Link(4, Link(3, None)))
+    7
+    >>> soma(Link(1, Link(4, Link(3, None))))
+    8
+    '''
+    if lst is None:
+        return 0
+    else:
+        return lst.primeiro + soma(lst.resto)
+
+```
+</div>
+</div>
 
 
 ## Listas
@@ -1328,42 +1393,51 @@ Então precisamos criar três casos base.
 
 ## Exemplos: junta com "," e "e"
 
-<div class="columns">
-<div class="column" width="48%">
-\scriptsize
+\footnotesize
 
 ```scheme
 ;; ListaDeStrings -> String
+;; Produz uma string juntando os elementos de lst da seguinte forma:
 ;; Se a lista é vazia, devolve "".
-;; Se a lista tem apenas um elemento, devolve
-;; esse elemento.
-;; Senão, junta as strings de lst, separando-as
-;; com ", ", com exceção da última string, que
-;; é separada com " e ".
+;; Se a lista tem apenas um elemento, devolve esse elemento.
+;; Senão, junta as strings de lst, separando-as com ", ", com exceção da
+;; última string, que é separada com " e ".
 (examples
-  (check-equal? (junta-virgula-e empty) "")
-  (check-equal?
-    (junta-virgula-e (list "maça")) "maça")
-  (check-equal?
-    (junta-virgula-e (list "mamão" "banana"
-                           "maça"))
-    "mamão, banana e maça")
-  (check-equal?
-    (junta-virgula-e (list "aveia" "mamão"
-                           "banana" "maça"))
-    "aveia, mamão, banana e maça"))
+  (check-equal? (junta-virgula-e empty)
+                "")
+  (check-equal? (junta-virgula-e (list "maça"))
+                "maça")
+  (check-equal? (junta-virgula-e (list "mamão" "banana" "maça"))
+                "mamão, banana e maça")
+  (check-equal? (junta-virgula-e (list "aveia" "mamão" "banana" "maça"))
+                "aveia, mamão, banana e maça"))
 (define (junta-virgula-e lst) "")
 ```
-</div>
-<div class="column" width="48%">
 
-\pause
 
-Implementação
+## Exemplos: junta com "," e "e"
 
-\pause
+\footnotesize
 
-\scriptsize
+```scheme
+(define (junta-virgula-e lst)
+  (cond
+    [(empty? lst)
+     ... ]
+    [(empty? (rest lst))
+     ... (first lst)]
+    [(empty? (rest (rest lst)))
+     ... (first lst)
+         (second lst)]
+    [else
+     ... (first lst)
+         (junta-virgula-e (rest lst))])
+```
+
+
+## Exemplos: junta com "," e "e"
+
+\footnotesize
 
 ```scheme
 (define (junta-virgula-e lst)
@@ -1377,12 +1451,29 @@ Implementação
                     " e "
                     (second lst))]
     [else
-      (string-append (first lst)
-                     ", "
-                     (junta-virgula-e (rest lst)))]))
+     (string-append (first lst)
+                    ", "
+                    (junta-virgula-e (rest lst)))]))
 ```
-</div>
-</div>
+
+
+## Exemplos: junta com "," e "e" em Python
+
+\footnotesize
+
+```python
+def junta_virgula_e(lst: str) -> str:
+    match lst:
+        case []:
+            return ''
+        case [primeiro]:
+            return primeiro
+        case [primeiro, segundo]:
+            return primeiro + ' e ' + segundo
+        case _:
+            return lst[0] + ', ' + junta_virgula_e(lst[1:])
+
+```
 
 
 Revisão

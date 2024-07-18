@@ -3,11 +3,11 @@
 (require examples)
 
 ;; ListaDeStrings -> String
-;;
+;; Produz uma string juntando os elementos de lst da seguinte forma:
 ;; Se a lista é vazia, devolve "".
 ;; Se a lista tem apenas um elemento, devolve esse elemento.
-;; Senão, junta as strings de lst, separando-as com ", ",
-;; com exceção da última string, que é separada com " e ".
+;; Senão, junta as strings de lst, separando-as com ", ", com exceção
+;; da última string, que é separada com " e ".
 
 (examples
   (check-equal? (junta-virgula-e empty) "")
@@ -19,8 +19,10 @@
 
 (define (junta-virgula-e lst)
   (cond
-    [(empty? lst) ""]
-    [(empty? (rest lst)) (first lst)]
+    [(empty? lst)
+     ""]
+    [(empty? (rest lst))
+     (first lst)]
     [(empty? (rest (rest lst)))
      (string-append (first lst)
                     " e "

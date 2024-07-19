@@ -5,8 +5,6 @@ title: |
        | Autorreferência e recursividade - Parte I
 urlcolor: Blue
 license:
-# TODO: adicionar mais exercícios de map e filter.
-# TODO: adicionar exercícios de lista de estruturas.
 ---
 
 # Começando
@@ -52,6 +50,10 @@ license:
 <!-- Funções auxiliares -->
 
 @) Defina uma função que que receba como entrada uma lista `lst` e devolva uma lista com os mesmos elementos de `lst` mas em ordem contrária.
+
+<!-- Lista de estruturas -->
+
+@) Vimos em sala como fazer uma busca em uma lista de associações. No exemplo que vimos, a lista era utilizada para associar um string a quantidade de ocorrências dela em um texto. Agora você deve projetar uma função que adicione uma nova ocorrência de uma string em uma lista de associações. Note que se a string já está na lista, o número de ocorrências deve aumentar em 1.
 
 <!-- Desafio - processamento simultâneo -->
 

@@ -1349,11 +1349,109 @@ Analisando os exemplos definimos o caso em que a lista não é vazia.
 </div>
 
 
-## Exemplo: soma x
+## Exemplo: número de ocorrências
 
-Verificação: Ok.
+Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário, a mais simples é utilizando **listas de associações** chave-valor. \pause Apesar dos tempos de inserção e buscar serem lineares, na prática, para poucas chaves, a implementação é adequada. Em um projeto foi decidido usar lista de associações para armazenar a quantidade de ocorrências de uma string em um texto. \pause
 
-Revisão: Ok.
+a) Defina um tipo de dado que represente uma associação entre uma string e um número.
+
+a) Projete uma função que determine, a partir de uma lista de associações, qual é a quantidade de ocorrências de uma string.
+
+
+## Exemplo: número de ocorrências
+
+\footnotesize
+
+```scheme
+(struct par (chave valor) #:transparent)
+;; Representa uma associação entre chave e valor.
+;; chave: String
+;; valor: Natural
+```
+
+\pause
+
+```scheme
+;; String Lista(par) -> Natural
+;; Devolve o valor associado com *s* em *lst*.
+;; Se *s* não aparece como chave em *lst*, devolve 0.
+(define (busca s lst) 0)
+```
+
+\pause
+
+`(busca "casa" empty)`{.scheme} \pause $\rightarrow$ `0`{.scheme} \pause
+
+`(busca "casa" (list (par "nada" 3) (par "outra" 2)))`{.scheme} \pause $\rightarrow$ `0`{.scheme} \pause
+
+`(busca "nada" (list (par "nada" 3) (par "outra" 2)))`{.scheme} \pause $\rightarrow$ `3`{.scheme} \pause
+
+`(busca "outra" (list (par "nada" 3) (par "outra" 2)))`{.scheme} \pause $\rightarrow$ `2`{.scheme}
+
+
+## Exemplo: número de ocorrências
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```scheme
+; modelo
+(define (busca s lst)
+  (cond
+    [(empty? lst) ... s]
+    [else
+     ... s
+     ... (first lst)
+         (busca s (rest lst))]))
+```
+
+\pause
+
+```scheme
+; decomposição de (first lst)
+(define (busca s lst)
+  (cond
+    [(empty? lst) ... s]
+    [else
+     ... s
+     ... (par-chave (first lst))
+     ... (par-valor (first lst))
+         (busca s (rest lst))]))
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```scheme
+; implementação
+(define (busca s lst)
+  (cond
+    [(empty? lst) 0]
+    [else
+     (if (equal? s (par-chave (first lst)))
+         (par-valor (first lst))
+         (busca s (rest lst)))]))
+```
+
+\pause
+
+```scheme
+; simplificação
+(define (busca s lst)
+  (cond
+    [(empty? lst) 0]
+    [(equal? s (par-chave (first lst)))
+     (par-valor (first lst))]
+    [else
+     (busca s (rest lst))]))
+```
+
+</div>
+</div>
 
 
 ## Exemplos: junta com "," e "e"

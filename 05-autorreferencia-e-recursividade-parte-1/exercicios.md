@@ -37,7 +37,7 @@ license:
 
 <!-- Básico - filter -->
 
-@) Projete uma função que crie uma nova lista removendo todas os valores nulos de uma lista de inteiros.
+@) Projete uma função que crie uma nova lista removendo todas os valores zeros de uma lista de inteiros.
 
 <!-- Processamento parcial -->
 

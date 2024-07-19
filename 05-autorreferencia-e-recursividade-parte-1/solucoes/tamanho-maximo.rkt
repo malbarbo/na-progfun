@@ -16,7 +16,8 @@
 
 (define (tamanho-maximo lst)
   (cond
-    [(empty? (rest lst)) (string-length (first lst))]
+    [(empty? (rest lst))
+     (string-length (first lst))]
     [else
       (max (string-length (first lst))
            (tamanho-maximo (rest lst)))]))

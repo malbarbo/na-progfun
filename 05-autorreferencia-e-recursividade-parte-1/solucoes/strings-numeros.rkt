@@ -20,6 +20,8 @@
 
 (define (strings->numeros lst)
   (cond
-    [(empty? lst) empty]
-    [else (cons (string->number (first lst))
-                (strings->numeros (rest lst)))]))
+    [(empty? lst)
+     empty]
+    [else
+     (cons (string->number (first lst))
+           (strings->numeros (rest lst)))]))

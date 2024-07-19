@@ -52,7 +52,10 @@
 
 (define (insere-ordenado n lst)
   (cond
-    [(empty? lst) (list n)]
-    [(< n (first lst)) (cons n lst)]
-    [else (cons (first lst)
-                (insere-ordenado n (rest lst)))]))
+    [(empty? lst)
+     (cons n empty)]
+    [(< n (first lst))
+     (cons n lst)]
+    [else
+     (cons (first lst)
+           (insere-ordenado n (rest lst)))]))

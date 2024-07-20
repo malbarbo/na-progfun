@@ -39,6 +39,8 @@ license:
 
 # Praticando
 
+Na implementação use apenas as funções presentes no material "Resumo da linguagem Racket". Não use funções de alta ordem.
+
 <!-- Enumerações -->
 
 @) Projete uma enumeração para representar as direções norte, leste, sul e oeste. Em seguida,

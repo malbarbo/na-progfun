@@ -22,6 +22,8 @@ license:
 
 # Praticando
 
+Na implementação use apenas as funções presentes no material "Resumo da linguagem Racket". Não use funções de alta ordem.
+
 <!-- Básico - reduce -->
 
 @) Projete uma função que concatene todas os elementos de uma lista de strings.

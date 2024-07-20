@@ -38,7 +38,7 @@ license:
 
 Para fazer o restante dos exercícios é necessário instalar a biblioteca de testes (Selecione o menu “File -> Install Package…”, digite o endereço <https://github.com/malbarbo/racket-test-examples.git> e clique em “Install”).
 
-Na implementação use apenas as funções presentes no material "Resumo da linguagem Racket" disponível na página da disciplina.
+Na implementação use apenas as funções presentes no material "Resumo da linguagem Racket".
 
 @) Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
 

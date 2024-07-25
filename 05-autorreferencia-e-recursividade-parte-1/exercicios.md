@@ -5,6 +5,7 @@ title: |
        | Autorreferência e recursividade - Parte I
 urlcolor: Blue
 license:
+# TODO: completar 5 problemas
 ---
 
 # Começando
@@ -41,7 +42,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 <!-- Processamento parcial -->
 
-@) Projete uma função que verifique se todos os elementos de uma lista de booleanos são verdadeiro. Se a sua implementação inicial utilizar `if`{.scheme} para fazer a chamada recursiva, simplifique o código removendo o `if`{.scheme}.
+@) Projete uma função que verifique se todos os elementos de uma lista de booleanos são verdadeiro. Se a sua implementação inicial utilizar condicional para fazer a chamada recursiva, faça uma versão que não utilize condicional.
 
 <!-- Ajuste caso base -->
 

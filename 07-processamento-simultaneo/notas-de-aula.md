@@ -10,10 +10,6 @@ title: Processamento simultâneo
 ---
 
 
-
-Processamento simultâneo
-========================
-
 ## Introdução
 
 Como implementar uma função que consome dois argumentos e os dois são de tipos com autorreferência? \pause Temos três possibilidades: \pause

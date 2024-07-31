@@ -11,8 +11,7 @@
                (list 70 (list 10) (list 50 (list 11 10) 9) 8 (list 3 2))))
 (define (reverse* lst)
   (cond
-    [(empty? lst)
-     empty]
+    [(empty? lst) empty]
     [(list? (first lst))
      (append (reverse* (rest lst))
              (list (reverse* (first lst))))]

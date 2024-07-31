@@ -2,23 +2,9 @@
 
 (require examples)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Natural
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 ;; Um número Natural é:
 ;; - 0; ou
 ;; - (add1 n), onde n é um número Natural
-;;
-;; Modelo
-#;
-(define (fn-para-natural n)
-  (cond
-    [(zero? n) ...]
-    [else
-     (... n
-          (fun-for-natural (sub1 n)))]))
-
 
 ;; Natural -> Natural
 ;;

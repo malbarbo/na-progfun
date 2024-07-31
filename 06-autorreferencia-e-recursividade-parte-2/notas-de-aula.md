@@ -1,10 +1,12 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+title: Autorreferência e recursividade
+subtitle: Parte II
 # TODO: apresentar os exemplos de forma mais abstrata, semelhante ao
 #       juntar com ponto e vírgula. Os alunos têm dificuldades
 #       para entender por causa da sintaxe do Racket...
-title: Autorreferência e recursividade
-subtitle: Parte II
+# TODO: trocar o termo lista aninhada para árvores?
+# TODO: ou colocar linhas aninhada antes de árvore binária?
 ---
 
 
@@ -980,13 +982,13 @@ Existem dois tipos de recursão: estrutural e generativa. \pause
 
 - A recursão generativa é aquela que não é estrutural. \pause
 
-A recursão estrutural só pode ser utilizada quando solução do problema pode ser expressa em termos da solução do problema estrutural. Para os demais problemas podemos tentar três abordagem: \pause
+A recursão estrutural só pode ser utilizada quando a solução do problema pode ser expressa em termos da solução do subproblema estrutural. Para os demais problemas podemos tentar três abordagem: \pause
 
-- Alterar o problema e utilizar recursão natural; \pause
+- Alterar o problema e utilizar recursão estrutural; \pause
 
 - Usar recursão generativa; \pause
 
-- Usar um plano (sequência de etapas)
+- Usar um plano (sequência de etapas).
 
 
 Referências

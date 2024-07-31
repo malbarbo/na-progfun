@@ -2,24 +2,10 @@
 
 (require examples)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Árvore binária
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (struct no (valor esq dir) #:transparent)
 ;; Uma ÁrvoreBináriaDeNúmeros é um dos valores:
 ;;   - empty; ou
 ;;   - (no Número ÁrvoreBináriaDeNúmeros ÁrvoreBináriaDeNúmeros)
-
-;; Modelo
-#;
-(define (fn-para-abdn t)
-  (cond
-    [(empty? t) ...]
-    [else
-     (... (no-valor t)
-          (fn-para-abdn (no-esq t))
-          (fn-para-abdn (no-dir t)))]))
 
 ;; Estas árvores são usadas nos testes a seguir
 ;;

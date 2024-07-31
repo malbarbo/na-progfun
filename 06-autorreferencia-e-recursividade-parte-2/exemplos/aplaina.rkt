@@ -2,7 +2,7 @@
 
 (require examples)
 
-;; ListaAninhadaDeNúmeros -> ListaDeNúmeros
+;; ListaAninhada -> ListaDeNúmeros
 ;;
 ;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
 ;; elementos de lst, mas sem aninhamento.

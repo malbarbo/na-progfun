@@ -2,29 +2,13 @@
 
 (require examples)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; Listas aninhadas
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Um ListaAninhadaDeNúmeros é um dos valores:
+;; Um ListaAninhada é um dos valores:
 ;; - empty
-;; - (cons ListaAninhadaDeNúmeros ListaAninhadaDeNúmeros)
-;; - (cons Número ListaAninhadaDeNúmeros)
-
-;; Modelo
-#;
-(define (fn-para-ladn lst)
-  (cond
-    [(empty? lst) ...]
-    [(list? (first lst))
-     (... (fn-para-ladn (first lst))
-          (fn-para-ladn (rest lst)))]
-    [else
-     (... (first lst)
-          (fn-para-ladn (rest lst)))]))
+;; - (cons ListaAninhada ListaAninhada)
+;; - (cons Número ListaAninhada)
 
 
-;; ListaAninhadaDeNúmeros -> Número
+;; ListaAninhada -> Número
 ;;
 ;; Devolve a soma de todos os elementos de lst.
 

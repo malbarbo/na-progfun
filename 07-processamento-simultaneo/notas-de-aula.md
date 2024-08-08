@@ -12,13 +12,13 @@ title: Processamento simultâneo
 
 ## Introdução
 
-Como implementar uma função que consome dois argumentos e os dois são de tipos com autorreferência? \pause Temos três possibilidades: \pause
+Como implementar uma função que consome dois argumentos e os dois são de tipos com autorreferência? \pause Temos algumas possibilidades, entre elas: \pause
 
-1) Tratar um dos argumentos como atômico e utilizar o modelo do tipo de dado do outro argumento. \pause
+1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o tipo de dado do outro argumento. \pause
 
 2) Processar os dois argumentos de forma sincronizada. \pause
 
-3) Considerar todos os casos possíveis.
+3) Combinar os modelos de funções dos tipos dos argumentos de entrada considerando todos os casos possíveis.
 
 
 ## Exemplo caso 1: concatenação
@@ -138,7 +138,7 @@ Projete uma função que calcule a soma ponderada a partir de uma lista de núme
 
 \small
 
-O requisito de que `lst` e `pesos` têm o mesmo tamanho pode ser explorado no corpo inicial: \pause
+O requisito de que `lst` e `pesos` sejam do mesmo tamanho pode ser explorado no corpo inicial: \pause
 
 - Quando `lst` é vazia, `pesos` também é. \pause
 - Quando `lst` e `pesos` não são vazias, temos `(first lst)`{.scheme}, `(rest lst)`{.scheme}, `(first pesos)`{.scheme} e `(rest pesos)`{.scheme} \pause
@@ -200,12 +200,14 @@ O requisito de que `lst` e `pesos` têm o mesmo tamanho pode ser explorado no co
 
 ## Exemplo caso 3: prefixo
 
-Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é `lstb` começa com `lsta`.
+Dado duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é `lstb` começa com `lsta`.
 
 
 ## Exemplo: prefixo
 
 Especificação
+
+\small
 
 ```scheme
 ;; Lista Lista -> Boolean
@@ -242,6 +244,17 @@ lsta +------------+------------+------------+
      +------------+------------+------------+
 ```
 
+```
+
+
+
+
+
+
+
+
+```
+
 
 ## Exemplo: prefixo
 
@@ -260,6 +273,13 @@ lsta +------------+------------+------------+
 
 ```scheme
 (check-equal? (prefixo? empty empty) #t)
+
+
+
+
+
+
+
 ```
 
 
@@ -281,6 +301,12 @@ lsta +------------+------------+------------+
 ```scheme
 (check-equal? (prefixo? empty empty) #t)
 (check-equal? (prefixo? empty (list 3 2 1)) #t)
+
+
+
+
+
+
 ```
 
 
@@ -303,6 +329,11 @@ lsta +------------+------------+------------+
 (check-equal? (prefixo? empty empty) #t)
 (check-equal? (prefixo? empty (list 3 2 1)) #t)
 (check-equal? (prefixo? (list 3 2 1) empty) #f)
+
+
+
+
+
 ```
 
 
@@ -490,6 +521,8 @@ Defina uma função que encontre o $k$-ésimo elemento de uma lista.
 Especificação
 
 \pause
+
+\small
 
 ```scheme
 ;; ListaDeNúmeros Natural -> Número

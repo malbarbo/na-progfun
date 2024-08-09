@@ -7,6 +7,7 @@ subtitle: Parte II
 #       para entender por causa da sintaxe do Racket...
 # TODO: trocar o termo lista aninhada para árvores?
 # TODO: ou colocar linhas aninhada antes de árvore binária?
+# TODO: definir decomposição estrutural
 ---
 
 

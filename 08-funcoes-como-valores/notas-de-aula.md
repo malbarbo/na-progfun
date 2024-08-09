@@ -38,7 +38,7 @@ Funções como entidades de primeira classe (ou funções como valores) \pause
 
 - Podem ser construídas, sem restrições, onde outros valores também podem (localmente, em expressões, etc); \pause
 
-- Podem ser "tipadas" de forma similar a outro valores, ou seja, existe um tipo associado com cada função e esse tipo podem ser usado para compor outro tipos.
+- Podem ser "tipadas" de forma similar a outro valores, ou seja, existe um tipo associado com cada função e esse tipo pode ser usado para compor outro tipos.
 
 
 ## Introdução
@@ -81,6 +81,11 @@ Vamos fazer um exemplo simples. Vamos criar uma função que abstrai o comportam
     [(empty? lst) #f]
     [(= 3 (first lst)) #t]
     [else (contem-3? (rest lst))]))
+```
+
+\pause
+
+```scheme
 
 ;; Lista(Número) -> Boolean
 ;; Devolve #t se 5 está em lst,
@@ -227,19 +232,20 @@ Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-
 (check-equal? (contem-3? (list 4 3 1)) #t)
 (define (contem-3? lst)
   (contem? 3 lst))
- 
- 
- 
- 
+
+
+
+
 ;; Lista(Número) -> Boolean
 ;; Devolve #t se 5 está em lst,
 ;; #f caso contrário.
 (check-equal? (contem-5? (list 4 3 1)) #f)
 (define (contem-5? lst)
   (contem? 5 lst))
- 
- 
- 
+
+
+
+
 ```
 </div>
 <div class="column" width="50%">
@@ -299,12 +305,18 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com cada número de lst
 ;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4)) (list 16))
+(check-equal? (lista-quadrado (list 4 3))
+              (list 16 9))
 (define (lista-quadrado lst)
   (cond
     [(empty? lst) empty]
     [else (cons (sqr (first lst))
                 (lista-quadrado (rest lst)))]))
+```
+
+\pause
+
+```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com cada número de lst
 ;; somado de 1.
@@ -352,7 +364,8 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com cada número de lst
 ;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4)) (list 16))
+(check-equal? (lista-quadrado (list 4 3))
+              (list 16 9))
 (define (lista-quadrado lst)
   (cond
     [(empty? lst) empty]
@@ -379,8 +392,8 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 
 
 
-(check-equal? (mapeia sqr (list 4))
-              (list 16))
+(check-equal? (mapeia sqr (list 4 3))
+              (list 16 9))
 (check-equal? (mapeia add1 (list 7 9 1))
               (list 8 10 2)))
 (define (mapeia f lst)
@@ -403,7 +416,8 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com cada número de lst
 ;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4)) (list 16))
+(check-equal? (lista-quadrado (list 4 3))
+              (list 16 9))
 (define (lista-quadrado lst)
   (cond
     [(empty? lst) empty]
@@ -430,8 +444,8 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 ;; elemento de lst, isto é
 ;; (mapeia f (lista x1 x2 ... xn)) devolve
 ;; (lista (f x1) (f x2) ... (f xn))
-(check-equal? (mapeia sqr (list 4))
-              (list 16))
+(check-equal? (mapeia sqr (list 4 3))
+              (list 16 9))
 (check-equal? (mapeia add1 (list 7 9 1))
               (list 8 10 2)))
 (define (mapeia f lst)
@@ -452,9 +466,10 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 
 ```scheme
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista cada número de lst
+;; Devolve uma lista com cada número de lst
 ;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4)) (list 16))
+(check-equal? (lista-quadrado (list 4 3))
+              (list 16 9))
 (define (lista-quadrado lst)
     (mapeia sqr lst))
 
@@ -470,6 +485,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 
 
 
+
 ```
 </div>
 <div class="column" width="47%">
@@ -481,8 +497,8 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-quadra
 ;; elemento de lst, isto é
 ;; (mapeia f (lista x1 x2 ... xn)) devolve
 ;; (lista (f x1) (f x2) ... (f xn))
-(check-equal? (mapeia sqr (list 4))
-              (list 16))
+(check-equal? (mapeia sqr (list 4 3))
+              (list 16 9))
 (check-equal? (mapeia add1 (list 7 9 1))
               (list 8 10 2)))
 (define (mapeia f lst)
@@ -575,22 +591,28 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com os valores positivos de lst.
+(check-equal? (lista-positivos (list 0 1) (list 1)))
 (define (lista-positivos lst)
-  (cond
-    [(empty? lst) empty]
-    [(positive? (first lst))
-     (cons (first lst)
-           (lista-positivos (rest lst)))]
-    [else (lista-positivos (rest lst))]))
+  (cond [(empty? lst) empty]
+        [(positive? (first lst))
+         (cons (first lst)
+               (lista-positivos (rest lst)))]
+        [else (lista-positivos (rest lst))]))
+```
+
+\pause
+
+```scheme
+
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com os valores pares de lst.
+(check-equal? (lista-pares (list 4 1 8) (list 4 8)))
 (define (lista-pares lst)
-  (cond
-    [(empty? lst) empty]
-    [(even? (first lst))
-     (cons (first lst)
-           (lista-pares (rest lst)))]
-    [else (lista-pares (rest lst))]))
+  (cond [(empty? lst) empty]
+        [(even? (first lst))
+         (cons (first lst)
+               (lista-pares (rest lst)))]
+        [else (lista-pares (rest lst))]))
 ```
 </div>
 <div class="column" width="45%">
@@ -627,22 +649,23 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com os valores positivos de lst.
+(check-equal? (lista-positivos (list 0 1) (list 1)))
 (define (lista-positivos lst)
-  (cond
-    [(empty? lst) empty]
-    [(positive? (first lst))
-     (cons (first lst)
-           (lista-positivos (rest lst)))]
-    [else (lista-positivos (rest lst))]))
+  (cond [(empty? lst) empty]
+        [(positive? (first lst))
+         (cons (first lst)
+               (lista-positivos (rest lst)))]
+        [else (lista-positivos (rest lst))]))
+
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com os valores pares de lst.
+(check-equal? (lista-pares (list 4 1 8) (list 4 8)))
 (define (lista-pares lst)
-  (cond
-    [(empty? lst) empty]
-    [(even? (first lst))
-     (cons (first lst)
-           (lista-pares (rest lst)))]
-    [else (lista-pares (rest lst))]))
+  (cond [(empty? lst) empty]
+        [(even? (first lst))
+         (cons (first lst)
+               (lista-pares (rest lst)))]
+        [else (lista-pares (rest lst))]))
 ```
 </div>
 <div class="column" width="45%">
@@ -652,10 +675,10 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 
 
 
-(check-equal? (filtra even? (list 4 2 7)
-              (list 4 2)
-(check-equal? (filtra positive? (list 3 -2))
-              (list 3))
+(check-equal? (filtra positive? (list 0 1))
+              (list 1))
+(check-equal? (filtra even? (list 4 1 8)
+              (list 4 8)
 (define (filtra pred? lst)
   (cond
     [(empty? lst) empty]
@@ -677,22 +700,23 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com os valores positivos de lst.
+(check-equal? (lista-positivos (list 0 1) (list 1)))
 (define (lista-positivos lst)
-  (cond
-    [(empty? lst) empty]
-    [(positive? (first lst))
-     (cons (first lst)
-           (lista-positivos (rest lst)))]
-    [else (lista-positivos (rest lst))]))
+  (cond [(empty? lst) empty]
+        [(positive? (first lst))
+         (cons (first lst)
+               (lista-positivos (rest lst)))]
+        [else (lista-positivos (rest lst))]))
+
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com os valores pares de lst.
+(check-equal? (lista-pares (list 4 1 8) (list 4 8)))
 (define (lista-pares lst)
-  (cond
-    [(empty? lst) empty]
-    [(even? (first lst))
-     (cons (first lst)
-           (lista-pares (rest lst)))]
-    [else (lista-pares (rest lst))]))
+  (cond [(empty? lst) empty]
+        [(even? (first lst))
+         (cons (first lst)
+               (lista-pares (rest lst)))]
+        [else (lista-pares (rest lst))]))
 ```
 </div>
 <div class="column" width="45%">
@@ -702,10 +726,10 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ;; (Num -> Boolean) Lista(Num) -> Lista(Num)
 ;; Devolve uma lista com todos os elementos
 ;; x de lst tal que (pred? x) é #t.
-(check-equal? (filtra even? (list 4 2 7)
-              (list 4 2)
-(check-equal? (filtra positive? (list 3 -2))
-              (list 3))
+(check-equal? (filtra positive? (list 0 1))
+              (list 1))
+(check-equal? (filtra even? (list 4 1 8)
+              (list 4 8)
 (define (filtra pred? lst)
   (cond
     [(empty? lst) empty]
@@ -727,6 +751,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ```scheme
 ;; Lista(Número) -> Lista(Número)
 ;; Devolve uma lista com os valores positivos de lst.
+(check-equal? (lista-positivos (list 0 1) (list 1)))
 (define (lista-positivos lst)
   (filtra positive? lst))
 
@@ -735,8 +760,8 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 
 
 ;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores
-;; pares de lst.
+;; Devolve uma lista com os valores pares de lst.
+(check-equal? (lista-pares (list 4 1 8) (list 4 8)))
 (define (lista-pares lst)
   (filtra even? lst))
 
@@ -753,10 +778,10 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 ;; (Num -> Boolean) Lista(Num) -> Lista(Num)
 ;; Devolve uma lista com todos os elementos
 ;; x de lst tal que (pred? x) é #t.
-(check-equal? (filtra even? (list 4 2 7)
-              (list 4 2)
-(check-equal? (filtra positive? (list 3 -2))
-              (list 3))
+(check-equal? (filtra positive? (list 0 1))
+              (list 1))
+(check-equal? (filtra even? (list 4 1 8)
+              (list 4 8)
 (define (filtra pred? lst)
   (cond
     [(empty? lst) empty]
@@ -792,7 +817,7 @@ Como resultado do exemplo anterior obtivemos a função `filtra`, que é pré-de
      (cons (first lst)
            (filter pred? (rest lst)))]
     [else
-     (filtra pred? (rest lst))]))
+     (filter pred? (rest lst))]))
 ```
 
 
@@ -849,12 +874,17 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ```scheme
 ;; Lista(Número) -> Número
 ;; Devolve a soma dos números de lst.
-(check-equal? (soma (list 4 3 1)) 8)
+(check-equal? (soma (list 2 9)) 11)
 (define (soma lst)
   (cond
     [(empty? lst) 0]
     [else (+ (first lst)
              (soma (rest lst)))]))
+```
+
+\pause
+
+```scheme
 
 ;; Lista(Número) -> Número
 ;; Devolve o produto dos números de lst.
@@ -901,7 +931,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ```scheme
 ;; Lista(Número) -> Número
 ;; Devolve a soma dos números de lst.
-(check-equal? (soma (list 4 3 1)) 8)
+(check-equal? (soma (list 2 9)) 11)
 (define (soma lst)
   (cond
     [(empty? lst) 0]
@@ -928,10 +958,10 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 
 
 
-(check-equal? (reduz + 0 empty)
-               0)
-(check-equal? (reduz * 1 (list 3 5 -2))
-               -30))
+(check-equal? (reduz + 0 (list 2 9)
+               11)
+(check-equal? (reduz * 1 (list 4 3 1))
+               12))
 (define (reduz f base lst)
   (cond
     [(empty? lst) base]
@@ -951,7 +981,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ```scheme
 ;; Lista(Número) -> Número
 ;; Devolve a soma dos números de lst.
-(check-equal? (soma (list 4 3 1)) 8)
+(check-equal? (soma (list 2 9)) 11)
 (define (soma lst)
   (cond
     [(empty? lst) 0]
@@ -978,10 +1008,10 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ;; Uma chamada
 ;; (reduz f base (list x1 x2 ... xn)
 ;; devolve (f x1 (f x2 ... (f xn base))).
-(check-equal? (reduz + 0 empty)
-               0)
-(check-equal? (reduz * 1 (list 3 5 -2))
-               -30))
+(check-equal? (reduz + 0 (list 2 9)
+               11)
+(check-equal? (reduz * 1 (list 4 3 1))
+               12))
 (define (reduz f base lst)
   (cond
     [(empty? lst) base]
@@ -1001,7 +1031,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ```scheme
 ;; Lista(Número) -> Número
 ;; Devolve a soma dos números de lst.
-(check-equal? (soma (list 4 3 1)) 8)
+(check-equal? (soma (list 2 9)) 11)
 (define (soma lst)
   (reduz + 0 lst))
 
@@ -1016,6 +1046,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 
 
 
+
 ```
 </div>
 <div class="column" width="50%">
@@ -1028,10 +1059,10 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `pro
 ;; Uma chamada
 ;; (reduz f base (list x1 x2 ... xn)
 ;; devolve (f x1 (f x2 ... (f xn base))).
-(check-equal? (reduz + 0 empty)
-               0)
-(check-equal? (reduz * 1 (list 3 5 -2))
-               -30))
+(check-equal? (reduz + 0 (list 2 9)
+               11)
+(check-equal? (reduz * 1 (list 4 3 1))
+               12))
 (define (reduz f base lst)
   (cond
     [(empty? lst) base]
@@ -1161,6 +1192,11 @@ Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim,
 
 ```scheme
 (define (sinais lst)
+```
+
+\pause
+
+```scheme
   ;; Número -> Sinal
   ;; Determina o sinal de n.
   (define (sinal n)
@@ -1168,6 +1204,11 @@ Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim,
       [(> n 0) 1]
       [(= n 0) 0]
       [(< n 0) -1]))
+```
+
+\pause
+
+```scheme
   (map sinal lst))
 ```
 
@@ -1217,12 +1258,22 @@ Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim,
 
 ```scheme
 (define (seleciona-no-eixo pontos)
+```
+
+\pause
+
+```scheme
   ;; Ponto -> Bool
   ;; Devolve #t se p está sobre o
   ;; eixo x ou y. #f caso contrário.
   (define (no-eixo? p)
     (or (zero? (ponto-x p))
         (zero? (ponto-y p))))
+```
+
+\pause
+
+```scheme
   (filter no-eixo? pontos))
 ```
 
@@ -1264,7 +1315,7 @@ Projete uma função que receba como entrada uma lista de números e devolva uma
 
 \small
 
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não está claro... \pause Vamos tentar fazer a implementação usando o modelo. \pause
+Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não está claro... \pause Vamos fazer a implementação usando o modelo. \pause
 
 </div>
 <div class="column" width="48%">
@@ -1456,9 +1507,6 @@ Agora podemos implementar a função `maiores-strings`.
 \pause
 
 ```scheme
-  ;; String -> Booleano
-  ;; Devolve #t se o tamanho de
-  ;; s é igual a tmax. #f caso contrário.
   (define (tamanho-maximo? s)
     (= (string-length s) tmax))
 ```
@@ -1467,6 +1515,67 @@ Agora podemos implementar a função `maiores-strings`.
 
 ```scheme
   (filter tamanho-maximo? lst))
+```
+
+\pause
+
+```scheme
+
+(define (tamanho-maximo lst)
+  (foldr max 0 (map string-length lst)))
+
+```
+
+</div>
+<div class="column" width="48%">
+\pause
+
+\footnotesize
+
+```python
+
+def maiores_strings(lst: list[str]) -> list[str]:
+    tmax = tamanho_maximo(lst)
+```
+
+```python
+    def tem_tamanho_maximo(s: str) -> bool:
+        return len(s) == tmax
+```
+
+```python
+    return list(filter(tem_tamanho_maximo, lst))
+```
+
+```python
+
+def tamanho_maximo(lst: list[str]) -> int:
+    # max recebe uma lista (iterator)
+    return max(map(len, lst))
+```
+
+</div>
+</div>
+
+
+## Exemplos: maiores strings
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```scheme
+;; Lista(String) -> Lista(String)
+(define (maiores-strings lst)
+  (define tmax (tamanho-maximo lst))
+
+  (define (tamanho-maximo? s)
+    (= (string-length s) tmax))
+
+  (filter tamanho-maximo? lst))
+
+(define (tamanho-maximo lst)
+  (foldr max 0 (map string-length lst)))
 ```
 
 </div>
@@ -1599,7 +1708,7 @@ Podemos utilizar definições locais para armazenar o resultado de expressões e
 
 ## Definições locais e fechamentos
 
-O `define`{.scheme} não pode ser usado em alguns lugares, como por exemplo no consequente ou alternativa do `if`{.scheme}.
+O `define`{.scheme} não pode ser usado em alguns lugares, como por exemplo, no consequente ou alternativa do `if`{.scheme}.
 
 Em geral utilizamos `define`{.scheme} apenas no início da função, em outros lugares utilizamos a forma especial `let`{.scheme}.
 
@@ -1687,12 +1796,14 @@ Da mesma forma que podemos utilizar expressões aritméticas sem precisar nomeá
 
 ## Funções anônimas
 
-Quando fazemos um `define` de uma função, estamos especificando duas coisas:  **a função** e **o nome da função**. Quando escrevemos
+Quando fazemos um `define` de uma função, estamos especificando duas coisas: **a função** e **o nome da função**. \pause Quando escrevemos
 
 ```scheme
 (define (quadrado x)
   (* x x))
 ```
+
+\pause
 
 O Racket interpreta como
 
@@ -1700,6 +1811,8 @@ O Racket interpreta como
 (define quadrado
   (lambda (x) (* x x)))
 ```
+
+\pause
 
 O que deixa claro a distinção entre criar a função e dar nome à função. Às vezes é útil definir uma função sem dar nome a ela.
 
@@ -1713,12 +1826,12 @@ O que deixa claro a distinção entre criar a função e dar nome à função. �
     corpo)
 ```
 
-Em vez de utilizar a palavra `lambda`{.scheme}, podemos utilizar a letra $\lambda$ (ctrl + \textbackslash no DrRacket)
+Em vez de utilizar a palavra `lambda`{.scheme}, podemos utilizar a letra $\lambda$ (ctrl + \textbackslash \ no DrRacket)
 
 
 ## Funções anônimas
 
-Como e quando utilizar uma função anônima? \pause
+Como e quando utilizar um funções anônimas? \pause
 
 - Como parâmetro, quando a função for pequena e necessária apenas naquele local \pause
 
@@ -1919,7 +2032,7 @@ Outras funções de alta ordem
 
 ## Outras funções de alta ordem
 
-- `apply` ([referência](http://docs.racket-lang.org/reference/procedures.html?q=apply#%28def._%28%28lib._scheme%2Fprivate%2Fbase..rkt%29._apply%29%29))
+`apply` ([referência](http://docs.racket-lang.org/reference/procedures.html?q=apply#%28def._%28%28lib._scheme%2Fprivate%2Fbase..rkt%29._apply%29%29))
 
     ```scheme
     > (apply < (list 4 5))
@@ -1930,11 +2043,11 @@ Outras funções de alta ordem
     24
     ```
 
-- `andmap` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._andmap%29%29))
+`andmap` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._andmap%29%29))
 
-- `ormap` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._ormap%29%29))
+`ormap` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._ormap%29%29))
 
-- `build-list` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/list..rkt%29._build-list%29%29))
+`build-list` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/list..rkt%29._build-list%29%29))
 
 
 

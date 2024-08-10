@@ -1,9 +1,20 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Funções como valores - Prática
+title: |
+       | Programação Funcional
+       | Funções como valores
 urlcolor: Blue
+license:
 # TODO: adicionar exercícios diretos para treinar let e funções anônimas?
 ---
+
+# Começando
+
+@) O que significa dizer que funções são entidades de primeira classe?
+
+@) O que é uma função de alta ordem?
+
+@) Quando podemos utilizar as funções `map`, `filter` e `foldr`?
 
 <!-- Conceitos
 
@@ -45,24 +56,33 @@ urlcolor: Blue
 
 -->
 
-@. Analise os exemplos e exercícios de listas e redefina as funções (que for possível) utilizando as funções `foldr`, `map` e `filter` (diretamente ou com uma combinação dessas funções). As novas funções ficaram mais simples?
+# Praticando
 
-@. Analise os exemplos e exercícios de números naturais e defina uma função `reduz-num` (semelhante a função `reduz` feita em sala) que abstraia o comportamento do modelo para funções com números naturais. Redefina as funções (que for possível) em termos de `reduz-num`. As novas funções ficaram mais simples?
+@) Analise os exemplos e exercícios de listas e redefina as funções (que for possível) utilizando as funções `foldr`, `map` e `filter` (diretamente ou com uma combinação dessas funções). As novas funções ficaram mais simples?
 
-@. Defina uma função que receba como parâmetro um predicado (função de um argumento que retorna um valor booleano) e uma lista, e conte quantos elementos da lista satisfazem o predicado. Exemplo
+@) Analise os exemplos e exercícios de números naturais e defina uma função `reduz-num` (semelhante a função `reduz` feita em sala) que abstraia o comportamento do modelo para funções com números naturais. Redefina as funções (que for possível) em termos de `reduz-num`. As novas funções ficaram mais simples?
+
+@) Defina uma função que receba como parâmetro um predicado (função de um argumento que retorna um valor booleano) e uma lista, e conte quantos elementos da lista satisfazem o predicado. Exemplo
 
     ```scheme
     > (conta positive? (list 1 -1 2 3 -2 5))
     4
     ```
 
-@. [sicp 1.41] Defina a função `duas-vezes` que receba como parâmetro uma função de um parâmetro e retorne uma função que aplique a função original duas vezes. Por exemplo, dado que a função `add1` adiciona 1 ao seu parâmetro, então `((duas-vezes add1) 3)`{.scheme} retorna `5`{.scheme}. Qual é o valor retornado por
+
+# Problemas
+
+Em breve
+
+<!--
+
+@) [sicp 1.41] Defina a função `duas-vezes` que receba como parâmetro uma função de um parâmetro e retorne uma função que aplique a função original duas vezes. Por exemplo, dado que a função `add1` adiciona 1 ao seu parâmetro, então `((duas-vezes add1) 3)`{.scheme} retorna `5`{.scheme}. Qual é o valor retornado por
 
     ```scheme
     (((duas-vezes (duas-vezes duas-vezes)) add1) 5)
     ```
 
-@. [sicp 2.4] A seguir é apresentado uma representação procedural para um par. Para esta representação, verifique que `(first (cons x y))`{.scheme} produz `x` para quaisquer objetos `x` e `y`.
+@) [sicp 2.4] A seguir é apresentado uma representação procedural para um par. Para esta representação, verifique que `(first (cons x y))`{.scheme} produz `x` para quaisquer objetos `x` e `y`.
 
     ```scheme
     (define (cons x y)
@@ -127,3 +147,5 @@ urlcolor: Blue
 -   [sicp]. [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
 
 -   [tspl]. [The Scheme Programming Languague](http://www.scheme.com/tspl4/)
+
+-->

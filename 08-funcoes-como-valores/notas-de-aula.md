@@ -1580,8 +1580,6 @@ def tamanho_maximo(lst: list[str]) -> int:
 
 </div>
 <div class="column" width="48%">
-\pause
-
 Existe algo diferente na função `tamanho-maximo?`? \pause
 
 Sim, `tamanho-maximo?` utiliza a variável `tmax`, que não é um parâmetro e nem uma variável local dentro de `tamanho-maximo?`.

@@ -3,7 +3,7 @@
 (require examples)
 
 ; As funções que podem parar antes de analisar todos os elementos da lista
-; não são adequadas de serem resolvidas com map, filter e foldr. Entre os
+; não são adequadas de serem implementadas com map, filter e foldr. Entre os
 ; exercícios temos o de verificar se todos são verdadeiros, se algum é
 ; verdadeiro e se a lista está em ordem não decrescente.
 ;

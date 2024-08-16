@@ -13,4 +13,4 @@
     [(pred? (first lst))
      (add1 (conta pred? (rest lst)))]
     [else
-      (conta pred? (rest lst))]))
+     (conta pred? (rest lst))]))

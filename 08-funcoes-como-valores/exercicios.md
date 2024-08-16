@@ -16,51 +16,18 @@ license:
 
 @) Quando podemos utilizar as funções `map`, `filter` e `foldr`?
 
-<!-- Conceitos
+@) Qual é a estratégia foi discutida para projetar funções que recebem funções como parâmetro?
 
-#. [sicp 1.34] Dado a seguinte definição
+@) O que é um fechamento?
 
-    ```scheme
-    (define (f g)
-      (g 2))
-    ```
+@) Quando devemos utilizar funções anônimas?
 
-    Então nós temos
+@) Qual é o uso mais comum para funções que produzem funções?
 
-    ```scheme
-    > (f sqr)
-    4
-
-    > (f (λ (z) (* z (z + 1))))
-    6
-    ```
-
-    O que acontecerá se nós (perversamente) pedirmos ao interpretador para avaliar a combinação `(f f)`. Explique.
-
-@. [tspl 2.4.1] Reescreva as seguintes expressões usando `let` para remover as subexpressões em comum e melhorar a estrutura do código. Não faça nenhuma simplificação algébrica.
-
-    ```scheme
-    (+ (- (* 3 a) b) (+ (* 3 a) b))
-
-    (cons (first (list a b c)) (rest (list a b c)))
-    ```
-
-@. [tspl 2.4.3] Determine o valor da seguinte expressão. Explique como você chegou neste valor.
-
-    ```scheme
-    (let ([x 9])
-      (* x
-         (let ([x (/ x 3)])
-           (+ x x))))
-    ```
-
--->
 
 # Praticando
 
-@) Analise os exemplos e exercícios de listas e redefina as funções (que for possível) utilizando as funções `foldr`, `map` e `filter` (diretamente ou com uma combinação dessas funções). As novas funções ficaram mais simples?
-
-@) Analise os exemplos e exercícios de números naturais e defina uma função `reduz-num` (semelhante a função `reduz` feita em sala) que abstraia o comportamento do modelo para funções com números naturais. Redefina as funções (que for possível) em termos de `reduz-num`. As novas funções ficaram mais simples?
+@) Analise os exemplos e exercícios de listas e redefina as funções (que forem possíveis) utilizando as funções `map`, `filter` e `foldr` (diretamente ou com uma combinação dessas funções). As novas funções ficaram mais simples?
 
 @) Defina uma função que receba como parâmetro um predicado (função de um argumento que retorna um valor booleano) e uma lista, e conte quantos elementos da lista satisfazem o predicado. Exemplo
 
@@ -69,22 +36,39 @@ license:
     4
     ```
 
-
-# Problemas
-
-Em breve
-
-<!--
-
-@) [sicp 1.41] Defina a função `duas-vezes` que receba como parâmetro uma função de um parâmetro e retorne uma função que aplique a função original duas vezes. Por exemplo, dado que a função `add1` adiciona 1 ao seu parâmetro, então `((duas-vezes add1) 3)`{.scheme} retorna `5`{.scheme}. Qual é o valor retornado por
+@) Projete a função `duas-vezes` que receba como parâmetro uma função de um parâmetro e retorne uma função que aplique a função original duas vezes. Exemplo
 
     ```scheme
-    (((duas-vezes (duas-vezes duas-vezes)) add1) 5)
+    > ((duas-vezes add1) 3)
+    5
+    > ((duas-vezes (curry * 2)) 5)
+    20
     ```
 
-@) [sicp 2.4] A seguir é apresentado uma representação procedural para um par. Para esta representação, verifique que `(first (cons x y))`{.scheme} produz `x` para quaisquer objetos `x` e `y`.
+@) Vimos como usar a função pré-definida `map` do Racket utilizando apenas uma lista, mas de fato, a função `map` aceita como parâmetro uma função de aridade $n$ e $n$ listas do mesmo tamanho. Nessa forma geral, a função `map` aplica a função parâmetro a todos os primeiros elementos das listas, depois aplica a função a todos os segundos elementos das listas e assim por diante, retornando a lista de resultados. Os exemplos a seguir mostrar esse funcionamento
 
     ```scheme
+    > (map + (list 1 2 3) (list 4 5 6) (list 7 8 9))
+    '(12 15 18)
+    > (map list (list 1 2 3) (list 4 5 6))
+    '((1 4) (2 5) (3 6))
+    ```
+
+    Projete uma versão restrita da função `map`, chamada `map2`, que funciona para uma duas listas, como no exemplo a seguir
+
+    ```scheme
+    > (map2 * (list 1 2 3) (list 4 5 6))
+    '(4 10 18)
+    > (map2 list (list 1 2 3) (list 4 5 6))
+    '((1 4) (2 5) (3 6))
+    ```
+
+
+@) Analise os exemplos e exercícios de números naturais e defina uma função `reduz-num` (semelhante a função `reduz` feita em sala) que abstraia o comportamento do modelo para funções com números naturais. Redefina as funções (que forem possíveis) em termos de `reduz-num`. As novas funções ficaram mais simples?
+
+@) (Desafio)^[[Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)] A seguir é apresentado uma representação procedural para um par. Para esta representação, verifique que `(first (cons x y))` produz `x` para quaisquer objetos `x` e `y`.
+
+    ```
     (define (cons x y)
       (λ (m) (m x y)))
 
@@ -95,57 +79,10 @@ Em breve
     Qual é a definição correspondente de `rest`{.scheme}? (Dica: para verificar que isto funciona, faça uso do modelo de substituição).
 
 
-## Número variado de parâmetros
+# Resolvendo problemas
 
-@. [tspl 2.5.1] Determine o valor das seguintes expressões
+@) Em um painel de um aeroporto é necessário exibir uma lista de nomes de cidades. Para que os nomes sejam exibidos corretamente, todos devem ter a mesma quantidade de caracteres. Não é desejável remover caracteres de nenhum nome, então a alternativa é adicionar caracteres em branco no final dos nomes (se necessário), para que todos fiquem com a mesma quantidade de caracteres. Por exemplo, se os nomes são `"São Paulo"`, `"Maringá"`, e `"Londrina"`, os nomes devem ser ajustados para `"São Paulo"`, `"Maringá  "` e `"Londrina "`. Projete uma função que ajuste uma lista de nomes para que possam ser exibidos no painel.
 
-    ```scheme
-    (let ([f (λ (x) x)])
-      (f 4))
+@) Um professor de biologia quer montar uma equipe para participar de um projeto. Ele pretende chamar os alunos que ficaram com nota acima da média da turma, mas a turma é muito grande, e por isso não é possível fazer esse processo de forma manual. Você consegue ajudar o professor projetando uma função que indique o nome dos alunos que ficaram com nota maior do que a média da turma sabendo o nome e a nota de cada aluno?
 
-    (let ([f (λ x x)])
-      (f 4))
-
-    (let ([f (λ (x . y) x)])
-      (f 4))
-
-    (let ([f (λ (x . y) y)])
-      (f 4))
-    ```
-
-@.  [tspl 2.5.2] Como o procedimento primitivo `list` pode ser definido?
-
-@.  Defina uma função `concatena` que receba como parâmetro um número variável de listas e calcule a concatenação de todos os parâmetros. Exemplo
-
-    ```scheme
-    > (concatena (list 1 2 3) (list 4) (list 5 6))
-    '(1 2 3 4 5 6)
-    ```
-
-@. A função `map` pré-definida no Racket aceita como parâmetro uma função de aridade $n$ e $n$ listas do mesmo tamanho, e aplica a função a todos os primeiros elementos das listas, depois aplica a função a todos os segundos elementos das listas e assim por diante, retornando a lista de resultados. Defina a função `mapeia` que funciona como a função `map` pré-definida. Exemplo
-
-    ```scheme
-    > (mapeia + (list 1 2 3) (list 4 5 6) (list 7 8 9))
-    '(12 15 18)
-    > (mapeia list (list 1 2 3) (list 4 5 6) (list 7 8 9))
-    '((1 4 7) (2 5 8) (3 6 9))
-    ```
-
-@. [sicp 2.20] Defina uma função que receba um ou mais inteiros como parâmetro e retorne uma lista com os parâmetros que tenha a mesma paridade do primeiro argumento. Exemplo
-
-    ```scheme
-    > (same-parity 1 2 3 4 5 6 7)
-    '(1 3 5 7)
-
-    > (same-parity 2 3 4 5 6 7)
-    '(2 4 6)
-    ```
-
-
-# Referências
-
--   [sicp]. [Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)
-
--   [tspl]. [The Scheme Programming Languague](http://www.scheme.com/tspl4/)
-
--->
+@) Um sítio de conteúdo pretende fazer uma série de postagens com as palavras/expressões mais comuns em diversos idiomas, incluindo também listas especializadas para determinadas áreas (como engenharia, culinária, etc). Para isso é necessário levantar um corpus (coleções de textos) para a postagem, e gerar listas de palavras/expressões, o que já foi feito. Agora é preciso projetar uma função que analise ima lista e gere uma tabela com as palavras/expressões mais frequentes. A quantidade de itens na tabela pode variar, dependendo do corpus e da equipe de especialistas que vai usar a função.

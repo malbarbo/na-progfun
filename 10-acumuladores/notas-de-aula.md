@@ -1,11 +1,11 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: adicionar exemplos para a chamada da função com acumuladores
-# TODO: mostrar o passa a passo da construção de funções com acumuladores (ver o livro!)
-# TODO: colocar as funções lado a lado para mostrar as semelhanças antes de escrever foldl
-# TODO: usar um exemplo "mais simples" para introduzir o conceito
+# TODO: usar um exemplo "mais simples" para introduzir o conceito (o exemplo da soma?)
 # TODO: apresentar uma forma diferente de projeto (como em fundamentos de algoritmos)? Seria necessário deixar de lado a ideia de que acumulador é algo se faz depois?
-# TODO: Ao invé de apresentar foldl e foldr separados, unir os dois assuntos em "percurso de listas"?
+# TODO: ao invés de apresentar foldl e foldr separados, unir os dois assuntos em "percurso de listas"?
+# TODO: adicionar exemplo com mais de um acumulador
+# TODO: adicionar um exemplo que a resposta não é o acumulador
 title: Acumuladores
 ---
 
@@ -53,21 +53,26 @@ Dado uma lista de distâncias relativas entre pontos (começando da origem) em u
           (relativa->absoluta (rest lst)))]))
 ```
 
+
 ## Exemplo
+
+\small
 
 Para a entrada `(list 50 40 70 30 30)`{.scheme} a função deve produzir como saída `(list 50 90 160 190 220)`{.scheme}. \pause
 
-Como combinar `(first lst)`{.scheme} com `(relativa->absoluta (rest lst))`{.scheme} para obter a resposta para `lst`{.scheme}? \pause
+Como combinar `(first lst)`{.scheme} -- `50`{.scheme} -- com `(relativa->absoluta (rest lst))`{.scheme} -- `(list 40 110 140 170)`{.scheme} -- para obter a resposta para `lst`{.scheme}? \pause
 
 ```scheme
 (list 50 40 70 30 30)   ->   (list 50 90 160 190 220)
 
                             50  (list 40 110 140 170)
-                             ^  ^
+                             |  |
                    (first lst)  (relativa->absoluta (rest lst))
 ```
 
 \pause
+
+Somando `50`{.scheme} a cada elemento de `(list 40 110 140 170)`{.scheme} \pause
 
 ```scheme
 (cons 50 (map (curry + 50) (list 40 110 140 170)))
@@ -76,38 +81,48 @@ Como combinar `(first lst)`{.scheme} com `(relativa->absoluta (rest lst))`{.sche
 
 ## Exemplo
 
-\small
+<div class="columns">
+<div class="column" width="54%">
+
+\footnotesize
 
 ```scheme
+;; Lista(Número) -> Lista(Número)
+;; Converte uma lista de distâncias relativas
+;; para uma lista de distâncias absolutas. O
+;; primeito item da lista representa a
+;; distância da origem.
+(examples
+ (check-equal? (relativa->absoluta
+                (list 50 40  70  30  30))
+                (list 50 90 160 190 220)))
 (define (relativa->absoluta lst)
   (cond
     [(empty? lst) empty]
     [else
-     (cons (first lst)
-           (map (curry + (first lst))
-                (relativa->absoluta (rest lst))))]))
+     (cons
+       (first lst)
+       (map (curry + (first lst))
+            (relativa->absoluta (rest lst))))]))
 ```
 
+</div>
+<div class="column" width="44%">
 
-## Exemplo
+Qual é o problema dessa função? \pause
 
-Qual o problema dessa função? \pause
+Ela realiza muito trabalho! O tempo de execução é $\Theta(n^2)$. \pause
 
-Ela realiza muito trabalho para resolver o problema! O tempo de execução é $\Theta(n^2)$. \pause
+Podemos melhorar? \pause Sim! \pause
 
-Podemos melhorar? \pause
+Como resolveríamos o problema manualmente? \pause
 
-```scheme
-(check-equal? (relativa->absoluta
-               (list 50 40  70  30  30))
-               (list 50 90 160 190 220))
-```
-
-\pause
-
-Como resolveríamos o problema manualmente? \pause Somando a distância absoluta de um ponto com a distância relativa do próximo. \pause
+Somando a distância absoluta de um ponto com a distância relativa do próximo. \pause
 
 Vamos tentar definir uma função mais parecida com este método manual.
+
+</div>
+</div>
 
 
 ## Exemplo
@@ -132,7 +147,6 @@ Começamos com o modelo
 Como seria a avaliação de `(relativa->absoluta (list 3 2 7))`{.scheme}? \pause
 
 ```scheme
-;; (list 3 5 12)
 (relativa->absoluta (list 3 2 7))
 ```
 
@@ -168,9 +182,9 @@ Como seria a avaliação de `(relativa->absoluta (list 3 2 7))`{.scheme}? \pause
 
 Qual é e como obter o primeiro item da resposta? \pause `3`{.scheme} e calculamos diretamente. \pause
 
-Qual é e como obter o segundo item da resposta. \pause `5` e obtemos com `(+ 3 2)`{.scheme}. \pause Na segunda chamada de `relativa->absoluta` obtemos o `2` com `(first lst)`, mas como obtemos o `3`? \pause Não temos como obter o 3 pois a recursão é independe do que "aconteceu" antes! \pause O mesmo acontece para o terceiro item, temos que obter `(+ 5 7)`{.scheme} mas não temos acesso ao 5. \pause
+Qual é e como obter o segundo item da resposta. \pause `5`{.scheme} e obtemos com `(+ 3 2)`{.scheme}. \pause Na segunda chamada de `relativa->absoluta` obtemos o `2`{.scheme} com `(first lst)`{.scheme}, mas como obtemos o `3`{.scheme}? \pause Não temos como obter o `3`{.scheme} pois a recursão é **independe** do que "aconteceu" antes, ou seja, é independente do contexto! \pause O mesmo acontece para o terceiro item, temos que obter `(+ 5 7)`{.scheme} mas não temos acesso ao `5`{.scheme}. \pause
 
-Como resolver esse problema, isto é, como acessar a distância absoluta anterior para calcular a distância atual? \pause Adicionando um novo parâmetro com a distância absoluta anterior.
+Como resolver esse problema, isto é, como acessar a distância absoluta anterior para calcular a distância atual? \pause Adicionando um novo parâmetro que representa a distância absoluta anterior, ou seja, um contexto para a chamada da função.
 
 </div>
 </div>
@@ -194,18 +208,24 @@ Com um novo parâmetro, o início da implementação fica
           (relativa->absoluta (rest lst) ...))]))
 ```
 
+\pause
+
+\normalsize
+
+O parâmetro `acc-dist` é um **acumulador**, isto é, uma variável que representa o contexto que a função está sendo chamada. \pause Em geral, um acumulador é um resultado parcial do processamento das chamadas recursivas anteriores.
+
 
 ## Exemplo
 
 \small
 
-Para a entrada `(list 3 2 7)`{.scheme}, qual deve ser a chamada inicial? \pause `(relativa->absoluta (list 3 2 7) ...)` \pause
+Para a entrada `(list 3 2 7)`{.scheme}, qual deve ser a chamada inicial? \pause `(relativa->absoluta (list 3 2 7) ...)`{.scheme} \pause
 
-Durante a chamada `(relativa->absoluta (list 3 2 7) ...)`{.scheme}, como é chamada recursiva para `(rest (list 3 2 7))`{.scheme}? \pause
+Durante a chamada `(relativa->absoluta (list 3 2 7) ...)`{.scheme}, como é a chamada recursiva para `(rest (list 3 2 7))`{.scheme}? \pause
 
 `(relativa->absoluta (rest (list 3 2 7)) 3)`{.scheme}. \pause
 
-Durante a chamada `(relativa->absoluta (list 2 7) 3)`{.scheme}, como é chamada recursiva para `(rest (list 2 7))`{.scheme}? \pause
+Durante a chamada `(relativa->absoluta (list 2 7) 3)`{.scheme}, como é chamada a recursiva para `(rest (list 2 7))`{.scheme}? \pause
 
 `(relativa->absoluta (rest (list 2 7)) 5)`{.scheme}. \pause Como obtemos `5`{.scheme}? \pause `(+ 2 3)`{.scheme} \pause
 
@@ -234,7 +254,9 @@ Completando a função obtemos
 
 \pause
 
-O parâmetro `acc-dist`{.scheme} não é relevante para o problema, apenas para a solução. Então podemos encapsular a solução sem expor o existência do argumento `acc-dist`{.scheme}.
+\normalsize
+
+Note que o parâmetro `acc-dist`{.scheme} não é relevante para o problema, apenas para a solução. Então podemos encapsular a solução sem expor o existência do argumento `acc-dist`{.scheme}.
 
 
 ## Exemplo
@@ -253,6 +275,10 @@ O parâmetro `acc-dist`{.scheme} não é relevante para o problema, apenas para 
   (iter lst0 0))
 ```
 
+\normalsize
+
+Por convenção, chamamos a função com o acumulador de `iter`, em breve veremos porque.
+
 
 ## Falta de contexto na recursão
 
@@ -267,7 +293,9 @@ Processos iterativos e recursivos
 
 ## Processos iterativos e recursivos
 
-Considere as seguintes implementações para a função que soma dois números naturais utilizando a função `add1`{.scheme} e `zero?`{.scheme}
+Considere as seguintes implementações para a função que soma dois números naturais utilizando a função `add1`{.scheme}, `sub1`{.scheme} e `zero?`{.scheme}
+
+\small
 
 ```scheme
 (define (soma a b)
@@ -280,6 +308,8 @@ Considere as seguintes implementações para a função que soma dois números n
       a
       (soma-alt (add1 a) (sub1 b))))
 ```
+
+\normalsize
 
 Qual é o processo gerado quando cada função é avaliada com os parâmetros `4`{.scheme} e `3`{.scheme}?
 
@@ -391,12 +421,15 @@ As etapas para projetar funções com acumuladores são \pause
 - Identificar que a função se beneficia ou precisa de um acumulador \pause
 
     - Torna a função mais simples \pause
-
     - Diminui o tempo de execução \pause
-
     - Diminui o consumo de memória \pause
 
-- Entender o que o acumulador significa
+- Entender o que o acumulador significa e determinar \pause
+
+    - A inicialização \pause
+    - A atualização \pause
+
+- Determinar o resultado da função a partir do acumulador
 
 
 ## Projetando funções com acumuladores
@@ -404,7 +437,7 @@ As etapas para projetar funções com acumuladores são \pause
 Vamos reescrever diversas funções utilizando acumuladores.
 
 
-## Exemplo
+## Exemplo - tamanho
 
 \small
 
@@ -423,18 +456,25 @@ Vamos reescrever diversas funções utilizando acumuladores.
     [else (add1 (tamanho (rest lst)))]))
 ```
 
-## Exemplo
+
+## Exemplo - tamanho
 
 Existe algum benefício em utilizar acumulador? \pause
 
-- Como o tamanho da resposta não depende do tamanho da entrada, esta função está usando mais memória do que é necessário, portanto ela pode beneficiar-se do uso de acumulador. \pause
+Como o tamanho da resposta não depende do tamanho da entrada, esta função está usando mais memória do que é necessário, portanto ela pode beneficiar-se do uso de acumulador. \pause
 
-Qual o significado do acumulador? \pause
+Qual o significado do acumulador? \pause A quantidade de elementos já "vistos". \pause
 
-- A quantidade de elementos já "vistos".
+Qual é o valor inicial do acumulador? \pause `0`{.scheme} \pause
+
+Como atualizar o acumulador? \pause Somando 1. \pause
+
+Qual é a resposta da função? \pause O valor do acumulador.
 
 
-## Exemplo
+## Exemplo - tamanho
+
+\small
 
 ```scheme
 (define (tamanho lst0)
@@ -447,7 +487,7 @@ Qual o significado do acumulador? \pause
 ```
 
 
-## Exemplo
+## Exemplo - soma
 
 \small
 
@@ -468,19 +508,24 @@ Qual o significado do acumulador? \pause
 ```
 
 
-## Exemplo
+## Exemplo - soma
 
 Existe algum benefício em utilizar acumulador? \pause
 
-- Como o tamanho da resposta não depende do tamanho da entrada, esta função está usando mais memória do que é necessário, portanto ela pode beneficiar-se do uso de acumulador. \pause
+Como o tamanho da resposta não depende do tamanho da entrada, esta função está usando mais memória do que é necessário, portanto ela pode beneficiar-se do uso de acumulador. \pause
 
-Qual o significado do acumulador? \pause
+Qual o significado do acumulador? \pause A quantidade de elementos já "vistos". \pause
 
-- A soma dos elementos já "vistos".
+Qual é o valor inicial do acumulador? \pause `0`{.scheme} \pause
+
+Como atualizar o acumulador? \pause Somando o primeiro da lista de entrada. \pause
+
+Qual é a resposta da função? \pause O valor do acumulador.
 
 
+## Exemplo - soma
 
-## Exemplo
+\small
 
 ```scheme
 (define (soma lst0)
@@ -493,13 +538,13 @@ Qual o significado do acumulador? \pause
 ```
 
 
-## Exemplo
+## Exemplo - inverte
 
 \small
 
 ```scheme
 ;; Lista -> Lista
-;; Inverte a ordem dos elmentos de lst.
+;; Inverte a ordem dos elementos de lst.
 (examples
  (check-equal? (inverte empty) empty)
  (check-equal? (inverte (list 2)) (list 2))
@@ -512,18 +557,25 @@ Qual o significado do acumulador? \pause
                   (list (first lst)))]))
 ```
 
-## Exemplo
+
+## Exemplo - inverte
 
 Existe algum benefício em utilizar acumulador? \pause
 
-- Neste caso a função é mais complicada do que o necessário. Isto porque o resultado da chamada recursiva é processada por outra função recursiva (`append`{.scheme}). Além disso, o tempo de execução desta função é $\Theta(n^2)$ (o que intuitivamente é muito para inverter uma lista). \pause
+Neste caso a função é mais complicada do que o necessário. Isto porque o resultado da chamada recursiva é processada por outra função recursiva (`append`{.scheme}). \pause Além disso, o tempo de execução desta função é $\Theta(n^2)$, o que intuitivamente é muito para inverter uma lista. \pause
 
-Qual o significado do acumulador? \pause
+Qual o significado do acumulador? \pause Os elementos que já foram visitados em ordem reversa. \pause
 
-- Os elementos que já foram visitados em ordem reversa.
+Qual é o valor inicial do acumulador? \pause `empty`{.scheme}. \pause
+
+Como atualizar o acumulador? \pause Colocando o primeiro da entrada como primeiro do acumulador. \pause
+
+Qual é a resposta da função? \pause O valor do acumulador.
 
 
-## Exemplo
+## Exemplo - inverte
+
+\small
 
 ```scheme
 (define (inverte lst0)

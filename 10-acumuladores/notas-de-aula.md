@@ -465,7 +465,7 @@ Como o tamanho da resposta não depende do tamanho da entrada, esta função est
 
 Qual o significado do acumulador? \pause A quantidade de elementos já "vistos". \pause
 
-Qual é o valor inicial do acumulador? \pause `0`{.scheme} \pause
+Qual é o valor inicial do acumulador? \pause `0`{.scheme}. \pause
 
 Como atualizar o acumulador? \pause Somando 1. \pause
 
@@ -514,9 +514,9 @@ Existe algum benefício em utilizar acumulador? \pause
 
 Como o tamanho da resposta não depende do tamanho da entrada, esta função está usando mais memória do que é necessário, portanto ela pode beneficiar-se do uso de acumulador. \pause
 
-Qual o significado do acumulador? \pause A quantidade de elementos já "vistos". \pause
+Qual o significado do acumulador? \pause A soma dos elementos já "vistos". \pause
 
-Qual é o valor inicial do acumulador? \pause `0`{.scheme} \pause
+Qual é o valor inicial do acumulador? \pause `0`{.scheme}. \pause
 
 Como atualizar o acumulador? \pause Somando o primeiro da lista de entrada. \pause
 

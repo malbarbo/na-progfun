@@ -445,6 +445,9 @@ Exemplos
       (+ (quadrado a) (quadrado b))))
 > (soma-quadrados 3 4)
 25
+; O símbolo λ pode ser usado no lugar de lambda
+> (map (λ (x) (+ x 1)) (list 6 3 1))
+'(7 4 2)
 ```
 
 

@@ -9,4 +9,4 @@
   (check-equal? ((duas-vezes (curry * 2)) 5) 20)
   (check-equal? (((duas-vezes (duas-vezes duas-vezes)) add1) 5) 21))
 (define (duas-vezes f)
-  (lambda (x) (f (f x))))
+  (λ (x) (f (f x))))

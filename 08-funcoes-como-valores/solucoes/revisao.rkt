@@ -42,7 +42,7 @@
   ; a função para foldr precisa de dois argumentos
   ; o elemento e o resultado parcial, só
   ; precisamos do resultado parcial.
-  (foldr (lambda (_ tam) (add1 tam)) 0 lst))
+  (foldr (λ (_ tam) (add1 tam)) 0 lst))
 
 
 ;; Lista(String) -> Lista(Número)
@@ -62,8 +62,7 @@
   (check-equal? (seleciona-comeca-A (list "Apenas" "um" "teste" "," "viu" "Ana"))
                 (list "Apenas" "Ana")))
 (define (seleciona-comeca-A lst)
-  (filter (lambda (s)
-            (and (non-empty-string? s)
+  (filter (λ (s) (and (non-empty-string? s)
                  (equal? (substring s 0 1) "A")))
           lst))
 

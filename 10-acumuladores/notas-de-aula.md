@@ -661,7 +661,7 @@ Redefinimos as funções em termos de `reduz-acc`
 
 ```scheme
 (define (tamanho lst)
-  (reduz-acc (lambda (_ tam) (add1 tam))  0 lst))
+  (reduz-acc (λ (_ tam) (add1 tam))  0 lst))
 
 (define (soma lst)
   (reduz-acc + 0 lst))

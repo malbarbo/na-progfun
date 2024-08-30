@@ -166,13 +166,9 @@ O que precisamos ajustar no processo de projeto de funções? \pause
 
 Na etapa de implementação temos que: \pause
 
-- Determinar se o problema pode ser resolvido diretamente \pause
-
-- Determinar como resolver o problema diretamente \pause
-
 - Definir como decompor o problema em subproblemas que são mais facilmente resolvidos do que o problema original \pause
 
-- Definir combinar as soluções dos subproblemas para resolver o problema inicial \pause
+- Definir como combinar as soluções dos subproblemas para resolver o problema inicial \pause
 
 - Argumentar que a função termina para todas as entradas
 

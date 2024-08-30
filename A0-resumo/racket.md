@@ -328,6 +328,15 @@ Predicados
 #t
 ```
 
+Take e drop
+
+```scheme
+> (take (list 4 1 2 9 2 3 5) 3)
+'(4 1 2)
+> (drop (list 4 1 2 9 2 3 5) 3)
+'(9 2 3 5)
+```
+
 Map
 
 ```scheme

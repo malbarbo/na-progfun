@@ -2,23 +2,15 @@
 
 (require examples)
 
-;; ListaDeNúmeros Natural -> Natural
+;; Natural Lista(Natural) -> Natural
 ;;
-;; Devolve a quantidade de formas diferentes que se pode dar troco de um valor
-;; a partir de uma lista de valores de moedas
-;;
-;;                        moedas
-;;             +-------+--------------------+
-;;             | empty |     (cons ...)     |
-;;       +-----+-------+--------------------+
-;;       |  0  |             1              |
-;;       +-----+----------------------------+
-;; valor | < 0 |             0              |
-;;       +-----+----------------------------+
-;;       | > 0 | erro  | soma das recursões |
-;;       +-----+-------+--------------------+
+;; Devolve a quantidade de formas diferentes de
+;; obter valor somando valores de moedas.
 
 (examples
+ (check-equal? (conta-troco 1 empty) 0)
+ (check-equal? (conta-troco 0 (list 1 2)) 1)
+ (check-equal? (conta-troco 3 (list 4)) 0)
  (check-equal? (conta-troco 4 (list 1 2)) 3)
  ; 1+1+1+1, 1+1+2, 2+2
  (check-equal? (conta-troco 6 (list 2 3)) 2)
@@ -28,9 +20,12 @@
 
 (define (conta-troco valor moedas)
   (cond
-    [(zero? valor) 1]
-    [(negative? valor) 0]
-    [(empty? moedas) 0]
+    [(empty? moedas)
+     0]
+    [(zero? valor)
+     1]
+    [(< valor (first moedas))
+     (conta-troco valor (rest moedas))]
     [else
      (+ (conta-troco (- valor (first moedas)) moedas)
         (conta-troco valor (rest moedas)))]))

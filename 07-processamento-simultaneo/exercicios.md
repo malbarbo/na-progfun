@@ -27,7 +27,7 @@ license:
 
     ```scheme
     > (produto (list 3 1 8) (list 7 4))
-    '((par 3 7) (par 3 4) (par 1 7) (par 1 4) (par 1 7) (par 1 4))
+    '((par 3 7) (par 3 4) (par 1 7) (par 1 4) (par 8 7) (par 8 4))
     ```
 
 

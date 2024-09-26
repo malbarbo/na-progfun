@@ -181,13 +181,13 @@ Como?
 
 1) Escolher uma linguagem \pause
 
-   - Racket (variante moderna do Lisp) \pause
+   - Student Gleam \pause
+
+   - Simples \pause
 
    - Bom suporte ao paradigma funcional
 
-   - Ambiente integrado DrRacket
-
-   - Documentação extensa
+   - Inferência de tipo
 
    - Fácil instalação
 
@@ -200,12 +200,13 @@ Como?
 
    - Livro [How to Design Programs](http://htdp.org/)
 
-   - [Guia](http://docs.racket-lang.org/guide/index.html)
-  e [Referência](http://docs.racket-lang.org/reference/) do Racket
-
    - Livro [Structure and Interpretation of Computer Programs](https://web.mit.edu/6.001/6.037/sicp.pdf)
 
-   - Livro [The Scheme Programming Languague](http://www.scheme.com/tspl4/ )
+   - [Tour](https://tour.gleam.run/) da linguagem Gleam
+
+   - [Documentação](https://hexdocs.pm/gleam_stdlib/) da biblioteca padrão da linguagem Gleam
+
+   - [Página](https://malbarbo.pro.br/sgleam/) do sgleam
 
 
 ## Como?
@@ -221,49 +222,52 @@ Como?
 Primeiros passos
 ================
 
-## Instalação
+## Download e descompactação
 
 ```console
-$ apt-get install racket
+$ curl -s -L https://malbarbo.pro.br/sgleam/sgleam.tar.gz | tar xvz -
+```
+
+ou
+
+```console
+$ wget -qO- https://malbarbo.pro.br/sgleam/sgleam.tar.gz | tar xvz -
+```
+
+ou acesse <https://malbabro.pro.br/sgleam/> e faça o download e descompactação manualmente.
+
+
+## Execução de arquivo
+
+```console
+$ cat dobro.gleam
+import gleam/io
+
+pub fn dobro(x) {
+    x * 2
+}
+
+pub fn main() {
+  io.debug(dobro(4))
+}
+
+$ ./sgleam dobro.gleam
+8
 ```
 
 
-## Execução
+## Execução do repl
 
-```console
-$ drracket
+```
+$ ./sgleam -i dobro.gleam
+Welcome to sgleam.
+Type "quit" or CTRL-D to exit.
+> dobro(4)
+8
 ```
 
 
-## {.standout}
-
-\begin{tikzpicture}[scale=0.85, transform shape]
-    \node at (0, 0) {\includegraphics[width=\textwidth]{imagens/drracket-config.pdf}};
-    \draw[line width=1pt, red] (-6.9cm, -4.4cm) rectangle ++(4.1cm, 0.4cm);
-\end{tikzpicture}
-
-
-## {.standout}
-
-\begin{tikzpicture}[scale=0.85, transform shape]
-    \node at (0, 0) {\includegraphics[width=\textwidth]{imagens/drracket-exemplo.pdf}};
-    \node[red, yshift=1cm] {Definições};
-    \node[red, yshift=-2cm] {Interações};
-\end{tikzpicture}
-
-
-## Uso
-
-Na área de definições
-
-- Digite o código do programa
-
-- Pressione o botão executar/correr (ctrl + r))
-
-
-## Uso
-
-Na área de interações
+## Execução do repl
 
 - Teste as definições usando REPL (_Read Eval Print Loop_)
 
@@ -276,22 +280,6 @@ Na área de interações
 - Repetida o processo (_Loop_)
 
 
-## Uso
-
-Exemplos de interações
-
-```scheme
-> 34
-34
-> (+ 3 4)
-7
-> (* 2 6)
-12
-> +
-#<procedure:+>
-```
-
-
 
 Leitura
 =======
@@ -300,7 +288,7 @@ Leitura
 
 Recomendada
 
-- [Introdução rápida ao Racket](http://docs.racket-lang.org/quick/)
+- [Tour da linguagem Gleam](https://tour.gleam.run/)
 
 - [Programação funcional](https://en.wikipedia.org/wiki/Functional_programming)
 

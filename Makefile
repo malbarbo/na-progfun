@@ -9,6 +9,7 @@ PANDOC=$(DEST)/bin/pandoc
 PANDOC_VERSION=3.2
 
 PANDOC_NOTAS_CMD=$(PANDOC) \
+		--syntax-definition=../syntax/gleam.xml \
 		-V mathspec \
 		--from markdown-auto_identifiers \
 		--pdf-engine=$(CURDIR)/$(TECTONIC) \

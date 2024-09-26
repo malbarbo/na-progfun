@@ -222,54 +222,82 @@ Como?
 Primeiros passos
 ================
 
-## Download e descompactação
+## Instalação
+
+No Linux
+
+\small
 
 ```console
-$ curl -s -L https://malbarbo.pro.br/sgleam/sgleam.tar.gz | tar xvz -
+$ curl -s -L https://malbarbo.pro.br/sgleam/sgleam.tar.gz | tar xvz
 ```
 
 ou
 
 ```console
-$ wget -qO- https://malbarbo.pro.br/sgleam/sgleam.tar.gz | tar xvz -
+$ wget -qO- https://malbarbo.pro.br/sgleam/sgleam.tar.gz | tar xvz
 ```
 
-ou acesse <https://malbabro.pro.br/sgleam/> e faça o download e descompactação manualmente.
+\normalsize
+
+Em outros sistemas
+
+\small
+
+Acesse <https://malbarbo.pro.br/sgleam/> e faça o download e descompactação manualmente.
 
 
-## Execução de arquivo
+## Execução
 
-```console
-$ cat dobro.gleam
+<div class="columns">
+<div class="column" width="50%">
+Considere o arquivo `dobro.gleam` com o conteúdo
+
+\small
+
+```gleam
 import gleam/io
 
-pub fn dobro(x) {
+pub fn dobro(x: Int) -> Int {
     x * 2
 }
 
 pub fn main() {
   io.debug(dobro(4))
 }
+```
 
+\pause
+
+</div>
+<div class="column" width="50%">
+
+Para executar o arquivo no Linux digite
+
+```console
 $ ./sgleam dobro.gleam
 8
 ```
 
+\pause
 
-## Execução do repl
+No Windows
 
-```
-$ ./sgleam -i dobro.gleam
-Welcome to sgleam.
-Type "quit" or CTRL-D to exit.
-> dobro(4)
+```console
+$ .\sgleam dobro.gleam
 8
 ```
 
+</div>
+</div>
+
 
 ## Execução do repl
 
-- Teste as definições usando REPL (_Read Eval Print Loop_)
+<div class="columns">
+<div class="column" width="50%">
+
+REPL (_Read Eval Print Loop_)
 
 - Entre com uma expressão (_Read_)
 
@@ -278,6 +306,41 @@ Type "quit" or CTRL-D to exit.
 - O resultado da expressão é impressa (_Print_)
 
 - Repetida o processo (_Loop_)
+
+\pause
+
+</div>
+<div class="column" width="50%">
+Para iniciar o repl
+
+\small
+
+```console
+$ ./sgleam
+Welcome to sgleam.
+Type "quit" or CTRL-D to exit.
+> 2 + 5
+7
+```
+
+\pause
+
+\normalsize
+
+Para carregar um arquivo e iniciar o repl
+
+\small
+
+```console
+$ ./sgleam -i dobro.gleam
+Welcome to sgleam.
+Type "quit" or CTRL-D to exit.
+> dobro.dobro(4)
+8
+```
+
+</div>
+</div>
 
 
 

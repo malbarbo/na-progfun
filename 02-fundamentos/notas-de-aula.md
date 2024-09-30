@@ -38,54 +38,94 @@ Uma expressão consiste de
 
 - Um literal; ou
 
-- Uma função primitiva
+- Uma função primitiva \pause
 
 
-## Literais de tipos primitivos
-
-Números Exatos \pause
-
-- Inteiros `1345`{.scheme}
-
-- Racionais `1/3`{.scheme}
-
-- Complexos com as partes real e imaginária exatas
+Um **literal** é um valor que é representado diretamente no código. Em geral, os literais são utilizados para criar valores de tipos primitivos.
 
 \pause
 
-Números Inexatos \pause
-
-- Ponto flutuante `2.65`{.scheme}
-
-- Complexos com parte real ou imaginária inexata
-
+Um **função primitiva** é uma função suportada diretamente pela linguagem de programação.
 
 
 ## Literais de tipos primitivos
 
-Booleano \pause
+Gleam provê 9 tipos primitivos. \pause Todos os nomes de tipos começam com letra maiúscula. \pause
 
-- `#t`{.scheme} verdadeiro
+<div class="columns">
+<div class="column" width="50%">
+\small
 
-- `#f`{.scheme} falso \pause
+Número inteiro (`Int`{.gleam}) \pause
+
+- `1345`{.gleam} \pause
+- `9_876`{.gleam} \pause
+
+Números de ponto flutuante (`Float`{.gleam}) \pause
+
+- `2.65`{.gleam}
+- `2.0e12`{.gleam}
+- `7.4e-10`{.gleam}
+
+\pause
+
+</div>
+<div class="column" width="50%">
+\small
+
+Booleano (`Bool`{.gleam}) \pause
+
+- `True`{.gleam}
+
+- `False`{.gleam} \pause
 
 
-Strings \pause
+Strings (`String`{.gleam})\pause
 
-- `"Seu nome"`{.scheme} \pause
+- `"din uem"`{.gleam} \pause
 
-Muitos outros tipos
+</div>
+</div>
+
+\ 
+
+Veremos alguns outros tipos primitivos ao longo da disciplina.
 
 
 ## Funções primitivas
 
-Aritméticas: `+, -, *, /`{.scheme} \pause
+Gleam provê diversas operações primitivas, a maioria delas está disponível na forma de operadores. \pause Todos os nomes de funções começam com letra minúscula. \pause
 
-Relacionais: `>, >=, <, <=, =`{.scheme} \pause
+<div class="columns">
+<div class="column" width="50%">
+\small
 
-Strings: `string-length`{.scheme}, `string-append`{.scheme}, `number->string`{.scheme}, `string->number`{.scheme} \pause
+Operações com inteiros:
 
-Veja um seleção de funções no Resumo da Linguagem Racket, disponível na página da disciplina.
+- `+ (int.add)`{.gleam}
+- `- (int.subtract)`{.gleam}
+- `* / % > >= < <= ==`{.gleam} \pause
+- `int.to_float`{.gleam} e diversas outras no módulo `int`{.gleam} \pause
+
+Operações com floats:
+
+- `*. (float.product)`{.gleam}
+- `/. (float.divide)`{.gleam}
+- `+. -.  >. >=. <. <=. ==`{.gleam} \pause
+- `float.truncate`{.gleam} e diversas outras no módulo `float`{.gleam} \pause
+
+</div>
+<div class="column" width="50%">
+\small
+
+Operações com strings:
+
+- `<> (string.append)`{.gleam} (concatenação) \pause
+- `==`{.gleam}
+- `string.slice`{.gleam} e diversas outras no módulo `string`{.gleam}
+
+</div>
+</div>
 
 
 ## Processo de avaliação de expressões (versão 0.1)
@@ -118,15 +158,15 @@ Uma expressão é definida em termos de dois casos e por isso a regra de avalia�
 
 ## Exemplo de avaliação de expressões
 
-```scheme
-> #t
-#t
+```Gleam
+> True
+True
 > 231
 231
 > "Banana"
 "Banana"
-> +
-#<procedure:+>
+> int.add
+//fn(a, b) { ... }
 ```
 
 

@@ -1,4 +1,4 @@
-.PHONY: default all pdf zip handout tex clean clean-all atualiza-template
+.PHONY: default all pdf zip handout tex clean clean-all atualiza-template watch
 
 DEST=target
 
@@ -6,7 +6,7 @@ TECTONIC=$(DEST)/bin/tectonic
 TECTONIC_VERSION=0.9.0
 
 PANDOC=$(DEST)/bin/pandoc
-PANDOC_VERSION=3.2
+PANDOC_VERSION=3.4
 
 PANDOC_NOTAS_CMD=$(PANDOC) \
 		--syntax-definition=../syntax/gleam.xml \
@@ -51,7 +51,7 @@ $(TECTONIC):
 		| tar xz -C $(DEST)/bin/
 
 atualiza-template:
-	pandoc --print-default-template=beamer > templates/default.latex
+	$(PANDOC) --print-default-template=beamer > templates/default.latex
 
 clean:
 	@echo Removendo $(DEST)/*.pdf $(DEST)/handout/*.pdf
@@ -61,4 +61,8 @@ clean-all:
 	@echo Removendo $(DEST)
 	@rm -rf $(DEST)
 
+watch:
+	fd --extension md | entr make
+
+# FIXME: não é regenerado quando a árvore de diretórios muda
 include $(DEST)/Makefile.inc

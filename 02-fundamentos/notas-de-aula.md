@@ -1,18 +1,14 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Fundamentos
-# TODO: outros tipos pré-definidos? imagens?
-# TODO: comentários: ; ;; #;
-# TODO: falar de #lang lazy (também é falado em streams)
 # TODO: Discussão sobre if, and or serem formas especiais se avaliação aplicativa é usada e funções normais se avaliação em ordem normal é usada
 # TODO: esclarecer o que é o modelo de substituição e adicionar perguntas/exercícios
 # TODO: esclarecer o que é função composta
 # TODO: rever as perguntas e melhorar as definições nos slides
 # TODO: falar de estilo de código
 # TODO: falar de tratamento de erro
-# TODO: falar da forma . op . ?
 # TODO: mudar a definição do paradigma funcional para redução de expressões para valores
-# TODO: deixar para falar que o operador é da combinação é uma expressão?
+# TODO: deixar para falar que o operador da combinação é uma expressão?
 # TODO: mostrar diagrama de sintaxe?
 ---
 
@@ -21,20 +17,18 @@ Introdução
 
 ## Introdução
 
-O paradigma de programação funcional é baseado na definição e aplicação de funções \pause
+O paradigma de programação funcional é baseado na definição e aplicação de funções. \pause
 
-- Cada função é uma conjunto de expressões que mapeia valores de entrada para valores de saída. \pause
+Uma **função** é uma conjunto de expressões que mapeia valores de entrada para valores de saída. \pause
 
-Mas o que são expressões? \pause
-
-- Uma expressão é uma entidade sintática que quando avaliada produz um valor. \pause
+Uma **expressão** é uma entidade sintática que quando avaliada (reduzida) produz um valor. \pause
 
 Vamos ver uma sequência de definições de expressões e regras de avaliação.
 
 
 ## Definição de expressão (versão 0.1)
 
-Uma expressão consiste de
+Uma **expressão** consiste de
 
 - Um literal; ou
 
@@ -105,14 +99,14 @@ Operações com inteiros:
 - `+ (int.add)`{.gleam}
 - `- (int.subtract)`{.gleam}
 - `* / % > >= < <= ==`{.gleam} \pause
-- `int.to_float`{.gleam} e diversas outras no módulo `int`{.gleam} \pause
+- `int.to_float`{.gleam} e diversas outras no módulo `int`{.gleam}. \pause
 
 Operações com floats:
 
 - `*. (float.product)`{.gleam}
 - `/. (float.divide)`{.gleam}
 - `+. -.  >. >=. <. <=. ==`{.gleam} \pause
-- `float.truncate`{.gleam} e diversas outras no módulo `float`{.gleam} \pause
+- `float.truncate`{.gleam} e diversas outras no módulo `float`{.gleam}. \pause
 
 </div>
 <div class="column" width="50%">
@@ -120,9 +114,9 @@ Operações com floats:
 
 Operações com strings:
 
-- `<> (string.append)`{.gleam} (concatenação) \pause
+- `<> (string.append)`{.gleam} \pause
 - `==`{.gleam}
-- `string.slice`{.gleam} e diversas outras no módulo `string`{.gleam}
+- `string.slice`{.gleam} e diversas outras no módulo `string`{.gleam}.
 
 </div>
 </div>
@@ -158,7 +152,7 @@ Uma expressão é definida em termos de dois casos e por isso a regra de avalia�
 
 ## Exemplo de avaliação de expressões
 
-```Gleam
+```gleam
 > True
 True
 > 231
@@ -183,106 +177,77 @@ Combinações
 
 ## Combinações
 
-Alguns exemplos de combinações em Racket
+Alguns exemplos de combinações
 
-```scheme
-> (+ 12 56)
-68
-> (> 4 (+ 1 5))
-#f
-> (string-append "Apenas " "um " "teste")
-"Apenas um teste"
+<div class="columns">
+<div class="column" width="50%">
+\small
+
+```gleam
+> { 2 + 12 } * 5
+70
+> "Gol" <> string.repeat("!", 4)
+"Gol!!!!"
 ```
+
+</div>
+<div class="column" width="50%">
+\small
+
+```gleam
+> int.multiply(int.add(2, 12), 5)
+70
+> string.append("Gol",
+                string.repeat("!", 4))
+"Gol!!!"
+```
+</div>
+</div>
 
 \pause
 
-Baseado nesses exemplos, como podemos definir o que é um combinação?
+Considerando apenas funções e literais (vamos deixar os operadores de lado), qual é forma de combinar expressões para criar novas expressões? \pause
+
+A chamada de função. \pause
+
+Como podemos definir como são formadas as chamadas de funções?
 
 
-## Combinações
+## Chamadas de funções
 
 Primeira tentativa
 
-Uma combinação começa com abre parêntese, seguido de uma função primitiva, seguido de um ou mais **literais**, seguido de fecha parêntese.
+Uma chamada de função começa com uma função primitiva, seguido de abre parêntese, seguido de um ou mais **literais** separados por vírgula, seguido de fecha parêntese.
 
 \pause
 
 Essa definição é adequada? \pause Não! \pause
 
-O exemplo `(> 4 (+ 1 5))`{.scheme} não está de acordo com essa definição! \pause
+O exemplo `int.multiply(int.add(2, 12), 5)`{.gleam} não está de acordo com essa definição! \pause
 
 Segunda tentativa \pause
 
-Uma combinação começa com abre parêntese, seguido de uma função primitiva, seguido de uma ou mais **expressões**, seguido de fecha parêntese. \pause
+Uma chamada de função começa com uma função primitiva, seguido de abre parêntese, seguido de uma ou mais **expressões** separadas por vírgula, seguido de fecha parêntese. \pause
 
 Vamos usar uma definição mais genérica.
 
 
-## Combinações
+## Chamadas de funções
 
-Uma **combinação** consiste de uma lista não vazia de **expressões** entre parênteses
+Uma **chamada de função** consiste de uma **expressão** seguido por uma sequência de **expressões** entre parênteses separadas por vírgula. \pause
 
-- A expressão mais a esquerda é o **operador** (deve ser avaliada para uma função)
+- A primeira expressão é a **operador**; \pause
 
-- As outras expressões são os **operandos** \pause
+- As demais expressões são os **operandos**. \pause
 
-Qual é o valor produzido pela avaliação de uma combinação? \pause
+Qual é o valor produzido pela avaliação de uma chamada de função? \pause
 
-- O resultado da aplicação do valor (função) do operador aos valores dos operandos.
-
-
-## Notação prefixa e expressões S
-
-Que tipo de notação é essa!? Parece estranha! \pause
-
-- A convenção de colocar o operador a esquerda dos operandos é chamada de **notação prefixa**. \pause
-
-- A forma como isso é expresso no Racket é através de [expressões S](https://en.wikipedia.org/wiki/S-expression) (sexp). \pause Expressões S são usadas para denotar listas aninhadas (árvores). \pause
-
-Quais as vantagens e desvantagens de usar sexps?
-
-
-## Vantagens das sexps
-
-Operadores aritméticos são tratados como as outras funções e podem receber um número variado de argumentos
-
-```scheme
-> (* 2 8 10 1)
-160
-```
-
-
-## Vantagens das sexps
-
-Combinações podem ser aninhadas facilmente, sem preocupações com prioridades das operações
-
-```scheme
-> (+ (* 3 5) (- 10 6) 5)
-24
-> (+ (* 3
-        (+ (* 2 4)
-           (+ 3 5)))
-     (+ (- 10 7)
-        6))
-57
-```
-
-
-## Vantagens das sexps
-
-Um programa inteiro pode ser representado com uma sequência de sexp e podemos fazer programas que processam outros programas mais facilmente (Racket e outras linguagens são [homoicônicas](https://en.wikipedia.org/wiki/Homoiconicity)).
-
-
-## Desvantagens das sexps
-
-Diferente da forma que aprendemos... \pause
-
-Pode requerer mais parênteses.
+- O resultado da aplicação do valor do operador aos valores dos operandos.
 
 
 ## Expressões
 
-Vamos atualizar a definição de expressão para incluir as combinações.
+Vamos atualizar a definição de expressão para incluir as chamadas de funções.
 
 
 ## Definição de expressão (versão 0.2)
@@ -295,7 +260,7 @@ Uma **expressão** consiste de
 
 - Uma função primitiva; ou
 
-- Uma combinação (lista não vazia de **expressões** entre parênteses)
+- Uma chamada de função (**expressão** seguida de uma lista de **expressões** entre parênteses)
 
 \pause
 </div>
@@ -306,9 +271,9 @@ Regra para **avaliação de expressão** \pause
 
 - Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função \pause
 
-- Combinação \pause
+- Chamada de função \pause
 
-    - **Avalie cada expressão** da combinação, isto é, reduza cada expressão para um valor \pause
+    - **Avalie cada expressão** da chamada da função, isto é, reduza cada expressão para um valor \pause
 
       $\rightarrow$ resultado da aplicação da função aos argumentos
 
@@ -322,16 +287,16 @@ Algumas observações interessantes \pause
 
 - Uma expressão é definida por três casos e a regra de avaliação também tem três casos. \pause
 
-- Quando uma expressão é uma combinação, ela contém outras expressões. \pause Quando uma definição refere-se a si mesmo, dizemos que ela é uma definição com **autorreferência**. \pause O uso de autorreferência permite que expressões de tamanhos arbitrários sejam criadas. \pause
+- Quando uma expressão é uma chamada de função, ela contém outras expressões. \pause Quando uma definição refere-se a si mesmo, dizemos que ela é uma definição com **autorreferência**. \pause O uso de autorreferência permite a criação de expressões de tamanhos arbitrários. \pause
 
-- O processo de avaliação para uma expressão que é uma combinação requer a chamada do processo de avaliação para suas expressões. \pause Quando um processo é definido em termos de si mesmo, dizemos que ele é **recursivo**. \pause O uso de recursividade permite que expressões de tamanho arbitrário sejam avaliadas. \pause
+- O processo de avaliação para uma expressão que é uma chamada de função requer a chamada do processo de avaliação para suas expressões. \pause Quando um processo é definido em termos de si mesmo, dizemos que ele é **recursivo**. \pause O uso de recursividade permite a avaliação de expressões expressões de tamanhos arbitrários. \pause
 
 - Uma autorreferência em uma definição implicada (geralmente) em uma recursão para processar os elementos que seguem a definição.
 
 
 ## Definição de expressão (versão 0.2)
 
-Estamos usando os conceitos de autorreferência e recursividade para entender o funcionamento da linguagem Racket (a estrutura das linguagens de programação são recursivas), mas iremos ver que estes conceitos são fundamentais também para criar programas no paradigma funcional.
+Estamos usando os conceitos de autorreferência e recursividade para entender o funcionamento da linguagem Gleam (a estrutura das linguagens de programação são recursivas), mas iremos ver que estes conceitos são fundamentais também para criar programas no paradigma funcional.
 
 
 ## Avaliação de expressões
@@ -342,15 +307,17 @@ Exemplo de avaliação de um expressão \pause
 
 \small
 
-`(+ (* 3 (+ (* 2 4) (+ 3 5))) (+ (- 10 7) 6)) ; (* 2 4) -> 8`{.scheme}   \pause
-`(+ (* 3 (+ 8 (+ 3 5))) (+ (- 10 7) 6))       ; (+ 3 5) -> 8`{.scheme}   \pause
-`(+ (* 3 (+ 8 8)) (+ (- 10 7) 6))             ; (+ 8 8) -> 16`{.scheme}  \pause
-`(+ (* 3 16) (+ (- 10 7) 6))                  ; (* 3 16) -> 48`{.scheme} \pause
-`(+ 48 (+ (- 10 7) 6))                        ; (- 10 7) -> 3`{.scheme}  \pause
-`(+ 48 (+ 3 6))                               ; (+ 3 6) -> 9`{.scheme}   \pause
-`(+ 48 9)                                     ; (+ 48 9) -> 57`{.scheme} \newline \pause
-`57`{.scheme}
+`import gleam/int.{add, multiply as mul, subtract as sub}`{.gleam} \pause
 
+`add(mul(3, add(mul(2, 4), add(3, 5))), add(sub(10, 7), 6))`{.gleam} \pause
+`add(mul(3, add(mul(2, 4), add(3, 5))), add(sub(10, 7), 6)) // mul(2, 4) -> 8`{.gleam} \pause
+`add(mul(3, add(8, add(3, 5))), add(sub(10, 7), 6))         // add(3, 5) -> 8`{.gleam} \pause
+`add(mul(3, add(8, 8)), add(sub(10, 7), 6))                 // add(8, 8) -> 16`{.gleam} \pause
+`add(mul(3, 16), add(sub(10, 7), 6))                        // mul(3, 16) -> 48`{.gleam} \pause
+`add(48, add(sub(10, 7), 6))                                // sub(10, 7) -> 3`{.gleam} \pause
+`add(48, add(3, 6))                                         // add(3, 6) -> 9`{.gleam} \pause
+`add(48, 9)                                                 // add(48, 9) -> 57`{.gleam} \pause
+`57`{.gleam}
 
 
 ## Definições
@@ -367,126 +334,117 @@ Definições
 
 ## Definições
 
-Qual o propósito das definições? \pause
+Qual é o propósito das definições? \pause
 
 Definições servem para dar nome a objetos computacionais, sejam dados ou funções. \pause
 
 - É a forma de abstração mais elementar
 
 
-## Definições
+## Definições de constantes
 
-Em Racket, as definições são feitas com o `define`{.scheme} \pause
+A forma geral para definições de constantes em Gleam é:
 
-```scheme
-(define x 10)
-(define y (+ x 24))
+\small
+
+```gleam
+[pub] const nome [: Tipo] = literal
 ```
 
-```scheme
-> y
-34
-```
+\pause
 
-
-## Definições
-
-Como o Racket interpreta um definição? \pause
-
-Quando o interpretador encontra uma construção do tipo
-
-```scheme
-(define <nome> <exp>)
-```
-
-ele associa `<nome>` ao valor obtido pela avaliação de `<exp>` (a memória que armazena as associações entre nomes e objetos é chamada de **ambiente**).
-
-
-## Definições
-
-Note que uma definição não é uma combinação (expressão) e por isso o procedimento para avaliação de expressão não serve para definições. \pause
-
-- `(define x 10)`{.scheme} não significa aplicar a função `define`{.scheme} a dois argumentos \pause
-
-- O propósito do `define`{.scheme} é associar o valor `10`{.scheme} ao nome `x`{.scheme} \pause
-
-- Ou seja, `(define x 10)`{.scheme} não é uma combinação (expressão)
-
-
-## Programa
-
-Dessa forma, os programas em Racket são compostos de duas construções: expressões e definições. \pause
-
-De forma mais precisa, um programa em Racket é formado por uma sequência de definições e expressões.
-
-
-## Definições
-
-Como vimos na definição `(define y (+ x 24))`{.scheme}, nomes podem aparecer em expressões, então precisamos atualizar a nossa definição de expressão. \pause Mas antes, vamos ver como definir novas funções.
-
-
-## Definição de função
-
-A sintaxe geral para definição de novas funções (**funções compostas**) é \pause
-
-```scheme
-(define (<nome> <parametro>...) <exp>)
-```
-
-
-## Definição de função
+Exemplos
 
 <div class="columns">
 <div class="column" width="50%">
+\small
 
-```scheme
-(define (quadrado x)
-  (* x x))
-
-(define (soma-quadrados a b)
-  (+ (quadrado a) (quadrado b)))
-
+```gleam
+const x: Int = 10
+pub const y = 20
 ```
+
+\pause
 
 </div>
 <div class="column" width="50%">
+\small
 
-\pause
-
-```scheme
-> (quadrado 5)
-25
+```gleam
+> x
+10
+> y
+20
 ```
 
-\pause
-
-```scheme
-> (quadrado (+ 2 6))
-64
-```
-
-\pause
-
-```scheme
-> (soma-quadrados (+ 2 2) 3)
-25
-```
 </div>
 </div>
 
 \pause
 
-Observações: \pause
+\ 
 
-- A forma que uma função é definida é semelhante a forma que ela é chamada: \
-  `(quadrado x)`{.scheme} vs `(quadrado 5)`{.scheme} \pause
-
-- As funções compostas (definidas pelo usuário) são usadas da mesma forma que as funções pré-definidas.
+Note que a especificação do tipo da constante é opcional. Se o tipo não for especificado, ele é inferido pelo compilador.
 
 
-## Definição de função
+## Definições de funções
 
-Agora precisamos estender a definição de expressões para incluir nomes e alterar a regra de avaliação de expressões para considerar a aplicação de funções compostas.
+A forma geral para definições de novas funções (**funções compostas**) em Gleam é:
+
+\small
+
+```gleam
+[pub] fn nome(parametro1 [: Tipo], parametro2 [: Tipo], ...) [-> Tipo] {
+    expressao...
+}
+```
+
+\pause
+
+Exemplos
+
+<div class="columns">
+<div class="column" width="50%">
+\small
+
+```gleam
+fn quadrado(x: Int) -> Int {
+    x * x
+}
+pub fn soma_quadrados(a: Int, b) {
+    quadrado(a) + quadrado(b)
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="50%">
+\small
+
+```gleam
+> soma_quadrados(3, 4)
+25
+```
+
+</div>
+</div>
+
+\pause
+
+Note que a especificação dos tipo das entradas e saídas são opcionais. Se os tipos não forem especificado, ele são inferidos pelo compilador.
+
+
+## Definições
+
+Os nomes usados nas definições são associados com os objetos que eles representam e armazenados em um memória chamada de **ambiente**.
+
+
+## Definições
+
+Um programa em Gleam é composto por uma sequência de definições e instruções `import`{.gleam}. \pause
+
+Agora precisamos estender a definição de expressões para incluir nomes e alterar a regra de avaliação de expressões para considerar a chamada de funções compostas.
 
 
 
@@ -502,7 +460,7 @@ Uma **expressão** consiste de
 - Um literal; ou
 - Uma função primitiva; ou
 - Um nome; ou
-- Uma combinação (lista não vazia de **expressões** entre parênteses)
+- Uma chamada de função (**expressão** seguida de uma lista de **expressões** entre parênteses)
 
 \pause
 </div>
@@ -512,8 +470,8 @@ Regra para **avaliação de expressão**
 - Literal $\rightarrow$ valor que o literal representa
 - Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função \pause
 - Nome $\rightarrow$ valor associado com o nome no ambiente \pause
-- Combinação
-    - **Avalie cada expressão** da combinação \pause
+- Chamada de função
+    - **Avalie cada expressão** da chamada da função \pause
     - Se o operador é uma função primitiva, aplique a função aos argumentos \pause
     - Senão (o operador é uma função composta) \pause, **avalie** o corpo da função **substituindo** cada ocorrência do parâmetro formal pelo argumento correspondente
 </div>
@@ -529,43 +487,28 @@ Essa forma de calcular o resultado da aplicação de funções compostas é cham
 
 \scriptsize
 
-```scheme
-(define (quadrado x) (* x x))
-(define (soma-quadrados a b) (+ (quadrado a) (quadrado b)))
-(define (f a) (soma-quadrados (+ a 1) (* a 2)))
+```gleam
+fn quadrado(x) { x * x }
+fn soma_quadrado(a, b) { quadrado(a) + quadrado(b) }
+fn f(a) { soma_quadrados(a + 1, a * 2) }
 ```
 
-
-```scheme
-(f 5)                           ; Substitui (f 5) pelo corpo de f com
-                                ; as ocorrências do parâmetro a
-                                ; substituídas pelo argumento 5
+```gleam
+f(5)                          // Substitui f(5) pelo corpo de f com as ocorrências
+                              // do parâmetro a  substituídas pelo argumento 5
 ```
 
 \pause
 
-`(soma-quadrados (+ 5 1) (* 5 2)); Reduz (+ 5 1) para o valor 6`{.scheme} \pause
-`(soma-quadrados 6 (* 5 2))      ; Reduz (* 5 2) para o valor 10`{.scheme} \pause
-`(soma-quadrados 6 10)           ; Subs (soma-quadrados 6 10) pelo corpo ...`{.scheme} \pause
-`(+ (quadrado 6) (quadrado 10))  ; Subs (quadrado 6) pelo corpo ...`{.scheme} \pause
-`(+ (* 6 6) (quadrado 10))       ; Reduz (* 6 6) para 36`{.scheme} \pause
-`(+ 36 (quadrado 10))            ; Subs (quadrado 10) pelo corpo ...`{.scheme} \pause
-`(+ 36 (* 10 10))                ; Reduz (* 10 10) para 100`{.scheme} \pause
-`(+ 36 100)                      ; Reduz (+ 36 100) para 136`{.scheme} \pause \newline
-`136`{.scheme}
-
-
-## {.standout}
-
-\begin{tikzpicture}[scale=0.9, transform shape]
-    \node at (0, 0) {\includegraphics[width=\textwidth]{imagens/drracket-step.pdf}};
-    % Begin Student
-    \draw[line width=1pt,red] (-6.9cm, -4.4cm) rectangle ++(2.5cm, 0.36cm);
-    % lang
-    \draw[line width=1pt,red] (-6.9cm, 3.0cm) rectangle ++(2.6cm, 0.35cm);
-    % Step
-    \draw[line width=1pt,red] (3.15cm, 3.5cm) rectangle ++(1.10cm, 0.4cm);
-\end{tikzpicture}
+`soma_quadrados(5 + 1, 5 * 2)  // Reduz 5 + 1 para o valor 6`{.gleam} \pause
+`soma_quadrados(6, 5 * 2)      // Reduz 5 * 2 para o valor 10`{.gleam} \pause
+`soma_quadrados(6, 10)         // Substitui soma_quadrados(6, 10) pelo corpo ...`{.gleam} \pause
+`quadrado(6) + quadrado(10)    // Substitui quadrado(6) pelo corpo ...`{.gleam} \pause
+`{ 6 * 6 } + quadrado(10)      // Reduz 6 * 6 para 36`{.gleam} \pause
+`36 + quadrado(10)             // Substitui quadrado(10) pelo corpo ...`{.gleam} \pause
+`36 + { 10 * 10 }              // Reduz 10 * 10 para 100`{.gleam} \pause
+`36 + 100                      // Reduz 36 + 100 para 136`{.gleam} \pause \newline
+`136`{.gleam}
 
 
 ## Modelo de substituição

@@ -5,6 +5,7 @@ title: |
        | Fundamentos
 urlcolor: Blue
 license:
+# TODO: exercícios de avaliação direta de expressões? prioridades?
 # TODO: exercícios de estratégia de avaliação
 ---
 
@@ -18,25 +19,15 @@ license:
 
 @) O que significa avaliar uma expressão?
 
-@) O que é uma combinação?
+@) Qual é a regra de avaliação para uma chamada de função?
 
-@) Como é chamado a expressão mais a esquerda de uma combinação? E as demais expressões?
-
-@) Qual é a regra de avaliação para uma combinação?
+@) Qual é a regra de avaliação para uma expressão `case`?
 
 @) Qual é o propósito de uma definição?
 
 @) O que é uma função?
 
-@) O que é uma forma especial?
-
-@) Por que o `and`{.scheme} e o `or`{.scheme} são formas especiais e o `not`{.scheme} não é?
-
-@) A ordem que as expressão de uma combinação são avaliadas pode alterar o valor da combinação? Explique.
-
-@) Quando devemos utilizar o operador `=`{.scheme}?
-
-@) Qual a diferença entre as funções `eq?`{.scheme} e `equal?`{.scheme}?
+@) A ordem que as expressões em uma chamada de função são avaliadas pode alterar o valor da chamada da função? Explique.
 
 @) O que é uma definição com autorreferência?
 
@@ -45,134 +36,130 @@ license:
 
 # Praticando
 
-@) Escreva a expressão $(3 + 1) \times 8 / (4 - 1)$ em Racket.
-
-@) Qual o resultado da avaliação da expressão `(* 3 (+ 1 2) (/ 10 2) 2)`{.scheme}? Mostre o passo a passo da avaliação.
-
-@) Qual o resultado da avaliação de `(3 + 8)`{.scheme} na janela de interações do Racket? E de `3 + 8`{.scheme}. Explique.
-
 
 <!-- Funções diretas com números e strings -->
 
+<!--
 Na implementação dos exercício a seguir use apenas as funções presentes no material "Resumo da linguagem Racket" disponível na página da disciplina.
+-->
 
-@) Faça uma função chamada `area-retangulo` que recebe dois argumentos, a `largura` e a `altura` de um retângulo, e calcula a sua área. Confira na janela de interações se a função funciona de acordo com os exemplos a seguir
+@) Faça uma função chamada `area_retangulo` que recebe dois argumentos, a `largura` e a `altura` de um retângulo, e calcula a sua área. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira as respostas no modo interativo.
 
-    ```scheme
-    > (area-retangulo 3 5)
-    15
-    > (area-retangulo 2.0 2.5)
-    5.0
+    ```gleam
+    > area_retangulo(3.0, 5.0)
+    15.0
+    > area_retangulo(2.0, 2.5)
+    4.5
     ```
 
 
-@) Faça uma função chamada `produto-anterior-posterior` que recebe um número inteiro `n` e calcula o produto de `n`, `n + 1` e `n - 1`. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira a respostas na janela de iterações do DrRacket.
+@) Faça uma função chamada `produto_anterior_posterior` que recebe um número inteiro `n` e calcula o produto de `n`, `n + 1` e `n - 1`. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira as respostas no modo interativo.
 
-    ```scheme
-    > (produto-anterior-posterior 3)
+    ```gleam
+    > produto_anterior_posterior(3)
     24
-    > (produto-anterior-posterior 1)
+    > produto_anterior_posterior(1)
     0
-    > (produto-anterior-posterior -2)
+    > produto_anterior_posterior(-2)
     -6
     ```
 
 
-@) Faça uma função chamada `so-primeira-maiuscula` que recebe uma palavra não vazia (string) como parâmetro e crie uma nova string convertendo a primeira letra da palavra para maiúscula e o restante da palavra para minúscula. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira a respostas na janela de iterações do DrRacket.
+@) Faça uma função chamada `so_primeira_maiuscula` que recebe uma palavra não vazia (string) como parâmetro e crie uma nova string convertendo a primeira letra da palavra para maiúscula e o restante da palavra para minúscula. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira as respostas no modo interativo.
 
-    ```scheme
-    > (so-primeira-maiuscula "paula")
+    ```gleam
+    > so_primeira_maiuscula("paula")
     "Paula"
-    > (so-primeira-maiuscula "ALFREDO")
+    > so_primeira_maiuscula("ALFREDO")
     "Alfredo"
     ```
 
 
-@) Faça uma função chamada `exclamacao` que recebe dois argumento, uma string `frase` e um número natural `n`, e produz a mesma frase adicionando `n` pontos de exclamação no final da frase. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira a respostas na janela de iterações do DrRacket.
-
-    ```scheme
-    > (exclamacao "Nossa" 3)
-    "Nossa!!!"
-    > (exclamacao "Que legal" 1)
-    "Que legal!"
-    > (exclamacao "Nada" 0)
-    "Nada"
-    ```
-
 <!-- Predicados -->
 
-@) Faça uma função chamada `par?` que recebe um número natural `n` e indica se `n` é par. Um número é par se o resto da divisão dele por 2 é igual a zero. Não use `if`{.scheme} nem `cond`{.scheme} e nem a função pré-definida `even?`{.scheme}. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira a respostas na janela de iterações do DrRacket.
+@) Faça uma função chamada `eh_par` que recebe um número natural `n` e indica se `n` é par. Um número é par se o resto da divisão dele por 2 é igual a zero. Não use `case`{.gleam} e nem a função pré-definida `int.is_even`{.gleam}. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira as respostas no modo interativo.
 
-    ```scheme
-    > (par? 3)
-    #f
-    > (par? 6)
-    #t
+    ```gleam
+    > eh_par(3)
+    False
+    > eh_par(6)
+    True
     ```
 
 
-@) Faça uma função chamada `tres-digitos?` que recebe um número natural `n` e verifica se `n` tem exatamente 3 dígitos. Não use `if`{.scheme} nem `cond`{.scheme}. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira a respostas na janela de iterações do DrRacket.
+@) Faça uma função chamada `tem_tres_digitos` que recebe um número natural `n` e verifica se `n` tem exatamente 3 dígitos. Não use `case`{.gleam}. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira as respostas no modo interativo.
 
-    ```scheme
-    > (tres-digitos? 99)
-    #f
-    > (tres-digitos? 100)
-    #t
-    > (tres-digitos? 999)
-    #t
-    > (tres-digitos? 1000)
-    #f
+    ```gleam
+    > tem_tres_digitos(99)
+    False
+    > tem_tres_digitos(100)
+    True
+    > tem_tres_digitos(999)
+    True
+    > tem_tres_digitos(1000)
+    False
     ```
 
 <!-- Condicional -->
 
-@) Faça uma função `maximo` que encontre o máximo entre dois números dados. Não use a função pré-definida `max`{.scheme}. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira a respostas na janela de iterações do DrRacket.
+@) Faça uma função `maximo` que encontre o máximo entre dois inteiros. Não use a função `int.max`{.gleam}. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira as respostas no modo interativo.
 
-    ```scheme
-    > (maximo 3 5)
+    ```gleam
+    > maximo(3, 5)
     5
-    > (maximo 8 4)
+    > maximo(8, 4)
     8
-    > (maximo 6 6)
+    > maximo(6, 6)
     6
     ```
 
 
-@) Faça uma função chamada `ordem` que recebe três números distintos, `a`, `b` e `c` e determina se a sequencia `a, b, c` está em ordem crescente, decrescente ou não está em ordem. Use os operadores relacionas com três argumentos. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira a respostas na janela de iterações do DrRacket.
+@) Faça uma função chamada `ordem` que recebe três inteiros distintos, `a`, `b` e `c` e determina se a sequencia `a, b, c` está em ordem crescente, decrescente ou não está em ordem. Use os operadores relacionas com três argumentos. Use o método de substituição para verificar se a sua função funciona corretamente de acordo com os exemplos a seguir. Em seguida confira as respostas no modo interativo.
 
-    ```scheme
-    > (ordem 3 8 12)
+    ```gleam
+    > ordem(3, 8, 12)
     "crescente"
-    > (ordem 3 1 4)
+    > ordem(3, 1, 4)
     "sem ordem"
-    > (ordem 3 1 0)
+    > ordem(3, 1, 0)
     "decrescente"
     ```
+
+
+# Avançando
 
 <!-- Desafios -->
 
 @) [sicp 1.4] O modelo de avaliação visto em sala permite combinações em que os operadores são expressões compostas. Use esta observação para descrever o comportamento do seguinte procedimento:
 
-    ```scheme
-    (define (a-plus-abs-b a b)
-        ((if (> b 0) + -) a b))
+    ```gleam
+    fn a_plus_abs_b(a, b) {
+      case b > 0 {
+        True -> int.add
+        False -> int.subtract
+      }(a, b)
+    }
     ```
 
 @) [sicp 1.5] Ben Bitdiddle inventou um método para determinar se um interpretador está usando avaliação com ordem aplicativa ou avaliação com ordem normal. Ele definiu os seguintes procedimentos:
 
-    ```scheme
-    (define (p) (p))
+    ```gleam
+    fn p() {
+      p()
+    }
 
-    (define (test x y)
-      (if (= x 0)
-          0
-          y))
+    fn test(x, y) {
+      case x == 0 {
+          True -> 0
+          False -> y
+      }
+    }
     ```
 
     Então avaliou a seguinte expressão
 
-    ```scheme
-        (test 0 (p))
+    ```gleam
+    test(0, p())
     ```
 
     Qual é o comportamento que Ben irá observar com um interpretador que usa avaliação com ordem aplicativa? Qual é o comportamento que ele irá observar com um interpretador que usa avaliação com ordem normal? Explique a sua resposta.

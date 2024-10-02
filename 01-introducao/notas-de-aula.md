@@ -3,10 +3,10 @@
 title: Introdução
 ---
 
-O quê é?
+O que é?
 ========
 
-## O quê é?
+## O que é?
 
 O que é programação imperativa? \pause
 
@@ -21,10 +21,10 @@ O que é programação funcional? \pause
 - Evita efeitos colaterais \pause (qualquer efeito que seja observável além do valor de saída de função, como a mudança dos parâmetro e variáveis global, exceções, entrada e saída, etc).
 
 
-Por quê?
+Por que?
 ========
 
-## Por quê?
+## Por que?
 
 Um paradigma (linguagem) de programação é uma ferramenta. \pause
 
@@ -295,22 +295,22 @@ $ .\sgleam dobro.gleam
 ## Execução do repl
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="55%">
 
 REPL (_Read Eval Print Loop_)
 
-- Entre com uma expressão (_Read_)
+- A expressão é lida (_Read_)
 
 - A expressão é avaliada (_Eval_)
 
-- O resultado da expressão é impressa (_Print_)
+- O resultado da avaliação é exibido (_Print_)
 
-- Repetida o processo (_Loop_)
+- O processo é repetido (_Loop_)
 
 \pause
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="45%">
 Para iniciar o repl
 
 \small
@@ -349,12 +349,17 @@ Leitura
 
 ## Leitura
 
+<div class="columns">
+<div class="column" width="50%">
+
 Recomendada
 
 - [Tour da linguagem Gleam](https://tour.gleam.run/)
 
 - [Programação funcional](https://en.wikipedia.org/wiki/Functional_programming)
 
+</div>
+<div class="column" width="50%">
 
 Extra
 
@@ -363,3 +368,6 @@ Extra
 - [Revenge of the Nerds](http://www.paulgraham.com/icad.html)
 
 - [Beating the averages](http://www.paulgraham.com/avg.html)
+
+</div>
+</div>

@@ -5,9 +5,11 @@ title: |
        | Introdução
 urlcolor: Blue
 license:
+# TODO: adicionar exercício de gleam?
+# TODO: exercícios avançando?
 ---
 
-# Conceitos e fundamentos
+# Começando
 
 @) O que é programação imperativa?
 
@@ -19,15 +21,11 @@ license:
 
 @) Que dificuldades a ausência de mudança de estado podem gerar no desenvolvimento de um programa?
 
-@) O Alberto disse que não tem interesse em aprender programação funcional em Racket pois "ninguém" usa Racket na prática. Explique para o Alberto porque este motivo não faz sentido.
+@) O Alberto disse que não tem interesse em aprender programação funcional em Gleam pois "ninguém" usa Gleam na prática. Explique para o Alberto porque este motivo não faz sentido.
 
 @) O que é um REPL?
 
 
-# Prática
+# Praticando
 
 @) Defina uma função `f` em uma linguagem qualquer de maneira que o resultado de `f(1) + f(2)` seja diferente do resultado de `f(2) + f(1)`. Que recurso da linguagem você utilizou para que isso fosse possível?
-
-@) Leia as quatro primeiras seções da [introdução rápida ao Racket](http://docs.racket-lang.org/quick/). Destaque um aspecto da linguagem Racket que você achou interessante e outro que você estranhou.
-
-@) Escreva uma expressão usando a linguagem `slideshow` para gerar uma imagem com três círculos, um ao lado do outro, e com o círculo do meio tendo o dobro de tamanho dos outros dois.

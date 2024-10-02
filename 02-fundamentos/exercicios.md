@@ -49,7 +49,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
     > area_retangulo(3.0, 5.0)
     15.0
     > area_retangulo(2.0, 2.5)
-    4.5
+    5.0
     ```
 
 

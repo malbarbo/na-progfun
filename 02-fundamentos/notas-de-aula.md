@@ -13,6 +13,7 @@ title: Fundamentos
 # TODO: falar das prioridades dos operadores e {} para agrupamento?
 # TODO: exemplos de avalição de and e or?
 # TODO: falar da forma de operadores binários
+# TODO: falar que cada expressão tem um tipo
 ---
 
 Introdução
@@ -42,6 +43,10 @@ Um **literal** é um valor que é representado diretamente no código. Em geral,
 
 \pause
 
+Uma **tipo primitivo** é um tipo suportado diretamente pela linguagem de programação.
+
+\pause
+
 Uma **função primitiva** é uma função suportada diretamente pela linguagem de programação.
 
 
@@ -53,10 +58,12 @@ Gleam provê 9 tipos primitivos. \pause Todos os nomes de tipos começam com let
 <div class="column" width="50%">
 \small
 
-Número inteiro (`Int`{.gleam}) \pause
+Número inteiro (`Int`{.gleam})
 
-- `1345`{.gleam} \pause
-- `9_876`{.gleam} \pause
+- `1345`{.gleam}
+- `9_876`{.gleam}
+
+\pause
 
 Números de ponto flutuante (`Float`{.gleam}) \pause
 
@@ -70,16 +77,19 @@ Números de ponto flutuante (`Float`{.gleam}) \pause
 <div class="column" width="50%">
 \small
 
-Booleano (`Bool`{.gleam}) \pause
+Booleano (`Bool`{.gleam})
 
 - `True`{.gleam}
+- `False`{.gleam}
 
-- `False`{.gleam} \pause
+\pause
 
+Strings (`String`{.gleam})
 
-Strings (`String`{.gleam})\pause
+- `"din uem"`{.gleam}
+- `"apenas \"um\" teste"`{.gleam}
 
-- `"din uem"`{.gleam} \pause
+\pause
 
 </div>
 </div>
@@ -233,9 +243,7 @@ Alguns exemplos de combinações
 
 Considerando apenas funções e literais (vamos deixar os operadores de lado), qual é forma de combinar expressões para criar novas expressões? \pause
 
-A chamada de função. \pause
-
-Como podemos definir como são formadas as chamadas de funções?
+A chamada de função. \pause Como podemos definir como são formadas as chamadas de funções?
 
 
 ## Chamadas de funções
@@ -1103,7 +1111,7 @@ Os operadores `&&`{.gleam} e `||`{.glema} são binários e `!`{.gleam} é unári
 
 O operador `&&`{.gleam} produz `True`{.gleam} quando os dois operandos são `True`{.gleam}. \pause
 
-O operador `||`{.gleam} produz `True`{.gleam} quando pelo menos um dos dois operandos são `True`{.gleam}. \pause
+O operador `||`{.gleam} produz `True`{.gleam} quando pelo menos um dos dois operandos é `True`{.gleam}. \pause
 
 O operador `!`{.gleam} produz `True`{.gleam} se o operando é `False`{.gleam} e `True`{.gleam} se o operando é `False`{.gleam}.
 

@@ -14,6 +14,7 @@ title: Fundamentos
 # TODO: exemplos de avalição de and e or?
 # TODO: falar da forma de operadores binários
 # TODO: falar que cada expressão tem um tipo
+# TODO: adicionar um resumo no final
 ---
 
 Introdução
@@ -748,7 +749,7 @@ Exemplos
 
 Qual a diferente desse `if`{.gleam} em relação ao das outras linguagens? \pause
 
-Esse `if`{.gleam} é uma expressão, ele produz um valor como resultado. Na maioria das outras linguagens o `if`{.gleam} é uma sentença, ele não produz um resultado mas gera um efeito colateral. \pause
+Esse `if`{.gleam} é uma expressão, ele produz um valor como resultado. Na maioria das outras linguagens o `if`{.gleam} é uma sentença ([_statement_](https://en.wikipedia.org/wiki/Statement_(computer_science)) em inglês), ele não produz um resultado mas gera um efeito colateral. \pause
 
 Vamos ver como fazer seleção usando o `case`{.gleam}.
 
@@ -766,9 +767,9 @@ case expressão {        // expressão examinada
 }
 ```
 
-\pause
+Onde a ordem dos casos não é importante.
 
-Exemplo
+\pause
 
 <div class="columns">
 <div class="column" width="50%">
@@ -908,10 +909,7 @@ Regra para **avaliação de expressão**
 - Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função
 - Nome $\rightarrow$ valor associado com o nome no ambiente
 - Case $\rightarrow$ avalie usando a regra de avaliação do case
-- Chamada de função
-    - Avalie cada expressão da chamada da função
-    - Se o operador é uma função primitiva, aplique a função aos argumentos
-    - Senão (o operador é uma função composta), avalie o corpo da função substituindo cada ocorrência do parâmetro formal pelo argumento correspondente
+- Chamada de função $\rightarrow$ avalie usando a regra de avaliação de chamadas de funções
 </div>
 </div>
 
@@ -944,11 +942,11 @@ Defina a função `sinal` que determina o sinal de um número inteiro. \pause
 
 ```gleam
 fn sinal(x) {
-  case x == 0 {
-    True -> 0
+  case x > 0 {
+    True -> 1
     False ->
-      case x > 0 {
-        True -> 1
+      case x == 0 {
+        True -> 0
         False -> -1
       }
   }
@@ -979,26 +977,26 @@ False
 True
 ```
 
+\pause
+
 </div>
 <div class="column" width="60%">
 
-\pause
-
-Observe o exemplos e responda: \pause se verificarmos o valor de `x`, e ele for `True`{.gleam}, como calculamos o valor da função? \pause Verificando o valor de `y`, se for `True`{.gleam}, o valor da função é `True`{.gleam}, senão, o valor da função é `False`{.gleam}. \pause
-
-E se `x` for `False`{.gleam}? \pause O valor da função é `False`{.gleam}. \pause
-
 \small
+
+Observe o exemplos e responda: \pause se verificarmos o valor de `x`, e ele for `False`{.gleam}, qual é o resultado da função? \pause `False`{.gleam}. \pause
+
+E se `x` for `True`{.gleam}? \pause Verificamos o valor de `y`, se for `True`{.gleam}, o resultado da função é `True`{.gleam}, senão, o resultado da função é `False`{.gleam}. \pause
 
 ```gleam
 fn and(x, y) {
   case x {
+    False -> False
     True ->
       case y {
         True -> True
         False -> False
       }
-    False -> False
   }
 }
 ```
@@ -1016,12 +1014,12 @@ fn and(x, y) {
 ```gleam
 fn and(x, y) {
   case x {
+    False -> False
     True ->
       case y {
         True -> True
         False -> False
       }
-    False -> False
   }
 }
 ```
@@ -1094,10 +1092,13 @@ fn and(x, y) {
 
 Existe alguma implicação em definirmos `and` e `or` como funções? \pause
 
-Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são avaliados antes das funções serem avaliadas e isso impede que algumas otimizações sejam feitas. \pause Especificamente, na implementação do `and`, se a primeira expressão for `False`{.gleam}, não é necessário avaliar a segunda expressão. De forma semelhante, no `or`, se a primeira expressão for `True`{.gleam}, não é necessário avaliar a segunda expressão. \pause
+Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são avaliados antes das funções serem avaliadas e isso impede que algumas otimizações sejam feitas. \pause
 
-Essa otimização, chamada de **avaliação em curto-circuito**, é usada em outras linguagens e permitem escrever condições dependentes, como por exemplo `x != 0 and 10 / x == 2`{.c}, o que não é possível se todos os argumentos para o `and` são avaliados.
+Especificamente, na implementação do `and`, se a primeira expressão for `False`{.gleam}, não é necessário avaliar a segunda expressão. De forma semelhante, no `or`, se a primeira expressão for `True`{.gleam}, não é necessário avaliar a segunda expressão. \pause
 
+Essa otimização, chamada de **avaliação em curto-circuito**, é usada em outras linguagens e permitem escrever condições dependentes, como por exemplo `x != 0 and 10 / x == 2`{.python}, o que não é possível se todos os argumentos para o `and` são avaliados. \pause
+
+Avaliação em curto-circuito é um tipo de avaliação preguiçosa.
 
 
 Operadores lógicos
@@ -1113,7 +1114,7 @@ O operador `&&`{.gleam} produz `True`{.gleam} quando os dois operandos são `Tru
 
 O operador `||`{.gleam} produz `True`{.gleam} quando pelo menos um dos dois operandos é `True`{.gleam}. \pause
 
-O operador `!`{.gleam} produz `True`{.gleam} se o operando é `False`{.gleam} e `True`{.gleam} se o operando é `False`{.gleam}.
+O operador `!`{.gleam} produz `True`{.gleam} se o operando é `False`{.gleam} e `False`{.gleam} se o operando é `True`{.gleam}.
 
 
 ## Exemplos dos operadores lógicos

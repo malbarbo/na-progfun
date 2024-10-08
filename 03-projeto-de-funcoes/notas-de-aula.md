@@ -3,6 +3,7 @@
 title: Projeto de funções
 # TODO: substituir Definição de tipos de dados por Projeto de dados? https://course.ccs.neu.edu/cs5010sp15/recipe.html#%28part._data%29
 # TODO: melhorar a parte de garantias e restrições
+# TODO: adicionar discução sobre apelidos de tipos
 # TODO: falar sobre comentários na implementação
 # TODO: adicionar revisão no final
 ---
@@ -89,7 +90,7 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 
 \pause
 </div>
-<div class="column" width="60%">
+<div class="column" width="58%">
 **Definição dos tipos de dados** \pause
 
 - Quais são as informações envolvidas no problema? \pause
@@ -97,27 +98,22 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 
 **Resultado** \pause
 
-Informações: preço do litro do combustível e o tipo do combustível. \pause
-
-Representações: \pause
+Informações: preço do litro do combustível e o tipo do combustível. \pause Representações: \pause
 
 \small
 
-```scheme
-;; Preco é um número positivo
+```gleam
+/// O preço do litro do combustível,
+/// deve ser um número positivo.
+type Preco = Float
 
-;; Combustivel é um dos valores
-;; - "Alcool"
-;; - "Gasolina"
+/// O tipo do combustível,
+/// deve "Alcool" ou "Gasolina".
+type Combustivel = String
 ```
 
 </div>
 </div>
-
-
-## Definição dos tipos de dados
-
-Mesmo Racket sendo uma linguagem com vinculação dinâmica de tipos e não tendo apelidos de tipos e tipos enumerados, nós descrevemos em comentários os "tipos" que vamos utilizar. \pause Nesse caso, os tipos servem como documentação.
 
 
 ## Especificação
@@ -130,12 +126,16 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 
 **Tipos**
 
-```scheme
-;; Preco é um número positivo
+\small
 
-;; Combustivel é um dos valores
-;; - "Alcool"
-;; - "Gasolina"
+```gleam
+/// O preço do litro do combustível,
+/// deve ser um número positivo.
+type Preco = Float
+
+/// O tipo do combustível,
+/// deve "Alcool" ou "Gasolina".
+type Combustivel = String
 ```
 
 \pause
@@ -154,20 +154,25 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 
 \small
 
-```scheme
-;; Preco Preco -> Combustivel
-;; Encontra o combustivel que deve ser
-;; utilizado no abastecimento. Produz
-;; "Alcool" se preco-alcool for até 70%
-;; do preco-gasolina, produz "Gasolina"
-;; caso contrário.
-(define (seleciona-combustivel
-          preco-alcool
-          preco-gasolina) ...)
+```gleam
+/// Encontra o combustivel que deve
+/// ser utilizado no abastecimento.
+/// Produz "Alcool" se *preco_alcool*
+/// for até 70% do *preco_gasolina*,
+/// produz "Gasolina" caso contrário.
+fn seleciona_combustivel(
+  preco_alcool: Preco,
+  preco_gasolina: Preco,
+) -> Combustivel
 ```
 
 </div>
 </div>
+
+
+## Anotações de tipos
+
+Apesar das anotações de tipos serem opcionais, de agora em diante, vamos **sempre** colocar os tipos das entradas e saída das funções.
 
 
 ## Especificação
@@ -176,19 +181,21 @@ Exemplos \pause
 
 - Álcool 3.00, Gasolina 4.00, \pause produz "Gasolina" ($3.00 < 0.7 \times 4.00$ é falso) \pause
 - Álcool 2.90, Gasolina 4.20, \pause produz "Alcool" ($2.90 < 0.7 \times 4.20$ é verdadeiro) \pause
-- Álcool 3.50, Gasolina 5.00, \pause não está claro na especificação o que fazer quando o preço do álcool é exatamente 70% ($3.50 = 0.7 \times 5.00$)! \pause
+- Álcool 3.50, Gasolina 5.00, \pause não está claro na especificação o que fazer quando o preço do álcool é exatamente 70% ($3.50 = 0.7 \times 5.00$)!
+
+
+## Especificação
 
 Precisamos tomar uma decisão e modificar o propósito para ficar mais preciso. \pause Vamos assumir que exatamente 70% também implica no uso do álcool (quais são as outras possibilidades?). \pause O propósito modificado fica \pause
 
-\small
+\footnotesize
 
-```scheme
-;; Preco Preco -> Combustivel
-;; Encontra o combustivel que deve ser utilizado no abastecimento.
-;; Produz "Alcool" se preco-alcool for menor ou igual a 70% do preco-gasolina,
-;; produz "Gasolina" caso contrário.
+```gleam
+/// Encontra o combustivel que deve ser utilizado no abastecimento. Produz
+/// "Alcool" se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
+/// produz "Gasolina" caso contrário.
+fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel
 ```
-
 
 ## Propósito
 
@@ -197,16 +204,16 @@ No propósito da função descrevemos **o que** a função faz, e não **como** 
 No propósito também informamos as garantias da saída e as restrições sobre os parâmetros.
 
 
-## Diferença de "o quê" e "como"
+## Diferença de "o que" e "como"
 
 Número par \pause
 
-- O quê: verifica se um número é par \pause
+- O que: verifica se um número é par \pause
 - Como: faz o resto da divisão do número por 2 e compara com 0; ou; faz a divisão inteira do número e multiplica por 2 e compara com o número \pause
 
 Ordenação \pause
 
-- O quê: ordena os elementos de uma lista em ordem não decrescente \pause
+- O que: ordena os elementos de uma lista em ordem não decrescente \pause
 - Como: ordenação por seleção, por inserção, por intercalação, etc
 
 
@@ -226,26 +233,26 @@ Se a resposta for sim, então a especificação está adequada, senão ela está
 
 \footnotesize
 
-```scheme
-;; Preco Preco -> Combustivel
-;; Encontra o combustivel que deve ser
-;; utilizado no abastecimento. Produz
-;; "Alcool" se preco-alcool for menor ou
-;; igual a 70% do preco-gasolina, produz
-;; "Gasolina" caso contrário.
-(define (seleciona-combustivel
-          preco-alcool
-          preco-gasolina)
-  ...)
+```gleam
+/// Encontra o combustivel que deve
+/// ser utilizado no abastecimento.
+/// Produz "Alcool" se *preco_alcool*
+/// for menor ou igual 70% do
+/// *preco_gasolina*, produz "Gasolina"
+/// caso contrário.
+fn seleciona_combustivel(
+  preco_alcool: Preco,
+  preco_gasolina: Preco,
+) -> Combustivel
 ```
 
 \small
 
-3.00, 4.00, "Gasolina" ($3.00 \le 0.7 \times 4.00$ é false)
+3.00, 4.00, "Gasolina" ($3.00 \le 0.7 \times 4.00$ é falso)
 
-2.90, 4.20, "Alcool" ($2.90 \le 0.7 \times 4.20$ é true)
+2.90, 4.20, "Alcool" ($2.90 \le 0.7 \times 4.20$ é verdade)
 
-3.50, 5.00, "Alcool" ($3.50 \le 0.7 \times 5.00$ é true)
+3.50, 5.00, "Alcool" ($3.50 \le 0.7 \times 5.00$ é verdade)
 
 \pause
 
@@ -263,19 +270,20 @@ Se a resposta for sim, então a especificação está adequada, senão ela está
 
 ## Implementação
 
-Temos duas formas de resposta, `"Alcool"`{.scheme} e `"Gasolina"`{.scheme}, portanto, precisamos de uma condição para distinguir quando utilizar cada resposta. \pause No caso, a resposta é `"Alcool"`{.scheme} se `preco-alcool`{.scheme} é menor ou igual a 70% do preço de `preco-gasolina`; e `"Gasolina"`{.scheme} caso contrário. \pause
+Temos duas formas de resposta, `"Alcool"`{.gleam} e `"Gasolina"`{.gleam}, portanto, precisamos de uma condição para distinguir quando utilizar cada resposta. \pause No caso, a resposta é `"Alcool"`{.gleam} se `preco_alcool`{.gleam} é menor ou igual a 70% do preço de `preco_gasolina`; e `"Gasolina"`{.gleam} caso contrário. \pause
 
-\small
+\footnotesize
 
-```scheme
-;; Preco Preco -> Combustivel
-;; Encontra o combustivel que deve ser utilizado no abastecimento. Produz
-;; "Alcool" se preco-alcool for menor ou igual a 70% do preco-gasolina,
-;; produz "Gasolina" caso contrário.
-(define (seleciona-combustivel preco-alcool preco-gasolina)
-  (if (<= preco-alcool (* 0.7 preco-gasolina))
-      "Alcool"
-      "Gasolina"))
+```gleam
+/// Encontra o combustivel que deve ser utilizado no abastecimento. Produz
+/// "Alcool" se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
+/// produz "Gasolina" caso contrário.
+fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel {
+  case preco_alcool <=. 0.7 *. preco_gasolina {
+    True -> "Alcool"
+    False -> "Gasolina"
+  }
+}
 ```
 
 
@@ -286,20 +294,16 @@ Temos duas formas de resposta, `"Alcool"`{.scheme} e `"Gasolina"`{.scheme}, port
 
 \small
 
-```scheme
-;; Preco Preco -> Combustivel
-;; Encontra o combustivel que deve ser
-;; utilizado no abastecimento. Produz
-;; "Alcool" se preco-alcool menor ou
-;; igual a 70% do preco-gasolina,
-;; produz "Gasolina" caso contrário.
-(define (seleciona-combustivel
-         preco-alcool
-         preco-gasolina)
-  (if (<= preco-alcool
-          (* 0.7 preco-gasolina))
-      "Alcool"
-      "Gasolina"))
+```gleam
+fn seleciona_combustivel(
+  preco_alcool: Preco,
+  preco_gasolina: Preco,
+) -> Combustivel {
+  case preco_alcool <=. 0.7 *. preco_gasolina {
+    True -> "Alcool"
+    False -> "Gasolina"
+  }
+}
 ```
 
 \vspace{-0.3cm}
@@ -320,8 +324,8 @@ Temos duas formas de resposta, `"Alcool"`{.scheme} e `"Gasolina"`{.scheme}, port
 
 Vamos utilizar os exemplos que criamos na especificação para verificar se a resposta é a esperada. \pause
 
-```scheme
-> (seleciona-combustivel 3.00 4.00)
+```gleam
+> seleciona_combustivel(3.0, 4.0)
 "Gasolina"
 ```
 
@@ -329,8 +333,8 @@ Vamos utilizar os exemplos que criamos na especificação para verificar se a re
 
 \pause
 
-```scheme
-> (seleciona-combustivel 2.90 4.20)
+```gleam
+> seleciona_combustivel(2.9, 4.2)
 "Alcool"
 ```
 
@@ -338,8 +342,8 @@ Vamos utilizar os exemplos que criamos na especificação para verificar se a re
 
 \pause
 
-```scheme
-> (seleciona-combustivel 3.50 5.00)
+```gleam
+> seleciona_combustivel(3.5, 5.0)
 "Alcool"
 ```
 
@@ -360,46 +364,30 @@ Já que os exemplos são uma verificação inicial, então temos que ampliar a v
 
 ## Verificação
 
-Nós fizemos os exemplos em linguagem natural e no momento de verificar os exemplos nós "traduzimos" para o Racket e fizemos as chamadas da funções de forma manual na janela de interações. \pause Podemos melhorar esse processo? \pause Sim! \pause
+Nós fizemos os exemplos em linguagem natural e no momento de verificar os exemplos nós "traduzimos" para o Gleam e fizemos as chamadas da funções de forma manual no repl. \pause Podemos melhorar esse processo? \pause Sim! \pause
 
-Vamos escrever os exemplos diretamente em forma de código de maneira que eles possam ser executados automaticamente quando necessário. Para isso vamos usar um biblioteca, feita especialmente para essa disciplina.
-
-
-## {.plain}
-
-\center
-
-\Huge
-
-**Biblioteca de testes**
-
-\normalsize
-
-Para instalar a biblioteca selecione o menu "File -> Install Package...", digite o endereço "https://github.com/malbarbo/racket-test-examples.git" e clique em "Install".
+Vamos escrever os exemplos diretamente em forma de código de maneira que eles possam ser executados automaticamente quando necessário. Para isso vamos usar uma biblioteca, que já vem com o sgleam.
 
 
 ## Verificação
 
 \footnotesize
 
-```scheme
-#lang racket
-(require examples)
+```gleam
+import sgleam.{check_equal}
 
-;; Preco Preco -> Combustivel
-;;
-;; Encontra o combustivel que deve ser utilizado no abastecimento.
-;; Produz "Alcool" se preco-alcool menor ou igual a 70% do preco-gasolina,
-;; produz "Gasolina" caso contrário.
-(examples
- (check-equal? (seleciona-combustivel 3.00 4.00) "Gasolina")
- (check-equal? (seleciona-combustivel 2.90 4.20) "Alcool")
- (check-equal? (seleciona-combustivel 3.50 5.00) "Alcool"))
+fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel {
+  case preco_alcool <=. 0.7 *. preco_gasolina {
+    True -> "Alcool"
+    False -> "Gasolina"
+  }
+}
 
-(define (seleciona-combustivel preco-alcool preco-gasolina)
-  (if (<= preco-alcool (* 0.7 preco-gasolina))
-      "Alcool"
-      "Gasolina"))
+pub fn seleciona_combustivel_examples() {
+  check_equal(seleciona_combustivel(3.0, 4.0), "Gasolina")
+  check_equal(seleciona_combustivel(2.9, 4.2), "Alcool")
+  check_equal(seleciona_combustivel(3.5, 5.0), "Alcool")
+}
 ```
 
 
@@ -408,7 +396,8 @@ Para instalar a biblioteca selecione o menu "File -> Install Package...", digite
 Ao executarmos o programa obtemos algo como
 
 ```
-3 success(es) 0 failure(s) 0 error(s) 3 test(s) run
+Running tests...
+3 tests, 3 success(es), 0 failure(s) and 0 errors.
 ```
 
 

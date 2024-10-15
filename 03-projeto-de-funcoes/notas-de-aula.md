@@ -292,23 +292,30 @@ fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combusti
 <div class="columns">
 <div class="column" width="48%">
 
-\small
+\footnotesize
 
 ```gleam
 fn seleciona_combustivel(
   preco_alcool: Preco,
   preco_gasolina: Preco,
 ) -> Combustivel {
-  case preco_alcool <=. 0.7 *. preco_gasolina {
+  case preco_alcool <=.
+       0.7 *. preco_gasolina {
     True -> "Alcool"
     False -> "Gasolina"
   }
 }
 ```
 
-\vspace{-0.3cm}
+\small
 
-3.00, 4.00, então "Gasolina". 2.90, 4.20, então "Alcool". 3.50, 5.00, então "Alcool".
+\pause
+
+3.00, 4.00, então "Gasolina".
+
+2.90, 4.20, então "Alcool".
+
+3.50, 5.00, então "Alcool".
 
 \pause
 
@@ -324,12 +331,12 @@ fn seleciona_combustivel(
 
 Vamos utilizar os exemplos que criamos na especificação para verificar se a resposta é a esperada. \pause
 
+\footnotesize
+
 ```gleam
 > seleciona_combustivel(3.0, 4.0)
 "Gasolina"
 ```
-
-\vspace{-0.5cm}
 
 \pause
 
@@ -337,8 +344,6 @@ Vamos utilizar os exemplos que criamos na especificação para verificar se a re
 > seleciona_combustivel(2.9, 4.2)
 "Alcool"
 ```
-
-\vspace{-0.5cm}
 
 \pause
 
@@ -366,7 +371,7 @@ Já que os exemplos são uma verificação inicial, então temos que ampliar a v
 
 Nós fizemos os exemplos em linguagem natural e no momento de verificar os exemplos nós "traduzimos" para o Gleam e fizemos as chamadas da funções de forma manual no repl. \pause Podemos melhorar esse processo? \pause Sim! \pause
 
-Vamos escrever os exemplos diretamente em forma de código de maneira que eles possam ser executados automaticamente quando necessário. Para isso vamos usar uma biblioteca, que já vem com o sgleam.
+Vamos escrever os exemplos diretamente em forma de código de maneira que eles possam ser executados automaticamente quando necessário.
 
 
 ## Verificação
@@ -374,7 +379,7 @@ Vamos escrever os exemplos diretamente em forma de código de maneira que eles p
 \footnotesize
 
 ```gleam
-import sgleam.{check_equal}
+import sgleam/check
 
 fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel {
   case preco_alcool <=. 0.7 *. preco_gasolina {
@@ -384,9 +389,9 @@ fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combusti
 }
 
 pub fn seleciona_combustivel_examples() {
-  check_equal(seleciona_combustivel(3.0, 4.0), "Gasolina")
-  check_equal(seleciona_combustivel(2.9, 4.2), "Alcool")
-  check_equal(seleciona_combustivel(3.5, 5.0), "Alcool")
+  check.eq(seleciona_combustivel(3.0, 4.0), "Gasolina")
+  check.eq(seleciona_combustivel(2.9, 4.2), "Alcool")
+  check.eq(seleciona_combustivel(3.5, 5.0), "Alcool")
 }
 ```
 
@@ -400,8 +405,7 @@ Running tests...
 3 tests, 3 success(es), 0 failure(s) and 0 errors.
 ```
 
-
-## Verificação
+\pause
 
 Porque um teste pode falhar? \pause
 
@@ -412,6 +416,33 @@ Porque um teste pode falhar? \pause
 
 ## Revisão
 
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+/// O preço do litro do combustível,
+/// deve ser um número positivo.
+type Preco = Float
+/// O tipo do combustível,
+/// deve "Alcool" ou "Gasolina".
+type Combustivel = String
+fn seleciona_combustivel(
+  preco_alcool: Preco,
+  preco_gasolina: Preco,
+) -> Combustivel {
+  case preco_alcool <=.
+       0.7 *. preco_gasolina {
+    True -> "Alcool"
+    False -> "Gasolina"
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
 **Revisão**
 
 \pause
@@ -421,6 +452,18 @@ Porque um teste pode falhar? \pause
 - Podemos criar abstrações (definição de constantes e funções)? \pause
 - Podemos renomear os objetos?
 
+\pause
+
+**Resultado**
+
+Os tipos de dados permitem representar informações inválidas. \pause
+
+Veremos depois como lidar com essa questão.
+
+</div>
+</div>
+
+<!--
 
 ## Exemplo - aumento de salário
 
@@ -1003,6 +1046,7 @@ Agora colocamos essas duas funções em uma lista de trabalho, com um especifica
 (define (alinha s num-chars alinhamento)
 ```
 
+-->
 
 ## Referências
 

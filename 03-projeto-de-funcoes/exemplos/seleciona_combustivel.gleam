@@ -1,4 +1,4 @@
-import sgleam.{check_equal}
+import sgleam/check
 
 /// O preço do litro do combustível, deve ser um número positivo.
 type Preco =
@@ -22,7 +22,7 @@ pub fn seleciona_combustivel(
 }
 
 pub fn seleciona_combustivel_examples() {
-  check_equal(seleciona_combustivel(3.0, 4.0), "Gasolina")
-  check_equal(seleciona_combustivel(2.9, 4.2), "Alcool")
-  check_equal(seleciona_combustivel(3.5, 5.0), "Alcool")
+  check.eq(seleciona_combustivel(3.0, 4.0), "Gasolina")
+  check.eq(seleciona_combustivel(2.9, 4.2), "Alcool")
+  check.eq(seleciona_combustivel(3.5, 5.0), "Alcool")
 }

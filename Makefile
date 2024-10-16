@@ -6,7 +6,7 @@ TECTONIC=$(DEST)/bin/tectonic
 TECTONIC_VERSION=0.9.0
 
 PANDOC=$(DEST)/bin/pandoc
-PANDOC_VERSION=3.4
+PANDOC_VERSION=3.5
 
 PANDOC_NOTAS_CMD=$(PANDOC) \
 		--syntax-definition=../syntax/gleam.xml \
@@ -14,7 +14,7 @@ PANDOC_NOTAS_CMD=$(PANDOC) \
 		--from markdown-auto_identifiers \
 		--pdf-engine=$(CURDIR)/$(TECTONIC) \
 		--metadata-file ../metadata.yml \
-		--template ../templates/default.latex \
+		--template ../templates/default.beamer \
 		--to beamer \
 		--standalone
 
@@ -25,9 +25,7 @@ PANDOC_HANDOUT_CMD=$(PANDOC_NOTAS_CMD) \
 PANDOC_GERAL_CMD=$(PANDOC_NOTAS_CMD) \
 		--to latex \
 		--metadata-file ../metadata-ex.yml \
-		-V papersize=a4 \
-		-V geometry='margin=1.5cm' \
-		-V fontsize=11pt
+		--template ../templates/default.latex
 
 default:
 	@echo Executando make em paralelo [$(shell nproc) tarefas]
@@ -51,7 +49,8 @@ $(TECTONIC):
 		| tar xz -C $(DEST)/bin/
 
 atualiza-template:
-	$(PANDOC) --print-default-template=beamer > templates/default.latex
+	$(PANDOC) --print-default-template=beamer > templates/default.beamer
+	$(PANDOC) --print-default-template=latex > templates/default.latex
 
 clean:
 	@echo Removendo $(DEST)/*.pdf $(DEST)/handout/*.pdf

@@ -4,6 +4,11 @@ author:
 institute:
     - \href{http://din.uem.br}{Departamento de Informática} \newline \href{http://www.uem.br}{Universidade Estadual de Maringá}
 lang: pt-BR
+geometry:
+- margin=1.5cm
+- nofoot
+- nohead
+papersize: a4
 header-includes: |
     \usepackage{ccicons}
     \usepackage{newunicodechar}

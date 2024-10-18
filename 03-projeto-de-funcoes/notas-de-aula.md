@@ -260,10 +260,9 @@ fn seleciona_combustivel(
 <div class="column" width="50%">
 **Implementação** \pause
 
-- É necessário conhecimento específico do domínio do problema? \pause Então enumere o que será utilizado. \pause
-- Existem casos distintos? \pause Então enumere os casos. \pause
-- É uma composição de funções? \pause Então use pensamento desejoso e faça a composição das funções supondo que elas existam. \pause
-- Os dados de entradas tem autorreferência? \pause Então faça a análise dos casos base e com autorreferência e chame a função recursivamente nos casos apropriados.
+- Veremos diversas estratégias de implementação ao longo da disciplina. \pause
+- A primeira é a implementação **direta**. \pause Se a forma de calcular a resposta é sempre a mesma, ou seja, não depende de uma condição, então escrevemos a expressão da resposta diretamente. \pause
+- A segunda é a **análise de casos**. \pause Identificamos as formas de resposta e a condição necessária para cada forma e escrevemos um caso para cada forma.
 
 </div>
 </div>

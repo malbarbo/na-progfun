@@ -35,39 +35,308 @@ Um **tipo de dado** é um conjunto de valores que uma variável pode assumir. \p
 Exemplos \pause
 
 - Booleano $= \{ verdadeiro, falso \}$ \pause
-- Combustível = $\{ alcool, gasolina \}$ \pause
 - Natural = $\{ 0, 1, 2, \dots \}$ \pause
 - Inteiro = $\{\dots, -2, -1, 0, 1, 2, \dots \}$ \pause
 - String = $\{$ '', 'a', 'b', $\dots \}$ \pause
 - String que começa com a = $\{$ 'a', 'aa', 'ab', $\dots \}$
 
 
-## Requisitos de um tipo de dado
+## Adequação de tipo de dado
 
 Durante a etapa de definição de tipos de dados identificamos as informações e definimos como elas são representadas no programa. \pause
 
 Como determinar se um tipo de dado **é adequado** para representar uma informação?
 
 
-## Requisitos de um tipo de dado
+## Adequação de tipo de dado
 
 Um inteiro é adequado para representar a quantidade de pessoas em um planeta? \pause E um natural de 32 bits? \pause E um natural? \pause
 
-- Um inteiro não é adequado pois um número inteiro pode ser negativo mas a quantidade de pessoas em um planeta não pode, ou seja, o tipo de dado permite a representação de valores inválidos. \pause
+- Um inteiro não é adequado pois ele pode ser negativo, mas a quantidade de pessoas em um planeta não pode, ou seja, o tipo permite representar valores inválidos; \pause
 
-- Uma natural de 32 bits não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, nem todos os valores válidos podem ser representados. \pause
+- Uma natural de 32 bits não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, o tipo não permite representar todos os valores válidos; \pause
 
 - Um natural é adequado. Cada valor do conjunto dos naturais representa um valor válido de informação, e cada possível valor de informação pode ser representado por um número natural.
 
 
-## Requisitos de um tipo de dado
+## Diretrizes para o projeto de tipos de dados
 
-Diretrizes para projeto de tipos de dados: \pause
+Diretrizes para o projeto de tipos de dados: \pause
 
 - Faça os valores válidos representáveis. \pause
 
-- Faça os valores inválidos irrepresentáveis.
+- Faça os valores inválidos irrepresentáveis. \pause
 
+Vamos aplicar esses princípios a uma série de exemplos.
+
+
+## Exemplo combustível
+
+No exemplo da escolha do combustível, nós definimos ose seguintes tipos:
+
+\small
+
+```gleam
+/// O preço do litro do combustível,
+/// deve ser um número positivo.
+type Preco = Float
+
+/// O tipo do combustível,
+/// deve "Alcool" ou "Gasolina".
+type Combustivel = String
+```
+
+\pause
+
+\normalsize
+
+Esses tipos estão de acordo com as diretrizes para o projeto de tipos de dados? \pause
+
+Não! \pause
+
+Vamos resolver essa questão começando com `Combustivel`{.gleam}.
+
+
+
+Enumerações
+===========
+
+## Enumerações
+
+Em um **tipo enumerado** todos os valores do tipos são enumerados explicitamente. \pause
+
+A forma geral para definir tipos enumerados é:
+
+\small
+
+```gleam
+[pub] type NomeDoTipo {
+  Valor1
+  Valor2
+  ...
+  Valorn
+}
+```
+
+\pause
+
+\normalsize
+
+Cada tipo enumerado pode ter 0 ou mais valores. \pause O nome e os valores do tipo devem começar com letra maiúscula.
+
+\pause
+
+Vamos definir um tipo enumerado para representar o tipo combustível.
+
+
+## Combustível
+
+<div class="columns">
+<div class="column" width="48%">
+
+\small
+
+```gleam
+pub type Combustivel {
+  Alcool
+  Gasolina
+}
+```
+
+\pause
+
+\normalsize
+
+Podemos utilizar os operadores `==` e `!=` e a função `string.inspect`{.gleam} com os valores de tipos enumerados. \pause
+
+\small
+
+```gleam
+> Alcool == Gasolina
+False
+> Alcool != Gasolina
+True
+> string.inspect(Gasolina)
+"Gasolina"
+```
+
+\pause
+
+
+</div>
+<div class="column" width="48%">
+Assim como para valores do tipo `Bool`{.gleam}, podemos utilizar a expressão `case`{.gleam} para processar valores de tipos enumerados. \pause De fato, o tipo `Bool`{.gleam} é um tipo enumerado com os valores `True`{.gleam} e `False`{.gleam} pré-definido na linguagem. \pause
+
+\small
+
+```gleam
+pub fn msg_combustivel(c: Combustivel) {
+  case c {
+    Alcool -> "Use álcool."
+    Gasolina -> "Use gasolina."
+  }
+}
+```
+
+</div>
+</div>
+
+
+## Combustível
+
+A análise dos casos precisa ser exaustiva
+
+\scriptsize
+
+```gleam
+pub fn msg_combustivel(c: Combustivel) {
+  case c {
+    Alcool -> "Use álcool."
+  }
+}
+```
+
+\pause
+
+```
+  ┌─ src/arquivo.gleam:2:3
+  │
+2 │ +   case c {
+3 │ │     Alcool -> "a"
+4 │ │   }
+  │ +───^
+
+This case expression does not have a pattern for all possible values. If it is run on one of
+the values without a pattern then it will crash.
+The missing patterns are:
+    Gasolina
+```
+
+
+## Exemplo - tíquete do RU
+
+O RU da UEM cobra um valor por tíquete que depende da relação do usuário com a universidade. Para alunos e servidores que recebem até 3 salários mínimos o tíquete custa R$ 5,00, para servidores que recebem acima de 3 salários mínimos e docentes R$ 10,00, para pessoas da comunidade externa, R$ 19,00. Como parte de um sistema de cobrança você deve projetar uma função que determine quanto deve ser cobrado de um usuário por um quantidade de tíquetes.
+
+
+## Exemplo - tíquete do RU
+
+Análise \pause
+
+- Determinar quanto deve ser cobrado de um usuário por uma quantidade de tíquetes \pause
+
+- O usuário pode ser aluno ou servidor (até 3 sal) - R$ 5, servidor (acima de 3 sal) ou docente - R$ 10, ou externo R$ 19. \pause
+
+Definição de tipos de dados \pause
+
+- As informações são a quantidade, o tipo de usuário e o valor que deve ser cobrado.
+
+
+## Exemplo - tíquete do RU
+
+Como representar um tipo de usuário? \pause Criando um tipo enumerado com os valores possíveis para o tipo. \pause
+
+\small
+
+```gleam
+/// Representa o tipo de um usuário do RU da UEM.
+pub type Usuario {
+    Aluno
+    // Servidor que recebe até 3 salários mínimos.
+    ServidorAte3
+    // Servidor que recebe mais do que 3 salários mínimos.
+    ServidorMais3
+    Docente
+    Externo
+}
+```
+
+
+## Exemplo - tíquete do RU
+
+Especificação
+
+\small
+
+```gleam
+/// Determina o custo de *quant* tíquetes para um usuário do tipo *usuario*.
+/// O custo de um tíquete é
+/// - Aluno           5,0
+/// - ServidorAte3    5,0
+/// - ServidorMais3  10,0
+/// - Docente        10,0
+/// - Externo        19,0
+/// Se *quant* for negativo, devolve 0.0.
+pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float
+```
+
+
+## Exemplo - tíquete do RU
+
+Quantos exemplos são necessários para funções que processam valores de tipos enumerados? \pause Pelo menos um para cada valor da enumeração. \pause
+
+\small
+
+```gleam
+pub fn custo_tiquetes_examples() {
+  check.eq(custo_tiquetes(Aluno, 3), 15.0)
+  check.eq(custo_tiquetes(ServidorAte3, 2), 10.0)
+  check.eq(custo_tiquetes(ServidorMais3, 2), 20.0)
+  check.eq(custo_tiquetes(Docente, 3), 30.0)
+  check.eq(custo_tiquetes(Externo, 4), 76.0)
+}
+```
+
+\pause
+
+\normalsize
+
+Como iniciamos a implementação de uma função que processa um valor de tipo enumerado? \pause Criando um caso para cada valor da enumeração.
+
+
+## Exemplo - tíquete do RU
+
+Implementação
+
+\small
+
+```gleam
+pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
+  case usuario {
+    Aluno ->
+    ServidorAte3 ->
+    ServidorMais3 ->
+    Docente ->
+    Externo ->
+  }
+}
+```
+
+\pause
+
+Agora completamos o corpo considerando cada forma de resposta dos exemplos.
+
+
+## Exemplo - tíquete do RU
+
+Implementação
+
+\small
+
+```gleam
+pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
+  case usuario {
+    Aluno -> 5.0 *. int.to_float(quant)
+    ServidorAte3 -> 5.0 *. int.to_float(quant)
+    ServidorMais3 -> 10.0 *. int.to_float(quant)
+    Docente -> 10.0 *. int.to_float(quant)
+    Externo -> 19.0 *. int.to_float(quant)
+  }
+}
+```
+
+\pause
+
+A implementação está correta? \pause Não, precisamos tratar `quant` negativo. \pause Fica como atividade.
 
 
 Estruturas
@@ -91,7 +360,13 @@ Chamamos estes tipos de dados de **dados compostos** ou **estruturas**.
 
 ## Estruturas
 
-Em Racket utilizamos a forma especial `struct`{.scheme} para definir estruturas.
+A forma geral para definir um **dado composto** é:
+
+```gleam
+[pub] type Nome {
+  Nome([campo1:] Tipo1, [campo2:] Tipo2, ...)
+}
+```
 
 \pause
 
@@ -106,18 +381,19 @@ Vamos definir uma estrutura para representar um ponto em um plano cartesiano.
 
 Definição
 
-```scheme
-(struct ponto (x y))
+```gleam
+type Ponto {
+  Ponto(x: Int, y: Int)
+}
 ```
 
 \pause
 
 Construção
 
-```scheme
-(define p1 (ponto 3 4))
-
-(define p2 (ponto 8 2))
+```gleam
+const p1: Ponto = Ponto(x: 3, y: 4)
+const p2 = Ponto(8, 2)
 ```
 </div>
 <div class="column" width="48%">
@@ -129,23 +405,21 @@ Construção
 Decomposição
 
 ```scheme
-> (ponto-x p1)
+> p1.x
 3
-> (ponto-y p1)
+> p1.y
 4
-> (ponto-x p2)
-8
 ```
 
 \pause
 
-Teste de tipo
-
-```scheme
-> (ponto? p1)
-#t
-> (ponto? "ola")
-#f
+```gleam
+> let Ponto(x, y) = p2
+Ponto(x: 8, y: 2)
+> x
+8
+> y
+2
 ```
 </div>
 </div>
@@ -472,252 +746,6 @@ Defina uma função que calcule a distância de um ponto a origem.
 ```
 
 
-
-Enumerações
-===========
-
-
-## Exemplo - tíquete do RU
-
-O RU da UEM cobra um valor por tíquete que depende da relação do usuário com a universidade. Para alunos e servidores que recebem até 3 salários mínimos o tíquete custa R$ 5,00, para servidores que recebem acima de 3 salários mínimos e docentes R$ 10,00, para pessoas da comunidade externa, R$ 19,00. Como parte de um sistema de cobrança você deve projetar uma função que determine quanto deve ser cobrado de um usuário por um quantidade de tíquetes.
-
-
-## Exemplo - tíquete do RU
-
-Análise \pause
-
-- Determinar quanto deve ser cobrado de um usuário por uma quantidade de tíquetes \pause
-
-- O usuário pode ser aluno ou servidor (até 3 sal) - R$ 5, servidor (acima de 3 sal) ou docente - R$ 10, ou externo R$ 19. \pause
-
-Definição de tipos de dados \pause
-
-- As informações são a quantidade, o tipo de usuário e o valor que deve ser cobrado.
-
-
-## Exemplo - tíquete do RU
-
-Como representar um tipo de usuário? \pause
-
-Criando um tipo **enumeração** com os valores possíveis para o tipo. \pause
-
-O Racket não suporta a criação de tipos enumerados, mas mesmo assim podemos utilizar o conceito. \pause
-
-Vamos ver exemplos em Python e Rust e depois veremos como fazer em Racket.
-
-
-## Enumeração - Python
-
-<div class="columns">
-<div class="column" width="48%">
-
-\small
-
-```python
-class TipoUsuario(Enum):
-    '''
-    Representa um tipo de usuário
-    do RU da UEM.
-    '''
-    ALUNO = auto()
-    # Servidores que recebem até
-    # 3 salários mínimos.
-    SERVIDOR_ATE_3 = auto()
-    # Servidores que recebem mais
-    # do que 3 salários mínimos.
-    SERVIDOR_MAISQ_3 = auto()
-    DOCENTE = auto()
-    EXTERNO = auto()
-```
-
-</div>
-<div class="column" width="48%">
-\pause
-
-\small
-
-```python
-tp: TipoUsuario = TipoUsuario.ALUNO
-# Comparação por igualdade
-assert tp != TipoUsuario.DOCENTE
-```
-
-\pause
-
-```python
-# Representação textual
-assert tp.name == "ALUNO"
-```
-
-\pause
-
-```python
-# Verificação de tipo (mypy)
-# atribuição inválida
-tp = "externo"
-```
-
-</div>
-</div>
-
-
-## Enumeração - Python
-
-<div class="columns">
-<div class="column" width="48%">
-
-\small
-
-```rust
-/// Representa o tipo de um usuário do
-/// RU da UEM.
-#[derive(PartialEq, Debug)]
-enum TipoUsuario {
-    Aluno,
-    // Servidor que recebe até 3
-    // salários mínimos.
-    ServidorAte3,
-    // Servidor que recebe mais
-    // do que 3 salários mínimos.
-    ServidorMaisq3,
-    Docente,
-    Externo,
-}
-```
-
-\pause
-
-</div>
-<div class="column" width="48%">
-
-\small
-
-```rust
-let mut tp = TipoUsuario::ServidorAte3;
-// Comparação por igualdade
-assert!(tp == TipoUsuario::ServidorAte3);
-```
-
-\pause
-
-```rust
-// Verificação de tipo
-// Atribuição inválida
-tp = "servidor";
-```
-
-</div>
-</div>
-
-
-## Exemplo - tíquete do RU
-
-Embora o Racket não suporte a definição de tipos enumerados, podemos registrar em forma de comentários os possíveis valores para o tipo (como fizemos com combustível e alinhamento). \pause Mesmo que o Racket não "entenda" os comentários, eles são úteis pois registram a intenção do projetista. \pause
-
-\small
-
-```scheme
-;; TipoUsuario representa um tipo de usuário do RU da UEM.
-;; TipoUsuario é um dos valores:
-;; - "aluno"
-;; - "servidor<=3" - servidor que recebe até 3 salários mínimos
-;; - "servidor>3" - servidor que recebe acima de 3 salários mínimos
-;; - "docente"
-;; - "externo"
-```
-
-
-## Exemplo - tíquete do RU
-
-Especificação
-
-\small
-
-```scheme
-;; TipoUsuario InteiroPositivo -> NúmeroPositivo
-;; Determina o custo de *quant* tíquetes para um usuário do tipo *tu*.
-;; O custo de um tíquete é
-;; - "aluno"        5,0
-;; - "servidor<=3"  5,0
-;; - "servidor>3"  10,0
-;; - "docente"     10,0
-;; - "externo"     19,0
-(define (custo-tiquetes tu quant) ...)
-```
-
-
-## Exemplo - tíquete do RU
-
-Quantos exemplos são necessários para funções que processam valores de tipos enumerados? \pause Pelo menos um para cada valor da enumeração. \pause
-
-\small
-
-```scheme
-(examples
-  (check-equal? (custo-tiquetes "aluno" 3) 15.0) ; (* 3 5.0)
-  (check-equal? (custo-tiquetes "servido<=3" 2) 10.0) ; (* 2 5.0)
-  (check-equal? (custo-tiquetes "servido>3" 2) 20.0) ; (* 2 10.0)
-  ...)
-```
-
-\pause
-
-\normalsize
-
-Como iniciamos a implementação de uma função que processa um valor de tipo enumerado? \pause Criando um caso para cada valor da enumeração.
-
-
-## Exemplo - tíquete do RU
-
-Implementação
-
-\small
-
-```scheme
-(define (custo-tiquetes tu quant)
-  (cond
-    [(equal? tu "aluno")                    ]
-    [(equal? tu "servidor<=3")              ]
-    [(equal? tu "servidor>3")                ]
-    [(equal? tu "docente")                   ]
-    [(equal? tu "externo")                   ]))
-```
-
-\pause
-
-Agora completamos o corpo considerando cada forma de resposta dos exemplos.
-
-
-## Exemplo - tíquete do RU
-
-Implementação
-
-\small
-
-```scheme
-(define (custo-tiquetes tp quant)
-  (cond
-    [(equal? tu "aluno")       (* quant 5.0)]
-    [(equal? tu "servidor<=3") (* quant 5.0)]
-    [(equal? tu "servidor>3")  (* quant 10.0)]
-    [(equal? tu "docente")     (* quant 10.0)]
-    [(equal? tu "externo")     (* quant 19.0)]))
-```
-
-\pause
-
-Podemos simplificar? \pause Sim, podemos agrupas os casos iguais. Fica como atividade.
-
-
-## Verificadores estáticos
-
-O que acontece se esquecermos de tratar um caso de um tipo enumerado na implementação de uma função em Racket? \pause
-
-O programa continua funcionando como o esperado se aquela entrada nunca for utilizada. \pause No entanto, o código irá falhar ou produzir uma resposta incorreta se a entrada para o caso que está faltando for utilizada. \pause
-
-Os testes podem nos ajudar nesses casos, mas não é garantido. \pause Por exemplo, suponha que existam várias funções que processam dados do tipo `TipoUsuario`, e que adicionamos mais um valor possível para o tipo, por exemplo `"visitante"`, como saber todos os lugares que o código precisa ser atualizado? \pause Os testes e o Racket não nos ajudam nesse casos... \pause
-
-Já o mypy e o compilador do Rust sinalizam casos que não estão sendo tratados. Como são analisadores estáticos, elas fazem isso sem precisarem executar o código.
 
 
 ## Exemplo - Campo minado

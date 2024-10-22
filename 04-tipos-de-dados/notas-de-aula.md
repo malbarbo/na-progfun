@@ -8,6 +8,7 @@
 # TODO: falar do "expression problem"?
 # TODO: remover (discutido em sala) adicionando um exemplo inicial
 # TODO: adicionar mais referências sobre projeto de tipos de dados
+# TODO: usar o termo registro ao invés de estrutura?
 title: Tipos de dados
 ---
 
@@ -50,13 +51,17 @@ Como determinar se um tipo de dado **é adequado** para representar uma informa�
 
 ## Adequação de tipo de dado
 
-Um inteiro é adequado para representar a quantidade de pessoas em um planeta? \pause E um natural de 32 bits? \pause E um natural? \pause
+Um inteiro é adequado para representar a quantidade de pessoas em um planeta? \pause
 
-- Um inteiro não é adequado pois ele pode ser negativo, mas a quantidade de pessoas em um planeta não pode, ou seja, o tipo permite representar valores inválidos; \pause
+- Não é adequado pois ele pode ser negativo, mas a quantidade de pessoas em um planeta não pode, ou seja, o tipo permite representar valores inválidos. \pause
 
-- Uma natural de 32 bits não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, o tipo não permite representar todos os valores válidos; \pause
+E um natural de 32 bits? \pause
 
-- Um natural é adequado. Cada valor do conjunto dos naturais representa um valor válido de informação, e cada possível valor de informação pode ser representado por um número natural.
+- Não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, o tipo não permite representar todos os valores válidos. \pause
+
+E um natural? \pause
+
+- É adequado. Cada valor do conjunto dos naturais representa um valor válido de informação, e cada possível valor de informação pode ser representado por um número natural.
 
 
 ## Diretrizes para o projeto de tipos de dados
@@ -72,17 +77,15 @@ Vamos aplicar esses princípios a uma série de exemplos.
 
 ## Exemplo combustível
 
-No exemplo da escolha do combustível, nós definimos ose seguintes tipos:
+No exemplo da escolha do combustível, nós definimos os seguintes tipos:
 
 \small
 
 ```gleam
-/// O preço do litro do combustível,
-/// deve ser um número positivo.
+/// O preço do litro do combustível, deve ser um número positivo.
 type Preco = Float
 
-/// O tipo do combustível,
-/// deve "Alcool" ou "Gasolina".
+/// O tipo do combustível, deve "Alcool" ou "Gasolina".
 type Combustivel = String
 ```
 
@@ -103,7 +106,7 @@ Enumerações
 
 ## Enumerações
 
-Em um **tipo enumerado** todos os valores do tipos são enumerados explicitamente. \pause
+Em um **tipo enumerado** todos os valores do tipo são enumerados explicitamente. \pause
 
 A forma geral para definir tipos enumerados é:
 
@@ -238,7 +241,7 @@ Como representar um tipo de usuário? \pause Criando um tipo enumerado com os va
 \small
 
 ```gleam
-/// Representa o tipo de um usuário do RU da UEM.
+/// O tipo de usuário do RU da UEM.
 pub type Usuario {
     Aluno
     // Servidor que recebe até 3 salários mínimos.
@@ -302,11 +305,11 @@ Implementação
 ```gleam
 pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
   case usuario {
-    Aluno ->
-    ServidorAte3 ->
-    ServidorMais3 ->
-    Docente ->
-    Externo ->
+    Aluno -> todo
+    ServidorAte3 -> todo
+    ServidorMais3 -> todo
+    Docente -> todo
+    Externo -> todo
   }
 }
 ```
@@ -355,7 +358,7 @@ Agora veremos como representar dados onde dois ou mais valores devem ficar junto
 
 - Informações de um produto. \pause
 
-Chamamos estes tipos de dados de **dados compostos** ou **estruturas**.
+Chamamos estes tipos de dados de **dados compostos**, **registro** ou **estruturas**.
 
 
 ## Estruturas
@@ -373,7 +376,7 @@ A forma geral para definir um **dado composto** é:
 Vamos definir uma estrutura para representar um ponto em um plano cartesiano.
 
 
-## Estruturas
+## Estruturas - operações
 
 <div class="columns">
 <div class="column" width="48%">
@@ -392,9 +395,21 @@ type Ponto {
 Construção
 
 ```gleam
-const p1: Ponto = Ponto(x: 3, y: 4)
-const p2 = Ponto(8, 2)
+> let p1: Ponto = Ponto(x: 3, y: 4)
+> let p2 = Ponto(8, 2)
+> p2
+Ponto(x: 8, y: 2)
 ```
+
+\pause
+
+Acesso aos campos
+
+```scheme
+> p1.x + p1.y
+7
+```
+
 </div>
 <div class="column" width="48%">
 
@@ -402,22 +417,25 @@ const p2 = Ponto(8, 2)
 
 \pause
 
-Decomposição
+Desestruturação
 
-```scheme
-> p1.x
-3
-> p1.y
-4
+```gleam
+> // pela posição
+> let Ponto(x, y) = p2
+> x
+8
+> y
+2
 ```
 
 \pause
 
 ```gleam
-> let Ponto(x, y) = p2
-Ponto(x: 8, y: 2)
-> x
-8
+// pelo rótulo
+> let Ponto(y: a, ..) = p2
+> a
+2
+> let Ponto(y:, ..) = p2
 > y
 2
 ```
@@ -425,178 +443,84 @@ Ponto(x: 8, y: 2)
 </div>
 
 
-
-## Sintaxe de `struct`{.scheme}
-
-Uma aproximação da sintaxe do `struct`{.scheme} é
-
-```scheme
-(struct <id-estrutura> (<id-campo-1> ...))
-```
-
-
-## Funções definidas na criação de uma estrutura
+## Estruturas - operações
 
 <div class="columns">
 <div class="column" width="48%">
-Funções definidas com `struct`{.scheme}
-
 \small
 
+Definição
+
+```gleam
+type Ponto {
+  Ponto(x: Int, y: Int)
+}
+```
+
+Construção
+
+```gleam
+> let p1: Ponto = Ponto(x: 3, y: 4)
+> let p2 = Ponto(8, 2)
+> p2
+Ponto(x: 8, y: 2)
+```
+
+Acesso aos campos
+
 ```scheme
-;; Construtor
-id-estrutura
-
-;; Predicado que verifica se um objeto
-;; é do tipo da estrutura
-id-estrutura?
-
-;; Seletores
-id-estrutura-id-campo
+> p1.x + p1.y
+7
 ```
 </div>
 <div class="column" width="48%">
-\pause
-
-Por exemplo, a estrutura
 
 \small
 
-```scheme
-(struct ponto (x y))
+Comparação
+
+```gleam
+> p1 == Ponto(3, 4)
+True
+> p1 != p1
+False
+> p1 != p2
+True
 ```
 
-Define as funções
+\pause
 
-```scheme
-;; Construtor
-ponto
+Inspeção
 
-;; Predicado
-ponto?
-
-;; Seletores
-ponto-x
-ponto-y
+```gleam
+> string.inspect(p1)
+"Ponto(x: 3, x: 4)"
 ```
-
 </div>
 </div>
 
-
-## Funções definidas na criação de uma estrutura
-
-Note que o construtor, o predicado de tipo e os seletores criados por `struct`{.scheme} são funções comuns, e portando são utilizados como todas as outras funções.
-
-\small
-
-```
-> (struct ponto (x y))
-> ponto
-#<procedure:ponto>
-> ponto?
-#<procedure:ponto?>
-> ponto-x
-#<procedure:ponto-x>
-> ponto-y
-#<procedure:ponto-y>
-```
-
-
-## Estruturas transparentes
-
-Por padrão, ao exibir uma instância de uma estrutura o Racket não exibe o valor dos campos (para preservar o encapsulamento).
-
-\pause
-
-```scheme
-(struct ponto (x y))
-```
-
-\pause
-
-```scheme
-> (ponto (+ 1 2) 4)
-#<ponto>
-```
-
-
-## Estruturas transparentes
-
-Podemos usar a palavra chave `#:transparent`{.scheme} para tornar a estrutura "transparente" (podemos ver os valores dos campos).
-
-\pause
-
-```scheme
-(struct ponto (x y) #:transparent)
-```
-
-\pause
-
-```scheme
-; mesmo formato de criação e de exibição
-> (ponto (+ 1 2) 4)
-(ponto 3 4)
-```
-
-
-## Estruturas transparentes e a função `equal?`
-
-Além de mudar a forma que o ponto é exibido, a palavra chave `#:transparent`{.scheme} também altera o funcionamento da função `equal?`{.scheme}.
-
-
-## Estruturas transparentes e a função `equal?`
-
-```scheme
-;; Por padrão, dois pontos são iguais se eles são
-;; o mesmo ponto.
-(struct ponto (x y))
-
-(define p1 (ponto 3 4))
-(define p2 (ponto 3 4))
-
-> (equal? p1 p2)
-#f
-> (equal? p1 p1)
-#t
-```
-
-
-## Estruturas transparentes e a função `equal?`
-
-```scheme
-;; Com :#transparent, dois pontos são iguais se os seus
-;; campos são iguais.
-(struct ponto (x y) #:transparent)
-
-(define p1 (ponto 3 4))
-(define p2 (ponto 3 4))
-
-> (equal? p1 p2)
-#t
-> (equal? p1 p1)
-#t
-```
 
 
 ## Definindo estruturas
 
 Junto com a definição de uma estrutura, também faremos a descrição do seu propósito e do seus campos.
 
+\pause
 
-## Definindo estruturas
+\small
 
-```scheme
-(struct ponto (x y))
-;; Ponto representa um ponto no plano cartesiano
-;;   x : Número - a coordenada x
-;;   y : Número - a coordenada y
+```gleam
+/// Um ponto no plano cartesiano.
+type Ponto {
+  // x e y são as coordenadas dos pontos.
+  Ponto(x: Int, y: Int)
+}
 ```
 
 
-## Alterando dados estruturados
+## Atualização de dados compostos
 
-Podemos utilizar os seletores para consultar o valor de um campo, mas como alterar o valor de um campo? \pause Não tem como! \pause Lembrem-se, estamos estudando o paradigma funcional, onde não existe mudança de estado! \pause
+Podemos consultar o valor de um campo, mas como alterar o valor de um campo? \pause Não tem como! \pause Lembrem-se, estamos estudando o paradigma funcional, onde não existe mudança de estado! \pause
 
 Ao invés de modificar o campo de uma instância da estrutura, criamos uma cópia da instância com o campo alterado.
 
@@ -604,11 +528,13 @@ Ao invés de modificar o campo de uma instância da estrutura, criamos uma cópi
 
 Vamos criar um ponto `p2` que é como `p1`, mas com o valor 5 para o campo `y`. \pause
 
-```scheme
-> (define p1 (ponto 3 4))
-> (define p2 (ponto (ponto-x p1) 5))
+\small
+
+```gleam
+> let p1 = Ponto(3, 4)
+> let p2 = Ponto(p1.x, 5)
 > p2
-(ponto 3 5)
+Ponto(x: 3, y: 5)
 ```
 
 
@@ -616,49 +542,46 @@ Vamos criar um ponto `p2` que é como `p1`, mas com o valor 5 para o campo `y`. 
 
 Quais são as limitações desse método? \pause
 
-- Se a estrutura tem muitos campos e desejamos alterar apenas um campo, temos que especificar a cópia de todos os outros \pause
+- Se a estrutura tem muitos campos e desejamos alterar apenas um campo, temos que especificar a cópia de todos os outros; \pause
 
-- Se a estrutura é alterada pela adição ou remoção de campos, então, todas as operações de "cópia" da estrutura no código devem ser alteradas
-
-
-## Alterando dados estruturados
-
-Racket oferece a forma especial `struct-copy` ([referência](http://docs.racket-lang.org/reference/struct-copy.html)), que facilita este tipo de operação.
+- Se a estrutura é alterada pela adição ou remoção de campos, então, todas as operações de "cópia" da estrutura no código devem ser alteradas.
 
 
 ## Alterando dados estruturados
+
+Gleam tem uma sintaxe especial para atualização de estruturas.
+
+\pause
 
 \small
 
-```scheme
-> (define p1 (ponto 3 4))
-> (define p2 (struct-copy ponto p1 [y 5]))
+```gleam
+> let p1 = Ponto(3, 4)
+> let p2 = Ponto(..p1, y: 5)
 > p2
-(ponto 3 5)
+Ponto(x: 3, y: 5)
 ```
 
 \pause
 
-```scheme
-> (define p3 (struct-copy ponto p2 [x 4]))
+```gleam
+> let p3 = Ponto(..p1, x: 7)
 > p3
-(ponto 4 5)
+Ponto(x: 7, y: 4)
 ```
 
 \pause
 
-```scheme
-> ; podemos especificar o novo valor de mais de um campo
-> ; não faz sentido para ponto... mas vale o exemplo!
-> (define p4 (struct-copy ponto p2 [y 9] [x 6]))
-> p4
-(ponto 6 9)
+```gleam
+> // Podemos atualiza mais que um campo (não faz sentido nesse exemplo)
+> Ponto(..p1, x: 1, y: 2)
+Ponto(x: 1, y: 2)
 ```
 
 
 ## Exemplo - outras linguagens
 
-A ideia de estruturas imutáveis que são "atualizadas" através de cópias está presentes em diversas linguagens. \pause A seguir temos um exemplo em Python e outro em Rust.
+A ideia de estruturas imutáveis que são "atualizadas" através de cópias está presente em diversas linguagens. \pause A seguir temos um exemplo em Python e outro em Rust.
 
 \pause
 
@@ -715,6 +638,7 @@ fn main() {
 </div>
 
 
+<!--
 ## Exemplo - distância
 
 Defina uma função que calcule a distância de um ponto a origem.
@@ -745,7 +669,7 @@ Defina uma função que calcule a distância de um ponto a origem.
            (sqr (ponto-y p)))))
 ```
 
-
+-->
 
 
 ## Exemplo - Campo minado
@@ -773,12 +697,11 @@ Em uma primeira tentativa poderíamos pensar: o quadrado pode ter uma mina ou n�
 
 \small
 
-```scheme
-(struct quadrado (mina? aberto? bandeira?) #:transparent)
-;; Representa um quadrado no jogo campo minado.
-;;  mina?    : Bool - #t se tem uma mina no quadrado, #f caso contrário
-;;  aberto?  : Bool - #t se o quadrado está aberto, #f caso contrário
-;;  bandeira?: Bool - #t se tem uma bandeira no quadrado, #f caso contrário
+```gleam
+/// Um quadrado no jogo campo minado.
+pub type Quadrado {
+  Quadrado(mina: Bool, aberto: Bool, bandeira: Bool)
+}
 ```
 
 
@@ -789,9 +712,9 @@ Nós vimos duas diretrizes para o projeto de tipo de dado
 - Faça os valores válidos representáveis.
 - Faça os valores inválidos irrepresentáveis. \pause
 
-A definição de `quadrado` está de acordo com essas diretrizes? \pause Vamos verificar! \pause
+A definição de `Quadrado`{.gleam} está de acordo com essas diretrizes? \pause Vamos verificar! \pause
 
-Quantas possíveis instâncias distintas existem de `quadrado`? \pause São três campos, cada um pode assumir dois valores, portanto, $2 \times 2 \times 2 = 8$. \pause
+Quantas possíveis instâncias distintas existem de `Quadrado`{.gleam}? \pause São três campos, cada um pode assumir dois valores, portanto, $2 \times 2 \times 2 = 8$. \pause
 
 Vamos listar essas instâncias e analisar se todas são válidas.
 
@@ -803,16 +726,16 @@ Vamos listar essas instâncias e analisar se todas são válidas.
 
 \small
 
-| `mina?`       | `aberto?`      | `bandeira?`    | Válido?       |
-|:-------------:|:--------------:|:--------------:|:-------------:|
-| `#f`{.scheme} | `#f`{.scheme}  | `#f`{.scheme}  | \pause Sim \pause |
-| `#f`{.scheme} | `#f`{.scheme}  | `#t`{.scheme}  | \pause Sim \pause |
-| `#f`{.scheme} | `#t`{.scheme}  | `#f`{.scheme}  | \pause Sim \pause |
-| `#f`{.scheme} | `#t`{.scheme}  | `#t`{.scheme}  | \pause Não \pause |
-| `#t`{.scheme} | `#f`{.scheme}  | `#f`{.scheme}  | \pause Sim \pause |
-| `#t`{.scheme} | `#f`{.scheme}  | `#t`{.scheme}  | \pause Sim \pause |
-| `#t`{.scheme} | `#t`{.scheme}  | `#f`{.scheme}  | \pause Sim \pause |
-| `#t`{.scheme} | `#t`{.scheme}  | `#t`{.scheme}  | \pause Não        |
+| `mina?`     | `aberto?`    | `bandeira?` | Válido?     |
+|:-----------:|:------------:|:-----------:|:-----------:|
+|      F      |      F       |      F      | \pause Sim \pause |
+|      F      |      F       |      V      | \pause Sim \pause |
+|      F      |      V       |      F      | \pause Sim \pause |
+|      F      |      V       |      V      | \pause Não \pause |
+|      V      |      F       |      F      | \pause Sim \pause |
+|      V      |      F       |      V      | \pause Sim \pause |
+|      V      |      V       |      F      | \pause Sim \pause |
+|      V      |      V       |      V      | \pause Não        |
 
 \pause
 
@@ -832,23 +755,36 @@ Para resolver a situação podemos "juntar" os campo `aberto?` e `bandeira?` em 
 
 ## Exemplo - Campo minado
 
+<div class="columns">
+<div class="column" width="48%">
 \small
 
-```scheme
-;; Estado é um dos valores:
-;; - "aberto"
-;; - "fechado"
-;; - "fechado-com-bandeira"
+```gleam
+/// O estado de um quadrado no
+/// campo do jogo.
+pub type Estado {
+  Aberto
+  Fechado
+  FechadoComBandeira
+}
 
-(struct quadrado (mina? estado) #:transparent)
-;; Representa um quadrado no jogo campo minado.
-;;  mina? : Bool - #t se tem uma mina no quadrado, #f caso contrário
-;;  estado: Estado - o estado do quadrado
+/// Um quadrado no campo de jogo.
+pub type Quadrado {
+  // True se tem mina,
+  // False caso contrário.
+  Quadrado(mina: Bool, estado: Estado)
+}
 ```
+
+</div>
+<div class="column" width="48%">
 
 \pause
 
-Quantas possíveis instâncias distintas existem de `quadrado`? \pause O campo `mina?` pode assumir dois valores e o campo `estado` 3, portanto, $2 \times 3 = 6$, que são os seis estados válidos que identificamos anteriormente.
+Quantas possíveis instâncias distintas existem de `Quadrado`{.gleam}? \pause O campo `mina` pode assumir dois valores e o campo `estado` 3, portanto, $2 \times 3 = 6$, que são os seis estados válidos que identificamos anteriormente.
+
+</div>
+</div>
 
 
 ## Exemplo - Ação campo minado
@@ -866,11 +802,13 @@ Definição de tipos de dados \pause
 
 \small
 
-```scheme
-;; Acao é um dos valores:
-;; - "abrir"
-;; - "adicionar-bandeira"
-;; - "remover-bandeira"
+```gleam
+/// Uma ação do usuário no jogo.
+pub type Acao {
+  Abrir
+  AdicionarBandeira
+  RemoverBandeira
+}
 ```
 
 
@@ -902,21 +840,41 @@ Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemp
 | estado/ação                |     abrir      |   adicionar          |   remover     |
 |:--------------------------:|:--------------:|:--------------------:|:-------------:|
 | aberto \pause              |      -         |       -              |      - \pause |
-| fechado \pause             |    aberto      | fechado-com-bandeira |      - \pause |
-| fechado-com-bandeira \pause|      -         |       -              |   fechado     |
+| fechado \pause             |    aberto      | fechado com bandeira |      - \pause |
+| fechado com bandeira \pause|      -         |       -              |   fechado     |
 
 \pause
 
+\footnotesize
 
-```scheme
-(examples
-  ; q
-  (check-equal? (atualiza-quadrado (quadrado #f "aberto") "abrir")
-                (quadrado #f "aberto"))
-  ; (struct-copy quadrado q [estado "aberto"])
-  (check-equal? (atualiza-quadrado (quadrado #f "fechado") "abrir")
-                (quadrado #f "aberto"))
-  ...)
+```gleam
+check.eq(
+    atualiza_quadrado(Quadrado(False, Aberto), Abrir),
+```
+
+\vspace{-0.6cm}
+
+\pause
+
+```gleam
+    Quadrado(False, Aberto)
+) // q
+```
+
+\pause
+
+```gleam
+check.eq(
+    atualiza_quadrado(Quadrado(False, Fechado), Abrir),
+```
+
+\vspace{-0.6cm}
+
+\pause
+
+```gleam
+    Quadrado(False, Aberto)
+) // Quadrado(..q, estado: Aberto)
 ```
 
 
@@ -924,7 +882,7 @@ Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemp
 
 Implementação \pause
 
-Se o comportamento de uma função depende apenas de um valor enumerado, qual é a estrutura inicial do corpo da função? \pause Uma seleção com uma condição para cada valor enumerado. \pause
+Se o comportamento de uma função depende apenas de um valor enumerado, qual é a estrutura inicial do corpo da função? \pause Um caso para cada valor enumerado. \pause
 
 A função que estamos projetando depende de dois valores enumerados, qual deve ser a estrutura inicial do corpo da função? \pause Uma seleção de dois níveis, cada nível para um valor enumerado; \pause ou; uma seleção com uma condição para cada par dos valores enumerados.
 
@@ -935,57 +893,48 @@ A função que estamos projetando depende de dois valores enumerados, qual deve 
 <div class="column" width="48%">
 \scriptsize
 
-\vspace{-0.15cm}
-
-```scheme
-(define (atualiza-quadrado q acao)
-  (define estado (quadrado-estado q))
-  (cond
-    [(equal? estado "aberto")
-     (cond
-       [(equal? acao "abrir") ...]
-       [(equal? acao "adicionar-bomba") ...]
-       [(equal? acao "remover-bomba") ...])]
-    [(equal? estado "fechado")
-     (cond
-       [(equal? acao "abrir") ...]
-       [(equal? acao "adicionar-bomba") ...]
-       [(equal? acao "remover-bomba") ...])]
-    [(equal? estado "fechado-com-bandeira")
-     (cond
-       [(equal? acao "abrir") ...]
-       [(equal? acao "adicionar-bomba") ...]
-       [(equal? acao "remover-bomba") ...])]))
-
+```gleam
+fn atualiza_quadrado(q: Quadrado, acao: Acao) {
+  case q.estado {
+    Aberto -> case acao {
+      Abrir -> todo
+      AdicionarBandeira -> todo
+      RemoverBandeira -> todo
+    }
+    Fechado -> case acao {
+      Abrir -> todo
+      AdicionarBandeira -> todo
+      RemoverBandeira -> todo
+    }
+    FechadoComBandeira -> case acao {
+      Abrir -> todo
+      AdicionarBandeira -> todo
+      RemoverBandeira -> todo
+    }
+  }
+}
 ```
+
+\pause
 
 </div>
 <div class="column" width="48%">
 \scriptsize
 
-\vspace{-0.15cm}
-
-```scheme
-(define (atualiza-quadrado q acao)
-  (define estado (quadrado-estado q))
-  (cond [(and (equal? estado "aberto")
-              (equal? acao "abrir")) ...]
-        [(and (equal? estado "aberto")
-              (equal? acao "adicionar-bomba")) ...]
-        [(and (equal? estado "aberto")
-              (equal? acao "remover-bomba")) ...]
-        [(and (equal? estado "fechado")
-              (equal? acao "abrir")) ...]
-        [(and (equal? estado "fechado")
-              (equal? acao "adicionar-bomba")) ...]
-        [(and (equal? estado "fechado")
-              (equal? acao "remover-bomba")) ...]
-        [(and (equal? estado "com-bomba")
-              (equal? acao "abrir")) ...]
-        [(and (equal? estado "com-bomba")
-              (equal? acao "adicionar-bomba")) ...]
-        [(and (equal? estado "com-bomba")
-              (equal? acao "remover-bomba")) ...]))
+```gleam
+fn atualiza_quadrado(q: Quadrado, acao: Acao) {
+  case q.estado, acao {
+    Aberto, Abrir -> todo
+    Aberto, AdicionarBandeira -> todo
+    Aberto, RemoverBandeira -> todo
+    Fechado, Abrir -> todo
+    Fechado, AdicionarBandeira -> todo
+    Fechado, RemoverBandeira -> todo
+    FechadoComBandeira, Abrir -> todo
+    FechadoComBandeira, AdicionarBandeira -> todo
+    FechadoComBandeira, RemoverBandeira -> todo
+  }
+}
 ```
 </div>
 </div>
@@ -1012,20 +961,15 @@ Se olharmos a tabela de exemplos, vamos notar que em apenas 3 casos precisamos a
 
 \small
 
-```scheme
-(define (atualiza-quadrado q acao)
-  (define estado (quadrado-estado q))
-  (cond
-    [(and (equal? estado "fechado")
-          (equal? acao "abrir"))
-     (struct-copy quadrado q [estado "aberto"])]
-    [(and (equal? estado "fechado")
-          (equal? acao "adicionar-bandeira"))
-     (struct-copy quadrado q [estado "fechado-com-bandeira"])]
-    [(and (equal? estado "fechado-com-bandeira")
-          (equal? acao "remover-bandeira"))
-     (struct-copy quadrado q [estado "fechado"])]
-    [else q]))
+```gleam
+pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
+  case q.estado, acao {
+    Fechado, Abrir -> Quadrado(..q, estado: Aberto)
+    Fechado, AdicionarBandeira -> Quadrado(..q, estado: FechadoComBandeira)
+    FechadoComBandeira, RemoverBandeira -> Quadrado(..q, estado: Fechado)
+    _, _ -> q
+  }
+}
 ```
 
 

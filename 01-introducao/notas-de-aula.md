@@ -18,7 +18,7 @@ O que é programação funcional? \pause
 
 - Evita mudança de estado \pause (mudança do valor das variáveis) \pause
 
-- Evita efeitos colaterais \pause (qualquer efeito que seja observável além do valor de saída de função, como a mudança dos parâmetro e variáveis global, exceções, entrada e saída, etc).
+- Evita efeitos colaterais \pause (qualquer efeito que seja observável além do valor de saída da função, como a mudança dos parâmetro e variáveis global, exceções, entrada e saída, etc).
 
 
 Por que?

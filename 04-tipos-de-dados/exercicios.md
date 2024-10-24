@@ -5,6 +5,8 @@ title: |
        | Tipos de dados
 urlcolor: Blue
 license:
+# TODO: mudar a terminologia para tipo algébricos de dados
+# TODO: adicionar exercícios de result e option
 # TODO: adicionar problema imposto de renda no Brasil, faixas, considerando os descontos, indicar mais vantasos simplificado ou completo
 # TODO: revisar os problemas e tentar deixar apenas problemas interessantes (práticos)
 # TODO: adicionar problema de cálculo de tarifa em pedágio (moto, carro, caminhão por eixo)
@@ -20,17 +22,15 @@ license:
 
 @) Quando devemos utilizar estruturas para representar informações?
 
+<!--
 @) Como são chamadas as funções utilizadas para criar instâncias de estruturas?
-
-@) Como são chamadas as funções utilizadas para obter os valores dos campos de instâncias de estruturas?
-
-@) O que a palavra chave `#:transparent` faz quando utilizada na declaração de uma estrutura?
+-->
 
 @) Como modificar o valor de um campo de uma instância de uma estrutura? Explique.
 
 @) Quando devemos utilizar enumerações para representar informações?
 
-@) Qual é o propósito de criar enumerações em Racket já que as enumerações não são suportadas?
+@) O que são tipos algébricos de dados?
 
 @) De que forma enumerações e uniões como entrada para funções guiam a criação dos exemplos e a implementação da função?
 
@@ -39,7 +39,9 @@ license:
 
 # Praticando
 
+<!--
 Na implementação use apenas as funções presentes no material "Resumo da linguagem Racket". Não use funções de alta ordem.
+-->
 
 <!-- Enumerações -->
 

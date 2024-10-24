@@ -117,7 +117,6 @@ A forma geral para definir tipos enumerados é:
   Valor1
   Valor2
   ...
-  Valorn
 }
 ```
 
@@ -243,13 +242,13 @@ Como representar um tipo de usuário? \pause Criando um tipo enumerado com os va
 ```gleam
 /// O tipo de usuário do RU da UEM.
 pub type Usuario {
-    Aluno
-    // Servidor que recebe até 3 salários mínimos.
-    ServidorAte3
-    // Servidor que recebe mais do que 3 salários mínimos.
-    ServidorMais3
-    Docente
-    Externo
+  Aluno
+  // Servidor que recebe até 3 salários mínimos.
+  ServidorAte3
+  // Servidor que recebe mais do que 3 salários mínimos.
+  ServidorMais3
+  Docente
+  Externo
 }
 ```
 
@@ -849,7 +848,7 @@ Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemp
 
 ```gleam
 check.eq(
-    atualiza_quadrado(Quadrado(False, Aberto), Abrir),
+  atualiza_quadrado(Quadrado(False, Aberto), Abrir),
 ```
 
 \vspace{-0.6cm}
@@ -857,7 +856,7 @@ check.eq(
 \pause
 
 ```gleam
-    Quadrado(False, Aberto)
+  Quadrado(False, Aberto)
 ) // q
 ```
 
@@ -865,7 +864,7 @@ check.eq(
 
 ```gleam
 check.eq(
-    atualiza_quadrado(Quadrado(False, Fechado), Abrir),
+  atualiza_quadrado(Quadrado(False, Fechado), Abrir),
 ```
 
 \vspace{-0.6cm}
@@ -873,7 +872,7 @@ check.eq(
 \pause
 
 ```gleam
-    Quadrado(False, Aberto)
+  Quadrado(False, Aberto)
 ) // Quadrado(..q, estado: Aberto)
 ```
 
@@ -990,27 +989,33 @@ Vamos tentar uma estrutura.
 
 ## Problema - Estado tarefa
 
-\small
+\footnotesize
 
-```scheme
-(struct estado-tarefa (executando duracao msg_sucesso codigo_err msg_err))
-;; Representa o estado de uma tarefa.
-;; executando: Bool - #t se a tarefa está em execução, #f caso contrário
-;; duracao: Número - tempo que durou a execução da tarefa
-;; msg_sucesso: String - mensagem caso a tarefa tenha sido executada com sucesso
-;; codigo_err: Número - código de erro se a execução da tarefa falhou
-;; msg_err: String - mensagem de erro se a execução da tarefa falhou
+```gleam
+/// O estado de uma tarefa.
+type EstadoTarefa {
+  EstadoTarefa(
+    // True se a tarefa está em execução, False caso contrário.
+    executando: Bool,
+    // Em caso de sucesso
+    duracao: Int,
+    msg_sucesso: String,
+    // Em caso de erro
+    codigo_erro: Int,
+    msg_erro: String
+  )
+}
 ```
 
 \pause
 
-Qual é o problema dessa representação? \pause
+\normalsize
 
-Possíveis estados inválidos. \pause O que significa
+Qual é o problema dessa representação? \pause Possíveis estados inválidos. \pause O que significa
 
-`(estado-tarefa #t 10 "Ótimo desempenho" 123 "Falha na conexão")`{.scheme}? \pause
+\footnotesize
 
-Como evitar esse problema?
+`EstadoTarefa(True, 10, "Ótimo desempenho", 123, "Falha na conexão")`{.gleam}? \pause
 
 
 ## Problema - Estado tarefa
@@ -1019,7 +1024,7 @@ Analisando a descrição do problema conseguimos separar o estado da tarefa em t
 
 - Em execução \pause
 - Sucesso, com uma duração e uma mensagem \pause
-- Erro, com um código e uma mensagem \pause
+- Falha, com um código e uma mensagem \pause
 
 Esses casos são excludentes, ou seja, se a tarefa se enquadra em um deles, não devemos armazenar informações sobre os outros (caso contrário, seria possível criar um estado inconsistente). \pause
 
@@ -1034,120 +1039,223 @@ Definimos anteriormente um tipo de dado como um conjunto de possíveis valores, 
 
 - Os valores possíveis para um tipo definido por uma união (**tipo soma**) é a união dos valores de cada tipo (classe de valores) da união. \pause
 
-- Chamamos de **tipo algébrico de dado** um tipo soma de tipos produtos.
+- Chamamos de **tipo algébrico de dado** um tipo soma de tipos produtos. \pause
+
+Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o quadrado do campo minado e como é para o caso do estado da tarefa.
 
 
-## Uniões e Estruturas
+## Uniões
 
-Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o quadrado do campo minado e como é para o caso do estado da tarefa. \pause
+Algumas linguagens, como Rust e Python, tem maneiras diferentes para definir tipos de dados. \pause
 
-Antes de vermos como expressar uniões em Racket, vamos ver como uniões funcionam em um sistema estático de tipo (discutido em sala).
+A maioria das linguagens funcionais, incluindo o Gleam, tem apenas uma. \pause
 
-
-## Definição de tipos de dados
-
-Agora podemos prosseguir com o projeto do programa em Racket. \pause
-
-\small
-
-```scheme
-(struct executando ())
-;; Representa que uma tarefa está em execução.
-
-(struct sucesso (duracao msg))
-;; Representa o estado de uma tarefa que finalizou a execução com sucesso.
-;; duracao: Número - tempo de execução em segundos
-;; msg    : String - mensagem de sucesso gerada pela tarefa
-
-(struct erro (codigo msg))
-;; Representa o estado de uma tarefa que finalizou a execução com falha.
-;; código: Número - o código da falha
-;; msg   : String - mensagem de erro gerada pela tarefa
-```
-
-## Definição de tipos de dados
-
-Agora podemos definir o tipo para estado da tarefa como uma união de três casos:
+A forma geral para definição de tipos de dados em Gleam é
 
 \small
 
-```scheme
-;; EstadoTarefa é um dos valores:
-;; - (executando)             A tarefa está em execução
-;; - (sucesso Número String)  A tarefa finalizou com sucesso
-;; - (erro Número String)     A tarefa finalizou com falha
+```gleam
+[pub | pub opaque] type Nome {
+  Caso1[([campo1:] Tipo1, [campo1:] Tipo2, ...)]
+  Caso2[([campo1:] Tipo1, [campo1:] Tipo2, ...)]
+  ...
+}
 ```
 
 
-## Especificação
+## Problema - Estado tarefa
 
-\small
+<div class="columns">
+<div class="column" width="43%">
+\footnotesize
 
-```scheme
-;; EstadoTarefa -> String
-;; Produz uma string amigável para o usuário para descrever o estado da tarefa.
-(define (msg-usuario estado) "")
+```gleam
+/// O estado de uma tarefa
+type EstadoTarefa {
+  // A tarefa está em execução
+  Executando
+  // A tarefa finalizou com sucesso
+  Sucesso(duracao: Int, msg: String)
+  // A tarefa finalizou com falha
+  Falha(codigo: Int, msg: String)
+}
+```
+
+</div>
+<div class="column" width="52%">
+
+\footnotesize
+
+```gleam
+> let tarefa: EstadoTarefa = Executado
+Executando
 ```
 
 \pause
 
-Quantos exemplos são necessários? \pause Pelo menos um para cada classe de valor. \pause (Note que o exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída) \pause
-
-```scheme
-(examples
- (check-equal? (msg-usuario (executando))
-               "A tarefa está em execução.")
- (check-equal? (msg-usuario (sucesso 12 "Os resultados estão corretos"))
-               "Tarefa concluída (12s): Os resultados estão corretos.")
- (check-equal? (msg-usuario (erro 123 "Número inválido '12a'"))
-               "A tarefa falhou (err 123): Número inválido '12a'."))
+```
+> tarefa.msg
+1 │     tarefa.msg
+  │           ^^^^ This field does not exist
 ```
 
+\pause
 
-## Implementação
+\ \
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstatoTarefa`. \pause São três casos, dependendo do caso, podemos usar seletores específicos.
+```gleam
+> let tarefa = Sucesso(10, "Recuperação exitosa.")
+Sucesso(duracao: 10, msg: "Recuperação exitosa.")
+```
 
-## Uniões
+\pause
+
+```
+> tarefa.msg
+1 │     tarefa.msg
+  │           ^^^^ This field does not exist
+```
+
+\pause
+
+</div>
+</div>
+
+\ \
+
+Como podemos acessar os campos então!? \pause Usando casamento de padrão com o `case`{.gleam}.
+
+
+## Problema - Estado tarefa
+
+<div class="columns">
+<div class="column" width="43%">
+\footnotesize
+
+```gleam
+/// O estado de uma tarefa
+type EstadoTarefa {
+  // A tarefa está em execução
+  Executando
+  // A tarefa finalizou com sucesso
+  Sucesso(duracao: Int, msg: String)
+  // A tarefa finalizou com falha
+  Falha(codigo: Int, msg: String)
+}
+```
+
+</div>
+<div class="column" width="52%">
+
+\footnotesize
+
+```gleam
+> // Devolve -1 se não tem duracao.
+> fn duracao(tarefa: EstadoTarefa) -> Int {
+    Sucesso(duracao, _) -> duracao
+    _ -> -1
+  }
+```
+
+\pause
+
+\ \
+
+```gleam
+> duracao(Executando)
+-1
+> duracao(Sucesso(10, "Recuperação exitosa."))
+10
+> duracao(Falha(-23, "Arquivo não existente."))
+-1
+```
+
+</div>
+</div>
+
+
+## Problema - Estado tarefa
+
+Agora podemos retornar e concluir o projeto. \pause
+
+Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com um mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro. \pause
+
+Especificação
 
 \small
 
-```scheme
-(define (msg-usuario estado)
-  (cond
-    [(executando? estado)
-     ...]
-    [(sucesso? estado)
-     ...
-     ... (sucesso-duracao estado)
-     ... (sucesso-msg estado)]
-    [(erro? estado)
-     ...
-     ... (erro-codigo estado)
-     ... (erro-msg estado)]))
+```gleam
+/// Produz uma string amigável para o usuário para descrever o estado da tarefa.
+fn msg(tarefa: EstadoTarefa) -> String
 ```
 
 
-## Implementação
+## Problema - Estado tarefa
+
+Quantos exemplos são necessários? \pause Pelo menos um para cada classe de valor. \pause
 
 \small
 
-```scheme
-(define (msg-usuario estado)
-  (cond
-    [(executando? estado)
-     "A tarefa está em execução."]
-    [(sucesso? estado)
-     (format "Tarefa concluída (~as): ~a."
-             (sucesso-duracao estado)
-             (sucesso-msg estado))]
-    [(erro? estado)
-     (format "A tarefa falhou (err ~a): ~a."
-             (erro-codigo estado)
-             (erro-msg estado))]))
+```gleam
+fn msg_examples() {
+  check.eq(mensagem(Executando), "A tarefa está em execução.")
+  check.eq(
+    mensagem(Sucesso(12, "Os resultados estão corretos.")),
+    "Tarefa concluída (12s): Os resultados estão corretos.",
+  )
+  check.eq(
+    mensagem(Erro(123, "Número inválido '12a'.")),
+    "A tarefa falhou (erro 123): Número inválido '12a'.",
+  )
+}
+```
+
+\pause
+
+\normalsize
+
+Note que o exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída.
+
+
+## Problema - Estado tarefa
+
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstatoTarefa`. \pause São três casos: \pause
+
+\small
+
+```gleam
+fn mensagem(estado: EstadoTarefa) -> String {
+  case estado {
+    Executando -> todo
+    Sucesso(duracao, msg) -> todo
+
+    Erro(codigo, msg) -> todo
+
+  }
+}
 ```
 
 
+## Problema - Estado tarefa
+
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstatoTarefa`. São três casos:
+
+\small
+
+```gleam
+fn mensagem(estado: EstadoTarefa) -> String {
+  case estado {
+    Executando -> "A tarefa está em execução."
+    Sucesso(duracao, msg) ->
+      "Tarefa concluída (" <> int.to_string(duracao) <> "s): " <> msg
+    Erro(codigo, msg) ->
+      "A tarefa falhou (erro " <> int.to_string(codigo) <> "): " <> msg
+  }
+}
+```
+
+
+<!--
 ## Considerações
 
 Nos vimos que os tipos algébricos de dados podem ser usados para modelar informações de forma mais precisa, aumentando a confiabilidade do programa. \pause
@@ -1159,86 +1267,7 @@ Considere por exemplo uma alteração nos requisitos do nosso projeto: as tarefa
 Supondo que o programa utilize `EstadoTarefa` em mais que um lugar, como podemos saber todos os lugares que precisamos alterar o código para levar em consideração o novo estado "Fila"? \pause
 
 Em Racket não podemos... \pause mas em Typed Racket podemos!
-
-
-## Uniões em Racket tipado (typed racket)
-
-<div class="columns">
-<div class="column" width="40%">
-
-Considere as seguintes definições
-
-\footnotesize
-
-```scheme
-#lang typed/racket
-
-(struct executando ())
-
-(struct sucesso ([duracao : Number]
-                 [msg : String]))
-
-(struct erro ([codigo : Number]
-              [msg : String]))
-
-(define-type EstadoTarefa
-  (U executando sucesso erro))
-```
-
-</div>
-<div class="column" width="56%">
-
-E a função
-
-\footnotesize
-
-```scheme
-(: msg-usuario (-> EstadoTarefa String))
-(define (msg-usuario estado)
-  (cond
-    [(executando? estado)
-     "A tarefa está em execução"]
-    [(sucesso? estado)
-     (format "A tarefa finalizou com sucesso (~as): ~a."
-             (sucesso-duracao estado)
-             (sucesso-msg estado))]
-    [(erro? estado)
-     (format "A tarefa falhou (erro ~a): ~a."
-             (erro-codigo estado)
-             (erro-msg estado))]))
-```
-
-</div>
-</div>
-
-
-## Uniões em Racket tipado (typed racket)
-
-O que acontece se alteramos a definição do estado da tarefa da seguinte maneira?
-
-\footnotesize
-
-```scheme
-(struct fila ())
-(define-type EstadoTarefa (U fila executando sucesso erro))
-```
-
-\pause
-
-\normalsize
-
-O analisador estático do Racket indica um erro no `cond`{.scheme}, pois nem todos os casos são tratados.
-
-\pause
-
-\footnotesize
-
-```
-Type Checker: type mismatch
-  expected: String
-  given: Void
-```
-
+-->
 
 
 Outras linguagens

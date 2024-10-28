@@ -1,4 +1,4 @@
-import sgleam.{check_equal}
+import sgleam/check
 
 /// Produz True se *n* é um número positivo de três digitos.
 pub fn tres_digitos(n: Int) -> Bool {
@@ -6,8 +6,8 @@ pub fn tres_digitos(n: Int) -> Bool {
 }
 
 pub fn tres_digitos_examples() {
-  check_equal(tres_digitos(99), False)
-  check_equal(tres_digitos(100), True)
-  check_equal(tres_digitos(999), True)
-  check_equal(tres_digitos(1000), False)
+  check.eq(tres_digitos(99), False)
+  check.eq(tres_digitos(100), True)
+  check.eq(tres_digitos(999), True)
+  check.eq(tres_digitos(1000), False)
 }

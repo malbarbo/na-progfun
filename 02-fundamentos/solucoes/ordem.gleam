@@ -1,4 +1,4 @@
-import sgleam.{check_equal}
+import sgleam/check
 
 /// Determina se a sequência *a*, *b*, *c* está em ordem "crescente",
 /// "decrescente" ou "sem ordem"
@@ -14,7 +14,7 @@ pub fn ordem(a: Int, b: Int, c: Int) -> String {
 }
 
 pub fn ordem_examples() {
-  check_equal(ordem(3, 8, 12), "crescente")
-  check_equal(ordem(3, 1, 4), "sem ordem")
-  check_equal(ordem(3, 1, 0), "decrescente")
+  check.eq(ordem(3, 8, 12), "crescente")
+  check.eq(ordem(3, 1, 4), "sem ordem")
+  check.eq(ordem(3, 1, 0), "decrescente")
 }

@@ -1,5 +1,5 @@
 import gleam/string
-import sgleam.{check_equal}
+import sgleam/check
 
 /// Devolve *s* com a primeira letra em maiúscula e o restante em minúscula.
 pub fn so_primeira_maiuscula(s: String) -> String {
@@ -8,7 +8,7 @@ pub fn so_primeira_maiuscula(s: String) -> String {
 }
 
 pub fn so_primeira_maiuscula_examples() {
-  check_equal(so_primeira_maiuscula("paula"), "Paula")
-  check_equal(so_primeira_maiuscula("ALFREDO"), "Alfredo")
+  check.eq(so_primeira_maiuscula("paula"), "Paula")
+  check.eq(so_primeira_maiuscula("ALFREDO"), "Alfredo")
 }
 

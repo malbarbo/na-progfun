@@ -1,8 +1,8 @@
 import sgleam/check
 
-// Produz True se *n* tem 4 dígitos e é palíndromo, isto é, tem os mesmos
-// dígitos quando lido da direita para a esquerda ou da esquerda para a
-// direita. Produz False caso contrário.
+/// Produz True se *n* tem 4 dígitos e é palíndromo, isto é, tem os mesmos
+/// dígitos quando lido da direita para a esquerda ou da esquerda para a
+/// direita. Produz False caso contrário.
 pub fn palindromo(n: Int) -> Bool {
   // A operação (n / 1) não é necessária, mas
   // foi colocada para ilustrar como o processo é

@@ -14,7 +14,6 @@ import sgleam/check
 /// a esquerda se *n* é negativo. Mover 1 a direita significa colocar o último
 /// caractere de uma string no início da string. Mover 1 a esquerda significa
 /// colocar o o primeiro caractere de uma string no final da string
-
 pub fn rotaciona_direita(s: String, n: Int) -> String {
   let tam = string.length(s)
   let div = case n < 0 {

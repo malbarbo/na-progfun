@@ -50,7 +50,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
       False
     }
 
-    pub fn isento_tarifa_examplos() {
+    pub fn isento_tarifa_examples() {
       check.eq(isento_tarifa(17), True)
       check.eq(isento_tarifa(18), True)
       check.eq(isento_tarifa(50), False)

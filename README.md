@@ -1,6 +1,13 @@
 # Notas de aula sobre o paradigma de programação funcional
 
+Para gerar os pdfs execute o comando `make pdf`. Os arquivos pdfs serão gerados no diretório `target/`.
+
+Este comando irá baixar e executar os programas [pandoc](https://pandoc.org/)
+e [tectonic](http://tectonic-typesetting.github.io/).
+
 Se preferir, faça o download dos [pdfs](http://malbarbo.pro.br/ensino/2023/11917/).
+
+Esse material utilizava inicialmente a linguagem Racket, mas está sendo atualizado para utilizar a linguagem Gleam. O material em Racket está no ramo [racket](../../tree/cpp)
 
 Veja também as [notas de aula](https://github.com/malbarbo/na-proglog) sobre
 o paradigma de programação lógico.
@@ -18,14 +25,6 @@ Marco A L Barbosa</a>
 está licenciado com uma Licença
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
 Creative Commons - Atribuição-CompartilhaIgual 4.0 Internacional</a>.
-
-
-# Gerando os pdfs
-
-Execute o comando `make pdf`. Os arquivos pdfs serão gerados no diretório `target/pdfs`.
-
-Este comando irá baixar e executar os programas [pandoc](https://pandoc.org/)
-e [tectonic](http://tectonic-typesetting.github.io/).
 
 
 <!-- % vim: set spell spelllang=pt_br: -->

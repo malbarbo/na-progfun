@@ -9,6 +9,8 @@
 # TODO: remover (discutido em sala) adicionando um exemplo inicial
 # TODO: adicionar mais referências sobre projeto de tipos de dados
 # TODO: usar o termo registro ao invés de estrutura?
+# TODO: mostrar a solução completa para custo_tiquetes
+# TODO: adicionar discusão de Option e Result
 title: Tipos de dados
 ---
 
@@ -1012,10 +1014,7 @@ type EstadoTarefa {
 \normalsize
 
 Qual é o problema dessa representação? \pause Possíveis estados inválidos. \pause O que significa
-
-\footnotesize
-
-`EstadoTarefa(True, 10, "Ótimo desempenho", 123, "Falha na conexão")`{.gleam}? \pause
+\footnotesize `EstadoTarefa(True, 10, "Ótimo desempenho", 123, "Falha na conexão")`{.gleam}?
 
 
 ## Problema - Estado tarefa
@@ -1189,6 +1188,12 @@ Especificação
 fn msg(tarefa: EstadoTarefa) -> String
 ```
 
+\pause
+
+\normalsize
+
+O exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída nos exemplos a seguir.
+
 
 ## Problema - Estado tarefa
 
@@ -1198,24 +1203,20 @@ Quantos exemplos são necessários? \pause Pelo menos um para cada classe de val
 
 ```gleam
 fn msg_examples() {
-  check.eq(mensagem(Executando), "A tarefa está em execução.")
+  check.eq(
+    mensagem(Executando),
+    "A tarefa está em execução."
+  )
   check.eq(
     mensagem(Sucesso(12, "Os resultados estão corretos.")),
-    "Tarefa concluída (12s): Os resultados estão corretos.",
+    "Tarefa concluída (12s): Os resultados estão corretos."
   )
   check.eq(
     mensagem(Erro(123, "Número inválido '12a'.")),
-    "A tarefa falhou (erro 123): Número inválido '12a'.",
+    "A tarefa falhou (erro 123): Número inválido '12a'."
   )
 }
 ```
-
-\pause
-
-\normalsize
-
-Note que o exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída.
-
 
 ## Problema - Estado tarefa
 
@@ -1227,6 +1228,7 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 fn mensagem(estado: EstadoTarefa) -> String {
   case estado {
     Executando -> todo
+
     Sucesso(duracao, msg) -> todo
 
     Erro(codigo, msg) -> todo
@@ -1245,7 +1247,8 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 ```gleam
 fn mensagem(estado: EstadoTarefa) -> String {
   case estado {
-    Executando -> "A tarefa está em execução."
+    Executando ->
+      "A tarefa está em execução."
     Sucesso(duracao, msg) ->
       "Tarefa concluída (" <> int.to_string(duracao) <> "s): " <> msg
     Erro(codigo, msg) ->
@@ -1268,10 +1271,6 @@ Supondo que o programa utilize `EstadoTarefa` em mais que um lugar, como podemos
 
 Em Racket não podemos... \pause mas em Typed Racket podemos!
 -->
-
-
-Outras linguagens
-=================
 
 
 ## União em outras linguagens
@@ -1390,6 +1389,402 @@ static String mensagem(EstadoTarefa estado) {
 A [JEP 405](https://openjdk.org/jeps/405), que ainda está em _preview_, permite o uso de padrões para decompor registros.
 
 
+
+Valores opcionais e erros
+=========================
+
+
+## Pendências
+
+Nós aplicamos com sucesso as diretrizes para projeto de tipos de dados no exemplo do combustível, quadrado do campo minado e estado da tarefa. \pause Mas ainda temos alguns pontos para resolver. \pause
+
+No problema do combustível usamos `Float`{.gleam} para representar o preço do combustível, mas não garantimos que o preço é maior do que zero. \pause
+
+No problema do estado da tarefa, usamos `Int`{.gleam} para representar a duração da tarefa no caso de sucesso, mas não garantimos que a duração é maior ou igual a zero. \pause
+
+Na função exemplo `duracao(EstadoTarefa) -> Int`{.gleam}, devolvemos `-1`{.gleam} para representar que o estado da tarefa não tem informação de duração. \pause
+
+Como podemos resolver essas questões? \pause Vamos começar com a função `duracao`{.gleam}.
+
+
+## Valores opcionais
+
+<div class="columns">
+<div class="column" width="54%">
+\footnotesize
+
+```gleam
+fn duracao(tarefa: EstadoTarefa) -> Int {
+  Sucesso(duracao, _) -> duracao
+  _ -> -1
+}
+
+> duracao(Executando)
+-1
+> duracao(Sucesso(10, "Recuperação exitosa."))
+10
+> duracao(Falha(-23, "Arquivo não existente."))
+-1
+```
+
+\pause
+
+</div>
+<div class="column" width="42%">
+Como representar um inteiro que pode ou não estar presente? \pause
+
+São dois casos distintos, ou existe um valor, ou não existe nenhum. \pause Então podemos criar um tipo união. \pause
+
+\footnotesize
+
+```gleam
+type Opcional {
+    Nenhum
+    Algum(Int)
+}
+```
+
+</div>
+</div>
+
+
+## Valores opcionais
+
+<div class="columns">
+<div class="column" width="54%">
+\footnotesize
+
+```gleam
+// Devolve -1 se não tem duracao.
+fn duracao(tarefa: EstadoTarefa) -> Opcional {
+  Sucesso(duracao, _) -> duracao
+  _ -> -1
+}
+
+> duracao(Executando)
+Nenhum
+> duracao(Sucesso(10, "Recuperação exitosa."))
+Algum(10)
+> duracao(Falha(-23, "Arquivo não existente."))
+Nenhum
+```
+
+\pause
+
+</div>
+<div class="column" width="42%">
+Quais as vantagens dessa abordagem? \pause
+
+- O código é mais claro. \pause
+
+- O usuário da função tem que tratar de forma explícita os dois casos, ele não pode usar por "acidente" o valor -1 como se existisse uma duração. \pause
+
+\footnotesize
+
+```gleam
+> "A tarefa demourou " <>
+  duracao(Executado) <> " segundos"
+```
+
+\pause
+
+```
+The <> operator expects arguments of
+this type:
+    String
+But this argument has this type:
+    Opcional
+```
+
+
+</div>
+</div>
+
+## Soma um
+
+Projete uma função que receba um opcional e some 1 ao valor se ele estiver presente.
+
+\pause
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma 1 ao valor opcional de *a*.
+fn soma1(a: Opcional) -> Opcional {
+  Nenhum
+}
+```
+
+\pause
+
+```gleam
+fn soma1_examples() {
+  check.eq(soma1(Nenhum), Nenhum)
+  check.eq(soma1(Algum(10)), Algum(11))
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma 1 ao valor opcional de *a*.
+fn soma1(a: Opcional) -> Opcional {
+  case a {
+    Nenhum -> Nenhum
+    Algum(x) -> Algum(x + 1)
+  }
+}
+```
+</div>
+</div>
+
+
+## Primeiro string
+
+Projete uma função que devolva o primeiro caractere de uma string.
+
+\pause
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+type Optional {
+  Nenhum
+  Algum(String)
+}
+
+/// Devolve o primeiro caractere
+/// de *s* ou Nenhum se *s* é vazia.
+fn primeiro(s: String) -> Opcional {
+  Nenhum
+}
+```
+
+\pause
+
+```gleam
+fn primeiro_examples() {
+  check.eq(primeiro(""), Nenhum)
+  check.eq(primeiro("casa"), Algum("casa"))
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Devolve o primeiro caractere
+/// de *s* ou Nenhum se *s* é vazia.
+fn primeiro(s: String) -> Opcional {
+  case s {
+    "" -> Nenhum
+    _ -> Algum(string.slice(s, 0, 1))
+  }
+}
+```
+
+\pause
+
+\normalsize
+
+Existe algum problema com a implementação? \pause
+
+A string em `Opcional`{.gleam} ainda pode ser vazia. \pause
+
+Este é o mesmo problema do preço e da idade...
+</div>
+</div>
+
+
+## Valores opcionais
+
+Gleam tem na biblioteca padrão o tipo `Option`{.gleam} para representar valores opcionais. \pause
+
+
+<div class="columns">
+<div class="column" width="48%">
+O tipo `Opcional` é definido da seguinte forma
+
+\footnotesize
+
+```gleam
+type Option(a) {
+  None
+  Some(a)
+}
+```
+
+\pause
+
+\normalsize
+
+O nome `a` é um parâmetro de tipo.
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+import gleam/option.{type Option, Some, None}
+
+fn soma1(a: Option(Int)) -> Option(Int) {
+  case a {
+    None -> None
+    Some(x) -> Some(x + 1)
+  }
+}
+fn primeiro(s: String) -> Option(String) {
+  case s {
+    "" -> None
+    _ -> Some(string.slice(s, 0, 1))
+  }
+}
+```
+</div>
+</div>
+
+
+## Valores opcionais
+
+As linguagens Rust e Java, entre outras, também tem o tipo `Option`{.gleam}. \pause
+
+Em Rust o tipo `Option`{.gleam} é bastante utilizando na biblioteca padrão para representar valores que podem estar ausentes, como na saída de funções semelhantes a função `primeiro`{.gleam}. \pause
+
+Em Gleam é mais comum utilizar o tipo `Result`{.gleam}, que vamos discutir a seguir.
+
+
+## Erros
+
+Como lidar com funções que podem falhar? \pause
+
+Por exemplo, uma função que converte uma string para um número pode falhar, pois nem todas as strings representam números válidos, como lidar com isso? \pause
+
+Estratégias comumente utilizadas incluem \pause
+
+- Finalizar o programa \pause
+- Lançar exceção (Python, Java) \pause
+- ... \pause
+- Devolver um valor indicando erro \pause
+
+Nos vimos que as linguagens puramente funcionais não têm efeitos colaterais, então a opção mais viável é a última.
+
+
+## Erros
+
+Uma possibilidade é utilizar `Option`{.gleam} como resultado sendo que o `None`{.gleam} representa que a função falhou e `Some(val)`{.gleam} que a função executou corretamente e produziu `val` como resposta. \pause
+
+Em que situações o tipo `Option`{.gleam} não seria adequado? \pause Quando existe mais de uma possível causa para a falha da função e queremos distinguir entre as falhas. \pause
+
+Por exemplo, uma função para escrever em um arquivo pode falhar porque o arquivo não existe, o usuário não tem permissão para escrever no arquivo, o disco está cheio, etc. \pause
+
+Como podemos fazer nesse caso?
+
+
+## Erros
+
+Definimos uma enumeração com dois casos, uma para erro com um valor associado, e um para sucesso com o valor associado. \pause
+
+Em Gleam, este é o tipo `Result`{.gleam}, pré-definido como:
+
+\small
+
+```gleam
+type Result(ok, error) {
+    Ok(ok)
+    Error(error)
+}
+```
+
+
+## Option vs Result
+
+De acordo com <https://hexdocs.pm/gleam_stdlib/gleam/option.html>:
+
+*In other languages failible functions may return either `Result` or `Option` depending on whether there is more information to be given about the failure. In Gleam all failible functions return `Result`, and `Nil` is used as the error if there is no extra detail to give. This consistency removes the boilerplate that would otherwise be needed to convert between `Option` and `Result` types, and makes APIs more predictable.*
+
+
+
+## Exemplo soma de string
+
+Projete uma função que receba como parâmetro duas strings, e se as duas representarem inteiros, devolva a soma dos valores em forma de string.
+
+
+## Exemplo soma de string
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn soma(
+  a: String,
+  b: String,
+) -> Result(String, Nil) {
+  Error(Nil)
+}
+```
+
+\pause
+
+```gleam
+fn soma_examples() {
+  check.eq(soma("31", "4"), Ok("35"))
+  check.eq(soma("31", "a"), Error(Nil))
+  check.eq(soma("a", "4"), Error(Nil))
+  check.eq(soma("a", "b"), Error(Nil))
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn soma(a, b) -> Result(String, Nil) {
+  case int.parse(a) {
+    Ok(a) -> case int.parse(b) {
+      Ok(b) -> Ok(int.to_string(a + b))
+      Error(_) -> Error(Nil)
+    }
+    Error(_) -> Error(Nil)
+  }
+}
+```
+
+\pause
+
+```gleam
+fn soma(a, b) -> Result(String, Nil) {
+  case int.parse(a), int.parse(b) {
+    Ok(a), Ok(b) -> Ok(int.to_string(a + b))
+    _, _ -> Error(Nil)
+  }
+}
+```
+</div>
+</div>
+
+
+Revisão
+=======
+
+
 ## Revisão
 
 Vimos com mais detalhes como desenvolver a etapa de definição de tipos de dados. \pause
@@ -1424,11 +1819,9 @@ Referências
 
 Básicas
 
-- [Vídeos Compound Data](https://www.youtube.com/playlist?list=PL6NenTZG6KrpA-ww35EwcaxY-tgh82TAh)
-
-- [Vídeos Reference](https://www.youtube.com/watch?v=tp44seRHLUQ&list=PL6NenTZG6KrptkOEMyLWDnF0ZjSpVTHAE)
-
 - [Vídeo Making Impossible States Impossible](https://www.youtube.com/watch?v=IcgmSRJHu_8)
+
+- [Parse, don't validade](Parse, don’t validate)
 
 - [Seções](http://docs.racket-lang.org/guide/define-struct.html) 5.1 a 5.5 do [Guia Racket](http://docs.racket-lang.org/guide/)
 

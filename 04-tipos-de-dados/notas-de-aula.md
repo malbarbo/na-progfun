@@ -978,7 +978,7 @@ Uniões
 ======
 
 
-## Problema - Estado tarefa
+## Exemplo - Estado tarefa
 
 Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com um mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro.
 
@@ -989,7 +989,7 @@ Como representar o estado de uma tarefa? \pause
 Vamos tentar uma estrutura.
 
 
-## Problema - Estado tarefa
+## Exemplo - Estado tarefa
 
 \footnotesize
 
@@ -1017,7 +1017,7 @@ Qual é o problema dessa representação? \pause Possíveis estados inválidos. 
 \footnotesize `EstadoTarefa(True, 10, "Ótimo desempenho", 123, "Falha na conexão")`{.gleam}?
 
 
-## Problema - Estado tarefa
+## Exemplo - Estado tarefa
 
 Analisando a descrição do problema conseguimos separar o estado da tarefa em três casos: \pause
 
@@ -1062,7 +1062,7 @@ A forma geral para definição de tipos de dados em Gleam é
 ```
 
 
-## Problema - Estado tarefa
+## Exemplo - Estado tarefa
 
 <div class="columns">
 <div class="column" width="43%">
@@ -1125,7 +1125,7 @@ Sucesso(duracao: 10, msg: "Recuperação exitosa.")
 Como podemos acessar os campos então!? \pause Usando casamento de padrão com o `case`{.gleam}.
 
 
-## Problema - Estado tarefa
+## Exemplo - Estado tarefa
 
 <div class="columns">
 <div class="column" width="43%">
@@ -1173,7 +1173,7 @@ type EstadoTarefa {
 </div>
 
 
-## Problema - Estado tarefa
+## Exemplo - Estado tarefa
 
 Agora podemos retornar e concluir o projeto. \pause
 
@@ -1195,7 +1195,7 @@ fn msg(tarefa: EstadoTarefa) -> String
 O exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída nos exemplos a seguir.
 
 
-## Problema - Estado tarefa
+## Exemplo - Estado tarefa
 
 Quantos exemplos são necessários? \pause Pelo menos um para cada classe de valor. \pause
 
@@ -1218,7 +1218,7 @@ fn msg_examples() {
 }
 ```
 
-## Problema - Estado tarefa
+## Exemplo - Estado tarefa
 
 Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstatoTarefa`. \pause São três casos: \pause
 
@@ -1238,7 +1238,7 @@ fn mensagem(estado: EstadoTarefa) -> String {
 ```
 
 
-## Problema - Estado tarefa
+## Exemplo - Estado tarefa
 
 Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstatoTarefa`. São três casos:
 
@@ -1414,6 +1414,7 @@ Como podemos resolver essas questões? \pause Vamos começar com a função `dur
 \footnotesize
 
 ```gleam
+/// Devolve -1 se não tem duracao.
 fn duracao(tarefa: EstadoTarefa) -> Int {
   Sucesso(duracao, _) -> duracao
   _ -> -1
@@ -1455,7 +1456,6 @@ type Opcional {
 \footnotesize
 
 ```gleam
-// Devolve -1 se não tem duracao.
 fn duracao(tarefa: EstadoTarefa) -> Opcional {
   Sucesso(duracao, _) -> duracao
   _ -> -1
@@ -1475,23 +1475,22 @@ Nenhum
 <div class="column" width="42%">
 Quais as vantagens dessa abordagem? \pause
 
-- O código é mais claro. \pause
+O código é mais claro. \pause
 
-- O usuário da função tem que tratar de forma explícita os dois casos, ele não pode usar por "acidente" o valor -1 como se existisse uma duração. \pause
+O usuário da função tem que tratar de forma explícita os dois casos, ele não pode usar por "acidente" o valor -1 como se existisse uma duração. \pause
 
 \footnotesize
 
 ```gleam
-> "A tarefa demourou " <>
-  duracao(Executado) <> " segundos"
+> 2 * duracao(Executado)
 ```
 
 \pause
 
 ```
-The <> operator expects arguments of
+The * operator expects arguments of
 this type:
-    String
+    Int
 But this argument has this type:
     Opcional
 ```
@@ -1573,7 +1572,7 @@ fn primeiro(s: String) -> Opcional {
 ```gleam
 fn primeiro_examples() {
   check.eq(primeiro(""), Nenhum)
-  check.eq(primeiro("casa"), Algum("casa"))
+  check.eq(primeiro("casa"), Algum("c"))
 }
 ```
 
@@ -1614,7 +1613,7 @@ Gleam tem na biblioteca padrão o tipo `Option`{.gleam} para representar valores
 
 <div class="columns">
 <div class="column" width="48%">
-O tipo `Opcional` é definido da seguinte forma
+O tipo `Option`{.gleam} é definido como
 
 \footnotesize
 
@@ -1629,9 +1628,11 @@ type Option(a) {
 
 \normalsize
 
-O nome `a` é um parâmetro de tipo.
+O nome `a` é um parâmetro de tipo. \pause
 
-\pause
+Os parâmetros de tipos são escritos com letra minúscula. \pause
+
+Um parâmetro de tipo pode ser instanciado com qualquer tipo. \pause
 
 </div>
 <div class="column" width="48%">
@@ -1640,13 +1641,22 @@ O nome `a` é um parâmetro de tipo.
 
 ```gleam
 import gleam/option.{type Option, Some, None}
+```
 
+\pause
+
+```gleam
 fn soma1(a: Option(Int)) -> Option(Int) {
   case a {
     None -> None
     Some(x) -> Some(x + 1)
   }
 }
+```
+
+\pause
+
+```gleam
 fn primeiro(s: String) -> Option(String) {
   case s {
     "" -> None
@@ -1660,7 +1670,7 @@ fn primeiro(s: String) -> Option(String) {
 
 ## Valores opcionais
 
-As linguagens Rust e Java, entre outras, também tem o tipo `Option`{.gleam}. \pause
+As linguagens Rust e Java, entre outras, também têm o tipo `Option`{.gleam}. \pause
 
 Em Rust o tipo `Option`{.gleam} é bastante utilizando na biblioteca padrão para representar valores que podem estar ausentes, como na saída de funções semelhantes a função `primeiro`{.gleam}. \pause
 
@@ -1716,6 +1726,54 @@ De acordo com <https://hexdocs.pm/gleam_stdlib/gleam/option.html>:
 
 *In other languages failible functions may return either `Result` or `Option` depending on whether there is more information to be given about the failure. In Gleam all failible functions return `Result`, and `Nil` is used as the error if there is no extra detail to give. This consistency removes the boilerplate that would otherwise be needed to convert between `Option` and `Result` types, and makes APIs more predictable.*
 
+
+## Erros
+
+<div class="columns">
+<div class="column" width="48%">
+\small
+
+```gleam
+> int.parse("10.1")
+Error(Nil)
+> int.parse("241")
+Ok(241)
+```
+
+\pause
+
+```gleam
+> int.divide(25, 3)
+Ok(8)
+> int.divide(12, 0)
+Error(Nil)
+>
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\small
+
+```gleam
+> float.square_root(25.0)
+Ok(5.0)
+> float.square_root(-1.0)
+Error(Nil)
+```
+
+\pause
+
+```gleam
+> string.first("")
+Error(Nil)
+> string.first("casa")
+Ok("c")
+```
+
+</div>
+</div>
 
 
 ## Exemplo soma de string
@@ -1781,6 +1839,133 @@ fn soma(a, b) -> Result(String, Nil) {
 </div>
 
 
+## Validação
+
+Como podemos utilizar o tipo `Result`{.gleam} para lidar com a questão do preço, que deve ser positivo? \pause
+
+A opção mais direta é validar o preço na função `seleciona_combustivel`{.gleam} e devolver `Error`{.gleam} se um dos preços não for positivo.
+
+
+## Validação
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// O preço do litro do combustível,
+/// deve ser um número positivo.
+type Preco = Float
+
+fn seleciona_combustivel(
+  preco_alcool: Preco,
+  preco_gasolina: Preco,
+) -> Result(Combustivel, Nil) {
+  case preco_alcool <= 0.0 ||
+       preco_gasolina <= 0.0 {
+    True -> Error(Nil)
+    False -> todo
+  }
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+Qual é a limitação dessa abordagem? \pause
+
+Em todos os lugares que `Preco`{.gleam} é utilizado precisamos fazer a validação; \pause ou podemos assumir que o preço foi validado anteriormente. \pause
+
+Podemos melhorar? \pause Sim!
+
+</div>
+</div>
+
+
+## Validação
+
+A idade é definir um TAD, e fazer a validação do valor no construtor do tipo. \pause
+
+Dessa forma, não é possível construir uma instância do tipo que seja inválida. \pause
+
+Usamos a palavra chave `opaque`{.gleam} para criar um TAD em Gleam. \pause
+
+Apenas o módulo que define um tipo `opaque`{.gleam} tem acesso aos seus componentes.
+
+
+## Validação
+
+<div class="columns">
+<div class="column" width="52%">
+\footnotesize
+
+```gleam
+/// O preço do litro do combustível.
+pub opaque type Preco {
+    Preco(valor: Float)
+}
+```
+
+\pause
+
+```gleam
+/// Devolve Ok(Preco) com o valor *v* se
+/// v > 0, Error(Nil) caso contrário.
+pub fn preco(v: Float) -> Result(Preco, Nil) {
+  case v > 0 {
+    True -> Ok(v)
+    False -> Error(Nil)
+  }
+}
+```
+
+\pause
+
+```gleam
+/// Devolve o valor em *p*.
+pub fn valor(p: Preco) -> Float {
+  p.valor
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="44%">
+
+\footnotesize
+
+```gleam
+fn seleciona_combustivel(
+  preco_alcool: Preco,
+  preco_gasolina: Preco,
+) -> Combustivel {
+  case valor(preco_alcool) <=.
+         0.7 *. valor(preco_gasolina) {
+    ...
+  }
+}
+```
+
+\pause
+
+```gleam
+fn seleciona_combustivel_examples() {
+  let assert Ok(alcool) = preco(4.2)
+  let assert Ok(gasolina) = preco(6.1)
+  check.eq(
+    seleciona_combustivel(alcool, gasolina),
+    Alcool,
+  )
+}
+```
+
+</div>
+</div>
+
+
 Revisão
 =======
 
@@ -1805,11 +1990,14 @@ Vimos como definir novos tipos de dados usando tipos algébricos: \pause
 Discutimos como os tipos de dados guiam o processo de projeto de programas: \pause
 
 - Um tipo soma com N casos sugere pelo menos N exemplos; \pause
-
 - Um tipo soma com N casos sugere um corpo com uma análise de N casos. \pause
 
-Por fim, vimos que um analisador estático amplia bastante a utilidade dos tipos algébricos de dados, garantindo que o código trate todos os casos na análise de tipos soma.
 
+Vimos como usar tipos somas para lidar com valores opcionais, erros e validação: \pause
+
+- O tipo `Option` é usado para valores opcionais; \pause
+- O tipo `Result` é utilizado para representar sucesso ou falha de uma função; \pause
+- Tipos opacos podem ser utilizados para representar valores que foram validados.
 
 
 Referências
@@ -1819,11 +2007,13 @@ Referências
 
 Básicas
 
+- [Tipos de dados em Gleam](https://tour.gleam.run/everything/#data-types-tuples)
+
+- [Tipos opacos em Gleam](https://tour.gleam.run/everything/#advanced-features-opaque-types)
+
 - [Vídeo Making Impossible States Impossible](https://www.youtube.com/watch?v=IcgmSRJHu_8)
 
-- [Parse, don't validade](Parse, don’t validate)
-
-- [Seções](http://docs.racket-lang.org/guide/define-struct.html) 5.1 a 5.5 do [Guia Racket](http://docs.racket-lang.org/guide/)
+- [Parse, don't validade](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
 
 
 Leitura recomendada

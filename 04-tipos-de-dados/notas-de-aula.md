@@ -1151,9 +1151,11 @@ type EstadoTarefa {
 ```gleam
 > // Devolve -1 se não tem duracao.
 > fn duracao(tarefa: EstadoTarefa) -> Int {
+  case tarefa {
     Sucesso(duracao, _) -> duracao
     _ -> -1
   }
+}
 ```
 
 \pause
@@ -1416,8 +1418,10 @@ Como podemos resolver essas questões? \pause Vamos começar com a função `dur
 ```gleam
 /// Devolve -1 se não tem duracao.
 fn duracao(tarefa: EstadoTarefa) -> Int {
-  Sucesso(duracao, _) -> duracao
-  _ -> -1
+  case tarefa {
+    Sucesso(duracao, _) -> duracao
+    _ -> -1
+  }
 }
 
 > duracao(Executando)
@@ -1457,8 +1461,10 @@ type Opcional {
 
 ```gleam
 fn duracao(tarefa: EstadoTarefa) -> Opcional {
-  Sucesso(duracao, _) -> duracao
-  _ -> -1
+  case tarefa {
+    Sucesso(duracao, _) -> Algum(duracao)
+    _ -> Nenhum
+  }
 }
 
 > duracao(Executando)
@@ -1747,7 +1753,6 @@ Ok(241)
 Ok(8)
 > int.divide(12, 0)
 Error(Nil)
->
 ```
 
 \pause

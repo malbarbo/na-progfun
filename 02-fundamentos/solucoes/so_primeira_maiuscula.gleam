@@ -11,4 +11,3 @@ pub fn so_primeira_maiuscula_examples() {
   check.eq(so_primeira_maiuscula("paula"), "Paula")
   check.eq(so_primeira_maiuscula("ALFREDO"), "Alfredo")
 }
-

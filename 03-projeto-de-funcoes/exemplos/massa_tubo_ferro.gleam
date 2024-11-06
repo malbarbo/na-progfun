@@ -8,7 +8,6 @@ const pi: Float = 3.14
 // Em kg/m^2
 const densidade_ferro: Float = 7874.0
 
-
 /// Calcula a massa de um tubo de ferro a partir das suas dimensões
 /// Requer que diametro_externo > diametro_interno.
 pub fn massa_tubo_ferro(

@@ -37,8 +37,10 @@ pub fn cabe_examples() {
   // retangulo x retangulo
   check.eq(cabe(Retangulo(5.0, 18.0), Retangulo(10.0, 20.0)), True)
   check.eq(cabe(Retangulo(10.0, 20.0), Retangulo(10.0, 20.0)), True)
-  check.eq(cabe(Retangulo(11.0, 20.0), Retangulo(10.0, 20.0)), False) // largura não cabe
-  check.eq(cabe(Retangulo(10.0, 21.0), Retangulo(10.0, 20.0)), False) // altura não cabe
+  // largura não cabe
+  check.eq(cabe(Retangulo(11.0, 20.0), Retangulo(10.0, 20.0)), False)
+  // altura não cabe
+  check.eq(cabe(Retangulo(10.0, 21.0), Retangulo(10.0, 20.0)), False)
   // retangulo (diagonal 5) x circulo
   check.eq(cabe(Retangulo(3.0, 4.0), Circulo(3.0)), True)
   check.eq(cabe(Retangulo(3.0, 4.0), Circulo(2.5)), True)
@@ -46,8 +48,10 @@ pub fn cabe_examples() {
   //circulo x retangulo
   check.eq(cabe(Circulo(2.0), Retangulo(4.0, 4.0)), True)
   check.eq(cabe(Circulo(2.0), Retangulo(4.0, 4.0)), True)
-  check.eq(cabe(Circulo(2.0), Retangulo(3.0, 4.0)), False) // não cabe na largura
-  check.eq(cabe(Circulo(2.0), Retangulo(4.0, 3.0)), False) // não cabe na altura
+  // não cabe na largura
+  check.eq(cabe(Circulo(2.0), Retangulo(3.0, 4.0)), False)
+  // não cabe na altura
+  check.eq(cabe(Circulo(2.0), Retangulo(4.0, 3.0)), False)
   // circulo x circulo
   check.eq(cabe(Circulo(2.0), Circulo(3.0)), True)
   check.eq(cabe(Circulo(3.0), Circulo(3.0)), True)

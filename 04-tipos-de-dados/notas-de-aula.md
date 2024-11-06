@@ -10,7 +10,9 @@
 # TODO: adicionar mais referências sobre projeto de tipos de dados
 # TODO: usar o termo registro ao invés de estrutura?
 # TODO: mostrar a solução completa para custo_tiquetes
-# TODO: adicionar discusão de Option e Result
+# TODO: deixar claro: funções totais
+# TODO: frase "Parse, don´t validade": In other words, write functions on the data representation you wish you had, not the data representation you are   given.
+# TODO: ao invés de passar a responsabilidade de tratar o erro adiante, empure ela para trás
 title: Tipos de dados
 ---
 

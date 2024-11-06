@@ -1921,8 +1921,8 @@ pub opaque type Preco {
 /// Devolve Ok(Preco) com o valor *v* se
 /// v > 0, Error(Nil) caso contrário.
 pub fn preco(v: Float) -> Result(Preco, Nil) {
-  case v > 0 {
-    True -> Ok(v)
+  case v >. 0.0 {
+    True -> Ok(Preco(v))
     False -> Error(Nil)
   }
 }

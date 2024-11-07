@@ -46,18 +46,13 @@ Vamos tentar criar uma definição para lista de números.
 
 A ideia é criar uma estrutura com dois campos. O primeiro campo representa o primeiro item na lista e o segundo campo representa o restante da lista (que é uma lista). \pause
 
-\small
-
-```scheme
-(struct lista (primeiro resto) #:transparent)
-;; Representa uma lista de números
-;;  primeiro: Número - primeiro elemento da lista
-;;  resto:    Lista  - restante da lista
+```gleam
+type Lista {
+  Lista(primeiro: Int, resto: Lista)
+}
 ```
 
 \pause
-
-\normalsize
 
 Observe a autorreferência!
 
@@ -66,9 +61,7 @@ Observe a autorreferência!
 
 Utilizando esta definição, vamos tentar criar uma lista com os valores 4, 2 e 8. \pause
 
-```scheme
-(define lst (lista 4 (lista 2 (lista 8 ???))))
-```
+`let lst = Lista(4,`{.gleam} \pause `Lista(2, `{.gleam} \pause `Lista(8, `{.gleam} \pause `...)))`{.gleam}
 
 \pause
 
@@ -91,22 +84,22 @@ A lista vazia.
 
 ## Listas
 
-Uma **ListaDeNúmeros** é um dos valores: \pause
+Uma **lista** é: \pause
 
-- `(vazia)`{.scheme}; ou \pause
+- Vazia; \pause
+- Ou não vazia, contendo o primeiro e o resto, que é uma **lista**.
 
-- `(link Número ListaDeNúmeros)`{.scheme}, onde link é uma estrutura com dois campos: `primeiro`{.scheme} e `resto`{.scheme} \pause
+\pause
 
-Definição no Racket
+Em Gleam \pause
 
-```scheme
-;; Uma ListaDeNúmeros é um dos valores
-;;   - (vazia); ou
-;;   - (link Numero ListaDeNúmeros)
+\small
 
-(struct vazia () #:transparent)
-(struct link (primeiro resto) #:transparent)
-
+```gleam
+type Lista {
+  Vazia
+  NaoVazia(primeiro: Int, resto: Lista)
+}
 ```
 
 
@@ -114,43 +107,78 @@ Definição no Racket
 
 \footnotesize
 
-```scheme
-> (define lst1 (link 3 (vazia)))          ; Lista com o 3
-> (define lst2 (link 8 (link 7 (vazia)))) ; Lista com o 8 e 7
-> lst1
-(link 3 (vazia))
-> lst2
-(link 8 (link 7 (vazia)))
-> (link-primeiro lst2)
-8
-> (link-resto lst2)
-(link 7 (vazia))
-> (link-resto lst1)
-(vazia)
-> (link-primeiro (link-resto lst1))
-. . link-primeiro: contract violation
-  expected: link?
-  given: (vazia)
+```gleam
+> // lista vazia
+> let lst0: Lista = Vazia
+Vazia
+```
+
+\pause
+
+```gleam
+> // lista com o 3
+> let lst1: Lista = NaoVazia(3, Vazia)
+NaoVazia(primeiro: 3, resto: Vazia)
+```
+
+\pause
+
+```gleam
+> // Lista com o 8 e 7
+> let lst2: Lista = NaoVazia(8, NaoVazia(7, Vazia))
+NaoVazia(primeiro: 8, resto: NaoVazia(primeiro: 7, resto: Vazia))
+```
+
+\pause
+
+```gleam
+> // Nova lista com o 3 como primeiro, seguido de lst2
+> NaoVazia(3, lst2)
+NaoVazia(primeiro: 3, resto: NaoVazia(primeiro: 8, resto: NaoVazia(primeiro: 7, resto: Vazia)))
+```
+
+
+
+## Listas
+
+Como consultar o primeiro elemento de uma lista? \pause
+
+\footnotesize
+
+```gleam
+> lst1.primeiro
+```
+
+\pause
+
+```
+error: Unknown record field
+
+1  │ lst1.primeiro
+   │     ^^^^^^^^^ This field does not exist
+
+The value being accessed has this type:
+    Lista
+
+It does not have any fields.
+
+Note: The field you are trying to access might not be consistently present
+or positioned across the custom type's variants, preventing reliable
+access. Ensure the field exists in the same position and has the same type
+in all variants to enable direct accessor syntax.
 ```
 
 
 ## Listas
 
-\footnotesize
+\small
 
-```scheme
-;; Lista com os elementos 8 e 7
-> (define lst2 (link 8 (link 7 (vazia))))
-;; Define uma lista a partir de uma lista existente
-> (define lst3 (link 4 lst2))
-> lst3
-(link 4 (link 8 (link 7 (vazia))))
-> (link-primeiro lst3)
-4
-> (link-resto lst3)
-(link 8 (link 7 (vazia)))
-> (link-primeiro (link-resto lst3))
-8
+```gleam
+> case lst1 {
+    Vazia -> todo
+    NaoVazia(primeiro, _) -> primeiro
+  }
+3
 ```
 
 
@@ -158,51 +186,53 @@ Definição no Racket
 
 Nós vimos anteriormente que o tipo de dado de entrada de uma função pode sugerir uma forma para o corpo da função. \pause
 
-- Qual é a forma do corpo da função que um tipo enumerado de entrada sugere? \pause Um `cond`{.scheme} com um caso para cada valor da enumeração. \pause
+- Qual é a forma do corpo da função que um tipo enumerado de entrada sugere? \pause Um `case`{.gleam} com um caso para cada valor da enumeração. \pause
 
-- Qual é a forma do corpo da função que um tipo união de entrada sugere? \pause Um `cond`{.scheme} com um caso para cada classe da união. \pause
+- Qual é a forma do corpo da função que um tipo união de entrada sugere? \pause Um `case`{.gleam} com um caso para cada classe da união. \pause
 
-Qual é a forma do corpo da função que o tipo de entrada ListaDeNúmeros sugere?
+Qual é a forma do corpo da função que o tipo de entrada `Lista`{.gleam} sugere?
 
 
 ## Listas
 
 <div class="columns">
-<div class="column" width="42%">
+<div class="column" width="48%">
+
+\small
 
 Uma condicional com dois casos: \pause
 
 - A lista é vazia \pause
 
-- A lista é um link \pause
+- A lista não é vazia \pause
 
 \ \
 
-Em Racket \pause
+Em Gleam \pause
 
-\small
-
-```scheme
-(define (fn-para-lst lst)
-  (cond
-    [(vazia? lst) ...]
-    [(link? lst)
-     ... (link-primeiro lst)
-         (link-resto lst)]))
+```gleam
+fn fn_para_lista(lst: Lista) {
+  case lst {
+    Vazia -> todo
+    NaoVazia(primeiro, resto) -> todo
+  }
+}
 ```
 
 \pause
 
 </div>
-<div class="column" width="55%">
+<div class="column" width="48%">
 
-Qual é o tipo do resultado de `(link-primeiro lst)`? \pause Um número, que é um valor atômico. \pause
+\small
 
-Qual é o tipo do resultado de `(link-resto lst)`? \pause Uma lista, que é uma união. \pause
+Qual é o tipo de `primeiro`{.gleam}? \pause Um inteiro, que é um valor atômico. \pause
+
+Qual é o tipo de `resto`{.gleam}? \pause Uma lista, que é uma união. \pause
 
 Um valor atômico pode ser processado diretamente, mas como processar uma lista? \pause Fazendo análise dos casos... \pause
 
-Vamos fazer uma alteração no modelo `fn-para-lst` e adicionar uma chamada recursiva para processar `(link-resto lst)`. Essa alteração pode parecer meio "mágica" agora, mas ela vai ficar mais clara em breve.
+Vamos fazer uma alteração no modelo `fn_para_lista`{.gleam} e adicionar uma chamada recursiva para processar `resto`{.gleam}. Essa alteração pode parecer meio "mágica" agora, mas ela vai ficar mais clara em breve.
 
 </div>
 </div>
@@ -211,28 +241,34 @@ Vamos fazer uma alteração no modelo `fn-para-lst` e adicionar uma chamada recu
 ## Listas
 
 <div class="columns">
-<div class="column" width="43%">
+<div class="column" width="48%">
+\footnotesize
 
-\small
-Uma ListaDeNúmeros é um dos valores:
+```gleam
+type Lista {
+  Vazia
+  NaoVazia(primeiro: Int, resto: Lista)
+}
+```
 
-- `(vazia)`{.scheme}; ou
-
-- `(link Número ListaDeNúmeros)`{.scheme}, onde link é uma estrutura com dois campos: `primeiro`{.scheme} e `resto`{.scheme} \pause
 </div>
-<div class="column" width="53%">
+<div class="column" width="48%">
 
-\small
+\footnotesize
 
-Modelo para funções que a entrada é ListaDeNúmeros
+Modelo para função para listas
 
-```scheme
-(define (fn-para-lst lst)
-  (cond
-    [(vazia? lst) ...]
-    [(link? lst)
-     ... (link-primeiro lst)
-         (fn-para-lst (link-resto lst))]))
+```gleam
+fn fn_para_lista(lst: Lista) {
+  case lst {
+    Vazia -> todo
+    NaoVazia(primeiro, resto) -> {
+      todo
+      primeiro
+      fn_para_lista(resto)
+    }
+  }
+}
 ```
 </div>
 </div>
@@ -279,330 +315,241 @@ O que você consegue observar sobre a forma que a resposta é computada?
 
 Especificação
 
-\small
+<div class="columns">
+<div class="column" width="40%">
+\footnotesize
 
-```scheme
-;; ListaDeNúmeros -> Número
-;; Soma os valores de lst.
-(examples
- (check-equal? (soma (vazia)) 0)
- (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
-
-(define (soma lst) 0)
+```gleam
+/// Soma os valores de *lst*
+fn soma(lst: Lista) -> Int {
+  0
+}
 ```
 
 \pause
+</div>
+<div class="column" width="56%">
+\footnotesize
 
-\normalsize
+```gleam
+fn soma_examples() {
+  check.eq(soma(Vazia), 0)
+  check.eq(soma(NaoVazia(3, Vazia)), 3)
+  check.eq(
+    soma(NaoVazia(5, NaoVazia(3, Vazia))),
+    8,
+  )
+  check.eq(
+    soma(NaoVazia(2, NaoVazia(5, NaoVazia(3, Vazia)))),
+    10,
+  )
+}
+```
+
+\pause
+</div>
+</div>
+
+\ \
 
 E agora, como escrevemos a implementação? \pause Vamos partir do modelo que criamos!
 
-## Exemplo: soma
-
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros -> Número
-;; Soma os valores de lst.
-(examples
- (check-equal? (soma (vazia)) 0)
- (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
-```
-
-<div class="columns">
-<div class="column" width="48%">
-
-\footnotesize
-
-```scheme
-(define (fn-para-lst lst)
-  (cond
-    [(vazia? lst) ...]
-    [else
-     (... (link-primeiro lst)
-          (fn-para-lst (link-resto lst)))]))
-```
-\pause
-</div>
-<div class="column" width="48%">
-
-\small
-
-O que fazemos agora? \pause
-
-Mudamos o nome da função tanto na definição quanto na chamada recursiva.
-</div>
-</div>
+\vfill
 
 
 ## Exemplo: soma
 
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros -> Número
-;; Soma os valores de lst.
-(examples
- (check-equal? (soma (vazia)) 0)
- (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
-```
-
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="40%">
 \footnotesize
 
-```scheme
-(define (soma lst)
-  (cond
-    [(vazia? lst) ...]
-    [else
-     (... (link-primeiro lst)
-          (soma (link-resto lst)))]))
-```
-\pause
-</div>
-<div class="column" width="48%">
-\small
-O que fazemos agora? \pause
-
-Vamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é vazia? \pause 0.
-</div>
-</div>
-
-
-## Exemplo: soma
-
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros -> Número
-;; Soma os valores de lst.
-(examples
- (check-equal? (soma (vazia)) 0)
- (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
-```
-
-<div class="columns">
-<div class="column" width="48%">
-
-\footnotesize
-
-```scheme
-(define (soma lst)
-  (cond
-    [(vazia? lst) 0]
-    [else
-     (... (link-primeiro lst)
-          (soma (link-resto lst)))]))
-```
-\pause
-</div>
-<div class="column" width="48%">
-\small
-
-O que fazemos agora? \pause
-
-Analisamos o caso em que a lista não é vazia. O modelo está sugerindo fazer a chamada recursiva para o resto da lista.
-
-</div>
-</div>
-
-
-## Exemplo: soma
-
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros -> Número
-;; Soma os valores de lst.
-(examples
- (check-equal? (soma (vazia)) 0)
- (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
-```
-
-<div class="columns">
-<div class="column" width="48%">
-
-\footnotesize
-
-```scheme
-(define (soma lst)
-  (cond
-    [(vazia? lst) 0]
-    [else
-     (... (link-primeiro lst)
-          (soma (link-resto lst)))]))
+```gleam
+/// Soma os valores de *lst*
+fn soma(lst: Lista) -> Int {
+  case lst {
+    Vazia -> todo
+    NaoVazia(primeiro, resto) -> {
+      todo
+      primeiro
+      soma(resto)
+    }
+  }
+}
 ```
 
 </div>
-<div class="column" width="48%">
-\small
-
-Aqui vem o ponto crucial! Mesmo a função não estando completa, nós vamos **assumir** que ela produz a resposta correta para o resto da lista.
-
-</div>
-</div>
-
-
-## Exemplo: soma
-
+<div class="column" width="56%">
 \footnotesize
 
-```scheme
-;; ListaDeNúmeros -> Número
-;; Soma os valores de lst.
-(examples
- (check-equal? (soma (vazia)) 0)
- (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
+```gleam
+fn soma_examples() {
+  check.eq(soma(Vazia), 0)
+  check.eq(soma(NaoVazia(3, Vazia)), 3)
+  check.eq(
+    soma(NaoVazia(5, NaoVazia(3, Vazia))),
+    8,
+  )
+  check.eq(
+    soma(NaoVazia(2, NaoVazia(5, NaoVazia(3, Vazia)))),
+    10,
+  )
+}
 ```
 
-<div class="columns">
-<div class="column" width="48%">
-
-\footnotesize
-
-```scheme
-(define (soma lst)
-  (cond
-    [(vazia? lst) 0]
-    [else
-     (... (link-primeiro lst)
-          (soma (link-resto lst)))]))
-```
 </div>
-<div class="column" width="48%">
-\small
-
-No exemplo 2 queremos obter a soma de `(link 3 (vazia))`{.scheme} que é `3`{.scheme}. O que temos para compor o resultado? \pause
-
-- `3`{.scheme}, que é `(link-primeiro lst)`{.scheme}
-- `0`{.scheme}, que é `(soma (link-resto lst))`{.scheme}
+</div>
 
 \pause
-Como obtemos o resultado que queremos? \pause `(+ 3 0)`{.scheme}
 
-</div>
-</div>
+\ \
 
-## Exemplo: soma
-
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros -> Número
-;; Soma os valores de lst.
-(examples
- (check-equal? (soma (vazia)) 0)
- (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
-```
-
-<div class="columns">
-<div class="column" width="48%">
-
-\footnotesize
-
-```scheme
-(define (soma lst)
-  (cond
-    [(vazia? lst) 0]
-    [else
-     (... (link-primeiro lst)
-          (soma (link-resto lst)))]))
-```
-</div>
-<div class="column" width="48%">
 \small
 
-No exemplo 3 queremos obter a soma de `(link 2 (link 5 (vazia)))`{.scheme} que é `7`{.scheme}. O que temos para compor o resultado? \pause
+Agora precisamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é vazia? \pause 0.
 
-- `2`{.scheme}, que é `(link-primeiro lst)`{.scheme}
-- `5`{.scheme}, que é `(soma (link-resto lst))`{.scheme}
-
-\pause
-Como obtemos o resultado que queremos? \pause `(+ 2 5)`{.scheme}
-
-</div>
-</div>
 
 ## Exemplo: soma
-
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros -> Número
-;; Soma os valores de lst.
-(examples
- (check-equal? (soma (vazia)) 0)
- (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
-```
 
 <div class="columns">
-<div class="column" width="48%">
-
+<div class="column" width="40%">
 \footnotesize
 
-```scheme
-(define (soma lst)
-  (cond
-    [(vazia? lst) 0]
-    [else
-     (... (link-primeiro lst)
-          (soma (link-resto lst)))]))
+```gleam
+/// Soma os valores de *lst*
+fn soma(lst: Lista) -> Int {
+  case lst {
+    Vazia -> 0
+    NaoVazia(primeiro, resto) -> {
+      todo
+      primeiro
+      soma(resto)
+    }
+  }
+}
 ```
+
 </div>
-<div class="column" width="48%">
-\small
+<div class="column" width="56%">
+\footnotesize
 
-No exemplo 4 queremos obter a soma de `(link 5 (link 1 (link 3 (vazia)))`{.scheme} que é `9`{.scheme}. O que temos para compor o resultado? \pause
+```gleam
+fn soma_examples() {
+  check.eq(soma(Vazia), 0)
+  check.eq(soma(NaoVazia(3, Vazia)), 3)
+  check.eq(
+    soma(NaoVazia(5, NaoVazia(3, Vazia))),
+    8,
+  )
+  check.eq(
+    soma(NaoVazia(2, NaoVazia(5, NaoVazia(3, Vazia)))),
+    10,
+  )
+}
+```
 
-- `5`{.scheme}, que é `(link-primeiro lst)`{.scheme}
-- `4`{.scheme}, que é `(soma (link-resto lst))`{.scheme}
+</div>
+</div>
 
 \pause
-Como obtemos o resultado que queremos? \pause `(+ 5 4)`{.scheme}
 
-</div>
-</div>
+\ \
+
+\small
+
+Agora precisamos analisar o caso em que a lista não é vazia. \pause O modelo está sugerindo fazer uma chamada recursiva para o resto da lista. \pause Aqui vem o ponto crucial!
 
 
 ## Exemplo: soma
 
-Agora que compreendemos como o resultado é formado, podemos completar o corpo da função.
-
+<div class="columns">
+<div class="column" width="40%">
 \footnotesize
 
-```scheme
-;; ListaDeNúmeros -> Número
-;; Soma os valores de lst.
-(examples
- (check-equal? (soma (vazia)) 0)
- (check-equal? (soma (link 3 (vazia))) 3) ; (+ 3 0)
- (check-equal? (soma (link 2 (link 5 (vazia)))) 7)) ; (+ 2 (+ 5 0))
- (check-equal? (soma (link 5 (link 1 (link 3 (vazia))))) 9)) ; (+ 5 (+ 1 (+ 3 0)))
-
-(define (soma lst)
-  (cond
-    [(vazia? lst) 0]
-    [else
-     (+ (link-primeiro lst)
-        (soma (link-resto lst)))]))
+```gleam
+/// Soma os valores de *lst*
+fn soma(lst: Lista) -> Int {
+  case lst {
+    Vazia -> 0
+    NaoVazia(primeiro, resto) -> {
+      todo
+      primeiro
+      soma(resto)
+    }
+  }
+}
 ```
+
+</div>
+<div class="column" width="56%">
+\footnotesize
+
+```gleam
+fn soma_examples() {
+  check.eq(soma(Vazia), 0)
+  check.eq(soma(NaoVazia(3, Vazia)), 3)
+  check.eq(
+    soma(NaoVazia(5, NaoVazia(3, Vazia))),
+    8,
+  )
+  check.eq(
+    soma(NaoVazia(2, NaoVazia(5, NaoVazia(3, Vazia)))),
+    10,
+  )
+}
+```
+
+</div>
+</div>
+
+\ \
+
+\small
+
+Mesmo a função não estando completa, nós vamos **assumir** que ela produz a resposta correta para o resto da lista. \pause Tendo a soma do resto e o primeiro, como obtermos a soma da lista? \pause Somando os dois.
+
+
+## Exemplo: soma
+
+<div class="columns">
+<div class="column" width="40%">
+\footnotesize
+
+```gleam
+/// Soma os valores de *lst*
+fn soma(lst: Lista) -> Int {
+  case lst {
+    Vazia -> 0
+    NaoVazia(primeiro, resto) -> {
+      primeiro + soma(resto)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="56%">
+\footnotesize
+
+```gleam
+fn soma_examples() {
+  check.eq(soma(Vazia), 0)
+  check.eq(soma(NaoVazia(3, Vazia)), 3)
+  check.eq(
+    soma(NaoVazia(5, NaoVazia(3, Vazia))),
+    8,
+  )
+  check.eq(
+    soma(NaoVazia(2, NaoVazia(5, NaoVazia(3, Vazia)))),
+    10,
+  )
+}
+```
+
+</div>
+</div>
+
+\vfill
+
 
 
 ## Exemplo: soma
@@ -612,6 +559,7 @@ Verificação: Ok. \pause
 Revisão: Ok.
 
 
+<!--
 ## Exemplo: soma em Python
 
 <div class="columns">
@@ -672,140 +620,120 @@ def soma(lst: Lista) -> int:
 </div>
 </div>
 
+-->
+
+
+## Listas
+
+O Gleam já tem embutido na linguagem um tipo `List`{.gleam} e fornece uma notação amigável para criar e desestruturar listas. \pause
+
+<div class="columns">
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+> // Lista vazia
+> let lst0: List(Int) = []
+[]
+```
+
+\pause
+
+```gleam
+> // Lista com 3 e 8
+> let lst1: List(Int) = [3, 8]
+[3, 8]
+```
+
+\pause
+
+```gleam
+> // Nova lista a partir de uma existente
+> let lst2 = [7, ..lst1]
+[7, 3, 8]
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+> // Desestruturação
+> case lst2 {
+    [] -> todo
+    [primeiro, ..resto] -> primeiro
+  }
+7
+```
+
+\pause
+
+\pause
+```gleam
+> case lst2 {
+    [] -> todo
+    [primeiro, ..resto] -> resto
+  }
+[7, 3, 8]
+```
+</div>
+</div>
+
+\pause
+
+Note que `List`{.gleam} tem a mesma estrutura da lista que definimos, a diferença é apenas sintaxe!
+
 
 ## Listas
 
 <div class="columns">
 <div class="column" width="48%">
-
-O Racket já vem com listas pré-definidas
-
-- `empty`{.scheme} ao invés de `(vazia)`{.scheme}
-
-- `cons`{.scheme} ao invés de `link`{.scheme}
-
-- `first`{.scheme} ao invés de `link-primeiro`{.scheme}
-
-- `rest`{.scheme} ao invés de `link-resto`{.scheme}
+Modelo de funções para `List`{.gleam}
 
 \pause
+
+\footnotesize
+
+```gleam
+fn fn_para_list(lst: List(a)) {
+  case lst {
+    [] -> todo
+    [primeiro, ..resto] -> {
+      todo
+      primeiro
+      fn_para_list(resto)
+    }
+  }
+}
+```
+
+\pause
+
 </div>
 <div class="column" width="48%">
 
-Outras funções pré-definidas (os propósitos são aproximados)
-
-- `list?`{.scheme} verifica se um valor é uma lista
-
-- `empty?`{.scheme} verifica se uma lista é vazia
-
-- `cons?`{.scheme} verifica se uma lista não é vazia
-
-
-</div>
-</div>
-
-
-## Listas
-
-<div class="columns">
-<div class="column" width="44%">
-
-\small
-
-Uma **ListaDeNúmeros** é um dos valores
-
-- `empty`{.scheme}; ou
-
-- `(cons Número ListaDeNúmeros)`{.scheme}
-
-</div>
-<div class="column" width="54%">
-
-\small
-
-```scheme
-;; Modelo de funções para ListaDeNúmeros
-(define (fn-para-lst lst)
-  (cond
-    [(empty? lst) ...]
-    [else
-      ... (first lst)
-      ... (fn-para-lst (rest lst)) ... ]))
-```
-
-</div>
-</div>
-
-
-## Listas
-
-\footnotesize
-
-```scheme
-> (define lst1 (cons 3 empty)) ; Lista com o elemento 3
-> (define lst2 (cons 8 (cons 7 empty))) ; Lista com 8 e 7
-> lst1
-'(3)
-> lst2
-'(8 7)
-> (first lst2)
-8
-> (rest lst2)
-'(7)
-> (rest (rest lst2))
-'()
-> (first (rest lst1))
-. . first: contract violation
-  expected: (and/c list? (not/c empty?))
-    given: '()
-```
-
-
-## Listas
-
-\footnotesize
-
-```scheme
-;; Lista com os elementos 8 e 7
-> (define lst2 (cons 8 (cons 7 empty)))
-;; Defini uma lista a partir de uma lista existente
-> (define lst3 (cons 4 lst2))
-> lst3
-'(4 8 7)
-> (first lst3)
-4
-> (rest lst3)
-'(8 7)
-> (first (rest lst3))
-8
-```
-
-
-## Listas
-
-O Racket oferece uma forma conveniente de criar listas \pause
-
-```scheme
-> (list 4 5 6 -2 20)
-'(4 5 6 -2 20)
-```
+Exemplo da função soma
 
 \pause
 
-Em geral
+\footnotesize
 
-```scheme
-(list <a1> <a2> ... <an>)
+```gleam
+fn soma(lst: List(Int)) -> Int {
+  case lst {
+    [] -> 0
+    [primero, ..resto] ->
+      primeiro + soma(resto)
+  }
+}
 ```
 
-é equivalente a
-
-```scheme
-(cons <a1>
-      (cons <a2>
-            (cons ...
-                  (cons <an> empty) ...)))
-```
+</div>
+</div>
 
 
 ## Exemplo: contém
@@ -815,265 +743,215 @@ Defina uma função que verifique se um dado valor está em uma lista de número
 
 ## Exemplo: contém
 
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em lst; #f caso contrário.
-(examples
- (check-equal? (contem? empty 3) #f)
- (check-equal? (contem? (cons 3 empty) 3) #t)
- (check-equal? (contem? (cons 3 empty) 4) #f)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
-```
-
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="50%">
 \footnotesize
 
-```scheme
-(define (contem? lst v) #f)
-
-
-
-
-
-
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(Int), v: Int) -> Bool {
+  False
+}
 ```
+
+\pause
+
 </div>
-<div class="column" width="48%">
-\small
-Iniciamos com a especificação.
+<div class="column" width="46%">
+
+\footnotesize
+
+```gleam
+fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
+```
+
 </div>
 </div>
+
+\vfill
 
 
 ## Exemplo: contém
 
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em lst; #f caso contrário.
-(examples
- (check-equal? (contem? empty 3) #f)
- (check-equal? (contem? (cons 3 empty) 3) #t)
- (check-equal? (contem? (cons 3 empty) 4) #f)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
-```
-
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(Int), v: Int) -> Bool {
+  case lst {
+    [] -> { todo v }
+    [primeiro, ..resto] -> {
+      todo
+      v
+      primeiro
+      contem(resto, v)
+    }
+  }
+}
+```
+
+
+</div>
+<div class="column" width="46%">
 
 \footnotesize
 
-```scheme
-(define (fn-para-lst lst)
-  (cond
-    [(empty? lst) ...]
-    [else
-      ... (first lst)
-      ... (fn-para-lst (rest lst)) ... ]))
-
+```gleam
+fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
 ```
-</div>
-<div class="column" width="48%">
-\small
-Para implementação partimos do modelo.
+
 </div>
 </div>
+
+\vfill
 
 
 ## Exemplo: contém
 
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em lst; #f caso contrário.
-(examples
- (check-equal? (contem? empty 3) #f)
- (check-equal? (contem? (cons 3 empty) 3) #t)
- (check-equal? (contem? (cons 3 empty) 4) #f)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
-```
-
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(Int), v: Int) -> Bool {
+  case lst {
+    [] -> False
+    [primeiro, ..resto] -> {
+      todo
+      v
+      primeiro
+      contem(resto, v)
+    }
+  }
+}
+```
+
+
+</div>
+<div class="column" width="46%">
 
 \footnotesize
 
-```scheme
-(define (contem? lst v)
-  (cond
-    [(empty? lst) ... v]
-    [else
-      ... (first lst)
-      ... v
-      ... (contem? (rest lst) v) ... ]))
+```gleam
+fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
 ```
-</div>
-<div class="column" width="48%">
-\small
-Em seguida ajeitamos o nome da função e adicionamos o parâmetro `v` na definição, na chamada recursiva e como valor disponível nos dois casos.
+
 </div>
 </div>
+
+\vfill
 
 
 ## Exemplo: contém
 
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em lst; #f caso contrário
-(examples
- (check-equal? (contem? empty 3) #f)
- (check-equal? (contem? (cons 3 empty) 3) #t)
- (check-equal? (contem? (cons 3 empty) 4) #f)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
-```
-
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(Int), v: Int) -> Bool {
+  case lst {
+    [] -> False
+    [primeiro, ..resto] ->
+      case v == primeiro {
+        True -> True
+        False -> contem(resto, v)
+      }
+  }
+}
+```
+
+
+</div>
+<div class="column" width="46%">
 
 \footnotesize
 
-```scheme
-(define (contem? lst v)
-  (cond
-    [(empty? lst) #f]
-    [else
-      ... (first lst)
-      ... v
-      ... (contem? (rest lst) v) ... ]))
+```gleam
+fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
 ```
-</div>
-<div class="column" width="48%">
-\small
-Analisando os exemplos definimos o caso em que a lista é vazia.
+
 </div>
 </div>
+
+\vfill
 
 
 ## Exemplo: contém
 
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em lst; #f caso contrário
-(examples
- (check-equal? (contem? empty 3) #f)
- (check-equal? (contem? (cons 3 empty) 3) #t)
- (check-equal? (contem? (cons 3 empty) 4) #f)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
-```
-
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(Int), v: Int) -> Bool {
+  case lst {
+    [] -> False
+    [primeiro, ..resto] ->
+      v == primeiro || contem(resto, v)
+  }
+}
+```
+
+
+</div>
+<div class="column" width="46%">
 
 \footnotesize
 
-```scheme
-(define (contem? lst v)
-  (cond
-    [(empty? lst) #f]
-    [else
-      ... (first lst)
-      ... v
-      ... (contem? (rest lst) v) ... ]))
-```
-</div>
-<div class="column" width="48%">
-\small
-
-Agora analisamos o caso em que `lst` não é vazia. \pause Temos `(first lst)`{.scheme}, `v` e `(contem? (rest lst) v)`{.scheme} (se o resto de `lst` contém `v`). \pause Como combinar esses elementos para determinar `(contem? lst v)` (se `lst` contém `v`)?
-</div>
-</div>
-
-## Exemplo: contém
-
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em lst; #f caso contrário
-(examples
- (check-equal? (contem? empty 3) #f)
- (check-equal? (contem? (cons 3 empty) 3) #t)
- (check-equal? (contem? (cons 3 empty) 4) #f)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
+```gleam
+fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
 ```
 
-<div class="columns">
-<div class="column" width="48%">
-
-\footnotesize
-
-```scheme
-(define (contem? lst v)
-  (cond
-    [(empty? lst) #f]
-    [else
-     (if (= v (first lst))
-         #t
-         (contem? (rest lst) v))]))
-```
-</div>
-<div class="column" width="48%">
-\small
-
-Quando `(first lst)` é igual a `v`, podemos gerar a resposta `#t`{.scheme} diretamente, independente da resposta da chamada recursiva. \pause Caso contrário, a resposta se `lst` contém `v` e a mesma se `(rest lst)` contém `v`, ou seja, a resposta para `(contem? lst v)`{.scheme} é a equivalente a `(contem? (rest lst) v)`.
 </div>
 </div>
 
-
-## Exemplo: contém
-
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> Booleano
-;; Produz #t se v está em lst; #f caso contrário
-(examples
- (check-equal? (contem? empty 3) #f)
- (check-equal? (contem? (cons 3 empty) 3) #t)
- (check-equal? (contem? (cons 3 empty) 4) #f)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 4) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 10) #t)
- (check-equal? (contem? (cons 4 (cons 10 (cons 3 empty))) 8) #f))
-```
-
-<div class="columns">
-<div class="column" width="48%">
-\footnotesize
-
-```scheme
-(define (contem? lst v)
-  (cond
-    [(empty? lst) #f]
-    [else
-     (or (= v (first lst))
-         (contem? (rest lst) v))]))
-```
-</div>
-<div class="column" width="48%">
-Revisão.
-</div>
-</div>
+\vfill
 
 
 ## Exemplo: remove negativos

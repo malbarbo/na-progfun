@@ -23,18 +23,18 @@ license:
 
 # Praticando
 
-Na implementação use apenas as funções presentes no material "Resumo da linguagem Racket". Não use funções de alta ordem.
+Não use funções de alta ordem.
 
 <!-- Básico - reduce -->
 
 @) Projete uma função que concatene todas os elementos de uma lista de strings.
 
-@) Projete uma função que determine a quantidade de elementos de uma lista de números. Dica: o primeiro elemento pode ser ignorado.
+@) Projete uma função que determine a quantidade de elementos de uma lista de números.
 
 
 <!-- Básico - map -->
 
-@) Projete uma função que crie uma lista de números a partir de uma lista de strings convertendo cada string para um número. Assuma que todas as strings representam números válidos.
+@) Projete uma função que crie uma lista de números a partir de uma lista de strings convertendo cada string para um número.
 
 <!-- Básico - filter -->
 
@@ -50,15 +50,15 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 @) Projete uma função que verifique se uma lista de números está em ordem não decrescente. Dica: use dois casos base.
 
-<!-- Funções auxiliares -->
+<!-- Funções auxiliares
 
 @) Defina uma função que que receba como entrada uma lista `lst` e devolva uma lista com os mesmos elementos de `lst` mas em ordem contrária.
 
-<!-- Lista de estruturas -->
+<!-- Lista de estruturas
 
 @) Vimos em sala como fazer uma busca em uma lista de associações. No exemplo que vimos, a lista era utilizada para associar um string a quantidade de ocorrências dela em um texto. Agora você deve projetar uma função que adicione uma nova ocorrência de uma string em uma lista de associações. Note que se a string já está na lista, o número de ocorrências deve aumentar em 1.
 
-<!-- Desafio - processamento simultâneo -->
+<!-- Desafio - processamento simultâneo
 
 @) (Desafio) Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é `lstb` começa com `lsta`.
 
@@ -72,3 +72,5 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 @) Você acaba de ser contratado por um empresa que está desenvolvendo um sistema de gerenciamento de campeonatos amadores de futebol. A sua primeira tarefa é projetar uma função que calcule o desempenho de um time, que consiste no número de pontos, número de vitórias e saldo de gols (diferenças entre os gols feitos e sofridos) de um time a partir dos resultados das partidas que ele jogou. Cada vitória gera três pontos e cada empate um ponto. Por exemplo, se os resultados para um determinado time foram $5 \times 1$, $0 \times 2$ e $1 \times 1$, onde o primeiro número são os gols feitos e o segundo os gols sofridos, então o time fez 4 pontos, obteve 1 vitória e saldo de gols de 2.
 
 @) Uma dos problemas mais conhecidos de programação é o problema de ordenação. Existem diversos métodos já estabelecidos de ordenação, como a ordenação por seleção e intercalação. O uso do modelo para funções que processam listas leva a uma implementação específica. Projete uma função usando o modelo para listas que ordene uma lista de números. Dica: deseje por uma função auxiliar para combinar o primeiro elemento com o resultado da chamada recursiva. Como é conhecido esse método de ordenação?
+
+-->

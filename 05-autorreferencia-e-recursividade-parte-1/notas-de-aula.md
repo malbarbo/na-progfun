@@ -678,7 +678,7 @@ O Gleam já tem embutido na linguagem um tipo `List`{.gleam} e fornece uma nota�
     [] -> todo
     [primeiro, ..resto] -> resto
   }
-[7, 3, 8]
+[3, 8]
 ```
 </div>
 </div>
@@ -736,6 +736,7 @@ fn soma(lst: List(Int)) -> Int {
 </div>
 
 
+<!--
 ## Exemplo: contém
 
 Defina uma função que verifique se um dado valor está em uma lista de números.
@@ -1502,3 +1503,4 @@ Complementares
 - Seção [6.3](http://www.scheme.com/tspl4/objects.html#./objects:h3) do livro [TSPL4](http://www.scheme.com/tspl4/)
 </div>
 </div>
+-->

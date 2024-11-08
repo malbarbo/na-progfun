@@ -963,136 +963,241 @@ Defina uma função que remova todos os número negativos de uma lista de númer
 ## Exemplo: remove negativos
 
 <div class="columns">
-<div class="column" width="68%">
+<div class="column" width="48%">
 \footnotesize
 
-```scheme
-;; ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista removendo os valores negativos de lst.
-(examples
- (check-equal? (remove-negativos empty) empty)
- (check-equal? (remove-negativos (cons -1 (cons 2 (cons -3 empty))))
-               (cons 2 empty))
- (check-equal? (remove-negativos (cons 3 (cons 4 (cons -2 empty))))
-               (cons 3 (cons 4 empty))))
+```gleam
+// Cria uma nova lista sem
+// os valores negativos de *lst*.
+fn remove_negativos(
+  lst: List(Int)
+) -> List(Int) {
+  []
+}
+```
 
-(define (remove-negativos lst) empty)
+\pause
+</div>
+<div class="column" width="48%">
+\footnotesize
 
-
-
-
-
-
-
+```gleam
+fn remove_negativos_examples() {
+  check.eq(
+    remove_negativos([]),
+    [],
+  )
+  check.eq(
+    remove_negativos([-1, 2, -3]),
+    [2],
+  )
+  check.eq(
+    remove_negativos([3, 4, -2]),
+    [3, 4],
+  )
+}
 ```
 </div>
-<div class="column" width="28%">
-Iniciamos com a especificação.
 </div>
-</div>
+
+\vfill
 
 
 ## Exemplo: remove negativos
 
 <div class="columns">
-<div class="column" width="68%">
+<div class="column" width="48%">
 \footnotesize
 
-```scheme
-;; ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista removendo os valores negativos de lst.
-(examples
- (check-equal? (remove-negativos empty) empty)
- (check-equal? (remove-negativos (cons -1 (cons 2 (cons -3 empty))))
-               (cons 2 empty))
- (check-equal? (remove-negativos (cons 3 (cons 4 (cons -2 empty))))
-               (cons 3 (cons 4 empty))))
+```gleam
+// Cria uma nova lista sem
+// os valores negativos de *lst*.
+fn remove_negativos(
+  lst: List(Int)
+) -> List(Int) {
+  case lst {
+    [] -> todo
+    [primeiro, ..resto] -> {
+      todo
+      primeiro
+      remove_negatios(resto)
+    }
+  }
+}
+```
 
-(define (remove-negativos lst)
-  (cond
-    [(empty? lst) ...]
-    [else
-      ... (first lst)
-      ... (remove-negativos (rest lst)) ... ]))
+</div>
+<div class="column" width="48%">
+\footnotesize
 
-
+```gleam
+fn remove_negativos_examples() {
+  check.eq(
+    remove_negativos([]),
+    [],
+  )
+  check.eq(
+    remove_negativos([-1, 2, -3]),
+    [2],
+  )
+  check.eq(
+    remove_negativos([3, 4, -2]),
+    [3, 4],
+  )
+}
 ```
 </div>
-<div class="column" width="28%">
-Para implementação partimos do modelo e ajustamos o nome.
 </div>
-</div>
+
+\vfill
 
 
 ## Exemplo: remove negativos
 
 <div class="columns">
-<div class="column" width="68%">
+<div class="column" width="48%">
 \footnotesize
 
-```scheme
-;; ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista removendo os valores negativos de lst.
-(examples
- (check-equal? (remove-negativos empty) empty)
- (check-equal? (remove-negativos (cons -1 (cons 2 (cons -3 empty))))
-               (cons 2 empty))
- (check-equal? (remove-negativos (cons 3 (cons 4 (cons -2 empty))))
-               (cons 3 (cons 4 empty))))
+```gleam
+// Cria uma nova lista sem
+// os valores negativos de *lst*.
+fn remove_negativos(
+  lst: List(Int)
+) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] -> {
+      todo
+      primeiro
+      remove_negatios(resto)
+    }
+  }
+}
+```
 
-(define (remove-negativos lst)
-  (cond
-    [(empty? lst) empty]
-    [else
-      ... (first lst)
-      ... (remove-negativos (rest lst)) ... ]))
+</div>
+<div class="column" width="48%">
+\footnotesize
 
-
+```gleam
+fn remove_negativos_examples() {
+  check.eq(
+    remove_negativos([]),
+    [],
+  )
+  check.eq(
+    remove_negativos([-1, 2, -3]),
+    [2],
+  )
+  check.eq(
+    remove_negativos([3, 4, -2]),
+    [3, 4],
+  )
+}
 ```
 </div>
-<div class="column" width="28%">
-Analisando os exemplos definimos o caso em que a lista é vazia.
 </div>
-</div>
+
+\vfill
 
 
 ## Exemplo: remove negativos
 
 <div class="columns">
-<div class="column" width="68%">
+<div class="column" width="48%">
 \footnotesize
 
-```scheme
-;; ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista removendo os valores negativos de lst.
-(examples
- (check-equal? (remove-negativos empty) empty)
- (check-equal? (remove-negativos (cons -1 (cons 2 (cons -3 empty))))
-               (cons 2 empty))
- (check-equal? (remove-negativos (cons 3 (cons 4 (cons -2 empty))))
-               (cons 3 (cons 4 empty))))
+```gleam
+// Cria uma nova lista sem
+// os valores negativos de *lst*.
+fn remove_negativos(
+  lst: List(Int)
+) -> List(Int) {
+  case lst {
+    [] -> todo
+    [primeiro, ..resto] ->
+      case primeiro < 0 {
+        True -> remove_negatios(resto)
+        False ->
+          [primeiro,
+           ..remove_negativos(resto]
+      }
+  }
+}
+```
 
-(define (remove-negativos lst)
-  (cond
-    [(empty? lst) empty]
-    [else
-     (if (< (first lst) 0)
-         (remove-negativos (rest lst))
-         (cons (first lst)
-               (remove-negativos (rest lst))))]))
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn remove_negativos_examples() {
+  check.eq(
+    remove_negativos([]),
+    [],
+  )
+  check.eq(
+    remove_negativos([-1, 2, -3]),
+    [2],
+  )
+  check.eq(
+    remove_negativos([3, 4, -2]),
+    [3, 4],
+  )
+}
 ```
 </div>
-<div class="column" width="28%">
-Analisando os exemplos definimos o caso em que a lista não é vazia.
 </div>
-</div>
+
+\vfill
 
 
 ## Exemplo: remove negativos
 
-Verificação: Ok.
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
 
-Revisão: exercício.
+```gleam
+// Cria uma nova lista sem
+// os valores negativos de *lst*.
+fn remove_negativos(
+  lst: List(Int)
+) -> List(Int) {
+  case lst {
+    [] -> todo
+    [primeiro, ..resto] if primeiro < 0 ->
+      remove_negatios(resto)
+    [primeiro, ..resto] ->
+      [primeiro, ..remove_negativos(resto]
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn remove_negativos_examples() {
+  check.eq(
+    remove_negativos([]),
+    [],
+  )
+  check.eq(
+    remove_negativos([-1, 2, -3]),
+    [2],
+  )
+  check.eq(
+    remove_negativos([3, 4, -2]),
+    [3, 4],
+  )
+}
+```
+</div>
+</div>
+
+\vfill
 
 
 ## Exemplo: soma x

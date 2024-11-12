@@ -73,9 +73,12 @@ O problema com esta definição é que as listas não tem fim. Uma lista tem uma
 Para ser **bem formada**, uma definição com autorreferência deve ter: \pause
 
 - Pelo menos um caso base (sem autorreferência) \pause
+
 - Pelo menos um caso com autorreferência \pause
 
-O caso base descreve valores que podem ser criados diretamente, já o(s) caso(s) com autorreferência permite(m) a criação de novos valores a partir de valores existentes. \pause
+Os casos base descrevem valores que podem ser criados diretamente. \pause
+
+Os casos com autorreferência permitem a criação de novos valores a partir de valores existentes. \pause
 
 O que está faltando na nossa definição de lista? \pause Um caso base, ou seja, uma forma de criar uma lista que não dependa de outra lista. \pause Que lista pode ser essa? \pause
 
@@ -184,7 +187,7 @@ in all variants to enable direct accessor syntax.
 
 ## Listas
 
-Nós vimos anteriormente que o tipo de dado de entrada de uma função pode sugerir uma forma para o corpo da função. \pause
+Nós vimos anteriormente que o tipo de dado de entrada de uma função sugere uma forma para o corpo da função. \pause
 
 - Qual é a forma do corpo da função que um tipo enumerado de entrada sugere? \pause Um `case`{.gleam} com um caso para cada valor da enumeração. \pause
 
@@ -277,16 +280,18 @@ fn fn_para_lista(lst: Lista) {
 
 \pause
 
-Quais são as relações entre a definição de `ListaDeNúmeros` e o modelo? \pause
+Quais são as relações entre a definição de `Lista`{.gleam} e `fn_para_lista`{.gleam}? \pause
 
-- A definição tem dois casos, o modelo também \pause
-- A **autorreferência na definição** do dado sugere uma **chamada recursiva** no modelo
+- A definição tem dois casos, o modelo também; \pause
+- Na definição o `resto`{.gleam} é um **autorreferência**, na função a **recursão** e feita como o `resto`{.gleam}.
 
 
 ## Exemplo: soma
 
 Defina uma função que some os valores de uma lista de números.
 
+
+<!--
 
 ## Exemplo: soma
 
@@ -310,10 +315,10 @@ Rascunho
 
 O que você consegue observar sobre a forma que a resposta é computada?
 
+-->
 
-## Exemplo: soma
 
-Especificação
+## Exemplo: soma - especificação {.t}
 
 <div class="columns">
 <div class="column" width="40%">
@@ -352,12 +357,10 @@ fn soma_examples() {
 
 \ \
 
-E agora, como escrevemos a implementação? \pause Vamos partir do modelo que criamos!
-
-\vfill
+E agora, como escrevemos a implementação? \pause Vamos partir do modelo de função para listas.
 
 
-## Exemplo: soma
+## Exemplo: soma - implementação {.t}
 
 <div class="columns">
 <div class="column" width="40%">
@@ -408,7 +411,7 @@ fn soma_examples() {
 Agora precisamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é vazia? \pause 0.
 
 
-## Exemplo: soma
+## Exemplo: soma - implementação {.t}
 
 <div class="columns">
 <div class="column" width="40%">
@@ -459,7 +462,7 @@ fn soma_examples() {
 Agora precisamos analisar o caso em que a lista não é vazia. \pause O modelo está sugerindo fazer uma chamada recursiva para o resto da lista. \pause Aqui vem o ponto crucial!
 
 
-## Exemplo: soma
+## Exemplo: soma - implementação {.t}
 
 <div class="columns">
 <div class="column" width="40%">
@@ -508,7 +511,7 @@ fn soma_examples() {
 Mesmo a função não estando completa, nós vamos **assumir** que ela produz a resposta correta para o resto da lista. \pause Tendo a soma do resto e o primeiro, como obtermos a soma da lista? \pause Somando os dois.
 
 
-## Exemplo: soma
+## Exemplo: soma - implementação {.t}
 
 <div class="columns">
 <div class="column" width="40%">
@@ -519,9 +522,8 @@ Mesmo a função não estando completa, nós vamos **assumir** que ela produz a 
 fn soma(lst: Lista) -> Int {
   case lst {
     Vazia -> 0
-    NaoVazia(primeiro, resto) -> {
+    NaoVazia(primeiro, resto) ->
       primeiro + soma(resto)
-    }
   }
 }
 ```
@@ -548,15 +550,9 @@ fn soma_examples() {
 </div>
 </div>
 
-\vfill
+\pause
 
-
-
-## Exemplo: soma
-
-Verificação: Ok. \pause
-
-Revisão: Ok.
+Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 
 
 <!--
@@ -625,7 +621,7 @@ def soma(lst: Lista) -> int:
 
 ## Listas
 
-O Gleam já tem embutido na linguagem um tipo `List`{.gleam} e fornece uma notação amigável para criar e desestruturar listas. \pause
+A linguagem Gleam já fornece o tipo `List`{.gleam} e uma notação amigável para criar e desestruturar listas. \pause
 
 <div class="columns">
 <div class="column" width="48%">
@@ -672,7 +668,6 @@ O Gleam já tem embutido na linguagem um tipo `List`{.gleam} e fornece uma nota�
 
 \pause
 
-\pause
 ```gleam
 > case lst2 {
     [] -> todo
@@ -685,7 +680,7 @@ O Gleam já tem embutido na linguagem um tipo `List`{.gleam} e fornece uma nota�
 
 \pause
 
-Note que `List`{.gleam} tem a mesma estrutura da lista que definimos, a diferença é apenas sintaxe!
+`List`{.gleam} **tem a mesma estrutura da lista que definimos**, a diferença é apenas na sintaxe!
 
 
 ## Listas
@@ -716,7 +711,7 @@ fn fn_para_list(lst: List(a)) {
 </div>
 <div class="column" width="48%">
 
-Exemplo da função soma
+Exemplo da função `soma`{.gleam}
 
 \pause
 
@@ -736,13 +731,12 @@ fn soma(lst: List(Int)) -> Int {
 </div>
 
 
-<!--
 ## Exemplo: contém
 
 Defina uma função que verifique se um dado valor está em uma lista de números.
 
 
-## Exemplo: contém
+## Exemplo: contém - especificação {.t}
 
 <div class="columns">
 <div class="column" width="50%">
@@ -777,10 +771,12 @@ fn contem_examples() {
 </div>
 </div>
 
-\vfill
+\pause
+
+Como começamos a implementação? \pause Com o modelo.
 
 
-## Exemplo: contém
+## Exemplo: contém - implementação {.t}
 
 <div class="columns">
 <div class="column" width="50%">
@@ -822,10 +818,57 @@ fn contem_examples() {
 </div>
 </div>
 
-\vfill
+\pause
+
+O esboço para cada caso começa com um **inventário** dos valores disponíveis para implementar aquele caso. \pause Por isso adicionamos `v` em cada caso.
 
 
-## Exemplo: contém
+## Exemplo: contém - implementação {.t}
+
+<div class="columns">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(Int), v: Int) -> Bool {
+  case lst {
+    [] -> { todo v }
+    [primeiro, ..resto] -> {
+      todo
+      v
+      primeiro
+      contem(resto, v)
+    }
+  }
+}
+```
+
+
+</div>
+<div class="column" width="46%">
+
+\footnotesize
+
+```gleam
+fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
+```
+
+</div>
+</div>
+
+O que fazemos agora? \pause Implementamos o caso base.
+
+
+## Exemplo: contém - implementação {.t}
 
 <div class="columns">
 <div class="column" width="50%">
@@ -867,10 +910,12 @@ fn contem_examples() {
 </div>
 </div>
 
-\vfill
+\pause
+
+**Assumindo** que a função produz a resposta correta para o resto (determina se `v` está no `resto`), com podemos determinar se `v` está `lst`?
 
 
-## Exemplo: contém
+## Exemplo: contém - implementação {.t}
 
 <div class="columns">
 <div class="column" width="50%">
@@ -911,10 +956,12 @@ fn contem_examples() {
 </div>
 </div>
 
-\vfill
+\pause
+
+Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 
 
-## Exemplo: contém
+## Exemplo: contém - revisão {.t}
 
 <div class="columns">
 <div class="column" width="50%">
@@ -952,7 +999,166 @@ fn contem_examples() {
 </div>
 </div>
 
-\vfill
+
+## Exemplo: soma x
+
+Defina uma função que soma um valor `x` em cada elemento de uma lista de números.
+
+
+## Exemplo: soma x - especificação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma *x* a cada elemento de *lst*.
+pub fn soma_x(
+  lst: List(Int),
+  x: Int
+) -> List(Int) {
+  []
+}
+```
+
+\pause
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn soma_x_examples() {
+  check.eq(soma_x([], 4), [])
+  check.eq(soma_x([4, 2], 5), [9, 7])
+  check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
+}
+```
+</div>
+</div>
+
+\pause
+
+Como começamos a implementação? \pause Com o modelo.
+
+
+## Exemplo: soma x - implementação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma *x* a cada elemento de *lst*.
+pub fn soma_x(lst, x) -> List(Int) {
+  case lst {
+    [] -> { todo x }
+    [primeiro, ..resto] -> {
+      todo
+      x
+      primeiro
+      soma_x(resto, x)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn soma_x_examples() {
+  check.eq(soma_x([], 4), [])
+  check.eq(soma_x([4, 2], 5), [9, 7])
+  check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
+}
+```
+</div>
+</div>
+
+\pause
+
+O que fazemos agora? \pause Implementamos o caso base.
+
+
+## Exemplo: soma x - implementação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma *x* a cada elemento de *lst*.
+pub fn soma_x(lst, x) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] -> {
+      todo
+      x
+      primeiro
+      soma_x(resto, x)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn soma_x_examples() {
+  check.eq(soma_x([], 4), [])
+  check.eq(soma_x([4, 2], 5), [9, 7])
+  check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
+}
+```
+</div>
+</div>
+
+\pause
+
+**Assumindo** que a função produz a resposta correta para o resto (soma `x` em cada elemento do `resto`), com podemos criar uma lista somando `x` em cada elemento de `lst`?
+
+
+## Exemplo: soma x - implementação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma *x* a cada elemento de *lst*.
+pub fn soma_x(lst, x) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [x + primeiro, ..soma_x(resto, x)]
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn soma_x_examples() {
+  check.eq(soma_x([], 4), [])
+  check.eq(soma_x([4, 2], 5), [9, 7])
+  check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
+}
+```
+</div>
+</div>
+
+\pause
+
+Verificação: \pause Ok. (Revisão) Podemos melhorar o código?
 
 
 ## Exemplo: remove negativos
@@ -960,7 +1166,7 @@ fn contem_examples() {
 Defina uma função que remova todos os número negativos de uma lista de números.
 
 
-## Exemplo: remove negativos
+## Exemplo: remove negativos - especificação {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1000,10 +1206,12 @@ fn remove_negativos_examples() {
 </div>
 </div>
 
-\vfill
+\pause
+
+Como começamos a implementação? \pause Com o modelo.
 
 
-## Exemplo: remove negativos
+## Exemplo: remove negativos - implementação {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1012,9 +1220,7 @@ fn remove_negativos_examples() {
 ```gleam
 // Cria uma nova lista sem
 // os valores negativos de *lst*.
-fn remove_negativos(
-  lst: List(Int)
-) -> List(Int) {
+fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> todo
     [primeiro, ..resto] -> {
@@ -1049,10 +1255,12 @@ fn remove_negativos_examples() {
 </div>
 </div>
 
-\vfill
+\pause
+
+O que fazemos agora? \pause Implementamos o caso base.
 
 
-## Exemplo: remove negativos
+## Exemplo: remove negativos - implementação {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1061,9 +1269,7 @@ fn remove_negativos_examples() {
 ```gleam
 // Cria uma nova lista sem
 // os valores negativos de *lst*.
-fn remove_negativos(
-  lst: List(Int)
-) -> List(Int) {
+fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] -> {
@@ -1098,10 +1304,12 @@ fn remove_negativos_examples() {
 </div>
 </div>
 
-\vfill
+\pause
+
+**Assumindo** que a função produz a resposta correta para o resto (remove os negativos de `resto`), com podemos remover os negativos de `lst`?
 
 
-## Exemplo: remove negativos
+## Exemplo: remove negativos - implementação {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1110,9 +1318,7 @@ fn remove_negativos_examples() {
 ```gleam
 // Cria uma nova lista sem
 // os valores negativos de *lst*.
-fn remove_negativos(
-  lst: List(Int)
-) -> List(Int) {
+fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> todo
     [primeiro, ..resto] ->
@@ -1149,10 +1355,12 @@ fn remove_negativos_examples() {
 </div>
 </div>
 
-\vfill
+\pause
+
+Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 
 
-## Exemplo: remove negativos
+## Exemplo: remove negativos - revisão {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1161,9 +1369,7 @@ fn remove_negativos_examples() {
 ```gleam
 // Cria uma nova lista sem
 // os valores negativos de *lst*.
-fn remove_negativos(
-  lst: List(Int)
-) -> List(Int) {
+fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> todo
     [primeiro, ..resto] if primeiro < 0 ->
@@ -1197,141 +1403,6 @@ fn remove_negativos_examples() {
 </div>
 </div>
 
-\vfill
-
-
-## Exemplo: soma x
-
-Defina uma função que soma um valor `x` em cada elemento de uma lista de números.
-
-
-## Exemplo: soma x
-
-<div class="columns">
-<div class="column" width="68%">
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> ListaDeNúmeros
-;; Produz uma nova lista somando x a cada elemento de lst.
-(examples
- (check-equal? (soma-x empty 4)
-               empty)
- (check-equal? (soma-x (cons 4 (cons 2 empty)) 5)
-               (cons 9 (cons 7 empty)))
- (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
-               (cons 1 (cons -3 (cons 2 empty)))))
-
-(define (soma-x lst x) empty)
-
-
-
-
-
-
-```
-</div>
-<div class="column" width="28%">
-Iniciamos com a especificação.
-</div>
-</div>
-
-
-## Exemplo: soma x
-
-<div class="columns">
-<div class="column" width="68%">
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> ListaDeNúmeros
-;; Produz uma nova lista somando x a cada elemento de lst.
-(examples
- (check-equal? (soma-x empty 4)
-               empty)
- (check-equal? (soma-x (cons 4 (cons 2 empty)) 5)
-               (cons 9 (cons 7 empty)))
- (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
-               (cons 1 (cons -3 (cons 2 empty)))))
-
-(define (soma-x lst x)
-  (cond
-    [(empty? lst) ... x]
-    [else
-      ... (first lst)
-      ... x
-      ... (soma-x (rest lst) x) ... ]))
-```
-</div>
-<div class="column" width="28%">
-Para implementação partimos do modelo e ajustamos o nome e adicionamos o parâmetro `x`.
-</div>
-</div>
-
-
-## Exemplo: soma x
-
-<div class="columns">
-<div class="column" width="68%">
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> ListaDeNúmeros
-;; Produz uma nova lista somando x a cada elemento de lst.
-(examples
- (check-equal? (soma-x empty 4)
-               empty)
- (check-equal? (soma-x (cons 4 (cons 2 empty)) 5)
-               (cons 9 (cons 7 empty)))
- (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
-               (cons 1 (cons -3 (cons 2 empty)))))
-
-(define (soma-x lst x)
-  (cond
-    [(empty? lst) empty]
-    [else
-      ... (first lst)
-      ... x
-      ... (soma-x (rest lst) x) ... ]))
-```
-</div>
-<div class="column" width="28%">
-Analisando os exemplos definimos o caso em que a lista é vazia.
-</div>
-</div>
-
-
-## Exemplo: soma x
-
-<div class="columns">
-<div class="column" width="68%">
-\footnotesize
-
-```scheme
-;; ListaDeNúmeros Número -> ListaDeNúmeros
-;; Produz uma nova lista somando x a cada elemento de lst.
-(examples
- (check-equal? (soma-x empty 4)
-               empty)
- (check-equal? (soma-x (cons 4 (cons 2 empty)) 5)
-               (cons 9 (cons 7 empty)))
- (check-equal? (soma-x (cons 3 (cons -1 (cons 4 empty))) -2)
-               (cons 1 (cons -3 (cons 2 empty)))))
-
-(define (soma-x lst x)
-  (cond
-    [(empty? lst) empty]
-    [else
-     (cons (+ x (first lst))
-           (soma-x (rest lst) x))]))
-
-```
-</div>
-<div class="column" width="28%">
-Analisando os exemplos definimos o caso em que a lista não é vazia.
-</div>
-</div>
-
 
 ## Exemplo: número de ocorrências
 
@@ -1346,174 +1417,212 @@ a) Projete uma função que determine, a partir de uma lista de associações, q
 
 \footnotesize
 
-```scheme
-(struct par (chave valor) #:transparent)
-;; Representa uma associação entre chave e valor.
-;; chave: String
-;; valor: Natural
+```gleam
+// Associação entre chave e valor.
+pub type Par {
+  Par(chave: String, valor: Int)
+}
 ```
 
 \pause
 
-```scheme
-;; String Lista(par) -> Natural
-;; Devolve o valor associado com *s* em *lst*.
-;; Se *s* não aparece como chave em *lst*, devolve 0.
-(define (busca s lst) 0)
+```gleam
+/// Devolve o valor associado com *s* em *lst* ou Error se *s* não aparece como
+/// chave em *lst*.
+pub fn busca(s: String, lst: List(Par)) -> Result(Int, Nil) {
+  Error(Nil)
+}
 ```
 
 \pause
 
-`(busca "casa" empty)`{.scheme} \pause $\rightarrow$ `0`{.scheme} \pause
+```gleam
+pub fn busca_examples() {
+  check.eq(busca([], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
+}
+```
 
-`(busca "casa" (list (par "nada" 3) (par "outra" 2)))`{.scheme} \pause $\rightarrow$ `0`{.scheme} \pause
 
-`(busca "nada" (list (par "nada" 3) (par "outra" 2)))`{.scheme} \pause $\rightarrow$ `3`{.scheme} \pause
+## Exemplo: número de ocorrências {.t}
 
-`(busca "outra" (list (par "nada" 3) (par "outra" 2)))`{.scheme} \pause $\rightarrow$ `2`{.scheme}
-
-
-## Exemplo: número de ocorrências
-
-<div class="columns">
-<div class="column" width="48%">
 \footnotesize
 
-```scheme
-; modelo
-(define (busca s lst)
-  (cond
-    [(empty? lst) ... s]
-    [else
-     ... s
-     ... (first lst)
-         (busca s (rest lst))]))
+```gleam
+pub fn busca_examples() {
+  check.eq(busca([], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
+}
+pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+  case lst {
+    [] -> { todo s }
+    [primeiro, ..resto] -> {
+      todo
+      s
+      primeiro
+      busca(resto, s)
+    }
+  }
+}
 ```
 
-\pause
 
-```scheme
-; decomposição de (first lst)
-(define (busca s lst)
-  (cond
-    [(empty? lst) ... s]
-    [else
-     ... s
-     ... (par-chave (first lst))
-     ... (par-valor (first lst))
-         (busca s (rest lst))]))
-```
+## Exemplo: número de ocorrências {.t}
 
-\pause
-
-</div>
-<div class="column" width="48%">
 \footnotesize
 
-```scheme
-; implementação
-(define (busca s lst)
-  (cond
-    [(empty? lst) 0]
-    [else
-     (if (equal? s (par-chave (first lst)))
-         (par-valor (first lst))
-         (busca s (rest lst)))]))
+```gleam
+pub fn busca_examples() {
+  check.eq(busca([], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
+}
+pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+  case lst {
+    [] -> Error(Nil)
+    [primeiro, ..resto] -> {
+      todo
+      s
+      primeiro
+      busca(resto, s)
+    }
+  }
+}
 ```
 
-\pause
 
-```scheme
-; simplificação
-(define (busca s lst)
-  (cond
-    [(empty? lst) 0]
-    [(equal? s (par-chave (first lst)))
-     (par-valor (first lst))]
-    [else
-     (busca s (rest lst))]))
+## Exemplo: número de ocorrências {.t}
+
+\footnotesize
+
+```gleam
+pub fn busca_examples() {
+  check.eq(busca([], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
+}
+pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+  case lst {
+    [] -> Error(Nil)
+    [primeiro, ..resto] -> {
+      case primeiro.chave == s {
+        True -> Ok(primeiro.valor)
+        False -> busca(resto, s)
+    }
+  }
+}
 ```
 
-</div>
-</div>
+
+## Exemplo: número de ocorrências {.t}
+
+\footnotesize
+
+```gleam
+pub fn busca_examples() {
+  check.eq(busca([], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
+}
+pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+  case lst {
+    [] -> Error(Nil)
+    [primeiro, ..] if primeiro.chave == s ->
+      Ok(primeiro.valor)
+    [_, ..resto] s ->
+      busca(resto, s)
+  }
+}
+```
+
+
+## Exemplo: número de ocorrências {.t}
+
+\footnotesize
+
+```gleam
+pub fn busca_examples() {
+  check.eq(busca([], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
+}
+pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+  case lst {
+    [] -> Error(Nil)
+    [Par(chave, valor), ..] if chave == s ->
+      Ok(valor)
+    [_, ..resto] s ->
+      busca(resto, s)
+  }
+}
+```
 
 
 ## Exemplos: junta com "," e "e"
 
-Projete uma função que junte todos os elementos de uma lista de strings (não vazias) separando-os com `", "`{.scheme} ou/e `" e "`{.scheme}, de acordo com a gramática do Português.
+Projete uma função que junte todos os elementos de uma lista de strings (não vazias) separando-os com `", "`{.gleam} ou/e `" e "`{.gleam}, de acordo com a gramática do Português.
 
 
 ## Exemplos: junta com "," e "e"
 
 \scriptsize
 
-```scheme
-;; ListaDeStrings -> String
-;; Parece difícil escrever o propósito...
-;; Vamos fazer os exemplos primeiro.
-(define (junta-virgula-e lst) "")
+```gleam
+/// Parece difícil escrever o propósito... Vamos fazer os exemplos primeiro.
+pub fn junta_virgula_e(lst: List(String)) -> String { "" }
 ```
 
-Exemplos \pause
+\small
+Exemplos
 
-`(junta-virgula-e empty)`{.scheme} \pause $\rightarrow$ `""`{.scheme} \pause
+\scriptsize
 
-`(junta-virgula-e (list "maça"))`{.scheme} \pause $\rightarrow$ `"maça"`{.scheme} \pause
+\pause
 
-`(junta-virgula-e (list "banana" "maça"))`{.scheme} \pause $\rightarrow$ `"banana e maça"`{.scheme} \pause
+`junta_virgula_e([])`{.gleam} \pause $\rightarrow$ `""`{.gleam} \pause
 
-`(junta-virgula-e (list "mamão" "banana" "maça"))`{.scheme} \pause $\rightarrow$ `"mamão, banana e maça"`{.scheme} \pause
+`junta_virgula_e(["maça"])`{.gleam} \pause $\rightarrow$ `"maça"`{.gleam} \pause
 
-`(junta-virgula-e (list "aveia" "mamão" "banana" "maça"))`{.scheme} \pause $\rightarrow$ `"aveia, mamão, banana e maça"`{.scheme} \pause
+`junta_virgula_e(["banana", "maça"])`{.gleam} \pause $\rightarrow$ `"banana e maça"`{.gleam} \pause
 
-\normalsize
+`junta_virgula_e(["mamão", "banana", "maça"])`{.gleam} \pause $\rightarrow$ `"mamão, banana e maça"`{.gleam} \pause
 
-Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma especifica, que não é recursiva. \pause
+`junta_virgula_e(["aveia", "mamão", "banana", "maça"])`{.gleam} \pause $\rightarrow$ `"aveia, mamão, banana e maça"`{.gleam} \pause
 
-Então precisamos criar três casos base.
+\small
+
+Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma especifica, que não é recursiva. \pause Então precisamos criar três casos base.
 
 
 ## Exemplos: junta com "," e "e"
 
 \footnotesize
 
-```scheme
-;; ListaDeStrings -> String
-;; Produz uma string juntando os elementos de lst da seguinte forma:
-;; Se a lista é vazia, devolve "".
-;; Se a lista tem apenas um elemento, devolve esse elemento.
-;; Senão, junta as strings de lst, separando-as com ", ", com exceção da
-;; última string, que é separada com " e ".
-(examples
-  (check-equal? (junta-virgula-e empty)
-                "")
-  (check-equal? (junta-virgula-e (list "maça"))
-                "maça")
-  (check-equal? (junta-virgula-e (list "mamão" "banana" "maça"))
-                "mamão, banana e maça")
-  (check-equal? (junta-virgula-e (list "aveia" "mamão" "banana" "maça"))
-                "aveia, mamão, banana e maça"))
-(define (junta-virgula-e lst) "")
-```
+```gleam
+/// Produz uma string juntando os elementos de *lst* da seguinte forma:
+/// - Se a *lst* é vazia, devolve "".
+/// - Se a *lst* tem apenas um elemento, devolve esse elemento.
+/// - Senão, junta as strings de *lst*, separando-as com ", ", com exceção
+///   da última string, que é separada com " e ".
+pub fn junta_virgula_e(lst: List(String)) -> String {
+  ""
+}
 
-
-## Exemplos: junta com "," e "e"
-
-\footnotesize
-
-```scheme
-(define (junta-virgula-e lst)
-  (cond
-    [(empty? lst)
-     ... ]
-    [(empty? (rest lst))
-     ... (first lst)]
-    [(empty? (rest (rest lst)))
-     ... (first lst)
-         (second lst)]
-    [else
-     ... (first lst)
-         (junta-virgula-e (rest lst))])
+pub fn junta_virgula_e_examples() {
+  check.eq(junta_virgula_e([]), "")
+  check.eq(junta_virgula_e(["maça"]), "maça")
+  check.eq(junta_virgula_e(["mamão", "banana", "maça"]), "mamão, banana e maça")
+  check.eq(junta_virgula_e(["aveia", "mamão", "banana", "maça"]),
+           "aveia, mamão, banana e maça")
+}
 ```
 
 
@@ -1521,21 +1630,28 @@ Então precisamos criar três casos base.
 
 \footnotesize
 
-```scheme
-(define (junta-virgula-e lst)
-  (cond
-    [(empty? lst)
-     ""]
-    [(empty? (rest lst))
-     (first lst)]
-    [(empty? (rest (rest lst)))
-     (string-append (first lst)
-                    " e "
-                    (second lst))]
-    [else
-     (string-append (first lst)
-                    ", "
-                    (junta-virgula-e (rest lst)))]))
+```gleam
+pub fn junta_virgula_e(lst: List(String)) -> String {
+  case lst {
+    [] -> todo
+    [primeiro] -> todo
+    [primeiro, segundo] -> todo
+    [primeiro, ..resto] -> todo
+  }
+}
+```
+
+\pause
+
+```gleam
+pub fn junta_virgula_e(lst: List(String)) -> String {
+  case lst {
+    [] -> ""
+    [primeiro] -> primeiro
+    [primeiro, segundo] -> primeiro <> " e " <> segundo
+    [primeiro, ..resto] -> primeiro <> ", " <> junta_virgula_e(resto)
+  }
+}
 ```
 
 
@@ -1608,4 +1724,3 @@ Complementares
 - Seção [6.3](http://www.scheme.com/tspl4/objects.html#./objects:h3) do livro [TSPL4](http://www.scheme.com/tspl4/)
 </div>
 </div>
--->

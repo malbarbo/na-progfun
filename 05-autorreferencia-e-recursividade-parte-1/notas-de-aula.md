@@ -1326,7 +1326,7 @@ fn remove_negativos(lst) -> List(Int) {
         True -> remove_negatios(resto)
         False ->
           [primeiro,
-           ..remove_negativos(resto]
+           ..remove_negativos(resto)]
       }
   }
 }
@@ -1375,7 +1375,7 @@ fn remove_negativos(lst) -> List(Int) {
     [primeiro, ..resto] if primeiro < 0 ->
       remove_negatios(resto)
     [primeiro, ..resto] ->
-      [primeiro, ..remove_negativos(resto]
+      [primeiro, ..remove_negativos(resto)]
   }
 }
 ```
@@ -1429,7 +1429,7 @@ pub type Par {
 ```gleam
 /// Devolve o valor associado com *s* em *lst* ou Error se *s* não aparece como
 /// chave em *lst*.
-pub fn busca(s: String, lst: List(Par)) -> Result(Int, Nil) {
+pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
   Error(Nil)
 }
 ```

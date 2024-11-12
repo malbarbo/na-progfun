@@ -7,17 +7,17 @@ pub type Par {
 
 /// Devolve o valor associado com *s* em *lst* ou Error se *s* não aparece como
 /// chave em *lst*.
-pub fn busca(s: String, lst: List(Par)) -> Result(Int, Nil) {
+pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
-    [par, ..] if s == par.chave -> Ok(par.valor)
+    [Par(chave, valor), ..] if s == chave -> Ok(valor)
     [_, ..resto] -> busca(s, resto)
   }
 }
 
 pub fn busca_examples() {
-  check.eq(busca("casa", []), Error(Nil))
-  check.eq(busca("casa", [Par("nada", 3), Par("outra", 2)]), Error(Nil))
-  check.eq(busca("nada", [Par("nada", 3), Par("outra", 2)]), Ok(3))
-  check.eq(busca("outra", [Par("nada", 3), Par("outra", 2)]), Ok(2))
+  check.eq(busca([], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }

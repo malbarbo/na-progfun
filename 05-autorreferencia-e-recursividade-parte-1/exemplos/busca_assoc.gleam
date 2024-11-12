@@ -11,7 +11,7 @@ pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
     [Par(chave, valor), ..] if s == chave -> Ok(valor)
-    [_, ..resto] -> busca(s, resto)
+    [_, ..resto] -> busca(resto, s)
   }
 }
 

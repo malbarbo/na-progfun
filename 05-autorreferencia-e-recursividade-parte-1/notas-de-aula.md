@@ -1406,11 +1406,11 @@ fn remove_negativos_examples() {
 
 ## Exemplo: número de ocorrências
 
-Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário, a mais simples é utilizando **listas de associações** chave-valor. \pause Apesar dos tempos de inserção e buscar serem lineares, na prática, para poucas chaves, a implementação é adequada. Em um projeto foi decidido usar lista de associações para armazenar a quantidade de ocorrências de uma string em um texto. \pause
+Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário, a mais simples é utilizando **listas de associações** chave-valor. \pause Apesar dos tempos de inserção e buscar serem lineares, na prática, para poucas chaves, a implementação é adequada. \pause
 
 a) Defina um tipo de dado que represente uma associação entre uma string e um número.
 
-a) Projete uma função que determine, a partir de uma lista de associações, qual é a quantidade de ocorrências de uma string.
+a) Projete uma função que determine, a partir de uma lista de associações, qual é o valor associado com uma string.
 
 
 ## Exemplo: número de ocorrências

@@ -2,9 +2,6 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Autorreferência e recursividade
 subtitle: Parte II
-# TODO: apresentar os exemplos de forma mais abstrata, semelhante ao
-#       juntar com ponto e vírgula. Os alunos têm dificuldades
-#       para entender por causa da sintaxe do Racket...
 # TODO: trocar o termo lista aninhada para árvores?
 # TODO: ou colocar linhas aninhada antes de árvore binária?
 # TODO: definir decomposição estrutural
@@ -19,9 +16,9 @@ Números Naturais
 
 Um número natural é atômico ou composto? \pause
 
-- Atômico quando usado em operações aritméticas, comparações, etc \pause
+- Atômico quando usado em operações aritméticas, comparações, etc; \pause
 
-- Composto quando uma iteração precisa ser feita baseado no valor do número
+- Composto quando uma iteração precisa ser feita baseado no valor do número.
 
 \pause
 
@@ -37,11 +34,11 @@ Se um número natural pode ser visto como dado composto \pause
 <div class="columns">
 <div class="column" width="48%">
 
-Um número **Natural** é
+Um número **Natural** é \pause
 
-- $0$; ou
+- `0`{.gleam}; ou \pause
 
-- `(add1 n)`{.scheme} onde $n$ é um número **Natural**
+- `n + 1`{.gleam} onde $n$ é um número **Natural**
 
 \pause
 
@@ -54,43 +51,26 @@ Baseado nesta definição, criamos um modelo para funções com números naturai
 
 \pause
 
-\small
-
-```scheme
-(define (fn-para-natural n)
-  (cond
-    [(zero? n) ...]
-    [else
-      (... n
-           (fn-para-natural (sub1 n)))]))
-```
-
-</div>
-</div>
-
-
-## Definição
-
 \footnotesize
 
-```scheme
-;; as funções add1, sub1 e zero? são pré-definidas
-
-;; compõe um novo natural a partir de um existente
-;; semelhante ao cons
-> (add1 8)
-9
-;; decompõe um natural
-;; semelhante a rest
-> (sub1 8)
-7
-;; verifica se um natural é 0
-;; semelhante ao empty?
-> (zero? 8)
-#f
-> (zero? 0)
-#t
+```gleam
+fn fn_para_natural(n: Int) {
+  case n {
+    // Necessário porque gleam
+    // não tem números naturais
+    _ if n < 0 -> todo
+    0 -> todo
+    _ -> {
+      todo
+      n
+      fn_para_natural(n - 1)
+    }
+  }
+}
 ```
+
+</div>
+</div>
 
 
 ## Exemplo: soma naturais
@@ -98,323 +78,451 @@ Baseado nesta definição, criamos um modelo para funções com números naturai
 Dado um número natural $n$, defina uma função que some os números naturais menores ou iguais a $n$.
 
 
-## Exemplo: soma naturais
+## Exemplo: soma naturais {.t}
 
-Especificação
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
 
-\small
-
-```scheme
-;; Natural -> Natural
-;; Soma todos os números naturais de 0 até n
-(examples
- (check-equal? (soma-nat 0) 0)
- (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
- (check-equal? (soma-nat 2) 3)  ; (+ 2 1 0)
- (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
-(define (soma-nat n) 0)
-
-
-
-
-
-
+```gleam
+/// Devolve a soma 1 + 2 + ... + n.
+pub fn soma_nat(n: Int) -> Int {
+  todo
+}
 ```
 
+\pause
+</div>
+<div class="column" width="48%">
 
-## Exemplo: soma naturais
+\footnotesize
 
-Implementação: a partir do modelo.
+```gleam
+pub fn soma_nat_examples() {
+  check.eq(soma_nat(-1), 0)
+  check.eq(soma_nat(0), 0)
+  check.eq(soma_nat(1), 1)
+  check.eq(soma_nat(3), 6)
+  check.eq(soma_nat(4), 10)
+}
+```
+</div>
+</div>
 
-\small
 
-```scheme
-;; Natural -> Natural
-;; Soma todos os números naturais de 0 até n
-(examples
- (check-equal? (soma-nat 0) 0)
- (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
- (check-equal? (soma-nat 2) 3)  ; (+ 2 1 0)
- (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
-(define (soma-nat n)
-  (cond
-    [(zero? n) ...]
-    [else
-      (... n
-           (soma-nat (sub1 n)))]))
+## Exemplo: soma naturais {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Devolve a soma 1 + 2 + ... + n.
+pub fn soma_nat(n: Int) -> Int {
+  case n {
+    _ if n < 0 -> todo
+    0 -> todo
+    _ -> {
+      todo
+      n
+      soma_nat(n - 1)
+    }
+  }
+}
 ```
 
+</div>
+<div class="column" width="48%">
 
-## Exemplo: soma naturais
+\footnotesize
 
-Implementação: o caso base.
+```gleam
+pub fn soma_nat_examples() {
+  check.eq(soma_nat(-1), 0)
+  check.eq(soma_nat(0), 0)
+  check.eq(soma_nat(1), 1)
+  check.eq(soma_nat(3), 6)
+  check.eq(soma_nat(4), 10)
+}
+```
+</div>
+</div>
 
-\small
 
-```scheme
-;; Natural -> Natural
-;; Soma todos os números naturais de 0 até n
-(examples
- (check-equal? (soma-nat 0) 0)
- (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
- (check-equal? (soma-nat 2) 3)  ; (+ 2 1 0)
- (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
-(define (soma-nat n)
-  (cond
-    [(zero? n) 0]
-    [else
-      (... n
-           (soma-nat (sub1 n)))]))
+## Exemplo: soma naturais {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Devolve a soma 1 + 2 + ... + n.
+pub fn soma_nat(n: Int) -> Int {
+  case n {
+    _ if n <= 0 -> 0
+    _ -> {
+      todo
+      n
+      soma_nat(n - 1)
+    }
+  }
+}
 ```
 
+</div>
+<div class="column" width="48%">
 
-## Exemplo: soma naturais
+\footnotesize
 
-Implementação: o outro caso.
-
-\small
-
-```scheme
-;; Natural -> Natural
-;; Soma todos os números naturais de 0 até n
-(examples
- (check-equal? (soma-nat 0) 0)
- (check-equal? (soma-nat 1) 1)  ; (+ 1 0)
- (check-equal? (soma-nat 2) 3)  ; (+ 2 1 0)
- (check-equal? (soma-nat 3) 6)) ; (+ 3 2 1 0)
-(define (soma-nat n)
-  (cond
-    [(zero? n) 0]
-    [else
-      (+ n
-         (soma-nat (sub1 n)))]))
+```gleam
+pub fn soma_nat_examples() {
+  check.eq(soma_nat(-1), 0)
+  check.eq(soma_nat(0), 0)
+  check.eq(soma_nat(1), 1)
+  check.eq(soma_nat(3), 6)
+  check.eq(soma_nat(4), 10)
+}
 ```
+</div>
+</div>
+
+
+## Exemplo: soma naturais {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Devolve a soma 1 + 2 + ... + n.
+pub fn soma_nat(n: Int) -> Int {
+  case n {
+    _ if n <= 0 -> 0
+    _ -> n + soma_nat(n - 1)
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn soma_nat_examples() {
+  check.eq(soma_nat(-1), 0)
+  check.eq(soma_nat(0), 0)
+  check.eq(soma_nat(1), 1)
+  check.eq(soma_nat(3), 6)
+  check.eq(soma_nat(4), 10)
+}
+```
+</div>
+</div>
 
 
 ## Exemplo: lista de números
 
-Dado um número natural $n$, defina uma função que devolva `(list 1 2 ... n-1 n)`{.scheme}.
+Dado um número natural $n$, defina uma função que devolva `[1, 2, ..., n - 1, n]`{.gleam}.
 
 
-## Exemplo: lista de números
+## Exemplo: lista de números {.t}
 
-Especificação
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
 
-\small
-
-```scheme
-;; Natural -> ListaDeNúmeros
-;; Cria uma lista com os valores 1 2 ... n-1 n
-(examples
-  (check-equal? (lista-num 0) empty)
-  (check-equal? (lista-num 1) (cons 1 empty))
-  (check-equal? (lista-num 2) (cons 1 (cons 2 empty)))
-  (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
-(define (lista-num n) empty)
-
-
-
-
-
-
+```gleam
+/// Cria uma lista com os valores
+/// 1, 2, ..., n-1, n.
+pub fn lista_num(n: Int) -> List(Int) {
+  []
+}
 ```
 
+\pause
 
-## Exemplo: lista de números
-
-Implementação: modelo.
-
-\small
-
-```scheme
-;; Natural -> ListaDeNúmeros
-;; Cria uma lista com os valores 1 2 ... n-1 n
-(examples
-  (check-equal? (lista-num 0) empty)
-  (check-equal? (lista-num 1) (cons 1 empty))
-  (check-equal? (lista-num 2) (cons 1 (cons 2 empty)))
-  (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
-(define (lista-num n)
-  (cond
-    [(zero? n) ...]
-    [else
-      (... n
-           (lista-num (sub1 n)))]))
-```
-
-
-## Exemplo: lista de números
-
-Implementação: caso base.
-
-\small
-
-```scheme
-;; Natural -> ListaDeNúmeros
-;; Cria uma lista com os valores 1 2 ... n-1 n
-(examples
-  (check-equal? (lista-num 0) empty)
-  (check-equal? (lista-num 1) (cons 1 empty))
-  (check-equal? (lista-num 2) (cons 1 (cons 2 empty)))
-  (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
-(define (lista-num n)
-  (cond
-    [(zero? n) empty]
-    [else
-      (... n
-           (lista-num (sub1 n)))]))
-```
-
-
-## Exemplo: lista de números
-
-Implementação: o outro caso.
-
-\small
-
-```scheme
-;; Natural -> ListaDeNúmeros
-;; Cria uma lista com os valores 1 2 ... n-1 n
-(examples
-  (check-equal? (lista-num 0) empty)
-  (check-equal? (lista-num 1) (cons 1 empty))
-  (check-equal? (lista-num 2) (cons 1 (cons 2 empty)))
-  (check-equal? (lista-num 3) (cons 1 (cons 2 (cons 3 empty)))))
-(define (lista-num n)
-  (cond
-    [(zero? n) empty]
-    [else
-      (cons-fim n
-                (lista-num (sub1 n)))]))
-```
-
-
-## Exemplo: adiciona no final da lista
-
-Especificação para `cons-fim`.
+</div>
+<div class="column" width="48%">
 
 \footnotesize
 
-```scheme
-;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de lst.
-(define (cons-fim n lst) lst)
+```gleam
+pub fn lista_num_examples() {
+  check.eq(lista_num(-1), [])
+  check.eq(lista_num(0), [])
+  check.eq(lista_num(1), [1])
+  check.eq(lista_num(2), [1, 2])
+  check.eq(lista_num(3), [1, 2, 3])
+}
+```
+</div>
+</div>
 
 
+## Exemplo: lista de números {.t}
 
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
 
-
-
-
-
-
-
-
-
-
+```gleam
+/// Cria uma lista com os valores
+/// 1, 2, ..., n-1, n.
+pub fn lista_num(n: Int) -> List(Int) {
+  case n {
+    _ if n < 0 -> todo
+    0 -> todo
+    _ -> {
+      todo
+      n
+      lista_num(n - 1)
+    }
+  }
+}
 ```
 
-
-## Exemplo: adiciona no final da lista
-
-Especificação para `cons-fim`.
+</div>
+<div class="column" width="48%">
 
 \footnotesize
 
-```scheme
-;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de lst.
-(examples
-  (check-equal? (cons-fim 3 empty)
-                (cons 3 empty))
-  (check-equal? (cons-fim 4 (cons 3 empty))
-                (cons 3 (cons 4 empty)))
-  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
-                (cons 3 (cons 4 (cons 1 empty)))))
-(define (cons-fim n lst) lst)
+```gleam
+pub fn lista_num_examples() {
+  check.eq(lista_num(-1), [])
+  check.eq(lista_num(0), [])
+  check.eq(lista_num(1), [1])
+  check.eq(lista_num(2), [1, 2])
+  check.eq(lista_num(3), [1, 2, 3])
+}
+```
+</div>
+</div>
 
 
+## Exemplo: lista de números {.t}
 
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
 
-
-
+```gleam
+/// Cria uma lista com os valores
+/// 1, 2, ..., n-1, n.
+pub fn lista_num(n: Int) -> List(Int) {
+  case n {
+    _ if n <= 0 -> []
+    _ -> {
+      todo
+      n
+      lista_num(n - 1)
+    }
+  }
+}
 ```
 
-
-## Exemplo: adiciona no final da lista
-
-Implementação: modelo.
+</div>
+<div class="column" width="48%">
 
 \footnotesize
 
-```scheme
-;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de lst.
-(examples
-  (check-equal? (cons-fim 3 empty)
-                (cons 3 empty))
-  (check-equal? (cons-fim 4 (cons 3 empty))
-                (cons 3 (cons 4 empty)))
-  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
-                (cons 3 (cons 4 (cons 1 empty)))))
-(define (cons-fim n lst)
-  (cond
-    [(empty? lst) ... n]
-    [else
-     (... (first lst)
-          (cons-fim n (rest lst)))]))
+```gleam
+pub fn lista_num_examples() {
+  check.eq(lista_num(-1), [])
+  check.eq(lista_num(0), [])
+  check.eq(lista_num(1), [1])
+  check.eq(lista_num(2), [1, 2])
+  check.eq(lista_num(3), [1, 2, 3])
+}
+```
+</div>
+</div>
+
+
+## Exemplo: lista de números {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Cria uma lista com os valores
+/// 1, 2, ..., n-1, n.
+pub fn lista_num(n: Int) -> List(Int) {
+  case n {
+    _ if n <= 0 -> []
+    _ -> adiciona_fim(lista_num(n - 1), n)
+  }
+}
 ```
 
-
-## Exemplo: adiciona no final da lista
-
-Implementação: caso base.
+</div>
+<div class="column" width="48%">
 
 \footnotesize
 
-```scheme
-;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de lst.
-(examples
-  (check-equal? (cons-fim 3 empty)
-                (cons 3 empty))
-  (check-equal? (cons-fim 4 (cons 3 empty))
-                (cons 3 (cons 4 empty)))
-  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
-                (cons 3 (cons 4 (cons 1 empty)))))
-(define (cons-fim n lst)
-  (cond
-    [(empty? lst) (cons n empty)]
-    [else
-     (... (first lst)
-          (cons-fim n (rest lst)))]))
+```gleam
+pub fn lista_num_examples() {
+  check.eq(lista_num(-1), [])
+  check.eq(lista_num(0), [])
+  check.eq(lista_num(1), [1])
+  check.eq(lista_num(2), [1, 2])
+  check.eq(lista_num(3), [1, 2, 3])
+}
+```
+</div>
+</div>
+
+
+## Exemplo: adiciona fim {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Adiciona *n* ao final de *lst*.
+pub fn adiciona_fim(
+  lst: List(Int),
+  n: Int,
+) -> List(Int) {
+  []
+}
 ```
 
+\pause
 
-## Exemplo: adiciona no final da lista
-
-Implementação: outro caso.
+</div>
+<div class="column" width="48%">
 
 \footnotesize
 
-```scheme
-;; Número ListaDeNúmeros -> ListaDeNúmeros
-;; Adiciona n ao final de lst.
-(examples
-  (check-equal? (cons-fim 3 empty)
-                (cons 3 empty))
-  (check-equal? (cons-fim 4 (cons 3 empty))
-                (cons 3 (cons 4 empty)))
-  (check-equal? (cons-fim 1 (cons 3 (cons 4 empty)))
-                (cons 3 (cons 4 (cons 1 empty)))))
-(define (cons-fim n lst)
-  (cond
-    [(empty? lst) (cons n empty)]
-    [else
-     (cons (first lst)
-           (cons-fim n (rest lst)))]))
+```gleam
+pub fn adiciona_fim_examples() {
+  check.eq(adiciona_fim([], 3), [3])
+  check.eq(adiciona_fim([3], 4), [3, 4])
+  check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
+}
+```
+</div>
+</div>
+
+
+## Exemplo: adiciona fim {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Adiciona *n* ao final de *lst*.
+pub fn adiciona_fim(
+  lst: List(Int),
+  n: Int,
+) -> List(Int) {
+  case lst {
+    [] -> { todo n }
+    [primeiro, ..resto] -> {
+      todo
+      n
+      primeiro
+      adiciona_fim(resto, primeiro)
+    }
+  }
+}
 ```
 
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn adiciona_fim_examples() {
+  check.eq(adiciona_fim([], 3), [3])
+  check.eq(adiciona_fim([3], 4), [3, 4])
+  check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
+}
+```
+</div>
+</div>
+
+
+## Exemplo: adiciona fim {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Adiciona *n* ao final de *lst*.
+pub fn adiciona_fim(
+  lst: List(Int),
+  n: Int,
+) -> List(Int) {
+  case lst {
+    [] -> [n]
+    [primeiro, ..resto] -> {
+      todo
+      n
+      primeiro
+      adiciona_fim(resto, n)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn adiciona_fim_examples() {
+  check.eq(adiciona_fim([], 3), [3])
+  check.eq(adiciona_fim([3], 4), [3, 4])
+  check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
+}
+```
+</div>
+</div>
+
+
+## Exemplo: adiciona fim {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Adiciona *n* ao final de *lst*.
+pub fn adiciona_fim(
+  lst: List(Int),
+  n: Int,
+) -> List(Int) {
+  case lst {
+    [] -> [n]
+    [primeiro, ..resto] ->
+      [primeiro,
+       ..adiciona_fim(resto, n)]
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn adiciona_fim_examples() {
+  check.eq(adiciona_fim([], 3), [3])
+  check.eq(adiciona_fim([3], 4), [3, 4])
+  check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
+}
+```
+</div>
+</div>
 
 
 Inteiros
@@ -431,27 +539,32 @@ Podemos generalizar a definição de número natural para incluir um limite infe
 ## Definição Inteiro
 
 <div class="columns">
-<div class="column" width="45%">
-Um número **Inteiro>=a** é
+<div class="column" width="48%">
+Um número **Inteiro menor igual à x** é
 
-- $a$; ou
+- `x`{.gleam}; ou
 
-- `(add1 n)`{.scheme} onde $n$ é um número **Inteiro>=a**
+- `n + 1`{.gleam} onde `n`{.gleam} é um número **Inteiro menor igual à x**
 
 </div>
-<div class="column" width="52%">
+<div class="column" width="48%">
 
 \pause
 
-\small
+\footnotesize
 
-```scheme
-(define (fn-para-inteiro>=a n)
-  (cond
-    [(<= n a) ...]
-    [else
-      (... n
-           (fn-para-inteiro>=a (sub1 n)))]))
+```gleam
+fn fn_para_inteiro_lt_x(n: Int) {
+  case n {
+    _ if n < x -> todo
+    _ if n == x -> todo
+    _ -> {
+      todo
+      x
+      fn_para_inteiro_lt_x(n - 1)
+    }
+  }
+}
 ```
 
 </div>

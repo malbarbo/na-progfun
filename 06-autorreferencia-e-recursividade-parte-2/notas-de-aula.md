@@ -1288,7 +1288,7 @@ Uma **lista de entradas** é:
 ```gleam
 fn fn_para_entrada(ent: Entrada) {
   case ent {
-    Arq(nome) -> todo
+    Arq(nome) -> { todo nome }
     Dir(nome, entradas) -> {
       todo nome
            fn_para_entradas(entradas)
@@ -1367,6 +1367,64 @@ fn encontra_txt(ent: Entrada) -> List(String) {
 </div>
 
 
+## Exemplo: arquivos txt {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```
+disciplinas/
++- 12026/
+|  +- alunos.txt
+|  +- trabs/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+\ \
+
+```
+disciplinas/12026/alunos.txt
+disciplinas/12026/trabs/correcoes/rascunho.txt
+disciplinas/12026/trabs/correcoes/final.txt
+disciplinas/anotacoes.txt
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn encontra_txt(ent: Entrada) -> List(String) {
+  case ent {
+    Arq(nome) -> { todo nome }
+    Dir(nome, entradas) -> {
+      todo nome
+           encontra_txt_lista(entradas)
+    }
+  }
+}
+fn encontra_txt_lista(lst: Entrada) -> List(String) {
+  case lst {
+    [] -> todo
+    [entrada, ..resto] -> {
+      todo encontra_txt(entrada)
+           encontra_txt_lista(entradas)
+    }
+  }
+}
+```
+
+</div>
+</div>
+
 
 ## Exemplo: arquivos txt {.t}
 
@@ -1389,8 +1447,6 @@ disciplinas/
 +- anotacoes.txt
 ```
 
-\pause
-
 \ \
 
 ```
@@ -1399,8 +1455,6 @@ disciplinas/12026/trabs/correcoes/rascunho.txt
 disciplinas/12026/trabs/correcoes/final.txt
 disciplinas/anotacoes.txt
 ```
-
-\pause
 
 </div>
 <div class="column" width="48%">
@@ -1411,12 +1465,10 @@ fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
     Arq(nome) -> case string.ends_with(nome, ".txt") {
       False -> []
-      True -> [nome]
-    }
+      True -> [nome] }
     Dir(nome, entradas) -> {
       adiciona_prefixo(nome,
-                       encontra_txt_lista(entradas))
-    }
+                       encontra_txt_lista(entradas)) }
   }
 }
 fn encontra_txt_lista(lst: Entrada) -> List(String) {

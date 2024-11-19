@@ -606,6 +606,8 @@ Uma **Árvore binária** é \pause
 
 \footnotesize
 
+\ \
+
 ```gleam
 type Arvore {
   Vazia
@@ -640,9 +642,281 @@ fn fn_para_ab(arv: Arvore) {
 </div>
 
 
+## Exemplo: nós folhas
+
+Projete uma função que determine a quantidade de nós folhas em uma árvore.
+
+
+## Exemplo: nós folhas {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Determina o número de nós folhas
+/// de *avr*.
+fn num_folhas(arv: Arvore) -> Int {
+  0
+}
+
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+pub fn num_folhas_examples() {
+  //     t4  3
+  //       /   \
+  //  t3  4     7  t2
+  //     / \   / \
+  //    3   2 8   9  t1
+  //             /
+  //        t0  10
+  let t0 = No(10, Vazia, Vazia)
+  let t1 = No(9, t0, Vazia)
+  let t2 = No(7, No(8, Vazia, Vazia), t1)
+  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
+  let t4 = No(3, t3, t2)
+  check.eq(num_folhas(Vazia), 0)
+  check.eq(num_folhas(t0), 1)
+  check.eq(num_folhas(t1), 1)
+  check.eq(num_folhas(t2), 2)
+  check.eq(num_folhas(t3), 2)
+  check.eq(num_folhas(t4), 4)
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo: nós folhas {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Determina o número de nós folhas
+/// de *avr*.
+fn num_folhas(arv: Arvore) -> Int {
+  case arv {
+    Vazia -> todo
+    No(valor, esq, dir) -> {
+      todo
+      valor
+      num_folhas(esq)
+      num_folhas(dir)
+    }
+  }
+}
+
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+pub fn num_folhas_examples() {
+  //     t4  3
+  //       /   \
+  //  t3  4     7  t2
+  //     / \   / \
+  //    3   2 8   9  t1
+  //             /
+  //        t0  10
+  let t0 = No(10, Vazia, Vazia)
+  let t1 = No(9, t0, Vazia)
+  let t2 = No(7, No(8, Vazia, Vazia), t1)
+  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
+  let t4 = No(3, t3, t2)
+  check.eq(num_folhas(Vazia), 0)
+  check.eq(num_folhas(t0), 1)
+  check.eq(num_folhas(t1), 1)
+  check.eq(num_folhas(t2), 2)
+  check.eq(num_folhas(t3), 2)
+  check.eq(num_folhas(t4), 4)
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo: nós folhas {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Determina o número de nós folhas
+/// de *avr*.
+fn num_folhas(arv: Arvore) -> Int {
+  case arv {
+    Vazia -> 0
+    No(valor, esq, dir) -> {
+      todo
+      valor
+      num_folhas(esq)
+      num_folhas(dir)
+    }
+  }
+}
+
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+pub fn num_folhas_examples() {
+  //     t4  3
+  //       /   \
+  //  t3  4     7  t2
+  //     / \   / \
+  //    3   2 8   9  t1
+  //             /
+  //        t0  10
+  let t0 = No(10, Vazia, Vazia)
+  let t1 = No(9, t0, Vazia)
+  let t2 = No(7, No(8, Vazia, Vazia), t1)
+  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
+  let t4 = No(3, t3, t2)
+  check.eq(num_folhas(Vazia), 0)
+  check.eq(num_folhas(t0), 1)
+  check.eq(num_folhas(t1), 1)
+  check.eq(num_folhas(t2), 2)
+  check.eq(num_folhas(t3), 2)
+  check.eq(num_folhas(t4), 4)
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo: nós folhas {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Determina o número de nós folhas
+/// de *avr*.
+fn num_folhas(arv: Arvore) -> Int {
+  case arv {
+    Vazia -> 0
+    No(_, esq, dir) ->
+      case esq, dir {
+        Vazia, Vazia -> 1
+        _, _ ->
+          num_folhas(esq) + num_folhas(dir)
+      }
+  }
+}
+
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+pub fn num_folhas_examples() {
+  //     t4  3
+  //       /   \
+  //  t3  4     7  t2
+  //     / \   / \
+  //    3   2 8   9  t1
+  //             /
+  //        t0  10
+  let t0 = No(10, Vazia, Vazia)
+  let t1 = No(9, t0, Vazia)
+  let t2 = No(7, No(8, Vazia, Vazia), t1)
+  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
+  let t4 = No(3, t3, t2)
+  check.eq(num_folhas(Vazia), 0)
+  check.eq(num_folhas(t0), 1)
+  check.eq(num_folhas(t1), 1)
+  check.eq(num_folhas(t2), 2)
+  check.eq(num_folhas(t3), 2)
+  check.eq(num_folhas(t4), 4)
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo: nós folhas {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Determina o número de nós folhas
+/// de *avr*.
+fn num_folhas(arv: Arvore) -> Int {
+  case arv {
+    Vazia -> 0
+    No(_, Vazia, Vazia) -> 1
+    No(_, esq, dir) ->
+      num_folhas(esq) + num_folhas(dir)
+  }
+}
+
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+pub fn num_folhas_examples() {
+  //     t4  3
+  //       /   \
+  //  t3  4     7  t2
+  //     / \   / \
+  //    3   2 8   9  t1
+  //             /
+  //        t0  10
+  let t0 = No(10, Vazia, Vazia)
+  let t1 = No(9, t0, Vazia)
+  let t2 = No(7, No(8, Vazia, Vazia), t1)
+  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
+  let t4 = No(3, t3, t2)
+  check.eq(num_folhas(Vazia), 0)
+  check.eq(num_folhas(t0), 1)
+  check.eq(num_folhas(t1), 1)
+  check.eq(num_folhas(t2), 2)
+  check.eq(num_folhas(t3), 2)
+  check.eq(num_folhas(t4), 4)
+}
+```
+
+</div>
+</div>
+
+
+
 ## Exemplo: altura árvore
 
-Defina uma função que calcule a altura de uma árvore binária. A altura de uma árvore binária é a distância entre a raiz e o seu descendente mais afastado. Uma árvore com um único nó tem altura 0.
+Defina uma função que determina a altura de uma árvore binária. A altura de uma árvore binária é a distância entre a raiz e o seu descendente mais afastado. Uma árvore com um único nó tem altura 0.
 
 
 ## Exemplo: altura árvore {.t}
@@ -882,8 +1156,8 @@ a) projeto uma função para existir um o conteúdo de um diretório em formato 
 ```
 disciplinas/
 +- 12026/
-|  +- alunox.txt
-|  +- trabalhos/
+|  +- alunos.txt
+|  +- trabs/
 |     +- trab1.md
 |     +- correcoes/
 |     |  +- rascunho.txt
@@ -898,7 +1172,7 @@ disciplinas/
 </div>
 
 
-## Listas aninhadas {.t}
+## Árvores {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -937,7 +1211,57 @@ type Entrada {
 </div>
 
 
-## Listas aninhadas {.t}
+## Árvores {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+
+\scriptsize
+
+```
+disciplinas/
++- 12026/
+|  +- alunos.txt
+|  +- trabs/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+Dir("disciplinas", [
+  Dir("12026", [
+    Arq("alunos.txt"),
+    Dir("trabs", [
+      Arq("trab1.md"),
+      Dir("correcoes", [
+        Arq("rascunho.txt"),
+        Arq("final.txt")
+      ]),
+      Arq("trab2.md"),
+    ]),
+  ]),
+  Dir("6879", []),
+  Dir("6884", []),
+  Arq("anotacoes.txt"),
+])
+```
+
+</div>
+</div>
+
+
+## Árvores {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -988,6 +1312,127 @@ fn fn_para_entradas(entradas: List(Entrada)) {
 
 </div>
 </div>
+
+
+## Exemplo: arquivos txt
+
+Projete uma função para encontrar os caminhos para todos os arquivos txt.
+
+
+## Exemplo: arquivos txt {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```
+disciplinas/
++- 12026/
+|  +- alunos.txt
+|  +- trabs/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+\pause
+
+\ \
+
+```
+disciplinas/12026/alunos.txt
+disciplinas/12026/trabs/correcoes/rascunho.txt
+disciplinas/12026/trabs/correcoes/final.txt
+disciplinas/anotacoes.txt
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn encontra_txt(ent: Entrada) -> List(String) {
+  []
+}
+```
+
+</div>
+</div>
+
+
+
+## Exemplo: arquivos txt {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```
+disciplinas/
++- 12026/
+|  +- alunos.txt
+|  +- trabs/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+\pause
+
+\ \
+
+```
+disciplinas/12026/alunos.txt
+disciplinas/12026/trabs/correcoes/rascunho.txt
+disciplinas/12026/trabs/correcoes/final.txt
+disciplinas/anotacoes.txt
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn encontra_txt(ent: Entrada) -> List(String) {
+  case ent {
+    Arq(nome) -> case string.ends_with(nome, ".txt") {
+      False -> []
+      True -> [nome]
+    }
+    Dir(nome, entradas) -> {
+      adiciona_prefixo(nome,
+                       encontra_txt_lista(entradas))
+    }
+  }
+}
+fn encontra_txt_lista(lst: Entrada) -> List(String) {
+  case lst {
+    [] -> []
+    [entrada, ..resto] -> {
+      list.append(encontra_txt(entrada),
+                  encontra_txt_lista(entradas))
+    }
+  }
+}
+```
+
+</div>
+</div>
+
 
 
 Limitações

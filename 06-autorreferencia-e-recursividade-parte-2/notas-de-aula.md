@@ -426,7 +426,7 @@ pub fn adiciona_fim(
       todo
       n
       primeiro
-      adiciona_fim(resto, primeiro)
+      adiciona_fim(resto, n)
     }
   }
 }
@@ -544,12 +544,11 @@ Um número **Inteiro menor igual à x** é
 
 - `x`{.gleam}; ou
 
-- `n + 1`{.gleam} onde `n`{.gleam} é um número **Inteiro menor igual à x**
-
-</div>
-<div class="column" width="48%">
+- `n + 1`{.gleam} onde `n`{.gleam} é um número **Inteiro menor igual à x**.
 
 \pause
+</div>
+<div class="column" width="48%">
 
 \footnotesize
 
@@ -597,16 +596,21 @@ Como podemos definir uma árvore binária?
 
 \small
 
-Uma **ÁrvoreBinária** é \pause
+Uma **Árvore binária** é \pause
 
-- `empty`{.scheme}; ou
+- Vazia; ou \pause
 
-- `(no Número ÁrvoreBinária ÁrvoreBinária)`, onde `no` é uma estrutura com os campos `valor`, `esq` e `dir`
+- Um nó contendo um número e **árvores binárias** a esquerda e a direita.
 
 \pause
 
-```scheme
-(struct no (valor esq dir) #:transparent)
+\footnotesize
+
+```gleam
+type Arvore {
+  Vazia
+  No(valor: Int, esq: Arvore, dir: Arvore)
+}
 ```
 
 \pause
@@ -614,18 +618,22 @@ Uma **ÁrvoreBinária** é \pause
 </div>
 <div class="column" width="42%">
 
-\small
+Modelo de função para árvores binárias
 
-Modelo
+\footnotesize
 
-```scheme
-(define (fn-para-ab t)
-  (cond
-    [(empty? t) ...]
-    [else
-      (... (no-valor t)
-           (fn-para-ab (no-esq t))
-           (fn-para-ab (no-dir t)))]))
+```gleam
+fn fn_para_ab(arv: Arvore) {
+  case arv {
+    Vazia -> todo
+    No(valor, esq, dir) -> {
+      todo
+      valor
+      fn_para_ab(esq)
+      fn_para_ab(dir)
+    }
+  }
+}
 ```
 
 </div>
@@ -637,26 +645,21 @@ Modelo
 Defina uma função que calcule a altura de uma árvore binária. A altura de uma árvore binária é a distância entre a raiz e o seu descendente mais afastado. Uma árvore com um único nó tem altura 0.
 
 
-## Exemplo: altura árvore
+## Exemplo: altura árvore {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
-```scheme
-;;     t4  3
-;;       /   \
-;;  t3  4     7  t2
-;;     /     / \
-;;    3     8   9  t1
-;;             /
-;;        t0  10
+```gleam
+/// Devolve a altura de *avr*. A altura de uma
+/// árvore binária é a distância da raiz a seu
+/// descendente mais afastado. Uma árvore com
+/// um único nó tem altura 0.
+fn altura(arv: Arvore) -> Int {
+  0
+}
 
-(define t0 (no 10 empty empty))
-(define t1 (no 9 t0 empty))
-(define t2 (no 7 (no 8 empty empty) t1))
-(define t3 (no 4 (no 3 empty empty) empty))
-(define t4 (no 3 t3 t2))
 ```
 
 \pause
@@ -666,51 +669,56 @@ Defina uma função que calcule a altura de uma árvore binária. A altura de um
 
 \scriptsize
 
-```scheme
-;; ÁrvoreBinária -> Natural
-;; Devolve a altura da árvore binária. A altura de
-;; uma árvore binária é a distância da raiz a seu
-;; descendente mais afastado. Uma árvore com um
-;; único nó tem altura 0.
-(examples
-  (check-equal? (altura empty) ?)
-  (check-equal? (altura t0) 0)
-  (check-equal? (altura t1) 1)
-  (check-equal? (altura t2) 2)
-  (check-equal? (altura t3) 1)
-  (check-equal? (altura t4) 3))
-(define (altura t)
-  (cond
-    [(empty? t) ...]
-    [else (... (no-valor t)
-               (altura (no-esq t))
-               (altura (no-dir t)))]))
+```gleam
+pub fn altura_examples() {
+  //     t4  3
+  //       /   \
+  //  t3  4     7  t2
+  //     /     / \
+  //    3     8   9  t1
+  //             /
+  //        t0  10
+  let t0 = No(10, Vazia, Vazia)
+  let t1 = No(9, t0, Vazia)
+  let t2 = No(7, No(8, Vazia, Vazia), t1)
+  let t3 = No(4, No(3, Vazia, Vazia), Vazia)
+  let t4 = No(3, t3, t2)
+  check.eq(altura(Vazia), todo)
+  check.eq(altura(t0), 0)
+  check.eq(altura(t1), 1)
+  check.eq(altura(t2), 2)
+  check.eq(altura(t3), 1)
+  check.eq(altura(t4), 3)
+}
 ```
 
 </div>
 </div>
 
 
-## Exemplo: altura árvore
+## Exemplo: altura árvore {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
-```scheme
-;;     t4  3
-;;       /   \
-;;  t3  4     7  t2
-;;     /     / \
-;;    3     8   9  t1
-;;             /
-;;        t0  10
+```gleam
+/// Devolve a altura de *avr*. A altura de uma
+/// árvore binária é a distância da raiz a seu
+/// descendente mais afastado. Uma árvore com
+/// um único nó tem altura 0.
+fn altura(arv: Arvore) -> Int {
+  case arv {
+    Vazia -> todo
+    No(valor, esq, dir) -> {
+      todo
+      valor
+      altura(esq)
+      altura(dir)
+    }
+  }
+}
 
-(define t0 (no 10 empty empty))
-(define t1 (no 9 t0 empty))
-(define t2 (no 7 (no 8 empty empty) t1))
-(define t3 (no 4 (no 3 empty empty) empty))
-(define t4 (no 3 t2 t3))
 ```
 
 </div>
@@ -718,195 +726,268 @@ Defina uma função que calcule a altura de uma árvore binária. A altura de um
 
 \scriptsize
 
-```scheme
-;; ÁrvoreBinária -> Natural
-;; Devolve a altura da árvore binária. A altura de
-;; uma árvore binária é a distância da raiz a seu
-;; descendente mais afastado. Uma árvore com um
-;; único nó tem altura 0. Uma árvore vazia tem
-;; altura -1.
-(examples
-  (check-equal? (altura empty) -1)
-  (check-equal? (altura t0) 0)
-  (check-equal? (altura t1) 1)
-  (check-equal? (altura t2) 2)
-  (check-equal? (altura t3) 1)
-  (check-equal? (altura t4) 3))
-(define (altura t)
-  (cond
-    [(empty? t) -1]
-    [else (add1 (max (altura (no-esq t))
-                     (altura (no-dir t))))]))
+```gleam
+pub fn altura_examples() {
+  //     t4  3
+  //       /   \
+  //  t3  4     7  t2
+  //     /     / \
+  //    3     8   9  t1
+  //             /
+  //        t0  10
+  let t0 = No(10, Vazia, Vazia)
+  let t1 = No(9, t0, Vazia)
+  let t2 = No(7, No(8, Vazia, Vazia), t1)
+  let t3 = No(4, No(3, Vazia, Vazia), Vazia)
+  let t4 = No(3, t3, t2)
+  check.eq(altura(Vazia), todo)
+  check.eq(altura(t0), 0)
+  check.eq(altura(t1), 1)
+  check.eq(altura(t2), 2)
+  check.eq(altura(t3), 1)
+  check.eq(altura(t4), 3)
+}
 ```
 
 </div>
 </div>
 
 
-
-
-Listas aninhadas
-================
-
-
-## Listas aninhadas
-
-Às vezes é necessário criar uma lista, que contenha outras listas, e estas listas contenham outras listas, etc. \pause
-
-```scheme
-> (list 1 4 (list 5 empty (list 2) 9) 10)
-'(1 4 (5 () (2) 9) 10)
-```
-
-\pause
-
-Chamamos este tipo de lista de lista aninhada. \pause Como podemos definir uma lista aninhada?
-
-
-## Listas aninhadas
+## Exemplo: altura árvore {.t}
 
 <div class="columns">
-<div class="column" width="52%">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve a altura de *avr*. A altura de uma
+/// árvore binária é a distância da raiz a seu
+/// descendente mais afastado. Uma árvore com
+/// um único nó tem altura 0.
+fn altura(arv: Arvore) -> Int {
+  case arv {
+    Vazia -> todo
+    No(valor, esq, dir) ->
+      1 + int.max(altura(esq), altura(dir))
+    }
+  }
+}
+
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+pub fn altura_examples() {
+  //     t4  3
+  //       /   \
+  //  t3  4     7  t2
+  //     /     / \
+  //    3     8   9  t1
+  //             /
+  //        t0  10
+  let t0 = No(10, Vazia, Vazia)
+  let t1 = No(9, t0, Vazia)
+  let t2 = No(7, No(8, Vazia, Vazia), t1)
+  let t3 = No(4, No(3, Vazia, Vazia), Vazia)
+  let t4 = No(3, t3, t2)
+  check.eq(altura(Vazia), todo)
+  check.eq(altura(t0), 0)
+  check.eq(altura(t1), 1)
+  check.eq(altura(t2), 2)
+  check.eq(altura(t3), 1)
+  check.eq(altura(t4), 3)
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo: altura árvore {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve a altura de *avr*. A altura de uma
+/// árvore binária é a distância da raiz a seu
+/// descendente mais afastado. Uma árvore com
+/// um único nó tem altura 0 e uma árvore vazia
+/// tem altura -1.
+fn altura(arv: Arvore) -> Int {
+  case arv {
+    Vazia -> -1
+    No(valor, esq, dir) ->
+      1 + int.max(altura(esq), altura(dir))
+  }
+}
+
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+pub fn altura_examples() {
+  //     t4  3
+  //       /   \
+  //  t3  4     7  t2
+  //     /     / \
+  //    3     8   9  t1
+  //             /
+  //        t0  10
+  let t0 = No(10, Vazia, Vazia)
+  let t1 = No(9, t0, Vazia)
+  let t2 = No(7, No(8, Vazia, Vazia), t1)
+  let t3 = No(4, No(3, Vazia, Vazia), Vazia)
+  let t4 = No(3, t3, t2)
+  check.eq(altura(Vazia), -1)
+  check.eq(altura(t0), 0)
+  check.eq(altura(t1), 1)
+  check.eq(altura(t2), 2)
+  check.eq(altura(t3), 1)
+  check.eq(altura(t4), 3)
+}
+```
+
+</div>
+</div>
+
+
+Árvores
+=======
+
+
+## Árvores
+
+<div class="columns">
+<div class="column" width="45%">
+Projete um tipo de dado para representar um diretório ou arquivo em um sistema de arquivos em seguida: \pause
+
+a) Projete uma função para encontrar os caminhos para todos os arquivos txt. \pause
+
+a) projeto uma função para existir um o conteúdo de um diretório em formato de árvore. \pause
+
+</div>
+<div class="column" width="45%">
+\footnotesize
+
+```
+disciplinas/
++- 12026/
+|  +- alunox.txt
+|  +- trabalhos/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+</div>
+</div>
+
+
+## Listas aninhadas {.t}
+
+<div class="columns">
+<div class="column" width="48%">
 
 \small
 
-Uma **ListaAninhada** é
+Uma **entrada** no sistema de arquivos é: \pause
 
-- `empty`{.scheme}; ou
+- Uma arquivo com um nome; ou \pause
+- Um diretório com um nome é um **lista de entradas**.
 
-- `(cons ListaAninhada ListaAninhada)`{.scheme}
-
-- `(cons Número ListaAninhada)`{.scheme}
-
-</div>
-<div class="column" width="46%">
 \pause
 
-Modelo
+\ \
+
+Uma **lista de entradas** é: \pause
+
+- Vazia; ou \pause
+- Um par com o primeiro e o resto, onde o primeiro é uma **entrada** e o resto é uma **lista de entradas**.
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+type Entrada {
+  Arq(String)
+  Dir(String, List(Entrada))
+}
+```
+
+</div>
+</div>
+
+
+## Listas aninhadas {.t}
+
+<div class="columns">
+<div class="column" width="48%">
 
 \small
 
-```scheme
-(define (fn-para-ladn lst)
-  (cond
-    [(empty? lst) ...]
-    [(list? (first lst))
-     (... (fn-para-ladn (first lst))
-          (fn-para-ladn (rest lst)))]
-    [else
-     (... (first lst)
-          (fn-para-ladn (rest lst)))]))
+Uma **entrada** no sistema de arquivos é:
+
+- Uma arquivo com um nome; ou
+- Um diretório com um nome é um **lista de entradas**.
+
+\ \
+
+Uma **lista de entradas** é:
+
+- Vazia; ou
+- Um par com o primeiro e o resto, onde o primeiro é uma **entrada** e o resto é uma **lista de entradas**.
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+fn fn_para_entrada(ent: Entrada) {
+  case ent {
+    Arq(nome) -> todo
+    Dir(nome, entradas) -> {
+      todo nome
+           fn_para_entradas(entradas)
+    }
+  }
+}
+```
+
+```gleam
+
+fn fn_para_entradas(entradas: List(Entrada)) {
+  case entradas {
+    [] -> todo
+    [primeiro, ..resto] -> {
+      todo fn_para_entrada(primeiro)
+           fn_para_entradas(resto)
+    }
+  }
+}
 ```
 
 </div>
 </div>
-
-
-## Exemplo: soma*
-
-Defina uma função que some todos os números de uma lista aninhada de números.
-
-
-## Exemplo: soma*
-
-\scriptsize
-
-```scheme
-;; ListaAninhada -> Número
-;; Devolve a soma de todos os elementos de lst.
-(examples
- (check-equal? (soma* empty)
-               0)
- (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
-               30))
-(define (soma* lst)
-  (cond
-    [(empty? lst) ...]
-    [(list? (first lst))
-     (... (soma* (first lst))
-          (soma* (rest lst)))]
-    [else
-     (... (first lst)
-          (soma* (rest lst)))]))
-```
-
-
-## Exemplo: soma*
-
-\scriptsize
-
-```scheme
-;; ListaAninhada -> Número
-;; Devolve a soma de todos os elementos de lst.
-(examples
- (check-equal? (soma* empty)
-               0)
- (check-equal? (soma* (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
-               30))
-(define (soma* lst)
-  (cond
-    [(empty? lst) 0]
-    [(list? (first lst))
-     (+ (soma* (first lst))
-        (soma* (rest lst)))]
-    [else
-     (+ (first lst)
-        (soma* (rest lst)))]))
-```
-
-
-## Exemplo: aplaina
-
-Defina uma função que aplaine uma lista aninhada, isto é, transforme uma lista aninhada em uma lista sem listas aninhadas com os mesmos elementos e na mesma ordem da lista aninhada.
-
-
-## Exemplo: aplaina
-
-\scriptsize
-
-```scheme
-;; ListaAninhada -> ListaDeNúmeros
-;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
-;; elementos de lst, mas sem aninhamento.
-(examples
- (check-equal? (aplaina empty) empty)
- (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
-               (list 1 3 4 5 4 6 7)))
-(define (aplaina lst)
-  (cond
-    [(empty? lst) ...]
-    [(list? (first lst))
-     (... (aplaina (first lst))
-          (aplaina (rest lst)))]
-    [else
-     (... (first lst)
-          (aplaina (rest lst)))]))
-```
-
-
-## Exemplo: aplaina
-
-\scriptsize
-
-```scheme
-;; ListaAninhada -> ListaDeNúmeros
-;; Devolve uma versão não aninhada de lst, isto é, uma lista com os mesmos
-;; elementos de lst, mas sem aninhamento.
-(examples
- (check-equal? (aplaina empty) empty)
- (check-equal? (aplaina (list (list 1 (list empty 3)) (list 4 5) 4 6 7))
-               (list 1 3 4 5 4 6 7)))
-(define (aplaina lst)
-  (cond
-    [(empty? lst) empty]
-    [(list? (first lst))
-     (append (aplaina (first lst))
-             (aplaina (rest lst)))]
-    [else
-     (cons (first lst)
-           (aplaina (rest lst)))]))
-```
-
 
 
 Limitações
@@ -924,9 +1005,9 @@ Embora o modelo seja um ponto de partida, em algumas situações ele pode não s
 
 Considere o problema de verificar se uma lista de números é palíndromo (a lista tem os mesmos elementos quando lida da direita para a esquerda e da esquerda para direita). \pause
 
-Para verificar se `(list 5 4 1 4)`{.scheme} é palíndromo, o modelo sugere verificar se `(list 4 1 4)`{.scheme} é palíndromo. \pause
+Para verificar se `[5, 4, 1, 4]`{.gleam} é palíndromo, o modelo sugere verificar se `[4, 1, 4]`{.gleam} é palíndromo. \pause
 
-Como a verificação se `(list 4 1 4)`{.scheme} é palíndromo pode nos ajudar a determinar se `(list 5 4 1 4)`{.scheme} é palíndromo? \pause Ou seja, a solução para o resto pode nos ajustar a compor o resultado para o todo? \pause Não pode...
+Como a verificação se `[4, 1, 4]`{.gleam} é palíndromo pode nos ajudar a determinar se `[5, 4, 1, 4]`{.gleam} é palíndromo? \pause Ou seja, a solução para o resto pode nos ajustar a compor o resultado para o todo? \pause Não pode...
 
 
 ## Número primo
@@ -957,37 +1038,57 @@ Para o problema do número primo, podemos reescrever o problema da seguinte form
 
 Se temos a quantidade de divisores de $n$ que são $\le a - 1$, como obtemos a quantidade de divisores de $n$ que são $\le a$? \pause Somando 1 se $a$ é divisor de $n$. \pause
 
-Como podemos utilizar essa função para determinar se um número $n$ é primo? \pause Com a expressão `(= (num-divisores n n) 2)`{.scheme}
+Como podemos utilizar essa função para determinar se um número $n$ é primo? \pause Com a expressão `num_divisores(n, n) == 2`{.gleam}
+
 
 ## Número primo
 
-\scriptsize
+<div class="columns">
+<div class="column" width="55%">
+\footnotesize
 
-```scheme
-;; Natural -> Boolean
-;; Produz #t se n é um número primo, isto é, tem exatamente dois divisores distintos (1 e n).
-;; Produz #f caso contrário.
-(examples
- (check-equal? (primo? 1) #f)
- (check-equal? (primo? 2) #t)
- (check-equal? (primo? 6) #f)
- (check-equal? (primo? 7) #t)
- (check-equal? (primo? 10) #f))
-(define (primo? n)
-  ;; Natural Natural -> Natural
-  ;; Calcula o número de divirores de n que são <= a.
-  (define (num-divisores n a)
-    (cond
-      [(zero? a) 0]
-      [(= (remainder n a) 0) (add1 (num-divisores n (sub1 a)))]
-      [else (num-divisores n (sub1 a))]))
-  (= (num-divisores n n) 2))
+```gleam
+/// Produz True se *n* é um número primo,
+/// isto é, tem exatamente dois divisores
+/// positivos distintos (1 e *n*).
+/// Produz False caso contrário.
+pub fn primo(n: Int) -> Bool {
+  num_divisors(n, n) == 2
+}
+/// Calcula o número de divisores positivos
+/// de *n* que são menores ou iguais à *a*.
+fn num_divisors(n: Int, a: Int) -> Int {
+  case a {
+    _ if a <= 0 -> 0
+    _ if n % a == 0 -> 1 + num_divisors(n, a - 1)
+    _ -> num_divisors(n, a - 1)
+  }
+}
 ```
+
+</div>
+<div class="column" width="40%">
+\footnotesize
+
+```gleam
+pub fn primo_examples() {
+  check.eq(primo(1), False)
+  check.eq(primo(2), True)
+  check.eq(primo(3), True)
+  check.eq(primo(4), False)
+  check.eq(primo(5), True)
+  check.eq(primo(6), False)
+  check.eq(primo(7), True)
+  check.eq(primo(8), False)
+}
+```
+</div>
+</div>
 
 
 ## Decomposição não estrutural
 
-Para o problema da lista palíndromo, vamos considerar a entrada `(list 4 1 5 1 4)`{.scheme}.
+Para o problema da lista palíndromo, vamos considerar a entrada `[4, 1, 5, 1, 4]`{.gleam}.
 
 Como podemos obter um subproblema da entrada de maneira que a resposta para o subproblema possa nos ajudar a compor a resposta para o problema original? \pause Removendo o primeiro e último elemento da lista. \pause
 
@@ -998,29 +1099,32 @@ Se sabemos que uma lista `lst` sem o primeiro e o último elemento é palíndrom
 
 \scriptsize
 
-```scheme
-;; Lista -> Booleano
-;; Produz #t se lst é palindromo, isto é, tem os mesmos elementos
-;; quando lida da direita para esquerda e da esquerda para direita.
-;; Produz #f caso contrário.
-(examples
- (check-equal? (palindromo? empty) #t)
- (check-equal? (palindromo? (list 2)) #t)
- (check-equal? (palindromo? (list 1 2)) #f)
- (check-equal? (palindromo? (list 3 3)) #t)
- (check-equal? (palindromo? (list 3 7 3)) #t)
- (check-equal? (palindromo? (list 3 7 3 3)) #f))
-(define (palindromo? lst)
-  (cond
-    [(empty? lst) #t]
-    [(empty? (rest lst)) #t]
-    [else (and (equal? (first lst) (last lst))
-               (palindromo? (sem-extremos lst)))]))
+```gleam
+/// Produz True se *lst* é palíndromo, isto é, tem os mesmos elementos quando lida
+/// da direita para esquerda e da esquerda para direita. Produz False caso contrário.
+pub fn palindromo(lst: List(Int)) -> Bool {
+  case lst {
+    [] | [_] -> True
+    [primeiro, ..] ->
+      Ok(primeiro) == list.last(lst) && palindromo(sem_extremos(lst))
+  }
+}
+
+pub fn palindromo_examples() {
+  check.eq(palindromo([]), True)
+  check.eq(palindromo([2]), True)
+  check.eq(palindromo([1, 2]), False)
+  check.eq(palindromo([3, 3]), True)
+  check.eq(palindromo([3, 7, 3]), True)
+  check.eq(palindromo([3, 7, 3, 3]), False)
+}
 ```
 
-\normalsize
+\small
 
-Exercício: Implemente a função `sem-extremos` e revise a função `palindromo?`.
+\pause
+
+Exercício: implemente a função `sem_extremos`.
 
 
 ## Decomposição não estrutural
@@ -1045,27 +1149,28 @@ Note que para este caso precisaríamos projetar duas novas funções. Estas fun�
 
 \scriptsize
 
-```scheme
-;; Lista -> Booleano
-;; Produz #t se lst é palindromo, isto é, tem os mesmos elementos
-;; quando lida da direita pra esquerda e da esquerda para direita.
-;; Produz #f caso contrário.
-(examples
- (check-equal? (palindromo? empty) #t)
- (check-equal? (palindromo? (list 2)) #t)
- (check-equal? (palindromo? (list 1 2)) #f)
- (check-equal? (palindromo? (list 3 3)) #t)
- (check-equal? (palindromo? (list 3 7 3)) #t)
- (check-equal? (palindromo? (list 3 7 3 3)) #f))
-(define (palindromo? lst)
-  (equal? lst (reverse lst)))
+```gleam
+/// Produz True se *lst* é palíndromo, isto é, tem os mesmos elementos quando lida
+/// da direita para esquerda e da esquerda para direita. Produz False caso contrário.
+pub fn palindromo(lst: List(Int)) -> Bool {
+  lst == list.reverse(lst)
+}
+
+pub fn palindromo2_examples() {
+  check.eq(palindromo([]), True)
+  check.eq(palindromo([2]), True)
+  check.eq(palindromo([1, 2]), False)
+  check.eq(palindromo([3, 3]), True)
+  check.eq(palindromo([3, 7, 3]), True)
+  check.eq(palindromo([3, 7, 3, 3]), False)
+}
 ```
 
 \pause
 
-\normalsize
+\small
 
-Note que usamos as funções pré-definidas `equal?` e `reverse`. Como exercício, implemente essas funções.
+Exercício: implemente a função `reverse`.
 
 
 

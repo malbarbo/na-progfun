@@ -683,14 +683,52 @@ A linguagem Gleam já fornece o tipo `List`{.gleam} e uma notação amigável pa
 `List`{.gleam} **tem a mesma estrutura da lista que definimos**, a diferença é apenas na sintaxe!
 
 
-## Listas
+## Listas {.t}
 
 <div class="columns">
 <div class="column" width="48%">
-Modelo de funções para `List`{.gleam}
+\small
+
+Uma `Lista`{.gleam} é:
+
+- `Vazia`{.gleam};
+- `NaoVazia(primeiro, resto)`{.gleam}, onde `resto` é uma `Lista`{.gleam}.
+
+</div>
+<div class="column" width="48%">
+\small
+
+Uma `List`{.gleam} é:
+
+- `[]`{.gleam}; ou
+- `[primeiro, ..resto]`{.gleam }, onde `resto` é uma `List`{.gleam}.
+
+</div>
+</div>
 
 \pause
 
+\ \
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn fn_para_lista(lst: Lista) {
+  case lst {
+    Vazia -> todo
+    NaoVazia(primeiro, resto) -> {
+      todo
+      primeiro
+      fn_para_lista(resto)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
 \footnotesize
 
 ```gleam
@@ -706,22 +744,58 @@ fn fn_para_list(lst: List(a)) {
 }
 ```
 
-\pause
+</div>
+</div>
+
+
+## Listas {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\small
+
+Uma `Lista`{.gleam} é:
+
+- `Vazia`{.gleam};
+- `NaoVazia(primeiro, resto)`{.gleam}, onde `resto` é uma `Lista`{.gleam}.
 
 </div>
 <div class="column" width="48%">
+\small
 
-Exemplo da função `soma`{.gleam}
+Uma `List`{.gleam} é:
 
-\pause
+- `[]`{.gleam}; ou
+- `[primeiro, ..resto]`{.gleam }, onde `resto` é uma `List`{.gleam}.
 
+</div>
+</div>
+
+\ \
+
+<div class="columns">
+<div class="column" width="48%">
 \footnotesize
 
 ```gleam
-fn soma(lst: List(Int)) -> Int {
+fn soma(lst: Lista) {
+  case lst {
+    Vazia -> 0
+    NaoVazia(primeiro, resto) ->
+      primeiro + soma(resto)
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn soma(lst: List(a)) {
   case lst {
     [] -> 0
-    [primero, ..resto] ->
+    [primeiro, ..resto] ->
       primeiro + soma(resto)
   }
 }

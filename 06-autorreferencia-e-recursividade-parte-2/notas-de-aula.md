@@ -2,8 +2,6 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Autorreferência e recursividade
 subtitle: Parte II
-# TODO: trocar o termo lista aninhada para árvores?
-# TODO: ou colocar linhas aninhada antes de árvore binária?
 # TODO: definir decomposição estrutural
 ---
 
@@ -587,6 +585,67 @@ Como podemos definir uma árvore binária?
             /
            10
 ```
+
+
+## Árvores binárias
+
+<div class="columns">
+<div class="column" width="56%">
+
+\small
+
+Uma **Árvore binária** é \pause
+
+- Vazia; ou \pause
+
+- Um nó contendo um número e **árvores binárias** a esquerda e a direita.
+
+\pause
+
+\footnotesize
+
+\ \
+
+```gleam
+type Arvore {
+  Vazia
+  No(valor: Int, esq: Arvore, dir: Arvore)
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="42%">
+
+\footnotesize
+
+```
+        3
+      /   \
+     4     7
+    /     / \
+   3     8   9
+            /
+           10
+```
+
+\pause
+
+```gleam
+No(3,
+  No(4,
+    No(3, Vazia, Vazia)
+    Vazia),
+  No(7,
+    No(8, Vazia, Vazia)
+    No(9,
+      No(10, Vazia, Vazia)
+      Vazia)))
+```
+
+</div>
+</div>
 
 
 ## Árvores binárias
@@ -1467,6 +1526,67 @@ fn encontra_txt(ent: Entrada) -> List(String) {
       False -> []
       True -> [nome] }
     Dir(nome, entradas) -> {
+      todo nome
+           encontra_txt_lista(entradas)
+    }
+  }
+}
+fn encontra_txt_lista(lst: Entrada) -> List(String) {
+  case lst {
+    [] -> []
+    [entrada, ..resto] -> {
+      todo encontra_txt(entrada)
+           encontra_txt_lista(entradas)
+    }
+  }
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo: arquivos txt {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```
+disciplinas/
++- 12026/
+|  +- alunos.txt
+|  +- trabs/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+\ \
+
+```
+disciplinas/12026/alunos.txt
+disciplinas/12026/trabs/correcoes/rascunho.txt
+disciplinas/12026/trabs/correcoes/final.txt
+disciplinas/anotacoes.txt
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn encontra_txt(ent: Entrada) -> List(String) {
+  case ent {
+    Arq(nome) -> case string.ends_with(nome, ".txt") {
+      False -> []
+      True -> [nome] }
+    Dir(nome, entradas) -> {
       adiciona_prefixo(nome,
                        encontra_txt_lista(entradas)) }
   }
@@ -1683,9 +1803,9 @@ Usamos tipos com autorreferências quando queremos representar dados de tamanhos
 
 Para ser bem formada, uma definição com autorreferência deve ter: \pause
 
-- Pelo menos um caso base (sem autorreferência): \pause são utilizados para criar os valores iniciais \pause
+- Pelo menos um caso base (sem autorreferência): \pause são utilizados para criar os valores iniciais; \pause
 
-- Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes \pause
+- Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes. \pause
 
 As vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência.
 

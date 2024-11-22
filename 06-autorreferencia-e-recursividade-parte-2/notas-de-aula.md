@@ -1202,11 +1202,7 @@ pub fn altura_examples() {
 
 <div class="columns">
 <div class="column" width="45%">
-Projete um tipo de dado para representar um diretório ou arquivo em um sistema de arquivos em seguida: \pause
-
-a) Projete uma função para encontrar os caminhos para todos os arquivos txt. \pause
-
-a) projeto uma função para existir um o conteúdo de um diretório em formato de árvore. \pause
+Projete um tipo de dado para representar um diretório ou arquivo em um sistema de arquivos.
 
 </div>
 <div class="column" width="45%">

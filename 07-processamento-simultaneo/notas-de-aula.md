@@ -14,603 +14,888 @@ title: Processamento simultâneo
 
 Como implementar uma função que consome dois argumentos e os dois são de tipos com autorreferência? \pause Temos algumas possibilidades, entre elas: \pause
 
-1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o tipo de dado do outro argumento. \pause
+1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento. \pause
 
 2) Processar os dois argumentos de forma sincronizada. \pause
 
-3) Combinar os modelos de funções dos tipos dos argumentos de entrada considerando todos os casos possíveis.
+3) Combinar os modelos de funções para os dois argumentos.
 
 
 ## Exemplo caso 1: concatenação
 
-Projete uma função que concatene duas listas de números.
+Projete uma função que concatene duas listas de números. \pause
+
+Estratégias:
+
+1) _Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento._
+2) Processar os dois argumentos de forma sincronizada.
+3) Combinar os modelos de funções para os dois argumentos.
 
 
-## Exemplo: concatenação
+## Exemplo: concatenação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Produz uma nova lista com os elementos
+/// de *lsta* seguidos dos elementos de *lstb*.
+fn concatena(
+  lsta: List(Int),
+  lstb: List(Int),
+) -> List(Int) {
+  todo
+}
+```
+
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-```scheme
-;; ListaDeNúmeros ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista com os elementos de lsta seguidos
-;; dos elementos de lstb.
-(examples
-  (check-equal? (concatena empty
-                           (cons 10 (cons 4 (cons 6 empty))))
-                (cons 10 (cons 4 (cons 6 empty))))
-  (check-equal? (concatena (cons 3 empty)
-                           (cons 10 (cons 4 (cons 6 empty))))
-                (cons 3 (cons 10 (cons 4 (cons 6 empty)))))
-  (check-equal? (concatena (cons 7 (cons 3 empty))
-                           (cons 10 (cons 4 (cons 6 empty))))
-                (cons 7 (cons 3 (cons 10 (cons 4 (cons 6 empty)))))))
-(define (concatena lsta lstb) empty)
+```gleam
+fn concatena_examples() {
+  check.eq(concatena([], [10, 4, 6]),
+           [10, 4, 6])
+  check.eq(concatena([3], [10, 4, 6]),
+           [3, 10, 4, 6])
+  check.eq(concatena([7, 3], [10, 4, 6]),
+           [7, 3, 10, 4, 6])
+}
 ```
+</div>
+</div>
 
 \pause
 
 \normalsize
+
+\ \
 
 Pelo propósito e pelos exemplos, qual dos argumentos pode ser tratado como atômico, isto é, não precisa ser decomposto? \pause `lstb`. \pause
 
 Então usamos o modelo para processar `lsta`.
 
 
-## Exemplo: concatenação
+## Exemplo: concatenação {.t}
 
+<div class="columns">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; ListaDeNúmero ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista com os elementos de lsta seguidos
-;; dos elementos de lstb.
-(examples
-  (check-equal? (concatena empty
-                           (cons 10 (cons 4 (cons 6 empty))))
-                (cons 10 (cons 4 (cons 6 empty))))
-  (check-equal? (concatena (cons 3 empty)
-                           (cons 10 (cons 4 (cons 6 empty))))
-                (cons 3 (cons 10 (cons 4 (cons 6 empty)))))
-  (check-equal? (concatena (cons 7 (cons 3 empty))
-                           (cons 10 (cons 4 (cons 6 empty))))
-                (cons 7 (cons 3 (cons 10 (cons 4 (cons 6 empty)))))))
-(define (concatena lsta lstb)
-  (cond
-    [(empty? lsta) ... lstb]
-    [else
-      ... (first lsta)
-          (concatena (rest lsta) lstb)]))
+```gleam
+/// Produz uma nova lista com os elementos
+/// de *lsta* seguidos dos elementos de *lstb*.
+fn concatena(
+  lsta: List(Int),
+  lstb: List(Int),
+) -> List(Int) {
+  case lsta {
+    [] -> { todo lstb }
+    [primeiro, ..resto] -> {
+      todo
+      primeiro
+      concatena(resto, lstb)
+    }
+  }
+}
 ```
 
-
-## Exemplo: concatenação
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-```scheme
-;; ListaDeNúmero ListaDeNúmeros -> ListaDeNúmeros
-;; Produz uma nova lista com os elementos de lsta seguidos
-;; dos elementos de lstb.
-(examples
-  (check-equal? (concatena empty
-                           (cons 10 (cons 4 (cons 6 empty))))
-                (cons 10 (cons 4 (cons 6 empty))))
-  (check-equal? (concatena (cons 3 empty)
-                           (cons 10 (cons 4 (cons 6 empty))))
-                (cons 3 (cons 10 (cons 4 (cons 6 empty)))))
-  (check-equal? (concatena (cons 7 (cons 3 empty))
-                           (cons 10 (cons 4 (cons 6 empty))))
-                (cons 7 (cons 3 (cons 10 (cons 4 (cons 6 empty)))))))
-(define (concatena lsta lstb)
-  (cond
-    [(empty? lsta) lstb]
-    [else
-      (cons (first lsta)
-            (concatena (rest lsta) lstb))]))
+```gleam
+fn concatena_examples() {
+  check.eq(concatena([], [10, 4, 6]),
+           [10, 4, 6])
+  check.eq(concatena([3], [10, 4, 6]),
+           [3, 10, 4, 6])
+  check.eq(concatena([7, 3], [10, 4, 6]),
+           [7, 3, 10, 4, 6])
+}
+```
+</div>
+</div>
+
+
+## Exemplo: concatenação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Produz uma nova lista com os elementos
+/// de *lsta* seguidos dos elementos de *lstb*.
+fn concatena(
+  lsta: List(Int),
+  lstb: List(Int),
+) -> List(Int) {
+  case lsta {
+    [] -> lstb
+    [primeiro, ..resto] -> {
+      todo
+      primeiro
+      concatena(resto, lstb)
+    }
+  }
+}
 ```
 
-
-## Exemplo: soma ponderada
-
-Projete uma função que calcule a soma ponderada a partir de uma lista de números e uma lista de pesos.
-
-
-## Exemplo: soma ponderada
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-```scheme
-;; ListaDeNúmeros ListaDeNúmeros -> Número
-;; Calcula a soma ponderada dos valores de lst cosiderando que cada
-;; elemento de lst tem como peso o elemento correspondente em pesos.
-;; Requer que lst e pesos tenham o mesmo tamanho
+```gleam
+fn concatena_examples() {
+  check.eq(concatena([], [10, 4, 6]),
+           [10, 4, 6])
+  check.eq(concatena([3], [10, 4, 6]),
+           [3, 10, 4, 6])
+  check.eq(concatena([7, 3], [10, 4, 6]),
+           [7, 3, 10, 4, 6])
+}
+```
+</div>
+</div>
 
-(examples
-  (check-equal? (soma-ponderada empty empty) 0)
-  (check-equal? (soma-ponderada (list 4) (list 2)) 8) ; (+ 0 (* 4 2))
-  (check-equal? (soma-ponderada (list 3 4) (list 5 2)) 23) ; (+ (* 3 5) (* 4 2))
-  (check-equal? (soma-ponderada (list 5 3 4) (list 1 5 2)) 28)) ; (+ (* 5 1) (* 3 5) (* 4 2))
 
-(define (soma-ponderada lst pesos) 0)
+## Exemplo: concatenação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Produz uma nova lista com os elementos
+/// de *lsta* seguidos dos elementos de *lstb*.
+fn concatena(
+  lsta: List(Int),
+  lstb: List(Int),
+) -> List(Int) {
+  case lsta {
+    [] -> lstb
+    [primeiro, ..resto] ->
+      [primeiro,
+        ..concatena(resto, lstb)]
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+fn concatena_examples() {
+  check.eq(concatena([], [10, 4, 6]),
+           [10, 4, 6])
+  check.eq(concatena([3], [10, 4, 6]),
+           [3, 10, 4, 6])
+  check.eq(concatena([7, 3], [10, 4, 6]),
+           [7, 3, 10, 4, 6])
+}
+```
+</div>
+</div>
+
+
+## Exemplo caso 2: soma ponderada
+
+Projete uma função que calcule a soma ponderada a partir de uma lista de números e uma lista de pesos. \pause
+
+Estratégias:
+
+1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento.
+2) _Processar os dois argumentos de forma sincronizada._
+3) Combinar os modelos de funções para os dois argumentos.
+
+## Exemplo: soma ponderada {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Calcula a soma ponderada dos valores de
+/// *lst* considerando que cada elemento de
+/// *lst* tem como peso o elemento correspon-
+/// dente em *pesos*. Devolve Error(Nil) se
+/// *lst* e *pesos* tem quantidade diferente
+/// de elementos.
+fn soma_ponderada(
+  lst: List(Float),
+  pesos: List(Float),
+) -> Result(Float, Nil) {
+  todo
+}
 ```
 
 \pause
 
-\small
-
-O requisito de que `lst` e `pesos` sejam do mesmo tamanho pode ser explorado no corpo inicial: \pause
-
-- Quando `lst` é vazia, `pesos` também é. \pause
-- Quando `lst` e `pesos` não são vazias, temos `(first lst)`{.scheme}, `(rest lst)`{.scheme}, `(first pesos)`{.scheme} e `(rest pesos)`{.scheme} \pause
-- Para a chamada recursiva, temos `(rest lst)` e `(rest pesos)`, que têm o mesmo tamanho.
-
-
-## Exemplo: soma ponderada
-
+</div>
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; ListaDeNúmeros ListaDeNúmeros -> Número
-;; Calcula a soma ponderada dos valores de lst cosiderando que cada
-;; elemento de lst tem como peso o elemento correspondente em pesos.
-;; Requer que lst e pesos tenham o mesmo tamanho
-
-(examples
-  (check-equal? (soma-ponderada empty empty) 0)
-  (check-equal? (soma-ponderada (list 4) (list 2)) 8) ; (+ 0 (* 4 2))
-  (check-equal? (soma-ponderada (list 3 4) (list 5 2)) 23) ; (+ (* 3 5) (* 4 2))
-  (check-equal? (soma-ponderada (list 5 3 4) (list 1 5 2)) 28)) ; (+ (* 5 1) (* 3 5) (* 4 2))
-
-(define (soma-ponderada lst pesos)
-  (cond
-    [(empty? lst) ...]
-    [else
-      ... (first lst)
-          (first pesos)
-          (soma-ponderada (rest lst) (rest pesos))]))
+```gleam
+fn soma_ponderada_examples() {
+  check.eq(soma_ponderada([], []), Ok(0.0))
+  check.eq(soma_ponderada([], [1.0]), Error(Nil))
+  check.eq(soma_ponderada([1.0], []), Error(Nil))
+  check.eq(soma_ponderada([4.0], [2.0]), Ok(8.0))
+  check.eq(
+    soma_ponderada([3.0, 4.0], [5.0, 2.0]),
+    Ok(23.0))
+  check.eq(
+    soma_ponderada([5.0, 3.0, 4.0], [1.0, 5.0, 2.0]),
+    Ok(28.0))
+}
 ```
+</div>
+</div>
+
+\pause
+
+\normalsize
+
+\ \
+
+Existem uma correspondência entre os elementos de `lst` e `pesos`. Usamos essa correspondência para o caso base (listas vazias) e para a chamada recursiva (para os restos das listas).
 
 
-## Exemplo: soma ponderada
+## Exemplo: soma ponderada {.t}
 
+<div class="columns">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; ListaDeNúmeros ListaDeNúmeros -> Número
-;; Calcula a soma ponderada dos valores de lst cosiderando que cada
-;; elemento de lst tem como peso o elemento correspondente em pesos.
-;; Requer que lst e pesos tenham o mesmo tamanho
-
-(examples
-  (check-equal? (soma-ponderada empty empty) 0)
-  (check-equal? (soma-ponderada (list 4) (list 2)) 8) ; (+ 0 (* 4 2))
-  (check-equal? (soma-ponderada (list 3 4) (list 5 2)) 23) ; (+ (* 3 5) (* 4 2))
-  (check-equal? (soma-ponderada (list 5 3 4) (list 1 5 2)) 28)) ; (+ (* 5 1) (* 3 5) (* 4 2))
-
-(define (soma-ponderada lst pesos)
-  (cond
-    [(empty? lst) 0]
-    [else
-      (+ (* (first lst)
-            (first pesos))
-         (soma-ponderada (rest lst) (rest pesos)))]))
+```gleam
+/// Calcula a soma ponderada dos valores de
+/// *lst* considerando que cada elemento de
+/// *lst* tem como peso o elemento correspon-
+/// dente em *pesos*. Devolve Error(Nil) se
+/// *lst* e *pesos* tem quantidade diferente
+/// de elementos.
+fn soma_ponderada(
+  lst: List(Float),
+  pesos: List(Float),
+) -> Result(Float, Nil) {
+  case lst, pesos {
+    [], [] -> todo
+    [valor, ..rlst], [peso, ..rpesos] -> {
+      todo valor peso
+           soma_pondera(rlst, rpesos)
+    }
+    _, _ -> todo
+  }
+}
 ```
 
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn soma_ponderada_examples() {
+  check.eq(soma_ponderada([], []), Ok(0.0))
+  check.eq(soma_ponderada([], [1.0]), Error(Nil))
+  check.eq(soma_ponderada([1.0], []), Error(Nil))
+  check.eq(soma_ponderada([4.0], [2.0]), Ok(8.0))
+  check.eq(
+    soma_ponderada([3.0, 4.0], [5.0, 2.0]),
+    Ok(23.0))
+  check.eq(
+    soma_ponderada([5.0, 3.0, 4.0], [1.0, 5.0, 2.0]),
+    Ok(28.0))
+}
+```
+</div>
+</div>
+
+
+## Exemplo: soma ponderada {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Calcula a soma ponderada dos valores de
+/// *lst* considerando que cada elemento de
+/// *lst* tem como peso o elemento correspon-
+/// dente em *pesos*. Devolve Error(Nil) se
+/// *lst* e *pesos* tem quantidade diferente
+/// de elementos.
+fn soma_ponderada(
+  lst: List(Float),
+  pesos: List(Float),
+) -> Result(Float, Nil) {
+  case lst, pesos {
+    [], [] -> Ok(0.0)
+    [valor, ..rlst], [peso, ..rpesos] -> {
+      todo valor peso
+           soma_pondera(rlst, rpesos)
+    }
+    _, _ -> Error(Nil)
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn soma_ponderada_examples() {
+  check.eq(soma_ponderada([], []), Ok(0.0))
+  check.eq(soma_ponderada([], [1.0]), Error(Nil))
+  check.eq(soma_ponderada([1.0], []), Error(Nil))
+  check.eq(soma_ponderada([4.0], [2.0]), Ok(8.0))
+  check.eq(
+    soma_ponderada([3.0, 4.0], [5.0, 2.0]),
+    Ok(23.0))
+  check.eq(
+    soma_ponderada([5.0, 3.0, 4.0], [1.0, 5.0, 2.0]),
+    Ok(28.0))
+}
+```
+</div>
+</div>
+
+
+## Exemplo: soma ponderada {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Calcula a soma ponderada dos valores de
+/// *lst* considerando que cada elemento de
+/// *lst* tem como peso o elemento correspon-
+/// dente em *pesos*. Devolve Error(Nil) se
+/// *lst* e *pesos* tem quantidade diferente
+/// de elementos.
+fn soma_ponderada(
+  lst: List(Float),
+  pesos: List(Float),
+) -> Result(Float, Nil) {
+  case lst, pesos {
+    [], [] -> Ok(0.0)
+    [valor, ..rlst], [peso, ..rpesos] ->
+      case soma_pondera(rlst, rpesos) {
+        Ok(r) -> Ok(valor *. peso +. r)
+        _ -> Error(Nil)
+    }
+    _, _ -> Error(Nil)
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn soma_ponderada_examples() {
+  check.eq(soma_ponderada([], []), Ok(0.0))
+  check.eq(soma_ponderada([], [1.0]), Error(Nil))
+  check.eq(soma_ponderada([1.0], []), Error(Nil))
+  check.eq(soma_ponderada([4.0], [2.0]), Ok(8.0))
+  check.eq(
+    soma_ponderada([3.0, 4.0], [5.0, 2.0]),
+    Ok(23.0))
+  check.eq(
+    soma_ponderada([5.0, 3.0, 4.0], [1.0, 5.0, 2.0]),
+    Ok(28.0))
+}
+```
+</div>
+</div>
 
 
 ## Exemplo caso 3: prefixo
 
-Dado duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é `lstb` começa com `lsta`.
+Dado duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é `lstb` começa com `lsta`. \pause
+
+Estratégias:
+
+1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento.
+2) Processar os dois argumentos de forma sincronizada.
+3) _Combinar os modelos de funções para os dois argumentos._
 
 
-## Exemplo: prefixo
+## Exemplo: prefixo {.t}
 
-Especificação
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
 
-\small
-
-```scheme
-;; Lista Lista -> Boolean
-;; Devolve #t se lsta é prefixo de lstb, #f caso contrário.
-(define (prefixo? lsta lstb) #f)
+```gleam
+/// Devolve True se *lsta* é prefixo de *lstb*,
+/// isto é, os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False, caso
+/// contrário.
+fn prefixo(
+  lsta: List(a),
+  lstb: List(a),
+) -> Bool {
+  todo
+}
 ```
 
-
-## Exemplo: prefixo
-
-Exemplos \pause
-
-- Temos que ter pelo menos um exemplo para cada combinação das definições dos dados de entrada \pause
-
-- `lsta` pode ser `empty` ou um `cons` \pause
-
-- `lstb` pode ser `empty` ou um `cons` \pause
-
-- Como garantir que não vamos esquecer nenhum caso? \pause Fazendo uma tabela!
-
-
-## Exemplo: prefixo
-
-\footnotesize
-
-```text
-                             lstb
-                  +------------+------------+
-                  |   empty    | (cons ...) |
-     +------------+------------+------------+
-     |   empty    |            |            |
-lsta +------------+------------+------------+
-     | (cons ...) |            |            |
-     +------------+------------+------------+
-```
-
-```
-
-
-
-
-
-
-
-
-```
-
-
-## Exemplo: prefixo
-
-\footnotesize
-
-```text
-                             lstb
-                  +------------+------------+
-                  |   empty    | (cons ...) |
-     +------------+------------+------------+
-     |   empty    |     OK     |            |
-lsta +------------+------------+------------+
-     | (cons ...) |            |            |
-     +------------+------------+------------+
-```
-
-```scheme
-(check-equal? (prefixo? empty empty) #t)
-
-
-
-
-
-
-
-```
-
-
-## Exemplo: prefixo
-
-\footnotesize
-
-```text
-                             lstb
-                  +------------+------------+
-                  |   empty    | (cons ...) |
-     +------------+------------+------------+
-     |   empty    |     OK     |     OK     |
-lsta +------------+------------+------------+
-     | (cons ...) |            |            |
-     +------------+------------+------------+
-```
-
-```scheme
-(check-equal? (prefixo? empty empty) #t)
-(check-equal? (prefixo? empty (list 3 2 1)) #t)
-
-
-
-
-
-
-```
-
-
-## Exemplo: prefixo
-
-\footnotesize
-
-```text
-                             lstb
-                  +------------+------------+
-                  |   empty    | (cons ...) |
-     +------------+------------+------------+
-     |   empty    |     OK     |     OK     |
-lsta +------------+------------+------------+
-     | (cons ...) |     OK     |            |
-     +------------+------------+------------+
-```
-
-```scheme
-(check-equal? (prefixo? empty empty) #t)
-(check-equal? (prefixo? empty (list 3 2 1)) #t)
-(check-equal? (prefixo? (list 3 2 1) empty) #f)
-
-
-
-
-
-```
-
-
-## Exemplo: prefixo
-
-\footnotesize
-
-```text
-                             lstb
-                  +------------+------------+
-                  |   empty    | (cons ...) |
-     +------------+------------+------------+
-     |   empty    |     OK     |     OK     |
-lsta +------------+------------+------------+
-     | (cons ...) |     OK     |     OK     |
-     +------------+------------+------------+
-```
-
-```scheme
-(check-equal? (prefixo? empty empty) #t)
-(check-equal? (prefixo? empty (list 3 2 1)) #t)
-(check-equal? (prefixo? (list 3 2 1) empty) #f)
-(check-equal? (prefixo? (list 3 4) (list 3 4)) #t)
-(check-equal? (prefixo? (list 3 4) (list 3 5)) #f)
-(check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) #t)
-(check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) #f)
-(check-equal? (prefixo? (list 3 4 5) (list 3 4)) #f)
-```
-
-
-## Exemplo: prefixo
-
-Implementação \pause
-
-Vamos começar criando um modelo com as quatro possibilidades
-
-\pause
-
-\small
-
-```scheme
-(define (prefixo? lsta lstb)
-  (cond
-    [(and (empty? lsta) (empty? lstb)) ...]
-    [(and (empty? lsta) (cons? lstb)) ... lstb ...]
-    [(and (cons? lsta) (empty? lstb)) ... lsba ...]
-    [else ... lsta ... lstb ...]))
-```
-
-\normalsize
-
-\pause
-
-Este início é muito complicado... \pause
-
-Baseado nos exemplos, vamos preencher a tabela e derivar um código mais simples
-
-
-## Exemplo: prefixo
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-```scheme
-(check-equal? (prefixo? empty empty) #t)
-(check-equal? (prefixo? empty (list 3 2 1)) #t)
-(check-equal? (prefixo? (list 3 2 1) empty) #f)
-(check-equal? (prefixo? (list 3 4) (list 3 4)) #t)
-(check-equal? (prefixo? (list 3 4) (list 3 5)) #f)
-(check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) #t)
-(check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) #f)
-(check-equal? (prefixo? (list 3 4 5) (list 3 4)) #f)
+```gleam
+fn prefixo_examples() {
+  // [], []
+  check.eq(prefixo([], []), True)
+  // [], [_, ..]
+  check.eq(prefixo([], [3, 4]), True)
+  // [_, ..], []
+  check.eq(prefixo([3, 4], []), False)
+  // [_, ..], [_, ..]
+  check.eq(prefixo([3, 4], [3, 4]), True)
+  check.eq(prefixo([3, 4], [3, 4, 6, 8]), True)
+  check.eq(prefixo([3, 4], [3, 5]), False)
+  check.eq(prefixo([3, 4, 5], [3, 4]), False)
+}
 ```
 
-```text
-                             lstb
-                  +------------+--------------------+
-                  |    empty   |     (cons ...)     |
-     +------------+------------+--------------------+
-     |   empty    |            |                    |
-lsta +------------+------------+--------------------+
-     | (cons ...) |            |                    |
-     |            |            |                    |
-     +------------+------------+--------------------+
+</div>
+</div>
+
+
+## Exemplo: prefixo {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve True se *lsta* é prefixo de *lstb*,
+/// isto é, os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False, caso
+/// contrário.
+fn prefixo(
+  lsta: List(a),
+  lstb: List(a),
+) -> Bool {
+  case lsta, lstb {
+    [], [] -> todo
+    [], [b, ..rb] -> { todo b rb }
+    [a, ..ra], [] -> { todo a ra }
+    [a, ..ra], [b, ..rb] -> {
+      todo
+      a
+      b
+      prefixo(ra, rb)
+    }
+  }
+}
 ```
 
-
-## Exemplo: prefixo
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-```scheme
-(check-equal? (prefixo? empty empty) #t)
-(check-equal? (prefixo? empty (list 3 2 1)) #t)
-(check-equal? (prefixo? (list 3 2 1) empty) #f)
-(check-equal? (prefixo? (list 3 4) (list 3 4)) #t)
-(check-equal? (prefixo? (list 3 4) (list 3 5)) #f)
-(check-equal? (prefixo? (list 3 4) (list 3 4 6 8)) #t)
-(check-equal? (prefixo? (list 3 5) (list 3 4 6 8)) #f)
-(check-equal? (prefixo? (list 3 4 5) (list 3 4)) #f)
+```gleam
+fn prefixo_examples() {
+  // [], []
+  check.eq(prefixo([], []), True)
+  // [], [_, ..]
+  check.eq(prefixo([], [3, 4]), True)
+  // [_, ..], []
+  check.eq(prefixo([3, 4], []), False)
+  // [_, ..], [_, ..]
+  check.eq(prefixo([3, 4], [3, 4]), True)
+  check.eq(prefixo([3, 4], [3, 4, 6, 8]), True)
+  check.eq(prefixo([3, 4], [3, 5]), False)
+  check.eq(prefixo([3, 4, 5], [3, 4]), False)
+}
 ```
 
-```text
-                             lstb
-                  +------------+--------------------+
-                  |    empty   |     (cons ...)     |
-     +------------+------------+--------------------+
-     |   empty    |     #t     |        #t          |
-lsta +------------+------------+--------------------+
-     | (cons ...) |     #f     |  primeiros iguais  |
-     |            |            |     e recursão     |
-     +------------+------------+--------------------+
+</div>
+</div>
+
+
+## Exemplo: prefixo {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve True se *lsta* é prefixo de *lstb*,
+/// isto é, os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False, caso
+/// contrário.
+fn prefixo(
+  lsta: List(a),
+  lstb: List(a),
+) -> Bool {
+  case lsta, lstb {
+    [], [] -> True
+    [], _ -> True
+    _, [] -> False
+    [a, ..ra], [b, ..rb] -> {
+      todo
+      a
+      b
+      prefixo(ra, rb)
+    }
+  }
+}
 ```
 
-
-## Exemplo: prefixo
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-Simplificando ...
-
-```text
-                             lstb
-                  +------------+--------------------+
-                  |    empty   |     (cons ...)     |
-     +------------+------------+--------------------+
-     |   empty    |              #t                 |
-lsta +------------+------------+--------------------+
-     | (cons ...) |     #f     |  primeiros iguais  |
-     |            |            | e recursão natural |
-     +------------+------------+--------------------+
+```gleam
+fn prefixo_examples() {
+  // [], []
+  check.eq(prefixo([], []), True)
+  // [], [_, ..]
+  check.eq(prefixo([], [3, 4]), True)
+  // [_, ..], []
+  check.eq(prefixo([3, 4], []), False)
+  // [_, ..], [_, ..]
+  check.eq(prefixo([3, 4], [3, 4]), True)
+  check.eq(prefixo([3, 4], [3, 4, 6, 8]), True)
+  check.eq(prefixo([3, 4], [3, 5]), False)
+  check.eq(prefixo([3, 4, 5], [3, 4]), False)
+}
 ```
 
-\pause
+</div>
+</div>
 
-```scheme
-(define (prefixo? lsta lstb)
-  (cond
-    [(empty? lsta) #t]    ;; os casos foram
-    [(empty? lstb) #f]    ;; escolhidos por ordem
-    [else                 ;; de simplicidade
-      (... (first lsta)
-           (first lstb)
-           (prefixo? (rest lsta) (rest lstb)))]))
+
+## Exemplo: prefixo {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve True se *lsta* é prefixo de *lstb*,
+/// isto é, os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False, caso
+/// contrário.
+fn prefixo(
+  lsta: List(a),
+  lstb: List(a),
+) -> Bool {
+  case lsta, lstb {
+    [], [] -> True
+    [], _ -> True
+    _, [] -> False
+    [a, ..ra], [b, ..rb] ->
+      a == b && prefixo(ra, rb)
+  }
+}
 ```
 
-
-## Exemplo: prefixo
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-Completando a implementação ...
-
-```text
-                             lstb
-                  +------------+--------------------+
-                  |    empty   |     (cons ...)     |
-     +------------+------------+--------------------+
-     |   empty    |              #t                 |
-lsta +------------+------------+--------------------+
-     | (cons ...) |     #f     |  primeiros iguais  |
-     |            |            | e recursão natural |
-     +------------+------------+--------------------+
+```gleam
+fn prefixo_examples() {
+  // [], []
+  check.eq(prefixo([], []), True)
+  // [], [_, ..]
+  check.eq(prefixo([], [3, 4]), True)
+  // [_, ..], []
+  check.eq(prefixo([3, 4], []), False)
+  // [_, ..], [_, ..]
+  check.eq(prefixo([3, 4], [3, 4]), True)
+  check.eq(prefixo([3, 4], [3, 4, 6, 8]), True)
+  check.eq(prefixo([3, 4], [3, 5]), False)
+  check.eq(prefixo([3, 4, 5], [3, 4]), False)
+}
 ```
 
+</div>
+</div>
 
-```scheme
-(define (prefixo? lsta lstb)
-  (cond
-    [(empty? lsta) #t]    ;; os casos foram
-    [(empty? lstb) #f]    ;; escolhidos por ordem
-    [else                 ;; de simplicidade
-      (and (equal? (first lsta)
-                   (first lstb))
-           (prefixo? (rest lsta) (rest lstb)))]))
+
+## Exemplo: prefixo {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve True se *lsta* é prefixo de *lstb*,
+/// isto é, os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False, caso
+/// contrário.
+fn prefixo(
+  lsta: List(a),
+  lstb: List(a),
+) -> Bool {
+  case lsta, lstb {
+    [], _ -> True
+    _, [] -> False
+    [a, ..ra], [b, ..rb] ->
+      a == b && prefixo(ra, rb)
+  }
+}
 ```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+fn prefixo_examples() {
+  // [], []
+  check.eq(prefixo([], []), True)
+  // [], [_, ..]
+  check.eq(prefixo([], [3, 4]), True)
+  // [_, ..], []
+  check.eq(prefixo([3, 4], []), False)
+  // [_, ..], [_, ..]
+  check.eq(prefixo([3, 4], [3, 4]), True)
+  check.eq(prefixo([3, 4], [3, 4, 6, 8]), True)
+  check.eq(prefixo([3, 4], [3, 5]), False)
+  check.eq(prefixo([3, 4, 5], [3, 4]), False)
+}
+```
+
+</div>
+</div>
 
 
 ## Exemplo: $k$-ésimo
 
-Defina uma função que encontre o $k$-ésimo elemento de uma lista.
+Defina uma função que encontre o $k$-ésimo elemento de uma lista. \pause
+
+Estratégias:
+
+1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento.
+2) Processar os dois argumentos de forma sincronizada.
+3) _Combinar os modelos de funções para os dois argumentos._
 
 
-## Exemplo: $k$-ésimo
+## Exemplo: $k$-ésimo {.t}
 
-Especificação
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
 
-\pause
-
-\small
-
-```scheme
-;; ListaDeNúmeros Natural -> Número
-;; Devolve o elemento na posição k da lst.
-;; O primeiro elemento está na posição 0.
-(define (lista-ref lst k) 0)
+```gleam
+/// Devolve o elemento na posição *i* de *lst*
+/// (indexado a partir de 0). Devolve Error(Nil)
+/// se *i* é negativo ou é maior igual a
+/// quantidade de elemento de *lst*.
+pub fn lista_get(
+  lst: List(a),
+  k: Int,
+) -> Result(a, Nil) {
+}
 ```
 
-
-## Exemplo: $k$-ésimo
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-Exemplos \pause
-
-```scheme
-;; ListaDeNúmeros Natural -> Número
-;; Devolve o elemento na posição k da lst.
-;; O primeiro elemento está na posição 0.
-;;                                k
-;;                  +-------------+-------------------+
-;;                  |      0      |    (add1 ...)     |
-;;     +------------+-------------+-------------------+
-;;     |   empty    |     OK      |        OK         |
-;; lst +------------+-------------+-------------------+
-;;     | (cons ...) |     OK      |        OK         |
-;;     +------------+-------------+-------------------+
-(check-exn exn:fail? (thunk (lista-ref empty 0)))
-(check-exn exn:fail? (thunk (lista-ref empty 2)))
-(check-equal? (lista-ref (list 3 2 8) 0) 3)
-(check-equal? (lista-ref (list 3 2 8 10) 2) 8)
-(check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4)))))
-(define (lista-ref k lst) 0)
+```gleam
+pub fn lista_get_examples() {
+  // [], 0
+  check.eq(lista_get([], 0), Error(Nil))
+  // [], > 0
+  check.eq(lista_get([], 2), Error(Nil))
+  // [_, ..], 0
+  check.eq(lista_get([3, 2, 8], 0), Ok(3))
+  // [_, ..], > 0
+  check.eq(lista_get([3, 2, 8, 10], 2), Ok(8))
+  check.eq(lista_get([3, 2, 8, 10], 4), Error(Nil))
+  // [], < 0
+  check.eq(lista_get([], -1), Error(Nil))
+  // [_, ..], < 0
+  check.eq(lista_get([1, 2], -3), Error(Nil))
+}
 ```
 
+</div>
+</div>
 
-## Exemplo: $k$-ésimo
+
+## Exemplo: $k$-ésimo {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve o elemento na posição *i* de *lst*
+/// (indexado a partir de 0). Devolve Error(Nil)
+/// se *i* é negativo ou é maior igual a
+/// quantidade de elemento de *lst*.
+pub fn lista_get(
+  lst: List(a),
+  k: Int,
+) -> Result(a, Nil) {
+  case lst, k {
+    [], 0 -> todo
+    [], _ if k > 0 -> { todo k }
+    [p, ..resto], 0 -> { todo p resto }
+    [p, ..resto], _ if k > 0 -> {
+      todo p lista_get(resto, k - 1)
+    }
+    [], _ if k < 0 -> todo
+    [p, ..resto], _ if k < 0 -> { todo p resto }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-Implementação
-
-```scheme
-;; ListaDeNúmeros Natural -> Número
-;; Devolve o elemento na posição k da lst.
-;; O primeiro elemento está na posição 0.
-;;                                k
-;;                  +-------------+-------------------+
-;;                  |      0      |    (add1 ...)     |
-;;     +------------+-------------+-------------------+
-;;     |   empty    |           erro                  |
-;; lst +------------+-------------+-------------------+
-;;     | (cons ...) | (first lst) |     recursão      |
-;;     +------------+-------------+-------------------+
-(check-exn exn:fail? (thunk (lista-ref empty 0)))
-(check-exn exn:fail? (thunk (lista-ref empty 2)))
-(check-equal? (lista-ref (list 3 2 8) 0) 3)
-(check-equal? (lista-ref (list 3 2 8 10) 2) 8)
-(check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4)))))
-(define (lista-ref k lst) 0)
+```gleam
+pub fn lista_get_examples() {
+  // [], 0
+  check.eq(lista_get([], 0), Error(Nil))
+  // [], > 0
+  check.eq(lista_get([], 2), Error(Nil))
+  // [_, ..], 0
+  check.eq(lista_get([3, 2, 8], 0), Ok(3))
+  // [_, ..], > 0
+  check.eq(lista_get([3, 2, 8, 10], 2), Ok(8))
+  check.eq(lista_get([3, 2, 8, 10], 4), Error(Nil))
+  // [], < 0
+  check.eq(lista_get([], -1), Error(Nil))
+  // [_, ..], < 0
+  check.eq(lista_get([1, 2], -3), Error(Nil))
+}
 ```
 
+</div>
+</div>
 
-## Exemplo: $k$-ésimo
+
+## Exemplo: $k$-ésimo {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve o elemento na posição *i* de *lst*
+/// (indexado a partir de 0). Devolve Error(Nil)
+/// se *i* é negativo ou é maior igual a
+/// quantidade de elemento de *lst*.
+pub fn lista_get(
+  lst: List(a),
+  k: Int,
+) -> Result(a, Nil) {
+  case lst, k {
+    [], 0 -> todo
+    [], _ if k > 0 -> { todo k }
+    [p, ..], 0 -> Ok(p)
+    [_, ..resto], _ if k > 0 -> {
+      lista_get(resto, k - 1)
+    }
+    [], _ if k < 0 -> todo
+    [p, ..resto], _ if k < 0 -> { todo p resto }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
 
 \scriptsize
 
-```scheme
-;; ListaDeNúmeros Natural -> Número
-;;                                k
-;;                  +-------------+-------------------+
-;;                  |      0      |    (add1 ...)     |
-;;     +------------+-------------+-------------------+
-;;     |   empty    |           erro                  |
-;; lst +------------+-------------+-------------------+
-;;     | (cons ...) | (first lst) |     recursão      |
-;;     +------------+-------------+-------------------+
-(check-exn exn:fail? (thunk (lista-ref empty 0)))
-(check-exn exn:fail? (thunk (lista-ref empty 2)))
-(check-equal? (lista-ref (list 3 2 8) 0) 3)
-(check-equal? (lista-ref (list 3 2 8 10) 2) 8)
-(check-exn exn:fail? (thunk (lista-ref (list 3 2 8 10) 4)))))
-(define (lista-ref k lst)
-  (cond
-    [(empty? lst) (error "Lista vazia")]
-    [(zero? k) (first lst)]
-    [else (lista-ref (rest lst) (sub1 k))]))
+```gleam
+pub fn lista_get_examples() {
+  // [], 0
+  check.eq(lista_get([], 0), Error(Nil))
+  // [], > 0
+  check.eq(lista_get([], 2), Error(Nil))
+  // [_, ..], 0
+  check.eq(lista_get([3, 2, 8], 0), Ok(3))
+  // [_, ..], > 0
+  check.eq(lista_get([3, 2, 8, 10], 2), Ok(8))
+  check.eq(lista_get([3, 2, 8, 10], 4), Error(Nil))
+  // [], < 0
+  check.eq(lista_get([], -1), Error(Nil))
+  // [_, ..], < 0
+  check.eq(lista_get([1, 2], -3), Error(Nil))
+}
 ```
+
+</div>
+</div>
+
+
+## Exemplo: $k$-ésimo {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve o elemento na posição *i* de *lst*
+/// (indexado a partir de 0). Devolve Error(Nil)
+/// se *i* é negativo ou é maior igual a
+/// quantidade de elemento de *lst*.
+pub fn lista_get(
+  lst: List(a),
+  k: Int,
+) -> Result(a, Nil) {
+  case lst, k {
+    [p, ..], 0 -> Ok(p)
+    [_, ..resto], _ if k > 0 ->
+      lista_get(resto, k - 1)
+    _, _ -> Error(Nil)
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+pub fn lista_get_examples() {
+  // [], 0
+  check.eq(lista_get([], 0), Error(Nil))
+  // [], > 0
+  check.eq(lista_get([], 2), Error(Nil))
+  // [_, ..], 0
+  check.eq(lista_get([3, 2, 8], 0), Ok(3))
+  // [_, ..], > 0
+  check.eq(lista_get([3, 2, 8, 10], 2), Ok(8))
+  check.eq(lista_get([3, 2, 8, 10], 4), Error(Nil))
+  // [], < 0
+  check.eq(lista_get([], -1), Error(Nil))
+  // [_, ..], < 0
+  check.eq(lista_get([1, 2], -3), Error(Nil))
+}
+```
+
+</div>
+</div>
 
 
 ## Referências

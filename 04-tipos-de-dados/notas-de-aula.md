@@ -9,9 +9,10 @@
 # TODO: remover (discutido em sala) adicionando um exemplo inicial
 # TODO: adicionar mais referências sobre projeto de tipos de dados
 # TODO: usar o termo registro ao invés de estrutura?
+# TODO: falar de tuplas
 # TODO: mostrar a solução completa para custo_tiquetes
 # TODO: deixar claro: funções totais
-# TODO: frase "Parse, don´t validade": In other words, write functions on the data representation you wish you had, not the data representation you are   given.
+# TODO: frase "Parse, don´t validade": In other words, write functions on the data representation you wish you had, not the data representation you are given.
 # TODO: ao invés de passar a responsabilidade de tratar o erro adiante, empure ela para trás
 # TODO: separar em dois decks: projeto de tipos de dados e projeto de funções completas?
 title: Tipos de dados

@@ -1,9 +1,5 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-# TODO: adicionar uma definição para árvore (recursão indireta)
-# TODO: colocar uma sequência de exemplos (como feito em sala) para
-#       levar os alunos a determinar o código para altura-arvore
-# TODO: adicionar uma situação problema para lista aninhada (ou trocar por arvóre n-ária)
 # TODO: mais detalhes sobre processamento simultâneo
 # TODO: adicionar revisão
 title: Processamento simultâneo
@@ -12,7 +8,7 @@ title: Processamento simultâneo
 
 ## Introdução
 
-Como implementar uma função que consome dois argumentos e os dois são de tipos com autorreferência? \pause Temos algumas possibilidades, entre elas: \pause
+Como implementar uma função que consome dois argumentos e os dois são de tipos com autorreferência? \pause Temos algumas possibilidades: \pause
 
 1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento. \pause
 
@@ -24,8 +20,6 @@ Como implementar uma função que consome dois argumentos e os dois são de tipo
 ## Exemplo caso 1: concatenação
 
 Projete uma função que concatene duas listas de números. \pause
-
-Estratégias:
 
 1) _Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento._
 2) Processar os dois argumentos de forma sincronizada.
@@ -40,11 +34,11 @@ Estratégias:
 
 ```gleam
 /// Produz uma nova lista com os elementos
-/// de *lsta* seguidos dos elementos de *lstb*.
+/// de *lsta* seguido dos elementos de *lstb*.
 fn concatena(
-  lsta: List(Int),
-  lstb: List(Int),
-) -> List(Int) {
+  lsta: List(a),
+  lstb: List(a),
+) -> List(a) {
   todo
 }
 ```
@@ -86,11 +80,11 @@ Então usamos o modelo para processar `lsta`.
 
 ```gleam
 /// Produz uma nova lista com os elementos
-/// de *lsta* seguidos dos elementos de *lstb*.
+/// de *lsta* seguido dos elementos de *lstb*.
 fn concatena(
-  lsta: List(Int),
-  lstb: List(Int),
-) -> List(Int) {
+  lsta: List(a),
+  lstb: List(a),
+) -> List(a) {
   case lsta {
     [] -> { todo lstb }
     [primeiro, ..resto] -> {
@@ -129,11 +123,11 @@ fn concatena_examples() {
 
 ```gleam
 /// Produz uma nova lista com os elementos
-/// de *lsta* seguidos dos elementos de *lstb*.
+/// de *lsta* seguido dos elementos de *lstb*.
 fn concatena(
-  lsta: List(Int),
-  lstb: List(Int),
-) -> List(Int) {
+  lsta: List(a),
+  lstb: List(a),
+) -> List(a) {
   case lsta {
     [] -> lstb
     [primeiro, ..resto] -> {
@@ -172,11 +166,11 @@ fn concatena_examples() {
 
 ```gleam
 /// Produz uma nova lista com os elementos
-/// de *lsta* seguidos dos elementos de *lstb*.
+/// de *lsta* seguido dos elementos de *lstb*.
 fn concatena(
-  lsta: List(Int),
-  lstb: List(Int),
-) -> List(Int) {
+  lsta: List(a),
+  lstb: List(a),
+) -> List(a) {
   case lsta {
     [] -> lstb
     [primeiro, ..resto] ->
@@ -208,8 +202,6 @@ fn concatena_examples() {
 ## Exemplo caso 2: soma ponderada
 
 Projete uma função que calcule a soma ponderada a partir de uma lista de números e uma lista de pesos. \pause
-
-Estratégias:
 
 1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento.
 2) _Processar os dois argumentos de forma sincronizada._
@@ -422,8 +414,6 @@ fn soma_ponderada_examples() {
 ## Exemplo caso 3: prefixo
 
 Dado duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é `lstb` começa com `lsta`. \pause
-
-Estratégias:
 
 1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento.
 2) Processar os dois argumentos de forma sincronizada.
@@ -685,8 +675,6 @@ fn prefixo_examples() {
 
 Defina uma função que encontre o $k$-ésimo elemento de uma lista. \pause
 
-Estratégias:
-
 1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento.
 2) Processar os dois argumentos de forma sincronizada.
 3) _Combinar os modelos de funções para os dois argumentos._
@@ -703,7 +691,7 @@ Estratégias:
 /// (indexado a partir de 0). Devolve Error(Nil)
 /// se *i* é negativo ou é maior igual a
 /// quantidade de elemento de *lst*.
-pub fn lista_get(
+fn lista_get(
   lst: List(a),
   k: Int,
 ) -> Result(a, Nil) {
@@ -716,7 +704,7 @@ pub fn lista_get(
 \scriptsize
 
 ```gleam
-pub fn lista_get_examples() {
+fn lista_get_examples() {
   // [], 0
   check.eq(lista_get([], 0), Error(Nil))
   // [], > 0
@@ -748,7 +736,7 @@ pub fn lista_get_examples() {
 /// (indexado a partir de 0). Devolve Error(Nil)
 /// se *i* é negativo ou é maior igual a
 /// quantidade de elemento de *lst*.
-pub fn lista_get(
+fn lista_get(
   lst: List(a),
   k: Int,
 ) -> Result(a, Nil) {
@@ -759,8 +747,7 @@ pub fn lista_get(
     [p, ..resto], _ if k > 0 -> {
       todo p lista_get(resto, k - 1)
     }
-    [], _ if k < 0 -> todo
-    [p, ..resto], _ if k < 0 -> { todo p resto }
+    _, _ -> todo
   }
 }
 ```
@@ -771,7 +758,7 @@ pub fn lista_get(
 \scriptsize
 
 ```gleam
-pub fn lista_get_examples() {
+fn lista_get_examples() {
   // [], 0
   check.eq(lista_get([], 0), Error(Nil))
   // [], > 0
@@ -803,7 +790,7 @@ pub fn lista_get_examples() {
 /// (indexado a partir de 0). Devolve Error(Nil)
 /// se *i* é negativo ou é maior igual a
 /// quantidade de elemento de *lst*.
-pub fn lista_get(
+fn lista_get(
   lst: List(a),
   k: Int,
 ) -> Result(a, Nil) {
@@ -814,8 +801,7 @@ pub fn lista_get(
     [_, ..resto], _ if k > 0 -> {
       lista_get(resto, k - 1)
     }
-    [], _ if k < 0 -> todo
-    [p, ..resto], _ if k < 0 -> { todo p resto }
+    _, _ -> todo
   }
 }
 ```
@@ -826,7 +812,7 @@ pub fn lista_get(
 \scriptsize
 
 ```gleam
-pub fn lista_get_examples() {
+fn lista_get_examples() {
   // [], 0
   check.eq(lista_get([], 0), Error(Nil))
   // [], > 0
@@ -858,7 +844,7 @@ pub fn lista_get_examples() {
 /// (indexado a partir de 0). Devolve Error(Nil)
 /// se *i* é negativo ou é maior igual a
 /// quantidade de elemento de *lst*.
-pub fn lista_get(
+fn lista_get(
   lst: List(a),
   k: Int,
 ) -> Result(a, Nil) {
@@ -877,7 +863,7 @@ pub fn lista_get(
 \scriptsize
 
 ```gleam
-pub fn lista_get_examples() {
+fn lista_get_examples() {
   // [], 0
   check.eq(lista_get([], 0), Error(Nil))
   // [], > 0

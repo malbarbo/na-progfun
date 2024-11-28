@@ -1,6 +1,6 @@
 import sgleam/check
 
-/// Produz uma nova lista com os elementos de *lsta* seguidos dos elementos de
+/// Produz uma nova lista com os elementos de *lsta* seguido dos elementos de
 /// *lstb*.
 pub fn concatena(lsta: List(a), lstb: List(a)) -> List(a) {
   case lsta {

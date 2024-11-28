@@ -1132,7 +1132,7 @@ Defina uma função que soma um valor `x` em cada elemento de uma lista de núme
 
 ```gleam
 /// Soma *x* a cada elemento de *lst*.
-pub fn soma_x(
+fn soma_x(
   lst: List(Int),
   x: Int
 ) -> List(Int) {
@@ -1147,7 +1147,7 @@ pub fn soma_x(
 \footnotesize
 
 ```gleam
-pub fn soma_x_examples() {
+fn soma_x_examples() {
   check.eq(soma_x([], 4), [])
   check.eq(soma_x([4, 2], 5), [9, 7])
   check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
@@ -1169,7 +1169,7 @@ Como começamos a implementação? \pause Com o modelo.
 
 ```gleam
 /// Soma *x* a cada elemento de *lst*.
-pub fn soma_x(lst, x) -> List(Int) {
+fn soma_x(lst, x) -> List(Int) {
   case lst {
     [] -> { todo x }
     [primeiro, ..resto] -> {
@@ -1188,7 +1188,7 @@ pub fn soma_x(lst, x) -> List(Int) {
 \footnotesize
 
 ```gleam
-pub fn soma_x_examples() {
+fn soma_x_examples() {
   check.eq(soma_x([], 4), [])
   check.eq(soma_x([4, 2], 5), [9, 7])
   check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
@@ -1210,7 +1210,7 @@ O que fazemos agora? \pause Implementamos o caso base.
 
 ```gleam
 /// Soma *x* a cada elemento de *lst*.
-pub fn soma_x(lst, x) -> List(Int) {
+fn soma_x(lst, x) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] -> {
@@ -1229,7 +1229,7 @@ pub fn soma_x(lst, x) -> List(Int) {
 \footnotesize
 
 ```gleam
-pub fn soma_x_examples() {
+fn soma_x_examples() {
   check.eq(soma_x([], 4), [])
   check.eq(soma_x([4, 2], 5), [9, 7])
   check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
@@ -1251,7 +1251,7 @@ pub fn soma_x_examples() {
 
 ```gleam
 /// Soma *x* a cada elemento de *lst*.
-pub fn soma_x(lst, x) -> List(Int) {
+fn soma_x(lst, x) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] ->
@@ -1266,7 +1266,7 @@ pub fn soma_x(lst, x) -> List(Int) {
 \footnotesize
 
 ```gleam
-pub fn soma_x_examples() {
+fn soma_x_examples() {
   check.eq(soma_x([], 4), [])
   check.eq(soma_x([4, 2], 5), [9, 7])
   check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
@@ -1538,7 +1538,7 @@ a) Projete uma função que determine, a partir de uma lista de associações, q
 
 ```gleam
 // Associação entre chave e valor.
-pub type Par {
+type Par {
   Par(chave: String, valor: Int)
 }
 ```
@@ -1548,7 +1548,7 @@ pub type Par {
 ```gleam
 /// Devolve o valor associado com *chave* em *lst* ou Error(Nil) se *s* não
 /// aparece como chave em *lst*.
-pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   Error(Nil)
 }
 ```
@@ -1556,7 +1556,7 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 \pause
 
 ```gleam
-pub fn busca_examples() {
+fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
@@ -1570,14 +1570,14 @@ pub fn busca_examples() {
 \footnotesize
 
 ```gleam
-pub fn busca_examples() {
+fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
 
-pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> { todo chave }
     [primeiro, ..resto] -> {
@@ -1595,14 +1595,14 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 \footnotesize
 
 ```gleam
-pub fn busca_examples() {
+fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
 
-pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..resto] -> {
@@ -1620,14 +1620,14 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 \footnotesize
 
 ```gleam
-pub fn busca_examples() {
+fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
 
-pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..resto] -> {
@@ -1645,14 +1645,14 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 \footnotesize
 
 ```gleam
-pub fn busca_examples() {
+fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
 
-pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..] if primeiro.chave == chave ->
@@ -1669,15 +1669,15 @@ pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
 \footnotesize
 
 ```gleam
-pub type Par(a, b) {
+type Par(a, b) {
   Par(chave: a, valor: b)
 }
 
-pub fn busca_examples() {
+fn busca_examples() {
   // ...
 }
 
-pub fn busca(lst: List(Par(a, b), chave: a) -> Result(b, Nil) {
+fn busca(lst: List(Par(a, b), chave: a) -> Result(b, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..] if primeiro.chave == chave ->
@@ -1700,7 +1700,7 @@ Projete uma função que junte todos os elementos de uma lista de strings (não 
 
 ```gleam
 /// Parece difícil escrever o propósito... Vamos fazer os exemplos primeiro.
-pub fn junta_virgula_e(lst: List(String)) -> String { "" }
+fn junta_virgula_e(lst: List(String)) -> String { "" }
 ```
 
 \small
@@ -1735,11 +1735,11 @@ Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \
 /// - Se a *lst* tem apenas um elemento, devolve esse elemento.
 /// - Senão, junta as strings de *lst*, separando-as com ", ", com exceção
 ///   da última string, que é separada com " e ".
-pub fn junta_virgula_e(lst: List(String)) -> String {
+fn junta_virgula_e(lst: List(String)) -> String {
   ""
 }
 
-pub fn junta_virgula_e_examples() {
+fn junta_virgula_e_examples() {
   check.eq(junta_virgula_e([]), "")
   check.eq(junta_virgula_e(["maça"]), "maça")
   check.eq(junta_virgula_e(["mamão", "banana", "maça"]), "mamão, banana e maça")
@@ -1754,7 +1754,7 @@ pub fn junta_virgula_e_examples() {
 \footnotesize
 
 ```gleam
-pub fn junta_virgula_e(lst: List(String)) -> String {
+fn junta_virgula_e(lst: List(String)) -> String {
   case lst {
     [] -> todo
     [primeiro] -> todo
@@ -1769,7 +1769,7 @@ pub fn junta_virgula_e(lst: List(String)) -> String {
 \footnotesize
 
 ```gleam
-pub fn junta_virgula_e(lst: List(String)) -> String {
+fn junta_virgula_e(lst: List(String)) -> String {
   case lst {
     [] -> ""
     [primeiro] -> primeiro

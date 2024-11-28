@@ -1108,6 +1108,16 @@ fn contem_examples() {
 </div>
 </div>
 
+\pause
+
+\ \
+
+Estamos utilizando **polimorfismo paramétrico** para deixar a função `contem` genérica. \pause
+
+A função `contem` é genérica em relação ao tipo `a`, que é um parâmetro que pode assumir (implicitamente) qualquer tipo. \pause
+
+Note que o tipo dos elementos da lista deve ser o mesmo que o tipo de `v`.
+
 
 ## Exemplo: soma x
 

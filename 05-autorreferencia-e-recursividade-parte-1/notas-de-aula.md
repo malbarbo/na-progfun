@@ -1,9 +1,5 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-# TODO: apresentar os exemplos de forma mais abstrata, semelhante ao
-#       juntar com ponto e vírgula. Os alunos têm dificuldades
-#       para entender por causa da sintaxe do Racket...
-# TODO: adicionar exemplos com lista de estruturas
 # TODO: ver HTDP e separar a funções que geram listas
 # TODO: mostrar funções de listas pré-definidas: length, append, member
 title: Autorreferência e recursividade
@@ -1074,6 +1070,45 @@ fn contem_examples() {
 </div>
 
 
+## Exemplo: contém - revisão {.t}
+
+<div class="columns">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(a), v: a) -> Bool {
+  case lst {
+    [] -> False
+    [primeiro, ..resto] ->
+      v == primeiro || contem(resto, v)
+  }
+}
+```
+
+
+</div>
+<div class="column" width="46%">
+
+\footnotesize
+
+```gleam
+fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem(["a", "b"], "b"), True)
+  check.eq(contem(["a", "b"], "c"), False)
+}
+```
+
+</div>
+</div>
+
+
 ## Exemplo: soma x
 
 Defina uma função que soma um valor `x` em cada elemento de uma lista de números.
@@ -1487,7 +1522,7 @@ a) Defina um tipo de dado que represente uma associação entre uma string e um 
 a) Projete uma função que determine, a partir de uma lista de associações, qual é o valor associado com uma string.
 
 
-## Exemplo: número de ocorrências
+## Exemplo: número de ocorrências - especificação
 
 \footnotesize
 
@@ -1501,9 +1536,9 @@ pub type Par {
 \pause
 
 ```gleam
-/// Devolve o valor associado com *s* em *lst* ou Error se *s* não aparece como
-/// chave em *lst*.
-pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+/// Devolve o valor associado com *chave* em *lst* ou Error(Nil) se *s* não
+/// aparece como chave em *lst*.
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   Error(Nil)
 }
 ```
@@ -1520,7 +1555,7 @@ pub fn busca_examples() {
 ```
 
 
-## Exemplo: número de ocorrências {.t}
+## Exemplo: número de ocorrências - implementação {.t}
 
 \footnotesize
 
@@ -1531,21 +1566,21 @@ pub fn busca_examples() {
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
-pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
-    [] -> { todo s }
+    [] -> { todo chave }
     [primeiro, ..resto] -> {
-      todo
-      s
-      primeiro
-      busca(resto, s)
+      todo chave
+           primeiro
+           busca(resto, chave)
     }
   }
 }
 ```
 
 
-## Exemplo: número de ocorrências {.t}
+## Exemplo: número de ocorrências - implementação {.t}
 
 \footnotesize
 
@@ -1556,21 +1591,21 @@ pub fn busca_examples() {
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
-pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..resto] -> {
-      todo
-      s
-      primeiro
-      busca(resto, s)
+      todo chave
+           primeiro
+           busca(resto, chave)
     }
   }
 }
 ```
 
 
-## Exemplo: número de ocorrências {.t}
+## Exemplo: número de ocorrências - implementação {.t}
 
 \footnotesize
 
@@ -1581,20 +1616,21 @@ pub fn busca_examples() {
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
-pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..resto] -> {
-      case primeiro.chave == s {
+      case primeiro.chave == chave {
         True -> Ok(primeiro.valor)
-        False -> busca(resto, s)
+        False -> busca(resto, chave)
     }
   }
 }
 ```
 
 
-## Exemplo: número de ocorrências {.t}
+## Exemplo: número de ocorrências - revisão {.t}
 
 \footnotesize
 
@@ -1605,36 +1641,39 @@ pub fn busca_examples() {
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
+
 pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
-    [primeiro, ..] if primeiro.chave == s ->
+    [primeiro, ..] if primeiro.chave == chave ->
       Ok(primeiro.valor)
-    [_, ..resto] s ->
-      busca(resto, s)
+    [_, ..resto] ->
+      busca(resto, chave)
   }
 }
 ```
 
 
-## Exemplo: número de ocorrências {.t}
+## Exemplo: número de ocorrências - revisão {.t}
 
 \footnotesize
 
 ```gleam
-pub fn busca_examples() {
-  check.eq(busca([], "casa"), Error(Nil))
-  check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
-  check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
-  check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
+pub type Par(a, b) {
+  Par(chave: a, valor: b)
 }
-pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+
+pub fn busca_examples() {
+  // ...
+}
+
+pub fn busca(lst: List(Par(a, b), chave: a) -> Result(b, Nil) {
   case lst {
     [] -> Error(Nil)
-    [Par(chave, valor), ..] if chave == s ->
-      Ok(valor)
-    [_, ..resto] s ->
-      busca(resto, s)
+    [primeiro, ..] if primeiro.chave == chave ->
+      Ok(primeiro.valor)
+    [_, ..resto] ->
+      busca(resto, chave)
   }
 }
 ```
@@ -1715,7 +1754,9 @@ pub fn junta_virgula_e(lst: List(String)) -> String {
 }
 ```
 
-\pause
+## Exemplos: junta com "," e "e"
+
+\footnotesize
 
 ```gleam
 pub fn junta_virgula_e(lst: List(String)) -> String {

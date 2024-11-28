@@ -1,17 +1,17 @@
 import sgleam/check
 
 // Associação entre chave e valor.
-pub type Par {
-  Par(chave: String, valor: Int)
+pub type Par(a, b) {
+  Par(chave: a, valor: b)
 }
 
 /// Devolve o valor associado com *s* em *lst* ou Error se *s* não aparece como
 /// chave em *lst*.
-pub fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+pub fn busca(lst: List(Par(a, b)), chave: a) -> Result(b, Nil) {
   case lst {
     [] -> Error(Nil)
-    [Par(chave, valor), ..] if s == chave -> Ok(valor)
-    [_, ..resto] -> busca(resto, s)
+    [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
+    [_, ..resto] -> busca(resto, chave)
   }
 }
 

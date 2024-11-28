@@ -1,7 +1,7 @@
 import sgleam/check
 
 // Produz True se *v* está em *lst*, False caso contrário.
-pub fn contem(lst: List(Int), v: Int) -> Bool {
+pub fn contem(lst: List(a), v: a) -> Bool {
   case lst {
     [] -> False
     [primeiro, ..resto] -> primeiro == v || contem(resto, v)

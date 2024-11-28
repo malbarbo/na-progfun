@@ -3,6 +3,7 @@
 title: Autorreferência e recursividade
 subtitle: Parte II
 # TODO: definir decomposição estrutural
+# TODO: duas alternativas (a primeira é um caso especial da terceira?)
 ---
 
 
@@ -84,7 +85,7 @@ Dado um número natural $n$, defina uma função que some os números naturais m
 
 ```gleam
 /// Devolve a soma 1 + 2 + ... + n.
-pub fn soma_nat(n: Int) -> Int {
+fn soma_nat(n: Int) -> Int {
   todo
 }
 ```
@@ -96,7 +97,7 @@ pub fn soma_nat(n: Int) -> Int {
 \footnotesize
 
 ```gleam
-pub fn soma_nat_examples() {
+fn soma_nat_examples() {
   check.eq(soma_nat(-1), 0)
   check.eq(soma_nat(0), 0)
   check.eq(soma_nat(1), 1)
@@ -116,7 +117,7 @@ pub fn soma_nat_examples() {
 
 ```gleam
 /// Devolve a soma 1 + 2 + ... + n.
-pub fn soma_nat(n: Int) -> Int {
+fn soma_nat(n: Int) -> Int {
   case n {
     _ if n < 0 -> todo
     0 -> todo
@@ -135,7 +136,7 @@ pub fn soma_nat(n: Int) -> Int {
 \footnotesize
 
 ```gleam
-pub fn soma_nat_examples() {
+fn soma_nat_examples() {
   check.eq(soma_nat(-1), 0)
   check.eq(soma_nat(0), 0)
   check.eq(soma_nat(1), 1)
@@ -155,7 +156,7 @@ pub fn soma_nat_examples() {
 
 ```gleam
 /// Devolve a soma 1 + 2 + ... + n.
-pub fn soma_nat(n: Int) -> Int {
+fn soma_nat(n: Int) -> Int {
   case n {
     _ if n <= 0 -> 0
     _ -> {
@@ -173,7 +174,7 @@ pub fn soma_nat(n: Int) -> Int {
 \footnotesize
 
 ```gleam
-pub fn soma_nat_examples() {
+fn soma_nat_examples() {
   check.eq(soma_nat(-1), 0)
   check.eq(soma_nat(0), 0)
   check.eq(soma_nat(1), 1)
@@ -193,7 +194,7 @@ pub fn soma_nat_examples() {
 
 ```gleam
 /// Devolve a soma 1 + 2 + ... + n.
-pub fn soma_nat(n: Int) -> Int {
+fn soma_nat(n: Int) -> Int {
   case n {
     _ if n <= 0 -> 0
     _ -> n + soma_nat(n - 1)
@@ -207,7 +208,7 @@ pub fn soma_nat(n: Int) -> Int {
 \footnotesize
 
 ```gleam
-pub fn soma_nat_examples() {
+fn soma_nat_examples() {
   check.eq(soma_nat(-1), 0)
   check.eq(soma_nat(0), 0)
   check.eq(soma_nat(1), 1)
@@ -233,7 +234,7 @@ Dado um número natural $n$, defina uma função que devolva `[1, 2, ..., n - 1,
 ```gleam
 /// Cria uma lista com os valores
 /// 1, 2, ..., n-1, n.
-pub fn lista_num(n: Int) -> List(Int) {
+fn lista_num(n: Int) -> List(Int) {
   []
 }
 ```
@@ -246,7 +247,7 @@ pub fn lista_num(n: Int) -> List(Int) {
 \footnotesize
 
 ```gleam
-pub fn lista_num_examples() {
+fn lista_num_examples() {
   check.eq(lista_num(-1), [])
   check.eq(lista_num(0), [])
   check.eq(lista_num(1), [1])
@@ -267,7 +268,7 @@ pub fn lista_num_examples() {
 ```gleam
 /// Cria uma lista com os valores
 /// 1, 2, ..., n-1, n.
-pub fn lista_num(n: Int) -> List(Int) {
+fn lista_num(n: Int) -> List(Int) {
   case n {
     _ if n < 0 -> todo
     0 -> todo
@@ -286,7 +287,7 @@ pub fn lista_num(n: Int) -> List(Int) {
 \footnotesize
 
 ```gleam
-pub fn lista_num_examples() {
+fn lista_num_examples() {
   check.eq(lista_num(-1), [])
   check.eq(lista_num(0), [])
   check.eq(lista_num(1), [1])
@@ -307,7 +308,7 @@ pub fn lista_num_examples() {
 ```gleam
 /// Cria uma lista com os valores
 /// 1, 2, ..., n-1, n.
-pub fn lista_num(n: Int) -> List(Int) {
+fn lista_num(n: Int) -> List(Int) {
   case n {
     _ if n <= 0 -> []
     _ -> {
@@ -325,7 +326,7 @@ pub fn lista_num(n: Int) -> List(Int) {
 \footnotesize
 
 ```gleam
-pub fn lista_num_examples() {
+fn lista_num_examples() {
   check.eq(lista_num(-1), [])
   check.eq(lista_num(0), [])
   check.eq(lista_num(1), [1])
@@ -346,7 +347,7 @@ pub fn lista_num_examples() {
 ```gleam
 /// Cria uma lista com os valores
 /// 1, 2, ..., n-1, n.
-pub fn lista_num(n: Int) -> List(Int) {
+fn lista_num(n: Int) -> List(Int) {
   case n {
     _ if n <= 0 -> []
     _ -> adiciona_fim(lista_num(n - 1), n)
@@ -360,7 +361,7 @@ pub fn lista_num(n: Int) -> List(Int) {
 \footnotesize
 
 ```gleam
-pub fn lista_num_examples() {
+fn lista_num_examples() {
   check.eq(lista_num(-1), [])
   check.eq(lista_num(0), [])
   check.eq(lista_num(1), [1])
@@ -380,7 +381,7 @@ pub fn lista_num_examples() {
 
 ```gleam
 /// Adiciona *n* ao final de *lst*.
-pub fn adiciona_fim(
+fn adiciona_fim(
   lst: List(Int),
   n: Int,
 ) -> List(Int) {
@@ -396,7 +397,7 @@ pub fn adiciona_fim(
 \footnotesize
 
 ```gleam
-pub fn adiciona_fim_examples() {
+fn adiciona_fim_examples() {
   check.eq(adiciona_fim([], 3), [3])
   check.eq(adiciona_fim([3], 4), [3, 4])
   check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
@@ -414,7 +415,7 @@ pub fn adiciona_fim_examples() {
 
 ```gleam
 /// Adiciona *n* ao final de *lst*.
-pub fn adiciona_fim(
+fn adiciona_fim(
   lst: List(Int),
   n: Int,
 ) -> List(Int) {
@@ -436,7 +437,7 @@ pub fn adiciona_fim(
 \footnotesize
 
 ```gleam
-pub fn adiciona_fim_examples() {
+fn adiciona_fim_examples() {
   check.eq(adiciona_fim([], 3), [3])
   check.eq(adiciona_fim([3], 4), [3, 4])
   check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
@@ -454,7 +455,7 @@ pub fn adiciona_fim_examples() {
 
 ```gleam
 /// Adiciona *n* ao final de *lst*.
-pub fn adiciona_fim(
+fn adiciona_fim(
   lst: List(Int),
   n: Int,
 ) -> List(Int) {
@@ -476,7 +477,7 @@ pub fn adiciona_fim(
 \footnotesize
 
 ```gleam
-pub fn adiciona_fim_examples() {
+fn adiciona_fim_examples() {
   check.eq(adiciona_fim([], 3), [3])
   check.eq(adiciona_fim([3], 4), [3, 4])
   check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
@@ -494,7 +495,7 @@ pub fn adiciona_fim_examples() {
 
 ```gleam
 /// Adiciona *n* ao final de *lst*.
-pub fn adiciona_fim(
+fn adiciona_fim(
   lst: List(Int),
   n: Int,
 ) -> List(Int) {
@@ -513,7 +514,44 @@ pub fn adiciona_fim(
 \footnotesize
 
 ```gleam
-pub fn adiciona_fim_examples() {
+fn adiciona_fim_examples() {
+  check.eq(adiciona_fim([], 3), [3])
+  check.eq(adiciona_fim([3], 4), [3, 4])
+  check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
+}
+```
+</div>
+</div>
+
+
+## Exemplo: adiciona fim {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Adiciona *n* ao final de *lst*.
+fn adiciona_fim(
+  lst: List(a),
+  n: a,
+) -> List(a) {
+  case lst {
+    [] -> [n]
+    [primeiro, ..resto] ->
+      [primeiro,
+       ..adiciona_fim(resto, n)]
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+fn adiciona_fim_examples() {
   check.eq(adiciona_fim([], 3), [3])
   check.eq(adiciona_fim([3], 4), [3, 4])
   check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
@@ -587,7 +625,7 @@ Como podemos definir uma árvore binária?
 ```
 
 
-## Árvores binárias
+## Árvores binárias {.t}
 
 <div class="columns">
 <div class="column" width="56%">
@@ -598,7 +636,7 @@ Uma **Árvore binária** é \pause
 
 - Vazia; ou \pause
 
-- Um nó contendo um número e **árvores binárias** a esquerda e a direita.
+- Um nó contendo um valor e **árvores binárias** a esquerda e a direita.
 
 \pause
 
@@ -607,9 +645,9 @@ Uma **Árvore binária** é \pause
 \ \
 
 ```gleam
-type Arvore {
+type Arvore(a) {
   Vazia
-  No(valor: Int, esq: Arvore, dir: Arvore)
+  No(valor: a, esq: Arvore(a), dir: Arvore(a))
 }
 ```
 
@@ -648,33 +686,30 @@ No(3,
 </div>
 
 
-## Árvores binárias
+## Árvores binárias {.t}
 
 <div class="columns">
 <div class="column" width="56%">
 
 \small
 
-Uma **Árvore binária** é \pause
+Uma **Árvore binária** é
 
-- Vazia; ou \pause
+- Vazia; ou
 
-- Um nó contendo um número e **árvores binárias** a esquerda e a direita.
+- Um nó contendo um valor e **árvores binárias** a esquerda e a direita.
 
-\pause
 
 \footnotesize
 
 \ \
 
 ```gleam
-type Arvore {
+type Arvore(a) {
   Vazia
-  No(valor: Int, esq: Arvore, dir: Arvore)
+  No(valor: a, esq: Arvore(a), dir: Arvore(a))
 }
 ```
-
-\pause
 
 </div>
 <div class="column" width="42%">
@@ -684,7 +719,7 @@ Modelo de função para árvores binárias
 \footnotesize
 
 ```gleam
-fn fn_para_ab(arv: Arvore) {
+fn fn_para_ab(arv: Arvore(a)) {
   case arv {
     Vazia -> todo
     No(valor, esq, dir) -> {
@@ -715,7 +750,7 @@ Projete uma função que determine a quantidade de nós folhas em uma árvore.
 ```gleam
 /// Determina o número de nós folhas
 /// de *avr*.
-fn num_folhas(arv: Arvore) -> Int {
+fn num_folhas(arv: Arvore(a)) -> Int {
   0
 }
 
@@ -729,7 +764,7 @@ fn num_folhas(arv: Arvore) -> Int {
 \scriptsize
 
 ```gleam
-pub fn num_folhas_examples() {
+fn num_folhas_examples() {
   //     t4  3
   //       /   \
   //  t3  4     7  t2
@@ -764,7 +799,7 @@ pub fn num_folhas_examples() {
 ```gleam
 /// Determina o número de nós folhas
 /// de *avr*.
-fn num_folhas(arv: Arvore) -> Int {
+fn num_folhas(arv: Arvore(a)) -> Int {
   case arv {
     Vazia -> todo
     No(valor, esq, dir) -> {
@@ -784,7 +819,7 @@ fn num_folhas(arv: Arvore) -> Int {
 \scriptsize
 
 ```gleam
-pub fn num_folhas_examples() {
+fn num_folhas_examples() {
   //     t4  3
   //       /   \
   //  t3  4     7  t2
@@ -819,7 +854,7 @@ pub fn num_folhas_examples() {
 ```gleam
 /// Determina o número de nós folhas
 /// de *avr*.
-fn num_folhas(arv: Arvore) -> Int {
+fn num_folhas(arv: Arvore(a)) -> Int {
   case arv {
     Vazia -> 0
     No(valor, esq, dir) -> {
@@ -839,7 +874,7 @@ fn num_folhas(arv: Arvore) -> Int {
 \scriptsize
 
 ```gleam
-pub fn num_folhas_examples() {
+fn num_folhas_examples() {
   //     t4  3
   //       /   \
   //  t3  4     7  t2
@@ -874,7 +909,7 @@ pub fn num_folhas_examples() {
 ```gleam
 /// Determina o número de nós folhas
 /// de *avr*.
-fn num_folhas(arv: Arvore) -> Int {
+fn num_folhas(arv: Arvore(a)) -> Int {
   case arv {
     Vazia -> 0
     No(_, esq, dir) ->
@@ -894,7 +929,7 @@ fn num_folhas(arv: Arvore) -> Int {
 \scriptsize
 
 ```gleam
-pub fn num_folhas_examples() {
+fn num_folhas_examples() {
   //     t4  3
   //       /   \
   //  t3  4     7  t2
@@ -929,7 +964,7 @@ pub fn num_folhas_examples() {
 ```gleam
 /// Determina o número de nós folhas
 /// de *avr*.
-fn num_folhas(arv: Arvore) -> Int {
+fn num_folhas(arv: Arvore(a)) -> Int {
   case arv {
     Vazia -> 0
     No(_, Vazia, Vazia) -> 1
@@ -946,7 +981,7 @@ fn num_folhas(arv: Arvore) -> Int {
 \scriptsize
 
 ```gleam
-pub fn num_folhas_examples() {
+fn num_folhas_examples() {
   //     t4  3
   //       /   \
   //  t3  4     7  t2
@@ -989,7 +1024,7 @@ Defina uma função que determina a altura de uma árvore binária. A altura de 
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
-fn altura(arv: Arvore) -> Int {
+fn altura(arv: Arvore(a)) -> Int {
   0
 }
 
@@ -1003,7 +1038,7 @@ fn altura(arv: Arvore) -> Int {
 \scriptsize
 
 ```gleam
-pub fn altura_examples() {
+fn altura_examples() {
   //     t4  3
   //       /   \
   //  t3  4     7  t2
@@ -1040,7 +1075,7 @@ pub fn altura_examples() {
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
-fn altura(arv: Arvore) -> Int {
+fn altura(arv: Arvore(a)) -> Int {
   case arv {
     Vazia -> todo
     No(valor, esq, dir) -> {
@@ -1060,7 +1095,7 @@ fn altura(arv: Arvore) -> Int {
 \scriptsize
 
 ```gleam
-pub fn altura_examples() {
+fn altura_examples() {
   //     t4  3
   //       /   \
   //  t3  4     7  t2
@@ -1097,7 +1132,7 @@ pub fn altura_examples() {
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
-fn altura(arv: Arvore) -> Int {
+fn altura(arv: Arvore(a)) -> Int {
   case arv {
     Vazia -> todo
     No(valor, esq, dir) ->
@@ -1114,7 +1149,7 @@ fn altura(arv: Arvore) -> Int {
 \scriptsize
 
 ```gleam
-pub fn altura_examples() {
+fn altura_examples() {
   //     t4  3
   //       /   \
   //  t3  4     7  t2
@@ -1152,7 +1187,7 @@ pub fn altura_examples() {
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0 e uma árvore vazia
 /// tem altura -1.
-fn altura(arv: Arvore) -> Int {
+fn altura(arv: Arvore(a)) -> Int {
   case arv {
     Vazia -> -1
     No(valor, esq, dir) ->
@@ -1168,7 +1203,7 @@ fn altura(arv: Arvore) -> Int {
 \scriptsize
 
 ```gleam
-pub fn altura_examples() {
+fn altura_examples() {
   //     t4  3
   //       /   \
   //  t3  4     7  t2
@@ -1206,7 +1241,7 @@ Projete um tipo de dado para representar um diretório ou arquivo em um sistema 
 
 </div>
 <div class="column" width="45%">
-\footnotesize
+\scriptsize
 
 ```
 disciplinas/
@@ -1658,16 +1693,17 @@ Como podemos utilizar essa função para determinar se um número $n$ é primo? 
 
 <div class="columns">
 <div class="column" width="55%">
-\footnotesize
+\scriptsize
 
 ```gleam
 /// Produz True se *n* é um número primo,
 /// isto é, tem exatamente dois divisores
 /// positivos distintos (1 e *n*).
 /// Produz False caso contrário.
-pub fn primo(n: Int) -> Bool {
+fn primo(n: Int) -> Bool {
   num_divisors(n, n) == 2
 }
+
 /// Calcula o número de divisores positivos
 /// de *n* que são menores ou iguais à *a*.
 fn num_divisors(n: Int, a: Int) -> Int {
@@ -1681,10 +1717,10 @@ fn num_divisors(n: Int, a: Int) -> Int {
 
 </div>
 <div class="column" width="40%">
-\footnotesize
+\scriptsize
 
 ```gleam
-pub fn primo_examples() {
+fn primo_examples() {
   check.eq(primo(1), False)
   check.eq(primo(2), True)
   check.eq(primo(3), True)
@@ -1715,7 +1751,7 @@ Se sabemos que uma lista `lst` sem o primeiro e o último elemento é palíndrom
 ```gleam
 /// Produz True se *lst* é palíndromo, isto é, tem os mesmos elementos quando lida
 /// da direita para esquerda e da esquerda para direita. Produz False caso contrário.
-pub fn palindromo(lst: List(Int)) -> Bool {
+fn palindromo(lst: List(Int)) -> Bool {
   case lst {
     [] | [_] -> True
     [primeiro, ..] ->
@@ -1723,7 +1759,7 @@ pub fn palindromo(lst: List(Int)) -> Bool {
   }
 }
 
-pub fn palindromo_examples() {
+fn palindromo_examples() {
   check.eq(palindromo([]), True)
   check.eq(palindromo([2]), True)
   check.eq(palindromo([1, 2]), False)
@@ -1765,11 +1801,11 @@ Note que para este caso precisaríamos projetar duas novas funções. Estas fun�
 ```gleam
 /// Produz True se *lst* é palíndromo, isto é, tem os mesmos elementos quando lida
 /// da direita para esquerda e da esquerda para direita. Produz False caso contrário.
-pub fn palindromo(lst: List(Int)) -> Bool {
+fn palindromo(lst: List(Int)) -> Bool {
   lst == list.reverse(lst)
 }
 
-pub fn palindromo2_examples() {
+fn palindromo2_examples() {
   check.eq(palindromo([]), True)
   check.eq(palindromo([2]), True)
   check.eq(palindromo([1, 2]), False)
@@ -1800,7 +1836,6 @@ Usamos tipos com autorreferências quando queremos representar dados de tamanhos
 Para ser bem formada, uma definição com autorreferência deve ter: \pause
 
 - Pelo menos um caso base (sem autorreferência): \pause são utilizados para criar os valores iniciais; \pause
-
 - Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes. \pause
 
 As vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência.
@@ -1811,15 +1846,12 @@ As vezes é interessante pensar em números inteiros e naturais como sendo compo
 Existem dois tipos de recursão: estrutural e generativa. \pause
 
 - A recursão estrutural é aquela feita na decomposição natural do dado (para as partes que são autorreferências na definição do dado). \pause
-
 - A recursão generativa é aquela que não é estrutural. \pause
 
 A recursão estrutural só pode ser utilizada quando a solução do problema pode ser expressa em termos da solução do subproblema estrutural. Para os demais problemas podemos tentar três abordagem: \pause
 
 - Alterar o problema e utilizar recursão estrutural; \pause
-
 - Usar recursão generativa; \pause
-
 - Usar um plano (sequência de etapas).
 
 

@@ -6,6 +6,7 @@ title: Projeto de funções
 # TODO: adicionar discução sobre apelidos de tipos
 # TODO: falar sobre comentários na implementação
 # TODO: adicionar revisão no final
+# TODO: usar todo para o corpo inicial
 ---
 
 ## Projeto de funções

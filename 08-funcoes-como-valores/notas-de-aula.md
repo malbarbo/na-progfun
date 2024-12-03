@@ -18,7 +18,7 @@ Introdução
 <!-- TODO: melhorar o agrupamento e os nomes das seções !-->
 <!-- TODO: dividir em mais de um módulo? !-->
 
-As principais características que vimos até agora do paradigma funcional foram \pause
+As principais características que vimos até agora do paradigma funcional foram: \pause
 
 - Ausência de mudança de estado; \pause
 
@@ -32,7 +32,7 @@ Veremos a seguir outra característica essencial do paradigma funcional.
 ## Introdução
 
 
-Funções como entidades de primeira classe (ou funções como valores) \pause
+As funções são **entidades de primeira classe** se: \pause
 
 - Podem ser usadas, sem restrições, onde outros valores podem ser usados (passado como parâmetro, retornado, armazenado em listas, etc); \pause
 
@@ -57,459 +57,568 @@ Como identificar a necessidade de utilizar funções como parâmetro? \pause
 
 Encontrando similaridades entre funções. \pause
 
-Vamos ver diversas funções e tentar identificar similaridades.
+Vamos ver diversas funções e tentar identificar similaridades. \pause
+
+Nos slides a seguir os exemplos estão foram da função `_examples` por economia de espaço.
 
 
-## Exemplo: contem-3? e contem-5?
+## Exemplo: contem_3 e contem_5
 
-Vamos fazer um exemplo simples. Vamos criar uma função que abstrai o comportamento das funções `contem-3?` e `contem-5?`.
+Vamos fazer um exemplo simples. Vamos criar uma função que abstrai o comportamento das funções `contem_3` e `contem_5`.
 
 
-## Exemplo: contem-3? e contem-5?
+## Exemplo: contem_3 e contem_5
 
 <div class="columns">
 <div class="column" width="50%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Boolean
-;; Devolve #t se 3 está em lst,
-;; #f caso contrário.
-(check-equal? (contem-3? (list 4 3 1)) #t)
-(define (contem-3? lst)
-  (cond
-    [(empty? lst) #f]
-    [(= 3 (first lst)) #t]
-    [else (contem-3? (rest lst))]))
+```gleam
+/// Devolve True se 3 está em *lst*,
+/// False caso contrário.
+fn contem_3(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == 3 || contem_3(resto)
+  }
+}
+check.eq(contem_3([4, 3, 1]), True)
 ```
 
 \pause
 
-```scheme
-
-;; Lista(Número) -> Boolean
-;; Devolve #t se 5 está em lst,
-;; #f caso contrário.
-(check-equal? (contem-5? (list 4 3 1)) #f)
-(define (contem-5? lst)
-  (cond
-    [(empty? lst) #f]
-    [(= 5 (first lst)) #t]
-    [else (contem-5? (rest lst))]))
+```gleam
+/// Devolve True se 5 está em *lst*,
+/// False caso contrário.
+fn contem_5(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == 5 || contem_3(resto)
+  }
+}
+check.eq(contem_5([4, 3, 1]), False)
 ```
+
 </div>
 <div class="column" width="50%">
 \pause
 
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-5?`. \pause
+Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`. \pause
 
-```scheme
-
-
+```gleam
 
 
 
-(define (contem? n lst)
-  (cond
-    [(empty? lst) #f]
-    [(= n (first lst)) #t]
-    [else (contem? n (rest lst))]))
+fn contem(lst: List(Int), n: Int) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == n || contem(resto, n)
+  }
+}
 ```
 </div>
 </div>
 
 
-## Exemplo: contem-3? e contem-5?
+## Exemplo: contem_3 e contem_5
 
 <div class="columns">
 <div class="column" width="50%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Boolean
-;; Devolve #t se 3 está em lst,
-;; #f caso contrário.
-(check-equal? (contem-3? (list 4 3 1)) #t)
-(define (contem-3? lst)
-  (cond
-    [(empty? lst) #f]
-    [(= 3 (first lst)) #t]
-    [else (contem-3? (rest lst))]))
-
-;; Lista(Número) -> Boolean
-;; Devolve #t se 5 está em lst,
-;; #f caso contrário.
-(check-equal? (contem-5? (list 4 3 1)) #f)
-(define (contem-5? lst)
-  (cond
-    [(empty? lst) #f]
-    [(= 5 (first lst)) #t]
-    [else (contem-5? (rest lst))]))
+```gleam
+/// Devolve True se 3 está em *lst*,
+/// False caso contrário.
+fn contem_3(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == 3 || contem_3(resto)
+  }
+}
+check.eq(contem_3([4, 3, 1]), True)
 ```
+
+```gleam
+/// Devolve True se 5 está em *lst*,
+/// False caso contrário.
+fn contem_5(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == 5 || contem_3(resto)
+  }
+}
+check.eq(contem_5([4, 3, 1]), False)
+```
+
 </div>
 <div class="column" width="50%">
+
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-5?`.
+Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
 
-```scheme
+```gleam
 
 
 
-(check-equal? (contem? 3 (list 4 3 1)) #t)
-(check-equal? (contem? 2 (list 4 3 1)) #f)
-(define (contem? n lst)
-  (cond
-    [(empty? lst) #f]
-    [(= n (first lst)) #t]
-    [else (contem? n (rest lst))]))
+fn contem(lst: List(Int), n: Int) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == n || contem(resto, n)
+  }
+}
+
+check.eq(contem_3([4, 3, 1]), True)
+check.eq(contem_5([4, 3, 1]), False)
 ```
 </div>
 </div>
 
 
-## Exemplo: contem-3? e contem-5?
+## Exemplo: contem_3 e contem_5
 
 <div class="columns">
 <div class="column" width="50%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Boolean
-;; Devolve #t se 3 está em lst,
-;; #f caso contrário.
-(check-equal? (contem-3? (list 4 3 1)) #t)
-(define (contem-3? lst)
-  (cond
-    [(empty? lst) #f]
-    [(= 3 (first lst)) #t]
-    [else (contem-3? (rest lst))]))
-
-;; Lista(Número) -> Boolean
-;; Devolve #t se 5 está em lst,
-;; #f caso contrário.
-(check-equal? (contem-5? (list 4 3 1)) #f)
-(define (contem-5? lst)
-  (cond
-    [(empty? lst) #f]
-    [(= 5 (first lst)) #t]
-    [else (contem-5? (rest lst))]))
+```gleam
+/// Devolve True se 3 está em *lst*,
+/// False caso contrário.
+fn contem_3(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == 3 || contem_3(resto)
+  }
+}
+check.eq(contem_3([4, 3, 1]), True)
 ```
+
+```gleam
+/// Devolve True se 5 está em *lst*,
+/// False caso contrário.
+fn contem_5(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == 5 || contem_3(resto)
+  }
+}
+check.eq(contem_5([4, 3, 1]), False)
+```
+
 </div>
 <div class="column" width="50%">
+
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-5?`.
+Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
 
-```scheme
-;; Número Lista(Número) -> Boolean
-;; Devolve #t se n está em lst,
-;; #f caso contrário.
-(check-equal? (contem? 3 (list 4 3 1)) #t)
-(check-equal? (contem? 2 (list 4 3 1)) #f)
-(define (contem? n lst)
-  (cond
-    [(empty? lst) #f]
-    [(= n (first lst)) #t]
-    [else (contem? n (rest lst))]))
+```gleam
+
+/// Devolve True se *n* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(Int), n: Int) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == n || contem(resto, n)
+  }
+}
+
+check.eq(contem_3([4, 3, 1]), True)
+check.eq(contem_5([4, 3, 1]), False)
 ```
 </div>
 </div>
 
 
-## Exemplo: contem-3? e contem-5?
+## Exemplo: contem_3 e contem_5
 
 <div class="columns">
 <div class="column" width="50%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Boolean
-;; Devolve #t se 3 está em lst,
-;; #f caso contrário.
-(check-equal? (contem-3? (list 4 3 1)) #t)
-(define (contem-3? lst)
-  (contem? 3 lst))
+```gleam
+/// Devolve True se 3 está em *lst*,
+/// False caso contrário.
+fn contem_3(lst: List(Int)) -> Bool {
+  contem(lst, 3)
 
 
 
 
-;; Lista(Número) -> Boolean
-;; Devolve #t se 5 está em lst,
-;; #f caso contrário.
-(check-equal? (contem-5? (list 4 3 1)) #f)
-(define (contem-5? lst)
-  (contem? 5 lst))
-
-
-
-
+}
+check.eq(contem_3([4, 3, 1]), True)
 ```
+
+```gleam
+/// Devolve True se 5 está em *lst*,
+/// False caso contrário.
+fn contem_5(lst: List(Int)) -> Bool {
+  contem(lst, 5)
+
+
+
+
+}
+check.eq(contem_5([4, 3, 1]), False)
+```
+
 </div>
 <div class="column" width="50%">
+
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem-3?` e `contem-5?`.
+Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
 
-```scheme
-;; Número Lista(Número) -> Boolean
-;; Devolve #t se n está em lst,
-;; #f caso contrário.
-(check-equal? (contem? 3 (list 4 3 1)) #t)
-(check-equal? (contem? 2 (list 4 3 1)) #f)
-(define (contem? n lst)
-  (cond
-    [(empty? lst) #f]
-    [(= n (first lst)) #t]
-    [else (contem? n (rest lst))]))
+```gleam
+
+/// Devolve True se *n* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(Int), n: Int) -> Bool {
+  case lst {
+    [] -> false
+    [primeiro, ..resto] ->
+      primeiro == n || contem(resto, n)
+  }
+}
+
+check.eq(contem_3([4, 3, 1]), True)
+check.eq(contem_5([4, 3, 1]), False)
 ```
 </div>
 </div>
+
+
 
 
 ## Receita para criar abstração a partir de exemplos
 
-1. Identificar funções com corpo semelhante
-
-    - Identificar o que muda
-
-    - Criar parâmetros para o que muda
-
+1. Identificar funções com corpo semelhante pause \pause
+    - Identificar o que muda \pause
+    - Criar parâmetros para o que muda \pause
     - Copiar o corpo e substituir o que muda pelos parâmetros criados \pause
-
-2. Escrever os exemplos
-
+2. Escrever os exemplos \pause
     - Reutilizar os exemplos das funções existentes \pause
-
 3. Escrever o propósito \pause
-
 4. Escrever a assinatura \pause
-
 5. Reescrever o código da funções iniciais em termos da nova função
 
 
-## Exemplo: `lista-quadrado` e `lista-soma1`
+## Exemplo: `lista_quadrado` e `lista_string`
 
-Vamos criar uma função que abstrai o comportamento das funções `lista-quadrado` e `lista-soma1`.
+Vamos criar uma função que abstrai o comportamento das funções `lista_quadrado` e `lista_string`.
 
 
-## Exemplo: `lista-quadrado` e `lista-soma1`
+## Exemplo: `lista_quadrado` e `lista_string`
 
 <div class="columns">
-<div class="column" width="53%">
+<div class="column" width="55%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com cada número de lst
-;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4 3))
-              (list 16 9))
-(define (lista-quadrado lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (sqr (first lst))
-                (lista-quadrado (rest lst)))]))
+```gleam
+/// Eleva cada elemento de *lst* ao quadrado.
+fn lista_quadrado(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [int.square_root(primeiro),
+         ..lista_quadrado(resto)]
+  }
+}
+check.eq(lista_quadrado([4, 3]), [16, 9])
 ```
 
 \pause
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com cada número de lst
-;; somado de 1.
-(check-equal? (lista-soma1 (list 7 9 1))
-              (list 8 10 2)))
-(define (lista-soma1 lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (add1 (first lst))
-                (lista-soma1 (rest lst)))]))
+```gleam
+/// Transforma cada elemento de *lst* em string.
+fn lista_string(lst: List(Float)) -> List(String) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [float.to_string(primeiro),
+         ..lista_string(resto)]
+  }
+}
+check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 ```
+
 </div>
-<div class="column" width="47%">
+<div class="column" width="40%">
 \scriptsize
 
 \pause
 
-```scheme
+```gleam
 
 
 
 
 
-
-
-
-
-(define (mapeia f lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (f (first lst))
-                (mapeia f (rest lst)))]))
+fn mapeia(lst, f) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [f(primeiro), ..mapeia(resto)]
+  }
+}
 ```
 </div>
 </div>
 
 
-## Exemplo: `lista-quadrado` e `lista-soma1`
+## Exemplo: `lista_quadrado` e `lista_string`
 
 <div class="columns">
-<div class="column" width="53%">
+<div class="column" width="55%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com cada número de lst
-;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4 3))
-              (list 16 9))
-(define (lista-quadrado lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (sqr (first lst))
-                (lista-quadrado (rest lst)))]))
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com cada número de lst
-;; somado de 1.
-(check-equal? (lista-soma1 (list 7 9 1))
-              (list 8 10 2)))
-(define (lista-soma1 lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (add1 (first lst))
-                (lista-soma1 (rest lst)))]))
+```gleam
+/// Eleva cada elemento de *lst* ao quadrado.
+fn lista_quadrado(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [int.square_root(primeiro),
+         ..lista_quadrado(resto)]
+  }
+}
+check.eq(lista_quadrado([4, 3]), [16, 9])
 ```
+
+```gleam
+/// Transforma cada elemento de *lst* em string.
+fn lista_string(lst: List(Float)) -> List(String) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [float.to_string(primeiro),
+         ..lista_string(resto)]
+  }
+}
+check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
+```
+
 </div>
-<div class="column" width="47%">
+<div class="column" width="40%">
 \scriptsize
 
-```scheme
+```gleam
 
 
 
 
 
-(check-equal? (mapeia sqr (list 4 3))
-              (list 16 9))
-(check-equal? (mapeia add1 (list 7 9 1))
-              (list 8 10 2)))
-(define (mapeia f lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (f (first lst))
-                (mapeia f (rest lst)))]))
+fn mapeia(lst, f) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [f(primeiro), ..mapeia(resto)]
+  }
+}
+
+check.eq(
+  mapeia([4, 3], int.square_root),
+  [16, 9])
+check.eq(
+  mapeia([3.0, 7.0], float.to_string),
+  ["3.0", "7.0"])
 ```
 </div>
 </div>
 
 
-## Exemplo: `lista-quadrado` e `lista-soma1`
+## Exemplo: `lista_quadrado` e `lista_string`
 
 <div class="columns">
-<div class="column" width="53%">
+<div class="column" width="55%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com cada número de lst
-;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4 3))
-              (list 16 9))
-(define (lista-quadrado lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (sqr (first lst))
-                (lista-quadrado (rest lst)))]))
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com cada número de lst
-;; somado de 1.
-(check-equal? (lista-soma1 (list 7 9 1))
-              (list 8 10 2)))
-(define (lista-soma1 lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (add1 (first lst))
-                (lista-soma1 (rest lst)))]))
+```gleam
+/// Eleva cada elemento de *lst* ao quadrado.
+fn lista_quadrado(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [int.square_root(primeiro),
+         ..lista_quadrado(resto)]
+  }
+}
+check.eq(lista_quadrado([4, 3]), [16, 9])
 ```
+
+```gleam
+/// Transforma cada elemento de *lst* em string.
+fn lista_string(lst: List(Float)) -> List(String) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [float.to_string(primeiro),
+         ..lista_string(resto)]
+  }
+}
+check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
+```
+
 </div>
-<div class="column" width="47%">
+<div class="column" width="40%">
 \scriptsize
 
-```scheme
-;; (Num -> Num) Lista(Num) -> Lista(Num)
-;; Devolve uma lista aplicando f a cada
-;; elemento de lst, isto é
-;; (mapeia f (lista x1 x2 ... xn)) devolve
-;; (lista (f x1) (f x2) ... (f xn))
-(check-equal? (mapeia sqr (list 4 3))
-              (list 16 9))
-(check-equal? (mapeia add1 (list 7 9 1))
-              (list 8 10 2)))
-(define (mapeia f lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (f (first lst))
-                (mapeia f (rest lst)))]))
+```gleam
+
+
+fn mapeia(
+  lst: List(a),
+  f: fn(a) -> b,
+) -> List(b) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [f(primeiro), ..mapeia(resto)]
+  }
+}
+
+check.eq(
+  mapeia([4, 3], int.square_root),
+  [16, 9])
+check.eq(
+  mapeia([3.0, 7.0], float.to_string),
+  ["3.0", "7.0"])
 ```
 </div>
 </div>
 
 
-## Exemplo: `lista-quadrado` e `lista-soma1`
+## Exemplo: `lista_quadrado` e `lista_string`
 
 <div class="columns">
-<div class="column" width="53%">
+<div class="column" width="55%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com cada número de lst
-;; elevado ao quadrado.
-(check-equal? (lista-quadrado (list 4 3))
-              (list 16 9))
-(define (lista-quadrado lst)
-    (mapeia sqr lst))
-
-
-
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com cada número de lst
-;; somado de 1.
-(check-equal? (lista-soma1 (list 7 9 1))
-              (list 8 10 2)))
-(define (lista-soma1 lst)
-    (mapeia add1 lst))
-
-
-
-
+```gleam
+/// Eleva cada elemento de *lst* ao quadrado.
+fn lista_quadrado(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [int.square_root(primeiro),
+         ..lista_quadrado(resto)]
+  }
+}
+check.eq(lista_quadrado([4, 3]), [16, 9])
 ```
+
+```gleam
+/// Transforma cada elemento de *lst* em string.
+fn lista_string(lst: List(Float)) -> List(String) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [float.to_string(primeiro),
+         ..lista_string(resto)]
+  }
+}
+check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
+```
+
 </div>
-<div class="column" width="47%">
+<div class="column" width="40%">
 \scriptsize
 
-```scheme
-;; (Num -> Num) Lista(Num) -> Lista(Num)
-;; Devolve uma lista aplicando f a cada
-;; elemento de lst, isto é
-;; (mapeia f (lista x1 x2 ... xn)) devolve
-;; (lista (f x1) (f x2) ... (f xn))
-(check-equal? (mapeia sqr (list 4 3))
-              (list 16 9))
-(check-equal? (mapeia add1 (list 7 9 1))
-              (list 8 10 2)))
-(define (mapeia f lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (f (first lst))
-                (mapeia f (rest lst)))]))
+```gleam
+
+/// Aplica *f* a cada elemento de *lst*
+fn mapeia(
+  lst: List(a),
+  f: fn(a) -> b,
+) -> List(b) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [f(primeiro), ..mapeia(resto)]
+  }
+}
+
+check.eq(
+  mapeia([4, 3], int.square_root),
+  [16, 9])
+check.eq(
+  mapeia([3.0, 7.0], float.to_string),
+  ["3.0", "7.0"])
 ```
 </div>
 </div>
 
+
+## Exemplo: `lista_quadrado` e `lista_string`
+
+<div class="columns">
+<div class="column" width="55%">
+\scriptsize
+
+```gleam
+/// Eleva cada elemento de *lst* ao quadrado.
+fn lista_quadrado(lst: List(Int)) -> List(Int) {
+  mapeia(lst, int.square_root)
+
+
+
+
+
+}
+check.eq(lista_quadrado([4, 3]), [16, 9])
+```
+
+```gleam
+/// Transforma cada elemento de *lst* em string.
+fn lista_string(lst: List(Float)) -> List(String) {
+  mapeia(lst, float.to_string)
+
+
+
+
+
+}
+check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
+```
+
+</div>
+<div class="column" width="40%">
+\scriptsize
+
+```gleam
+
+/// Aplica *f* a cada elemento de *lst*
+fn mapeia(
+  lst: List(a),
+  f: fn(a) -> b,
+) -> List(b) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [f(primeiro), ..mapeia(resto)]
+  }
+}
+
+check.eq(
+  mapeia([4, 3], int.square_root),
+  [16, 9])
+check.eq(
+  mapeia([3.0, 7.0], float.to_string),
+  ["3.0", "7.0"])
+```
+</div>
+</div>
 
 
 map

@@ -78,7 +78,7 @@ Vamos fazer um exemplo simples. Vamos criar uma função que abstrai o comportam
 /// False caso contrário.
 fn contem_3(lst: List(Int)) -> Bool {
   case lst {
-    [] -> false
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == 3 || contem_3(resto)
   }
@@ -93,7 +93,7 @@ check.eq(contem_3([4, 3, 1]), True)
 /// False caso contrário.
 fn contem_5(lst: List(Int)) -> Bool {
   case lst {
-    [] -> false
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == 5 || contem_3(resto)
   }
@@ -113,9 +113,9 @@ Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5
 
 
 
-fn contem(lst: List(Int), n: Int) -> Bool {
+fn contem(lst, n) {
   case lst {
-    [] -> false
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == n || contem(resto, n)
   }
@@ -136,7 +136,7 @@ fn contem(lst: List(Int), n: Int) -> Bool {
 /// False caso contrário.
 fn contem_3(lst: List(Int)) -> Bool {
   case lst {
-    [] -> false
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == 3 || contem_3(resto)
   }
@@ -149,7 +149,7 @@ check.eq(contem_3([4, 3, 1]), True)
 /// False caso contrário.
 fn contem_5(lst: List(Int)) -> Bool {
   case lst {
-    [] -> false
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == 5 || contem_3(resto)
   }
@@ -168,16 +168,16 @@ Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5
 
 
 
-fn contem(lst: List(Int), n: Int) -> Bool {
+fn contem(lst, n) {
   case lst {
-    [] -> false
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == n || contem(resto, n)
   }
 }
 
-check.eq(contem_3([4, 3, 1]), True)
-check.eq(contem_5([4, 3, 1]), False)
+check.eq(contem([4, 3, 1], 3), True)
+check.eq(contem([4, 3, 1], 5), False)
 ```
 </div>
 </div>
@@ -194,7 +194,7 @@ check.eq(contem_5([4, 3, 1]), False)
 /// False caso contrário.
 fn contem_3(lst: List(Int)) -> Bool {
   case lst {
-    [] -> false
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == 3 || contem_3(resto)
   }
@@ -207,7 +207,65 @@ check.eq(contem_3([4, 3, 1]), True)
 /// False caso contrário.
 fn contem_5(lst: List(Int)) -> Bool {
   case lst {
-    [] -> false
+    [] -> False
+    [primeiro, ..resto] ->
+      primeiro == 5 || contem_3(resto)
+  }
+}
+check.eq(contem_5([4, 3, 1]), False)
+```
+
+</div>
+<div class="column" width="50%">
+
+\scriptsize
+
+Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
+
+```gleam
+
+/// Devolve True se *n* está em *lst*,
+/// False caso contrário.
+fn contem(lst, n) {
+  case lst {
+    [] -> False
+    [primeiro, ..resto] ->
+      primeiro == n || contem(resto, n)
+  }
+}
+
+check.eq(contem([4, 3, 1], 3), True)
+check.eq(contem([4, 3, 1], 5), False)
+```
+</div>
+</div>
+
+
+## Exemplo: contem_3 e contem_5
+
+<div class="columns">
+<div class="column" width="50%">
+\scriptsize
+
+```gleam
+/// Devolve True se 3 está em *lst*,
+/// False caso contrário.
+fn contem_3(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> False
+    [primeiro, ..resto] ->
+      primeiro == 3 || contem_3(resto)
+  }
+}
+check.eq(contem_3([4, 3, 1]), True)
+```
+
+```gleam
+/// Devolve True se 5 está em *lst*,
+/// False caso contrário.
+fn contem_5(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == 5 || contem_3(resto)
   }
@@ -228,14 +286,14 @@ Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5
 /// False caso contrário.
 fn contem(lst: List(Int), n: Int) -> Bool {
   case lst {
-    [] -> false
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == n || contem(resto, n)
   }
 }
 
-check.eq(contem_3([4, 3, 1]), True)
-check.eq(contem_5([4, 3, 1]), False)
+check.eq(contem([4, 3, 1], 3), True)
+check.eq(contem([4, 3, 1], 5), False)
 ```
 </div>
 </div>
@@ -252,11 +310,11 @@ check.eq(contem_5([4, 3, 1]), False)
 /// False caso contrário.
 fn contem_3(lst: List(Int)) -> Bool {
   contem(lst, 3)
-
-
-
-
 }
+
+
+
+
 check.eq(contem_3([4, 3, 1]), True)
 ```
 
@@ -265,11 +323,11 @@ check.eq(contem_3([4, 3, 1]), True)
 /// False caso contrário.
 fn contem_5(lst: List(Int)) -> Bool {
   contem(lst, 5)
-
-
-
-
 }
+
+
+
+
 check.eq(contem_5([4, 3, 1]), False)
 ```
 
@@ -286,19 +344,17 @@ Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5
 /// False caso contrário.
 fn contem(lst: List(Int), n: Int) -> Bool {
   case lst {
-    [] -> false
+    [] -> False
     [primeiro, ..resto] ->
       primeiro == n || contem(resto, n)
   }
 }
 
-check.eq(contem_3([4, 3, 1]), True)
-check.eq(contem_5([4, 3, 1]), False)
+check.eq(contem([4, 3, 1], 3), True)
+check.eq(contem([4, 3, 1], 5), False)
 ```
 </div>
 </div>
-
-
 
 
 ## Receita para criar abstração a partir de exemplos
@@ -314,12 +370,12 @@ check.eq(contem_5([4, 3, 1]), False)
 5. Reescrever o código da funções iniciais em termos da nova função
 
 
-## Exemplo: `lista_quadrado` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string`
 
-Vamos criar uma função que abstrai o comportamento das funções `lista_quadrado` e `lista_string`.
+Vamos criar uma função que abstrai o comportamento das funções `lista_nega` e `lista_string`.
 
 
-## Exemplo: `lista_quadrado` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string`
 
 <div class="columns">
 <div class="column" width="55%">
@@ -327,15 +383,15 @@ Vamos criar uma função que abstrai o comportamento das funções `lista_quadra
 
 ```gleam
 /// Eleva cada elemento de *lst* ao quadrado.
-fn lista_quadrado(lst: List(Int)) -> List(Int) {
+fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] ->
-      [int.square_root(primeiro),
-         ..lista_quadrado(resto)]
+      [int.negate(primeiro),
+         ..lista_nega(resto)]
   }
 }
-check.eq(lista_quadrado([4, 3]), [16, 9])
+check.eq(lista_nega([4, 3]), [-4, -3])
 ```
 
 \pause
@@ -377,7 +433,7 @@ fn mapeia(lst, f) {
 </div>
 
 
-## Exemplo: `lista_quadrado` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string`
 
 <div class="columns">
 <div class="column" width="55%">
@@ -385,15 +441,15 @@ fn mapeia(lst, f) {
 
 ```gleam
 /// Eleva cada elemento de *lst* ao quadrado.
-fn lista_quadrado(lst: List(Int)) -> List(Int) {
+fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] ->
-      [int.square_root(primeiro),
-         ..lista_quadrado(resto)]
+      [int.negate(primeiro),
+         ..lista_nega(resto)]
   }
 }
-check.eq(lista_quadrado([4, 3]), [16, 9])
+check.eq(lista_nega([4, 3]), [-4, -3])
 ```
 
 ```gleam
@@ -428,8 +484,8 @@ fn mapeia(lst, f) {
 }
 
 check.eq(
-  mapeia([4, 3], int.square_root),
-  [16, 9])
+  mapeia([4, 3], int.negate),
+  [-4, -3])
 check.eq(
   mapeia([3.0, 7.0], float.to_string),
   ["3.0", "7.0"])
@@ -438,7 +494,7 @@ check.eq(
 </div>
 
 
-## Exemplo: `lista_quadrado` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string`
 
 <div class="columns">
 <div class="column" width="55%">
@@ -446,15 +502,15 @@ check.eq(
 
 ```gleam
 /// Eleva cada elemento de *lst* ao quadrado.
-fn lista_quadrado(lst: List(Int)) -> List(Int) {
+fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] ->
-      [int.square_root(primeiro),
-         ..lista_quadrado(resto)]
+      [int.negate(primeiro),
+         ..lista_nega(resto)]
   }
 }
-check.eq(lista_quadrado([4, 3]), [16, 9])
+check.eq(lista_nega([4, 3]), [-4, -3])
 ```
 
 ```gleam
@@ -477,10 +533,10 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 ```gleam
 
 
-fn mapeia(
-  lst: List(a),
-  f: fn(a) -> b,
-) -> List(b) {
+
+
+/// Aplica *f* a cada elemento de *lst*
+fn mapeia(lst, f) {
   case lst {
     [] -> []
     [primeiro, ..resto] ->
@@ -489,8 +545,8 @@ fn mapeia(
 }
 
 check.eq(
-  mapeia([4, 3], int.square_root),
-  [16, 9])
+  mapeia([4, 3], int.negate),
+  [-4, -3])
 check.eq(
   mapeia([3.0, 7.0], float.to_string),
   ["3.0", "7.0"])
@@ -499,7 +555,7 @@ check.eq(
 </div>
 
 
-## Exemplo: `lista_quadrado` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string`
 
 <div class="columns">
 <div class="column" width="55%">
@@ -507,15 +563,15 @@ check.eq(
 
 ```gleam
 /// Eleva cada elemento de *lst* ao quadrado.
-fn lista_quadrado(lst: List(Int)) -> List(Int) {
+fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] ->
-      [int.square_root(primeiro),
-         ..lista_quadrado(resto)]
+      [int.negate(primeiro),
+         ..lista_nega(resto)]
   }
 }
-check.eq(lista_quadrado([4, 3]), [16, 9])
+check.eq(lista_nega([4, 3]), [-4, -3])
 ```
 
 ```gleam
@@ -550,8 +606,8 @@ fn mapeia(
 }
 
 check.eq(
-  mapeia([4, 3], int.square_root),
-  [16, 9])
+  mapeia([4, 3], int.negate),
+  [-4, -3])
 check.eq(
   mapeia([3.0, 7.0], float.to_string),
   ["3.0", "7.0"])
@@ -560,7 +616,7 @@ check.eq(
 </div>
 
 
-## Exemplo: `lista_quadrado` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string`
 
 <div class="columns">
 <div class="column" width="55%">
@@ -568,27 +624,27 @@ check.eq(
 
 ```gleam
 /// Eleva cada elemento de *lst* ao quadrado.
-fn lista_quadrado(lst: List(Int)) -> List(Int) {
-  mapeia(lst, int.square_root)
-
-
-
-
-
+fn lista_nega(lst: List(Int)) -> List(Int) {
+  mapeia(lst, int.negate)
 }
-check.eq(lista_quadrado([4, 3]), [16, 9])
+
+
+
+
+
+check.eq(lista_nega([4, 3]), [-4, -3])
 ```
 
 ```gleam
 /// Transforma cada elemento de *lst* em string.
 fn lista_string(lst: List(Float)) -> List(String) {
   mapeia(lst, float.to_string)
-
-
-
-
-
 }
+
+
+
+
+
 check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 ```
 
@@ -611,8 +667,8 @@ fn mapeia(
 }
 
 check.eq(
-  mapeia([4, 3], int.square_root),
-  [16, 9])
+  mapeia([4, 3], int.negate),
+  [-4, -3])
 check.eq(
   mapeia([3.0, 7.0], float.to_string),
   ["3.0", "7.0"])

@@ -795,13 +795,67 @@ fn lista_get(
   k: Int,
 ) -> Result(a, Nil) {
   case lst, k {
-    [], 0 -> todo
-    [], _ if k > 0 -> { todo k }
+    [], 0 -> Error(Nil)
+    [], _ if k > 0 -> Error(Nil)
+    [p, ..resto], 0 -> { todo p resto }
+    [p, ..resto], _ if k > 0 -> {
+      todo p lista_get(resto, k - 1)
+    }
+    _, _ -> Error(Nil)
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+fn lista_get_examples() {
+  // [], 0
+  check.eq(lista_get([], 0), Error(Nil))
+  // [], > 0
+  check.eq(lista_get([], 2), Error(Nil))
+  // [_, ..], 0
+  check.eq(lista_get([3, 2, 8], 0), Ok(3))
+  // [_, ..], > 0
+  check.eq(lista_get([3, 2, 8, 10], 2), Ok(8))
+  check.eq(lista_get([3, 2, 8, 10], 4), Error(Nil))
+  // [], < 0
+  check.eq(lista_get([], -1), Error(Nil))
+  // [_, ..], < 0
+  check.eq(lista_get([1, 2], -3), Error(Nil))
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo: $k$-ésimo {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve o elemento na posição *i* de *lst*
+/// (indexado a partir de 0). Devolve Error(Nil)
+/// se *i* é negativo ou é maior igual a
+/// quantidade de elemento de *lst*.
+fn lista_get(
+  lst: List(a),
+  k: Int,
+) -> Result(a, Nil) {
+  case lst, k {
+    [], 0 -> Error(Nil)
+    [], _ if k > 0 -> Error(Nil)
     [p, ..], 0 -> Ok(p)
     [_, ..resto], _ if k > 0 -> {
       lista_get(resto, k - 1)
     }
-    _, _ -> todo
+    _, _ -> Error(Nil)
   }
 }
 ```

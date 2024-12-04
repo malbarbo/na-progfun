@@ -1,12 +1,12 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-# TODO: explicar como a anotação de tipo de função funciona
+title: Funções como valores
 # TODO: explicitar que existe uma "algebra" de funções (assim como uma algebra de número, strings, etc)
 # TODO: rever referências
 # TODO: remover seção de funções com número variado de parâmetros?
-# TODO: falar de curring antes da nega. Analogia com outras linguagens soma(10, 20) vs soma(10)(20).
-
-title: Funções como valores
+# TODO: mudar contem_5 para contem "a"?
+# TODO: melhorar o agrupamento e os nomes das seções
+# TODO: dividir em mais de um módulo?
 ---
 
 Introdução
@@ -15,35 +15,36 @@ Introdução
 
 ## Introdução
 
-<!-- TODO: melhorar o agrupamento e os nomes das seções !-->
-<!-- TODO: dividir em mais de um módulo? !-->
-
 As principais características que vimos até agora do paradigma funcional foram: \pause
 
-- Ausência de mudança de estado; \pause
+- Ausência de efeitos colaterais; \pause
 
 - Tipos algébricos e autorreferências; \pause
 
 - Recursão como forma de especificar iteração. \pause
 
-Veremos a seguir outra característica essencial do paradigma funcional.
+Veremos a seguir outra característica essencial do paradigma funcional: funções como valores.
 
 
 ## Introdução
 
 
-As funções são **entidades de primeira classe** se: \pause
+Funções são **entidades de primeira classe** se: \pause
 
 - Podem ser usadas, sem restrições, onde outros valores podem ser usados (passado como parâmetro, retornado, armazenado em listas, etc); \pause
 
 - Podem ser construídas, sem restrições, onde outros valores também podem (localmente, em expressões, etc); \pause
 
-- Podem ser "tipadas" de forma similar a outro valores, ou seja, existe um tipo associado com cada função e esse tipo pode ser usado para compor outro tipos.
+- Podem ser tipadas de forma similar a outro valores (existe um tipo associado com cada função e esse tipo pode ser usado para compor outro tipos).
 
 
 ## Introdução
 
-Uma **função de alta ordem** é aquela que recebe como parâmetro uma função ou produz uma função com resultado.
+Uma **função de alta ordem** é aquela que:
+
+- Recebe como entrada uma ou mais funções; e/ou
+
+- Produz como saída uma ou mais função com resultado.
 
 
 
@@ -59,18 +60,20 @@ Encontrando similaridades entre funções. \pause
 
 Vamos ver diversas funções e tentar identificar similaridades. \pause
 
-Nos slides a seguir os exemplos estão foram da função `_examples` por economia de espaço.
+Por questões de espaço, no restante desse material, usamos `p` para primeiro e `r` para `resto` e colocamos os exemplos fora de funções `_examples`.
 
 
-## Exemplo: contem_3 e contem_5
+## Exemplo: `contem_3` e `contem_5`
 
-Vamos fazer um exemplo simples. Vamos criar uma função que abstrai o comportamento das funções `contem_3` e `contem_5`.
+Vamos começar com um exemplo simples. \pause
+
+Vamos criar uma função que abstrai o comportamento das funções `contem_3` e `contem_5`.
 
 
-## Exemplo: contem_3 e contem_5
+## Exemplo: `contem_3` e `contem_5`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
 ```gleam
@@ -79,12 +82,13 @@ Vamos fazer um exemplo simples. Vamos criar uma função que abstrai o comportam
 fn contem_3(lst: List(Int)) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == 3 || contem_3(resto)
+    [p, ..r] -> p == 3 || contem_3(r)
   }
 }
 check.eq(contem_3([4, 3, 1]), True)
 ```
+
+\ \
 
 \pause
 
@@ -94,15 +98,14 @@ check.eq(contem_3([4, 3, 1]), True)
 fn contem_5(lst: List(Int)) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == 5 || contem_3(resto)
+    [p, ..r] -> p == 5 || contem_5(r)
   }
 }
 check.eq(contem_5([4, 3, 1]), False)
 ```
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 \pause
 
 \scriptsize
@@ -116,8 +119,7 @@ Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5
 fn contem(lst, n) {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == n || contem(resto, n)
+    [p, ..r] -> p == n || contem(r, n)
   }
 }
 ```
@@ -125,10 +127,10 @@ fn contem(lst, n) {
 </div>
 
 
-## Exemplo: contem_3 e contem_5
+## Exemplo: `contem_3` e `contem_5`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
 ```gleam
@@ -137,12 +139,13 @@ fn contem(lst, n) {
 fn contem_3(lst: List(Int)) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == 3 || contem_3(resto)
+    [p, ..r] -> p == 3 || contem_3(r)
   }
 }
 check.eq(contem_3([4, 3, 1]), True)
 ```
+
+\ \
 
 ```gleam
 /// Devolve True se 5 está em *lst*,
@@ -150,15 +153,14 @@ check.eq(contem_3([4, 3, 1]), True)
 fn contem_5(lst: List(Int)) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == 5 || contem_3(resto)
+    [p, ..r] -> p == 5 || contem_5(r)
   }
 }
 check.eq(contem_5([4, 3, 1]), False)
 ```
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 
 \scriptsize
 
@@ -171,8 +173,7 @@ Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5
 fn contem(lst, n) {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == n || contem(resto, n)
+    [p, ..r] -> p == n || contem(r, n)
   }
 }
 
@@ -183,10 +184,10 @@ check.eq(contem([4, 3, 1], 5), False)
 </div>
 
 
-## Exemplo: contem_3 e contem_5
+## Exemplo: `contem_3` e `contem_5`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
 ```gleam
@@ -195,12 +196,13 @@ check.eq(contem([4, 3, 1], 5), False)
 fn contem_3(lst: List(Int)) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == 3 || contem_3(resto)
+    [p, ..r] -> p == 3 || contem_3(r)
   }
 }
 check.eq(contem_3([4, 3, 1]), True)
 ```
+
+\ \
 
 ```gleam
 /// Devolve True se 5 está em *lst*,
@@ -208,15 +210,14 @@ check.eq(contem_3([4, 3, 1]), True)
 fn contem_5(lst: List(Int)) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == 5 || contem_3(resto)
+    [p, ..r] -> p == 5 || contem_5(r)
   }
 }
 check.eq(contem_5([4, 3, 1]), False)
 ```
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 
 \scriptsize
 
@@ -229,8 +230,7 @@ Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5
 fn contem(lst, n) {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == n || contem(resto, n)
+    [p, ..r] -> p == n || contem(r, n)
   }
 }
 
@@ -241,10 +241,10 @@ check.eq(contem([4, 3, 1], 5), False)
 </div>
 
 
-## Exemplo: contem_3 e contem_5
+## Exemplo: `contem_3` e `contem_5`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
 ```gleam
@@ -253,12 +253,13 @@ check.eq(contem([4, 3, 1], 5), False)
 fn contem_3(lst: List(Int)) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == 3 || contem_3(resto)
+    [p, ..r] -> p == 3 || contem_3(r)
   }
 }
 check.eq(contem_3([4, 3, 1]), True)
 ```
+
+\ \
 
 ```gleam
 /// Devolve True se 5 está em *lst*,
@@ -266,15 +267,14 @@ check.eq(contem_3([4, 3, 1]), True)
 fn contem_5(lst: List(Int)) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == 5 || contem_3(resto)
+    [p, ..r] -> p == 5 || contem_5(r)
   }
 }
 check.eq(contem_5([4, 3, 1]), False)
 ```
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 
 \scriptsize
 
@@ -287,8 +287,7 @@ Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5
 fn contem(lst: List(Int), n: Int) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == n || contem(resto, n)
+    [p, ..r] -> p == n || contem(r, n)
   }
 }
 
@@ -299,10 +298,67 @@ check.eq(contem([4, 3, 1], 5), False)
 </div>
 
 
-## Exemplo: contem_3 e contem_5
+## Exemplo: `contem_3` e `contem_5`
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve True se 3 está em *lst*,
+/// False caso contrário.
+fn contem_3(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> False
+    [p, ..r] -> p == 3 || contem_3(r)
+  }
+}
+check.eq(contem_3([4, 3, 1]), True)
+```
+
+\ \
+
+```gleam
+/// Devolve True se 5 está em *lst*,
+/// False caso contrário.
+fn contem_5(lst: List(Int)) -> Bool {
+  case lst {
+    [] -> False
+    [p, ..r] -> p == 5 || contem_5(r)
+  }
+}
+check.eq(contem_5([4, 3, 1]), False)
+```
+
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
+
+```gleam
+
+/// Devolve True se *n* está em *lst*,
+/// False caso contrário.
+fn contem(lst: List(a), n: a) -> Bool {
+  case lst {
+    [] -> False
+    [p, ..r] -> p == n || contem(r, n)
+  }
+}
+
+check.eq(contem([4, 3, 1], 3), True)
+check.eq(contem([4, 3, 1], 5), False)
+```
+</div>
+</div>
+
+
+## Exemplo: `contem_3` e `contem_5`
+
+<div class="columns">
+<div class="column" width="48%">
 \scriptsize
 
 ```gleam
@@ -314,9 +370,10 @@ fn contem_3(lst: List(Int)) -> Bool {
 
 
 
-
 check.eq(contem_3([4, 3, 1]), True)
 ```
+
+\ \
 
 ```gleam
 /// Devolve True se 5 está em *lst*,
@@ -327,12 +384,11 @@ fn contem_5(lst: List(Int)) -> Bool {
 
 
 
-
 check.eq(contem_5([4, 3, 1]), False)
 ```
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 
 \scriptsize
 
@@ -342,11 +398,10 @@ Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5
 
 /// Devolve True se *n* está em *lst*,
 /// False caso contrário.
-fn contem(lst: List(Int), n: Int) -> Bool {
+fn contem(lst: List(a), n: a) -> Bool {
   case lst {
     [] -> False
-    [primeiro, ..resto] ->
-      primeiro == n || contem(resto, n)
+    [p, ..r] -> p == n || contem(r, n)
   }
 }
 
@@ -359,12 +414,12 @@ check.eq(contem([4, 3, 1], 5), False)
 
 ## Receita para criar abstração a partir de exemplos
 
-1. Identificar funções com corpo semelhante pause \pause
-    - Identificar o que muda \pause
-    - Criar parâmetros para o que muda \pause
-    - Copiar o corpo e substituir o que muda pelos parâmetros criados \pause
+1. Identificar funções com corpo semelhante \pause
+  - Identificar o que muda \pause
+  - Criar parâmetros para o que muda \pause
+  - Copiar o corpo e substituir o que muda pelos parâmetros criados \pause
 2. Escrever os exemplos \pause
-    - Reutilizar os exemplos das funções existentes \pause
+  - Reutilizar os exemplos das funções existentes \pause
 3. Escrever o propósito \pause
 4. Escrever a assinatura \pause
 5. Reescrever o código da funções iniciais em termos da nova função
@@ -386,9 +441,8 @@ Vamos criar uma função que abstrai o comportamento das funções `lista_nega` 
 fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [int.negate(primeiro),
-         ..lista_nega(resto)]
+    [p, ..r] ->
+      [int.negate(p), ..lista_nega(r)]
   }
 }
 check.eq(lista_nega([4, 3]), [-4, -3])
@@ -396,14 +450,15 @@ check.eq(lista_nega([4, 3]), [-4, -3])
 
 \pause
 
+\ \
+
 ```gleam
 /// Transforma cada elemento de *lst* em string.
 fn lista_string(lst: List(Float)) -> List(String) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [float.to_string(primeiro),
-         ..lista_string(resto)]
+    [p, ..r] ->
+      [float.to_string(p), ..lista_string(r)]
   }
 }
 check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
@@ -424,8 +479,7 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 fn mapeia(lst, f) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [f(primeiro), ..mapeia(resto)]
+    [p, ..r] -> [f(p), ..mapeia(r)]
   }
 }
 ```
@@ -444,22 +498,22 @@ fn mapeia(lst, f) {
 fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [int.negate(primeiro),
-         ..lista_nega(resto)]
+    [p, ..r] ->
+      [int.negate(p), ..lista_nega(r)]
   }
 }
 check.eq(lista_nega([4, 3]), [-4, -3])
 ```
+
+\ \
 
 ```gleam
 /// Transforma cada elemento de *lst* em string.
 fn lista_string(lst: List(Float)) -> List(String) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [float.to_string(primeiro),
-         ..lista_string(resto)]
+    [p, ..r] ->
+      [float.to_string(p), ..lista_string(r)]
   }
 }
 check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
@@ -478,8 +532,7 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 fn mapeia(lst, f) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [f(primeiro), ..mapeia(resto)]
+    [p, ..r] -> [f(p), ..mapeia(r)]
   }
 }
 
@@ -505,22 +558,22 @@ check.eq(
 fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [int.negate(primeiro),
-         ..lista_nega(resto)]
+    [p, ..r] ->
+      [int.negate(p), ..lista_nega(r)]
   }
 }
 check.eq(lista_nega([4, 3]), [-4, -3])
 ```
+
+\ \
 
 ```gleam
 /// Transforma cada elemento de *lst* em string.
 fn lista_string(lst: List(Float)) -> List(String) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [float.to_string(primeiro),
-         ..lista_string(resto)]
+    [p, ..r] ->
+      [float.to_string(p), ..lista_string(r)]
   }
 }
 check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
@@ -539,8 +592,7 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 fn mapeia(lst, f) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [f(primeiro), ..mapeia(resto)]
+    [p, ..r] -> [f(p), ..mapeia(r)]
   }
 }
 
@@ -566,22 +618,22 @@ check.eq(
 fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [int.negate(primeiro),
-         ..lista_nega(resto)]
+    [p, ..r] ->
+      [int.negate(p), ..lista_nega(r)]
   }
 }
 check.eq(lista_nega([4, 3]), [-4, -3])
 ```
+
+\ \
 
 ```gleam
 /// Transforma cada elemento de *lst* em string.
 fn lista_string(lst: List(Float)) -> List(String) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [float.to_string(primeiro),
-         ..lista_string(resto)]
+    [p, ..r] ->
+      [float.to_string(p), ..lista_string(r)]
   }
 }
 check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
@@ -600,8 +652,7 @@ fn mapeia(
 ) -> List(b) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [f(primeiro), ..mapeia(resto)]
+    [p, ..r] -> [f(p), ..mapeia(r)]
   }
 }
 
@@ -631,16 +682,16 @@ fn lista_nega(lst: List(Int)) -> List(Int) {
 
 
 
-
 check.eq(lista_nega([4, 3]), [-4, -3])
 ```
+
+\ \
 
 ```gleam
 /// Transforma cada elemento de *lst* em string.
 fn lista_string(lst: List(Float)) -> List(String) {
   mapeia(lst, float.to_string)
 }
-
 
 
 
@@ -661,8 +712,7 @@ fn mapeia(
 ) -> List(b) {
   case lst {
     [] -> []
-    [primeiro, ..resto] ->
-      [f(primeiro), ..mapeia(resto)]
+    [p, ..r] -> [f(p), ..mapeia(r)]
   }
 }
 
@@ -683,281 +733,427 @@ map
 
 ## `map`
 
-Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-definida em Racket com o nome `map`.
-
-\pause
-
-\small
-
-```scheme
-;; (X -> Y) Lista(X) -> Lista(Y)
-;; Devolve uma lista aplicando f a cada elemento de lst,
-;; isto é
-;; (map f (lista x1 x2 ... xn)) produz
-;; (list (f x1) (f x2) ... (f xn))
-(define (map f lst)
-  (cond
-    [(empty? lst) empty]
-    [else (cons (f (first lst))
-                (map f (rest lst)))]))
-```
-
-
-## `map` - exemplos
-
-\small
-
-```scheme
-> (map add1 (list 4 6 10))
-```
-
-\pause
-
-```scheme
-'(5 7 11)
-```
-
-\pause
-
-```scheme
-> (map list (list 7 2 18))
-```
-
-\pause
-
-```scheme
-'((7) (2) (18))
-```
-
-\pause
-
-```scheme
-> (map length (list (list 7 2) (list 18) empty))
-```
-
-\pause
-
-```scheme
-'(2 1 0)
-```
-
-
-## Exemplo: `lista-positivos` e `lista-pares`
-
-Vamos criar uma função que abstrai o comportamento das funções `lista-positivos` e `lista-pares`.
-
-
-## Exemplo: `lista-positivos` e `lista-pares`
+Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-definida em Gleam como `list.map`{.gleam}.
 
 <div class="columns">
-<div class="column" width="55%">
-\scriptsize
+<div class="column" width="48%">
+\footnotesize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores positivos de lst.
-(check-equal? (lista-positivos (list 0 1) (list 1)))
-(define (lista-positivos lst)
-  (cond [(empty? lst) empty]
-        [(positive? (first lst))
-         (cons (first lst)
-               (lista-positivos (rest lst)))]
-        [else (lista-positivos (rest lst))]))
+```gleam
+> list.map([4, 1, 2], int.is_even)
 ```
 
 \pause
 
-```scheme
-
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores pares de lst.
-(check-equal? (lista-pares (list 4 1 8) (list 4 8)))
-(define (lista-pares lst)
-  (cond [(empty? lst) empty]
-        [(even? (first lst))
-         (cons (first lst)
-               (lista-pares (rest lst)))]
-        [else (lista-pares (rest lst))]))
+```gleam
+[True, False, True]
 ```
-</div>
-<div class="column" width="45%">
-\scriptsize
+
+\ \
 
 \pause
 
-```scheme
-
-
-
-
-
-
-
-(define (filtra pred? lst)
-  (cond
-    [(empty? lst) empty]
-    [(pred? (first lst))
-     (cons (first lst)
-           (filtra pred? (rest lst)))]
-    [else (filtra pred? (rest lst))]))
+```gleam
+> list.map(["casa", "", "arroz"],
+           string.first)
 ```
+
+\pause
+
+```gleam
+[Ok("c"), Error(Nil), Ok("a)]
+```
+
+\ \
+
+\pause
+
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+> list.map([1.2, 3.1], list.wrap)
+```
+
+\pause
+
+```gleam
+[[1.2], [3.1]]
+```
+
+\ \
+
+\pause
+
+```gleam
+> list.map([[4], [1, 2]], list.length)
+```
+
+\pause
+
+```gleam
+[1, 2]
+```
+
+<!--
+```gleam
+> list.map(
+    list.map(["carlos ", " BIA"], string.trim),
+    string.capitalise)
+```
+
+\pause
+
+```gleam
+["Carlos", "Bia"]
+```
+
+\ \
+
+\pause
+
+```gleam
+> ["carlos ", " BIA"]
+  |> list.map(string.trim)
+  |> list.map(string.capitalise)
+```
+
+\pause
+
+```gleam
+["Carlos", "Bia"]
+```
+-->
+
 </div>
 </div>
 
 
-## Exemplo: `lista-positivos` e `lista-pares`
+## Exemplo: `lista_pares` e `lista_nao_vazia`
+
+Vamos criar uma função que abstrai o comportamento das funções `lista_pares` e `lista_nao_vazia`.
+
+\pause
+
+\footnotesize
+
+```gleam
+fn eh_nao_vazia(s: String) -> Bool {
+  s != ""
+}
+```
+
+## Exemplo: `lista_pares` e `lista_nao_vazia`
 
 <div class="columns">
-<div class="column" width="55%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores positivos de lst.
-(check-equal? (lista-positivos (list 0 1) (list 1)))
-(define (lista-positivos lst)
-  (cond [(empty? lst) empty]
-        [(positive? (first lst))
-         (cons (first lst)
-               (lista-positivos (rest lst)))]
-        [else (lista-positivos (rest lst))]))
-
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores pares de lst.
-(check-equal? (lista-pares (list 4 1 8) (list 4 8)))
-(define (lista-pares lst)
-  (cond [(empty? lst) empty]
-        [(even? (first lst))
-         (cons (first lst)
-               (lista-pares (rest lst)))]
-        [else (lista-pares (rest lst))]))
+```gleam
+/// Seleciona os valores pares de *lst*.
+fn lista_pares(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case int.is_even(p) {
+      True -> [p, ..lista_pares(r)]
+      False -> lista_pares(r)
+}}}
+check.eq(lista_pares([3, 2, 7]), [2])
 ```
+
+\pause
+
+```gleam
+/// Seleciona os valores positivos de *lst*.
+fn lista_nao_vazia(lst: List(String))
+                     -> List(String) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case eh_nao_vazia(p) {
+      True -> [p, ..lista_nao_vazia(r)]
+      False -> lista_nao_vazia(r)
+}}}
+check.eq(lista_nao_vazia(["a", "", "b"]),
+         ["a", "b"])
+```
+
+\pause
+
 </div>
-<div class="column" width="45%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
+```gleam
 
 
 
-(check-equal? (filtra positive? (list 0 1))
-              (list 1))
-(check-equal? (filtra even? (list 4 1 8)
-              (list 4 8)
-(define (filtra pred? lst)
-  (cond
-    [(empty? lst) empty]
-    [(pred? (first lst))
-     (cons (first lst)
-           (filtra pred? (rest lst)))]
-    [else (filtra pred? (rest lst))]))
+
+
+
+fn filtra(lst, pred) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case pred(p) {
+      True -> [p, ..filtra(r, pred)]
+      False -> filtra(r, pred)
+    }
+  }
+}
 ```
+
 </div>
 </div>
 
 
-## Exemplo: `lista-positivos` e `lista-pares`
+## Exemplo: `lista_pares` e `lista_nao_vazia`
 
 <div class="columns">
-<div class="column" width="55%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores positivos de lst.
-(check-equal? (lista-positivos (list 0 1) (list 1)))
-(define (lista-positivos lst)
-  (cond [(empty? lst) empty]
-        [(positive? (first lst))
-         (cons (first lst)
-               (lista-positivos (rest lst)))]
-        [else (lista-positivos (rest lst))]))
-
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores pares de lst.
-(check-equal? (lista-pares (list 4 1 8) (list 4 8)))
-(define (lista-pares lst)
-  (cond [(empty? lst) empty]
-        [(even? (first lst))
-         (cons (first lst)
-               (lista-pares (rest lst)))]
-        [else (lista-pares (rest lst))]))
+```gleam
+/// Seleciona os valores pares de *lst*.
+fn lista_pares(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case int.is_even(p) {
+      True -> [p, ..lista_pares(r)]
+      False -> lista_pares(r)
+}}}
+check.eq(lista_pares([3, 2, 7]), [2])
 ```
+
+```gleam
+/// Seleciona os valores positivos de *lst*.
+fn lista_nao_vazia(lst: List(String))
+                     -> List(String) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case eh_nao_vazia(p) {
+      True -> [p, ..lista_nao_vazia(r)]
+      False -> lista_nao_vazia(r)
+}}}
+check.eq(lista_nao_vazia(["a", "", "b"]),
+         ["a", "b"])
+```
+
 </div>
-<div class="column" width="45%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; (Num -> Boolean) Lista(Num) -> Lista(Num)
-;; Devolve uma lista com todos os elementos
-;; x de lst tal que (pred? x) é #t.
-(check-equal? (filtra positive? (list 0 1))
-              (list 1))
-(check-equal? (filtra even? (list 4 1 8)
-              (list 4 8)
-(define (filtra pred? lst)
-  (cond
-    [(empty? lst) empty]
-    [(pred? (first lst))
-     (cons (first lst)
-           (filtra pred? (rest lst)))]
-    [else (filtra pred? (rest lst))]))
+```gleam
+
+
+
+
+
+
+fn filtra(lst, pred) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case pred(p) {
+      True -> [p, ..filtra(r, pred)]
+      False -> filtra(r, pred)
+    }
+  }
+}
+
+check.eq(filtra([3, 2, 7], int.is_even), [2])
+check.eq(filtra(["a", "", "b"], eh_nao_vazia),
+         ["a", "b"])
 ```
+
 </div>
 </div>
 
 
-## Exemplo: `lista-positivos` e `lista-pares`
+## Exemplo: `lista_pares` e `lista_nao_vazia`
 
 <div class="columns">
-<div class="column" width="55%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores positivos de lst.
-(check-equal? (lista-positivos (list 0 1) (list 1)))
-(define (lista-positivos lst)
-  (filtra positive? lst))
-
-
-
-
-
-;; Lista(Número) -> Lista(Número)
-;; Devolve uma lista com os valores pares de lst.
-(check-equal? (lista-pares (list 4 1 8) (list 4 8)))
-(define (lista-pares lst)
-  (filtra even? lst))
-
-
-
-
-
+```gleam
+/// Seleciona os valores pares de *lst*.
+fn lista_pares(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case int.is_even(p) {
+      True -> [p, ..lista_pares(r)]
+      False -> lista_pares(r)
+}}}
+check.eq(lista_pares([3, 2, 7]), [2])
 ```
+
+```gleam
+/// Seleciona os valores positivos de *lst*.
+fn lista_nao_vazia(lst: List(String))
+                     -> List(String) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case eh_nao_vazia(p) {
+      True -> [p, ..lista_nao_vazia(r)]
+      False -> lista_nao_vazia(r)
+}}}
+check.eq(lista_nao_vazia(["a", "", "b"]),
+         ["a", "b"])
+```
+
 </div>
-<div class="column" width="45%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; (Num -> Boolean) Lista(Num) -> Lista(Num)
-;; Devolve uma lista com todos os elementos
-;; x de lst tal que (pred? x) é #t.
-(check-equal? (filtra positive? (list 0 1))
-              (list 1))
-(check-equal? (filtra even? (list 4 1 8)
-              (list 4 8)
-(define (filtra pred? lst)
-  (cond
-    [(empty? lst) empty]
-    [(pred? (first lst))
-     (cons (first lst)
-           (filtra pred? (rest lst)))]
-    [else (filtra pred? (rest lst))]))
+```gleam
+
+
+
+
+/// Seleciona os valores de *lst*
+/// para os quais *pred* devolve True.
+fn filtra(lst, pred) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case pred(p) {
+      True -> [p, ..filtra(r, pred)]
+      False -> filtra(r, pred)
+    }
+  }
+}
+
+check.eq(filtra([3, 2, 7], int.is_even), [2])
+check.eq(filtra(["a", "", "b"], eh_nao_vazia),
+         ["a", "b"])
 ```
+
 </div>
 </div>
 
+
+## Exemplo: `lista_pares` e `lista_nao_vazia`
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Seleciona os valores pares de *lst*.
+fn lista_pares(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case int.is_even(p) {
+      True -> [p, ..lista_pares(r)]
+      False -> lista_pares(r)
+}}}
+check.eq(lista_pares([3, 2, 7]), [2])
+```
+
+```gleam
+/// Seleciona os valores positivos de *lst*.
+fn lista_nao_vazia(lst: List(String))
+                     -> List(String) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case eh_nao_vazia(p) {
+      True -> [p, ..lista_nao_vazia(r)]
+      False -> lista_nao_vazia(r)
+}}}
+check.eq(lista_nao_vazia(["a", "", "b"]),
+         ["a", "b"])
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+
+/// Seleciona os valores de *lst*
+/// para os quais *pred* devolve True.
+fn filtra(
+  lst: List(a),
+  pred: fn(a) -> Bool,
+) -> List(a) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case pred(p) {
+      True -> [p, ..filtra(r, pred)]
+      False -> filtra(r, pred)
+    }
+  }
+}
+
+check.eq(filtra([3, 2, 7], int.is_even), [2])
+check.eq(filtra(["a", "", "b"], eh_nao_vazia),
+         ["a", "b"])
+```
+
+</div>
+</div>
+
+
+## Exemplo: `lista_pares` e `lista_nao_vazia`
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Seleciona os valores pares de *lst*.
+fn lista_pares(lst: List(Int)) -> List(Int) {
+  filtra(lst, int.is_even)
+}
+
+
+
+
+check.eq(lista_pares([3, 2, 7]), [2])
+```
+
+```gleam
+/// Seleciona os valores positivos de *lst*.
+fn lista_nao_vazia(lst: List(String))
+                     -> List(String) {
+  filtra(lst, eh_nao_vazia)
+}
+
+
+
+
+check.eq(lista_nao_vazia(["a", "", "b"]),
+         ["a", "b"])
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+
+/// Seleciona os valores de *lst*
+/// para os quais *pred* devolve True.
+fn filtra(
+  lst: List(a),
+  pred: fn(a) -> Bool,
+) -> List(a) {
+  case lst {
+    [] -> []
+    [p, ..r] -> case pred(p) {
+      True -> [p, ..filtra(r, pred)]
+      False -> filtra(r, pred)
+    }
+  }
+}
+
+check.eq(filtra([3, 2, 7], int.is_even), [2])
+check.eq(filtra(["a", "", "b"], eh_nao_vazia),
+         ["a", "b"])
+```
+
+</div>
+</div>
 
 
 `filter`
@@ -965,348 +1161,483 @@ Vamos criar uma função que abstrai o comportamento das funções `lista-positi
 
 ## `filter`
 
-Como resultado do exemplo anterior obtivemos a função `filtra`, que é pré-definida em Racket com o nome `filter`.
+Como resultado do exemplo anterior obtivemos a função `filtra`, que é pré-definida em Gleam como `list.filter`{.gleam}.
 
 \pause
-
-\small
-
-```scheme
-;; (X -> Boolean) Lista(X) -> Lista(X)
-;; Devolve uma lista com todos os elementos de lst
-;; tal que pred? é #t.
-(define (filter pred? lst)
-  (cond
-    [(empty? lst) empty]
-    [(pred? (first lst))
-     (cons (first lst)
-           (filter pred? (rest lst)))]
-    [else
-     (filter pred? (rest lst))]))
-```
-
-
-## `filter` - exemplos
-
-\small
-
-```scheme
-> (filter zero? (list 4 0 6 0 0 10))
-```
-
-\pause
-
-```scheme
-'(0 0 0)
-```
-
-\pause
-
-```scheme
-> (filter non-empty-string? (list "casa" "" "rio" ""))
-```
-
-\pause
-
-```scheme
-'("casa" "rio")
-```
-
-\pause
-
-```scheme
-> (filter cons? (list (list 1 3) empty (list 4) empty))
-```
-
-\pause
-
-```scheme
-'((1 3) (4))
-```
-
-
-## Exemplo: soma e produto
-
-Vamos criar uma função que abstrai o comportamento das funções `soma` e `produto`.
-
-
-## Exemplo: `soma` e `produto`
 
 <div class="columns">
-<div class="column" width="50%">
-\scriptsize
+<div class="column" width="48%">
+\footnotesize
 
-```scheme
-;; Lista(Número) -> Número
-;; Devolve a soma dos números de lst.
-(check-equal? (soma (list 2 9)) 11)
-(define (soma lst)
-  (cond
-    [(empty? lst) 0]
-    [else (+ (first lst)
-             (soma (rest lst)))]))
+```gleam
+fn comeca_a(s: String) -> Bool {
+  string.first(s) == Ok("a")
+}
+```
+
+\ \
+
+\pause
+
+```gleam
+> list.filter(["ana", "pedro", "agua"],
+              comeca_a)
 ```
 
 \pause
 
-```scheme
-
-;; Lista(Número) -> Número
-;; Devolve o produto dos números de lst.
-(check-equal? (prod (list 4 3 1)) 12)
-(define (prod lst)
-  (cond
-    [(empty? lst) 1]
-    [else (* (first lst)
-             (prod (rest lst)))]))
+```gleam
+["ana", "agua"]
 ```
-</div>
-<div class="column" width="50%">
-\scriptsize
 
 \pause
 
-```scheme
+</div>
+<div class="column" width="48%">
+\footnotesize
 
-
-
-
-
-
-
-
-
-
-(define (reduz f base lst)
-  (cond
-    [(empty? lst) base]
-    [else (f (first lst)
-             (reduz f base (rest lst)))]))
+```gleam
+fn tamanho_1(lst: List(a)) -> Bool {
+  case lst {
+    [_] -> True
+    _ -> False
+  }
+}
 ```
+
+\pause
+
+\ \
+
+```gleam
+> list.filter([[0], [2, 6], [], [3]],
+              tamanho_1)
+```
+
+\pause
+
+```gleam
+[[0], [3]]
+```
+
 </div>
 </div>
 
 
-## Exemplo: `soma` e `produto`
+## Exemplo: `soma` e `junta_r`
+
+Vamos criar uma função que abstrai o comportamento das funções `soma` e `junta_r`.
+
+
+## Exemplo: `soma` e `junta_r` {.t}
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Número
-;; Devolve a soma dos números de lst.
-(check-equal? (soma (list 2 9)) 11)
-(define (soma lst)
-  (cond
-    [(empty? lst) 0]
-    [else (+ (first lst)
-             (soma (rest lst)))]))
+```gleam
+/// Soma dos elementos de *lst*.
+fn some(lst: List(Int)) -> Int {
+  case lst {
+    [] -> 0
+    [p, ..r] -> p + soma(r)
+  }
+}
 
-;; Lista(Número) -> Número
-;; Devolve o produto dos números de lst.
-(check-equal? (prod (list 4 3 1)) 12)
-(define (prod lst)
-  (cond
-    [(empty? lst) 1]
-    [else (* (first lst)
-             (prod (rest lst)))]))
+check.eq(soma([4, 1, 2]), 7)
 ```
+
+\ \
+
+\pause
+
+```gleam
+/// Junta os itens de *lst* em ordem contrária.
+fn junta_r(lst: List(String)) -> String {
+  case lst {
+    [] -> ""
+    [p, ..r] -> junta_r(r) <> p
+  }
+}
+
+check.eq(junta_r(["a", "", "c"]), "ca")
+```
+
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-
-
-
-
-
-
-(check-equal? (reduz + 0 (list 2 9)
-               11)
-(check-equal? (reduz * 1 (list 4 3 1))
-               12))
-(define (reduz f base lst)
-  (cond
-    [(empty? lst) base]
-    [else (f (first lst)
-             (reduz f base (rest lst)))]))
+```gleam
 ```
 </div>
 </div>
 
 
-## Exemplo: `soma` e `produto`
+## Exemplo: `soma` e `junta_r` {.t}
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Número
-;; Devolve a soma dos números de lst.
-(check-equal? (soma (list 2 9)) 11)
-(define (soma lst)
-  (cond
-    [(empty? lst) 0]
-    [else (+ (first lst)
-             (soma (rest lst)))]))
+```gleam
+/// Soma dos elementos de *lst*.
+fn some(lst: List(Int)) -> Int {
+  case lst {
+    [] -> 0
+    [p, ..r] -> int.add(soma(r), p)
+  }
+}
 
-;; Lista(Número) -> Número
-;; Devolve o produto dos números de lst.
-(check-equal? (prod (list 4 3 1)) 12)
-(define (prod lst)
-  (cond
-    [(empty? lst) 1]
-    [else (* (first lst)
-             (prod (rest lst)))]))
+check.eq(soma([4, 1, 2]), 7)
 ```
+
+\ \
+
+```gleam
+/// Junta os itens de *lst* em ordem contrária.
+fn junta_r(lst: List(String)) -> String {
+  case lst {
+    [] -> ""
+    [p, ..r] -> string.append(junta_r(r), p)
+  }
+}
+
+check.eq(junta_r(["a", "", "c"]), "ca")
+```
+
+\pause
+
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; (Num Num -> Num) Num Lista(Num) -> Num
-;; Reduz os valores de lst a um único
-;; valor usando a função f.
-;; Uma chamada
-;; (reduz f base (list x1 x2 ... xn)
-;; devolve (f x1 (f x2 ... (f xn base))).
-(check-equal? (reduz + 0 (list 2 9)
-               11)
-(check-equal? (reduz * 1 (list 4 3 1))
-               12))
-(define (reduz f base lst)
-  (cond
-    [(empty? lst) base]
-    [else (f (first lst)
-             (reduz f base (rest lst)))]))
+```gleam
+
+
+
+
+
+
+
+
+fn reduz(lst, init, f) {
+  case lst {
+    [] -> init
+    [p, ..r] -> f(reduz(r, init, f), p)
+  }
+}
 ```
 </div>
 </div>
 
 
-## Exemplo: `soma` e `produto`
+## Exemplo: `soma` e `junta_r` {.t}
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Número
-;; Devolve a soma dos números de lst.
-(check-equal? (soma (list 2 9)) 11)
-(define (soma lst)
-  (reduz + 0 lst))
+```gleam
+/// Soma dos elementos de *lst*.
+fn some(lst: List(Int)) -> Int {
+  case lst {
+    [] -> 0
+    [p, ..r] -> int.add(soma(r), p)
+  }
+}
 
-
-
-
-;; Lista(Número) -> Número
-;; Devolve o produto dos números de lst.
-(check-equal? (prod (list 4 3 1)) 12)
-(define (prod lst)
-  (reduz * 1 lst))
-
-
-
-
+check.eq(soma([4, 1, 2]), 7)
 ```
+
+\ \
+
+```gleam
+/// Junta os itens de *lst* em ordem contrária.
+fn junta_r(lst: List(String)) -> String {
+  case lst {
+    [] -> ""
+    [p, ..r] -> string.append(junta_r(r), p)
+  }
+}
+
+check.eq(junta_r(["a", "", "c"]), "ca")
+```
+
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 \scriptsize
 
-```scheme
-;; (Num Num -> Num) Num Lista(Num) -> Num
-;; Reduz os valores de lst a um único
-;; valor usando a função f.
-;; Uma chamada
-;; (reduz f base (list x1 x2 ... xn)
-;; devolve (f x1 (f x2 ... (f xn base))).
-(check-equal? (reduz + 0 (list 2 9)
-               11)
-(check-equal? (reduz * 1 (list 4 3 1))
-               12))
-(define (reduz f base lst)
-  (cond
-    [(empty? lst) base]
-    [else (f (first lst)
-             (reduz f base (rest lst)))]))
+```gleam
+
+
+
+
+
+
+
+
+fn reduz(lst, init, f) {
+  case lst {
+    [] -> init
+    [p, ..r] -> f(reduz(r, init, f), p)
+  }
+}
+check.eq(
+  reduz([4, 1, 2], 0, int.add),
+  7)
+check.eq(
+  reduz(["a", "", "c"], "", string.append),
+  "ca")
+```
+</div>
+</div>
+
+
+## Exemplo: `soma` e `junta_r` {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Soma dos elementos de *lst*.
+fn some(lst: List(Int)) -> Int {
+  case lst {
+    [] -> 0
+    [p, ..r] -> int.add(soma(r), p)
+  }
+}
+
+check.eq(soma([4, 1, 2]), 7)
+```
+
+\ \
+
+```gleam
+/// Junta os itens de *lst* em ordem contrária.
+fn junta_r(lst: List(String)) -> String {
+  case lst {
+    [] -> ""
+    [p, ..r] -> string.append(junta_r(r), p)
+  }
+}
+
+check.eq(junta_r(["a", "", "c"]), "ca")
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+
+
+
+
+// Reduz os elementos de *lst* em um acumulador
+// usando a função *f*. O acumulador começa com *init*
+// e é atualizado chamando *f(acc, e)* para cada
+// elemento *e* de *lst* da direita para esquerda.
+fn reduz(lst, init, f) {
+  case lst {
+    [] -> init
+    [p, ..r] -> f(reduz(r, init, f), p)
+  }
+}
+check.eq(
+  reduz([4, 1, 2], 0, int.add),
+  7)
+check.eq(
+  reduz(["a", "", "c"], "", string.append),
+  "ca")
+```
+</div>
+</div>
+
+
+## Exemplo: `soma` e `junta_r` {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Soma dos elementos de *lst*.
+fn some(lst: List(Int)) -> Int {
+  case lst {
+    [] -> 0
+    [p, ..r] -> int.add(soma(r), p)
+  }
+}
+
+check.eq(soma([4, 1, 2]), 7)
+```
+
+\ \
+
+```gleam
+/// Junta os itens de *lst* em ordem contrária.
+fn junta_r(lst: List(String)) -> String {
+  case lst {
+    [] -> ""
+    [p, ..r] -> string.append(junta_r(r), p)
+  }
+}
+
+check.eq(junta_r(["a", "", "c"]), "ca")
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+// Reduz os elementos de *lst* em um acumulador
+// usando a função *f*. O acumulador começa com *init*
+// e é atualizado chamando *f(acc, e)* para cada
+// elemento *e* de *lst* da direita para esquerda.
+fn reduz(
+  lst: List(a),
+  init: b,
+  f: fn(b, a) -> b,
+) -> b {
+  case lst {
+    [] -> init
+    [p, ..r] -> f(reduz(r, init, f), p)
+  }
+}
+check.eq(
+  reduz([4, 1, 2], 0, int.add),
+  7)
+check.eq(
+  reduz(["a", "", "c"], "", string.append),
+  "ca")
+```
+</div>
+</div>
+
+
+## Exemplo: `soma` e `junta_r` {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Soma dos elementos de *lst*.
+fn some(lst: List(Int)) -> Int {
+  reduz(lst, 0, int.add)
+}
+
+
+
+
+check.eq(soma([4, 1, 2]), 7)
+```
+
+\ \
+
+```gleam
+/// Junta os itens de *lst* em ordem contrária.
+fn junta_r(lst: List(String)) -> String {
+  reduz(lst, "", string.append)
+}
+
+
+
+
+check.eq(junta_r(["a", "", "c"]), "ca")
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+// Reduz os elementos de *lst* em um acumulador
+// usando a função *f*. O acumulador começa com *init*
+// e é atualizado chamando *f(acc, e)* para cada
+// elemento *e* de *lst* da direita para esquerda.
+fn reduz(
+  lst: List(a),
+  init: b,
+  f: fn(b, a) -> b,
+) -> b {
+  case lst {
+    [] -> init
+    [p, ..r] -> f(reduz(r, init, f), p)
+  }
+}
+check.eq(
+  reduz([4, 1, 2], 0, int.add),
+  7)
+check.eq(
+  reduz(["a", "", "c"], "", string.append),
+  "ca")
 ```
 </div>
 </div>
 
 
 
-`foldr`
+`fold_right`
 =====
 
-## `foldr`
+## `fold_right`
 
-Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-definida em Racket com o nome `foldr`.
+Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-definida em Gleam como `fold_right`.
 
 \pause
 
-\small
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
 
-```scheme
-;; (X Y -> Y) Y Lista(X) -> Y
-;; A chamada
-;; (foldr f base (list x1 x2 ... xn) produz
-;; (f x1 (f x2 ... (f xn base)))
-(define (foldr f base lst)
-  (cond
-    [(empty? lst) base]
-    [else (f (first lst)
-             (foldr f base (rest lst)))]))
-
-```
-
-
-## `foldr` - exemplos
-
-\small
-
-```scheme
-> (foldr + 0 (list 4 6 10))
+```gleam
+> list.fold_right([4, 5, 2],
+                  1, int.multiply)
 ```
 
 \pause
 
-```scheme
-20
+```gleam
+40
+```
+
+\ \
+
+\pause
+
+```gleam
+> list.fold_right([4, 1, 8], 0, int.max)
+8
+```
+
+\pause
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn soma_1_acc(acc: Int, _: Int) -> Int {
+  acc + 1
+}
+
+> list.fold_right([4, 1, 8], 0, soma_1_acc)
 ```
 
 \pause
 
-```scheme
-> (foldr max 30 (list 7 2 18 -20))
+```gleam
+3
 ```
-
-\pause
-
-```scheme
-30
-```
-
-\pause
-
-```scheme
-> (foldr cons empty (list 7 2 18))
-```
-
-\pause
-
-```scheme
-'(7 2 18)
-```
+</div>
+</div>
 
 
+## Funções `map`, `filter` e `fold_right`
 
-## Funções `map`, `filter` e `foldr`
-
-Quando utilizar as funções `map`, `filter` e `foldr`? \pause
+Quando utilizar as funções `map`, `filter` e `fold_right`? \pause
 
 - Quando a lista sempre é processa por inteiro. \pause
 
@@ -1314,14 +1645,14 @@ Quando utilizar as funções `map`, `filter` e `foldr`? \pause
 
 - `filter`: quando queremos selecionar alguns elementos de uma lista. \pause
 
-- `foldr`: quando queremos calcular um resultado de forma incremental analisando cada elemento de uma lista. \pause
+- `fold_right`: quando queremos calcular um resultado de forma incremental analisando cada elemento de uma lista. \pause
 
-Na dúvida, faça o projeto da função recursiva e depois verifique se ela é um caso específico de `map`, `filter` ou `foldr`.
+Na dúvida, faça o projeto da função recursiva e depois verifique se ela é um caso específico de `map`, `filter` ou `fold_right`.
 
 
 ## Exemplo: sinal
 
-Projete uma função que receba como parâmetro uma lista de número e produza uma nova lista com o sinal (1, 0 ou -1) de cada número da lista.
+Projete uma função que receba como parâmetro uma lista de números e produza uma nova lista com o sinal (1, 0 ou -1) de cada número da lista.
 
 
 ## Exemplo: sinal
@@ -1330,51 +1661,50 @@ Projete uma função que receba como parâmetro uma lista de número e produza u
 <div class="column" width="55%">
 \footnotesize
 
-```scheme
-;; Sinal é um dos valores 1, 0, -1
+```gleam
+/// Produz uma lista com o sinal de cada
+/// elemento de *lst*. O sinal é 1 para
+/// positivos, -1 para negativos e 0
+/// para neutros.
+fn sinais(lst: List(Int)) -> List(int) {
+  todo
+}
 
-;; Lista(Número) -> Lista(Sinal)
-;;
-;; Produz uma lista com o sinal de cada
-;; elemento de lst.
-(examples
-  (check-equal? (sinais (list 10 0 2 -4 -1 0 8))
-                (list 1 0 1 -1 -1 0 1)))
-
-(define (sinais lst) empty)
+check.eq(
+  sinais([10, 0, 2, -4, -1, 0, 8]),
+  [1, 0, 1, -1, -1, 0, 1],
+)
 ```
 
 \small
 
 \pause
 
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `map`. \pause
+Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause Sim, podemos usar o `map`. \pause
 
 </div>
 <div class="column" width="40%">
 
 \footnotesize
 
-```scheme
-(define (sinais lst)
+```gleam
+fn sinal(n: Int) -> Sinal {
+  case n {
+    _ if n > 0 -> 1
+    _ if n == 0 -> 0
+    _ -> -1
+  }
+}
 ```
 
 \pause
 
-```scheme
-  ;; Número -> Sinal
-  ;; Determina o sinal de n.
-  (define (sinal n)
-    (cond
-      [(> n 0) 1]
-      [(= n 0) 0]
-      [(< n 0) -1]))
-```
+\ \
 
-\pause
-
-```scheme
-  (map sinal lst))
+```gleam
+fn sinais(lst: List(Int)) -> List(int) {
+  list.map(lst, sinal)
+}
 ```
 
 </div>
@@ -1385,6 +1715,15 @@ Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim,
 
 Projete uma função que receba como entrada uma lista de pontos no plano cartesiano e indique quais estão sobre o eixo x ou eixo y.
 
+\footnotesize
+
+```gleam
+/// Representa um ponto no plano cartesiano.
+pub type Ponto {
+  Ponto(x: Int, y: Int)
+}
+```
+
 
 ## Exemplo: pontos nos eixos
 
@@ -1393,53 +1732,50 @@ Projete uma função que receba como entrada uma lista de pontos no plano cartes
 
 \footnotesize
 
-```scheme
-(struct ponto (x y) #:transparent)
-
-;; Lista(Ponto) -> Lista(Ponto)
-;; Indica quais elementos de pontos estão
-;; sobre o eixo x (coordenada y 0) ou
-;; eixo y (coordenado x 0).
-(examples
-  (check-equal? (seleciona-no-eixo
-                  (list (ponto 3 0) (ponto 1 3)
-                        (ponto 2 0) (ponto 0 2)
-                        (ponto 0 0) (ponto 4 7)))
-                (list (ponto 3 0) (ponto 2 0)
-                      (ponto 0 2) (ponto 0 0))))
-(define (seleciona-no-eixo pontos) empty)
+```gleam
+/// Cria uma lista com os elementos de
+/// *pontos* estão sobre o eixo x ou y.
+fn seleciona_no_eixo(
+  pontos: List(Ponto)
+) -> List(Ponto) {
+  todo
+}
+check.eq(
+  seleciona_no_eixo([
+    Ponto(3, 0), Ponto(1, 3),
+    Ponto(0, 2), Ponto(0, 0),
+  ]),
+  [Ponto(3, 0), Ponto(0, 2), Ponto(0, 0)])
 ```
 
 \small
 
 \pause
 
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, podemos usar o `filter`. \pause
+Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause Sim, podemos usar o `filter`. \pause
 
 </div>
 <div class="column" width="40%">
 
 \footnotesize
 
-```scheme
-(define (seleciona-no-eixo pontos)
+```gleam
+fn no_eixo(p: Ponto) -> Bool {
+  p.x == 0 || p.y == 0
+}
 ```
 
 \pause
 
-```scheme
-  ;; Ponto -> Bool
-  ;; Devolve #t se p está sobre o
-  ;; eixo x ou y. #f caso contrário.
-  (define (no-eixo? p)
-    (or (zero? (ponto-x p))
-        (zero? (ponto-y p))))
-```
+\ \
 
-\pause
+```gleam
+fn seleciona_no_eixo(
+  pontos: List(Ponto)
+) -> List(Ponto) {
+  list.filter(pontos, no_eixo)
+}
 
-```scheme
-  (filter no-eixo? pontos))
 ```
 
 </div>
@@ -1456,97 +1792,33 @@ Projete uma função que receba como entrada uma lista de números e devolva uma
 <div class="columns">
 <div class="column" width="48%">
 
-\scriptsize
+\footnotesize
 
-```scheme
-;; ListaDeNúmeros -> ListaDeNúmeros
-;; Cria uma lista com os elementos de lst
-;; em ordem não decrescente.
-(examples
- (check-equal? (ordena empty)
-               empty)
- (check-equal? (ordena (list 2))
-               (list 2))
- (check-equal? (ordena (list 5 2))
-               (list 2 5))
- (check-equal? (ordena (list 3 5 2))
-               (list 2 3 5))
- (check-equal? (ordena (list 4 3 5 2))
-               (list 2 3 4 5)))
-(define (ordena lst) empty)
+```gleam
+/// Cria uma lista com os elementos de
+/// *lst* em ordem não decrescente.
+fn ordena(lst: List(Int)) -> List(Int) {
+  todo
+}
+
+check.eq(ordena([5, -2, 3]), [-2, 3, 5])
 ```
 
 \pause
 
 \small
 
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não está claro... \pause Vamos fazer a implementação usando o modelo. \pause
-
-</div>
-<div class="column" width="48%">
+Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause Não está claro... \pause Vamos fazer a implementação usando o modelo. \pause
 
 \scriptsize
 
-```scheme
-(define (ordena lst)
-  (cond
-    [(empty? lst) empty]
-    [else
-      ...
-      (first lst)
-      (ordena (rest lst))]))
-```
-
-\pause
-
-\small
-
-Como combinamos o resultado da chamada recursiva com o primeiro elemento? \pause Inserindo o primeiro elemento de forma ordenada. \pause
-
-\scriptsize
-
-```scheme
-(define (ordena lst)
-  (cond
-    [(empty? lst) empty]
-    [else
-      (insere-ordenado (first lst)
-                       (ordena (rest lst))])))
-```
-
-</div>
-</div>
-
-
-## Exemplo: ordenação
-
-<div class="columns">
-<div class="column" width="48%">
-
-\scriptsize
-
-```scheme
-(define (ordena lst)
-  (cond
-    [(empty? lst) empty]
-    [else
-      (insere-ordenado (first lst)
-                       (ordena (rest lst))])))
-```
-
-\small
-
-E então, podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause
-
-\scriptsize
-
-```scheme
-(define (foldr f base lst)
-  (cond
-    [(empty? lst) base]
-    [else
-      (f (first lst)
-         (foldr f base (rest lst)))]))
+```gleam
+fn ordena(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [p, ..r] -> insere_ordenado(ordena(r), p))
+  }
+}
 ```
 
 \pause
@@ -1556,20 +1828,39 @@ E então, podemos usar `map`, `filter` ou `foldr` para implementar a função? \
 
 \small
 
-Sim! Podemos usar o `foldr`. \pause
+E então, podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause
 
 \scriptsize
 
-```scheme
-(define (ordena lst)
-  (foldr insere-ordenado empty lst))
+```gleam
+fn fold_right(lst, init, f) {
+  case lst {
+    [] -> []
+    [p, ..r] ->
+      f(fold_right(r, init, f), p))
+  }
+}
 ```
 
 \pause
 
 \small
 
-Exercício: projete a função `insere-ordenado`.
+Sim! Podemos usar o `fold_right`. \pause
+
+\scriptsize
+
+```gleam
+fn ordena(lst) {
+  list.fold_right(lst, [], insere_ordenado)
+}
+```
+
+\small
+
+\pause
+
+Exercício: projete a função `insere_ordenado`.
 
 </div>
 </div>
@@ -1582,28 +1873,28 @@ Projete uma função que receba como entrada uma lista de strings e devolva uma 
 
 ## Exemplos: maiores strings
 
-\footnotesize
+\scriptsize
 
 ```scheme
-;; Lista(String) -> Lista(String)
-;; Cria uma lista com os elementos de lst que têm tamanho
-;; máximo entre todos os elementos de lst.
-(examples
-  (check-equal? (maiores-strings
-                  (list "oi" "casa" "aba" "boi" "eita" "a" "cadê"))
-                (list "casa" "eita" "cadê")))
+/// Cria uma lista com as strings de *lst* que têm tamanho máximo entre todos
+/// as strings de *lst*.
+fn maiores_strings(lst: List(String)) -> List(String) {
+  todo
+}
 
-(define (maiores-strings lst) empty)
+check.eq(
+  maiores_strings(["oi", "casa", "aba", "boi", "eita", "a", "cadê"]),
+  ["casa", "eita", "cadê"]
+)
 ```
 
 \small
 
 \pause
 
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Não diretamente... \pause
+Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause Parece complicado... \pause
 
-Precisamos separar a solução em duas etapas: encontrar o tamanho máximo e depois selecionar as strings com tamanho máximo.
-
+Vamos separar a solução em duas etapas: encontrar o tamanho máximo e depois selecionar as strings com tamanho máximo.
 
 ## Exemplos: maiores strings
 
@@ -1612,39 +1903,46 @@ Precisamos separar a solução em duas etapas: encontrar o tamanho máximo e dep
 
 \footnotesize
 
-```scheme
-;; Lista(String) -> Número
-;;
-;; Devolve o tamanho máximo entre todas
-;; as strings de lst.
-(examples
-  (check-equal? (tamanho-maximo
-                  (list "oi" "casa" "aba"
-                        "boi" "eita" "a"
-                        "cadê"))
-                4))
+```gleam
+/// Devolve o tamanho máximo entre
+/// todos os elementos de *lst*.
+fn tamanho_max(lst: List(String) -> Int {
+  todo
+}
+
+check.eq(
+  tamanho_maximo(
+    ["oi", "casa", "aba", "boi",
+     "eita", "a", "cadê"]),
+  4,
+)
 ```
 
 \pause
 
 \small
 
-Podemos usar `map`, `filter` ou `foldr` para implementar a função? \pause Sim, usando o `foldr`, mas parece complicado... \pause
+Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause Sim, usando o `fold_right`, mas parece complicado... \pause
 
 </div>
 <div class="column" width="48%">
 
 \small
 
-A função para o `foldr` teria que fazer duas coisas, determinar o tamanho de uma string e indicar qual é o máximo entre dois tamanhos. \pause
+A função para o `fold_right` teria que fazer duas coisas, determinar o tamanho de uma string e indicar qual é o máximo entre dois tamanhos. \pause
 
-Podemos separar as etapas de obter os tamanhos e encontrar o máximo, usamos o `map` para obter uma lista com os tamanhos e o `foldr` para determinar o valor máximo. \pause
+Podemos separar as etapas de obter os tamanhos e encontrar o máximo, usamos o `map` para obter uma lista com os tamanhos e o `fold_right` para determinar o valor máximo. \pause
 
 \footnotesize
 
-```scheme
-(define (tamanho-maximo lst)
-  (foldr max 0 (map string-length lst)))
+```gleam
+/// Devolve o tamanho máximo entre
+/// todos os elementos de *lst*.
+fn tamanho_max(lst: List(String) -> Int {
+  list.fold_rigth(list.map(lst,
+                           string.length),
+                  0, int.max)
+}
 ```
 
 \pause
@@ -1656,40 +1954,33 @@ Agora podemos implementar a função `maiores-strings`.
 </div>
 </div>
 
-
 ## Exemplos: maiores strings
 
 <div class="columns">
 <div class="column" width="48%">
 \footnotesize
 
-```scheme
-;; Lista(String) -> Lista(String)
-(define (maiores-strings lst)
-  (define tmax (tamanho-maximo lst))
+```gleam
+fn maiores_string(lst: List(String)) {
+  let max = tamanho_ma(lst)
+  list.filter(lst, ?)
+}
 ```
 
 \pause
 
-```scheme
-  (define (tamanho-maximo? s)
-    (= (string-length s) tmax))
+```gleam
+fn maiores_string(lst: List(String)) {
+  let max = tamanho_maximo(lst)
+
+  let tem_tamanho_max = fn(s: String) {
+    string.length(s) == max
+  }
+
+  list.filter(lst, tem_tamanho_maximo)
+}
 ```
 
-\pause
-
-```scheme
-  (filter tamanho-maximo? lst))
-```
-
-\pause
-
-```scheme
-
-(define (tamanho-maximo lst)
-  (foldr max 0 (map string-length lst)))
-
-```
 
 </div>
 <div class="column" width="48%">
@@ -1700,58 +1991,27 @@ Agora podemos implementar a função `maiores-strings`.
 ```python
 
 def maiores_strings(lst: list[str]) -> list[str]:
-    tmax = tamanho_maximo(lst)
+    tmax = tamanho_max(lst)
 ```
 
 ```python
-    def tem_tamanho_maximo(s: str) -> bool:
+    def tem_tamanho_max(s: str) -> bool:
         return len(s) == tmax
 ```
 
 ```python
-    return list(filter(tem_tamanho_maximo, lst))
+    return list(filter(tem_tamanho_max, lst))
 ```
 
 ```python
 
-def tamanho_maximo(lst: list[str]) -> int:
+def tamanho_max(lst: list[str]) -> int:
     # max recebe uma lista (iterator)
     return max(map(len, lst))
 ```
 
 </div>
 </div>
-
-
-## Exemplos: maiores strings
-
-<div class="columns">
-<div class="column" width="48%">
-\footnotesize
-
-```scheme
-;; Lista(String) -> Lista(String)
-(define (maiores-strings lst)
-  (define tmax (tamanho-maximo lst))
-
-  (define (tamanho-maximo? s)
-    (= (string-length s) tmax))
-
-  (filter tamanho-maximo? lst))
-
-(define (tamanho-maximo lst)
-  (foldr max 0 (map string-length lst)))
-```
-
-</div>
-<div class="column" width="48%">
-Existe algo diferente na função `tamanho-maximo?`? \pause
-
-Sim, `tamanho-maximo?` utiliza a variável `tmax`, que não é um parâmetro e nem uma variável local dentro de `tamanho-maximo?`.
-
-</div>
-</div>
-
 
 
 Definições locais e fechamentos
@@ -2001,7 +2261,7 @@ Como e quando utilizar um funções anônimas? \pause
     ```scheme
     > (map (λ (x) (* x 2)) (list 3 8 -6))
     '(6 16 -12)
-    > (filter (λ (x) (< x 10)) (list 3 20 -4 50))
+    > (filter (λ (x) (< x 10)) (list 3 20 -4 48))
     '(3 -4)
     ```
 
@@ -2274,3 +2534,5 @@ Complementares
 - Seções [1.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3) (1.3.1 e 1.3.2)   e [2.2.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-15.html#%_sec_2.2.3) do livro [SICP](https://mitpress.mit.edu/sicp/)
 
 - Seções [4.2](http://www.scheme.com/tspl4/binding.html#./binding:h2) e [5.5](http://www.scheme.com/tspl4/control.html#./control:h5) do livro [TSPL4](http://www.scheme.com/tspl4/)
+
+-->

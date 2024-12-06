@@ -6,6 +6,7 @@ title: Funções como valores
 # TODO: remover seção de funções com número variado de parâmetros?
 # TODO: mudar contem_5 para contem "a"?
 # TODO: melhorar o agrupamento e os nomes das seções
+# TODO: colocar uma função para fold que a saída tem tipo diferente dos elementos da entrada
 # TODO: dividir em mais de um módulo?
 ---
 
@@ -44,7 +45,7 @@ Uma **função de alta ordem** é aquela que:
 
 - Recebe como entrada uma ou mais funções; e/ou
 
-- Produz como saída uma ou mais função com resultado.
+- Produz como saída uma ou mais funções.
 
 
 
@@ -735,6 +736,8 @@ map
 
 Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-definida em Gleam como `list.map`{.gleam}.
 
+\pause
+
 <div class="columns">
 <div class="column" width="48%">
 \footnotesize
@@ -867,7 +870,7 @@ check.eq(lista_pares([3, 2, 7]), [2])
 \pause
 
 ```gleam
-/// Seleciona os valores positivos de *lst*.
+/// Seleciona as strings não vazias de *lst*.
 fn lista_nao_vazia(lst: List(String))
                      -> List(String) {
   case lst {
@@ -927,7 +930,7 @@ check.eq(lista_pares([3, 2, 7]), [2])
 ```
 
 ```gleam
-/// Seleciona os valores positivos de *lst*.
+/// Seleciona as strings não vazias de *lst*.
 fn lista_nao_vazia(lst: List(String))
                      -> List(String) {
   case lst {
@@ -989,7 +992,7 @@ check.eq(lista_pares([3, 2, 7]), [2])
 ```
 
 ```gleam
-/// Seleciona os valores positivos de *lst*.
+/// Seleciona as strings não vazias de *lst*.
 fn lista_nao_vazia(lst: List(String))
                      -> List(String) {
   case lst {
@@ -1051,7 +1054,7 @@ check.eq(lista_pares([3, 2, 7]), [2])
 ```
 
 ```gleam
-/// Seleciona os valores positivos de *lst*.
+/// Seleciona as strings não vazias de *lst*.
 fn lista_nao_vazia(lst: List(String))
                      -> List(String) {
   case lst {
@@ -1113,7 +1116,7 @@ check.eq(lista_pares([3, 2, 7]), [2])
 ```
 
 ```gleam
-/// Seleciona os valores positivos de *lst*.
+/// Seleciona as strings não vazias de *lst*.
 fn lista_nao_vazia(lst: List(String))
                      -> List(String) {
   filtra(lst, eh_nao_vazia)
@@ -1610,6 +1613,11 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 
 ```gleam
 > list.fold_right([4, 1, 8], 0, int.max)
+```
+
+\pause
+
+```gleam
 8
 ```
 
@@ -1666,7 +1674,7 @@ Projete uma função que receba como parâmetro uma lista de números e produza 
 /// elemento de *lst*. O sinal é 1 para
 /// positivos, -1 para negativos e 0
 /// para neutros.
-fn sinais(lst: List(Int)) -> List(int) {
+fn sinais(lst: List(Int)) -> List(Int) {
   todo
 }
 
@@ -1702,7 +1710,7 @@ fn sinal(n: Int) -> Sinal {
 \ \
 
 ```gleam
-fn sinais(lst: List(Int)) -> List(int) {
+fn sinais(lst: List(Int)) -> List(Int) {
   list.map(lst, sinal)
 }
 ```
@@ -1714,6 +1722,8 @@ fn sinais(lst: List(Int)) -> List(int) {
 ## Exemplo: pontos nos eixos
 
 Projete uma função que receba como entrada uma lista de pontos no plano cartesiano e indique quais estão sobre o eixo x ou eixo y.
+
+\pause
 
 \footnotesize
 
@@ -1875,7 +1885,7 @@ Projete uma função que receba como entrada uma lista de strings e devolva uma 
 
 \scriptsize
 
-```scheme
+```gleam
 /// Cria uma lista com as strings de *lst* que têm tamanho máximo entre todos
 /// as strings de *lst*.
 fn maiores_strings(lst: List(String)) -> List(String) {
@@ -1963,7 +1973,7 @@ Agora podemos implementar a função `maiores-strings`.
 ```gleam
 fn maiores_string(lst: List(String)) {
   let max = tamanho_ma(lst)
-  list.filter(lst, ?)
+  list.filter(lst, todo)
 }
 ```
 

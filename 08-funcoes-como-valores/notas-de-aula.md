@@ -32,11 +32,13 @@ Veremos a seguir outra característica essencial do paradigma funcional: funçõ
 
 Funções são **entidades de primeira classe** se: \pause
 
-- Podem ser usadas, sem restrições, onde outros valores podem ser usados (passado como parâmetro, retornado, armazenado em listas, etc); \pause
+- Podem ser usadas, sem restrições, onde outros valores podem ser usados (passado como entrada, devolvido como resultado, armazenado em listas, etc); \pause
 
 - Podem ser construídas, sem restrições, onde outros valores também podem (localmente, em expressões, etc); \pause
 
-- Podem ser tipadas de forma similar a outro valores (existe um tipo associado com cada função e esse tipo pode ser usado para compor outro tipos).
+- Podem ser tipadas de forma similar a outro valores (existe um tipo associado com cada função e esse tipo pode ser usado para compor outro tipos). \pause
+
+Veremos a seguir como as funções podem ser utilizadas como valores.
 
 
 ## Introdução
@@ -59,7 +61,7 @@ Como identificar a necessidade de utilizar funções como parâmetro? \pause
 
 Encontrando similaridades entre funções. \pause
 
-Vamos ver diversas funções e tentar identificar similaridades. \pause
+Vamos ver diversas pares de funções e identificar similaridades entre elas. \pause
 
 Por questões de espaço, no restante desse material, usamos `p` para primeiro e `r` para `resto` e colocamos os exemplos fora de funções `_examples`.
 
@@ -423,7 +425,7 @@ check.eq(contem([4, 3, 1], 5), False)
   - Reutilizar os exemplos das funções existentes \pause
 3. Escrever o propósito \pause
 4. Escrever a assinatura \pause
-5. Reescrever o código da funções iniciais em termos da nova função
+5. Reescrever o código das funções iniciais em termos da nova função
 
 
 ## Exemplo: `lista_nega` e `lista_string`
@@ -438,7 +440,7 @@ Vamos criar uma função que abstrai o comportamento das funções `lista_nega` 
 \scriptsize
 
 ```gleam
-/// Eleva cada elemento de *lst* ao quadrado.
+/// Nega cada elemento de *lst*.
 fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
@@ -495,7 +497,7 @@ fn mapeia(lst, f) {
 \scriptsize
 
 ```gleam
-/// Eleva cada elemento de *lst* ao quadrado.
+/// Nega cada elemento de *lst*.
 fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
@@ -555,7 +557,7 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Eleva cada elemento de *lst* ao quadrado.
+/// Nega cada elemento de *lst*.
 fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
@@ -615,7 +617,7 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Eleva cada elemento de *lst* ao quadrado.
+/// Nega cada elemento de *lst*.
 fn lista_nega(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
@@ -675,7 +677,7 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Eleva cada elemento de *lst* ao quadrado.
+/// Nega cada elemento de lst*.
 fn lista_nega(lst: List(Int)) -> List(Int) {
   mapeia(lst, int.negate)
 }
@@ -1239,7 +1241,7 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `jun
 \scriptsize
 
 ```gleam
-/// Soma dos elementos de *lst*.
+/// Somas os elementos de *lst*.
 fn some(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
@@ -1283,7 +1285,7 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 \scriptsize
 
 ```gleam
-/// Soma dos elementos de *lst*.
+/// Somas os elementos de *lst*.
 fn some(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
@@ -1341,7 +1343,7 @@ fn reduz(lst, init, f) {
 \scriptsize
 
 ```gleam
-/// Soma dos elementos de *lst*.
+/// Somas os elementos de *lst*.
 fn some(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
@@ -1403,7 +1405,7 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Soma dos elementos de *lst*.
+/// Somas os elementos de *lst*.
 fn some(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
@@ -1465,7 +1467,7 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Soma dos elementos de *lst*.
+/// Somas os elementos de *lst*.
 fn some(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
@@ -1527,7 +1529,7 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Soma dos elementos de *lst*.
+/// Somas os elementos de *lst*.
 fn some(lst: List(Int)) -> Int {
   reduz(lst, 0, int.add)
 }
@@ -1588,7 +1590,7 @@ check.eq(
 
 ## `fold_right`
 
-Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-definida em Gleam como `fold_right`.
+Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-definida em Gleam como `list.fold_right`.
 
 \pause
 
@@ -1651,7 +1653,7 @@ Quando utilizar as funções `map`, `filter` e `fold_right`? \pause
 
 - `map`: quando queremos aplicar uma função a cada elemento de uma lista de forma independente. \pause
 
-- `filter`: quando queremos selecionar alguns elementos de uma lista. \pause
+- `filter`: quando queremos selecionar os elementos de uma lista de acordo com um predicado. \pause
 
 - `fold_right`: quando queremos calcular um resultado de forma incremental analisando cada elemento de uma lista. \pause
 
@@ -1744,7 +1746,7 @@ pub type Ponto {
 
 ```gleam
 /// Cria uma lista com os elementos de
-/// *pontos* estão sobre o eixo x ou y.
+/// *pontos* que estão sobre o eixo x ou y.
 fn seleciona_no_eixo(
   pontos: List(Ponto)
 ) -> List(Ponto) {
@@ -1846,8 +1848,7 @@ E então, podemos usar `map`, `filter` ou `fold_right` para implementar a funç�
 fn fold_right(lst, init, f) {
   case lst {
     [] -> []
-    [p, ..r] ->
-      f(fold_right(r, init, f), p))
+    [p, ..r] -> f(fold_right(r, init, f), p))
   }
 }
 ```
@@ -1861,7 +1862,7 @@ Sim! Podemos usar o `fold_right`. \pause
 \scriptsize
 
 ```gleam
-fn ordena(lst) {
+fn ordena(lst: List(Int)) -> List(Int) {
   list.fold_right(lst, [], insere_ordenado)
 }
 ```
@@ -1959,21 +1960,25 @@ fn tamanho_max(lst: List(String) -> Int {
 
 \small
 
-Agora podemos implementar a função `maiores-strings`.
+Agora podemos implementar a função `maiores_strings`.
 
 </div>
 </div>
+
 
 ## Exemplos: maiores strings
 
 <div class="columns">
 <div class="column" width="48%">
+
 \footnotesize
 
 ```gleam
 fn maiores_string(lst: List(String)) {
-  let max = tamanho_ma(lst)
-  list.filter(lst, todo)
+  let max = tamanho_maximo(lst)
+  // Como definimos a função
+  // tem_tamanho_maximo?
+  list.filter(lst, tem_tamanho_maximo)
 }
 ```
 
@@ -1983,7 +1988,7 @@ fn maiores_string(lst: List(String)) {
 fn maiores_string(lst: List(String)) {
   let max = tamanho_maximo(lst)
 
-  let tem_tamanho_max = fn(s: String) {
+  fn tem_tamanho_max(s: String) -> Bool {
     string.length(s) == max
   }
 
@@ -1991,37 +1996,26 @@ fn maiores_string(lst: List(String)) {
 }
 ```
 
+\pause
 
 </div>
 <div class="column" width="48%">
+O que a função `tem_tamanho_max` tem de diferente? \pause
+
+- É declarada dentro de outra função; \pause
+
+- Acessa uma variável (`max`) que não é um parâmetro, não é global e nem foi definida internamente na função.
+
 \pause
 
-\footnotesize
+Veremos a seguir que este tipo de função tem que ser tratada de forma diferente pelo compilador. \pause
 
-```python
-
-def maiores_strings(lst: list[str]) -> list[str]:
-    tmax = tamanho_max(lst)
-```
-
-```python
-    def tem_tamanho_max(s: str) -> bool:
-        return len(s) == tmax
-```
-
-```python
-    return list(filter(tem_tamanho_max, lst))
-```
-
-```python
-
-def tamanho_max(lst: list[str]) -> int:
-    # max recebe uma lista (iterator)
-    return max(map(len, lst))
-```
+Em Gleam, especificamente, a forma de definir funções desse tipo também é diferente. Por hora, vamos supor que a definição dessa maneira está correta.
 
 </div>
 </div>
+
+
 
 
 Definições locais e fechamentos
@@ -2029,41 +2023,42 @@ Definições locais e fechamentos
 
 ## Definições locais e fechamentos
 
-Uma **declaração local** é aquela que não é feita no escopo global. \pause As declarações locais, como a de `tmax` e `tamanho-maximo?`, ajudam na escrita e leitura do código e melhoram o encapsulamento. \pause
+Uma **definição local** é aquela que não é feita no escopo global. \pause
 
 Uma **variável livre** em relação a uma função é aquela que não é global, não é um parâmetro da função e nem foi declarada localmente dentro da função. \pause
 
-Como uma função acessa um parâmetro ou uma variáveis local? \pause Geralmente, consultando o registro de ativação, o quadro, da sua chamada.
+Como uma função acessa um parâmetro ou uma variáveis local? \pause
+
+Geralmente, consultando o registro de ativação, o quadro, da sua chamada.
 
 
 ## Definições locais e fechamentos
-
 
 <div class="columns">
 <div class="column" width="48%">
 \footnotesize
 
-```scheme
-;; Lista(String) -> Lista(String)
-(define (maiores-strings lst)
-  (define tmax (tamanho-maximo lst))
+```gleam
+fn maiores_string(lst: List(String)) {
+  let max = tamanho_maximo(lst)
 
-  ;; String -> Booleano
-  ;; Devolve #t se o tamanho de
-  ;; s é igual a tmax. #f caso contrário.
-  (define (tamanho-maximo? s)
-    (= (string-length s) tmax))
+  fn tem_tamanho_max(s: String) -> Bool {
+    string.length(s) == max
+  }
 
-  (filter tamanho-maximo? lst))
+  list.filter(lst, tem_tamanho_maximo)
+}
 ```
 
 </div>
 <div class="column" width="48%">
 \pause
 
-Como `tamanho-maximo?` acessa a variável livre `tmax` já que ela não é armazenada no registro de ativação de `tamanho-maximo?`? \pause
+A variável `max` existe independe da função `tem_tamanho_maximo` estar ativa (executando) ou não, então ela não pode ser armazenada no registro de ativação de `tem_tamanho_maximo`. \pause
 
-A função `tamanho-maximo?` deve "levar" junto com ela a variável livre `tmax`.
+Então, como a variável livre `max` é acessada na função `tem_tamanho_maximo`? \pause
+
+A função `tem_tamanho_maximo` deve "levar" junto com ela a variável livre `max`.
 
 </div>
 </div>
@@ -2077,146 +2072,40 @@ Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambient
 
 \footnotesize
 
-```scheme
-;; Lista(String) -> Lista(String)
-(define (maiores-strings lst)
-  (define tmax (tamanho-maximo lst))
-  ;; String -> Booleano
-  ;; Devolve #t se o tamanho de
-  ;; s é igual a tmax. #f caso contrário.
-  (define (tamanho-maximo? s)
-    (= (string-length s) tmax))
-  (filter tamanho-maximo? lst))
+```gleam
+fn maiores_string(lst: List(String)) -> List(String) {
+  let max = tamanho_maximo(lst)
+  fn tem_tamanho_max(s: String) -> Bool {
+    string.length(s) == max
+  }
+  list.filter(lst, tem_tamanho_maximo)
+}
 ```
 
 \normalsize
 
-Quando `tamanho-maximo` é utilizada na chamada do `map` um fechamento é passado como parâmetro.
+Quando a função `tem_tamanho_maximo` é utilizada na chamada de `list.map` um fechamento é passado como parâmetro.
 
 
-## Definições locais e fechamentos
+## Exemplo em python
 
-Até agora, as definições locais que fizemos apareceram no início de uma função, mas as definições também podem aparecer em outros locais.
+\footnotesize
+
+```python
+
+def maiores_strings(lst: list[str]) -> list[str]:
+    tmax = tamanho_max(lst)
+
+    def tem_tamanho_max(s: str) -> bool:
+        return len(s) == tmax
+
+    return list(filter(tem_tamanho_max, lst))
 
 
-## Definições locais e fechamentos
-
-Considere por exemplo esta função que remove os elementos consecutivos iguais
-
-\small
-
-```scheme
-(define (remove-duplicados lst)
-  (cond
-    [(empty? lst) empty]
-    [(empty? (rest lst)) lst]
-    [else
-     (if (equal? (first lst)
-                 (first (remove-duplicados (rest lst))))
-         (remove-duplicados (rest lst))
-         (cons (first lst)
-               (remove-duplicados (rest lst))))]))
+def tamanho_max(lst: list[str]) -> int:
+    # max recebe uma lista (iterator)
+    return max(map(len, lst))
 ```
-
-As expressões `(first lst)` e `(remove-duplicados (rest lst))` são computadas duas vezes.
-
-
-## Definições locais e fechamentos
-
-Podemos utilizar definições locais para armazenar o resultado de expressões e evitar que elas sejam computadas repetidas vezes.
-
-```scheme
-(define (remove-duplicados lst)
-  (cond
-    [(empty? lst) empty]
-    [(empty? (rest lst)) lst]
-    [else
-     (define p (first lst))
-     (define r (remove-duplicados (rest lst)))
-     (if (equal? p (first r))
-         r
-         (cons p r))]))
-```
-
-
-## Definições locais e fechamentos
-
-O `define`{.scheme} não pode ser usado em alguns lugares, como por exemplo, no consequente ou alternativa do `if`{.scheme}.
-
-Em geral utilizamos `define`{.scheme} apenas no início da função, em outros lugares utilizamos a forma especial `let`{.scheme}.
-
-
-## Definições locais e fechamentos
-
-A sintaxe do `let`{.scheme} é
-
-```scheme
-(let ([var1 exp1]
-      [var2 exp2]
-      ...
-      [varn expn])
-  corpo)
-```
-
-Os nomes `var1`, `var2`, ..., são locais ao `let`{.scheme}, ou seja, são visíveis apenas no corpo do `let`{.scheme}.
-
-O resultado da avaliação do `corpo` é o resultado da expressão `let`{.scheme}.
-
-
-## Definições locais e fechamentos
-
-No `let`{.scheme} os nomes que estão sendo definidos não podem ser usados nas definições dos nomes seguintes, por exemplo, não é possível utilizar o nome `var1` na expressão de `var2`.
-
-`let*`{.scheme} não tem essa limitação
-
-
-## Definições locais e fechamentos
-
-Definições internas com o `let`{.scheme}
-
-```scheme
-(define (remove-duplicados lst)
-  (cond
-    [(empty? lst) empty]
-    [(empty? (rest lst)) lst]
-    [else
-     (let ([p (first lst)]
-           [r (remove-duplicados (rest lst))])
-       (if (equal? p (first r))
-           r
-           (cons p r)))]))
-```
-
-
-## Exemplo
-
-Defina a função `mapeia` em termos da função `reduz`.
-
-
-## `mapeia` em termos de `reduz`
-
-```scheme
-(define (mapeia f lst)
-  (define (cons-f e lst)
-    (cons (f e) lst))
-  (reduz cons-f empty lst))
-```
-
-
-## Exemplo
-
-Defina a função `filtra` em termos da função `reduz`.
-
-
-## `filtra` em termos de `reduz`
-
-```scheme
-(define (filtra pred? lst)
-  (define (cons-if e lst)
-    (if (pred? e) (cons e lst) lst))
-  (reduz cons-if empty lst))
-```
-
 
 
 Funções anônimas
@@ -2224,60 +2113,192 @@ Funções anônimas
 
 ## Funções anônimas
 
-Da mesma forma que podemos utilizar expressões aritméticas sem precisar nomeá-las, também podemos utilizar expressões que resultam em funções sem precisar nomeá-las
+Quando definimos uma função, estamos especificando duas coisas: **a função** e **o nome da função**. \pause
+
+Da mesma forma que podemos utilizar expressões aritméticas sem precisar nomeá-las, também podemos utilizar funções (de maneira geral, expressões que resultam em funções) sem precisar nomeá-las. \pause
+
+Uma função que não é nomeada é chamada de **função anônima**.
 
 
 ## Funções anônimas
 
-Quando fazemos um `define` de uma função, estamos especificando duas coisas: **a função** e **o nome da função**. \pause Quando escrevemos
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
 
-```scheme
-(define (quadrado x)
-  (* x x))
+```gleam
+> // Função anônima
+> fn(x: Int) -> Int { x + 1 }
+//fn(a) { ... }
 ```
 
 \pause
 
-O Racket interpreta como
-
-```scheme
-(define quadrado
-  (lambda (x) (* x x)))
+```gleam
+> // Chamada de função anônima
+> fn(x: Int) -> Int { x + 1 }(3)
+4
 ```
 
 \pause
 
-O que deixa claro a distinção entre criar a função e dar nome à função. Às vezes é útil definir uma função sem dar nome a ela.
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+> // Armazenando função em variável
+> let soma1 = fn(x: Int) -> Int { x + 1 }
+//fn(a) { ... }
+```
+
+\pause
+
+```gleam
+> // Chamando a função armazenada
+> soma1(3)
+4
+```
+
+</div>
+</div>
+
+
+## Revisão maiores strings
+
+<div class="columns">
+<div class="column" width="48%">
+Por questões de simplicidade de projeto, em Gleam, apenas funções anônimas podem ser declaradas dentro de outras funções. \pause
+
+\footnotesize
+
+\ \
+
+```gleam
+fn maiores_string(lst: List(String)) {
+  let max = tamanho_maximo(lst)
+
+  // Declaração inválida
+  fn tem_tamanho_max(s: String) -> Bool {
+    string.length(s) == max
+  }
+
+  list.filter(lst, tem_tamanho_maximo)
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn maiores_string(lst: List(String)) {
+  let max = tamanho_maximo(lst)
+  let tem_tamanho_max = fn(s: String) -> Bool {
+    string.length(s) == max
+  }
+  list.filter(lst, tem_tamanho_maximo)
+}
+```
+\pause
+
+\normalsize
+
+\ \
+
+Ou sem armazenar a função em uma variável:
+
+\ \
+
+\footnotesize
+
+```gleam
+fn maiores_string(lst: List(String)) {
+  let max = tamanho_maximo(lst)
+  list.filter(fn(s) { string.length(s) == max })
+}
+```
+</div>
+</div>
 
 
 ## Funções anônimas
 
-`lambda`{.scheme} é a palavra chave usada para especificar funções. A sintaxe do `lambda`{.scheme} é
+Em que situações devemos utilizar um funções anônimas? \pause
 
-```scheme
-(lambda (parametros ...)
-    corpo)
+Como parâmetro, quando a função for pequena e necessária apenas naquele local: \pause
+
+\footnotesize
+
+```gleam
+> list.map([3, 8, -6], fn(x) { x * 2 })
+[6, 16, -12]
+> list.filter([3, 20, -4, 48], fn(x) { x < 10 })
+[3, -4]
 ```
 
-Em vez de utilizar a palavra `lambda`{.scheme}, podemos utilizar a letra $\lambda$ (ctrl + \textbackslash \ no DrRacket)
+\pause
+
+```python
+>>> list(map(lambda x: x * 2, [3, 8, -6]))
+[6, 16, -12]
+>>> list(filter(lambda x: x < 10, [3, 20, -4, 48])
+[3, -4]
+```
 
 
 ## Funções anônimas
 
-Como e quando utilizar um funções anônimas? \pause
-
-- Como parâmetro, quando a função for pequena e necessária apenas naquele local \pause
-
-    ```scheme
-    > (map (λ (x) (* x 2)) (list 3 8 -6))
-    '(6 16 -12)
-    > (filter (λ (x) (< x 10)) (list 3 20 -4 48))
-    '(3 -4)
-    ```
+<div class="columns">
+<div class="column" width="48%">
+Defina a função `mapeia` em termos da função `reduz`.
 
 \pause
 
-- Como resultado de função
+\footnotesize
+
+```gleam
+fn mapeia(lst, f) {
+  reduz(lst, fn(acc, e) {
+    [f(e), ..acc]
+  })
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+Defina a função `filtra` em termos da função `reduz`.
+
+\pause
+
+\footnotesize
+
+```gleam
+fn filtra(lst, pred) {
+  reduz(lst, fn(acc, e) {
+    case pred(e) {
+      True -> [e, ..acc]
+      False -> acc
+    }
+  })
+}
+```
+
+</div>
+</div>
+
+
+
+## Funções anônimas
+
+Em que situações devemos utilizar um funções anônimas? \pause
+
+Como resultado de funções.
 
 
 
@@ -2288,13 +2309,11 @@ Funções que produzem funções
 
 Como identificar a necessidade de criar e utilizar funções que produzem funções? \pause
 
-- Parametrizar a criação de funções fixando alguns parâmetros \pause
+- Parametrizar a criação de funções fixando alguns parâmetros; \pause
 
-- Composição de funções \pause
+- Composição de funções; \pause
 
-- ... \pause
-
-- Requer experiência
+- ...
 
 
 ## Exemplo: somador
@@ -2304,107 +2323,126 @@ Defina uma função que receba um parâmetro $n$ e devolva uma função que soma
 
 ## Exemplo: somador
 
-```scheme
-> (define soma1 (somador 1))
-> (define soma5 (somador 5))
-> (soma1 4)
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+> let soma1 = soma(1)
+> soma1(4)
 5
-> (soma5 9)
-14
-> (soma1 6)
+> soma1(6)
 7
-> (soma5 3)
-8
 ```
 
-
-## Exemplo: somador
-
-```scheme
-;; Número -> (Número -> Número)
-;; Devolve uma função que recebe um parâmetro x
-;; e produz a soma de n e x.
-(examples
- (check-equal? ((somador 4) 3) 7)
- (check-equal? ((somador -2) 8) 6))
-(define (somador n) ...)
-```
+\ \
 
 \pause
 
-```scheme
-;; Versão com função nomeada.
-(define (somador n)
-  (define (soma x)
-    (+ n x))
-  soma)
+```gleam
+> soma(1)(2)
+3
 ```
 
-
-## Exemplo: somador
-
-```scheme
-;; Número -> (Número -> Número)
-;; Devolve uma função que recebe um parâmetro x
-;; e produz a soma de n e x.
-(examples
- (check-equal? ((somador 4) 3) 7)
- (check-equal? ((somador -2) 8) 6))
-(define (somador n) ...)
-```
+\ \
 
 \pause
 
-```scheme
-;; Versão com função anônima.
-(define (somador n)
-  (λ (x) (+ n x)))
+```gleam
+> list.map([4, 1, 3], soma(5))
+[9, 6, 8]
 ```
+
+\pause
+</div>
+<div class="column" width="48%">
+
+\scriptsize
+
+```gleam
+/// Devolve uma função que recebe um
+/// parâmetro *x* e faz a soma de *n* e *x*.
+pub fn somador(n: Int) -> fn(Int) -> Int {
+  todo
+}
+```
+
+\ \
+
+\pause
+
+```gleam
+pub fn somador(n: Int) -> fn(Int) -> Int {
+  fn(x) { n + x }
+}
+```
+
+</div>
+</div>
 
 
 ## Exemplo: negação
 
-Defina uma função que receba como parâmetro um predicado (função que retorna booleano) e retorne uma função que retorna a negação do predicado.
-
-- `negate` ([referência](https://docs.racket-lang.org/reference/procedures.html#%28def._%28%28lib._scheme%2Ffunction..rkt%29._negate%29%29))
+Defina uma função que receba como parâmetro um predicado (função de um parâmetro que produz booleano) e devolve uma função que devolve a negação do predicado.
 
 
 ## Exemplo: negação
 
-```scheme
-> ((nega positive?) 3)
-#f
-> ((nega positive?) -3)
-#t
-> ((nega even?) 4)
-#f
-> ((nega even?) 3)
-#t
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+> nega(list.is_empty)([])
+False
+> nega(list.is_empty)([1, 2])
+True
 ```
 
+\ \
 
-## Exemplo: negação
+\pause
 
-```scheme
-;; (X -> Boolean) -> (X -> Boolean)
-;; Devolve uma função que é semelhante a pred,
-;; mas que devolve a  negação do resultado de pred.
-;; Veja a função pré-definida negate.
-(examples
- (check-equal? ((nega positive?) 3) #f)
- (check-equal? ((nega positive?) -3) #t)
- (check-equal? ((nega even?) 4) #f)
- (check-equal? ((nega even?) 3) #t))
+```gleam
+> filter([4, 1, 2, 0, 3], nega(int.is_odd))
+[4, 2, 0]
 ```
 
 \pause
 
-```scheme
-(define (nega pred?)
-  (λ (x) (not (pred? x))))
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve uma função que é semelhante a
+/// *pred*, mas que devolve a negação do
+/// resultado de *pred*.
+pub fn nega(
+  pred: fn(a) -> Bool
+) -> fn(a) -> Bool {
+  todo
+  fn(x: a) -> Bool { !pred(x) }
+}
 ```
 
+\pause
 
+\ \
+
+```gleam
+pub fn nega(
+  pred: fn(a) -> Bool
+) -> fn(a) -> Bool {
+  fn(x: a) -> Bool { !pred(x) }
+}
+```
+
+</div>
+</div>
+
+
+<!--
 
 Currying
 ========
@@ -2457,7 +2495,98 @@ As funções pré-definidas `curry` e `curryr` são utilizadas para fixar argume
 > (map (curry + 5) (list 3 6 2))
 '(8 11 7)
 ```
+-->
 
+Açúcar sintático
+================
+
+## Açúcar sintático
+
+**Açúcar sintático** são construções sintáticas de linguagens de programação que deixam o seu uso mais simples, ou doce, para os humanos. \pause
+
+Vamos ver alguns açucares sintáticos do Gleam.
+
+
+## Fechamento abreviado
+
+O uso de fechamentos com um parâmetro é bastante comum, por isso, o Gleam oferece uma forma abreviada para criá-los. \pause
+
+Uma expressão da forma `f(..., _, ...)`{.gleam}, onde o marcador de posição `_` define o parâmetro para o fechamento, é equivalente a `fn(x) { f(..., x, ...) }`{.gleam}. \pause
+
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+> list.map([3, 1, 4], int.add(_, 1))
+[4, 2, 5]
+```
+
+\pause
+
+\ \
+
+```gleam
+> list.map([3, 1, 4], fn(x) { x + 1 })
+[4, 2, 5]
+```
+
+\pause
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+> list.map(
+    ["um-dois", "a-b-c"],
+    string.split(_, "-"),
+  )
+[["um", "dois"], ["a", "b", "c"]]
+```
+
+</div>
+</div>
+
+
+## Pipelines
+
+Um **pipeline**, ou cadeia de processamento, é uma sequência de operações onde a saída de uma operação é utilizada como entrada da próxima. \pause
+
+Em Gleam, o encadeamento de operações é expresso com o operador binário `|>`. \pause
+
+Uma expressão da forma `a |> b(x, ..., z)`{.gleam} é equivalente a `b(a, x, ..., z)`{.gleam} ou a `b(x, ..., z)(a)`{.gleam}.
+
+\pause
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn tamanho_max(lst: List(String) -> Int {
+  list.fold_rigth(
+    list.map(lst, string.length),
+    0,
+    int.max,
+  )
+}
+```
+
+\pause
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+fn tamanho_max(lst: List(String) -> Int {
+  lst
+  |> list.map(string.length)
+  |> list.fold_right(0, int.max)
+}
+```
+</div>
+</div>
 
 
 Outras funções de alta ordem
@@ -2465,63 +2594,95 @@ Outras funções de alta ordem
 
 ## Outras funções de alta ordem
 
-`apply` ([referência](http://docs.racket-lang.org/reference/procedures.html?q=apply#%28def._%28%28lib._scheme%2Fprivate%2Fbase..rkt%29._apply%29%29))
+<div class="columns">
+<div class="column" width="16%">
+\scriptsize
 
-    ```scheme
-    > (apply < (list 4 5))
-    #t
-    > (apply + (list 4 5))
-    9
-    > (apply * (list 2 3 4))
-    24
-    ```
-
-`andmap` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._andmap%29%29))
-
-`ormap` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/map..rkt%29._ormap%29%29))
-
-`build-list` ([referência](http://docs.racket-lang.org/reference/pairs.html#%28def._%28%28lib._scheme/private/list..rkt%29._build-list%29%29))
-
-
-
-Funções com número variado de parâmetros
-========================================
-
-## Funções com número variado de parâmetros
-
-Muitas funções pré-definidas aceitam um número variado de parâmetros. \pause Como criar funções com esta característica? \pause
-
-Forma geral
-
-```scheme
-(define (nome obrigatorios . opcionais) corpo)
-(define (nome . opcionais) corpo)
-(λ (obrigatorios . opcionais) corpo)
-(λ opcionais corpo)
+```gleam
+bool
+  guard
+  lazy_guard
 ```
 
-Os parâmetros opcionais são agrupados em uma lista
+\pause
+</div>
+<div class="column" width="16%">
+\scriptsize
 
-
-## Funções com número variado de parâmetros
-
-Exemplos
-
-```scheme
-> (define (f1 p1 p2 . outros) outros)
-> (f1 4 5 7 -2 5)
-'(7 -2 5)
-> (f1 4 5)
-'()
-> (f1 4)
-f1: arity mismatch;
- the expected number of arguments does not match the given number
-  expected: at least 2
-  given: 1
-  arguments...:
-   4
+```gleam
+option
+  lazy_or
+  lazy_unwrap
+  map
+  or
+  then
 ```
 
+\pause
+</div>
+<div class="column" width="16%">
+\scriptsize
+
+```gleam
+result
+  lazy_or
+  lazy_unwrap
+  map
+  map_error
+  then
+  try
+  try_recover
+```
+
+\pause
+</div>
+<div class="column" width="16%">
+\scriptsize
+
+```gleam
+list
+  all
+  any
+  drop_while
+  filter_map
+  find_map
+  fold_until
+  index_fold
+  index_map
+  map2
+  map_fold
+  sort
+  split_while
+  take_while
+  try_fold
+  try_map
+```
+
+\pause
+</div>
+<div class="column" width="16%">
+\scriptsize
+
+```gleam
+dict
+  filter
+  fold
+  map_values
+```
+
+\pause
+</div>
+<div class="column" width="16%">
+\scriptsize
+
+```gleam
+set
+  filter
+  fold
+  map
+```
+</div>
+</div>
 
 
 Referências
@@ -2544,5 +2705,3 @@ Complementares
 - Seções [1.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3) (1.3.1 e 1.3.2)   e [2.2.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-15.html#%_sec_2.2.3) do livro [SICP](https://mitpress.mit.edu/sicp/)
 
 - Seções [4.2](http://www.scheme.com/tspl4/binding.html#./binding:h2) e [5.5](http://www.scheme.com/tspl4/control.html#./control:h5) do livro [TSPL4](http://www.scheme.com/tspl4/)
-
--->

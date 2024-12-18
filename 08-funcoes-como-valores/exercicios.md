@@ -18,6 +18,8 @@ license:
 
 @) Qual estratégia foi discutida para projetar funções que recebem funções como parâmetro?
 
+@) O que é uma variável livre?
+
 @) O que é um fechamento?
 
 @) Quando devemos utilizar funções anônimas?

@@ -1942,25 +1942,24 @@ Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause
 
 A função para o `fold_right` teria que fazer duas coisas, determinar o tamanho de uma string e indicar qual é o máximo entre dois tamanhos. \pause
 
-Podemos separar as etapas de obter os tamanhos e encontrar o máximo, usamos o `map` para obter uma lista com os tamanhos e o `fold_right` para determinar o valor máximo. \pause
+Podemos fazer em duas etapas: usamos o `map` para obter uma lista com os tamanhos e o `fold_right` para determinar o valor máximo. \pause
 
 \footnotesize
+
+\ \
 
 ```gleam
 /// Devolve o tamanho máximo entre
 /// todos os elementos de *lst*.
 fn tamanho_max(lst: List(String) -> Int {
-  list.fold_rigth(list.map(lst,
-                           string.length),
-                  0, int.max)
+  list.fold_rigth(
+    list.map(lst, string.length),
+    0,
+    int.max
+  )
 }
 ```
 
-\pause
-
-\small
-
-Agora podemos implementar a função `maiores_strings`.
 
 </div>
 </div>
@@ -2029,7 +2028,9 @@ Uma **variável livre** em relação a uma função é aquela que não é global
 
 Como uma função acessa um parâmetro ou uma variáveis local? \pause
 
-Geralmente, consultando o registro de ativação, o quadro, da sua chamada.
+Geralmente, consultando o registro de ativação, o quadro, da sua chamada. \pause
+
+Como uma função acessa uma variável livre?
 
 
 ## Definições locais e fechamentos
@@ -2054,7 +2055,7 @@ fn maiores_string(lst: List(String)) {
 <div class="column" width="48%">
 \pause
 
-A variável `max` existe independe da função `tem_tamanho_maximo` estar ativa (executando) ou não, então ela não pode ser armazenada no registro de ativação de `tem_tamanho_maximo`. \pause
+A variável `max` existe independe da função `tem_tamanho_maximo` estar ativa (executando) ou não, logo ela não pode ser armazenada no registro de ativação de `tem_tamanho_maximo`. \pause
 
 Então, como a variável livre `max` é acessada na função `tem_tamanho_maximo`? \pause
 
@@ -2066,7 +2067,7 @@ A função `tem_tamanho_maximo` deve "levar" junto com ela a variável livre `ma
 
 ## Definições locais e fechamentos
 
-O **ambiente léxico** é uma tabela com referências para as variáveis livres. \pause
+O **ambiente léxico** é uma tabela com referências para as variáveis livres de uma função. \pause
 
 Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambiente léxico. \pause
 
@@ -2084,7 +2085,7 @@ fn maiores_string(lst: List(String)) -> List(String) {
 
 \normalsize
 
-Quando a função `tem_tamanho_maximo` é utilizada na chamada de `list.map` um fechamento é passado como parâmetro.
+Quando a função `tem_tamanho_maximo` é utilizada na chamada de `list.filter` um fechamento é passado como parâmetro.
 
 
 ## Exemplo em python
@@ -2103,7 +2104,7 @@ def maiores_strings(lst: list[str]) -> list[str]:
 
 
 def tamanho_max(lst: list[str]) -> int:
-    # max recebe uma lista (iterator)
+    # max recebe um iterador
     return max(map(len, lst))
 ```
 
@@ -2298,7 +2299,9 @@ fn filtra(lst, pred) {
 
 Em que situações devemos utilizar um funções anônimas? \pause
 
-Como resultado de funções.
+- Como parâmetro, quando a função for pequena e necessária apenas naquele local. \pause
+
+- Como resultado de funções.
 
 
 
@@ -2362,7 +2365,7 @@ Defina uma função que receba um parâmetro $n$ e devolva uma função que soma
 ```gleam
 /// Devolve uma função que recebe um
 /// parâmetro *x* e faz a soma de *n* e *x*.
-pub fn somador(n: Int) -> fn(Int) -> Int {
+pub fn soma(n: Int) -> fn(Int) -> Int {
   todo
 }
 ```
@@ -2372,7 +2375,17 @@ pub fn somador(n: Int) -> fn(Int) -> Int {
 \pause
 
 ```gleam
-pub fn somador(n: Int) -> fn(Int) -> Int {
+pub fn soma(n: Int) -> fn(Int) -> Int {
+  fn(x: Int) -> Int { n + x }
+}
+```
+
+\ \
+
+\pause
+
+```gleam
+pub fn soma(n: Int) -> fn(Int) -> Int {
   fn(x) { n + x }
 }
 ```
@@ -2422,7 +2435,6 @@ pub fn nega(
   pred: fn(a) -> Bool
 ) -> fn(a) -> Bool {
   todo
-  fn(x: a) -> Bool { !pred(x) }
 }
 ```
 
@@ -2434,7 +2446,7 @@ pub fn nega(
 pub fn nega(
   pred: fn(a) -> Bool
 ) -> fn(a) -> Bool {
-  fn(x: a) -> Bool { !pred(x) }
+  fn(x) { !pred(x) }
 }
 ```
 
@@ -2502,7 +2514,7 @@ Açúcar sintático
 
 ## Açúcar sintático
 
-**Açúcar sintático** são construções sintáticas de linguagens de programação que deixam o seu uso mais simples, ou doce, para os humanos. \pause
+**Açúcares sintáticos** são construções sintáticas de linguagens de programação que deixam o seu uso mais simples, ou doce, para os humanos. \pause
 
 Vamos ver alguns açucares sintáticos do Gleam.
 
@@ -2511,42 +2523,55 @@ Vamos ver alguns açucares sintáticos do Gleam.
 
 O uso de fechamentos com um parâmetro é bastante comum, por isso, o Gleam oferece uma forma abreviada para criá-los. \pause
 
-Uma expressão da forma `f(..., _, ...)`{.gleam}, onde o marcador de posição `_` define o parâmetro para o fechamento, é equivalente a `fn(x) { f(..., x, ...) }`{.gleam}. \pause
+Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma função qualquer e `...` são as variáveis livres do fechamento, pode ser escrito de forma abreviada como `f(..., _, ...)`{.gleam}, onde o marcador de posição `_` define o parâmetro para o fechamento.
 
 
-<div class="columns">
-<div class="column" width="48%">
+## Fechamento abreviado
+
 \footnotesize
 
 ```gleam
-> list.map([3, 1, 4], int.add(_, 1))
-[4, 2, 5]
+> // seleciona os elementos de lsta que estão em lstb
+> let lsta = [1, 4, 2]
+> let lstb = [3, 2, 7, 1]
+> list.filter(lsta, fn(e) { list.contains(lstb, e) })
+[1, 2]
 ```
 
 \pause
 
-\ \
+```gleam
+> // usando a forma abreviada
+> list.filter(lsta, list.contains(lstb, _))
+[1, 2]
+```
+
+
+## Fechamento abreviado
+
+\footnotesize
 
 ```gleam
+> // soma 1 em cada elemento da lista
 > list.map([3, 1, 4], fn(x) { x + 1 })
 [4, 2, 5]
 ```
 
 \pause
-</div>
-<div class="column" width="48%">
-\footnotesize
 
 ```gleam
-> list.map(
-    ["um-dois", "a-b-c"],
-    string.split(_, "-"),
-  )
-[["um", "dois"], ["a", "b", "c"]]
+> // a abrevição só pode ser usada em chamada de funções
+> list.map([3, 1, 4], fn(x) { int.add(x, 1) })
+[4, 2, 5]
 ```
 
-</div>
-</div>
+\pause
+
+```gleam
+> // usando a forma abreviada
+> list.map([3, 1, 4], int.add(_, 1))
+[4, 2, 5]
+```
 
 
 ## Pipelines

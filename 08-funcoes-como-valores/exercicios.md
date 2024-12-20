@@ -47,23 +47,7 @@ license:
     20
     ```
 
-@) Vimos como usar a função `list.map` utilizando apenas uma lista, mas de fato, a função `map` aceita como parâmetro uma função de aridade $n$ e $n$ listas do mesmo tamanho. Nessa forma geral, a função `map` aplica a função parâmetro a todos os primeiros elementos das listas, depois aplica a função a todos os segundos elementos das listas e assim por diante, retornando a lista de resultados. Os exemplos a seguir mostrar esse funcionamento
-
-    ```scheme
-    > (map + (list 1 2 3) (list 4 5 6) (list 7 8 9))
-    '(12 15 18)
-    > (map list (list 1 2 3) (list 4 5 6))
-    '((1 4) (2 5) (3 6))
-    ```
-
-    Projete uma versão restrita da função `map`, chamada `map2`, que funciona para uma duas listas, como no exemplo a seguir
-
-    ```scheme
-    > (map2 * (list 1 2 3) (list 4 5 6))
-    '(4 10 18)
-    > (map2 list (list 1 2 3) (list 4 5 6))
-    '((1 4) (2 5) (3 6))
-    ```
+@) Veja a [documentação](https://hexdocs.pm/gleam_stdlib/gleam/list.html) das funções `list.map2`, `list.filter_map` e `list.fold_until` e faça uma implementação dessas funções.
 
 
 @) Analise os exemplos e exercícios de números naturais e defina uma função `num_reduz` (semelhante a função `reduz` feita em sala) que abstraia o comportamento do modelo para funções com números naturais. Redefina as funções da lista de exercícios de números naturais (que for possível) em termos de `num_reduz`. As novas funções ficaram mais simples?

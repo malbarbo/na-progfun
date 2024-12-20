@@ -3,7 +3,7 @@
 title: Funções como valores
 # TODO: explicitar que existe uma "algebra" de funções (assim como uma algebra de número, strings, etc)
 # TODO: rever referências
-# TODO: remover seção de funções com número variado de parâmetros?
+# TODO: falar de currying?
 # TODO: mudar contem_5 para contem "a"?
 # TODO: melhorar o agrupamento e os nomes das seções
 # TODO: colocar uma função para fold que a saída tem tipo diferente dos elementos da entrada
@@ -2332,6 +2332,7 @@ Defina uma função que receba um parâmetro $n$ e devolva uma função que soma
 
 ```gleam
 > let soma1 = soma(1)
+//fn(a) { ... }
 > soma1(4)
 5
 > soma1(6)
@@ -2454,67 +2455,12 @@ pub fn nega(
 </div>
 
 
-<!--
-
-Currying
-========
-
-
-## Currying
-
-No cálculo lambda o currying permite definir funções que admitem múltiplos parâmetros. \pause
-
-Aqui o currying permite a aplicação parcial das funções. \pause
-
-Por exemplo, para uma função que admite dois argumentos, poderemos aplicá-la apenas ao primeiro argumento e mais tarde ao segundo argumento, resultando no valor esperado.
-
-
-## Currying
-
-```scheme
-> (define f (λ (x) (λ (y) (* x y))))
-> (define ((g x) y) (< x y))
-> (map (f 2) (list 1 2 3 4))
-'(2 4 6 8)
-> (filter (g 2) (list 1 2 3 4))
-'(3 4)
-```
-
-
-## `curry` e `curryr`
-
-As funções pré-definidas `curry` e `curryr` são utilizadas para fixar argumentos de funções
-
-- `curry` fixa os argumentos da esquerda para direita
-
-- `curryr` fixa os argumentos da direita para esquerda
-
-
-## `curry` e `curryr`
-
-```scheme
-> (define e-4? (curry = 4))
-> (e-4? 4)
-#t
-> (e-4? 5)
-#f
-> (filter e-4? (list 3 4 7 4 6))
-'(4 4)
-> (filter (curry < 3) (list 4 3 2 5 7 1))
-'(4 5 7)
-> (filter (curryr < 3) (list 4 3 2 5 7 1))
-'(2 1)
-> (map (curry + 5) (list 3 6 2))
-'(8 11 7)
-```
--->
-
 Açúcar sintático
 ================
 
 ## Açúcar sintático
 
-**Açúcares sintáticos** são construções sintáticas de linguagens de programação que deixam o seu uso mais simples, ou doce, para os humanos. \pause
+**Açúcares sintáticos** ([_syntatic sugar_](https://en.wikipedia.org/wiki/Syntactic_sugar)) são construções sintáticas de linguagens de programação que deixam o seu uso mais simples, ou doce, para os humanos. \pause
 
 Vamos ver alguns açucares sintáticos do Gleam.
 
@@ -2523,33 +2469,91 @@ Vamos ver alguns açucares sintáticos do Gleam.
 
 O uso de fechamentos com um parâmetro é bastante comum, por isso, o Gleam oferece uma forma abreviada para criá-los. \pause
 
-Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma função qualquer e `...` são as variáveis livres do fechamento, pode ser escrito de forma abreviada como `f(..., _, ...)`{.gleam}, onde o marcador de posição `_` define o parâmetro para o fechamento.
+Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma função qualquer e `...` são as variáveis livres do fechamento, pode ser escrito de forma abreviada como `f(..., _, ...)`{.gleam}, onde o marcador de posição `_` define o parâmetro para o fechamento. \pause
+
+\centering
+
+`f(..., _, ...)`{.gleam}
+
+é a mesma coisa que
+
+\centering
+
+`fn(x) { f(..., x, ...) }`{.gleam}
+
+\ \
 
 
 ## Fechamento abreviado
 
-\footnotesize
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
 
 ```gleam
-> // seleciona os elementos de lsta que estão em lstb
-> let lsta = [1, 4, 2]
-> let lstb = [3, 2, 7, 1]
-> list.filter(lsta, fn(e) { list.contains(lstb, e) })
+> // separa a string em ","
+> let sep = ","
+> let separa = fn(s) { string.split(s, sep) }
+// fn(a) { ... }
+> separa("12,2,-1")
+["12", "2", "-1"]
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+> // forma abreviada
+> let sep = ","
+> let separa = string.split(_, sep)
+// fn(a) { ... }
+> separa("12,2,-1")
+["12", "2", "-1"]
+```
+</div>
+</div>
+
+\ \
+\pause
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+> // seleciona os elementos de a que estão em b
+> let a = [1, 4, 2]
+> let b = [3, 2, 7, 1]
+> list.filter(a, fn(e) { list.contains(b, e) })
 [1, 2]
 ```
 
 \pause
 
+</div>
+<div class="column" width="48%">
+\scriptsize
+
 ```gleam
-> // usando a forma abreviada
-> list.filter(lsta, list.contains(lstb, _))
+> // de forma abreviada
+> let a = [1, 4, 2]
+> let b = [3, 2, 7, 1]
+> list.filter(a, list.contains(b, _))
 [1, 2]
 ```
 
+</div>
+</div>
 
-## Fechamento abreviado
+\ \
+\pause
 
-\footnotesize
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
 
 ```gleam
 > // soma 1 em cada elemento da lista
@@ -2560,33 +2564,57 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 \pause
 
 ```gleam
-> // a abrevição só pode ser usada em chamada de funções
+> // em uma forma que pode ser abreviada
 > list.map([3, 1, 4], fn(x) { int.add(x, 1) })
 [4, 2, 5]
 ```
 
 \pause
 
+</div>
+<div class="column" width="48%">
+\scriptsize
+
 ```gleam
-> // usando a forma abreviada
+> // de forma abreviada
 > list.map([3, 1, 4], int.add(_, 1))
 [4, 2, 5]
 ```
 
+</div>
+</div>
 
-## Pipelines
 
-Um **pipeline**, ou cadeia de processamento, é uma sequência de operações onde a saída de uma operação é utilizada como entrada da próxima. \pause
+## Cadeia de processamento
 
-Em Gleam, o encadeamento de operações é expresso com o operador binário `|>`. \pause
+Um **cadeia de processamento**, ou _pipeline_, é uma sequência de operações onde a saída de uma operação é utilizada como entrada da próxima. \pause
 
-Uma expressão da forma `a |> b(x, ..., z)`{.gleam} é equivalente a `b(a, x, ..., z)`{.gleam} ou a `b(x, ..., z)(a)`{.gleam}.
+A forma "comum" de chamar funções pode não ser adequada para uma cadeia de processamento com muitas etapas, isso porque a ordem de execução fica de "dentro para fora", o que dificulta a escrita e leitura do código. \pause
+
+Gleam oferece o operador binário `|>` para facilitar as cadeias de processamento\pause
+
+\centering
+
+`a |> b(x, ..., z)`{.gleam}
+
+é equivalente a
+
+`b(a, x, ..., z)`{.gleam} ou `b(x, ..., z)(a)`{.gleam}
+
+\ \
+
+
+## Cadeia de processamento
+
+\scriptsize
+
+```gleam
+fn tamanho_max(lst: List(String) -> Int {
+  list.fold_rigth(list.map(lst, string.length), 0, int.max)
+}
+```
 
 \pause
-
-<div class="columns">
-<div class="column" width="48%">
-\footnotesize
 
 ```gleam
 fn tamanho_max(lst: List(String) -> Int {
@@ -2599,9 +2627,6 @@ fn tamanho_max(lst: List(String) -> Int {
 ```
 
 \pause
-</div>
-<div class="column" width="48%">
-\footnotesize
 
 ```gleam
 fn tamanho_max(lst: List(String) -> Int {
@@ -2610,8 +2635,48 @@ fn tamanho_max(lst: List(String) -> Int {
   |> list.fold_right(0, int.max)
 }
 ```
+
+
+## Cadeia de processamento
+
+\scriptsize
+
+```gleam
+// cria uma lista com todos os nomes que começam com a letra "a"
+// enumerados em ordem alfabética.
+> enumera_em_ordem_comeca_a(["pedro", "angela", "joao", "ana", "aline"])
+["1. aline", "2. ana", "3. angela"]
+```
+
+\pause
+
+```gleam
+fn enumera_em_ordem_comeca_a(nomes: List(String)) -> List(String) {
+  list.index_map(
+    list.sort(list.filter(nomes, string.starts_with(_, "a")), string.compare),
+    fn (nome, num) { int.to_string(num) <> ". " <> nome },
+ )
+}
+```
+
+\pause
+
+```gleam
+fn enumera_em_ordem_comeca_a(nomes: List(String)) -> List(String) {
+  nomes
+  |> list.filter(string.starts_with(_, "a"))
+  |> list.sort(string.compare)
+  |> list.index_map(fn (nome, num) { int.to_string(num) <> ". " <> nome })
+}
+```
+
 </div>
 </div>
+
+
+## Use
+
+Em breve...
 
 
 Outras funções de alta ordem

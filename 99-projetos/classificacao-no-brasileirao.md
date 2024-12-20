@@ -34,7 +34,6 @@ O seu programa deve produzir a seguinte lista de strings (uma string por linha) 
 Onde depois do nome do time aparece o número de pontos, o número de vitórias e o saldo de gols. Se você quiser ir além, pode formatar a saída para ficar mais legível
 
 ```scheme
-
 (list "Flamengo     6  2   2"
       "Atletico-MG  3  1   0"
       "Palmeiras    1  0  -1"

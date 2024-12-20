@@ -4,6 +4,8 @@
 
 # TODO
 
+- Colocar o nome do arquivo com a solução nos exercícios (nomear cada exercício?)
+
 - Colocar seções nos slides
 
 - Apresentar a receita de projeto de forma diferente (https://course.ccs.neu.edu/cs5010sp15/recipe.html)

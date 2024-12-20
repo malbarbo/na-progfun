@@ -2460,7 +2460,7 @@ Açúcar sintático
 
 ## Açúcar sintático
 
-**Açúcares sintáticos** ([_syntatic sugar_](https://en.wikipedia.org/wiki/Syntactic_sugar)) são construções sintáticas de linguagens de programação que deixam o seu uso mais simples, ou doce, para os humanos. \pause
+Um **açúcar sintático** ([_syntatic sugar_](https://en.wikipedia.org/wiki/Syntactic_sugar)) é uma construção sintática de uma linguagens de programação que deixam o seu uso mais simples, ou doce, para os humanos. \pause
 
 Vamos ver alguns açucares sintáticos do Gleam.
 
@@ -2676,7 +2676,247 @@ fn enumera_em_ordem_comeca_a(nomes: List(String)) -> List(String) {
 
 ## Use
 
-Em breve...
+As funções de alta ordem e o casamento de padrão são essenciais para a programação funcional. No entanto, em algumas situações, o uso dessas construções pode gerar indentação excessiva. \pause
+
+Vamos rever um exemplo que vimos em tipos de dados.
+
+
+## Use {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn soma(a: String, b: String)
+  -> Result(Int, Nil) {
+  case int.parse(a) {
+    Ok(x) -> case int.parse(b) {
+      Ok(y) -> Ok(x + y)
+      Error(err) -> Error(err)
+    }
+    Error(err) -> Error(err)
+  }
+}
+```
+
+\ \
+
+\pause
+
+\small
+
+Podemos melhorar? \pause
+
+Existe um padrão recorrente no código: se o resultado for `Ok`{.gleam}, então, continue com outra operação, senão, pare e devolva o erro.
+
+Podemos criar uma função de alta ordem `entao` para abstrair esse padrão. \pause
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Excuta *fun* com o valor de *r* e
+/// devolve seu resultado se *r* é Ok,
+/// senão devolve o mesmo erro de *r*.
+> entao(Ok(10), fn(x) { Ok(int.to_string(x)) })
+Ok("10")
+> entao(Error("a"), fn(x) { Ok(int.to_string(x)) })
+Error("falhou")
+> Ok("casa") |> entao(string.first)
+Ok("c")
+
+fn entao(
+  r: Result(a, b),
+  fun: fn(a) -> Result(c, b),
+) -> Result(c, b) {
+```
+
+\pause
+
+```gleam
+  case r {
+    Ok(value) -> fun(value)
+    Error(error) -> Error(error)
+  }
+}
+```
+
+</div>
+</div>
+
+
+## Use {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn soma(a: String, b: String)
+  -> Result(Int, Nil) {
+  case int.parse(a) {
+    Ok(x) -> case int.parse(b) {
+      Ok(y) -> Ok(x + y)
+      Error(err) -> Error(err)
+    }
+    Error(err) -> Error(err)
+  }
+}
+```
+
+\ \
+
+\small
+
+Podemos melhorar?
+
+Existe um padrão recorrente no código: se o resultado for `Ok`{.gleam}, então, continue com outra operação, senão, pare e devolva o erro.
+
+Podemos criar uma função de alta ordem `entao` para abstrair esse padrão.
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn soma(a: String, b: String) -> Result(Int, Nil) {
+  entao(int.parse(a), fn(x) {
+    entao(int.parse(b), fn(y) {
+      Ok(x + y)
+    })
+  })
+}
+```
+
+\pause
+
+\small
+
+\vspace{0.2cm}
+
+A função `entao` está definida na biblioteca padrão como `result.then` e `result.try` (as duas funções fazem a mesma coisa).
+
+\pause
+
+\scriptsize
+
+```gleam
+fn soma(a: String, b: String) -> Result(Int, Nil) {
+  result.try(int.parse(a), fn(x) {
+    result.try(int.parse(b), fn(y) {
+      Ok(x + y)
+    })
+  })
+}
+```
+
+</div>
+</div>
+
+
+## Use {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn soma(a: String, b: String)
+  -> Result(Int, Nil) {
+  case int.parse(a) {
+    Ok(x) -> case int.parse(b) {
+      Ok(y) -> Ok(x + y)
+      Error(err) -> Error(err)
+    }
+    Error(err) -> Error(err)
+  }
+}
+```
+
+\ \
+
+```gleam
+fn soma(a: String, b: String)
+  -> Result(Int, Nil) {
+  result.try(int.parse(a), fn(x) {
+    result.try(int.parse(b), fn(y) {
+      Ok(x + y)
+    })
+  })
+}
+```
+
+
+</div>
+<div class="column" width="48%">
+
+\pause
+
+\small
+
+Podemos melhorar? \pause Sim! \pause
+
+\scriptsize
+
+\ \
+
+```gleam
+fn soma(a: String, b: String)
+  -> Result(Int, Nil) {
+  use x <- result.try(int.parse(a))
+  use y <- result.try(int.parse(b))
+  Ok(x + y)
+}
+```
+
+\ \
+
+\pause
+
+\small
+
+Apesar de parecem diferentes, as duas últimas definições da função `soma` são equivalentes! \pause
+
+O `use`{.gleam} é apenas açúcar sintático para definir uma função anônima e passá-la como último parâmetro para uma chamada de função.
+
+</div>
+</div>
+
+
+## Use {.t}
+
+<div class="columns">
+<div class="column" width="100%">
+
+\small
+
+O `use`{.gleam} permite utilizar funções anônimas como parâmetros sem aumentar a indentação do código. \pause
+
+Uma chamada da forma
+
+```gleam
+funcao(a, b, ..., fn(x, y, ...) { corpo })
+```
+
+pode ser escrita como
+
+```gleam
+use x, y, ... <- funcao(a, b, ...)
+corpo
+```
+
+\pause
+
+A função que está sendo chamada pode receber qualquer quantidade de parâmetros, mas o último parâmetro precisa ser uma função. \pause
+
+A função que está sendo passada como parâmetro também pode receber qualquer quantidade de parâmetros. \pause
+
+No `use`{.gleam} os parâmetros para a função anônima ficam do lado esquerdo de `<-` e a função que está sendo chamada fica do lado direito. O corpo da função anônima inclui todo o código que está após o `use`, até fechar o bloco atual.
+
+</div>
+</div>
 
 
 Outras funções de alta ordem
@@ -2784,11 +3024,9 @@ Básicas
 
 - Vídeos [Abstractions](https://www.youtube.com/playlist?list=PL6NenTZG6KroSmESv5ItvLft76ZR8q-Nd)
 
-- Texto "From Examples" do curso [Introduction to Systematic Program Design - Part 1](https://class.coursera.org/programdesign-002/wiki/view?page=UsingAbstractFunctions) (Necessário inscrever-se no curso)
+- Capítulo [15](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3aabstract%29) do livro [HTDP](http://htdp.org)
 
-- Capítulos [14](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3add-similarities%29) e [15](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3aabstract%29) do livro [HTDP](http://htdp.org)
-
-- Seções [3.9](http://docs.racket-lang.org/reference/pairs.html) e [3.17](http://docs.racket-lang.org/reference/procedures.html) da [Referência Racket](http://docs.racket-lang.org/reference/)
+- [Fechamento abreviado](https://tour.gleam.run/functions/function-captures/), [pipelines](https://tour.gleam.run/functions/pipelines/), [use](https://tour.gleam.run/advanced-features/use/) e [use sugar](https://tour.gleam.run/advanced-features/use-sugar/) do tour do Gleam.
 
 Complementares
 

@@ -43,8 +43,6 @@ license:
     ```gleam
     > duas_vezes(fn(x) { x + 1 })(3)
     5
-    > ((duas-vezes (curry * 2)) 5)
-    20
     ```
 
 @) Veja a [documentação](https://hexdocs.pm/gleam_stdlib/gleam/list.html) das funções `list.map2`, `list.filter_map` e `list.fold_until` e faça uma implementação dessas funções.

@@ -72,7 +72,7 @@ Qual é a complexidade de tempo da função `soma`? \pause Ou, quanto tempo a fu
 
 \small
 
-Vamos "contar" as instruções:
+Vamos "contar" as instruções \pause
 
 - linha 2: \pause 1 instrução \pause
 - linha 3: \pause 1 instrução \pause
@@ -93,9 +93,11 @@ Portanto, a complexidade de tempo de `soma` é $T(n) = 9n + 7$.
 
 ## Análise teórica
 
-Em geral, não estamos procurando uma função precisa para a complexidade de um algoritmo, mas uma que descreve de forma razoável como o consumo do recurso cresce em relação ao crescimento do tamanho da entrada, o que chamamos de **ordem de crescimento**. \pause Além disso, estamos interessados em entradas suficientemente grandes, para que o algoritmo demore algum tempo razoável para executar e não termine rapidamente. \pause
+Em geral, não estamos procurando uma função precisa para a complexidade de um algoritmo, mas uma que descreve de forma razoável como o consumo do recurso cresce em relação ao crescimento do tamanho da entrada, o que chamamos de **ordem de crescimento**. \pause
 
-Por esse motivo, em alguns casos podemos fazer simplificações na análise, como por exemplo, levar em consideração apenas as **operações que são mais executadas**.
+Além disso, estamos interessados em entradas suficientemente grandes, para que o algoritmo demore algum tempo razoável para executar e não termine rapidamente. \pause
+
+Por esse motivo, em alguns casos, podemos fazer simplificações na análise, como por exemplo, levar em consideração apenas as **operações que são mais executadas**.
 
 
 ## Exemplo - soma
@@ -164,7 +166,9 @@ Dessa forma, um algoritmo assintoticamente mais eficiente será a melhor escolha
 
 ## Notação assintótica
 
-Para expressar e comparar a complexidade algoritmos, vamos utilizar a **notação assintótica**. \pause Vamos ver três notações:
+Para expressar e comparar a complexidade algoritmos, utilizamos a **notação assintótica**. \pause
+
+Vamos ver três notações:
 
 - Notação $O$
 - Notação $\Omega$
@@ -313,6 +317,11 @@ $f(n) = \Theta(g(n))$ semelhante a $a = b$
 ![Fonte: <https://www.geeksforgeeks.org/what-is-logarithmic-time-complexity/>](imagens/time-complexity.jpg){width=10cm}
 
 
+## Exemplos de análise
+
+Vamos fazer algumas análise e expressar a complexidade usando a notação assintótica.
+
+
 ## Exemplo - contem
 
 <div class="columns">
@@ -339,7 +348,9 @@ fn contem(lst: List(Int), v: Int) -> Bool {
 </div>
 <div class="column" width="48%">
 
-Quantas vezes a função é executada? \pause Depende do valores de entrada! \pause
+Quantas vezes a função é executada? \pause
+
+Depende do valores de entrada! \pause
 
 O tempo de execução de um algoritmo pode depender não apenas do tamanho da entrada, mas do valor específico da entrada. Em outras palavras, para um mesmo _tamanho de entrada_, o tempo de execução pode mudar de acordo com os _valores da entrada_.
 
@@ -375,7 +386,7 @@ Quantas vezes a função é executada?
 
 Melhor caso: \pause `v` é primeiro elemento de `lst`. \pause 1 vez. \pause
 
-Pior caso: \pause `v` não está em `lst`. \pause $n + 1$ vez. \pause
+Pior caso: \pause `v` não está em `lst`. \pause $n + 1$ vezes. \pause
 
 Caso médio: \pause considerando que `v` está em `lst` e tem a mesma probabilidade de ser qualquer elemento de `lst`. \pause $\displaystyle \frac{n + 1}{2}$ \pause
 
@@ -412,6 +423,8 @@ fn adiciona_fim(lst, n) {
 }
 ```
 
+\pause
+
 </div>
 <div class="column" width="48%">
 
@@ -419,7 +432,7 @@ Como proceder com a análise nesse caso? \pause
 
 A função `inverte` é chamada $n + 1$ vezes. Na primeira vez, `lst` tem $n$ elementos, na segunda vez $n-1$, e assim por diante. \pause
 
-Quantas vezes a função `adiciona_fim` é chamada a partir de `inverte`? \pause $n$ vezes. \pause
+Quantas vezes a função `adiciona_fim` é chamada a partir de `inverte`? \pause
 
 Na primeira chamada feita a partir de `inverte`, quantas vezes `adiciona_fim` é executada? \pause $n$ vezes. \pause E na segunda? \pause $n - 1$ vezes. \pause E na última vez? \pause 1 vez.
 </div>
@@ -455,7 +468,7 @@ fn adiciona_fim(lst, n) {
 
 </div>
 <div class="column" width="48%">
-Então, temos que `adiciona_fim` é chamada $\displaystyle n + (n-1) + (n-2) + \cdots 1 \pause= \sum_{i=1}^{n} n \pause= \frac{n(n + 1)}{2}$ vezes. \pause
+Então, temos que `adiciona_fim` é chamada $\displaystyle n + (n-1) + (n-2) + \cdots 1 \pause= \sum_{i=1}^{i} n \pause= \frac{n(n + 1)}{2}$ vezes. \pause
 
 Portanto, a complexidade de tempo de `inverte` é $T(n) = O(n^2)$.
 </div>
@@ -464,17 +477,315 @@ Portanto, a complexidade de tempo de `inverte` é $T(n) = O(n^2)$.
 
 ## Equações de recorrências
 
-Apesar de ser possível determinar a complexidade de tempo contanto o número de chamadas recursivas, como fizemos para `soma`, `contem` e `inverte`, este processo pode ser mais difícil para outras funções. \pause
+Apesar de ser possível determinar a complexidade de tempo contanto "manualmente" o número de chamadas recursivas, como fizemos para `soma`, `contem` e `inverte`, este processo pode ser mais difícil para outras funções. \pause
 
-Para esses, usamos equações de recorrência e métodos de resolução de equações de recorrência.
+Por isso, em geral, usamos uma abordagem mais precisa, que é baseada em equações de recorrências e métodos de resolução de equações de recorrência.
+
 
 ## Equações de recorrência
 
-Uma **equação de recorrência** descreve o tempo de execução de um algoritmo em termos do tempo de execução para instâncias menores do problema.
+Uma **equação de recorrência** descreve o tempo de execução de um algoritmo em termos do tempo de execução de outras chamadas do algoritmo. \pause
+
+Essa ideia parece familiar?
+
+
+## Equações de recorrência
+
+<div class="columns">
+<div class="column" width="27%">
+
+\small
+
+Uma **lista** é:
+
+- Vazia;
+- Ou não vazia, contendo o primeiro e o resto, que é uma **lista**.
+
+\pause
+
+</div>
+<div class="column" width="2%">
+</div>
+<div class="column" width="30%">
+
+\small
+
+Modelo de função
+
+\ \
+
+\scriptsize
+
+```gleam
+fn fn_para_lista(lst) {
+  case lst {
+    [] -> ...
+    [primeiro, ..resto] ->
+      primeiro
+      ...
+      fn_para_lista(resto)
+  }
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="41%">
+
+\small
+
+Tempo de execução
+
+$$T(n) =
+ \begin{cases}
+   c                & \text{se $n = 0$} \\
+   T(n - 1) + f(n)  & \text{caso contrário}
+  \end{cases}$$
+
+\pause
+
+Onde \pause
+
+- $c$ é o custo do caso base; \pause
+- $T(n - 1)$ é o custo da chamada recursiva para o resto; \pause
+- $f(n)$ é o custo de combinar a solução para o resto com o primeiro elemento.
+
+</div>
+</div>
+
+
+## Exemplo - soma
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```.gleam
+fn soma(lst: List(Int)) -> Int {
+  case lst {
+    [] -> 0
+    [primeiro, ..resto] ->
+      primeiro + soma(resto)
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+Qual é o custo do caso base? \pause 1. \pause
+
+Qual é o custo da combinação? \pause 1. \pause
+
+Portanto, a equação de recorrência que descreve o tempo de execução de `soma` é:
+
+$$T(n) =
+ \begin{cases}
+   1             & \text{se $n = 0$} \\
+   T(n - 1) + 1  & \text{caso contrário}
+  \end{cases}$$
+
+\pause
+
+Ou de forma simplificada, omitindo o caso base
+
+$$T(n) = T(n - 1) + 1$$
+
+</div>
+</div>
+
+
+## Expansão
+
+Como podemos obter o tempo de execução a partir de uma equação de recorrência? \pause
+
+Precisamos resolver a equação de recorrência, isto é, encontrar uma forma fechada, que não seja recursiva. \pause
+
+E como resolver uma equação de recorrência? \pause
+
+Uma maneira é expandir iterativamente as chamadas recursivas substituindo-as pela própria definição até atingir um ponto em que a solução fique clara.
+
+
+## Expansão
+
+$T(n) = T(n - 1) + 1$ \pause
+
+$T(n) = T(n - 2) + 1 + 1$ \pause
+
+$T(n) = T(n - 3) + 1 + 1 + 1$ \pause
+
+$\dots$ \pause
+
+$T(n) = T(n - n) + \underbrace{1 + \dots + 1}_{n}$ \pause
+
+$T(n) = T(0) + \underbrace{1 + \dots + 1}_{n}$ \pause
+
+$T(n) = 1 + \underbrace{1 + \dots + 1}_{n} \pause = n + 1 \pause = O(n)$
+
+
+## Exemplo - inverte
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```.gleam
+/// Inverte a ordem dos elementos de *lst*.
+fn inverte(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      adiciona_fim(inverte(resto), primeiro)
+  }
+}
+
+/// Adiciona *n* ao final de *lst*.
+fn adiciona_fim(lst, n) {
+  case lst {
+    [] -> [n]
+    [primeiro, ..resto] ->
+      [primeiro,
+       ..adiciona_fim(resto, n)]
+  }
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+Qual é o custo do caso base? \pause 1. \pause
+
+Qual é o custo da combinação? \pause $n$ (custo da chamada de `adiciona_fim`). \pause
+
+Portanto, a equação de recorrência que descreve o tempo de execução de `inverte` é:
+
+$$T(n) = T(n - 1) + n$$
+
+</div>
+</div>
+
+
+## Exemplo - inverte
+
+$T(n) = T(n - 1) + n$ \pause
+
+$T(n) = T(n - 2) + (n - 1) + n$ \pause
+
+$T(n) = T(n - 3) + (n - 2) + (n - 1) + n$ \pause
+
+$T(n) = T(n - n) + (n - (n - 1)) + \dots + (n - 2) + (n - 1) + n$ \pause
+
+$\displaystyle T(n) = T(0) + \sum_{i = 1}^{n} n \pause = O(n^2)$
+
+
+## Exemplo - maior repetição
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```.gleam
+fn maior_repeticao(lst) {
+  case lst {
+    [] -> 0
+    [primeiro, ..resto] ->
+      case frequencia(primeiro, lst) >
+              maior_repeticao(resto) {
+        True -> frequencia(primeiro, lst)
+        False -> maior_repeticao(resto)
+      }
+  }
+}
+fn frequencia(lst, n) {
+  case lst {
+    [] -> 0
+    [primeiro, ..resto] if primeiro == n ->
+      1 + frequencia(lst, n)
+    [primeiro, ..resto] ->
+      frequencia(lst, n)
+  }
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+Qual é o custo do caso base? \pause 1. \pause
+
+Qual é o custo da combinação? \pause $2n$ (custo de chamar `frequencia` duas vezes). \pause
+
+Portanto, a equação de recorrência que descreve o tempo de execução de `maior_repeticao` é:
+
+$$T(n) = 2T(n - 1) + 2n$$
+
+</div>
+</div>
+
+
+## Exemplo - maior repetição
+
+$T(n) = 2T(n - 1) + 2n$ \pause
+
+$T(n) = 2(2T(n - 2) + 2(n - 1)) + 2n \pause = 4T(n - 2) + 4(n - 1) + 2n$ \pause
+
+$T(n) = 4(2T(n - 3) + 2(n - 2)) + 4(n - 1) + 2n \pause = 8T(n - 3) + 8(n - 2) + 4(n - 1) + 2n$ \pause
+
+$\dots$ \pause
+
+$\displaystyle T(n) = 2^nT(n - n) + \sum_{i = 1}^n 2^{i}(n - i + 1) \pause \le n2^{n+ 1} \pause= O(n2^n)$
+
+
+## Exemplo - maior repetição
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```.gleam
+fn maior_repeticao(lst) {
+  case lst {
+    [] -> 0
+    [primeiro, ..resto] ->
+      int.max(
+        frequencia(primeiro, lst),
+        maior_repeticao(resto),
+      )
+  }
+}
+fn frequencia(lst, n) {
+  case lst {
+    [] -> 0
+    [primeiro, ..resto] if primeiro == n ->
+      1 + frequencia(lst, n)
+    [primeiro, ..resto] ->
+      frequencia(lst, n)
+  }
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+Qual é o custo do caso base? \pause 1. \pause
+
+Qual é o custo da combinação? \pause $n$ (custo de chamar `frequencia` uma vez). \pause
+
+Portanto, a equação de recorrência que descreve o tempo de execução de `maior_repeticao` é:
+
+$$T(n) = T(n - 1) + n \pause = O(n^2)$$
+
+
+</div>
+</div>
 
 
 ## Referências
-
-Capítulo 3 - Pesquisa, ordenação e análise de complexidade - Fundamentos de Python: Estruturas de dados. Kenneth A. Lambert. (Disponível na [Minha Biblioteca da UEM](https://dliportal.zbra.com.br/Login.aspx?key=UEM))
 
 Seção 3.1 - Notação assintótica - Algoritmos: Teoria e Prática, 3a. edição, Cormen, T. at all.

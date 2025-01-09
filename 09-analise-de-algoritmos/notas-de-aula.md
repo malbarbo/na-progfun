@@ -468,7 +468,7 @@ fn adiciona_fim(lst, n) {
 
 </div>
 <div class="column" width="48%">
-Então, temos que `adiciona_fim` é chamada $\displaystyle n + (n-1) + (n-2) + \cdots 1 \pause= \sum_{i=1}^{i} n \pause= \frac{n(n + 1)}{2}$ vezes. \pause
+Então, temos que `adiciona_fim` é chamada $\displaystyle n + (n-1) + (n-2) + \cdots 1 \pause= \sum_{i=1}^{n} i \pause= \frac{n(n + 1)}{2}$ vezes. \pause
 
 Portanto, a complexidade de tempo de `inverte` é $T(n) = O(n^2)$.
 </div>
@@ -687,25 +687,25 @@ $\displaystyle T(n) = T(0) + \sum_{i = 1}^{n} n \pause = O(n^2)$
 <div class="column" width="48%">
 \scriptsize
 
-```.gleam
-fn maior_repeticao(lst) {
+```gleam
+fn maior_repeticao(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
     [primeiro, ..resto] ->
-      case frequencia(primeiro, lst) >
+      case frequencia(lst, primeiro) >
               maior_repeticao(resto) {
-        True -> frequencia(primeiro, lst)
+        True -> frequencia(lst, primeiro)
         False -> maior_repeticao(resto)
       }
   }
 }
-fn frequencia(lst, n) {
+fn frequencia(lst: List(Int), n: Int) -> Int {
   case lst {
     [] -> 0
     [primeiro, ..resto] if primeiro == n ->
-      1 + frequencia(lst, n)
+      1 + frequencia(resto, n)
     [primeiro, ..resto] ->
-      frequencia(lst, n)
+      frequencia(resto, n)
   }
 }
 ```
@@ -715,13 +715,15 @@ fn frequencia(lst, n) {
 </div>
 <div class="column" width="48%">
 
+Considerando o caso em que todos os elementos de `lst` são diferentes.
+
 Qual é o custo do caso base? \pause 1. \pause
 
-Qual é o custo da combinação? \pause $2n$ (custo de chamar `frequencia` duas vezes). \pause
+Qual é o custo da combinação? \pause $n$ (custo de chamar `frequencia`). \pause
 
-Portanto, a equação de recorrência que descreve o tempo de execução de `maior_repeticao` é:
+Como a função `maior_repeticao` é chamada duas vezes para resto a equação de recorrência que descreve o tempo de execução de `maior_repeticao` é:
 
-$$T(n) = 2T(n - 1) + 2n$$
+$$T(n) = 2T(n - 1) + n$$
 
 </div>
 </div>
@@ -729,15 +731,15 @@ $$T(n) = 2T(n - 1) + 2n$$
 
 ## Exemplo - maior repetição
 
-$T(n) = 2T(n - 1) + 2n$ \pause
+$T(n) = 2T(n - 1) + n$ \pause
 
-$T(n) = 2(2T(n - 2) + 2(n - 1)) + 2n \pause = 4T(n - 2) + 4(n - 1) + 2n$ \pause
+$T(n) = 2(2T(n - 2) + (n - 1)) + n \pause = 4T(n - 2) + 2(n - 1) + n$ \pause
 
-$T(n) = 4(2T(n - 3) + 2(n - 2)) + 4(n - 1) + 2n \pause = 8T(n - 3) + 8(n - 2) + 4(n - 1) + 2n$ \pause
+$T(n) = 4(2T(n - 3) + (n - 2)) + 2(n - 1) + 2n \pause = 8T(n - 3) + 4(n - 2) + 2(n - 1) + n$ \pause
 
 $\dots$ \pause
 
-$\displaystyle T(n) = 2^nT(n - n) + \sum_{i = 1}^n 2^{i}(n - i + 1) \pause \le n2^{n+ 1} \pause= O(n2^n)$
+$\displaystyle T(n) = 2^nT(n - n) + \sum_{i = 0}^{n-1} 2^{i}(n - i) \pause \le n2^{n} \pause= O(n2^n)$
 
 
 ## Exemplo - maior repetição
@@ -746,24 +748,24 @@ $\displaystyle T(n) = 2^nT(n - n) + \sum_{i = 1}^n 2^{i}(n - i + 1) \pause \le n
 <div class="column" width="48%">
 \scriptsize
 
-```.gleam
-fn maior_repeticao(lst) {
+```gleam
+fn maior_repeticao(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
     [primeiro, ..resto] ->
       int.max(
-        frequencia(primeiro, lst),
+        frequencia(lst, primeiro),
         maior_repeticao(resto),
       )
   }
 }
-fn frequencia(lst, n) {
+fn frequencia(lst: List(Int), n: Int) -> Int {
   case lst {
     [] -> 0
     [primeiro, ..resto] if primeiro == n ->
-      1 + frequencia(lst, n)
+      1 + frequencia(resto, n)
     [primeiro, ..resto] ->
-      frequencia(lst, n)
+      frequencia(resto, n)
   }
 }
 ```

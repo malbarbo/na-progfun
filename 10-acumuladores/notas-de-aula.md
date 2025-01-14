@@ -1,11 +1,11 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-# TODO: adicionar exemplos para a chamada da função com acumuladores
-# TODO: usar um exemplo "mais simples" para introduzir o conceito (o exemplo da soma?)
+# TODO: adicionar exemplos para a chamada da função com acumuladores?
 # TODO: apresentar uma forma diferente de projeto (como em fundamentos de algoritmos)? Seria necessário deixar de lado a ideia de que acumulador é algo se faz depois?
 # TODO: ao invés de apresentar foldl e foldr separados, unir os dois assuntos em "percurso de listas"?
 # TODO: adicionar exemplo com mais de um acumulador
 # TODO: adicionar um exemplo que a resposta não é o acumulador
+# TODO: mudar o nome de reduz_acc pois já usamos o termo acc na função reduz...
 title: Acumuladores
 ---
 
@@ -37,13 +37,13 @@ Dado uma lista de distâncias relativas entre pontos em uma linha, começando da
 /// para uma lista de distâncias absolutas. O
 /// primeiro item da lista representa a distância
 /// da origem.
-pub fn relativa_absoluta(
+fn relativa_absoluta(
   lst: List(Int)
 ) -> List(Int) {
   todo
 }
 
-pub fn relativa_absoluta_examples() {
+fn relativa_absoluta_examples() {
   check.eq(
     relativa_absoluta([50, 40, 70, 30, 30]),
     [50, 90, 160, 190, 220]
@@ -64,7 +64,9 @@ Começando com o modelo! \pause
 \scriptsize
 
 ```gleam
-fn relativa_absoluta(lst) {
+fn relativa_absoluta(
+  lst: List(Int)
+) -> List(Int) {
   case {
     [] -> todo
     [primeiro, ..resto] -> {
@@ -86,7 +88,7 @@ fn relativa_absoluta(lst) {
 
 Para a entrada `[50, 40, 70, 30, 30]`{.gleam} a função deve produzir como saída `[50, 90, 160, 190, 220]`{.gleam}. \pause
 
-Como combinar `primeiro`{.gleam} -- `50`{.gleam} -- com `relativa_absoluta(resto)`{.gleam} -- `[40, 110, 140, 170]`{.gleam} -- para obter a resposta para `lst`{.gleam}? \pause
+Como combinar o primeiro com a resposta da chamada recursiva para obter a resposta da função?
 
 ```gleam
 [50, 40, 70, 30, 30]   ->   [50, 90, 160, 190, 220]
@@ -114,7 +116,9 @@ Somando `50`{.gleam} a cada elemento de `[40, 110, 140, 170]`{.gleam} \pause
 \scriptsize
 
 ```gleam
-pub fn relativa_absoluta(lst) {
+fn relativa_absoluta(
+  lst: List(Int)
+) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] -> [
@@ -147,7 +151,7 @@ Vamos tentar definir uma função mais parecida com este método manual.
 </div>
 
 
-## Exemplo
+## Exemplo {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -157,7 +161,8 @@ Como queremos que a função funcione?
 \scriptsize
 
 ```gleam
-[50, 40, 70, 30, 30] -> [50, 90, 160, 190, 220]
+relativa_absoluta([50, 40, 70, 30, 30])
+   -> [50, 90, 160, 190, 220]
 ```
 
 \pause
@@ -205,7 +210,7 @@ Como resolver esse problema, isto é, como acessar a distância absoluta anterio
 </div>
 
 
-## Exemplo
+## Exemplo {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -427,6 +432,9 @@ fn soma(a: Int, b: Int) -> Int {
 <div class="column" width="50%">
 \small
 
+```
+```
+
 `soma(4, 3)`{.gleam} \pause \newline
 `1 + soma(4, 2)`{.gleam} \pause \newline
 `1 + {1 + soma(4, 1)}`{.gleam} \pause \newline
@@ -463,6 +471,9 @@ fn soma_alt(a: Int, b: Int) -> Int {
 </div>
 <div class="column" width="48%">
 \small
+
+```
+```
 
 `soma_alt(4, 3)`{.gleam} \pause \newline
 `soma_alt(5, 2)`{.gleam} \pause \newline
@@ -588,6 +599,7 @@ fn tamanho(lst: List(a)) -> Int {
 }
 
 fn tamanho_loop(lst: List(a), acc: Int) -> Int {
+  // acc é a quantidade de elementos já processados
   case lst {
     [] -> acc
     [_, ..r] -> tamanho_loop(r, acc + 1)
@@ -612,7 +624,7 @@ fn soma(lst: List(Int)) -> Int {
   }
 }
 
-fn tamanho_examples() {
+fn soma_examples() {
   check.eq(soma([]), 0)
   check.eq(soma([4]), 4)
   check.eq(soma([7, 1]), 8)
@@ -640,7 +652,6 @@ Qual é a resposta da função? \pause O valor do acumulador.
 </div>
 
 
-
 ## Exemplo - soma
 
 \scriptsize
@@ -652,6 +663,7 @@ fn soma(lst: List(Int)) -> Int {
 }
 
 fn soma_loop(lst: List(Int), acc: Int) -> Int {
+  // acc é a soma dos elementos já processados
   case lst {
     [] -> acc
     [p, ..r] -> soma_loop(r, acc + p)
@@ -672,7 +684,7 @@ fn soma_loop(lst: List(Int), acc: Int) -> Int {
 fn inverte(lst: List(a)) -> List(a) {
   case lst {
     [] -> []
-    [p, ..r] -> adiciona_fim(inverte(r), p)
+    [p, ..r] -> list.append(inverte(r), [p])
   }
 }
 
@@ -716,6 +728,7 @@ fn inverte(lst: List(a)) -> List(a) {
 }
 
 fn inverte_loop(lst: List(a), acc: List(a)) -> List(a) {
+  // acc é a lista dos elementos já analisados em ordem reversa
   case lst {
     [] -> acc
     [p, ..r] -> inverte_loop(r, [p, ..acc])
@@ -823,7 +836,7 @@ fn soma(lst: List(Int)) -> Int {
 
 ```gleam
 fn inverte(lst: List(a)) -> List(a) {
-  reduz_acc(lst, [], fn(acc, e) { [e, ..acc] }
+  reduz_acc(lst, [], fn(acc, e) { [e, ..acc] })
 }
 ```
 

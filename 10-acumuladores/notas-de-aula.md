@@ -389,7 +389,7 @@ fn soma(a: Int, b: Int) -> Int {
 fn soma_alt(a: Int, b: Int) -> Int {
   case b {
     0 -> a
-    _ -> soma(a + 1, b - 1)
+    _ -> soma_alt(a + 1, b - 1)
   }
 }
 ```
@@ -450,10 +450,10 @@ Este é um **processo recursivo**. Ele é caracterizado por uma sequência de op
 \small
 
 ```gleam
-fn soma(a: Int, b: Int) -> Int {
+fn soma_alt(a: Int, b: Int) -> Int {
   case b {
     0 -> a
-    _ -> 1 + soma(a, b - 1)
+    _ -> soma_alt(a + 1, b - 1)
   }
 }
 ```
@@ -545,7 +545,7 @@ Vamos reescrever diversas funções utilizando acumuladores.
 fn tamanho(lst: List(a)) -> Int {
   case lst {
     [] -> 0
-    [_, ..resto] -> 1 + tamanho(resto)
+    [_, ..r] -> 1 + tamanho(r)
   }
 }
 
@@ -590,7 +590,7 @@ fn tamanho(lst: List(a)) -> Int {
 fn tamanho_loop(lst: List(a), acc: Int) -> Int {
   case lst {
     [] -> acc
-    [_, ..resto] -> tamanho_loop(resto, acc + 1)
+    [_, ..r] -> tamanho_loop(r, acc + 1)
   }
 }
 ```
@@ -687,6 +687,8 @@ fn inverte_examples() {
 </div>
 <div class="column" width="48%">
 
+\small
+
 Existe algum benefício em utilizar acumulador? \pause
 
 Neste caso a função é mais complicada do que o necessário. Isto porque o resultado da chamada recursiva é processada por outra função recursiva (`list.append`{.gleam}). \pause Além disso, o tempo de execução desta função é $\Theta(n^2)$, o que intuitivamente é muito para inverter uma lista. \pause
@@ -732,27 +734,98 @@ Vamos observar as semelhanças das funções `tamanho`{.gleam}, `soma`{.gleam} e
 
 ## Função `fold` (left)
 
+\small
+
+```gleam
+fn tamanho(lst: List(a)) -> Int {
+  tamanho_loop(lst, 0)
+}
+
+fn tamanho_loop(lst: List(a), acc: Int) -> Int {
+  case lst {
+    [] -> acc
+    [_, ..r] -> tamanho_loop(r, acc + 1)
+  }
+}
+```
 
 
 ## Função `fold` (left)
 
+\small
+
+```gleam
+fn soma(lst: List(Int)) -> Int {
+  soma_loop(lst, 0)
+}
+
+fn soma_loop(lst: List(Int), acc: Int) -> Int {
+  case lst {
+    [] -> acc
+    [p, ..r] -> soma_loop(r, acc + p)
+  }
+}
+```
 
 
 ## Função `fold` (left)
 
+\small
 
+```gleam
+fn inverte(lst: List(a)) -> List(a) {
+  inverte_loop(lst, [])
+}
+
+fn inverte_loop(lst: List(a), acc: List(a)) -> List(a) {
+  case lst {
+    [] -> acc
+    [p, ..r] -> inverte_loop(r, [p, ..acc])
+  }
+}
+```
 
 ## Função `fold` (left)
 
 Vamos criar uma função chamada `reduz_acc`{.gleam} (pré-definida em Gleam com o nome `list.fold`{.gleam}) que abstrai este comportamento.
 
 
-## Função `reduz-acc` / `fold`
+## Função `reduz_acc` / `fold`
 
+\scriptsize
 
-## Função `fold` (left)
+```gleam
+fn reduz_acc(lst: List(a), acc: b, f: fn(b, a) -> b) -> b {
+  case lst {
+    [] -> acc
+    [p, ..r] -> reduz_acc(r, f(acc, p), f)
+  }
+}
+```
 
-Redefinimos as funções em termos de `reduz_acc`
+\pause
+
+```gleam
+fn tamanho(lst: List(a)) -> Int {
+  reduz_acc(lst, 0, fn(acc, _) { acc + 1})
+}
+```
+
+\pause
+
+```gleam
+fn soma(lst: List(Int)) -> Int {
+  reduz_acc(lst, 0, fn(acc, e) { acc + e })
+}
+```
+
+\pause
+
+```gleam
+fn inverte(lst: List(a)) -> List(a) {
+  reduz_acc(lst, [], fn(acc, e) { [e, ..acc] }
+}
+```
 
 
 `fold_right` vs `fold`
@@ -764,7 +837,7 @@ Redefinimos as funções em termos de `reduz_acc`
 
 Quando possível, utilize a função `fold`, pois ela pode utilizar menos memória. \pause
 
-Não tenha receio de utilizar a função `fold_right`, muitas funções ficam mais complicadas, ou não podem ser escritas em termos de `foldl`, como por exemplo, `map` e `filter`.
+Não tenha receio de utilizar a função `fold_right`, muitas funções ficam mais complicadas, ou não podem ser escritas em termos de `fold`, como por exemplo, `map` e `filter`.
 
 
 

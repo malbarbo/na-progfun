@@ -23,59 +23,86 @@ Vamos ver um exemplo.
 
 ## Exemplo
 
-Dado uma lista de distâncias relativas entre pontos (começando da origem) em uma linha, defina uma função que calcule a distância absoluta a partir da origem.
+Dado uma lista de distâncias relativas entre pontos em uma linha, começando da origem, defina uma função que calcule a distância absoluta a partir da origem.
 
 
 ## Exemplo
 
+<div class="columns">
+<div class="column" width="52%">
 \scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Converte uma lista de distâncias relativas para uma lista
-;; de distâncias absolutas. O primeito item da lista
-;; representa a distância da origem.
-(examples
- (check-equal? (relativa->absoluta empty) empty)
- (check-equal? (relativa->absoluta
-                (list 50 40  70  30  30))
-                (list 50 90 160 190 220)))
+```gleam
+/// Converte a lista *lst* de distâncias relativas
+/// para uma lista de distâncias absolutas. O
+/// primeiro item da lista representa a distância
+/// da origem.
+pub fn relativa_absoluta(
+  lst: List(Int)
+) -> List(Int) {
+  todo
+}
+
+pub fn relativa_absoluta_examples() {
+  check.eq(
+    relativa_absoluta([50, 40, 70, 30, 30]),
+    [50, 90, 160, 190, 220]
+  )
+}
 ```
 
 \pause
+</div>
+<div class="column" width="44%">
 
-```scheme
-(define (relativa->absoluta lst)
-  (cond
-    [(empty? lst) ...]
-    [else
-     (... (first lst)
-          (relativa->absoluta (rest lst)))]))
+Como resolvemos este problema? \pause
+
+Começando com o modelo! \pause
+
+\ \
+
+\scriptsize
+
+```gleam
+fn relativa_absoluta(lst) {
+  case {
+    [] -> todo
+    [primeiro, ..resto] -> {
+      todo
+      primeiro
+      relativa_absoluta(resto)
+    }
+  }
+}
 ```
+
+</div>
+</div>
 
 
 ## Exemplo
 
 \small
 
-Para a entrada `(list 50 40 70 30 30)`{.scheme} a função deve produzir como saída `(list 50 90 160 190 220)`{.scheme}. \pause
+Para a entrada `[50, 40, 70, 30, 30]`{.gleam} a função deve produzir como saída `[50, 90, 160, 190, 220]`{.gleam}. \pause
 
-Como combinar `(first lst)`{.scheme} -- `50`{.scheme} -- com `(relativa->absoluta (rest lst))`{.scheme} -- `(list 40 110 140 170)`{.scheme} -- para obter a resposta para `lst`{.scheme}? \pause
+Como combinar `primeiro`{.gleam} -- `50`{.gleam} -- com `relativa_absoluta(resto)`{.gleam} -- `[40, 110, 140, 170]`{.gleam} -- para obter a resposta para `lst`{.gleam}? \pause
 
-```scheme
-(list 50 40 70 30 30)   ->   (list 50 90 160 190 220)
+```gleam
+[50, 40, 70, 30, 30]   ->   [50, 90, 160, 190, 220]
 
-                            50  (list 40 110 140 170)
+                            50  [40, 110, 140, 170]
                              |  |
-                   (first lst)  (relativa->absoluta (rest lst))
+                      primeiro  relativa_absoluta(resto)
 ```
 
 \pause
 
-Somando `50`{.scheme} a cada elemento de `(list 40 110 140 170)`{.scheme} \pause
+Somando `50`{.gleam} a cada elemento de `[40, 110, 140, 170]`{.gleam} \pause
 
-```scheme
-(cons 50 (map (curry + 50) (list 40 110 140 170)))
+```gleam
+[primeiro,
+ ..list.map(relativa_absoluta(resto), int.add(_, primeiro))]
 ```
 
 
@@ -84,26 +111,21 @@ Somando `50`{.scheme} a cada elemento de `(list 40 110 140 170)`{.scheme} \pause
 <div class="columns">
 <div class="column" width="54%">
 
-\footnotesize
+\scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Converte uma lista de distâncias relativas
-;; para uma lista de distâncias absolutas. O
-;; primeito item da lista representa a
-;; distância da origem.
-(examples
- (check-equal? (relativa->absoluta
-                (list 50 40  70  30  30))
-                (list 50 90 160 190 220)))
-(define (relativa->absoluta lst)
-  (cond
-    [(empty? lst) empty]
-    [else
-     (cons
-       (first lst)
-       (map (curry + (first lst))
-            (relativa->absoluta (rest lst))))]))
+```gleam
+pub fn relativa_absoluta(lst) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] -> [
+      primeiro,
+      ..list.map(
+          relativa_absoluta(resto),
+          int.add(_, primeiro),
+      )
+    ]
+  }
+}
 ```
 
 </div>
@@ -117,7 +139,7 @@ Podemos melhorar? \pause Sim! \pause
 
 Como resolveríamos o problema manualmente? \pause
 
-Somando a distância absoluta de um ponto com a distância relativa do próximo. \pause
+Somando a distância relativa do ponto com a distância absoluta do ponto anterior. \pause
 
 Vamos tentar definir uma função mais parecida com este método manual.
 
@@ -127,162 +149,212 @@ Vamos tentar definir uma função mais parecida com este método manual.
 
 ## Exemplo
 
-Começamos com o modelo
+<div class="columns">
+<div class="column" width="48%">
 
-```scheme
-(define (relativa->absoluta lst)
-  (cond
-    [(empty? lst) ...]
-    [else (... (first lst)
-               (relativa->absoluta (rest lst)))]))
+Como queremos que a função funcione?
+
+\scriptsize
+
+```gleam
+[50, 40, 70, 30, 30] -> [50, 90, 160, 190, 220]
 ```
+
+\pause
+
+```gleam
+[50,
+ ..relativa_absoluta([40, 70, 30, 30])]
+```
+
+\pause
+
+```gleam
+
+[50, 90,
+ ..relativa_absoluta([70, 30, 30])]
+```
+
+\pause
+
+```gleam
+
+[50, 90, 160,
+ ..relativa_absoluta([30, 30])]
+```
+
+\pause
+
+```gleam
+
+...
+
+[50, 90, 160, 190, 220,
+ ..relativa_absoluta([])]
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+
+É possível implementar a função para que ela funcione _exatamente_ dessa forma? \pause Não! \pause Por que não? \pause Não sabemos qual é a distância que precisa ser somada no primeiro elemento, ou seja, não temos um contexto da chamada da função. \pause
+
+Como resolver esse problema, isto é, como acessar a distância absoluta anterior para calcular a distância atual? \pause Adicionando um novo parâmetro para a distância absoluta anterior, ou seja, um contexto para a chamada da função.
+</div>
+</div>
 
 
 ## Exemplo
 
 <div class="columns">
 <div class="column" width="48%">
-\footnotesize
 
-Como seria a avaliação de `(relativa->absoluta (list 3 2 7))`{.scheme}? \pause
+Como queremos que a função funcione?
 
-```scheme
-(relativa->absoluta (list 3 2 7))
+\scriptsize
+
+```gleam
+[50, 40, 70, 30, 30] -> [50, 90, 160, 190, 220]
+```
+
+```gleam
+[50,
+ ..relativa_absoluta([40, 70, 30, 30])]
+```
+
+```gleam
+
+[50, 90,
+ ..relativa_absoluta([70, 30, 30])]
+```
+
+```gleam
+
+[50, 90, 160,
+ ..relativa_absoluta([30, 30])]
+```
+
+```gleam
+
+...
+
+[50, 90, 160, 190, 220,
+ ..relativa_absoluta([])]
+```
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+relativa_absoluta([50, 40, 70, 30, 30], 0)
 ```
 
 \pause
 
-```scheme
-(cons ... 3 ...
-  (relativa->absoluta (list 2 7)))
+```gleam
+[50,
+ ..relativa_absoluta([40, 70, 30, 30], 50)]
 ```
 
 \pause
 
-```scheme
-(cons ... 3 ...
-  (cons ... 2 ...
-    (relativa->absoluta (list 7))))
+```gleam
+
+[50, 90,
+ ..relativa_absoluta([70, 30, 30], 90)]
 ```
 
 \pause
 
-```scheme
-(cons ... 3 ...
-  (cons ... 2 ...
-    (cons ... 7 ...
-      emtpy)))
+```gleam
+
+[50, 90, 160,
+ ..relativa_absoluta([30, 30], 160)]
 ```
 
 \pause
+
+```gleam
+
+...
+
+[50, 90, 160, 190, 220,
+ ..relativa_absoluta([], 220)]
+```
+
+</div>
+</div>
+
+
+## Exemplo
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn relativa_absoluta(
+  lst: List(Int),
+  dist: Int,
+) -> List(Int) {
+  // dist é a distância absoluta até o ponto
+  // anterior ao primeiro de lst.
+  case lst {
+    [] -> []
+    [primeiro, ..resto] -> [
+      primeiro + dist,
+      ..relativa_absoluta(resto,
+                          primeiro + dist)
+    ]
+  }
+}
+```
+
+\pause
+
+\normalsize
+
+Qual o problema com essa função? \pause
+
+Ela precisa de um parâmetro extra, que não faz parte do problema. \pause
+
 </div>
 <div class="column" width="48%">
 
-\small
+Vamos separar na função principal e em uma função com acumulador. \pause
 
-Qual é e como obter o primeiro item da resposta? \pause `3`{.scheme} e calculamos diretamente. \pause
+\scriptsize
 
-Qual é e como obter o segundo item da resposta. \pause `5`{.scheme} e obtemos com `(+ 3 2)`{.scheme}. \pause Na segunda chamada de `relativa->absoluta` obtemos o `2`{.scheme} com `(first lst)`{.scheme}, mas como obtemos o `3`{.scheme}? \pause Não temos como obter o `3`{.scheme} pois a recursão é **independe** do que "aconteceu" antes, ou seja, é independente do contexto! \pause O mesmo acontece para o terceiro item, temos que obter `(+ 5 7)`{.scheme} mas não temos acesso ao `5`{.scheme}. \pause
+```gleam
 
-Como resolver esse problema, isto é, como acessar a distância absoluta anterior para calcular a distância atual? \pause Adicionando um novo parâmetro que representa a distância absoluta anterior, ou seja, um contexto para a chamada da função.
+fn relativa_absoluta(lst) {
+  relativa_absoluta_loop(lst, 0)
+}
+fn relativa_absoluta_loop(
+  lst: List(Int),
+  dist: Int,
+) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] -> [
+      primeiro + dist,
+      ..relativa_para_absoluta_loop(resto,
+                                    primeiro + dist)
+    ]
+  }
+}
+```
+
 
 </div>
 </div>
-
-
-## Exemplo
-
-Com um novo parâmetro, o início da implementação fica
-
-\footnotesize
-
-```scheme
-;; acc-dist é a distância absoluta do item
-;; anterior que estava antes do primeiro elemento de lst.
-(define (relativa->absoluta lst acc-dist)
-  (cond
-    [(empty? lst) ...]
-    [else
-     (... acc-dist
-          (first lst)
-          (relativa->absoluta (rest lst) ...))]))
-```
-
-\pause
-
-\normalsize
-
-O parâmetro `acc-dist` é um **acumulador**, isto é, uma variável que representa o contexto que a função está sendo chamada. \pause Em geral, um acumulador é um resultado parcial do processamento das chamadas recursivas anteriores.
-
-
-## Exemplo
-
-\small
-
-Para a entrada `(list 3 2 7)`{.scheme}, qual deve ser a chamada inicial? \pause `(relativa->absoluta (list 3 2 7) ...)`{.scheme} \pause
-
-Durante a chamada `(relativa->absoluta (list 3 2 7) ...)`{.scheme}, como é a chamada recursiva para `(rest (list 3 2 7))`{.scheme}? \pause
-
-`(relativa->absoluta (rest (list 3 2 7)) 3)`{.scheme}. \pause
-
-Durante a chamada `(relativa->absoluta (list 2 7) 3)`{.scheme}, como é chamada a recursiva para `(rest (list 2 7))`{.scheme}? \pause
-
-`(relativa->absoluta (rest (list 2 7)) 5)`{.scheme}. \pause Como obtemos `5`{.scheme}? \pause `(+ 2 3)`{.scheme} \pause
-
-De forma geral, como é a chamada recursiva? \pause
-
-`(relativa->absoluta (rest lst) (+ (first lst) acc-dist))`{.scheme} \pause
-
-Para a entrada `(list 3 2 7)`{.scheme}, qual deve ser a chamada inicial? \pause `(relativa->absoluta (list 3 2 7) 0)`{.scheme}
-
-
-## Exemplo
-
-Completando a função obtemos
-
-\small
-
-```scheme
-(define (relativa->absoluta lst acc-dist)
-  (cond
-    [(empty? lst) empty]
-    [else
-     (cons (+ (first lst) acc-dist)
-           (relativa->absoluta (rest lst)
-                               (+ (first lst) acc-dist)))]))
-```
-
-\pause
-
-\normalsize
-
-Note que o parâmetro `acc-dist`{.scheme} não é relevante para o problema, apenas para a solução. Então podemos encapsular a solução sem expor o existência do argumento `acc-dist`{.scheme}.
-
-
-## Exemplo
-
-\small
-
-```scheme
-(define (relativa->absoluta lst0)
-  (define (iter lst acc-dist)
-    (cond
-      [(empty? lst) empty]
-      [else
-       (cons (+ (first lst) acc-dist)
-             (iter (rest lst)
-                   (+ (first lst) acc-dist)))]))
-  (iter lst0 0))
-```
-
-\normalsize
-
-Por convenção, chamamos a função com o acumulador de `iter`, em breve veremos porque.
 
 
 ## Falta de contexto na recursão
 
-No exemplo `relativa->absoluta`{.scheme} vimos que a falta de contexto durante a recursão tornou a função mais complicada e mais lenta do que o necessário. \pause
+No exemplo `relativa_absoluta`{.gleam} vimos que a falta de contexto durante a recursão tornou a função mais complicada e mais lenta do que o necessário. \pause
 
 Agora veremos um exemplo em que a falta de contexto faz uma função usar mais memória do que o necessário.
 
@@ -293,25 +365,43 @@ Processos iterativos e recursivos
 
 ## Processos iterativos e recursivos
 
-Considere as seguintes implementações para a função que soma dois números naturais utilizando a função `add1`{.scheme}, `sub1`{.scheme} e `zero?`{.scheme}
+Considere as seguintes implementações para a função que soma dois números naturais.
+
+<div class="columns">
+<div class="column" width="48%">
+\small
+
+```gleam
+fn soma(a: Int, b: Int) -> Int {
+  case b {
+    0 -> a
+    _ -> 1 + soma(a, b - 1)
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
 
 \small
 
-```scheme
-(define (soma a b)
-  (if (zero? b)
-      a
-      (add1 (soma a (sub1 b)))))
-
-(define (soma-alt a b)
-  (if (zero? b)
-      a
-      (soma-alt (add1 a) (sub1 b))))
+```gleam
+fn soma_alt(a: Int, b: Int) -> Int {
+  case b {
+    0 -> a
+    _ -> soma(a + 1, b - 1)
+  }
+}
 ```
+
+</div>
+</div>
 
 \normalsize
 
-Qual é o processo gerado quando cada função é avaliada com os parâmetros `4`{.scheme} e `3`{.scheme}?
+\ \
+
+Qual é o processo gerado quando cada função é avaliada com os parâmetros `4`{.gleam} e `3`{.gleam}?
 
 
 ## Processos iterativos e recursivos
@@ -319,72 +409,78 @@ Qual é o processo gerado quando cada função é avaliada com os parâmetros `4
 <div class="columns">
 <div class="column" width="40%">
 \small
-```scheme
-(define (soma a b)
-  (if (zero? b)
-      a
-      (add1
-       (soma a (sub1 b)))))
+
+```gleam
+fn soma(a: Int, b: Int) -> Int {
+  case b {
+    0 -> a
+    _ -> 1 + soma(a, b - 1)
+  }
+}
 ```
+
+\pause
+
 </div>
 <div class="column" width="10%">
 </div>
 <div class="column" width="50%">
 \small
 
-```
-```
-
-`(soma 4 3)`{.scheme} \pause \newline
-`(add1 (soma 4 2))`{.scheme} \pause \newline
-`(add1 (add1 (soma 4 1)))`{.scheme} \pause \newline
-`(add1 (add1 (add1 (soma 4 0))))`{.scheme} \pause \newline
-`(add1 (add1 (add1 4)))`{.scheme} \pause \newline
-`(add1 (add1 5))`{.scheme} \pause \newline
-`(add1 6)`{.scheme} \pause \newline
-`7`{.scheme} \pause
+`soma(4, 3)`{.gleam} \pause \newline
+`1 + soma(4, 2)`{.gleam} \pause \newline
+`1 + {1 + soma(4, 1)}`{.gleam} \pause \newline
+`1 + {1 + {1 + soma(4, 0)}}`{.gleam} \pause \newline
+`1 + {1 + {1 + 4}}`{.gleam} \pause \newline
+`1 + {1 + 5}`{.gleam} \pause \newline
+`1 + 6`{.gleam} \pause \newline
+`7`{.gleam} \pause
 </div>
 </div>
 
-\vspace{5mm}
+\ \
 
 Este é um **processo recursivo**. Ele é caracterizado por uma sequência de operações adiadas e tem um padrão de "cresce e diminui".
 
 
 ## Processos iterativos e recursivos
+
 <div class="columns">
-<div class="column" width="60%">
-\small
-```scheme
-(define (soma-alt a b)
-  (if (zero? b)
-      a
-      (soma-alt (add1 a) (sub1 b))))
-```
-</div>
-<div class="column" width="30%">
+<div class="column" width="48%">
 \small
 
-```
+```gleam
+fn soma(a: Int, b: Int) -> Int {
+  case b {
+    0 -> a
+    _ -> 1 + soma(a, b - 1)
+  }
+}
 ```
 
-`(soma-alt 4 3)`{.scheme} \pause \newline
-`(soma-alt 5 2)`{.scheme} \pause \newline
-`(soma-alt 6 1)`{.scheme} \pause \newline
-`(soma-alt 7 0)`{.scheme} \pause \newline
-`7`{.scheme} \pause
+\pause
+
+</div>
+<div class="column" width="48%">
+\small
+
+`soma_alt(4, 3)`{.gleam} \pause \newline
+`soma_alt(5, 2)`{.gleam} \pause \newline
+`soma_alt(6, 1)`{.gleam} \pause \newline
+`soma_alt(7, 0)`{.gleam} \pause \newline
+`7`{.gleam} \pause
 
 </div>
 </div>
 
-\vspace{5mm}
+\ \
 
 Este é um **processo iterativo**. Nele o "espaço" necessário para fazer a substituição não depende do tamanho da entrada.
 
 
 ## Processos iterativos e recursivos
 
-Na avaliação da expressão `(soma-alt 4 3)`{.scheme} no exemplo anterior, o valor de `a`{.scheme} foi usado como um acumulador, armazenando a soma parcial. \pause
+Na avaliação da expressão `soma_alt(4, 3)`{.gleam} no exemplo anterior, o valor de `a`{.gleam} foi usado como um acumulador, armazenando a soma parcial. \pause
 
 O uso de acumulador neste problema reduziu o uso de memória.
 
@@ -439,25 +535,31 @@ Vamos reescrever diversas funções utilizando acumuladores.
 
 ## Exemplo - tamanho
 
-\small
+<div class="columns">
+<div class="column" width="48%">
 
-```scheme
-;; Lista -> Natural
-;; Conta a quantidade de elementos de lst.
-(examples
- (check-equal? (tamanho empty) 0)
- (check-equal? (tamanho (list 4)) 1)
- (check-equal? (tamanho (list 4 7)) 2)
- (check-equal? (tamanho (list 4 8 -4)) 3))
+\scriptsize
 
-(define (tamanho lst)
-  (cond
-    [(empty? lst) 0]
-    [else (add1 (tamanho (rest lst)))]))
+```gleam
+/// Conta a quantidade de elementos de *lst*.
+fn tamanho(lst: List(a)) -> Int {
+  case lst {
+    [] -> 0
+    [_, ..resto] -> 1 + tamanho(resto)
+  }
+}
+
+fn tamanho_examples() {
+  check.eq(tamanho([]), 0)
+  check.eq(tamanho([4]), 1)
+  check.eq(tamanho([7, 1]), 2)
+}
 ```
 
+\pause
 
-## Exemplo - tamanho
+</div>
+<div class="column" width="48%">
 
 Existe algum benefício em utilizar acumulador? \pause
 
@@ -465,50 +567,62 @@ Como o tamanho da resposta não depende do tamanho da entrada, esta função est
 
 Qual o significado do acumulador? \pause A quantidade de elementos já "vistos". \pause
 
-Qual é o valor inicial do acumulador? \pause `0`{.scheme}. \pause
+Qual é o valor inicial do acumulador? \pause `0`{.gleam}. \pause
 
 Como atualizar o acumulador? \pause Somando 1. \pause
 
 Qual é a resposta da função? \pause O valor do acumulador.
 
+</div>
+</div>
+
 
 ## Exemplo - tamanho
 
-\small
+\scriptsize
 
-```scheme
-(define (tamanho lst0)
-  ;; acc - a quantidade de elementos de lst0 já visitados
-  (define (iter lst acc)
-    (cond
-      [(empty? lst) acc]
-      [else (iter (rest lst) (add1 acc))]))
-  (iter lst0 0))
+```gleam
+/// Conta a quantidade de elementos de *lst*.
+fn tamanho(lst: List(a)) -> Int {
+  tamanho_loop(lst, 0)
+}
+
+fn tamanho_loop(lst: List(a), acc: Int) -> Int {
+  case lst {
+    [] -> acc
+    [_, ..resto] -> tamanho_loop(resto, acc + 1)
+  }
+}
 ```
 
 
 ## Exemplo - soma
 
-\small
+<div class="columns">
+<div class="column" width="48%">
 
-```scheme
-;; Lista(Número) -> Número
-;; Soma os elementos de lst.
-(examples
- (check-equal? (soma empty)0)
- (check-equal? (soma (list 3)) 3)
- (check-equal? (soma (list 3 5)) 8)
- (check-equal? (soma (list 3 5 -2)) 6))
+\scriptsize
 
-(define (soma lst)
-  (cond
-    [(empty? lst) 0]
-    [else (+ (first lst)
-             (soma (rest lst)))]))
+```gleam
+/// Soma os elementos de *lst*.
+fn soma(lst: List(Int)) -> Int {
+  case lst {
+    [] -> 0
+    [p, ..r] -> p + soma(r)
+  }
+}
+
+fn tamanho_examples() {
+  check.eq(soma([]), 0)
+  check.eq(soma([4]), 4)
+  check.eq(soma([7, 1]), 8)
+}
 ```
 
+\pause
 
-## Exemplo - soma
+</div>
+<div class="column" width="48%">
 
 Existe algum benefício em utilizar acumulador? \pause
 
@@ -516,172 +630,141 @@ Como o tamanho da resposta não depende do tamanho da entrada, esta função est
 
 Qual o significado do acumulador? \pause A soma dos elementos já "vistos". \pause
 
-Qual é o valor inicial do acumulador? \pause `0`{.scheme}. \pause
+Qual é o valor inicial do acumulador? \pause `0`{.gleam}. \pause
 
 Como atualizar o acumulador? \pause Somando o primeiro da lista de entrada. \pause
 
 Qual é a resposta da função? \pause O valor do acumulador.
 
+</div>
+</div>
+
+
 
 ## Exemplo - soma
 
-\small
+\scriptsize
 
-```scheme
-(define (soma lst0)
-  ;; acc - a soma dos elementos de lst0 já visitados
-  (define (iter lst acc)
-    (cond
-      [(empty? lst) acc]
-      [else (iter (rest lst) (+ (first lst) acc))]))
-  (iter lst0 0))
+```gleam
+/// Soma os elementos de *lst*.
+fn soma(lst: List(Int)) -> Int {
+  soma_loop(lst, 0)
+}
+
+fn soma_loop(lst: List(Int), acc: Int) -> Int {
+  case lst {
+    [] -> acc
+    [p, ..r] -> soma_loop(r, acc + p)
+  }
+}
 ```
 
 
 ## Exemplo - inverte
 
-\small
+<div class="columns">
+<div class="column" width="48%">
 
-```scheme
-;; Lista -> Lista
-;; Inverte a ordem dos elementos de lst.
-(examples
- (check-equal? (inverte empty) empty)
- (check-equal? (inverte (list 2)) (list 2))
- (check-equal? (inverte (list 2 8 9)) (list 9 8 2)))
+\scriptsize
 
-(define (inverte lst)
-  (cond
-    [(empty? lst) empty]
-    [else (append (inverte (rest lst))
-                  (list (first lst)))]))
+```gleam
+/// Inverte os elementos de *lst*.
+fn inverte(lst: List(a)) -> List(a) {
+  case lst {
+    [] -> []
+    [p, ..r] -> adiciona_fim(inverte(r), p)
+  }
+}
+
+fn inverte_examples() {
+  check.eq(inverte([]), [])
+  check.eq(inverte([7, 1]), [1, 7])
+}
 ```
 
+\pause
 
-## Exemplo - inverte
+</div>
+<div class="column" width="48%">
 
 Existe algum benefício em utilizar acumulador? \pause
 
-Neste caso a função é mais complicada do que o necessário. Isto porque o resultado da chamada recursiva é processada por outra função recursiva (`append`{.scheme}). \pause Além disso, o tempo de execução desta função é $\Theta(n^2)$, o que intuitivamente é muito para inverter uma lista. \pause
+Neste caso a função é mais complicada do que o necessário. Isto porque o resultado da chamada recursiva é processada por outra função recursiva (`list.append`{.gleam}). \pause Além disso, o tempo de execução desta função é $\Theta(n^2)$, o que intuitivamente é muito para inverter uma lista. \pause
 
 Qual o significado do acumulador? \pause Os elementos que já foram visitados em ordem reversa. \pause
 
-Qual é o valor inicial do acumulador? \pause `empty`{.scheme}. \pause
+Qual é o valor inicial do acumulador? \pause `[]`{.gleam}. \pause
 
 Como atualizar o acumulador? \pause Colocando o primeiro da entrada como primeiro do acumulador. \pause
 
 Qual é a resposta da função? \pause O valor do acumulador.
 
+</div>
+</div>
+
 
 ## Exemplo - inverte
 
-\small
+\scriptsize
 
-```scheme
-(define (inverte lst0)
-  ;; acc - os elementos já visitados de lst0 em ordem inversa
-  (define (iter lst acc)
-    (cond
-      [(empty? lst) acc]
-      [else (iter (rest lst)
-                  (cons (first lst) acc))]))
-  (iter lst0 empty))
+```gleam
+/// Inverte os elementos de *lst*.
+fn inverte(lst: List(a)) -> List(a) {
+  inverte_loop(lst, [])
+}
+
+fn inverte_loop(lst: List(a), acc: List(a)) -> List(a) {
+  case lst {
+    [] -> acc
+    [p, ..r] -> inverte_loop(r, [p, ..acc])
+  }
+}
 ```
 
 
-Função `foldl`
+Função `fold` (left)
 ============
 
-## Função `foldl`
+## Função `fold` (left)
 
-Vamos observar as semelhanças das funções `tamanho`{.scheme}, `soma`{.scheme} e `inverte`{.scheme}.
-
-
-## Função `foldl`
-
-```scheme
-(define (tamanho lst0)
-  (define (iter lst acc)
-    (cond
-      [(empty? lst) acc]
-      [else (iter (rest lst) (add1 acc))]))
-  (iter lst0 0))
-```
+Vamos observar as semelhanças das funções `tamanho`{.gleam}, `soma`{.gleam} e `inverte`{.gleam}.
 
 
-## Função `foldl`
-
-```scheme
-(define (soma lst0)
-  (define (iter lst acc)
-    (cond
-      [(empty? lst) acc]
-      [else (iter (rest lst) (+ (first lst) acc))]))
-  (iter lst0 0))
-```
-
-
-## Função `foldl`
-
-```scheme
-(define (inverte lst0)
-  (define (iter lst acc)
-    (cond
-      [(empty? lst) acc]
-      [else (iter (rest lst) (cons (first lst) acc))]))
-  (iter lst0 empty))
-```
-
-
-## Função `foldl`
-
-Vamos criar uma função chamada `reduz-acc`{.scheme} (pré-definida em Racket com o nome `foldl`{.scheme}) que abstrai este comportamento.
-
-
-## Função `reduz-acc` / `foldl`
-
-```scheme
-;; (X Y -> Y) Y Lista(X) -> Y
-;; A chamada
-;; (reduz-acc f base (list x1 x2 ... xn) produz
-;; (f xn ... (f x2 (f x1 base)))
-(define (reduz-acc f base lst0)
-  (define (iter lst acc)
-    (cond
-      [(empty? lst) acc]
-      [else (iter (rest lst)
-                  (f (first lst) acc))]))
-  (iter lst0 base))
-```
-
-
-## Função `foldl`
-
-Redefinimos as funções em termos de `reduz-acc`
-
-```scheme
-(define (tamanho lst)
-  (reduz-acc (λ (_ tam) (add1 tam))  0 lst))
-
-(define (soma lst)
-  (reduz-acc + 0 lst))
-
-(define (inverte lst)
-  (reduz-acc cons empty lst))
-```
+## Função `fold` (left)
 
 
 
-`foldr` vs `foldl`
+## Função `fold` (left)
+
+
+
+## Função `fold` (left)
+
+
+
+## Função `fold` (left)
+
+Vamos criar uma função chamada `reduz_acc`{.gleam} (pré-definida em Gleam com o nome `list.fold`{.gleam}) que abstrai este comportamento.
+
+
+## Função `reduz-acc` / `fold`
+
+
+## Função `fold` (left)
+
+Redefinimos as funções em termos de `reduz_acc`
+
+
+`fold_right` vs `fold`
 ==============
 
-## `foldr` vs `foldl`
+## `fold_right` vs `fold`
 
-`foldr` e `foldl` produzem o mesmo resultado se a função `f` for associativa. \pause
+`fold_right` e `fold` produzem o mesmo resultado se a função `f` for associativa. \pause
 
-Quando possível, utilize a função `foldl`, pois ela pode utilizar menos memória. \pause
+Quando possível, utilize a função `fold`, pois ela pode utilizar menos memória. \pause
 
-Não tenha receio de utilizar a função `foldr`, muitas funções ficam mais complicadas, ou não podem ser escritas em termos de `foldl`, como por exemplo, `map` e `filter`.
+Não tenha receio de utilizar a função `fold_right`, muitas funções ficam mais complicadas, ou não podem ser escritas em termos de `foldl`, como por exemplo, `map` e `filter`.
 
 
 

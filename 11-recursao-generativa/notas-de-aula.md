@@ -49,41 +49,77 @@ Projeto de funções generativas
 Dado uma lista de números e um número positivo $n$, projete uma função que agrupe os elementos da lista de entrada em grupos (listas) de $n$ elementos.
 
 
-## Exemplo: agrupamento
+## Exemplo: agrupamento {.t}
 
-\small
+\scriptsize
 
-```scheme
-;; (Lista Número) InteiroPositivo -> (Lista (Lista Número))
-;;
-;; Agrupa os elementos de lst em listas
-;; com n elementos. Apenas a última lista
-;; do resultado pode ficar com menos que n
-;; elementos.
-(examples
- (check-equal? (agrupa empty 2) empty)
- (check-equal? (agrupa (list 4 1 5) 1)
-               (list (list 4) (list 1) (list 5)))
- (check-equal? (agrupa (list 4 1 5 7 8) 2)
-               (list (list 4 1) (list 5 7) (list 8)))
- (check-equal? (agrupa (list 4 1 5 7 8) 3)
-               (list (list 4 1 5) (list 7 8))))
+```gleam
+/// Agrupa os elementos de *lst* em sublistas com *n* elementos. Apenas a
+/// última sublista pode ter menos de *n* elementos.
+fn agrupa(lst: List(a), n: Int) -> List(List(a)) {
+  todo
+}
+fn agrupa_examples() {
+  check.eq(agrupa([], 2), [])
+  check.eq(agrupa([4, 1, 5], 1), [[4], [1], [5]])
+  check.eq(agrupa([4, 1, 5, 7, 8], 2), [[4, 1], [5, 7], [8]])
+  check.eq(agrupa([4, 1, 5, 7, 8], 3), [[4, 1, 5], [7, 8]])
+}
 ```
 
 
-## Exemplo: agrupamento
+## Exemplo: agrupamento {.t}
 
-\small
+\scriptsize
 
-```scheme
-(define (agrupa lst n)
-  (cond
-    [(empty? lst) empty]
-    [(< (length lst) n) (list lst)]
-    [else
-     (cons (take lst n)
-           (agrupa (drop lst n) n))]))
+```gleam
+/// Agrupa os elementos de *lst* em sublistas com *n* elementos. Apenas a
+/// última sublista pode ter menos de *n* elementos.
+fn agrupa(lst: List(a), m: Int) -> List(List(a)) {
+  case {
+    [] -> todo
+    _ -> {
+      // decompor em um suproblema
+      // resolver recursivamente
+      // estender a solução recursiva
+      todo
+      agrupa(todo, m)
+    }
+  }
+}
 ```
+
+## Exemplo: agrupamento {.t}
+
+\scriptsize
+
+```gleam
+/// Agrupa os elementos de *lst* em sublistas com *m* elementos. Apenas a
+/// última sublista pode ter menos de *n* elementos.
+fn agrupa(lst: List(a), m: Int) -> List(List(a)) {
+  case {
+    [] -> []
+    _ -> {
+      let #(prefixo, suffixo) = list.split(lst, m)
+      [prefixo, ..agrupa(suffixo, m)]
+    }
+  }
+}
+```
+
+\pause
+
+\normalsize
+
+Qual é a equação de recorrência que descreve o tempo de execução da função agrupa? \pause
+
+$T(n) = T(n - m) + m$
+
+\pause
+
+Se $m = 1$, então $T(n) = T(n - 1) + 1 \pause = O(n)$ \pause
+
+Se $m \ge n$, então $T(n) = T(0) + O(n) \pause = O(n)$
 
 
 ## Exemplo: quicksort
@@ -92,75 +128,119 @@ Defina uma função que ordene uma lista de números usando o algoritmo de orden
 
 Qual é a ideia do _quicksort_? \pause
 
-- Separar os elementos da entrada (não trivial) em duas listas: uma com os menores do que o primeiro e outra com os maiores do que o primeiro \pause
+- Separar os elementos da entrada, se ela não for trivial, em duas listas: uma com os menores do que o primeiro e outra com os maiores do que o primeiro \pause
 
 - Ordenar as duas listas recursivamente \pause
 
 - Juntar a ordenação dos menores, com o primeiro e com a ordenação dos maiores.
 
 
-## Exemplo: quicksort
+## Exemplo: quicksort {.t}
 
-\small
+\scriptsize
 
-```scheme
-;; Lista(Número) -> Lista(Número)
-;; Ordena lst em ordem não decrescente usado o quicksort.
-(examples
- (check-equal? (quicksort empty)
-               empty)
- (check-equal? (quicksort (list 3))
-               (list 3))
- (check-equal? (quicksort (list 10 3 -4 5 9))
-               (list -4 3 5 9 10))
- (check-equal? (quicksort (list 3 10 0 5 9))
-               (list 0 3 5 9 10)))
+```gleam
+/// Ordena *lst* em ordem não decrescente usando o algoritmo quicksort.
+fn quicksort(lst: List(Int)) -> List(Int) {
+  todo
+}
+
+fn quicksort_examples() {
+  check.eq(quicksort([]), [])
+  check.eq(quicksort([3]), [3])
+  check.eq(quicksort([10, 3, -4, 5, 9]), [-4, 3, 5, 9, 10])
+  check.eq(quicksort([3, 10, 0, 5, 9]), [0, 3, 5, 9, 10])
+}
 ```
 
 
-## Exemplo: quicksort
+## Exemplo: quicksort {.t}
 
-\small
+\scriptsize
 
-```scheme
-(define (quicksort lst)
-  (cond
-    [(empty? lst) empty]
-    [else
-     (define pivo (first lst))
-     (append (quicksort (filter (curry > pivo) lst))
-             (list pivo)
-             (quicksort (filter (curry < pivo) lst)))]))
+```gleam
+/// Ordena *lst* em ordem não decrescente usando o algoritmo quicksort.
+fn quicksort(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [pivo, ..resto] -> {
+      // decompor em subproblemas
+      // resolver os subproblemas recursivamente
+      // combinar as soluções recursivas
+      todo
+    }
+  }
+}
+```
+
+
+## Exemplo: quicksort {.t}
+
+\scriptsize
+
+```gleam
+/// Ordena *lst* em ordem não decrescente usando o algoritmo quicksort.
+fn quicksort(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [pivo, ..resto] -> {
+      let maiores = list.filter(lst, fn(x) { x >= pivo })
+      let menores = list.filter(lst, fn(x) { x < pivo })
+      list.append(quicksort(menores), quicksort(maiores))
+    }
+  }
+}
 ```
 
 \pause
 
 \normalsize
 
-O que acontece se a lista tiver elementos repetidos? \pause Faça o teste no DrRacket e veja! \pause
-
-O que acontece se alterarmos `>` para `>=`? \pause A função não termina (discutido em sala).
+A funciona `quicksort` funciona corretamente para qualquer entrada? \pause Não. \pause Se todos os elementos forem iguais, a função será executada recursivamente para a lista de entrada e não terminará a execução.
 
 
-## Exemplo: quicksort
+## Exemplo: quicksort {.t}
 
-Versão corrigida.
+\scriptsize
 
-\small
-
-```scheme
-(define (quicksort lst)
-  (cond
-    [(empty? lst) empty]
-    [else
-     (define pivo (first lst))
-     (append (quicksort (filter (curry >= pivo) (rest lst)))
-             (list pivo)
-             (quicksort (filter (curry < pivo) (rest lst))))]))
+```gleam
+/// Ordena *lst* em ordem não decrescente usando o algoritmo quicksort.
+fn quicksort(lst: List(Int)) -> List(Int) {
+  case lst {
+    [] -> []
+    [pivo, ..resto] -> {
+      let maiores = list.filter(resto, fn(x) { x >= pivo })
+      let menores = list.filter(resto, fn(x) { x < pivo })
+      list.append(quicksort(menores), [pivo, ..quicksort(maiores)])
+    }
+  }
+}
 ```
 
+\pause
 
-## Processo de projeto
+\normalsize
+
+Qual é a equação de recorrência que descreve o tempo de execução da função agrupa? \pause Depende de como a lista é particionada. \pause
+
+<div class="columns">
+<div class="column" width="48%">
+No pior caso
+
+$T(n) = T(n - 1) + T(0) + O(n) \pause = O(n^2)$ \pause
+
+</div>
+<div class="column" width="48%">
+
+No melhor caso
+
+$T(n) = 2T(n/2) + O(n) \pause = O(n\lg n)$
+
+</div>
+</div>
+
+
+## Processo de projeto para funções recursivas generativas
 
 O que precisamos ajustar no processo de projeto de funções? \pause
 

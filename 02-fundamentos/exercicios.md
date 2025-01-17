@@ -150,8 +150,8 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
 
     fn test(x, y) {
       case x == 0 {
-          True -> 0
-          False -> y
+        True -> 0
+        False -> y
       }
     }
     ```

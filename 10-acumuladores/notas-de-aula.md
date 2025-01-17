@@ -156,11 +156,12 @@ Vamos tentar definir uma função mais parecida com este método manual.
 <div class="columns">
 <div class="column" width="48%">
 
-Como queremos que a função funcione?
+Como queremos que a função funcione? \pause
 
 \scriptsize
 
 ```gleam
+
 relativa_absoluta([50, 40, 70, 30, 30])
    -> [50, 90, 160, 190, 220]
 ```
@@ -168,6 +169,7 @@ relativa_absoluta([50, 40, 70, 30, 30])
 \pause
 
 ```gleam
+
 [50,
  ..relativa_absoluta([40, 70, 30, 30])]
 ```
@@ -220,10 +222,13 @@ Como queremos que a função funcione?
 \scriptsize
 
 ```gleam
-[50, 40, 70, 30, 30] -> [50, 90, 160, 190, 220]
+
+relativa_absoluta([50, 40, 70, 30, 30])
+   -> [50, 90, 160, 190, 220]
 ```
 
 ```gleam
+
 [50,
  ..relativa_absoluta([40, 70, 30, 30])]
 ```
@@ -259,6 +264,7 @@ relativa_absoluta([50, 40, 70, 30, 30], 0)
 \pause
 
 ```gleam
+
 [50,
  ..relativa_absoluta([40, 70, 30, 30], 50)]
 ```
@@ -319,7 +325,7 @@ fn relativa_absoluta(
 
 \pause
 
-\normalsize
+\small
 
 Qual o problema com essa função? \pause
 
@@ -328,7 +334,11 @@ Ela precisa de um parâmetro extra, que não faz parte do problema. \pause
 </div>
 <div class="column" width="48%">
 
-Vamos separar na função principal e em uma função com acumulador. \pause
+\small
+
+Vamos separar em duas funções, uma para o usuário da função e outra com a implementação usando acumulador. \pause
+
+\vspace{-0.3cm}
 
 \scriptsize
 

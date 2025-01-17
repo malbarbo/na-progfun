@@ -5,6 +5,7 @@ title: |
        | Acumuladores
 urlcolor: Blue
 license:
+# TODO: adicionar mais exercícios
 # TODO: adicionar soluções
 ---
 
@@ -23,6 +24,4 @@ license:
 
 # Praticando
 
-@) Analise os exemplos e exercícios de listas e reescreva as funções, se houver benefício, usando acumuladores. Siga o processo visto em sala para projetar as funções. Utilize a função `foldl` onde for apropriado.
-
-@) Analise os exemplos e exercícios de números naturais e defina uma função `reduz-num-acc` (semelhante a função `reduz-acc` feita em sala) que abstraia o comportamento do modelo para funções com números naturais utilizando acumuladores. Redefina as funções (que se beneficiarem) em termos de `reduz-num-acc`.
+@) Analise os exemplos e exercícios de listas e reescreva as funções, se houver benefício, usando acumuladores. Siga o processo visto em sala para projetar as funções. Utilize a função `fold` onde for apropriado.

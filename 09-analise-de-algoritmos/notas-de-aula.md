@@ -62,7 +62,7 @@ def soma(lst: list[int]) -> int:
 
 \pause
 
-Qual é a complexidade de tempo da função `soma`? \pause Ou, quanto tempo a função `soma` consome? \pause Ou, quantas instruções a função executa? \pause Depende da quantidade de $n$ de elementos de `lst`.
+Qual é a complexidade de tempo da função `soma`? \pause Ou, quanto tempo a função `soma` consome? \pause Ou, quantas instruções a função executa? \pause Depende da quantidade $n$ de elementos de `lst`.
 
 \pause
 

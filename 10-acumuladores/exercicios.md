@@ -24,4 +24,4 @@ license:
 
 # Praticando
 
-@) Analise os exemplos e exercícios de listas e reescreva as funções, se houver benefício, usando acumuladores. Siga o processo visto em sala para projetar as funções. Utilize a função `fold` onde for apropriado.
+@) Analise os exemplos e exercícios de listas e reescreva as funções, se houver benefício, usando acumuladores. Siga o processo visto em sala para projetar as funções e faça a análise do tempo de execução. Utilize a função `fold` onde for apropriado.

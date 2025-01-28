@@ -3,12 +3,12 @@ import gleam/int
 import gleam/string
 import sgleam/check
 
-// Reduz os elementos de *lst* em um acumulador usando a função *f*. O
-// acumulador começa com *init* e é atualizado chamando *f(acc, e)* para cada
-// elemento *e* de *lst* da direita para esquerda.
-//
-// Por exemplo, a chamada reduz([4, 1, 2], 0, int.add) é equivalente a
-// *int.add(int.add(int.add(0, 2), 1), 4)*.
+/// Reduz os elementos de *lst* em um acumulador usando a função *f*. O
+/// acumulador começa com *init* e é atualizado chamando *f(acc, e)* para cada
+/// elemento *e* de *lst* da direita para esquerda.
+///
+/// Por exemplo, a chamada reduz([4, 1, 2], 0, int.add) é equivalente a
+/// *int.add(int.add(int.add(0, 2), 1), 4)*.
 pub fn reduz(lst: List(a), init: b, f: fn(b, a) -> b) -> b {
   case lst {
     [] -> init

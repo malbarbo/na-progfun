@@ -2,8 +2,9 @@
 
 Se preferir, faça o download dos [pdfs](http://malbarbo.pro.br/ensino/2023/11917/).
 
-Veja também as [notas de aula](https://github.com/malbarbo/na-proglog) sobre
-o paradigma de programação lógico.
+Esse material utiliza a linguagem [Racket](https://racket-lang.org/). Para uma versão atualizada com a linguagem [Gleam](https://gleam.run/), veja o ramo [principal](../../).
+
+Veja também as [notas de aula](https://github.com/malbarbo/na-proglog) sobre o paradigma de programação lógico.
 
 # Licença
 

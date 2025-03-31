@@ -5,12 +5,11 @@ Para gerar os pdfs execute o comando `make pdf`. Os arquivos pdfs serão gerados
 Este comando irá baixar e executar os programas [pandoc](https://pandoc.org/)
 e [tectonic](http://tectonic-typesetting.github.io/).
 
-Se preferir, faça o download dos [pdfs](http://malbarbo.pro.br/ensino/2023/11917/).
+Se preferir, faça o download dos [pdfs](http://malbarbo.pro.br/ensino/2024/12026/).
 
-Esse material utilizava inicialmente a linguagem Racket, mas está sendo atualizado para utilizar a linguagem Gleam. O material em Racket está no ramo [racket](../../tree/cpp)
+Esse material utiliza a linguagem [Gleam](https://gleam.run/). Para uma versão anterior com a linguagem [Racket](https://racket-lang.org/), veja o ramo [racket](../../tree/racket).
 
-Veja também as [notas de aula](https://github.com/malbarbo/na-proglog) sobre
-o paradigma de programação lógico.
+Veja também as [notas de aula](https://github.com/malbarbo/na-proglog) sobre o paradigma de programação lógico.
 
 # Licença
 

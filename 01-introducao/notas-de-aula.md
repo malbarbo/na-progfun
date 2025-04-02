@@ -318,7 +318,7 @@ Para iniciar o repl
 ```console
 $ ./sgleam
 Welcome to sgleam.
-Type "quit" or CTRL-D to exit.
+Type ctrl-d ou ":quit" to exit.
 > 2 + 5
 7
 ```
@@ -334,8 +334,8 @@ Para carregar um arquivo e iniciar o repl
 ```console
 $ ./sgleam -i dobro.gleam
 Welcome to sgleam.
-Type "quit" or CTRL-D to exit.
-> dobro.dobro(4)
+Type ctrl-d ou ":quit" to exit.
+> dobro(4)
 8
 ```
 

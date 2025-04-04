@@ -4,6 +4,12 @@
 
 # TODO
 
+- Usar o mesmo esquema de cores do sgleam playground (e visual studio)?
+
+- Colocar aviso que o arquivo deve ser visualizado como PDF
+
+- Remover os últimos arquivo .rkt
+
 - Colocar o nome do arquivo com a solução nos exercícios (nomear cada exercício?)
 
 - Colocar seções nos slides
@@ -13,8 +19,6 @@
 - Agregar todas as referências em um arquivo e fazer citações
 
 - Evitar copiar e colar. Tentar usar \only
-
-- Usar pigments para colorir o código Racket
 
 - Adicionar um capítulo sobre "padrões de projeto"
 

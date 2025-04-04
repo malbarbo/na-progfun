@@ -222,7 +222,7 @@ Como?
 Primeiros passos
 ================
 
-## Instalação
+## Instalação local
 
 No Linux
 
@@ -245,6 +245,11 @@ Em outros sistemas
 \small
 
 Acesse <https://malbarbo.pro.br/sgleam/> e faça o download e descompactação manualmente.
+
+
+## Web
+
+![](imagens/sgleam-web.png){width=12cm}
 
 
 ## Execução

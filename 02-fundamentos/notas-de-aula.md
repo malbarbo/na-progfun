@@ -8,13 +8,12 @@ title: Fundamentos
 # TODO: falar de estilo de código
 # TODO: falar de tratamento de erro?
 # TODO: mudar a definição do paradigma funcional para redução de expressões para valores?
-# TODO: não falar operador da chamada de função é uma expressão?
+# TODO: não falar que o operador da chamada de função é uma expressão?
 # TODO: mostrar diagrama de sintaxe?
 # TODO: falar das prioridades dos operadores e {} para agrupamento?
 # TODO: exemplos de avalição de and e or?
 # TODO: falar da forma de operadores binários
 # TODO: falar que cada expressão tem um tipo
-# TODO: adicionar um resumo no final
 ---
 
 Introdução
@@ -113,7 +112,7 @@ Operações com inteiros:
 - `+ (int.add)`{.gleam}
 - `- (int.subtract)`{.gleam}
 - `* / % > >= < <= == !=`{.gleam} \pause
-- `int.to_float`{.gleam} e diversas outras no módulo `int`{.gleam}.
+- `int.to_float`{.gleam} e diversas outras no módulo [`int`{.gleam}](https://hexdocs.pm/gleam_stdlib/gleam/int.html).
 
 \pause
 
@@ -122,7 +121,7 @@ Operações com floats:
 - `*. (float.product)`{.gleam}
 - `/. (float.divide)`{.gleam}
 - `+. -.  >. >=. <. <=. == !=`{.gleam} \pause
-- `float.truncate`{.gleam} e diversas outras no módulo `float`{.gleam}.
+- `float.truncate`{.gleam} e diversas outras no módulo [`float`{.gleam}](https://hexdocs.pm/gleam_stdlib/gleam/float.html).
 
 \pause
 
@@ -134,7 +133,7 @@ Operações com strings:
 
 - `<> (string.append)`{.gleam} \pause
 - `== !=`{.gleam}
-- `string.slice`{.gleam} e diversas outras no módulo `string`{.gleam}.
+- `string.slice`{.gleam} e diversas outras no módulo [`string`{.gleam}](https://hexdocs.pm/gleam_stdlib/gleam/string.html).
 
 \ 
 
@@ -216,10 +215,6 @@ Alguns exemplos de combinações
 ```gleam
 > { 2 + 12 } * 5
 70
-> "Gol" <> string.repeat("!", 4)
-"Gol!!!!"
-> 10 / 0  // Divisão por zero é zero!
-0
 ```
 
 </div>
@@ -229,9 +224,49 @@ Alguns exemplos de combinações
 ```gleam
 > int.multiply(int.add(2, 12), 5)
 70
+```
+</div>
+</div>
+
+\pause
+
+<div class="columns">
+<div class="column" width="50%">
+\small
+
+```gleam
+> "Gol" <> string.repeat("!", 4)
+"Gol!!!!"
+```
+
+</div>
+<div class="column" width="50%">
+\small
+
+```gleam
 > string.append("Gol",
                 string.repeat("!", 4))
 "Gol!!!"
+```
+</div>
+</div>
+
+\pause
+
+<div class="columns">
+<div class="column" width="50%">
+\small
+
+```gleam
+> 10 / 0  // Divisão por zero é zero!
+0
+```
+
+</div>
+<div class="column" width="50%">
+\small
+
+```gleam
 > int.divide(10, 0)
 0
 ```
@@ -242,7 +277,7 @@ Alguns exemplos de combinações
 
 \ 
 
-Considerando apenas funções e literais (vamos deixar os operadores de lado), qual é forma de combinar expressões para criar novas expressões? \pause
+Considerando apenas funções e literais (vamos deixar os operadores de lado por simplicidade), qual é forma de combinar expressões para criar novas expressões? \pause
 
 A chamada de função. \pause Como podemos definir como são formadas as chamadas de funções?
 
@@ -309,7 +344,7 @@ Regra para **avaliação de expressão** \pause
 
     - **Avalie cada expressão** da chamada da função, isto é, reduza cada expressão para um valor \pause
 
-      $\rightarrow$ resultado da aplicação da função aos argumentos
+      $\rightarrow$ resultado da aplicação do operador aos operandos
 
 </div>
 </div>
@@ -479,7 +514,7 @@ Note que a especificação dos tipos das entradas e saída são opcionais. Se os
 
 ## Definições
 
-Os nomes usados nas definições são associados com os objetos que eles representam e armazenados em um memória chamada de **ambiente**.
+Os nomes usados nas definições são associados com os objetos que eles representam e armazenados em um memória chamada de **ambiente**. \pause
 
 Um programa em Gleam é composto por uma sequência de instruções `import`{.gleam} e de definições. \pause
 
@@ -1216,7 +1251,7 @@ A regra de avaliação da expressão `||`{.gleam} é: \pause
 
 ## Operadores lógicos
 
-Os exemplos a seguir usam o efeito colateral de `io.debug` para demostrar a avaliação em curto-circuito.
+Os exemplos a seguir usam o efeito colateral de `io.debug`{gleam} para demostrar a avaliação em curto-circuito.
 
 <div class="columns">
 <div class="column" width="50%">
@@ -1224,11 +1259,28 @@ Os exemplos a seguir usam o efeito colateral de `io.debug` para demostrar a aval
 
 ```gleam
 > 3 > 5 && { io.debug("aqui") True }
+```
+
+\pause
+
+```gleam
 False
+```
+
+\pause
+
+```gleam
 > 5 > 3 && { io.debug("aqui") True }
+```
+
+\pause
+
+```gleam
 "aqui"
 True
 ```
+
+\pause
 
 </div>
 <div class="column" width="50%">
@@ -1236,9 +1288,24 @@ True
 
 ```gleam
 > 3 > 5 || { io.debug("aqui") True }
+```
+
+\pause
+
+```gleam
 "aqui"
 False
+```
+
+\pause
+
+```gleam
 > 5 > 3 || { io.debug("aqui") True }
+```
+
+\pause
+
+```gleam
 True
 ```
 </div>
@@ -1267,10 +1334,35 @@ O operador de diferente (negação da igualdade) é `!=`{.gleam}.
 
 ```gleam
 > 10 == 9 + 1
+```
+
+\pause
+
+```gleam
 True
+```
+
+\pause
+
+```gleam
 > 3.0 + 1.0 == 4.0
+```
+
+\pause
+
+```gleam
 True
+```
+
+\pause
+
+```gleam
 > 10 == 10.0
+```
+
+\pause
+
+```
 error: Type mismatch
 ```
 
@@ -1282,15 +1374,66 @@ error: Type mismatch
 
 ```gleam
 > ["a", "c", "b"] == ["a", "c", "b"]
+```
+
+\pause
+
+```gleam
 True
+```
+
+\pause
+
+```gleam
 > [[], [1, 2]] == [[], [1, 2]]
+```
+
+\pause
+
+```gleam
 True
+```
+
+\pause
+
+```gleam
 > [[], [1, 2]] != [[], [1, 2]]
+```
+
+\pause
+
+```gleam
 False
 ```
 
 </div>
 </div>
+
+
+## Revisão
+
+Vimos o que são expressões e como elas são avaliadas. \pause
+
+- A definição de expressão tem autorreferência, isto é, uma expressão pode conter outras expressões. \pause
+
+- A regra de avaliação de expressão é recursiva, isto é, a regra é descrita em termos dela mesmo.
+
+
+## Revisão
+
+Aprendemos os tipos e operações primitivas do Gleam e também como fazer definições de constantes e funções. \pause
+
+- `Int`{.gleam}, `Float`{.gleam}, `String`{.gleam} e `Bool`{.gleam} \pause
+
+- `+`{.gleam} (`int.add`{.gleam}), `*.`{.gleam} (`float.multiply`{.gleam}), `==`{.gleam} e muitas outras \pause
+
+- `&&`{.gleam}, `||`{.gleam} operadores avaliados com uma regra especial (avaliação preguiçosa) \pause
+
+- `case`{.gleam} \pause
+
+- `const`{.gleam} \pause
+
+- `fn`{.gleam}
 
 
 Referências
@@ -1300,6 +1443,8 @@ Referências
 
 Básicas
 
+- Seção [1.1 - The Elements of Programming](https://web.mit.edu/6.001/6.037/sicp.pdf#section.1.1) do livro [SICP](https://web.mit.edu/6.001/6.037/sicp.pdf)
+
 - [Tour da linguagem Gleam](https://tour.gleam.run/)
 
-- Seção [1.1 - The Elements of Programming](https://web.mit.edu/6.001/6.037/sicp.pdf#section.1.1) (texto mais direto) do livro [SICP](https://web.mit.edu/6.001/6.037/sicp.pdf)
+- [Biblioteca padrão do Gleam](https://hexdocs.pm/gleam_stdlib/)

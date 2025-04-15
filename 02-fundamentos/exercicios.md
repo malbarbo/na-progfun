@@ -148,7 +148,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
       p()
     }
 
-    fn test(x, y) {
+    fn teste(x, y) {
       case x == 0 {
         True -> 0
         False -> y
@@ -159,7 +159,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
     Então avaliou a seguinte expressão
 
     ```gleam
-    test(0, p())
+    teste(0, p())
     ```
 
     Qual é o comportamento que Ben irá observar com um interpretador que usa avaliação com ordem aplicativa? Qual é o comportamento que ele irá observar com um interpretador que usa avaliação com ordem normal? Explique a sua resposta.

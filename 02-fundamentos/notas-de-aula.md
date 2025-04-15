@@ -24,7 +24,7 @@ Introdução
 
 O paradigma de programação funcional é baseado na definição e aplicação de funções. \pause
 
-Uma **função** é uma conjunto de expressões que mapeia valores de entrada para valores de saída. \pause
+Uma **função** é um conjunto de expressões que mapeia valores de entrada para valores de saída. \pause
 
 Uma **expressão** é uma entidade sintática que quando avaliada (reduzida) produz um valor. \pause
 
@@ -33,7 +33,7 @@ Vamos ver uma sequência de definições de expressões e regras de avaliação.
 
 ## Definição de expressão (versão 0.1)
 
-Uma **expressão** consiste de
+Uma **expressão** consiste em
 
 - Um literal; ou
 
@@ -44,7 +44,7 @@ Um **literal** é um valor que é representado diretamente no código. Em geral,
 
 \pause
 
-Uma **tipo primitivo** é um tipo suportado diretamente pela linguagem de programação.
+Um **tipo primitivo** é um tipo suportado diretamente pela linguagem de programação.
 
 \pause
 
@@ -154,7 +154,7 @@ Operações com booleanos:
 
 <div class="columns">
 <div class="column" width="50%">
-Uma **expressão** consiste de
+Uma **expressão** consiste em
 
 - Um literal; ou
 
@@ -251,7 +251,7 @@ A chamada de função. \pause Como podemos definir como são formadas as chamada
 
 Primeira tentativa
 
-Uma chamada de função começa com uma função primitiva, seguido de abre parêntese, seguido de uma sequência de **literais** separados por vírgula, seguido de fecha parêntese.
+Uma chamada de função começa com uma função primitiva, seguida de abre parêntese, seguido de uma sequência de **literais** separados por vírgula, seguida de fecha parêntese.
 
 \pause
 
@@ -261,16 +261,16 @@ O exemplo `int.multiply(int.add(2, 12), 5)`{.gleam} não está de acordo com ess
 
 Segunda tentativa \pause
 
-Uma chamada de função começa com uma função primitiva, seguido de abre parêntese, seguido de uma sequência de **expressões** separadas por vírgula, seguido de fecha parêntese. \pause
+Uma chamada de função começa com uma função primitiva, seguida de abre parêntese, seguido de uma sequência de **expressões** separadas por vírgula, seguida de fecha parêntese. \pause
 
 Vamos usar uma definição mais genérica.
 
 
 ## Chamadas de funções
 
-Uma **chamada de função** consiste de uma **expressão** seguido por uma sequência de **expressões** entre parênteses separadas por vírgula. \pause
+Uma **chamada de função** consiste em uma **expressão** seguida por uma sequência de **expressões** entre parênteses separadas por vírgula. \pause
 
-- A primeira expressão é a **operador**; \pause
+- A primeira expressão é o **operador**; \pause
 
 - As demais expressões são os **operandos**. \pause
 
@@ -288,7 +288,7 @@ Vamos atualizar a definição de expressão para incluir as chamadas de funçõe
 
 <div class="columns">
 <div class="column" width="50%">
-Uma **expressão** consiste de
+Uma **expressão** consiste em
 
 - Um literal; ou
 
@@ -474,14 +474,14 @@ pub fn soma_quadrados(a: Int, b) {
 
 \pause
 
-Note que a especificação dos tipo das entradas e saída são opcionais. Se os tipos não forem especificados, eles são inferidos pelo compilador.
+Note que a especificação dos tipos das entradas e saída são opcionais. Se os tipos não forem especificados, eles são inferidos pelo compilador.
 
 
 ## Definições
 
 Os nomes usados nas definições são associados com os objetos que eles representam e armazenados em um memória chamada de **ambiente**.
 
-Um programa em Gleam é composto por uma sequência de definições e instruções `import`{.gleam}. \pause
+Um programa em Gleam é composto por uma sequência de instruções `import`{.gleam} e de definições. \pause
 
 Agora precisamos estender a definição de expressões para incluir nomes e alterar a regra de avaliação de expressões para considerar a chamada de funções compostas.
 
@@ -494,7 +494,7 @@ Modelo de substituição
 
 <div class="columns">
 <div class="column" width="35%">
-Uma **expressão** consiste de
+Uma **expressão** consiste em
 
 - Um literal; ou
 - Uma função primitiva; ou
@@ -506,7 +506,7 @@ Uma **expressão** consiste de
 <div class="column" width="60%">
 Regra para **avaliação de expressão**
 
-- Literal $\rightarrow$ valor que o literal representa
+- Literal $\rightarrow$ valor que o literal representa \pause
 - Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função \pause
 - Nome $\rightarrow$ valor associado com o nome no ambiente \pause
 - Chamada de função
@@ -570,9 +570,9 @@ Ao invés de avaliar os operandos e depois fazer a substituição, existe um out
 
 `soma_quadrados(5 + 1, 5 * 2)`{.gleam} \pause \newline
 `quadrado(5 + 1) + quadrado(5 * 2)`{.gleam} \pause \newline
-`{ 5 + 1 } * { 5 + 1} + quadrado(5 * 2)`{.gleam} \pause \newline
-`{ 5 + 1 } * { 5 + 1} + { 5 * 2 } * { 5 * 2 }`{.gleam} \pause \newline
-`6 * { 5 + 1} + { 5 * 2 } * { 5 * 2 }`{.gleam} \pause \newline
+`{ 5 + 1 } * { 5 + 1 } + quadrado(5 * 2)`{.gleam} \pause \newline
+`{ 5 + 1 } * { 5 + 1 } + { 5 * 2 } * { 5 * 2 }`{.gleam} \pause \newline
+`6 * { 5 + 1 } + { 5 * 2 } * { 5 * 2 }`{.gleam} \pause \newline
 `6 * 6 + { 5 * 2 } * { 5 * 2 }`{.gleam} \pause \newline
 `36 + { 5 * 2 } * { 5 * 2 }`{.gleam} \pause \newline
 `36 + 10 * { 5 * 2 }`{.gleam} \pause \newline
@@ -652,7 +652,7 @@ Implementação \pause
 
 ```gleam
 fn custo_combustivel(distancia, preco_do_litro, rendimento) {
-    distancia /. rendimento *. preco_do_litro
+    { distancia /. rendimento } *. preco_do_litro
 }
 ```
 
@@ -747,7 +747,7 @@ Exemplos
 
 ## Condicional
 
-Qual a diferente desse `if`{.gleam} em relação ao das outras linguagens? \pause
+Qual a diferença desse `if`{.gleam} em relação ao das outras linguagens? \pause
 
 Esse `if`{.gleam} é uma expressão, ele produz um valor como resultado. Na maioria das outras linguagens o `if`{.gleam} é uma sentença ([_statement_](https://en.wikipedia.org/wiki/Statement_(computer_science)) em inglês), ele não produz um resultado mas gera um efeito colateral. \pause
 
@@ -852,7 +852,7 @@ abs(-4)             // Substitui abs(-4) pelo corpo ...
 \pause
 
 ```gleam
-case -4 >= 0 {      // A expressão axaminada é avaliada
+case -4 >= 0 {      // A expressão examinada é avaliada
   True -> -4
   False -> - { -4 }
 }
@@ -861,7 +861,7 @@ case -4 >= 0 {      // A expressão axaminada é avaliada
 \pause
 
 ```gleam
-case False {        // Como a expressão axaminada é False
+case False {        // Como a expressão examinada é False
   True -> -4        // o case é substituido pela expressão
   False -> - { -4 } // do caso False
 }
@@ -892,7 +892,7 @@ Vamos atualizar a nossa definição de expressão pra incluir o `case`{.gleam}.
 
 <div class="columns">
 <div class="column" width="35%">
-Uma **expressão** consiste de
+Uma **expressão** consiste em
 
 - Um literal; ou
 - Uma função primitiva; ou
@@ -1076,7 +1076,7 @@ True
 \small
 
 ```gleam
-fn and(x, y) {
+fn or(x, y) {
   case x {
     True -> True
     False -> y
@@ -1202,7 +1202,7 @@ A regra de avaliação da expressão `&&`{.gleam} é: \pause
 
 - Avalie a expressão a esquerda de `&&`{.gleam}, se o valor for `False`{.gleam}, substitua toda a expressão `&&`{.gleam} por `False`{.gleam}; \pause
 
-- Senão, substitua toda a expressão `&&`{.gleam} pela expressão a direita de `&&`{.gleam}.
+- Senão, substitua toda a expressão `&&`{.gleam} pela expressão à direita de `&&`{.gleam}.
 
 
 ## Regra de avaliação da expressão ||
@@ -1211,7 +1211,7 @@ A regra de avaliação da expressão `||`{.gleam} é: \pause
 
 - Avalie a expressão a esquerda de `||`{.gleam}, se o valor for `True`{.gleam}, substitua toda a expressão `||`{.gleam} por `True`{.gleam}; \pause
 
-- Senão, substitua toda a expressão `||`{.gleam} pela expressão a direita de `||`{.gleam}.
+- Senão, substitua toda a expressão `||`{.gleam} pela expressão à direita de `||`{.gleam}.
 
 
 ## Operadores lógicos

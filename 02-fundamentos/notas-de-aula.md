@@ -246,7 +246,7 @@ Alguns exemplos de combinações
 ```gleam
 > string.append("Gol",
                 string.repeat("!", 4))
-"Gol!!!"
+"Gol!!!!"
 ```
 </div>
 </div>
@@ -563,7 +563,7 @@ Essa forma de calcular o resultado das chamadas das funções compostas é chama
 
 ```gleam
 fn quadrado(x) { x * x }
-fn soma_quadrado(a, b) { quadrado(a) + quadrado(b) }
+fn soma_quadrados(a, b) { quadrado(a) + quadrado(b) }
 fn f(a) { soma_quadrados(a + 1, a * 2) }
 ```
 

@@ -6,7 +6,6 @@ title: Projeto de funções
 # TODO: adicionar discução sobre apelidos de tipos
 # TODO: falar sobre comentários na implementação
 # TODO: adicionar revisão no final
-# TODO: usar todo para o corpo inicial
 ---
 
 ## Projeto de funções
@@ -101,16 +100,17 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 
 Informações: preço do litro do combustível e o tipo do combustível. \pause Representações: \pause
 
-\small
+\footnotesize
 
 ```gleam
-/// O preço do litro do combustível,
-/// deve ser um número positivo.
-type Preco = Float
+/// O preço do litro do combustível, deve ser
+/// um número positivo.
+type Preco =
+  Float
 
-/// O tipo do combustível,
-/// deve "Alcool" ou "Gasolina".
-type Combustivel = String
+/// O tipo do combustível, deve "Alcool" ou "Gasolina".
+type Combustivel =
+  String
 ```
 
 </div>
@@ -127,16 +127,18 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 
 **Tipos**
 
-\small
+\footnotesize
 
 ```gleam
 /// O preço do litro do combustível,
 /// deve ser um número positivo.
-type Preco = Float
+type Preco =
+  Float
 
 /// O tipo do combustível,
 /// deve "Alcool" ou "Gasolina".
-type Combustivel = String
+type Combustivel =
+  String
 ```
 
 \pause
@@ -153,7 +155,7 @@ type Combustivel = String
 
 **Resultado** \pause
 
-\small
+\footnotesize
 
 ```gleam
 /// Encontra o combustivel que deve
@@ -164,7 +166,9 @@ type Combustivel = String
 fn seleciona_combustivel(
   preco_alcool: Preco,
   preco_gasolina: Preco,
-) -> Combustivel
+) -> Combustivel {
+  todo
+}
 ```
 
 </div>
@@ -195,7 +199,9 @@ Precisamos tomar uma decisão e modificar o propósito para ficar mais preciso. 
 /// Encontra o combustivel que deve ser utilizado no abastecimento. Produz
 /// "Alcool" se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
 /// produz "Gasolina" caso contrário.
-fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel
+fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel {
+  todo
+}
 ```
 
 ## Propósito

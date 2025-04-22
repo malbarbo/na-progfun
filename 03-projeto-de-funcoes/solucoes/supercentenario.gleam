@@ -1,6 +1,6 @@
 import sgleam/check
 
-/// Produz True se uma pessoa com a *idade* é supercentenária, isto é, tem 110
+/// Produz True se uma pessoa com *idade* é supercentenária, isto é, tem 110
 /// anos ou mais, False caso contrário.
 pub fn supercentenario(idade: Int) -> Bool {
   idade >= 110

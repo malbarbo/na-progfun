@@ -1,7 +1,7 @@
 import sgleam/check
 
 /// Calcula um novo valor aumentando a *porcentagem* ao *valor*.
-/// Requer que *valor* e *porcetagem sejam não negativos.
+/// Requer que *valor* e *porcetagem* sejam não negativos.
 pub fn aumenta(valor: Float, porcentagem: Float) {
   valor *. { 1.0 +. porcentagem /. 100.0 }
 }

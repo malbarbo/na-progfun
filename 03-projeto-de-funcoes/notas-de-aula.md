@@ -220,11 +220,11 @@ Ordenação \pause
 
 ## Especificação
 
-Para saber se a especificação está adequada, faça a segunda pergunta: \pause
+Para saber se a especificação está adequada, faça a seguinte pergunta: \pause
 
 Um outro desenvolvedor, que não tem acesso ao problema original e nem a análise, tem as informações necessárias na especificação para fazer uma implementação e verificação inicial? \pause
 
-Se a resposta for sim, então a especificação está adequada, senão ela está incompleta.
+Se a resposta for sim, então a especificação está adequada; senão, ela está incompleta.
 
 
 ## Implementação
@@ -262,8 +262,8 @@ fn seleciona_combustivel(
 **Implementação** \pause
 
 - Veremos diversas estratégias de implementação ao longo da disciplina. \pause
-- A primeira é a implementação **direta**. \pause Se a forma de calcular a resposta é sempre a mesma, ou seja, não depende de uma condição, então escrevemos a expressão da resposta diretamente. \pause
-- A segunda é a **análise de casos**. \pause Identificamos as formas de resposta e a condição necessária para cada forma e escrevemos um caso para cada forma.
+- Uma delas é a **direta**. \pause Se a forma de calcular a resposta é sempre a mesma (não depende de uma condição), então escrevemos a expressão da resposta diretamente. \pause
+- Outra é a **análise de casos**. \pause Identificamos as formas de resposta e a condição para cada forma, então escrevemos um caso para cada forma.
 
 </div>
 </div>
@@ -362,14 +362,16 @@ Preparem-se, agora vem uma sequência de muitas perguntas! \pause
 
 De forma geral, o fato de uma função produzir a resposta correta para alguns exemplos, implica que a função está correta? \pause Não! \pause
 
-Então porque "perder tempo" fazendo os exemplos? \pause O primeiro objetivo dos exemplos é ajudar o projetista a entender como a saída pode ser obtida a partir das entradas e o segundo é ilustrar o seu funcionamento para que a especificação fique mais clara. \pause Depois esses exemplos podem ser usados como uma forma inicial de verificação, que mesmo não mostrando que a função funciona corretamente, aumenta a confiança do desenvolvedor que o código está correto. \pause
+Então porque "perder tempo" fazendo os exemplos? \pause O primeiro objetivo dos exemplos é ajudar o projetista a entender como a saída pode ser obtida a partir das entradas. \pause O segundo é ilustrar o seu funcionamento para que a especificação fique mais clara. \pause Depois esses exemplos podem ser usados como uma forma inicial de verificação, que mesmo não mostrando que a função funciona corretamente, aumenta a confiança do desenvolvedor que o código está correto. \pause
 
 Já que os exemplos são uma verificação inicial, então temos que ampliar a verificação? \pause Sim! \pause De que forma? \pause Testes de propriedades, fuzzing, etc. \pause Para esta disciplina, vamos utilizar apenas os exemplos para fazer a verificação.
 
 
 ## Verificação
 
-Nós fizemos os exemplos em linguagem natural e no momento de verificar os exemplos nós "traduzimos" para o Gleam e fizemos as chamadas da funções de forma manual no repl. \pause Podemos melhorar esse processo? \pause Sim! \pause
+Nós fizemos os exemplos em linguagem natural e no momento de verificar os exemplos nós "traduzimos" para o Gleam e fizemos as chamadas da funções de forma manual no repl. \pause
+
+Podemos melhorar esse processo? \pause Sim! \pause
 
 Vamos escrever os exemplos diretamente em forma de código de maneira que eles possam ser executados automaticamente quando necessário.
 
@@ -400,18 +402,22 @@ pub fn seleciona_combustivel_examples() {
 
 Ao executarmos o programa obtemos algo como
 
+\footnotesize
+
 ```
 Running tests...
 3 tests, 3 success(es), 0 failure(s) and 0 errors.
 ```
 
+\normalsize
+
 \pause
 
-Porque um teste pode falhar? \pause
+Porque um exemplo pode falhar? \pause
 
-- O teste está errado \pause
+- O exemplo está errado \pause
 - A implementação está errada \pause
-- O teste e a implementação estão errados
+- O exemplo e a implementação estão errados
 
 
 ## Revisão

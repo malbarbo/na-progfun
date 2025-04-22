@@ -80,7 +80,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 @) Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
 
     ```gleam
-    /// Produz True se uma pessoa com a *idade* é supercentenária,
+    /// Produz True se uma pessoa com *idade* é supercentenária,
     /// isto é, tem 110 anos ou mais, False caso contrário.
     pub fn supercentenario(idade: Int) -> Bool {
       False
@@ -116,7 +116,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
     ```gleam
     pub fn aumenta(valor: Float, porcentagem: Float) -> Float {
-      valor *. (1.0 +. porcentagem /. 100.0)
+      valor *. { 1.0 +. porcentagem /. 100.0 }
     }
     ```
 
@@ -126,10 +126,11 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
     pub fn tamanho_nome(nome: String) -> Int {
       case string.length(nome) <= 4 {
         True -> "curto"
-        False -> case string.length(nome) <= 10 {
-          True -> "médio"
-          False -> "longo"
-        }
+        False ->
+          case string.length(nome) <= 10 {
+            True -> "médio"
+            False -> "longo"
+          }
       }
     }
     ```
@@ -157,6 +158,9 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 @) No período de 2015 à 2016 todos os números de telefones celulares no Brasil passaram a ter nove dígitos. Na época, os números de telefones que tinham apenas oito dígitos foram alterados adicionando-se o 9 na frete do número. Embora oficialmente todos os número de celulares tenham nove dígitos, na agenda de muitas pessoas ainda é comum encontrar números registrados com apenas oito dígitos. Projete uma função que adicione o nono dígito em um dado número de telefone celular caso ele ainda não tenha o nono dígito. Considere que os números de entrada são dados com o DDD entre parênteses e com um hífen separando os últimos quatro dígitos. Exemplos de entradas: (44) 9787-1241, (51) 95872-9989, (41) 8876-1562. A saída deve ter o mesmo formato, mas garantindo que o número do telefone tenha 9 dígitos.
 
+
+# Desafios
+
 @) Muitos letreiros exibem mensagens que tem mais caracteres do que eles podem exibir, para isso, eles exibem apenas uma porção da mensagem que é alterada com o passar do tempo. Por exemplo, em um letreiro de 20 caracteres, a mensagem `"Promocao de sorvetes, pague 2 leve 3!"` é exibida como `Promocao de sorvetes` no momento 0, como `"romocao de sorvetes,"` no momento 1, `"omocao de sorvetes, "`, no momento 3, e assim por diante até que no momento 17 é exibido `"tes, pague 2 leve 3!"`. O momento sempre aumenta, e após chegar no final da mensagem ela começa a ser exibida novamente, nesse caso, no momento 18 é exibido `"es, pague 2 leve 3! "` e no momento 19 é exibido `"s, pague 2 leve 3! P"`, onde o `P` é o início da mensagem. Projete uma função que determine os caracteres de uma mensagem que devem ser exibidos em um determinado momento em um letreiro que pode exibir um determinado número de caracteres. Assuma que o número de caracteres da mensagem é maior do que o do letreiro.
 
-@) (Desafio) Um número inteiro positivo é palíndromo se quando lido da direita para a esquerda ou da esquerda para a direita é idêntico. Ex: 9119, 1221, 5665, 7337. Projete uma função que verifique se um dado número inteiro de 4 dígitos é palíndromo, considere que o valor de entrada é o próprio número e não os quatro dígitos que compõem o número. É possível modificar a sua função de maneira que ela funcione para qualquer número de entrada e não apenas para números de 4 dígitos?
+@) Um número inteiro positivo é palíndromo se quando lido da direita para a esquerda ou da esquerda para a direita é idêntico. Ex: 9119, 1221, 5665, 7337. Projete uma função que verifique se um dado número inteiro de 4 dígitos é palíndromo, considere que o valor de entrada é o próprio número e não os quatro dígitos que compõem o número. É possível modificar a sua função de maneira que ela funcione para qualquer número de entrada e não apenas para números de 4 dígitos?

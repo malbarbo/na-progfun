@@ -406,18 +406,33 @@ pub fn seleciona_combustivel_examples() {
 
 ## Verificação
 
-Ao executarmos o programa obtemos algo como
+Para executarmos os testes usamos o comando
 
 \footnotesize
+
+No Windows
+
+```
+.\sgleam -f arquivo.gleam
+```
+
+No Linux ou Mac
+
+```
+./sgleam -f arquivo.gleam
+```
+
+\pause
+
+A saída será algo como
 
 ```
 Running tests...
 3 tests, 3 success(es), 0 failure(s) and 0 errors.
 ```
 
-\normalsize
 
-\pause
+## Verificação
 
 Porque um exemplo pode falhar? \pause
 

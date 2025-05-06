@@ -13,9 +13,10 @@
 # TODO: mostrar a solução completa para custo_tiquetes
 # TODO: deixar claro: funções totais
 # TODO: frase "Parse, don´t validade": In other words, write functions on the data representation you wish you had, not the data representation you are given.
-# TODO: ao invés de passar a responsabilidade de tratar o erro adiante, empure ela para trás
+# TODO: ao invés de passar a responsabilidade de tratar o erro adiante, empurre ela para trás
 # TODO: separar em dois decks: projeto de tipos de dados e projeto de funções completas?
 # TODO: usar todo para corpo inicial
+# TODO: definir melhor o que é casamento de padrões
 title: Tipos de dados
 ---
 
@@ -92,7 +93,7 @@ No exemplo da escolha do combustível, nós definimos os seguintes tipos:
 /// O preço do litro do combustível, deve ser um número positivo.
 type Preco = Float
 
-/// O tipo do combustível, deve "Alcool" ou "Gasolina".
+/// O tipo do combustível, deve "Álcool" ou "Gasolina".
 type Combustivel = String
 ```
 
@@ -179,7 +180,9 @@ Assim como para valores do tipo `Bool`{.gleam}, podemos utilizar a expressão `c
 \small
 
 ```gleam
-pub fn msg_combustivel(c: Combustivel) {
+pub fn msg_combustivel(
+  c: Combustivel
+) -> String {
   case c {
     Alcool -> "Use álcool."
     Gasolina -> "Use gasolina."
@@ -198,7 +201,7 @@ A análise dos casos precisa ser exaustiva
 \scriptsize
 
 ```gleam
-pub fn msg_combustivel(c: Combustivel) {
+pub fn msg_combustivel(c: Combustivel) -> String {
   case c {
     Alcool -> "Use álcool."
   }
@@ -345,7 +348,7 @@ pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
 
 \pause
 
-A implementação está correta? \pause Não, precisamos tratar `quant` negativo. \pause Fica como atividade.
+A implementação está correta? \pause Não, precisamos tratar `quant` negativo. \pause Veremos como fazer isso mais adiante.
 
 
 Estruturas
@@ -364,7 +367,7 @@ Agora veremos como representar dados onde dois ou mais valores devem ficar junto
 
 - Informações de um produto. \pause
 
-Chamamos estes tipos de dados de **dados compostos**, **registro** ou **estruturas**.
+Chamamos estes tipos de dados de **dados compostos**, **registros** ou **estruturas**.
 
 
 ## Estruturas
@@ -532,7 +535,7 @@ Ao invés de modificar o campo de uma instância da estrutura, criamos uma cópi
 
 \pause
 
-Vamos criar um ponto `p2` que é como `p1`, mas com o valor 5 para o campo `y`. \pause
+Vamos criar um ponto `p2`{.gleam} que é como `p1`{.gleam}, mas com o valor `5`{.gleam} para o campo `y`{.gleam}. \pause
 
 \small
 
@@ -883,6 +886,12 @@ check.eq(
 ) // Quadrado(..q, estado: Aberto)
 ```
 
+\pause
+
+```gleam
+// restante dos exemplos
+```
+
 
 ## Exemplo - Ação campo minado
 
@@ -1037,7 +1046,7 @@ E como expressar esse tipo de dado? \pause Usando união de tipos.
 
 ## Uniões e Estruturas
 
-Definimos anteriormente um tipo de dado como um conjunto de possíveis valores, agora vamos discutir qual é a relação entre definição de tipos de dados e operações com conjunto. \pause
+Definimos anteriormente um tipo de dado como um conjunto de possíveis valores, agora vamos discutir qual é a relação entre definição de tipos de dados e operações com conjuntos. \pause
 
 - Os valores possíveis para um tipo definido por uma estrutura (**tipo produto**) é o produto cartesiano dos valores possíveis de cada um do seus campos; \pause
 
@@ -1084,6 +1093,8 @@ type EstadoTarefa {
   Falha(codigo: Int, msg: String)
 }
 ```
+
+\pause
 
 </div>
 <div class="column" width="52%">

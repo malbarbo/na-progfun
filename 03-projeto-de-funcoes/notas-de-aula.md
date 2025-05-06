@@ -42,14 +42,14 @@ Cada etapa tem um objetivo e depende das etapas anteriores \pause
 - Verificação: \pause verificar se a implementação está de acordo com a especificação \pause
 - Revisão: \pause identificar e fazer melhorias na especificação e implementação \pause
 
-Note que as vezes precisamos alterar a ordem das etapas, por exemplo, às vezes estamos na implementação e encontramos uma nova condição e devemos voltar e alterar a especificação. \pause
+Note que às vezes precisamos alterar a ordem das etapas, por exemplo, às vezes estamos na implementação e encontramos uma nova condição e devemos voltar e alterar a especificação. \pause
 
 Mas devemos evitar fazer a implementação diretamente!
 
 
 ## Projeto de programas
 
-Mas esse processe serve para projetar funções, como projetamos programas? \pause
+Mas esse processo serve para projetar funções, como projetamos programas? \pause
 
 Um programa é composto de várias funções, então temos que decompor o programa em funções e aplicar o processo para projetar cada função. \pause
 
@@ -108,7 +108,7 @@ Informações: preço do litro do combustível e o tipo do combustível. \pause 
 type Preco =
   Float
 
-/// O tipo do combustível, deve "Alcool" ou "Gasolina".
+/// O tipo do combustível, deve "Álcool" ou "Gasolina".
 type Combustivel =
   String
 ```
@@ -136,7 +136,7 @@ type Preco =
   Float
 
 /// O tipo do combustível,
-/// deve "Alcool" ou "Gasolina".
+/// deve "Álcool" ou "Gasolina".
 type Combustivel =
   String
 ```
@@ -158,9 +158,9 @@ type Combustivel =
 \footnotesize
 
 ```gleam
-/// Encontra o combustivel que deve
+/// Encontra o combustível que deve
 /// ser utilizado no abastecimento.
-/// Produz "Alcool" se *preco_alcool*
+/// Produz "Álcool" se *preco_alcool*
 /// for até 70% do *preco_gasolina*,
 /// produz "Gasolina" caso contrário.
 fn seleciona_combustivel(
@@ -185,7 +185,7 @@ Apesar das anotações de tipos serem opcionais, de agora em diante, vamos **sem
 Exemplos \pause
 
 - Álcool 3.00, Gasolina 4.00, \pause produz "Gasolina" ($3.00 < 0.7 \times 4.00$ é falso) \pause
-- Álcool 2.90, Gasolina 4.20, \pause produz "Alcool" ($2.90 < 0.7 \times 4.20$ é verdadeiro) \pause
+- Álcool 2.90, Gasolina 4.20, \pause produz "Álcool" ($2.90 < 0.7 \times 4.20$ é verdadeiro) \pause
 - Álcool 3.50, Gasolina 5.00, \pause não está claro na especificação o que fazer quando o preço do álcool é exatamente 70% ($3.50 = 0.7 \times 5.00$)!
 
 
@@ -196,8 +196,8 @@ Precisamos tomar uma decisão e modificar o propósito para ficar mais preciso. 
 \footnotesize
 
 ```gleam
-/// Encontra o combustivel que deve ser utilizado no abastecimento. Produz
-/// "Alcool" se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
+/// Encontra o combustível que deve ser utilizado no abastecimento. Produz
+/// "Álcool" se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
 /// produz "Gasolina" caso contrário.
 fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel {
   todo
@@ -241,9 +241,9 @@ Se a resposta for sim, então a especificação está adequada; senão, ela est�
 \footnotesize
 
 ```gleam
-/// Encontra o combustivel que deve
+/// Encontra o combustível que deve
 /// ser utilizado no abastecimento.
-/// Produz "Alcool" se *preco_alcool*
+/// Produz "Álcool" se *preco_alcool*
 /// for menor ou igual 70% do
 /// *preco_gasolina*, produz "Gasolina"
 /// caso contrário.
@@ -257,9 +257,9 @@ fn seleciona_combustivel(
 
 3.00, 4.00, "Gasolina" ($3.00 \le 0.7 \times 4.00$ é falso)
 
-2.90, 4.20, "Alcool" ($2.90 \le 0.7 \times 4.20$ é verdade)
+2.90, 4.20, "Álcool" ($2.90 \le 0.7 \times 4.20$ é verdade)
 
-3.50, 5.00, "Alcool" ($3.50 \le 0.7 \times 5.00$ é verdade)
+3.50, 5.00, "Álcool" ($3.50 \le 0.7 \times 5.00$ é verdade)
 
 \pause
 
@@ -276,17 +276,17 @@ fn seleciona_combustivel(
 
 ## Implementação
 
-Temos duas formas de resposta, `"Alcool"`{.gleam} e `"Gasolina"`{.gleam}, portanto, precisamos de uma condição para distinguir quando utilizar cada resposta. \pause No caso, a resposta é `"Alcool"`{.gleam} se `preco_alcool`{.gleam} é menor ou igual a 70% do preço de `preco_gasolina`; e `"Gasolina"`{.gleam} caso contrário. \pause
+Temos duas formas de resposta, `"Álcool"`{.gleam} e `"Gasolina"`{.gleam}, portanto, precisamos de uma condição para distinguir quando utilizar cada resposta. \pause No caso, a resposta é `"Álcool"`{.gleam} se `preco_alcool`{.gleam} é menor ou igual a 70% do preço de `preco_gasolina`; e `"Gasolina"`{.gleam} caso contrário. \pause
 
 \footnotesize
 
 ```gleam
-/// Encontra o combustivel que deve ser utilizado no abastecimento. Produz
-/// "Alcool" se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
+/// Encontra o combustível que deve ser utilizado no abastecimento. Produz
+/// "Álcool" se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
 /// produz "Gasolina" caso contrário.
 fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel {
   case preco_alcool <=. 0.7 *. preco_gasolina {
-    True -> "Alcool"
+    True -> "Álcool"
     False -> "Gasolina"
   }
 }
@@ -307,7 +307,7 @@ fn seleciona_combustivel(
 ) -> Combustivel {
   case preco_alcool <=.
        0.7 *. preco_gasolina {
-    True -> "Alcool"
+    True -> "Álcool"
     False -> "Gasolina"
   }
 }
@@ -319,9 +319,9 @@ fn seleciona_combustivel(
 
 3.00, 4.00, então "Gasolina".
 
-2.90, 4.20, então "Alcool".
+2.90, 4.20, então "Álcool".
 
-3.50, 5.00, então "Alcool".
+3.50, 5.00, então "Álcool".
 
 \pause
 
@@ -348,14 +348,14 @@ Vamos utilizar os exemplos que criamos na especificação para verificar se a re
 
 ```gleam
 > seleciona_combustivel(2.9, 4.2)
-"Alcool"
+"Álcool"
 ```
 
 \pause
 
 ```gleam
 > seleciona_combustivel(3.5, 5.0)
-"Alcool"
+"Álcool"
 ```
 
 </div>
@@ -391,15 +391,15 @@ import sgleam/check
 
 fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel {
   case preco_alcool <=. 0.7 *. preco_gasolina {
-    True -> "Alcool"
+    True -> "Álcool"
     False -> "Gasolina"
   }
 }
 
 pub fn seleciona_combustivel_examples() {
   check.eq(seleciona_combustivel(3.0, 4.0), "Gasolina")
-  check.eq(seleciona_combustivel(2.9, 4.2), "Alcool")
-  check.eq(seleciona_combustivel(3.5, 5.0), "Alcool")
+  check.eq(seleciona_combustivel(2.9, 4.2), "Álcool")
+  check.eq(seleciona_combustivel(3.5, 5.0), "Álcool")
 }
 ```
 
@@ -434,7 +434,7 @@ Running tests...
 
 ## Verificação
 
-Porque um exemplo pode falhar? \pause
+Por que um exemplo pode falhar? \pause
 
 - O exemplo está errado \pause
 - A implementação está errada \pause
@@ -453,7 +453,7 @@ Porque um exemplo pode falhar? \pause
 /// deve ser um número positivo.
 type Preco = Float
 /// O tipo do combustível,
-/// deve "Alcool" ou "Gasolina".
+/// deve ser "Álcool" ou "Gasolina".
 type Combustivel = String
 fn seleciona_combustivel(
   preco_alcool: Preco,
@@ -461,7 +461,7 @@ fn seleciona_combustivel(
 ) -> Combustivel {
   case preco_alcool <=.
        0.7 *. preco_gasolina {
-    True -> "Alcool"
+    True -> "Álcool"
     False -> "Gasolina"
   }
 }

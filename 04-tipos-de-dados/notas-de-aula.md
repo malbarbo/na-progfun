@@ -61,11 +61,11 @@ Como determinar se um tipo de dado **é adequado** para representar uma informa�
 
 Um inteiro é adequado para representar a quantidade de pessoas em um planeta? \pause
 
-- Não é adequado pois ele pode ser negativo, mas a quantidade de pessoas em um planeta não pode, ou seja, o tipo permite representar valores inválidos. \pause
+- Não é adequado pois ele pode ser negativo, mas a quantidade de pessoas em um planeta não pode, ou seja, o tipo _permite representar valores inválidos_. \pause
 
 E um natural de 32 bits? \pause
 
-- Não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, o tipo não permite representar todos os valores válidos. \pause
+- Não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, o tipo _não permite representar todos os valores válidos_. \pause
 
 E um natural? \pause
 
@@ -134,7 +134,12 @@ A forma geral para definir tipos enumerados é:
 
 Cada tipo enumerado pode ter 0 ou mais valores. \pause O nome e os valores do tipo devem começar com letra maiúscula.
 
-\pause
+
+## Enumerações
+
+Quando usar tipos enumerados? \pause
+
+Quando todos os valores válidos para o tipo podem ser nomeados. \pause
 
 Vamos definir um tipo enumerado para representar o tipo combustível.
 
@@ -227,7 +232,7 @@ The missing patterns are:
 
 ## Exemplo - tíquete do RU
 
-O RU da UEM cobra um valor por tíquete que depende da relação do usuário com a universidade. Para alunos e servidores que recebem até 3 salários mínimos o tíquete custa R$ 5,00, para servidores que recebem acima de 3 salários mínimos e docentes R$ 10,00, para pessoas da comunidade externa, R$ 19,00. Como parte de um sistema de cobrança você deve projetar uma função que determine quanto deve ser cobrado de um usuário por um quantidade de tíquetes.
+O RU da UEM cobra um valor por tíquete que depende da relação do usuário com a universidade. Para alunos e servidores que recebem até 3 salários mínimos o tíquete custa R$ 5,00, para servidores que recebem acima de 3 salários mínimos e docentes, R$ 10,00, para pessoas da comunidade externa, R$ 19,00. Como parte de um sistema de cobrança você deve projetar uma função que determine quanto deve ser cobrado de um usuário por um quantidade de tíquetes.
 
 
 ## Exemplo - tíquete do RU
@@ -236,7 +241,7 @@ Análise \pause
 
 - Determinar quanto deve ser cobrado de um usuário por uma quantidade de tíquetes \pause
 
-- O usuário pode ser aluno ou servidor (até 3 sal) - R$ 5, servidor (acima de 3 sal) ou docente - R$ 10, ou externo R$ 19. \pause
+- O usuário pode ser aluno ou servidor (até 3 sal) - R$ 5, servidor (acima de 3 sal) ou docente - R$ 10, ou externo - R$ 19. \pause
 
 Definição de tipos de dados \pause
 
@@ -277,9 +282,12 @@ Especificação
 /// - ServidorMais3  10,0
 /// - Docente        10,0
 /// - Externo        19,0
-/// Se *quant* for negativo, devolve 0.0.
 pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float
 ```
+
+\pause
+
+Não vamos tratar quantidades menores ou iguais a zero.
 
 
 ## Exemplo - tíquete do RU
@@ -346,9 +354,7 @@ pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
 }
 ```
 
-\pause
-
-A implementação está correta? \pause Não, precisamos tratar `quant` negativo. \pause Veremos como fazer isso mais adiante.
+A implementação está correta? \pause Sim.
 
 
 Estruturas
@@ -375,12 +381,16 @@ Chamamos estes tipos de dados de **dados compostos**, **registros** ou **estrutu
 A forma geral para definir um **dado composto** é:
 
 ```gleam
-[pub] type Nome {
-  Nome([campo1:] Tipo1, [campo2:] Tipo2, ...)
+[pub] type NomeDoTipo {
+  NomeDoTipo([campo1:] Tipo1, [campo2:] Tipo2, ...)
 }
 ```
 
 \pause
+
+Quando usar dados compostos? \pause
+
+Quando a informação consiste de dois ou mais itens que juntos descrevem uma entidade. \pause
 
 Vamos definir uma estrutura para representar um ponto em um plano cartesiano.
 
@@ -702,7 +712,7 @@ Projete um tipo de dado para representar um quadrado em um jogo de campo minado.
 
 ## Exemplo - Campo minado
 
-Em uma primeira tentativa poderíamos pensar: o quadrado pode ter uma mina ou não, pode estar fechado ou aberto e pode ter uma bandeira ou não. \pause Como são três item relacionados, então definiríamos uma estrutura. Além disso, cada item tem dois estados possíveis, então poderíamos usar booleano para representar cada estado. \pause
+Em uma primeira tentativa poderíamos pensar: o quadrado pode ter uma mina ou não, pode estar fechado ou aberto e pode ter uma bandeira ou não. \pause Como são três itens relacionados, então definiríamos uma estrutura. Além disso, cada item tem dois estados possíveis, então poderíamos usar booleano para representar cada estado. \pause
 
 \small
 
@@ -827,9 +837,12 @@ pub type Acao {
 
 Especificação \pause
 
-Quais são as entradas para a função? \pause Um quadrado e uma ação. \pause
+```gleam
+/// Atualiza o estado do quadrado *q* dado a *acao* do usuário... completar.
+fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado
+```
 
-Qual é a saída da função? \pause Um quadrado. \pause
+\pause
 
 Qual é o campo do quadrado de entrada que pode mudar? \pause Apenas o estado. \pause
 
@@ -974,9 +987,18 @@ Se olharmos a tabela de exemplos, vamos notar que em apenas 3 casos precisamos a
 
 ## Exemplo - Ação campo minado
 
-\small
+\footnotesize
 
 ```gleam
+/// Atualiza o estado do quadrado *q* dado a *acao* do usuário. A atualização é
+/// feita conforme a tabela a seguir, onde - significa que o quadrado permanece
+/// como estava.
+///
+/// | estado/ação          |  abrir  |      adicionar       | remover |
+/// |---------------------:|:-------:|:--------------------:|:-------:|
+/// | aberto               |   -     |          -           |    -    |
+/// | fechado              | aberto  | fechado-com-bandeira |    -    |
+/// | fechado-com-bandeira |   -     |          -           | fechado |
 pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
   case q.estado, acao {
     Fechado, Abrir -> Quadrado(..q, estado: Aberto)
@@ -1068,12 +1090,37 @@ A forma geral para definição de tipos de dados em Gleam é
 \small
 
 ```gleam
-[pub | pub opaque] type Nome {
+[pub | pub opaque] type NomeDoTipo {
   Caso1[([campo1:] Tipo1, [campo1:] Tipo2, ...)]
   Caso2[([campo1:] Tipo1, [campo1:] Tipo2, ...)]
   ...
 }
 ```
+
+\pause
+
+<div class="columns">
+<div class="column" width="40%">
+\small
+
+```gleam
+[pub] type NomeDoTipo {
+  Valor1
+  ...
+}
+```
+</div>
+<div class="column" width="60%">
+\small
+
+```gleam
+[pub] type NomeDoTipo {
+  NomeDoTipo([campo1:] Tipo1, [campo2:] Tipo2, ...)
+}
+```
+
+</div>
+</div>
 
 
 ## Exemplo - Estado tarefa
@@ -1103,13 +1150,17 @@ type EstadoTarefa {
 
 ```gleam
 > let tarefa: EstadoTarefa = Executado
-Executando
+```
+
+\pause
+
+```gleam
+> tarefa.msg
 ```
 
 \pause
 
 ```
-> tarefa.msg
 1 │     tarefa.msg
   │           ^^^^ This field does not exist
 ```
@@ -1120,13 +1171,17 @@ Executando
 
 ```gleam
 > let tarefa = Sucesso(10, "Recuperação exitosa.")
-Sucesso(duracao: 10, msg: "Recuperação exitosa.")
+```
+
+\pause
+
+```gleam
+> tarefa.msg
 ```
 
 \pause
 
 ```
-> tarefa.msg
 1 │     tarefa.msg
   │           ^^^^ This field does not exist
 ```
@@ -1352,8 +1407,6 @@ def mensagem(estado: EstadoTarefa) -> str:
             return f'A tafera falhou (error {codigo}): {msg}'
 ```
 
-\pause
-
 Aqui usamos **casamento de padrões** para decompor cada tipo produto em seus componentes.
 
 
@@ -1577,7 +1630,7 @@ Projete uma função que devolva o primeiro caractere de uma string.
 \footnotesize
 
 ```gleam
-type Optional {
+type Opcional {
   Nenhum
   Algum(String)
 }
@@ -1907,7 +1960,7 @@ Podemos melhorar? \pause Sim!
 
 ## Validação
 
-A idade é definir um TAD, e fazer a validação do valor no construtor do tipo. \pause
+A ideia é definir um TAD, e fazer a validação do valor no construtor do tipo. \pause
 
 Dessa forma, não é possível construir uma instância do tipo que seja inválida. \pause
 
@@ -2016,8 +2069,8 @@ Discutimos como os tipos de dados guiam o processo de projeto de programas: \pau
 
 Vimos como usar tipos somas para lidar com valores opcionais, erros e validação: \pause
 
-- O tipo `Option` é usado para valores opcionais; \pause
-- O tipo `Result` é utilizado para representar sucesso ou falha de uma função; \pause
+- O tipo `Option`{.gleam} é usado para valores opcionais; \pause
+- O tipo `Result`{.gleam} é utilizado para representar sucesso ou falha de uma função; \pause
 - Tipos opacos podem ser utilizados para representar valores que foram validados.
 
 

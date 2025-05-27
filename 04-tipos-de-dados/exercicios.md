@@ -109,7 +109,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 <!-- Estrutura -->
 
-@) O desempenho de um time de futebol em um determinado campeonato é dado pelo número de pontos, número de vitórias e saldo de gols (diferenças entre todos os gols marcados e sofridos). Cada jogo ganho pelo time dá 3 pontos e empate 1 ponto. Projete uma função que atualize o desempenho de um time a partir do resultado do seu último jogo (gols feitos e gols sofrido).
+@) O desempenho de um time de futebol em um determinado campeonato é dado pelo número de pontos, número de vitórias e saldo de gols (diferenças entre todos os gols feitos e sofridos). Cada jogo ganho pelo time dá 3 pontos e empate 1 ponto. Projete uma função que atualize o desempenho de um time a partir do resultado do seu último jogo (gols feitos e gols sofridos).
 
 @) Em um determinado programa é necessário exibir para o usuário o tempo que uma operação demorou. Esse tempo está disponível em segundos, mas exibir essa informação em segundos para o usuário pode não ser interessante, afinal, ter uma noção razoável de tempo para 14678 segundos é difícil!
 

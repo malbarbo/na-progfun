@@ -64,16 +64,6 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 <!-- Estruturas -->
 
-@) Projete uma estrutura para representar uma data com dia, ano e mês. Em seguida,
-
-    a) Projete uma função que receba como entrada uma string que representa uma data no formato "dd/mm/aaaa", e converta a string para a data equivalente.
-
-    a) Projete uma função que verifique se uma data é o último dia do ano.
-
-    a) Projete uma função que receba duas datas e produza verdadeiro se a primeira vem antes que a segunda.
-
-    a) (Desafio) Projete uma função que verifique se uma data é válida. Considere que em anos bissextos fevereiro tem 29 dias e que um ano é bissexto se é múltiplo de 400 ou é múltiplo de 4 mas não é múltiplo de 100.
-
 @) Projete uma estrutura para representar resoluções (largura e altura em pixels) de telas e imagens. Em seguida,
 
     a) Projete uma função que determine quantos mega pixels uma imagem tem dada a sua resolução. O número de megapixel pode ser caculado multiplicando-se a altura e largura e dividindo-se por 1 milhão.
@@ -90,6 +80,20 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
     a) Projete uma função que determine a área de uma figura. A área de um retângulo é dado por ${largura} \times {altura}$ e a área de um círculo é dado por $3.14 \times {raio}^2$.
 
     a) Projete uma função que verifique se uma figura cabe dentro de outra. Faça uma tabela com as quatro possibilidade (retângulo - retângulo, retângulo - círculo, círculo - retângulo, círculo - círculo) e identifique as condições necessárias para a primeira figura caber dentro da segunda (um retângulo cabe dentro de um círculo se a sua diagonal ($\sqrt{ {altura}^2 + {largura}^2}$) é menor que diâmetro do círculo ($2 \times {raio}$)). Faça os exemplos e a implementação a partir da tabela.
+
+
+<!-- TAD -->
+
+@) Projete uma estrutura para representar uma data com dia, ano e mês. Em seguida,
+
+    a) Projete uma função que receba como entrada uma string que representa uma data no formato "dd/mm/aaaa", e converta a string para a data equivalente. A validação inicial no construtor deve verificar apenas se as partes são números.
+
+    a) Projete uma função que verifique se uma data é o último dia do ano.
+
+    a) Projete uma função que receba duas datas e produza verdadeiro se a primeira vem antes que a segunda.
+
+    a) (Desafio) Modifique o construtor de maneira que ele verifique se uma data é válida. Considere que em anos bissextos fevereiro tem 29 dias e que um ano é bissexto se é múltiplo de 400 ou é múltiplo de 4 mas não é múltiplo de 100.
+
 
 
 # Resolvendo problemas

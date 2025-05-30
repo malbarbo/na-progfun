@@ -210,7 +210,7 @@ Uma condicional com dois casos: \pause
 Em Gleam \pause
 
 ```gleam
-fn fn_para_lista(lst: Lista) {
+pub fn fn_para_lista(lst: Lista) {
   case lst {
     Vazia -> todo
     NaoVazia(primeiro, resto) -> todo
@@ -258,7 +258,7 @@ type Lista {
 Modelo para função para listas
 
 ```gleam
-fn fn_para_lista(lst: Lista) {
+pub fn fn_para_lista(lst: Lista) {
   case lst {
     Vazia -> todo
     NaoVazia(primeiro, resto) -> {
@@ -322,8 +322,8 @@ O que você consegue observar sobre a forma que a resposta é computada?
 
 ```gleam
 /// Soma os valores de *lst*
-fn soma(lst: Lista) -> Int {
-  0
+pub fn soma(lst: Lista) -> Int {
+  todo
 }
 ```
 
@@ -333,7 +333,7 @@ fn soma(lst: Lista) -> Int {
 \footnotesize
 
 ```gleam
-fn soma_examples() {
+pub fn soma_examples() {
   check.eq(soma(Vazia), 0)
   check.eq(soma(NaoVazia(3, Vazia)), 3)
   check.eq(
@@ -364,7 +364,7 @@ E agora, como escrevemos a implementação? \pause Vamos partir do modelo de fun
 
 ```gleam
 /// Soma os valores de *lst*
-fn soma(lst: Lista) -> Int {
+pub fn soma(lst: Lista) -> Int {
   case lst {
     Vazia -> todo
     NaoVazia(primeiro, resto) -> {
@@ -381,7 +381,7 @@ fn soma(lst: Lista) -> Int {
 \footnotesize
 
 ```gleam
-fn soma_examples() {
+pub fn soma_examples() {
   check.eq(soma(Vazia), 0)
   check.eq(soma(NaoVazia(3, Vazia)), 3)
   check.eq(
@@ -404,7 +404,7 @@ fn soma_examples() {
 
 \small
 
-Agora precisamos preencher as lagunas. \pause Qual deve ser o resultado quando a lista é vazia? \pause 0.
+Agora precisamos preencher as lacunas. \pause Qual deve ser o resultado quando a lista é vazia? \pause 0.
 
 
 ## Exemplo: soma - implementação {.t}
@@ -415,7 +415,7 @@ Agora precisamos preencher as lagunas. \pause Qual deve ser o resultado quando a
 
 ```gleam
 /// Soma os valores de *lst*
-fn soma(lst: Lista) -> Int {
+pub fn soma(lst: Lista) -> Int {
   case lst {
     Vazia -> 0
     NaoVazia(primeiro, resto) -> {
@@ -432,7 +432,7 @@ fn soma(lst: Lista) -> Int {
 \footnotesize
 
 ```gleam
-fn soma_examples() {
+pub fn soma_examples() {
   check.eq(soma(Vazia), 0)
   check.eq(soma(NaoVazia(3, Vazia)), 3)
   check.eq(
@@ -466,7 +466,7 @@ Agora precisamos analisar o caso em que a lista não é vazia. \pause O modelo e
 
 ```gleam
 /// Soma os valores de *lst*
-fn soma(lst: Lista) -> Int {
+pub fn soma(lst: Lista) -> Int {
   case lst {
     Vazia -> 0
     NaoVazia(primeiro, resto) -> {
@@ -483,7 +483,7 @@ fn soma(lst: Lista) -> Int {
 \footnotesize
 
 ```gleam
-fn soma_examples() {
+pub fn soma_examples() {
   check.eq(soma(Vazia), 0)
   check.eq(soma(NaoVazia(3, Vazia)), 3)
   check.eq(
@@ -515,7 +515,7 @@ Mesmo a função não estando completa, nós vamos **assumir** que ela produz a 
 
 ```gleam
 /// Soma os valores de *lst*
-fn soma(lst: Lista) -> Int {
+pub fn soma(lst: Lista) -> Int {
   case lst {
     Vazia -> 0
     NaoVazia(primeiro, resto) ->
@@ -529,7 +529,7 @@ fn soma(lst: Lista) -> Int {
 \footnotesize
 
 ```gleam
-fn soma_examples() {
+pub fn soma_examples() {
   check.eq(soma(Vazia), 0)
   check.eq(soma(NaoVazia(3, Vazia)), 3)
   check.eq(
@@ -711,7 +711,7 @@ Uma `List`{.gleam} é:
 \footnotesize
 
 ```gleam
-fn fn_para_lista(lst: Lista) {
+pub fn fn_para_lista(lst: Lista) {
   case lst {
     Vazia -> todo
     NaoVazia(primeiro, resto) -> {
@@ -728,7 +728,7 @@ fn fn_para_lista(lst: Lista) {
 \footnotesize
 
 ```gleam
-fn fn_para_list(lst: List(a)) {
+pub fn fn_para_list(lst: List(a)) {
   case lst {
     [] -> todo
     [primeiro, ..resto] -> {
@@ -774,7 +774,7 @@ Uma `List`{.gleam} é:
 \footnotesize
 
 ```gleam
-fn soma(lst: Lista) {
+pub fn soma(lst: Lista) {
   case lst {
     Vazia -> 0
     NaoVazia(primeiro, resto) ->
@@ -788,7 +788,7 @@ fn soma(lst: Lista) {
 \footnotesize
 
 ```gleam
-fn soma(lst: List(a)) {
+pub fn soma(lst: List(a)) {
   case lst {
     [] -> 0
     [primeiro, ..resto] ->
@@ -815,8 +815,8 @@ Defina uma função que verifique se um dado valor está em uma lista de número
 ```gleam
 /// Devolve True se *v* está em *lst*,
 /// False caso contrário.
-fn contem(lst: List(Int), v: Int) -> Bool {
-  False
+pub fn contem(lst: List(Int), v: Int) -> Bool {
+  todo
 }
 ```
 
@@ -828,7 +828,7 @@ fn contem(lst: List(Int), v: Int) -> Bool {
 \footnotesize
 
 ```gleam
-fn contem_examples() {
+pub fn contem_examples() {
   check.eq(contem([], 3), False)
   check.eq(contem([3], 3), True)
   check.eq(contem([3], 4), False)
@@ -855,7 +855,7 @@ Como começamos a implementação? \pause Com o modelo.
 ```gleam
 /// Devolve True se *v* está em *lst*,
 /// False caso contrário.
-fn contem(lst: List(Int), v: Int) -> Bool {
+pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
     [] -> { todo v }
     [primeiro, ..resto] -> {
@@ -875,7 +875,7 @@ fn contem(lst: List(Int), v: Int) -> Bool {
 \footnotesize
 
 ```gleam
-fn contem_examples() {
+pub fn contem_examples() {
   check.eq(contem([], 3), False)
   check.eq(contem([3], 3), True)
   check.eq(contem([3], 4), False)
@@ -902,7 +902,7 @@ O esboço para cada caso começa com um **inventário** dos valores disponíveis
 ```gleam
 /// Devolve True se *v* está em *lst*,
 /// False caso contrário.
-fn contem(lst: List(Int), v: Int) -> Bool {
+pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
     [] -> { todo v }
     [primeiro, ..resto] -> {
@@ -922,7 +922,7 @@ fn contem(lst: List(Int), v: Int) -> Bool {
 \footnotesize
 
 ```gleam
-fn contem_examples() {
+pub fn contem_examples() {
   check.eq(contem([], 3), False)
   check.eq(contem([3], 3), True)
   check.eq(contem([3], 4), False)
@@ -947,7 +947,7 @@ O que fazemos agora? \pause Implementamos o caso base.
 ```gleam
 /// Devolve True se *v* está em *lst*,
 /// False caso contrário.
-fn contem(lst: List(Int), v: Int) -> Bool {
+pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
     [] -> False
     [primeiro, ..resto] -> {
@@ -967,7 +967,7 @@ fn contem(lst: List(Int), v: Int) -> Bool {
 \footnotesize
 
 ```gleam
-fn contem_examples() {
+pub fn contem_examples() {
   check.eq(contem([], 3), False)
   check.eq(contem([3], 3), True)
   check.eq(contem([3], 4), False)
@@ -994,7 +994,7 @@ fn contem_examples() {
 ```gleam
 /// Devolve True se *v* está em *lst*,
 /// False caso contrário.
-fn contem(lst: List(Int), v: Int) -> Bool {
+pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
     [] -> False
     [primeiro, ..resto] ->
@@ -1013,7 +1013,7 @@ fn contem(lst: List(Int), v: Int) -> Bool {
 \footnotesize
 
 ```gleam
-fn contem_examples() {
+pub fn contem_examples() {
   check.eq(contem([], 3), False)
   check.eq(contem([3], 3), True)
   check.eq(contem([3], 4), False)
@@ -1040,7 +1040,7 @@ Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 ```gleam
 /// Devolve True se *v* está em *lst*,
 /// False caso contrário.
-fn contem(lst: List(Int), v: Int) -> Bool {
+pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
     [] -> False
     [primeiro, ..resto] ->
@@ -1056,7 +1056,7 @@ fn contem(lst: List(Int), v: Int) -> Bool {
 \footnotesize
 
 ```gleam
-fn contem_examples() {
+pub fn contem_examples() {
   check.eq(contem([], 3), False)
   check.eq(contem([3], 3), True)
   check.eq(contem([3], 4), False)
@@ -1079,7 +1079,7 @@ fn contem_examples() {
 ```gleam
 /// Devolve True se *v* está em *lst*,
 /// False caso contrário.
-fn contem(lst: List(a), v: a) -> Bool {
+pub fn contem(lst: List(a), v: a) -> Bool {
   case lst {
     [] -> False
     [primeiro, ..resto] ->
@@ -1095,7 +1095,7 @@ fn contem(lst: List(a), v: a) -> Bool {
 \footnotesize
 
 ```gleam
-fn contem_examples() {
+pub fn contem_examples() {
   check.eq(contem([], 3), False)
   check.eq(contem([3], 3), True)
   check.eq(contem([3], 4), False)
@@ -1132,11 +1132,11 @@ Defina uma função que soma um valor `x` em cada elemento de uma lista de núme
 
 ```gleam
 /// Soma *x* a cada elemento de *lst*.
-fn soma_x(
+pub fn soma_x(
   lst: List(Int),
   x: Int
 ) -> List(Int) {
-  []
+  todo
 }
 ```
 
@@ -1147,7 +1147,7 @@ fn soma_x(
 \footnotesize
 
 ```gleam
-fn soma_x_examples() {
+pub fn soma_x_examples() {
   check.eq(soma_x([], 4), [])
   check.eq(soma_x([4, 2], 5), [9, 7])
   check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
@@ -1169,7 +1169,7 @@ Como começamos a implementação? \pause Com o modelo.
 
 ```gleam
 /// Soma *x* a cada elemento de *lst*.
-fn soma_x(lst, x) -> List(Int) {
+pub fn soma_x(lst, x) -> List(Int) {
   case lst {
     [] -> { todo x }
     [primeiro, ..resto] -> {
@@ -1188,7 +1188,7 @@ fn soma_x(lst, x) -> List(Int) {
 \footnotesize
 
 ```gleam
-fn soma_x_examples() {
+pub fn soma_x_examples() {
   check.eq(soma_x([], 4), [])
   check.eq(soma_x([4, 2], 5), [9, 7])
   check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
@@ -1210,7 +1210,7 @@ O que fazemos agora? \pause Implementamos o caso base.
 
 ```gleam
 /// Soma *x* a cada elemento de *lst*.
-fn soma_x(lst, x) -> List(Int) {
+pub fn soma_x(lst, x) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] -> {
@@ -1229,7 +1229,7 @@ fn soma_x(lst, x) -> List(Int) {
 \footnotesize
 
 ```gleam
-fn soma_x_examples() {
+pub fn soma_x_examples() {
   check.eq(soma_x([], 4), [])
   check.eq(soma_x([4, 2], 5), [9, 7])
   check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
@@ -1251,7 +1251,7 @@ fn soma_x_examples() {
 
 ```gleam
 /// Soma *x* a cada elemento de *lst*.
-fn soma_x(lst, x) -> List(Int) {
+pub fn soma_x(lst, x) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] ->
@@ -1266,7 +1266,7 @@ fn soma_x(lst, x) -> List(Int) {
 \footnotesize
 
 ```gleam
-fn soma_x_examples() {
+pub fn soma_x_examples() {
   check.eq(soma_x([], 4), [])
   check.eq(soma_x([4, 2], 5), [9, 7])
   check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
@@ -1277,12 +1277,12 @@ fn soma_x_examples() {
 
 \pause
 
-Verificação: \pause Ok. (Revisão) Podemos melhorar o código?
+Verificação: \pause Ok.
 
 
 ## Exemplo: remove negativos
 
-Defina uma função que remova todos os número negativos de uma lista de números.
+Defina uma função que remova todos os números negativos de uma lista de números.
 
 
 ## Exemplo: remove negativos - especificação {.t}
@@ -1294,10 +1294,10 @@ Defina uma função que remova todos os número negativos de uma lista de númer
 ```gleam
 // Cria uma nova lista sem
 // os valores negativos de *lst*.
-fn remove_negativos(
+pub fn remove_negativos(
   lst: List(Int)
 ) -> List(Int) {
-  []
+  todo
 }
 ```
 
@@ -1307,7 +1307,7 @@ fn remove_negativos(
 \footnotesize
 
 ```gleam
-fn remove_negativos_examples() {
+pub fn remove_negativos_examples() {
   check.eq(
     remove_negativos([]),
     [],
@@ -1339,13 +1339,13 @@ Como começamos a implementação? \pause Com o modelo.
 ```gleam
 // Cria uma nova lista sem
 // os valores negativos de *lst*.
-fn remove_negativos(lst) -> List(Int) {
+pub fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> todo
     [primeiro, ..resto] -> {
       todo
       primeiro
-      remove_negatios(resto)
+      remove_negativos(resto)
     }
   }
 }
@@ -1356,7 +1356,7 @@ fn remove_negativos(lst) -> List(Int) {
 \footnotesize
 
 ```gleam
-fn remove_negativos_examples() {
+pub fn remove_negativos_examples() {
   check.eq(
     remove_negativos([]),
     [],
@@ -1388,13 +1388,13 @@ O que fazemos agora? \pause Implementamos o caso base.
 ```gleam
 // Cria uma nova lista sem
 // os valores negativos de *lst*.
-fn remove_negativos(lst) -> List(Int) {
+pub fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> []
     [primeiro, ..resto] -> {
       todo
       primeiro
-      remove_negatios(resto)
+      remove_negativos(resto)
     }
   }
 }
@@ -1405,7 +1405,7 @@ fn remove_negativos(lst) -> List(Int) {
 \footnotesize
 
 ```gleam
-fn remove_negativos_examples() {
+pub fn remove_negativos_examples() {
   check.eq(
     remove_negativos([]),
     [],
@@ -1437,12 +1437,12 @@ fn remove_negativos_examples() {
 ```gleam
 // Cria uma nova lista sem
 // os valores negativos de *lst*.
-fn remove_negativos(lst) -> List(Int) {
+pub fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> todo
     [primeiro, ..resto] ->
       case primeiro < 0 {
-        True -> remove_negatios(resto)
+        True -> remove_negativos(resto)
         False ->
           [primeiro,
            ..remove_negativos(resto)]
@@ -1456,7 +1456,7 @@ fn remove_negativos(lst) -> List(Int) {
 \footnotesize
 
 ```gleam
-fn remove_negativos_examples() {
+pub fn remove_negativos_examples() {
   check.eq(
     remove_negativos([]),
     [],
@@ -1488,11 +1488,11 @@ Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 ```gleam
 // Cria uma nova lista sem
 // os valores negativos de *lst*.
-fn remove_negativos(lst) -> List(Int) {
+pub fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> todo
     [primeiro, ..resto] if primeiro < 0 ->
-      remove_negatios(resto)
+      remove_negativos(resto)
     [primeiro, ..resto] ->
       [primeiro, ..remove_negativos(resto)]
   }
@@ -1504,7 +1504,7 @@ fn remove_negativos(lst) -> List(Int) {
 \footnotesize
 
 ```gleam
-fn remove_negativos_examples() {
+pub fn remove_negativos_examples() {
   check.eq(
     remove_negativos([]),
     [],
@@ -1548,15 +1548,15 @@ type Par {
 ```gleam
 /// Devolve o valor associado com *chave* em *lst* ou Error(Nil) se *s* não
 /// aparece como chave em *lst*.
-fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
-  Error(Nil)
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+  todo
 }
 ```
 
 \pause
 
 ```gleam
-fn busca_examples() {
+pub fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
@@ -1570,14 +1570,14 @@ fn busca_examples() {
 \footnotesize
 
 ```gleam
-fn busca_examples() {
+pub fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
 
-fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> { todo chave }
     [primeiro, ..resto] -> {
@@ -1595,14 +1595,14 @@ fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 \footnotesize
 
 ```gleam
-fn busca_examples() {
+pub fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
 
-fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..resto] -> {
@@ -1620,14 +1620,14 @@ fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 \footnotesize
 
 ```gleam
-fn busca_examples() {
+pub fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
 
-fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..resto] -> {
@@ -1645,20 +1645,18 @@ fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 \footnotesize
 
 ```gleam
-fn busca_examples() {
+pub fn busca_examples() {
   check.eq(busca([], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
 }
 
-fn busca(lst: List(Par), s: String) -> Result(Int, Nil) {
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
-    [primeiro, ..] if primeiro.chave == chave ->
-      Ok(primeiro.valor)
-    [_, ..resto] ->
-      busca(resto, chave)
+    [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
+    [_, ..resto] -> busca(resto, chave)
   }
 }
 ```
@@ -1673,17 +1671,15 @@ type Par(a, b) {
   Par(chave: a, valor: b)
 }
 
-fn busca_examples() {
+pub fn busca_examples() {
   // ...
 }
 
-fn busca(lst: List(Par(a, b), chave: a) -> Result(b, Nil) {
+pub fn busca(lst: List(Par(a, b), chave: a) -> Result(b, Nil) {
   case lst {
     [] -> Error(Nil)
-    [primeiro, ..] if primeiro.chave == chave ->
-      Ok(primeiro.valor)
-    [_, ..resto] ->
-      busca(resto, chave)
+    [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
+    [_, ..resto] -> busca(resto, chave)
   }
 }
 ```
@@ -1700,7 +1696,7 @@ Projete uma função que junte todos os elementos de uma lista de strings (não 
 
 ```gleam
 /// Parece difícil escrever o propósito... Vamos fazer os exemplos primeiro.
-fn junta_virgula_e(lst: List(String)) -> String { "" }
+pub fn junta_virgula_e(lst: List(String)) -> String { todo }
 ```
 
 \small
@@ -1712,17 +1708,17 @@ Exemplos
 
 `junta_virgula_e([])`{.gleam} \pause $\rightarrow$ `""`{.gleam} \pause
 
-`junta_virgula_e(["maça"])`{.gleam} \pause $\rightarrow$ `"maça"`{.gleam} \pause
+`junta_virgula_e(["maçã"])`{.gleam} \pause $\rightarrow$ `"maçã"`{.gleam} \pause
 
-`junta_virgula_e(["banana", "maça"])`{.gleam} \pause $\rightarrow$ `"banana e maça"`{.gleam} \pause
+`junta_virgula_e(["banana", "maçã"])`{.gleam} \pause $\rightarrow$ `"banana e maçã"`{.gleam} \pause
 
-`junta_virgula_e(["mamão", "banana", "maça"])`{.gleam} \pause $\rightarrow$ `"mamão, banana e maça"`{.gleam} \pause
+`junta_virgula_e(["mamão", "banana", "maçã"])`{.gleam} \pause $\rightarrow$ `"mamão, banana e maçã"`{.gleam} \pause
 
-`junta_virgula_e(["aveia", "mamão", "banana", "maça"])`{.gleam} \pause $\rightarrow$ `"aveia, mamão, banana e maça"`{.gleam} \pause
+`junta_virgula_e(["aveia", "mamão", "banana", "maçã"])`{.gleam} \pause $\rightarrow$ `"aveia, mamão, banana e maçã"`{.gleam} \pause
 
 \small
 
-Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma especifica, que não é recursiva. \pause Então precisamos criar três casos base.
+Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma específica, que não é recursiva. \pause Então precisamos criar três casos base.
 
 
 ## Exemplos: junta com "," e "e"
@@ -1735,16 +1731,16 @@ Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \
 /// - Se a *lst* tem apenas um elemento, devolve esse elemento.
 /// - Senão, junta as strings de *lst*, separando-as com ", ", com exceção
 ///   da última string, que é separada com " e ".
-fn junta_virgula_e(lst: List(String)) -> String {
-  ""
+pub fn junta_virgula_e(lst: List(String)) -> String {
+  todo
 }
 
-fn junta_virgula_e_examples() {
+pub fn junta_virgula_e_examples() {
   check.eq(junta_virgula_e([]), "")
-  check.eq(junta_virgula_e(["maça"]), "maça")
-  check.eq(junta_virgula_e(["mamão", "banana", "maça"]), "mamão, banana e maça")
-  check.eq(junta_virgula_e(["aveia", "mamão", "banana", "maça"]),
-           "aveia, mamão, banana e maça")
+  check.eq(junta_virgula_e(["maçã"]), "maçã")
+  check.eq(junta_virgula_e(["mamão", "banana", "maçã"]), "mamão, banana e maçã")
+  check.eq(junta_virgula_e(["aveia", "mamão", "banana", "maçã"]),
+           "aveia, mamão, banana e maçã")
 }
 ```
 
@@ -1754,7 +1750,7 @@ fn junta_virgula_e_examples() {
 \footnotesize
 
 ```gleam
-fn junta_virgula_e(lst: List(String)) -> String {
+pub fn junta_virgula_e(lst: List(String)) -> String {
   case lst {
     [] -> todo
     [primeiro] -> todo
@@ -1769,7 +1765,7 @@ fn junta_virgula_e(lst: List(String)) -> String {
 \footnotesize
 
 ```gleam
-fn junta_virgula_e(lst: List(String)) -> String {
+pub fn junta_virgula_e(lst: List(String)) -> String {
   case lst {
     [] -> ""
     [primeiro] -> primeiro

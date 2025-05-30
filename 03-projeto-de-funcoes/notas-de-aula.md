@@ -413,13 +413,13 @@ Para executarmos os testes usamos o comando
 No Windows
 
 ```
-.\sgleam -f arquivo.gleam
+.\sgleam -t arquivo.gleam
 ```
 
 No Linux ou Mac
 
 ```
-./sgleam -f arquivo.gleam
+./sgleam -t arquivo.gleam
 ```
 
 \pause

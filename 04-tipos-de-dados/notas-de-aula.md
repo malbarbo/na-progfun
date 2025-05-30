@@ -640,7 +640,7 @@ struct Ponto {
     y: i32,
 }
 
-fn main() {
+pub fn main() {
     let p = Ponto { x: 10, y: 20 };
 
     // Atribuição inválida, p é imutável
@@ -839,7 +839,7 @@ Especificação \pause
 
 ```gleam
 /// Atualiza o estado do quadrado *q* dado a *acao* do usuário... completar.
-fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado
+pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado
 ```
 
 \pause
@@ -922,7 +922,7 @@ A função que estamos projetando depende de dois valores enumerados, qual deve 
 \scriptsize
 
 ```gleam
-fn atualiza_quadrado(q: Quadrado, acao: Acao) {
+pub fn atualiza_quadrado(q: Quadrado, acao: Acao) {
   case q.estado {
     Aberto -> case acao {
       Abrir -> todo
@@ -950,7 +950,7 @@ fn atualiza_quadrado(q: Quadrado, acao: Acao) {
 \scriptsize
 
 ```gleam
-fn atualiza_quadrado(q: Quadrado, acao: Acao) {
+pub fn atualiza_quadrado(q: Quadrado, acao: Acao) {
   case q.estado, acao {
     Aberto, Abrir -> todo
     Aberto, AdicionarBandeira -> todo
@@ -1221,7 +1221,7 @@ type EstadoTarefa {
 
 ```gleam
 > // Devolve -1 se não tem duracao.
-> fn duracao(tarefa: EstadoTarefa) -> Int {
+> pub fn duracao(tarefa: EstadoTarefa) -> Int {
   case tarefa {
     Sucesso(duracao, _) -> duracao
     _ -> -1
@@ -1258,7 +1258,7 @@ Especificação
 
 ```gleam
 /// Produz uma string amigável para o usuário para descrever o estado da tarefa.
-fn msg(tarefa: EstadoTarefa) -> String
+pub fn msg(tarefa: EstadoTarefa) -> String
 ```
 
 \pause
@@ -1275,7 +1275,7 @@ Quantos exemplos são necessários? \pause Pelo menos um para cada classe de val
 \small
 
 ```gleam
-fn msg_examples() {
+pub fn msg_examples() {
   check.eq(
     mensagem(Executando),
     "A tarefa está em execução."
@@ -1293,12 +1293,12 @@ fn msg_examples() {
 
 ## Exemplo - Estado tarefa
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstatoTarefa`. \pause São três casos: \pause
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstadoTarefa`. \pause São três casos: \pause
 
 \small
 
 ```gleam
-fn mensagem(estado: EstadoTarefa) -> String {
+pub fn mensagem(estado: EstadoTarefa) -> String {
   case estado {
     Executando -> todo
 
@@ -1313,12 +1313,12 @@ fn mensagem(estado: EstadoTarefa) -> String {
 
 ## Exemplo - Estado tarefa
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstatoTarefa`. São três casos:
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstadoTarefa`. São três casos:
 
 \small
 
 ```gleam
-fn mensagem(estado: EstadoTarefa) -> String {
+pub fn mensagem(estado: EstadoTarefa) -> String {
   case estado {
     Executando ->
       "A tarefa está em execução."
@@ -1486,7 +1486,7 @@ Como podemos resolver essas questões? \pause Vamos começar com a função `dur
 
 ```gleam
 /// Devolve -1 se não tem duracao.
-fn duracao(tarefa: EstadoTarefa) -> Int {
+pub fn duracao(tarefa: EstadoTarefa) -> Int {
   case tarefa {
     Sucesso(duracao, _) -> duracao
     _ -> -1
@@ -1529,7 +1529,7 @@ type Opcional {
 \footnotesize
 
 ```gleam
-fn duracao(tarefa: EstadoTarefa) -> Opcional {
+pub fn duracao(tarefa: EstadoTarefa) -> Opcional {
   case tarefa {
     Sucesso(duracao, _) -> Algum(duracao)
     _ -> Nenhum
@@ -1586,15 +1586,15 @@ Projete uma função que receba um opcional e some 1 ao valor se ele estiver pre
 
 ```gleam
 /// Soma 1 ao valor opcional de *a*.
-fn soma1(a: Opcional) -> Opcional {
-  Nenhum
+pub fn soma1(a: Opcional) -> Opcional {
+  todo
 }
 ```
 
 \pause
 
 ```gleam
-fn soma1_examples() {
+pub fn soma1_examples() {
   check.eq(soma1(Nenhum), Nenhum)
   check.eq(soma1(Algum(10)), Algum(11))
 }
@@ -1608,7 +1608,7 @@ fn soma1_examples() {
 
 ```gleam
 /// Soma 1 ao valor opcional de *a*.
-fn soma1(a: Opcional) -> Opcional {
+pub fn soma1(a: Opcional) -> Opcional {
   case a {
     Nenhum -> Nenhum
     Algum(x) -> Algum(x + 1)
@@ -1637,15 +1637,15 @@ type Opcional {
 
 /// Devolve o primeiro caractere
 /// de *s* ou Nenhum se *s* é vazia.
-fn primeiro(s: String) -> Opcional {
-  Nenhum
+pub fn primeiro(s: String) -> Opcional {
+  todo
 }
 ```
 
 \pause
 
 ```gleam
-fn primeiro_examples() {
+pub fn primeiro_examples() {
   check.eq(primeiro(""), Nenhum)
   check.eq(primeiro("casa"), Algum("c"))
 }
@@ -1660,7 +1660,7 @@ fn primeiro_examples() {
 ```gleam
 /// Devolve o primeiro caractere
 /// de *s* ou Nenhum se *s* é vazia.
-fn primeiro(s: String) -> Opcional {
+pub fn primeiro(s: String) -> Opcional {
   case s {
     "" -> Nenhum
     _ -> Algum(string.slice(s, 0, 1))
@@ -1721,7 +1721,7 @@ import gleam/option.{type Option, Some, None}
 \pause
 
 ```gleam
-fn soma1(a: Option(Int)) -> Option(Int) {
+pub fn soma1(a: Option(Int)) -> Option(Int) {
   case a {
     None -> None
     Some(x) -> Some(x + 1)
@@ -1732,7 +1732,7 @@ fn soma1(a: Option(Int)) -> Option(Int) {
 \pause
 
 ```gleam
-fn primeiro(s: String) -> Option(String) {
+pub fn primeiro(s: String) -> Option(String) {
   case s {
     "" -> None
     _ -> Some(string.slice(s, 0, 1))
@@ -1862,18 +1862,18 @@ Projete uma função que receba como parâmetro duas strings, e se as duas repre
 \footnotesize
 
 ```gleam
-fn soma(
+pub fn soma(
   a: String,
   b: String,
 ) -> Result(String, Nil) {
-  Error(Nil)
+  todo
 }
 ```
 
 \pause
 
 ```gleam
-fn soma_examples() {
+pub fn soma_examples() {
   check.eq(soma("31", "4"), Ok("35"))
   check.eq(soma("31", "a"), Error(Nil))
   check.eq(soma("a", "4"), Error(Nil))
@@ -1888,7 +1888,7 @@ fn soma_examples() {
 \footnotesize
 
 ```gleam
-fn soma(a, b) -> Result(String, Nil) {
+pub fn soma(a, b) -> Result(String, Nil) {
   case int.parse(a) {
     Ok(a) -> case int.parse(b) {
       Ok(b) -> Ok(int.to_string(a + b))
@@ -1902,7 +1902,7 @@ fn soma(a, b) -> Result(String, Nil) {
 \pause
 
 ```gleam
-fn soma(a, b) -> Result(String, Nil) {
+pub fn soma(a, b) -> Result(String, Nil) {
   case int.parse(a), int.parse(b) {
     Ok(a), Ok(b) -> Ok(int.to_string(a + b))
     _, _ -> Error(Nil)
@@ -1931,7 +1931,7 @@ A opção mais direta é validar o preço na função `seleciona_combustivel`{.g
 /// deve ser um número positivo.
 type Preco = Float
 
-fn seleciona_combustivel(
+pub fn seleciona_combustivel(
   preco_alcool: Preco,
   preco_gasolina: Preco,
 ) -> Result(Combustivel, Nil) {
@@ -2012,7 +2012,7 @@ pub fn valor(p: Preco) -> Float {
 \footnotesize
 
 ```gleam
-fn seleciona_combustivel(
+pub fn seleciona_combustivel(
   preco_alcool: Preco,
   preco_gasolina: Preco,
 ) -> Combustivel {
@@ -2026,7 +2026,7 @@ fn seleciona_combustivel(
 \pause
 
 ```gleam
-fn seleciona_combustivel_examples() {
+pub fn seleciona_combustivel_examples() {
   let assert Ok(alcool) = preco(4.2)
   let assert Ok(gasolina) = preco(6.1)
   check.eq(

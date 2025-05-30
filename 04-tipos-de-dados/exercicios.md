@@ -82,6 +82,15 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
     a) Projete uma função que verifique se uma figura cabe dentro de outra. Faça uma tabela com as quatro possibilidade (retângulo - retângulo, retângulo - círculo, círculo - retângulo, círculo - círculo) e identifique as condições necessárias para a primeira figura caber dentro da segunda (um retângulo cabe dentro de um círculo se a sua diagonal ($\sqrt{ {altura}^2 + {largura}^2}$) é menor que diâmetro do círculo ($2 \times {raio}$)). Faça os exemplos e a implementação a partir da tabela.
 
 
+<!-- Option -->
+
+@) Projete uma união para representar um espectador de uma sala de cinema, que pode ser uma criança, um jovem, um adulto ou um idoso. Um jovem pode opcionalmente apresentar sua carteirinha com um código numérico de estudante. Em seguida,
+
+    a) Projete uma função que retorne o número da carteirinha de estudante, caso o espectador a tenha.
+
+    b) Projete uma função que retorne um valor booleano indicando se o espectador tem direito ou não a um desconto no ingresso. Crianças e idosos sempre tem desconto. Um adulto não tem desconto. E um jovem só tem desconto se tiver uma carteirinha de estudante.
+
+
 <!-- TAD -->
 
 @) Projete uma estrutura para representar uma data com dia, ano e mês. Em seguida,

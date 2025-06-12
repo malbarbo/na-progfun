@@ -1287,7 +1287,7 @@ True
 \footnotesize
 
 ```gleam
-> 3 > 5 || { io.debug("aqui") True }
+> 3 > 5 || { io.debug("aqui") False }
 ```
 
 \pause

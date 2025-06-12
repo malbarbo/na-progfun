@@ -55,6 +55,49 @@ Baseado nesta definição, criamos um modelo para funções com números naturai
 ```gleam
 fn fn_para_natural(n: Int) {
   case n {
+    0 -> todo
+    _ -> {
+      todo
+      n
+      fn_para_natural(n - 1)
+    }
+  }
+}
+```
+
+\pause
+
+\normalsize
+
+Qual o problema desse modelo? \pause Se `n` não é zero, ele pode ser negativo e a recursão não terminaria. \pause O problema é que o Gleam não tem números naturais.
+
+</div>
+</div>
+
+
+## Definição
+
+<div class="columns">
+<div class="column" width="48%">
+
+Um número **Natural** é
+
+- `0`{.gleam}; ou
+
+- `n + 1`{.gleam} onde $n$ é um número **Natural**
+
+\ \
+
+Baseado nesta definição, criamos um modelo para funções com números naturais.
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+fn fn_para_natural(n: Int) {
+  case n {
     // Necessário porque gleam
     // não tem números naturais
     _ if n < 0 -> todo
@@ -719,7 +762,7 @@ Modelo de função para árvores binárias
 \footnotesize
 
 ```gleam
-fn fn_para_ab(arv: Arvore(a)) {
+fn fn_para_ab(r: Arvore(a)) {
   case arv {
     Vazia -> todo
     No(valor, esq, dir) -> {
@@ -748,9 +791,8 @@ Projete uma função que determine a quantidade de nós folhas em uma árvore.
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas
-/// de *avr*.
-fn num_folhas(arv: Arvore(a)) -> Int {
+/// Determina o número de nós folhas de *r*.
+fn num_folhas(r: Arvore(a)) -> Int {
   0
 }
 
@@ -797,10 +839,9 @@ fn num_folhas_examples() {
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas
-/// de *avr*.
-fn num_folhas(arv: Arvore(a)) -> Int {
-  case arv {
+/// Determina o número de nós folhas de *r*.
+fn num_folhas(r: Arvore(a)) -> Int {
+  case r {
     Vazia -> todo
     No(valor, esq, dir) -> {
       todo
@@ -852,10 +893,9 @@ fn num_folhas_examples() {
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas
-/// de *avr*.
-fn num_folhas(arv: Arvore(a)) -> Int {
-  case arv {
+/// Determina o número de nós folhas de *r*.
+fn num_folhas(r: Arvore(a)) -> Int {
+  case r {
     Vazia -> 0
     No(valor, esq, dir) -> {
       todo
@@ -907,10 +947,9 @@ fn num_folhas_examples() {
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas
-/// de *avr*.
-fn num_folhas(arv: Arvore(a)) -> Int {
-  case arv {
+/// Determina o número de nós folhas de *r*.
+fn num_folhas(r: Arvore(a)) -> Int {
+  case r {
     Vazia -> 0
     No(_, esq, dir) ->
       case esq, dir {
@@ -962,10 +1001,9 @@ fn num_folhas_examples() {
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas
-/// de *avr*.
-fn num_folhas(arv: Arvore(a)) -> Int {
-  case arv {
+/// Determina o número de nós folhas de *r*.
+fn num_folhas(r: Arvore(a)) -> Int {
+  case r {
     Vazia -> 0
     No(_, Vazia, Vazia) -> 1
     No(_, esq, dir) ->
@@ -1020,11 +1058,11 @@ Defina uma função que determina a altura de uma árvore binária. A altura de 
 \scriptsize
 
 ```gleam
-/// Devolve a altura de *avr*. A altura de uma
+/// Devolve a altura de *r*. A altura de uma
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
-fn altura(arv: Arvore(a)) -> Int {
+fn altura(r: Arvore(a)) -> Int {
   0
 }
 
@@ -1071,12 +1109,12 @@ fn altura_examples() {
 \scriptsize
 
 ```gleam
-/// Devolve a altura de *avr*. A altura de uma
+/// Devolve a altura de *r*. A altura de uma
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
-fn altura(arv: Arvore(a)) -> Int {
-  case arv {
+fn altura(r: Arvore(a)) -> Int {
+  case r {
     Vazia -> todo
     No(valor, esq, dir) -> {
       todo
@@ -1128,12 +1166,12 @@ fn altura_examples() {
 \scriptsize
 
 ```gleam
-/// Devolve a altura de *avr*. A altura de uma
+/// Devolve a altura de *r*. A altura de uma
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
-fn altura(arv: Arvore(a)) -> Int {
-  case arv {
+fn altura(r: Arvore(a)) -> Int {
+  case r {
     Vazia -> todo
     No(valor, esq, dir) ->
       1 + int.max(altura(esq), altura(dir))
@@ -1182,12 +1220,12 @@ fn altura_examples() {
 \scriptsize
 
 ```gleam
-/// Devolve a altura de *avr*. A altura de uma
+/// Devolve a altura de *r*. A altura de uma
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0 e uma árvore vazia
 /// tem altura -1.
-fn altura(arv: Arvore(a)) -> Int {
+fn altura(r: Arvore(a)) -> Int {
   case arv {
     Vazia -> -1
     No(valor, esq, dir) ->
@@ -1669,7 +1707,7 @@ Como a verificação se $12$ é primo pode nos ajudar a determinar se $13$ é pr
 
 ## Limitações
 
-O problema nos dois casos é o mesmo: a solução do problema original não pode ser obtida a partir da solução do subproblema gerado pela decomposição estrutural do dado. \pause
+O problema nos dois casos é o mesmo: a solução do problema original não pode ser obtida a partir da solução do subproblema gerado pela **decomposição estrutural** do dado. \pause
 
 Como fazemos nesse caso? \pause Temos algumas opções: \pause
 
@@ -1787,7 +1825,7 @@ O projeto de função recursivas generativas pode requerer um "_insight_" e por 
 
 ## Plano
 
-Ainda para o problema da lista palíndromo, ao invés de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos pensar em um plano, uma sequencia de etapas que resolva problemas intermediários mas que gerem o resultado que estamos esperando no final. \pause
+Ainda para o problema da lista palíndromo, ao invés de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos pensar em um plano, uma sequência de etapas que resolva problemas intermediários mas que gerem o resultado que estamos esperando no final. \pause
 
 Por exemplo, podemos primeiramente inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
 

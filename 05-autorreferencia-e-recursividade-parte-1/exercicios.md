@@ -5,7 +5,6 @@ title: |
        | Autorreferência e recursividade - Parte I
 urlcolor: Blue
 license:
-# TODO: completar 5 problemas
 # TODO: exercícios para processar strings caractere por caractere?
 ---
 
@@ -34,7 +33,7 @@ Não use funções de alta ordem.
 
 <!-- Básico - map -->
 
-@) Projete uma função que converta uma lista de números para uma lista de strings (cada elemento convertido para string).
+@) Projete uma função que converta uma lista de números para uma lista de strings (use a função `int.to_string`).
 
 <!-- Básico - filter -->
 
@@ -65,6 +64,8 @@ Não use funções de alta ordem.
 
 # Resolvendo problemas
 
+@) O Miguel é doutorando em física e precisa coletar dados de um experimento, mas ele só tem a sua disposição um equipamento precário que produz algumas leituras incorretas. O equipamento não deveria produzir valores negativos, mas em um teste preliminar o Miguel percebeu que o equipamento está produzindo números negativos. A boa notícia é que todos os números não negativos produzidos pelo equipamento estão corretos. Projete uma função que elimine os valores incorretos de uma sequência de valores produzidas pelo equipamento.
+
 @) Júlia tem uma pequena empresa de sorvetes que vende três sabores diferentes: manga, uva e morango. Cada sorvete é vendido por 10 reais, mas o custo de produção de cada sorvete depende do sabor: o de manga custa 6, o de uva 7 e o de morango 8. Toda vez que a Júlia vende um sorvete ela anota o sabor em uma lista. Após ter anotado os sabores dos sorvetes vendidos em uma lista, é hora de calcular quanto foi o ganho, e para isso a Júlia precisa da sua ajuda. Projete uma função que receba como entrada uma lista com os sabores dos sorvetes vendidos e calcule qual foi o ganho da Júlia vendendo os sorvetes.
 
 @) O mestrando em física Alberto está tendo problemas com o equipamento que ele está usando para medir a temperatura de um material. O equipamento faz uma leitura a cada 10 segundos, mas ao invés de gerar apenas um número (temperatura), por vez, ele está gerando o mesmo número diversas vezes a cada leitura. Como o Alberto não tem verba para consertar o equipamento, ele está contando com a sua ajudar para fazer um programa que corrigi os dados lido pelo equipamento. Note que ele espera que cada leitura seja maior que a anterior, então se o equipamento ler os valores 3, 3, 7, 7, 7, 10 a leitura esta errada, o correto seria 3, 7, 10.
@@ -72,6 +73,8 @@ Não use funções de alta ordem.
 <!--
 @) Você acaba de ser contratado por um empresa que está desenvolvendo um sistema de gerenciamento de campeonatos amadores de futebol. A sua primeira tarefa é projetar uma função que calcule o desempenho de um time, que consiste no número de pontos, número de vitórias e saldo de gols (diferenças entre os gols feitos e sofridos) de um time a partir dos resultados das partidas que ele jogou. Cada vitória gera três pontos e cada empate um ponto. Por exemplo, se os resultados para um determinado time foram $5 \times 1$, $0 \times 2$ e $1 \times 1$, onde o primeiro número são os gols feitos e o segundo os gols sofridos, então o time fez 4 pontos, obteve 1 vitória e saldo de gols de 2.
 -->
+
+@) No dia do imposto zero, diversas empresas vendem produtos descontando o imposto cobrado pelo governo. O propósito é conscientizar as pessoas sobre o valor dos impostos. Um supermercado decidiu participar vendendo os produtos da cesta básica com imposto zero. O desconto final é apresentado na finalização da compra. Uma compra é representada por uma lista de itens, que contém além do nome do produto, a quantidade comprada, o valor unitário, o percentual de imposto (que já está no preço unitário) e a indicação se é um produto da cesta básica. Projete uma função que recebe como entrada os itens de uma compra e produz como resposta o valor que o consumidor deve pagar.
 
 @) Uma dos problemas mais conhecidos de programação é o problema de ordenação. Existem diversos métodos já estabelecidos de ordenação, como a ordenação por seleção e intercalação. O uso do modelo para funções que processam listas leva a uma implementação específica. Projete uma função usando o modelo para listas que ordene uma lista de números. Dica: deseje por uma função auxiliar para combinar o primeiro elemento com o resultado da chamada recursiva. Como é conhecido esse método de ordenação?
 

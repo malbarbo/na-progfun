@@ -6,7 +6,7 @@ title: |
 urlcolor: Blue
 license:
 # TODO: completar 5 problemas
-# TODO: exercícios para processar strings caractere por caractere
+# TODO: exercícios para processar strings caractere por caractere?
 ---
 
 # Começando
@@ -34,7 +34,7 @@ Não use funções de alta ordem.
 
 <!-- Básico - map -->
 
-@) Projete uma função que crie uma lista de números a partir de uma lista de strings convertendo cada string para um número (use a função `int.parse`).
+@) Projete uma função que converta uma lista de números para uma lista de strings (cada elemento convertido para string).
 
 <!-- Básico - filter -->
 
@@ -46,8 +46,6 @@ Não use funções de alta ordem.
 
 <!-- Ajuste caso base -->
 
-@) Projete uma função que determine o valor máximo de uma lista de inteiros.
-
 @) Projete uma função que verifique se uma lista de números está em ordem não decrescente. Dica: use dois casos base.
 
 <!-- Funções auxiliares -->
@@ -56,7 +54,13 @@ Não use funções de alta ordem.
 
 <!-- Lista de estruturas -->
 
-@) Vimos em sala como fazer uma busca em uma lista de associações. No exemplo que vimos, a lista era utilizada para associar strings com número. Agora você deve projetar uma função que receba como parâmetro uma lista de associações, uma chave (string) e um valor (inteiro) e atualize a lista de associações, isto é, adicione a associação se a chave não estiver presente ou atualize o valor associado com a chave se a chave já estiver presente.
+@) Vimos em sala como fazer uma busca em uma lista de associações. No exemplo que vimos, a lista era utilizada para associar strings com números. Agora você deve projetar uma função que receba como parâmetro uma lista de associações, uma chave (string) e um valor (inteiro) e atualize a lista de associações, isto é, adicione a associação se a chave não estiver presente ou atualize o valor associado com a chave se a chave já estiver presente.
+
+<!-- Result -->
+
+@) Projete uma função que determine o valor máximo de uma lista de inteiros.
+
+@) Projete uma função que crie uma lista de números a partir de uma lista de strings convertendo cada string para um número (use a função `int.parse`).
 
 
 # Resolvendo problemas

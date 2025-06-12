@@ -1,7 +1,8 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: ver HTDP e separar a funções que geram listas
-# TODO: mostrar funções de listas pré-definidas: length, append, member
+# TODO: mostrar funções de listas pré-definidas: length, append, member?
+# TODO: colocar o processo de implementação como é feita em sala
 title: Autorreferência e recursividade
 subtitle: Parte I
 ---
@@ -279,7 +280,7 @@ pub fn fn_para_lista(lst: Lista) {
 Quais são as relações entre a definição de `Lista`{.gleam} e `fn_para_lista`{.gleam}? \pause
 
 - A definição tem dois casos, o modelo também; \pause
-- Na definição o `resto`{.gleam} é um **autorreferência**, na função a **recursão** e feita como o `resto`{.gleam}.
+- Na definição o `resto`{.gleam} é um **autorreferência**, na função a **recursão** é feita como o `resto`{.gleam}.
 
 
 ## Exemplo: soma
@@ -1121,7 +1122,7 @@ Note que o tipo dos elementos da lista deve ser o mesmo que o tipo de `v`.
 
 ## Exemplo: soma x
 
-Defina uma função que soma um valor `x` em cada elemento de uma lista de números.
+Defina uma função que some um valor `x` em cada elemento de uma lista de números.
 
 
 ## Exemplo: soma x - especificação {.t}
@@ -1439,7 +1440,7 @@ pub fn remove_negativos_examples() {
 // os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
-    [] -> todo
+    [] -> []
     [primeiro, ..resto] ->
       case primeiro < 0 {
         True -> remove_negativos(resto)
@@ -1490,7 +1491,7 @@ Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 // os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
-    [] -> todo
+    [] -> []
     [primeiro, ..resto] if primeiro < 0 ->
       remove_negativos(resto)
     [primeiro, ..resto] ->
@@ -1525,7 +1526,7 @@ pub fn remove_negativos_examples() {
 
 ## Exemplo: número de ocorrências
 
-Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário, a mais simples é utilizando **listas de associações** chave-valor. \pause Apesar dos tempos de inserção e buscar serem lineares, na prática, para poucas chaves, a implementação é adequada. \pause
+Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário, a mais simples é utilizando **lista de associações** chave-valor. \pause Apesar dos tempos de inserção e buscar serem lineares, na prática, para poucas chaves, a implementação é adequada. \pause
 
 a) Defina um tipo de dado que represente uma associação entre uma string e um número.
 
@@ -1546,8 +1547,8 @@ type Par {
 \pause
 
 ```gleam
-/// Devolve o valor associado com *chave* em *lst* ou Error(Nil) se *s* não
-/// aparece como chave em *lst*.
+/// Devolve o valor associado com *chave* em *lst* ou Error(Nil) se *chave* não
+/// aparece em *lst*.
 pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   todo
 }
@@ -1663,6 +1664,8 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 
 
 ## Exemplo: número de ocorrências - revisão {.t}
+
+Fazendo o dicionário genérico.
 
 \footnotesize
 
@@ -1810,6 +1813,42 @@ Para ser bem formada, uma definição com autorreferência deve ter: \pause
 - Pelo menos um caso base (sem autorreferência): \pause são utilizados para criar os valores iniciais \pause
 
 - Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes
+
+## Revisão
+
+Uma lista é vazia ou tem um primeiro e uma resto, que é uma lista.
+
+O modelo de função para processar lista tem dois casos, um para lista vazia e outro para lista com primeiro e resto, no segundo caso, podemos fazer uma recursão para o resto.
+
+\ \
+
+<div class="columns">
+<div class="column" width="48%">
+\small
+
+Uma `List`{.gleam} é:
+
+- `[]`{.gleam}; ou
+- `[primeiro, ..resto]`{.gleam }, onde `resto` é uma `List`{.gleam}.
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+pub fn fn_para_list(lst: List(a)) {
+  case lst {
+    [] -> todo
+    [primeiro, ..resto] -> {
+      todo
+      primeiro
+      fn_para_list(resto)
+    }
+  }
+}
+```
+</div>
+</div>
 
 
 Referências

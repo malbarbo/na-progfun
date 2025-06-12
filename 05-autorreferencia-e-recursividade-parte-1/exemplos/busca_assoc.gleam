@@ -5,8 +5,8 @@ pub type Par(a, b) {
   Par(chave: a, valor: b)
 }
 
-/// Devolve o valor associado com *s* em *lst* ou Error se *s* não aparece como
-/// chave em *lst*.
+/// Devolve o valor associado com *s* em *lst* ou Error(Nil) se *chave* não
+/// aparece em *lst*.
 pub fn busca(lst: List(Par(a, b)), chave: a) -> Result(b, Nil) {
   case lst {
     [] -> Error(Nil)

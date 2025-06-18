@@ -278,7 +278,7 @@ Dado um número natural $n$, defina uma função que devolva `[1, 2, ..., n - 1,
 /// Cria uma lista com os valores
 /// 1, 2, ..., n-1, n.
 fn lista_num(n: Int) -> List(Int) {
-  []
+  todo
 }
 ```
 
@@ -428,7 +428,7 @@ fn adiciona_fim(
   lst: List(Int),
   n: Int,
 ) -> List(Int) {
-  []
+  todo
 }
 ```
 
@@ -793,7 +793,7 @@ Projete uma função que determine a quantidade de nós folhas em uma árvore.
 ```gleam
 /// Determina o número de nós folhas de *r*.
 fn num_folhas(r: Arvore(a)) -> Int {
-  0
+  todo
 }
 
 ```
@@ -1063,7 +1063,7 @@ Defina uma função que determina a altura de uma árvore binária. A altura de 
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
 fn altura(r: Arvore(a)) -> Int {
-  0
+  todo
 }
 
 ```
@@ -1173,7 +1173,7 @@ fn altura_examples() {
 fn altura(r: Arvore(a)) -> Int {
   case r {
     Vazia -> todo
-    No(valor, esq, dir) ->
+    No(_, esq, dir) ->
       1 + int.max(altura(esq), altura(dir))
     }
   }
@@ -1226,9 +1226,9 @@ fn altura_examples() {
 /// um único nó tem altura 0 e uma árvore vazia
 /// tem altura -1.
 fn altura(r: Arvore(a)) -> Int {
-  case arv {
+  case r {
     Vazia -> -1
-    No(valor, esq, dir) ->
+    No(_, esq, dir) ->
       1 + int.max(altura(esq), altura(dir))
   }
 }
@@ -1487,7 +1487,7 @@ disciplinas/anotacoes.txt
 
 ```gleam
 fn encontra_txt(ent: Entrada) -> List(String) {
-  []
+  todo
 }
 ```
 

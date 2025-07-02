@@ -22,6 +22,8 @@ As principais características que vimos até agora do paradigma funcional foram
 
 - Tipos algébricos e autorreferências; \pause
 
+- Casamento de padrões; \pause
+
 - Recursão como forma de especificar iteração. \pause
 
 Veremos a seguir outra característica essencial do paradigma funcional: funções como valores.
@@ -2241,6 +2243,8 @@ Como parâmetro, quando a função for pequena e necessária apenas naquele loca
 ```
 
 \pause
+
+Em Python
 
 ```python
 >>> list(map(lambda x: x * 2, [3, 8, -6]))

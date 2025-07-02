@@ -1539,12 +1539,12 @@ fn encontra_txt(ent: Entrada) -> List(String) {
     }
   }
 }
-fn encontra_txt_lista(lst: Entrada) -> List(String) {
+fn encontra_txt_lista(lst: List(Entrada)) -> List(String) {
   case lst {
     [] -> todo
     [entrada, ..resto] -> {
       todo encontra_txt(entrada)
-           encontra_txt_lista(entradas)
+           encontra_txt_lista(resto)
     }
   }
 }
@@ -1600,12 +1600,12 @@ fn encontra_txt(ent: Entrada) -> List(String) {
     }
   }
 }
-fn encontra_txt_lista(lst: Entrada) -> List(String) {
+fn encontra_txt_lista(lst: List(Entrada)) -> List(String) {
   case lst {
     [] -> []
     [entrada, ..resto] -> {
       todo encontra_txt(entrada)
-           encontra_txt_lista(entradas)
+           encontra_txt_lista(resto)
     }
   }
 }
@@ -1660,12 +1660,12 @@ fn encontra_txt(ent: Entrada) -> List(String) {
                        encontra_txt_lista(entradas)) }
   }
 }
-fn encontra_txt_lista(lst: Entrada) -> List(String) {
+fn encontra_txt_lista(lst: List(Entrada)) -> List(String) {
   case lst {
     [] -> []
     [entrada, ..resto] -> {
       list.append(encontra_txt(entrada),
-                  encontra_txt_lista(entradas))
+                  encontra_txt_lista(resto))
     }
   }
 }

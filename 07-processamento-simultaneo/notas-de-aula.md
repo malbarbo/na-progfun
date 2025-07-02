@@ -43,6 +43,8 @@ fn concatena(
 }
 ```
 
+\pause
+
 </div>
 <div class="column" width="48%">
 
@@ -237,8 +239,6 @@ fn soma_ponderada(
 ```gleam
 fn soma_ponderada_examples() {
   check.eq(soma_ponderada([], []), Ok(0.0))
-  check.eq(soma_ponderada([], [1.0]), Error(Nil))
-  check.eq(soma_ponderada([1.0], []), Error(Nil))
   check.eq(soma_ponderada([4.0], [2.0]), Ok(8.0))
   check.eq(
     soma_ponderada([3.0, 4.0], [5.0, 2.0]),
@@ -246,6 +246,13 @@ fn soma_ponderada_examples() {
   check.eq(
     soma_ponderada([5.0, 3.0, 4.0], [1.0, 5.0, 2.0]),
     Ok(28.0))
+```
+
+\pause
+
+```gleam
+  check.eq(soma_ponderada([], [1.0]), Error(Nil))
+  check.eq(soma_ponderada([1.0], []), Error(Nil))
 }
 ```
 </div>
@@ -295,8 +302,6 @@ fn soma_ponderada(
 ```gleam
 fn soma_ponderada_examples() {
   check.eq(soma_ponderada([], []), Ok(0.0))
-  check.eq(soma_ponderada([], [1.0]), Error(Nil))
-  check.eq(soma_ponderada([1.0], []), Error(Nil))
   check.eq(soma_ponderada([4.0], [2.0]), Ok(8.0))
   check.eq(
     soma_ponderada([3.0, 4.0], [5.0, 2.0]),
@@ -304,6 +309,8 @@ fn soma_ponderada_examples() {
   check.eq(
     soma_ponderada([5.0, 3.0, 4.0], [1.0, 5.0, 2.0]),
     Ok(28.0))
+  check.eq(soma_ponderada([], [1.0]), Error(Nil))
+  check.eq(soma_ponderada([1.0], []), Error(Nil))
 }
 ```
 </div>
@@ -345,8 +352,6 @@ fn soma_ponderada(
 ```gleam
 fn soma_ponderada_examples() {
   check.eq(soma_ponderada([], []), Ok(0.0))
-  check.eq(soma_ponderada([], [1.0]), Error(Nil))
-  check.eq(soma_ponderada([1.0], []), Error(Nil))
   check.eq(soma_ponderada([4.0], [2.0]), Ok(8.0))
   check.eq(
     soma_ponderada([3.0, 4.0], [5.0, 2.0]),
@@ -354,6 +359,8 @@ fn soma_ponderada_examples() {
   check.eq(
     soma_ponderada([5.0, 3.0, 4.0], [1.0, 5.0, 2.0]),
     Ok(28.0))
+  check.eq(soma_ponderada([], [1.0]), Error(Nil))
+  check.eq(soma_ponderada([1.0], []), Error(Nil))
 }
 ```
 </div>
@@ -383,7 +390,7 @@ fn soma_ponderada(
       case soma_pondera(rlst, rpesos) {
         Ok(r) -> Ok(valor *. peso +. r)
         _ -> Error(Nil)
-    }
+      }
     _, _ -> Error(Nil)
   }
 }
@@ -396,8 +403,6 @@ fn soma_ponderada(
 ```gleam
 fn soma_ponderada_examples() {
   check.eq(soma_ponderada([], []), Ok(0.0))
-  check.eq(soma_ponderada([], [1.0]), Error(Nil))
-  check.eq(soma_ponderada([1.0], []), Error(Nil))
   check.eq(soma_ponderada([4.0], [2.0]), Ok(8.0))
   check.eq(
     soma_ponderada([3.0, 4.0], [5.0, 2.0]),
@@ -405,6 +410,8 @@ fn soma_ponderada_examples() {
   check.eq(
     soma_ponderada([5.0, 3.0, 4.0], [1.0, 5.0, 2.0]),
     Ok(28.0))
+  check.eq(soma_ponderada([], [1.0]), Error(Nil))
+  check.eq(soma_ponderada([1.0], []), Error(Nil))
 }
 ```
 </div>
@@ -439,6 +446,8 @@ fn prefixo(
 }
 ```
 
+\pause
+
 </div>
 <div class="column" width="48%">
 
@@ -448,10 +457,25 @@ fn prefixo(
 fn prefixo_examples() {
   // [], []
   check.eq(prefixo([], []), True)
+```
+
+\pause
+
+```gleam
   // [], [_, ..]
   check.eq(prefixo([], [3, 4]), True)
+```
+
+\pause
+
+```gleam
   // [_, ..], []
   check.eq(prefixo([3, 4], []), False)
+```
+
+\pause
+
+```gleam
   // [_, ..], [_, ..]
   check.eq(prefixo([3, 4], [3, 4]), True)
   check.eq(prefixo([3, 4], [3, 4, 6, 8]), True)
@@ -459,7 +483,6 @@ fn prefixo_examples() {
   check.eq(prefixo([3, 4, 5], [3, 4]), False)
 }
 ```
-
 </div>
 </div>
 
@@ -695,8 +718,11 @@ fn lista_get(
   lst: List(a),
   k: Int,
 ) -> Result(a, Nil) {
+  todo
 }
 ```
+
+\pause
 
 </div>
 <div class="column" width="48%">
@@ -707,15 +733,40 @@ fn lista_get(
 fn lista_get_examples() {
   // [], 0
   check.eq(lista_get([], 0), Error(Nil))
+```
+
+\pause
+
+```gleam
   // [], > 0
   check.eq(lista_get([], 2), Error(Nil))
+```
+
+\pause
+
+```gleam
   // [_, ..], 0
   check.eq(lista_get([3, 2, 8], 0), Ok(3))
+```
+
+\pause
+
+```gleam
   // [_, ..], > 0
   check.eq(lista_get([3, 2, 8, 10], 2), Ok(8))
   check.eq(lista_get([3, 2, 8, 10], 4), Error(Nil))
+```
+
+\pause
+
+```gleam
   // [], < 0
   check.eq(lista_get([], -1), Error(Nil))
+```
+
+\pause
+
+```gleam
   // [_, ..], < 0
   check.eq(lista_get([1, 2], -3), Error(Nil))
 }

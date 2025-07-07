@@ -88,7 +88,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
     a) Projete uma função que retorne o número da carteirinha de estudante, caso o espectador a tenha.
 
-    b) Projete uma função que retorne um valor booleano indicando se o espectador tem direito ou não a um desconto no ingresso. Crianças e idosos sempre tem desconto. Um adulto não tem desconto. E um jovem só tem desconto se tiver uma carteirinha de estudante.
+    b) Projete uma função que retorne um valor booleano indicando se o espectador tem direito ou não a um desconto no ingresso. Crianças e idosos sempre têm desconto. Um adulto não tem desconto. E um jovem só tem desconto se tiver uma carteirinha de estudante.
 
 
 <!-- TAD -->

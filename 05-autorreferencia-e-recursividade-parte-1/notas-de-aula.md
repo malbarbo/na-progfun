@@ -44,7 +44,7 @@ Vamos tentar criar uma definição para lista de números.
 A ideia é criar uma estrutura com dois campos. O primeiro campo representa o primeiro item na lista e o segundo campo representa o restante da lista (que é uma lista). \pause
 
 ```gleam
-type Lista {
+pub type Lista {
   Lista(primeiro: Int, resto: Lista)
 }
 ```
@@ -96,7 +96,7 @@ Em Gleam \pause
 \small
 
 ```gleam
-type Lista {
+pub type Lista {
   Vazia
   NaoVazia(primeiro: Int, resto: Lista)
 }
@@ -245,7 +245,7 @@ Vamos fazer uma alteração no modelo `fn_para_lista`{.gleam} e adicionar uma ch
 \footnotesize
 
 ```gleam
-type Lista {
+pub type Lista {
   Vazia
   NaoVazia(primeiro: Int, resto: Lista)
 }
@@ -280,7 +280,7 @@ pub fn fn_para_lista(lst: Lista) {
 Quais são as relações entre a definição de `Lista`{.gleam} e `fn_para_lista`{.gleam}? \pause
 
 - A definição tem dois casos, o modelo também; \pause
-- Na definição o `resto`{.gleam} é um **autorreferência**, na função a **recursão** é feita como o `resto`{.gleam}.
+- Na definição o `resto`{.gleam} é um **autorreferência**, na função a **recursão** é feita com o `resto`{.gleam}.
 
 
 ## Exemplo: soma
@@ -1526,7 +1526,7 @@ pub fn remove_negativos_examples() {
 
 ## Exemplo: número de ocorrências
 
-Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário, a mais simples é utilizando **lista de associações** chave-valor. \pause Apesar dos tempos de inserção e buscar serem lineares, na prática, para poucas chaves, a implementação é adequada. \pause
+Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário, a mais simples é utilizando uma **lista de associações** chave-valor. \pause Apesar dos tempos de inserção e buscar serem lineares, na prática, para poucas chaves, a implementação é adequada. \pause
 
 a) Defina um tipo de dado que represente uma associação entre uma string e um número.
 
@@ -1721,7 +1721,7 @@ Exemplos
 
 \small
 
-Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma específica, que não é recursiva. \pause Então precisamos criar três casos base.
+Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma especifica, que não é recursiva. \pause Então precisamos criar três casos base.
 
 
 ## Exemplos: junta com "," e "e"

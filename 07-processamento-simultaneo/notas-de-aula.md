@@ -220,7 +220,7 @@ Projete uma função que calcule a soma ponderada a partir de uma lista de núme
 /// *lst* considerando que cada elemento de
 /// *lst* tem como peso o elemento correspon-
 /// dente em *pesos*. Devolve Error(Nil) se
-/// *lst* e *pesos* tem quantidade diferente
+/// *lst* e *pesos* têm quantidades diferentes
 /// de elementos.
 fn soma_ponderada(
   lst: List(Float),
@@ -278,7 +278,7 @@ Existem uma correspondência entre os elementos de `lst` e `pesos`. Usamos essa 
 /// *lst* considerando que cada elemento de
 /// *lst* tem como peso o elemento correspon-
 /// dente em *pesos*. Devolve Error(Nil) se
-/// *lst* e *pesos* tem quantidade diferente
+/// *lst* e *pesos* têm quantidades diferentes
 /// de elementos.
 fn soma_ponderada(
   lst: List(Float),
@@ -288,7 +288,7 @@ fn soma_ponderada(
     [], [] -> todo
     [valor, ..rlst], [peso, ..rpesos] -> {
       todo valor peso
-           soma_pondera(rlst, rpesos)
+           soma_ponderada(rlst, rpesos)
     }
     _, _ -> todo
   }
@@ -328,7 +328,7 @@ fn soma_ponderada_examples() {
 /// *lst* considerando que cada elemento de
 /// *lst* tem como peso o elemento correspon-
 /// dente em *pesos*. Devolve Error(Nil) se
-/// *lst* e *pesos* tem quantidade diferente
+/// *lst* e *pesos* têm quantidades diferentes
 /// de elementos.
 fn soma_ponderada(
   lst: List(Float),
@@ -338,7 +338,7 @@ fn soma_ponderada(
     [], [] -> Ok(0.0)
     [valor, ..rlst], [peso, ..rpesos] -> {
       todo valor peso
-           soma_pondera(rlst, rpesos)
+           soma_ponderada(rlst, rpesos)
     }
     _, _ -> Error(Nil)
   }
@@ -378,7 +378,7 @@ fn soma_ponderada_examples() {
 /// *lst* considerando que cada elemento de
 /// *lst* tem como peso o elemento correspon-
 /// dente em *pesos*. Devolve Error(Nil) se
-/// *lst* e *pesos* tem quantidade diferente
+/// *lst* e *pesos* têm quantidades diferentes
 /// de elementos.
 fn soma_ponderada(
   lst: List(Float),
@@ -387,7 +387,7 @@ fn soma_ponderada(
   case lst, pesos {
     [], [] -> Ok(0.0)
     [valor, ..rlst], [peso, ..rpesos] ->
-      case soma_pondera(rlst, rpesos) {
+      case soma_ponderada(rlst, rpesos) {
         Ok(r) -> Ok(valor *. peso +. r)
         _ -> Error(Nil)
       }
@@ -420,7 +420,7 @@ fn soma_ponderada_examples() {
 
 ## Exemplo caso 3: prefixo
 
-Dado duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é `lstb` começa com `lsta`. \pause
+Dadas duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é, se `lstb` começa com `lsta`. \pause
 
 1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento.
 2) Processar os dois argumentos de forma sincronizada.
@@ -435,8 +435,8 @@ Dado duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é
 
 ```gleam
 /// Devolve True se *lsta* é prefixo de *lstb*,
-/// isto é, os elementos de *lsta* aparecem no
-/// início de *lstb*. Devolve False, caso
+/// isto é, se os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False caso
 /// contrário.
 fn prefixo(
   lsta: List(a),
@@ -495,8 +495,8 @@ fn prefixo_examples() {
 
 ```gleam
 /// Devolve True se *lsta* é prefixo de *lstb*,
-/// isto é, os elementos de *lsta* aparecem no
-/// início de *lstb*. Devolve False, caso
+/// isto é, se os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False caso
 /// contrário.
 fn prefixo(
   lsta: List(a),
@@ -549,8 +549,8 @@ fn prefixo_examples() {
 
 ```gleam
 /// Devolve True se *lsta* é prefixo de *lstb*,
-/// isto é, os elementos de *lsta* aparecem no
-/// início de *lstb*. Devolve False, caso
+/// isto é, se os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False caso
 /// contrário.
 fn prefixo(
   lsta: List(a),
@@ -603,8 +603,8 @@ fn prefixo_examples() {
 
 ```gleam
 /// Devolve True se *lsta* é prefixo de *lstb*,
-/// isto é, os elementos de *lsta* aparecem no
-/// início de *lstb*. Devolve False, caso
+/// isto é, se os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False caso
 /// contrário.
 fn prefixo(
   lsta: List(a),
@@ -653,8 +653,8 @@ fn prefixo_examples() {
 
 ```gleam
 /// Devolve True se *lsta* é prefixo de *lstb*,
-/// isto é, os elementos de *lsta* aparecem no
-/// início de *lstb*. Devolve False, caso
+/// isto é, se os elementos de *lsta* aparecem no
+/// início de *lstb*. Devolve False caso
 /// contrário.
 fn prefixo(
   lsta: List(a),
@@ -712,7 +712,7 @@ Defina uma função que encontre o $k$-ésimo elemento de uma lista. \pause
 ```gleam
 /// Devolve o elemento na posição *i* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior igual a
+/// se *i* é negativo ou é maior ou igual a
 /// quantidade de elemento de *lst*.
 fn lista_get(
   lst: List(a),
@@ -785,7 +785,7 @@ fn lista_get_examples() {
 ```gleam
 /// Devolve o elemento na posição *i* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior igual a
+/// se *i* é negativo ou é maior ou igual a
 /// quantidade de elemento de *lst*.
 fn lista_get(
   lst: List(a),
@@ -839,7 +839,7 @@ fn lista_get_examples() {
 ```gleam
 /// Devolve o elemento na posição *i* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior igual a
+/// se *i* é negativo ou é maior ou igual a
 /// quantidade de elemento de *lst*.
 fn lista_get(
   lst: List(a),
@@ -893,7 +893,7 @@ fn lista_get_examples() {
 ```gleam
 /// Devolve o elemento na posição *i* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior igual a
+/// se *i* é negativo ou é maior ou igual a
 /// quantidade de elemento de *lst*.
 fn lista_get(
   lst: List(a),
@@ -947,7 +947,7 @@ fn lista_get_examples() {
 ```gleam
 /// Devolve o elemento na posição *i* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior igual a
+/// se *i* é negativo ou é maior ou igual a
 /// quantidade de elemento de *lst*.
 fn lista_get(
   lst: List(a),

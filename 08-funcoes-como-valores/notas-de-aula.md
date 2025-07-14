@@ -26,7 +26,9 @@ As principais características que vimos até agora do paradigma funcional foram
 
 - Recursão como forma de especificar iteração. \pause
 
-Veremos a seguir outra característica essencial do paradigma funcional: funções como valores.
+Veremos a seguir outra característica essencial do paradigma funcional: \pause
+
+- Funções como valores.
 
 
 ## Introdução
@@ -484,7 +486,7 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 fn mapeia(lst, f) {
   case lst {
     [] -> []
-    [p, ..r] -> [f(p), ..mapeia(r)]
+    [p, ..r] -> [f(p), ..mapeia(r, f)]
   }
 }
 ```
@@ -537,7 +539,7 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 fn mapeia(lst, f) {
   case lst {
     [] -> []
-    [p, ..r] -> [f(p), ..mapeia(r)]
+    [p, ..r] -> [f(p), ..mapeia(r, f)]
   }
 }
 
@@ -597,7 +599,7 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 fn mapeia(lst, f) {
   case lst {
     [] -> []
-    [p, ..r] -> [f(p), ..mapeia(r)]
+    [p, ..r] -> [f(p), ..mapeia(r, f)]
   }
 }
 
@@ -657,7 +659,7 @@ fn mapeia(
 ) -> List(b) {
   case lst {
     [] -> []
-    [p, ..r] -> [f(p), ..mapeia(r)]
+    [p, ..r] -> [f(p), ..mapeia(r, f)]
   }
 }
 
@@ -717,7 +719,7 @@ fn mapeia(
 ) -> List(b) {
   case lst {
     [] -> []
-    [p, ..r] -> [f(p), ..mapeia(r)]
+    [p, ..r] -> [f(p), ..mapeia(r, f)]
   }
 }
 
@@ -1243,8 +1245,8 @@ Vamos criar uma função que abstrai o comportamento das funções `soma` e `jun
 \scriptsize
 
 ```gleam
-/// Somas os elementos de *lst*.
-fn some(lst: List(Int)) -> Int {
+/// Soma os elementos de *lst*.
+fn soma(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
     [p, ..r] -> p + soma(r)
@@ -1287,8 +1289,8 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 \scriptsize
 
 ```gleam
-/// Somas os elementos de *lst*.
-fn some(lst: List(Int)) -> Int {
+/// Soma os elementos de *lst*.
+fn soma(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
     [p, ..r] -> int.add(soma(r), p)
@@ -1345,8 +1347,8 @@ fn reduz(lst, init, f) {
 \scriptsize
 
 ```gleam
-/// Somas os elementos de *lst*.
-fn some(lst: List(Int)) -> Int {
+/// Soma os elementos de *lst*.
+fn soma(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
     [p, ..r] -> int.add(soma(r), p)
@@ -1407,8 +1409,8 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Somas os elementos de *lst*.
-fn some(lst: List(Int)) -> Int {
+/// Soma os elementos de *lst*.
+fn soma(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
     [p, ..r] -> int.add(soma(r), p)
@@ -1444,7 +1446,7 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 // Reduz os elementos de *lst* em um acumulador
 // usando a função *f*. O acumulador começa com *init*
 // e é atualizado chamando *f(acc, e)* para cada
-// elemento *e* de *lst* da direita para esquerda.
+// elemento *e* de *lst* da direita para a esquerda.
 fn reduz(lst, init, f) {
   case lst {
     [] -> init
@@ -1469,8 +1471,8 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Somas os elementos de *lst*.
-fn some(lst: List(Int)) -> Int {
+/// Soma os elementos de *lst*.
+fn soma(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
     [p, ..r] -> int.add(soma(r), p)
@@ -1502,7 +1504,7 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 // Reduz os elementos de *lst* em um acumulador
 // usando a função *f*. O acumulador começa com *init*
 // e é atualizado chamando *f(acc, e)* para cada
-// elemento *e* de *lst* da direita para esquerda.
+// elemento *e* de *lst* da direita para a esquerda.
 fn reduz(
   lst: List(a),
   init: b,
@@ -1531,8 +1533,8 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Somas os elementos de *lst*.
-fn some(lst: List(Int)) -> Int {
+/// Soma os elementos de *lst*.
+fn soma(lst: List(Int)) -> Int {
   reduz(lst, 0, int.add)
 }
 
@@ -1564,7 +1566,7 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 // Reduz os elementos de *lst* em um acumulador
 // usando a função *f*. O acumulador começa com *init*
 // e é atualizado chamando *f(acc, e)* para cada
-// elemento *e* de *lst* da direita para esquerda.
+// elemento *e* de *lst* da direita para a esquerda.
 fn reduz(
   lst: List(a),
   init: b,
@@ -1700,7 +1702,7 @@ Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause
 \footnotesize
 
 ```gleam
-fn sinal(n: Int) -> Sinal {
+fn sinal(n: Int) -> Int {
   case n {
     _ if n > 0 -> 1
     _ if n == 0 -> 0
@@ -1725,7 +1727,7 @@ fn sinais(lst: List(Int)) -> List(Int) {
 
 ## Exemplo: pontos nos eixos
 
-Projete uma função que receba como entrada uma lista de pontos no plano cartesiano e indique quais estão sobre o eixo x ou eixo y.
+Projete uma função que receba como entrada uma lista de pontos no plano cartesiano e selecione quais estão sobre o eixo x ou eixo y.
 
 \pause
 
@@ -1747,7 +1749,7 @@ pub type Ponto {
 \footnotesize
 
 ```gleam
-/// Cria uma lista com os elementos de
+/// Cria uma lista apenas com os elementos de
 /// *pontos* que estão sobre o eixo x ou y.
 fn seleciona_no_eixo(
   pontos: List(Ponto)
@@ -1889,7 +1891,7 @@ Projete uma função que receba como entrada uma lista de strings e devolva uma 
 \scriptsize
 
 ```gleam
-/// Cria uma lista com as strings de *lst* que têm tamanho máximo entre todos
+/// Cria uma lista com as strings de *lst* que têm tamanho máximo entre todas
 /// as strings de *lst*.
 fn maiores_strings(lst: List(String)) -> List(String) {
   todo
@@ -1954,7 +1956,7 @@ Podemos fazer em duas etapas: usamos o `map` para obter uma lista com os tamanho
 /// Devolve o tamanho máximo entre
 /// todos os elementos de *lst*.
 fn tamanho_max(lst: List(String) -> Int {
-  list.fold_rigth(
+  list.fold_right(
     list.map(lst, string.length),
     0,
     int.max
@@ -2028,7 +2030,7 @@ Uma **definição local** é aquela que não é feita no escopo global. \pause
 
 Uma **variável livre** em relação a uma função é aquela que não é global, não é um parâmetro da função e nem foi declarada localmente dentro da função. \pause
 
-Como uma função acessa um parâmetro ou uma variáveis local? \pause
+Como uma função acessa um parâmetro ou uma variável local? \pause
 
 Geralmente, consultando o registro de ativação, o quadro, da sua chamada. \pause
 
@@ -2220,7 +2222,8 @@ Ou sem armazenar a função em uma variável:
 ```gleam
 fn maiores_string(lst: List(String)) {
   let max = tamanho_maximo(lst)
-  list.filter(fn(s) { string.length(s) == max })
+  list.filter(
+    lst, fn(s) { string.length(s) == max })
 }
 ```
 </div>
@@ -2229,7 +2232,7 @@ fn maiores_string(lst: List(String)) {
 
 ## Funções anônimas
 
-Em que situações devemos utilizar um funções anônimas? \pause
+Em que situações devemos utilizar funções anônimas? \pause
 
 Como parâmetro, quando a função for pequena e necessária apenas naquele local: \pause
 
@@ -2301,7 +2304,7 @@ fn filtra(lst, pred) {
 
 ## Funções anônimas
 
-Em que situações devemos utilizar um funções anônimas? \pause
+Em que situações devemos utilizar funções anônimas? \pause
 
 - Como parâmetro, quando a função for pequena e necessária apenas naquele local. \pause
 
@@ -2466,7 +2469,7 @@ Açúcar sintático
 
 Um **açúcar sintático** ([_syntatic sugar_](https://en.wikipedia.org/wiki/Syntactic_sugar)) é uma construção sintática de uma linguagens de programação que deixam o seu uso mais simples, ou doce, para os humanos. \pause
 
-Vamos ver alguns açucares sintáticos do Gleam.
+Vamos ver alguns açúcares sintáticos do Gleam.
 
 
 ## Fechamento abreviado
@@ -2542,7 +2545,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 \scriptsize
 
 ```gleam
-> // de forma abreviada
+> // forma abreviada
 > let a = [1, 4, 2]
 > let b = [3, 2, 7, 1]
 > list.filter(a, list.contains(b, _))
@@ -2580,7 +2583,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 \scriptsize
 
 ```gleam
-> // de forma abreviada
+> // forma abreviada
 > list.map([3, 1, 4], int.add(_, 1))
 [4, 2, 5]
 ```
@@ -2614,7 +2617,7 @@ Gleam oferece o operador binário `|>` para facilitar as cadeias de processament
 
 ```gleam
 fn tamanho_max(lst: List(String) -> Int {
-  list.fold_rigth(list.map(lst, string.length), 0, int.max)
+  list.fold_right(list.map(lst, string.length), 0, int.max)
 }
 ```
 
@@ -2622,7 +2625,7 @@ fn tamanho_max(lst: List(String) -> Int {
 
 ```gleam
 fn tamanho_max(lst: List(String) -> Int {
-  list.fold_rigth(
+  list.fold_right(
     list.map(lst, string.length),
     0,
     int.max,
@@ -2881,7 +2884,7 @@ fn soma(a: String, b: String)
 
 \small
 
-Apesar de parecem diferentes, as duas últimas definições da função `soma` são equivalentes! \pause
+Apesar de parecerem diferentes, as duas últimas definições da função `soma` são equivalentes! \pause
 
 O `use`{.gleam} é apenas açúcar sintático para definir uma função anônima e passá-la como último parâmetro para uma chamada de função.
 

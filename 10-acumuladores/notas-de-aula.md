@@ -86,25 +86,33 @@ fn relativa_absoluta(
 
 \small
 
-Para a entrada `[50, 40, 70, 30, 30]`{.gleam} a função deve produzir como saída `[50, 90, 160, 190, 220]`{.gleam}. \pause
-
-Como combinar o primeiro com a resposta da chamada recursiva para obter a resposta da função?
-
 ```gleam
-[50, 40, 70, 30, 30]   ->   [50, 90, 160, 190, 220]
-
-                            50  [40, 110, 140, 170]
-                             |  |
-                      primeiro  relativa_absoluta(resto)
+relativa_absoluta([50, 40, 70, 30, 30])        ->   [50, 90, 160, 190, 220]
 ```
 
 \pause
 
-Somando `50`{.gleam} a cada elemento de `[40, 110, 140, 170]`{.gleam} \pause
+```gleam
+                  50  [40, 110, 140, 170]
+                   |  |
+            primeiro  relativa_absoluta(resto)
+```
+
+\pause
+
+\normalsize
+
+Como combinar o primeiro com a resposta da chamada recursiva para obter a resposta da função?
+
+
+\pause
+
+Juntando `50`{.gleam} com a soma de `50`{.gleam} a cada elemento de `[40, 110, 140, 170]`{.gleam}. \pause
+
+\small
 
 ```gleam
-[primeiro,
- ..list.map(relativa_absoluta(resto), int.add(_, primeiro))]
+[primeiro, ..list.map(relativa_absoluta(resto), int.add(_, primeiro))]
 ```
 
 

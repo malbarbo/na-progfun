@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+find . -wholename '*/solucoes/*.gleam' | sort -h

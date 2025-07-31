@@ -2,9 +2,9 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Resumo da linguagem Gleam
 urlcolor: Black
-date: \today
 classoption:
 - twocolumn
+fontsize: 10pt
 header-includes:
 - \pagenumbering{gobble}
 license:
@@ -255,4 +255,37 @@ pub fn soma(lst: List(a)) {
     [primeiro, ..resto] -> primeiro + soma(resto)
   }
 }
+```
+
+
+## Funções de alta ordem
+
+```gleam
+> list.filter([7, 3, 6, 2, 9], int.is_odd) // é impar
+[7, 3, 9]
+> list.filter([-4, 1, 3, -2, 9], fn(x) { x > 0 })
+[1, 3, 9]
+
+> list.map([5, 1, 6, 8], int.to_string)
+["5", "1", "6", "8"]
+> list.map(["a", "b", ""], fn(s) { s <> "!" })
+["a!", "b!", "!"]
+
+> list.fold_right([5, 1, 2], 1, fn(acc, e) { acc * e})
+10
+> let lst = [1, 2, 3]
+> list.fold_right(lst, [], fn(acc, e) { [e, ..acc] })
+[1, 2, 3]
+> list.fold(lst, [], fn(acc, e) { [e, ..acc] })
+[3, 2, 1]
+```
+
+
+## Cadeia de processamento
+
+```gleam
+> [5, 1, 3, 2, 7]
+  |> list.map(int.add(_, 1))
+  |> list.filter(int.is_even) // é par
+[6, 2, 4, 8]
 ```

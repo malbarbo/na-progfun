@@ -2661,7 +2661,7 @@ fn tamanho_max(lst: List(String) -> Int {
 fn enumera_em_ordem_comeca_a(nomes: List(String)) -> List(String) {
   list.index_map(
     list.sort(list.filter(nomes, string.starts_with(_, "a")), string.compare),
-    fn (nome, num) { int.to_string(num) <> ". " <> nome },
+    fn(nome, num) { int.to_string(num) <> ". " <> nome },
  )
 }
 ```
@@ -2673,7 +2673,7 @@ fn enumera_em_ordem_comeca_a(nomes: List(String)) -> List(String) {
   nomes
   |> list.filter(string.starts_with(_, "a"))
   |> list.sort(string.compare)
-  |> list.index_map(fn (nome, num) { int.to_string(num) <> ". " <> nome })
+  |> list.index_map(fn(nome, num) { int.to_string(num) <> ". " <> nome })
 }
 ```
 

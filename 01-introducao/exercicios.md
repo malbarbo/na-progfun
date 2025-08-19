@@ -28,7 +28,7 @@ license:
 
 @) Instale o [sgleam](https://malbarbo.pro.br/sgleam) no seu computador e teste os exemplos do material.
 
-@) Veja o conteúdo básico do [tour do Gleam](https://tour.gleam.run/)
+@) Veja o conteúdo básico do [tour do Gleam](https://tour.gleam.run/).
 
 @) Qual a sua primeira impressão da linguagem Gleam?
 

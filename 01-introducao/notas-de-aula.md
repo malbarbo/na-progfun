@@ -261,13 +261,11 @@ Considere o arquivo `dobro.gleam` com o conteúdo
 \small
 
 ```gleam
-import gleam/io
-
 pub fn dobro(x: Int) -> Int {
   x * 2
 }
 
-pub fn main() {
+pub fn smain() {
   dobro(4)
 }
 ```
@@ -277,7 +275,7 @@ pub fn main() {
 </div>
 <div class="column" width="50%">
 
-Para executar o arquivo no Linux digite
+Para executar o arquivo (função `smain`) no Linux digite
 
 ```console
 $ ./sgleam dobro.gleam

@@ -76,7 +76,7 @@ fn agrupa_examples() {
 /// Agrupa os elementos de *lst* em sublistas com *n* elementos. Apenas a
 /// última sublista pode ter menos de *n* elementos.
 fn agrupa(lst: List(a), m: Int) -> List(List(a)) {
-  case {
+  case lst {
     [] -> todo
     _ -> {
       // decompor em um suproblema
@@ -97,7 +97,7 @@ fn agrupa(lst: List(a), m: Int) -> List(List(a)) {
 /// Agrupa os elementos de *lst* em sublistas com *m* elementos. Apenas a
 /// última sublista pode ter menos de *n* elementos.
 fn agrupa(lst: List(a), m: Int) -> List(List(a)) {
-  case {
+  case lst {
     [] -> []
     _ -> {
       let #(prefixo, suffixo) = list.split(lst, m)

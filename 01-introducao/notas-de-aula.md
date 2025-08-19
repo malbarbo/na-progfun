@@ -264,11 +264,11 @@ Considere o arquivo `dobro.gleam` com o conteúdo
 import gleam/io
 
 pub fn dobro(x: Int) -> Int {
-    x * 2
+  x * 2
 }
 
 pub fn main() {
-  io.debug(dobro(4))
+  dobro(4)
 }
 ```
 

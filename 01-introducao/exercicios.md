@@ -24,7 +24,7 @@ license:
 
 # Praticando
 
-@) Abra o [playgroud do sgleam](https://malbarbo.pro.br/sgleam/play.html) no navegador e teste os exemplos do material.
+@) Abra o [playground do sgleam](https://malbarbo.pro.br/sgleam/play.html) no navegador e teste os exemplos do material.
 
 @) Instale o [sgleam](https://malbarbo.pro.br/sgleam) no seu computador e teste os exemplos do material.
 

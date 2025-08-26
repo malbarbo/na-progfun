@@ -18,7 +18,7 @@ O que é programação funcional? \pause
 
 - Evita mudança de estado \pause (mudança do valor das variáveis) \pause
 
-- Evita efeitos colaterais \pause (qualquer efeito que seja observável além do valor de saída da função, como a mudança dos parâmetro e variáveis global, exceções, entrada e saída, etc).
+- Evita efeitos colaterais \pause (qualquer efeito que seja observável além do valor de saída da função, como a mudança dos parâmetros e variáveis globais, exceções, entrada e saída, etc).
 
 
 Por que?
@@ -30,7 +30,7 @@ Um paradigma (linguagem) de programação é uma ferramenta. \pause
 
 Conhecer várias ferramentas permite utilizar a mais adequada para cada problema. \pause
 
-Compartilhamento de dados junto com mudança de estado é difícil!
+Compartilhamento de dados com mudança de estado é difícil!
 
 
 ## Mudança de estado
@@ -189,7 +189,7 @@ Como?
 
    - Inferência de tipo
 
-   - Fácil instalação
+      - Fácil instalação
 
 
 ## Como?

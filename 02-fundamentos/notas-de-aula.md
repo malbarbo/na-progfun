@@ -514,7 +514,7 @@ Note que a especificação dos tipos das entradas e saída são opcionais. Se os
 
 ## Definições
 
-Os nomes usados nas definições são associados com os objetos que eles representam e armazenados em um memória chamada de **ambiente**. \pause
+Os nomes usados nas definições são associados com os objetos que eles representam e armazenados em uma memória chamada de **ambiente**. \pause
 
 Um programa em Gleam é composto por uma sequência de instruções `import`{.gleam} e de definições. \pause
 
@@ -997,7 +997,7 @@ fn sinal(x) {
 <div class="columns">
 <div class="column" width="38%">
 
-Defina a função `and`{.gleam} que recebe os argumentos booleanos `x`{.gleam} e `y`{.gleam} e produz como resposta o e lógico entre eles, isto é \pause
+Defina a função `and`{.gleam} que recebe os argumentos booleanos `x`{.gleam} e `y`{.gleam} e produz como resposta o E lógico entre eles, isto é \pause
 
 \small
 
@@ -1088,7 +1088,7 @@ fn and(x, y) {
 <div class="columns">
 <div class="column" width="45%">
 
-Defina a função `or`{.gleam} que recebe os argumentos booleanos `x`{.gleam} e `y`{.gleam} e produz como resposta o ou lógico entre eles, isto é \pause
+Defina a função `or`{.gleam} que recebe os argumentos booleanos `x`{.gleam} e `y`{.gleam} e produz como resposta o OU lógico entre eles, isto é \pause
 
 \small
 
@@ -1251,7 +1251,7 @@ A regra de avaliação da expressão `||`{.gleam} é: \pause
 
 ## Operadores lógicos
 
-Os exemplos a seguir usam o efeito colateral de `io.debug`{gleam} para demostrar a avaliação em curto-circuito.
+Os exemplos a seguir usam o efeito colateral de `io.debug`{gleam} para demonstrar a avaliação em curto-circuito.
 
 <div class="columns">
 <div class="column" width="50%">

@@ -1,6 +1,6 @@
 import sgleam/check
 
-/// Produz True se *n* é um número positivo de três digitos.
+/// Produz True se *n* é um número positivo de três dígitos.
 pub fn tres_digitos(n: Int) -> Bool {
   100 <= n && n <= 999
 }

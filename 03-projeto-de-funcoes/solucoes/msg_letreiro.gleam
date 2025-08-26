@@ -43,31 +43,31 @@ pub fn msg_letreiro_examples() {
 
   // Exemplos do caso de uso
   check.eq(
-    msg_letreiro(20, "Promocao de sorvetes, pague 2 leve 3!", 0),
-    "Promocao de sorvetes",
+    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 0),
+    "Promoção de sorvetes",
   )
   check.eq(
-    msg_letreiro(20, "Promocao de sorvetes, pague 2 leve 3!", 1),
-    "romocao de sorvetes,",
+    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 1),
+    "romoção de sorvetes,",
   )
   check.eq(
-    msg_letreiro(20, "Promocao de sorvetes, pague 2 leve 3!", 2),
-    "omocao de sorvetes, ",
+    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 2),
+    "omoção de sorvetes, ",
   )
   check.eq(
-    msg_letreiro(20, "Promocao de sorvetes, pague 2 leve 3!", 17),
+    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 17),
     "tes, pague 2 leve 3!",
   )
   check.eq(
-    msg_letreiro(20, "Promocao de sorvetes, pague 2 leve 3!", 18),
+    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 18),
     "es, pague 2 leve 3! ",
   )
   check.eq(
-    msg_letreiro(20, "Promocao de sorvetes, pague 2 leve 3!", 19),
+    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 19),
     "s, pague 2 leve 3! P",
   )
   check.eq(
-    msg_letreiro(20, "Promocao de sorvetes, pague 2 leve 3!", 37),
-    " Promocao de sorvete",
+    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 37),
+    " Promoção de sorvete",
   )
 }

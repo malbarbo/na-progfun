@@ -45,7 +45,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
     ```gleam
     /// Produz True se uma pessoa com *idade* é isento da
     /// tarifa de transporte público, isto é, tem menos
-    /// que 18 anos ou 65 ou mais. Produz False caso contrário.
+    /// de 18 anos ou 65 ou mais. Produz False caso contrário.
     pub fn isento_tarifa(idade: Int) -> Bool {
       False
     }
@@ -81,7 +81,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
     ```gleam
     /// Produz True se uma pessoa com *idade* é supercentenária,
-    /// isto é, tem 110 anos ou mais, False caso contrário.
+    /// isto é, tem 110 anos ou mais, produz False caso contrário.
     pub fn supercentenario(idade: Int) -> Bool {
       False
     }
@@ -156,7 +156,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 @) Rotacionar uma string `n` posições à direita significa mover os últimos `n` caracteres da string para as primeiras `n` posições da string. Por exemplo, rotacionar a string `"marcelio"` 5 posições à direita produz a string `"celiomar"`. Projete uma função que receba como entrada uma string e um número `n` e produza uma nova string rotacionando a string de entrada `n` posições à direita.
 
-@) No período de 2015 à 2016 todos os números de telefones celulares no Brasil passaram a ter nove dígitos. Na época, os números de telefones que tinham apenas oito dígitos foram alterados, adicionando-se o 9 na frente do número. Embora oficialmente todos os número de celulares tenham nove dígitos, na agenda de muitas pessoas ainda é comum encontrar números registrados com apenas oito dígitos. Projete uma função que adicione o nono dígito em um dado número de telefone celular caso ele ainda não tenha o nono dígito. Considere que os números de entrada são dados com o DDD entre parênteses e com um hífen separando os últimos quatro dígitos. Exemplos de entradas: (44) 9787-1241, (51) 95872-9989, (41) 8876-1562. A saída deve ter o mesmo formato, mas garantindo que o número do telefone tenha 9 dígitos.
+@)No período de 2015 à 2016 todos os números de telefones celulares no Brasil passaram a ter nove dígitos. Na época, os números de telefones que tinham apenas oito dígitos foram alterados, adicionando-se o 9 na frente do número. Embora oficialmente todos os número de celulares tenham nove dígitos, na agenda de muitas pessoas ainda é comum encontrar números registrados com apenas oito dígitos. Projete uma função que adicione o nono dígito em um dado número de telefone celular caso ele ainda não tenha o nono dígito. Considere que os números de entrada são dados com o DDD entre parênteses e com um hífen separando os últimos quatro dígitos. Exemplos de entradas: (44) 9787-1241, (51) 95872-9989, (41) 8876-1562. A saída deve ter o mesmo formato, mas garantindo que o número do telefone tenha 9 dígitos.
 
 
 # Desafios

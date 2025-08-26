@@ -19,7 +19,7 @@ Como proceder para projetar este programa?
 
 ## Projeto de funções
 
-Vamos usar um processo de projeto funções \pause
+Vamos usar um processo de projeto de funções \pause
 
 - Análise \pause
 - Definição dos tipos de dados \pause
@@ -108,7 +108,7 @@ Informações: preço do litro do combustível e o tipo do combustível. \pause 
 type Preco =
   Float
 
-/// O tipo do combustível, deve "Álcool" ou "Gasolina".
+/// O tipo do combustível, deve ser "Álcool" ou "Gasolina".
 type Combustivel =
   String
 ```
@@ -136,7 +136,7 @@ type Preco =
   Float
 
 /// O tipo do combustível,
-/// deve "Álcool" ou "Gasolina".
+/// deve ser "Álcool" ou "Gasolina".
 type Combustivel =
   String
 ```
@@ -206,7 +206,7 @@ fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combusti
 
 ## Propósito
 
-No propósito da função descrevemos **o que** a função faz, e não **como** ela faz (que é a implementação - as vezes precisamos dizer como ela faz, mas isso é raro). \pause
+No propósito da função descrevemos **o que** a função faz, e não **como** ela faz (que é a implementação - às vezes precisamos dizer como ela faz, mas isso é raro). \pause
 
 No propósito também informamos as garantias da saída e as restrições sobre os parâmetros.
 
@@ -720,7 +720,7 @@ Vamos resolver esse problema? Por onde começamos?
 
     $$\pi \times \left ( \left ( \frac{diametro\_externo}{2} \right ) ^2 - \left ( \frac{diametro\_interno}{2} \right ) ^2 \right ) \times altura$$ \pause
 
-- Como obtemos a massa a partir do volume? \pause A massa é dado por $volume \times densidade$. \pause
+- Como obtemos a massa a partir do volume? \pause A massa é dada por $volume \times densidade$. \pause
 
 - Qual a densidade do ferro? \pause A densidade do ferro é 7874 $kg/m^3$.
 
@@ -989,7 +989,7 @@ Detalhamento do propósito da função a partir do aprimoramento do nosso entend
 ;;
 ;; Se s tem menos do que num-chars caracteres, então espaços são adicionados
 ;; no início se alinhamento é "esquerda", no fim se alinhamento é "direita",
-;; ou no ínicio e fim se alinhamento e "centro". Nesse último caso, se a
+;; ou no início e fim se alinhamento é "centro". Nesse último caso, se a
 ;; quantidade de espaços adicionados for ímpar, então no fim será adicionado
 ;; 1 espaço a mais do que no início.
 ```

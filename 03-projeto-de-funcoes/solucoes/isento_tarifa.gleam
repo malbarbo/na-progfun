@@ -1,7 +1,7 @@
 import sgleam/check
 
 /// Produz True se uma pessoa com *idade* é isento da tarifa de transporte
-/// público, isto é, tem menos que 18 anos ou 65 ou mais. Produz False caso
+/// público, isto é, tem menos de 18 anos ou 65 ou mais. Produz False caso
 /// contrário.
 pub fn isento_tarifa(idade: Int) -> Bool {
   idade < 18 || idade >= 65

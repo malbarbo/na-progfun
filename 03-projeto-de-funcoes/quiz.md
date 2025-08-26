@@ -100,7 +100,7 @@ c) A verificação e revisão são opcionais
 
 d) Seguindo o processo, o código fica sem erros
 
-e) As vezes é necessário mudar um pouco a ordem das etapas
+e) Às vezes é necessário mudar um pouco a ordem das etapas
 
 
 # Questão 8

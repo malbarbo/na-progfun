@@ -9,7 +9,7 @@ import sgleam/check
 
 // Tipos de dados
 //
-// A largura e a altura são dados em metros e representadas com números positivos
+// A largura e a altura são dadas em metros e representadas com números positivos
 
 /// Calcula o número de azulejos de 0,2mx0,2m necessários para azulejar uma
 /// parede tamanho *comprimento* x *altura* (em metros) considerando que

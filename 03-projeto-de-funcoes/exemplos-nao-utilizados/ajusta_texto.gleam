@@ -15,7 +15,7 @@ pub type Alinhamento =
 ///
 /// Se *s* tem menos do que *num_chars* caracteres, então espaços são
 /// adicionados no início se *alinhamento* é "esquerda", no fim se
-/// *alinhamento* é "direita", ou no início e fim se *alinhamento* e "centro".
+/// *alinhamento* é "direita", ou no início e fim se *alinhamento* é "centro".
 /// Nesse último caso, se a quantidade de espaços adicionados for ímpar, então
 /// no fim será adicionado 1 espaço a mais do que no início.
 pub fn ajusta_string(s: String, num_chars: Int, alinhamento: String) -> String {

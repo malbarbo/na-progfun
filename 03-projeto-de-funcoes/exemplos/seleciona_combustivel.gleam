@@ -4,11 +4,11 @@ import sgleam/check
 type Preco =
   Float
 
-/// O tipo do combustível, deve "Álcool" ou "Gasolina".
+/// O tipo do combustível, deve ser "Álcool" ou "Gasolina".
 type Combustivel =
   String
 
-/// Encontra o combustivel que deve ser utilizado no abastecimento. Produz
+/// Encontra o combustível que deve ser utilizado no abastecimento. Produz
 /// "Álcool" se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
 /// produz "Gasolina" caso contrário.
 pub fn seleciona_combustivel(

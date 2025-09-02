@@ -17,7 +17,7 @@ pub fn mensagem(estado: EstadoTarefa) -> String {
   }
 }
 
-pub fn mesagem_examples() {
+pub fn mensagem_examples() {
   check.eq(mensagem(Executando), "A tarefa está em execução.")
   check.eq(
     mensagem(Sucesso(12, "Os resultados estão corretos.")),

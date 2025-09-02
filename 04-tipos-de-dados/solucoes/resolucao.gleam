@@ -7,7 +7,7 @@ pub type Aspecto {
   Outro
 }
 
-/// A resolucação de uma imagem ou tela
+/// A resolução de uma imagem ou tela
 pub type Resolucao {
   Resolucao(
     // Deve ser maior que 0

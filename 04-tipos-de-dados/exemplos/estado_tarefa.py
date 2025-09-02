@@ -23,7 +23,7 @@ def mensagem1(estado: EstadoTarefa) -> str:
     elif isinstance(estado, Sucesso):
         return 'A tafera finalizou com sucesso ({}s): {}'.format(estado.duracao, estado.msg)
     else:
-        return 'A tafera falhou (error {}): {}'.format(estado.codigo, estado.msg)
+        return 'A tarefa falhou (erro {}): {}'.format(estado.codigo, estado.msg)
 
 def mensagem2(estado: EstadoTarefa) -> str:
     match estado:
@@ -32,4 +32,5 @@ def mensagem2(estado: EstadoTarefa) -> str:
         case Sucesso(duracao, msg):
             return f'A tafera finalizou com sucesso ({duracao}s): {msg}'
         case Erro(codigo, msg):
-            return f'A tafera falhou (error {codigo}): {msg}'
+            return f'A tafera falhou (erro {codigo}): {msg}'
+

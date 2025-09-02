@@ -22,8 +22,8 @@ pub type Jogada {
 /// jogador que fez a jogada *b*, que ganhou a rodada do Jokenpô. Se houve
 /// empate, devolve None.
 ///
-/// Para determinar o vencedor as seguintes regras são utilizadas:
-/// - Jogada iguais empate
+/// Para determinar o vencedor, as seguintes regras são utilizadas:
+/// - Jogadas iguais resultam em empate
 /// - pedra ganha de tesoura
 /// - tesoura ganha de papel
 /// - papel ganha da pedra

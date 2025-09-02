@@ -24,11 +24,11 @@ pub type Acao {
 /// feita conforme a tabela a seguir, onde - significa que o quadrado permanece
 /// como estava.
 ///
-/// | estado/ação          |  abrir  |      adicionar       | remover |
-/// |---------------------:|:-------:|:--------------------:|:-------:|
-/// | aberto               |   -     |          -           |    -    |
-/// | fechado              | aberto  | fechado-com-bandeira |    -    |
-/// | fechado-com-bandeira |   -     |          -           | fechado |
+/// | estado/ação          |  abrir  | adicionar bandeira   | remover bandeira |
+/// |---------------------:|:-------:|:--------------------:|:----------------:|
+/// | aberto               |   -     |          -           |        -         |
+/// | fechado              | aberto  | fechado-com-bandeira |        -         |
+/// | fechado-com-bandeira |   -     |          -           |      fechado     |
 pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
   case q.estado, acao {
     Fechado, Abrir -> Quadrado(..q, estado: Aberto)

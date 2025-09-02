@@ -14,7 +14,7 @@ pub type FormaPagamento {
 /// - dinheiro ou pix, 10% de desconto
 /// - boleto; 5% de desconto
 /// - cartão em até 3 vezes (inclusive); sem desconto
-/// - cartão em mais que 3 vezes; acréscimo de 15%
+/// - cartão em mais de 3 vezes; acréscimo de 15%
 pub fn valor_final_compra(
   valor: Float,
   forma_pagamento: FormaPagamento,

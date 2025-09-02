@@ -69,39 +69,39 @@ pub fn dentro_janela_examples() {
 }
 
 /// Produz True se o espaço das janelas *a* e *b* se sobrepõem, False caso contrário.
-pub fn janelas_soprepoem(a: Janela, b: Janela) -> Bool {
+pub fn janelas_sobrepoem(a: Janela, b: Janela) -> Bool {
   a.x < { b.x + b.largura }
   && b.x < { a.x + a.largura }
   && a.y < { b.y + b.altura }
   && b.y < { a.y + a.altura }
 }
 
-pub fn janelas_soprepoem_examples() {
+pub fn janelas_sobrepoem_examples() {
   // fixa (eixo y): a janela a vem antes da janela b
   // variável: posição da borda direita de a
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 10, y: 20, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     False,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 210, y: 20, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     False,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 310, y: 20, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     False,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 410, y: 20, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
@@ -110,28 +110,28 @@ pub fn janelas_soprepoem_examples() {
   // fixa: (eixo y) interseção da parte de baixo de a com a parte de cima de b
   // variável: posição da borda direita de a
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 10, y: 250, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     False,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 210, y: 250, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     True,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 310, y: 250, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     True,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 410, y: 250, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
@@ -140,28 +140,28 @@ pub fn janelas_soprepoem_examples() {
   // fixa: (eixo y) interseção da parte de cima de a com a parte de baixo de b
   // variável: posição da borda direita de a
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 10, y: 450, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     False,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 210, y: 450, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     True,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 310, y: 450, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     True,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 410, y: 450, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
@@ -170,28 +170,28 @@ pub fn janelas_soprepoem_examples() {
   // fixa: (eixo y) a janela a vem depois da janela b
   // variável: posição da borda direita de a
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 10, y: 550, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     False,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 210, y: 550, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     False,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 310, y: 550, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),
     False,
   )
   check.eq(
-    janelas_soprepoem(
+    janelas_sobrepoem(
       Janela(x: 410, y: 550, largura: 100, altura: 200),
       Janela(x: 300, y: 400, largura: 50, altura: 100),
     ),

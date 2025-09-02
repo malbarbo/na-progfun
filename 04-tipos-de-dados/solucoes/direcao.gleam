@@ -1,6 +1,6 @@
 import sgleam/check
 
-/// Representa os pontos cardiais de acordo com o esboço a seguir
+/// Representa os pontos cardeais de acordo com o esboço a seguir
 ///
 ///       Norte
 ///         |

@@ -1,4 +1,4 @@
-/// Representa o tipo de um usuário do Ru da UEM.
+/// Representa o tipo de um usuário do RU da UEM.
 pub enum TipoUsuario {
     Aluno,
     // Servidor que recebe até 3 salários mínimos

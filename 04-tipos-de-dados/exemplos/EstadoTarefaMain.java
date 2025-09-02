@@ -7,7 +7,7 @@ public class EstadoTarefaMain {
     static String mensagem(EstadoTarefa estado) {
         return switch (estado) {
             case Executando e ->
-                "A tarefa está executando";
+                "A tarefa está em execução";
             case Sucesso s ->
                 String.format("A tarefa finalizou com sucesso (%ds): %s", s.duracao(), s.msg());
             case Erro e ->

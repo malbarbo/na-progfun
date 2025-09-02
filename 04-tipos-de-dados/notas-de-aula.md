@@ -8,12 +8,12 @@
 # TODO: falar do "expression problem"?
 # TODO: remover (discutido em sala) adicionando um exemplo inicial
 # TODO: adicionar mais referências sobre projeto de tipos de dados
-# TODO: usar o termo registro ao invés de estrutura?
+# TODO: usar o termo registro em vez de estrutura?
 # TODO: falar de tuplas
 # TODO: mostrar a solução completa para custo_tiquetes
 # TODO: deixar claro: funções totais
-# TODO: frase "Parse, don´t validade": In other words, write functions on the data representation you wish you had, not the data representation you are given.
-# TODO: ao invés de passar a responsabilidade de tratar o erro adiante, empurre ela para trás
+# TODO: frase "Parse, don't validate": In other words, write functions on the data representation you wish you had, not the data representation you are given.
+# TODO: em vez de passar a responsabilidade de tratar o erro adiante, empurre-a para trás
 # TODO: separar em dois decks: projeto de tipos de dados e projeto de funções completas?
 # TODO: usar todo para corpo inicial
 # TODO: definir melhor o que é casamento de padrões
@@ -28,11 +28,11 @@ Introdução
 
 Qual é a segunda etapa no processo de projeto de funções? \pause Definição de tipos de dados. \pause
 
-Qual o propósito dessa etapa? \pause Identificar as informações e definir como elas serão representadas. \pause
+Qual é o propósito dessa etapa? \pause Identificar as informações e definir como elas serão representadas. \pause
 
-Essa etapa pode ter parecido, até então, muito simples ou talvez até desnecessária, isto porque as informações que precisávamos representar eram "simples". \pause
+Essa etapa pode ter parecido, até então, muito simples ou talvez até desnecessária, porque as informações que precisávamos representar eram "simples". \pause
 
-No entanto, essa etapa é muito importante no projeto de programas, de fato, vamos ver que para muitos casos, os tipos de dados vão guiar o restante das etapas do projeto. \pause
+No entanto, essa etapa é muito importante no projeto de programas; de fato, vamos ver que, para muitos casos, os tipos de dados vão guiar o restante das etapas do projeto. \pause
 
 Vamos começar com a definição do que é um tipo de dado.
 
@@ -52,7 +52,7 @@ Exemplos \pause
 
 ## Adequação de tipo de dado
 
-Durante a etapa de definição de tipos de dados identificamos as informações e definimos como elas são representadas no programa. \pause
+Durante a etapa de definição de tipos de dados, identificamos as informações e definimos como elas são representadas no programa. \pause
 
 Como determinar se um tipo de dado **é adequado** para representar uma informação?
 
@@ -61,24 +61,24 @@ Como determinar se um tipo de dado **é adequado** para representar uma informa�
 
 Um inteiro é adequado para representar a quantidade de pessoas em um planeta? \pause
 
-- Não é adequado pois ele pode ser negativo, mas a quantidade de pessoas em um planeta não pode, ou seja, o tipo _permite representar valores inválidos_. \pause
+- Não, pois ele pode ser negativo, mas a quantidade de pessoas não. Ou seja, o tipo permite representar valores inválidos. \pause
 
 E um natural de 32 bits? \pause
 
-- Não é adequado pois o valor máximo possível é 4.294.967.295, mas o planeta terra tem mais pessoas que isso, ou seja, o tipo _não permite representar todos os valores válidos_. \pause
+- Não, pois o valor máximo que ele pode representar é 4.294.967.295, e o planeta Terra tem mais pessoas que isso. Ou seja, o tipo não permite representar todos os valores válidos. \pause
 
 E um natural? \pause
 
-- É adequado. Cada valor do conjunto dos naturais representa um valor válido de informação, e cada possível valor de informação pode ser representado por um número natural.
+- Sim, é adequado. Cada valor do conjunto dos números naturais representa uma quantidade válida de pessoas, e cada possível quantidade de pessoas pode ser representada por um número natural.
 
 
 ## Diretrizes para o projeto de tipos de dados
 
 Diretrizes para o projeto de tipos de dados: \pause
 
-- Faça os valores válidos representáveis. \pause
+- Torne os valores válidos representáveis. \pause
 
-- Faça os valores inválidos irrepresentáveis. \pause
+- Torne os valores inválidos irrepresentáveis. \pause
 
 Vamos aplicar esses princípios a uma série de exemplos.
 
@@ -93,7 +93,7 @@ No exemplo da escolha do combustível, nós definimos os seguintes tipos:
 /// O preço do litro do combustível, deve ser um número positivo.
 type Preco = Float
 
-/// O tipo do combustível, deve "Álcool" ou "Gasolina".
+/// O tipo do combustível, deve ser "Álcool" ou "Gasolina".
 type Combustivel = String
 ```
 
@@ -108,13 +108,12 @@ Não! \pause
 Vamos resolver essa questão começando com `Combustivel`{.gleam}.
 
 
-
 Enumerações
 ===========
 
 ## Enumerações
 
-Em um **tipo enumerado** todos os valores do tipo são enumerados explicitamente. \pause
+Em um **tipo enumerado**, todos os valores do tipo são enumerados explicitamente. \pause
 
 A forma geral para definir tipos enumerados é:
 
@@ -232,7 +231,7 @@ The missing patterns are:
 
 ## Exemplo - tíquete do RU
 
-O RU da UEM cobra um valor por tíquete que depende da relação do usuário com a universidade. Para alunos e servidores que recebem até 3 salários mínimos o tíquete custa R$ 5,00, para servidores que recebem acima de 3 salários mínimos e docentes, R$ 10,00, para pessoas da comunidade externa, R$ 19,00. Como parte de um sistema de cobrança você deve projetar uma função que determine quanto deve ser cobrado de um usuário por um quantidade de tíquetes.
+O RU da UEM cobra um valor por tíquete que depende da relação do usuário com a universidade. Para alunos e servidores que recebem até 3 salários mínimos, o tíquete custa R$ 5,00; para servidores que recebem mais de 3 salários mínimos e docentes, R$ 10,00; e para pessoas da comunidade externa, R$ 19,00. Como parte de um sistema de cobrança, você deve projetar uma função que determine quanto deve ser cobrado de um usuário por uma quantidade de tíquetes.
 
 
 ## Exemplo - tíquete do RU
@@ -241,7 +240,7 @@ Análise \pause
 
 - Determinar quanto deve ser cobrado de um usuário por uma quantidade de tíquetes \pause
 
-- O usuário pode ser aluno ou servidor (até 3 sal) - R$ 5, servidor (acima de 3 sal) ou docente - R$ 10, ou externo - R$ 19. \pause
+- O usuário pode ser aluno ou servidor (até 3 s.m.) — R$ 5; servidor (mais de 3 s.m.) ou docente — R$ 10; ou externo — R$ 19. \pause
 
 Definição de tipos de dados \pause
 
@@ -260,7 +259,7 @@ pub type Usuario {
   Aluno
   // Servidor que recebe até 3 salários mínimos.
   ServidorAte3
-  // Servidor que recebe mais do que 3 salários mínimos.
+  // Servidor que recebe mais de 3 salários mínimos.
   ServidorMais3
   Docente
   Externo
@@ -541,7 +540,7 @@ type Ponto {
 
 Podemos consultar o valor de um campo, mas como alterar o valor de um campo? \pause Não tem como! \pause Lembrem-se, estamos estudando o paradigma funcional, onde não existe mudança de estado! \pause
 
-Ao invés de modificar o campo de uma instância da estrutura, criamos uma cópia da instância com o campo alterado.
+Em vez de modificar o campo de uma instância da estrutura, criamos uma cópia da instância com o campo alterado.
 
 \pause
 
@@ -675,7 +674,7 @@ Defina uma função que calcule a distância de um ponto a origem.
 (examples
  (check-equal? (distancia-origem (ponto 0 7)) 7)
  (check-equal? (distancia-origem (ponto 1 0)) 1)
- ;; (sqrt (+ (sqr 3) (sqr 4))
+ ;; (sqrt (+ (sqr 3) (sqr 4)))
  (check-equal? (distancia-origem (ponto 3 4)) 5))
 (define (distancia-origem p) 0)
 ```
@@ -800,7 +799,7 @@ pub type Quadrado {
 
 \pause
 
-Quantas possíveis instâncias distintas existem de `Quadrado`{.gleam}? \pause O campo `mina` pode assumir dois valores e o campo `estado` 3, portanto, $2 \times 3 = 6$, que são os seis estados válidos que identificamos anteriormente.
+Quantas possíveis instâncias distintas existem de `Quadrado`{.gleam}? \pause O campo `mina` pode assumir dois valores, e o campo `estado`, três. Portanto, $2 \times 3 = 6$, que são os seis estados válidos que identificamos anteriormente.
 
 </div>
 </div>
@@ -1016,7 +1015,7 @@ Uniões
 
 ## Exemplo - Estado tarefa
 
-Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com um mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro.
+Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com uma mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro.
 
 \pause
 
@@ -1049,8 +1048,7 @@ type EstadoTarefa {
 
 \normalsize
 
-Qual é o problema dessa representação? \pause Possíveis estados inválidos. \pause O que significa
-\footnotesize `EstadoTarefa(True, 10, "Ótimo desempenho", 123, "Falha na conexão")`{.gleam}?
+Qual é o problema dessa representação? \pause Possíveis estados inválidos. \pause O que significa \footnotesize `EstadoTarefa(True, 10, "Ótimo desempenho", 123, "Falha na conexão")`{.gleam}?
 
 
 ## Exemplo - Estado tarefa
@@ -1061,29 +1059,29 @@ Analisando a descrição do problema conseguimos separar o estado da tarefa em t
 - Sucesso, com uma duração e uma mensagem \pause
 - Falha, com um código e uma mensagem \pause
 
-Esses casos são excludentes, ou seja, se a tarefa se enquadra em um deles, não devemos armazenar informações sobre os outros (caso contrário, seria possível criar um estado inconsistente). \pause
+Esses casos são excludentes, ou seja, se a tarefa se enquadra em um deles, não se deve armazenar informações sobre os outros (caso contrário, seria possível criar um estado inconsistente). \pause
 
-E como expressar esse tipo de dado? \pause Usando união de tipos.
+E como podemos expressar esse tipo de dado? \pause Usando uma união de tipos.
 
 
 ## Uniões e Estruturas
 
-Definimos anteriormente um tipo de dado como um conjunto de possíveis valores, agora vamos discutir qual é a relação entre definição de tipos de dados e operações com conjuntos. \pause
+Definimos anteriormente um tipo de dado como um conjunto de possíveis valores, agora, vamos discutir qual é a relação entre a definição de tipos de dados e as operações com conjuntos. \pause
 
-- Os valores possíveis para um tipo definido por uma estrutura (**tipo produto**) é o produto cartesiano dos valores possíveis de cada um do seus campos; \pause
+- Os valores possíveis para um tipo definido por uma estrutura (**tipo produto**) é o produto cartesiano dos valores possíveis de cada um dos seus campos; \pause
 
-- Os valores possíveis para um tipo definido por uma união (**tipo soma**) é a união dos valores de cada tipo (classe de valores) da união. \pause
+- Os valores possíveis para um tipo definido por uma união (**tipo soma**) é a união dos valores de cada variante (classe de valores) da união. \pause
 
 - Chamamos de **tipo algébrico de dado** um tipo soma de tipos produtos. \pause
 
-Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o quadrado do campo minado e como é para o caso do estado da tarefa.
+Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o quadrado do campo minado e como o é para o caso do estado da tarefa.
 
 
 ## Uniões
 
 Algumas linguagens, como Rust e Python, tem maneiras diferentes para definir tipos de dados. \pause
 
-A maioria das linguagens funcionais, incluindo o Gleam, tem apenas uma. \pause
+A maioria das linguagens funcionais, incluindo o Gleam, têm apenas uma. \pause
 
 A forma geral para definição de tipos de dados em Gleam é
 
@@ -1193,7 +1191,7 @@ type EstadoTarefa {
 
 \ \
 
-Como podemos acessar os campos então!? \pause Usando casamento de padrão com o `case`{.gleam}.
+Então, como podemos acessar os campos!? \pause Usando casamento de padrão com o `case`{.gleam}.
 
 
 ## Exemplo - Estado tarefa
@@ -1250,7 +1248,7 @@ type EstadoTarefa {
 
 Agora podemos retornar e concluir o projeto. \pause
 
-Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com um mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro. \pause
+Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com uma mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro. \pause
 
 Especificação
 
@@ -1265,12 +1263,12 @@ pub fn msg(tarefa: EstadoTarefa) -> String
 
 \normalsize
 
-O exercício não é muito específico sobre a saída (o foco é no projeto de dados), por isso usamos a criatividade para definir a saída nos exemplos a seguir.
+O exercício não é muito específico sobre a saída (o foco é no projeto de tipos de dados), por isso usamos a criatividade para definir a saída nos exemplos a seguir.
 
 
 ## Exemplo - Estado tarefa
 
-Quantos exemplos são necessários? \pause Pelo menos um para cada classe de valor. \pause
+Quantos exemplos são necessários? \pause Pelo menos um para cada variante. \pause
 
 \small
 
@@ -1293,7 +1291,7 @@ pub fn msg_examples() {
 
 ## Exemplo - Estado tarefa
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstadoTarefa`. \pause São três casos: \pause
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função com base apenas no tipo de dado, no caso, `EstadoTarefa`. \pause São três casos: \pause
 
 \small
 
@@ -1313,7 +1311,7 @@ pub fn mensagem(estado: EstadoTarefa) -> String {
 
 ## Exemplo - Estado tarefa
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo do dado, no caso, `EstadoTarefa`. São três casos:
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo de dado, no caso, `EstadoTarefa`. São três casos:
 
 \small
 
@@ -1348,7 +1346,7 @@ Em Racket não podemos... \pause mas em Typed Racket podemos!
 
 ## União em outras linguagens
 
-Podemos usar tipos algébricos em outras linguagens? \pause Sim, de fato, com o aumento do uso do paradigma funcional, muitas linguagens, mesmo algumas mais antigas como Java e Python, ganharam suporte a essa forma de definição de tipo de dados. \pause
+Podemos usar tipos algébricos em outras linguagens? \pause Sim, de fato, com o aumento do uso do paradigma funcional, muitas linguagens, mesmo algumas mais antigas como Java e Python, têm ganhado suporte a essa forma de definição de tipo de dados. \pause
 
 Vamos ver alguns exemplos.
 
@@ -1407,7 +1405,7 @@ def mensagem(estado: EstadoTarefa) -> str:
             return f'A tafera falhou (error {codigo}): {msg}'
 ```
 
-Aqui usamos **casamento de padrões** para decompor cada tipo produto em seus componentes.
+Aqui, usamos **casamento de padrões** para decompor cada tipo produto em seus componentes.
 
 
 ## Uniões em Rust
@@ -1432,7 +1430,7 @@ pub fn mensagem(estado: &EstadoTarefa) -> String {
 }
 ```
 
-Usamos novamente casamento de padrões para decompor `Sucesso` e `Erro` em seu componentes.
+Usamos novamente casamento de padrões para decompor `Sucesso` e `Erro` em seus componentes.
 
 
 ## Uniões em Java
@@ -1473,7 +1471,7 @@ No problema do combustível usamos `Float`{.gleam} para representar o preço do 
 
 No problema do estado da tarefa, usamos `Int`{.gleam} para representar a duração da tarefa no caso de sucesso, mas não garantimos que a duração é maior ou igual a zero. \pause
 
-Na função exemplo `duracao(EstadoTarefa) -> Int`{.gleam}, devolvemos `-1`{.gleam} para representar que o estado da tarefa não tem informação de duração. \pause
+Na função de exemplo `duracao(EstadoTarefa) -> Int`{.gleam}, devolvemos `-1`{.gleam} para representar que o estado da tarefa não tem informação de duração. \pause
 
 Como podemos resolver essas questões? \pause Vamos começar com a função `duracao`{.gleam}.
 
@@ -1507,7 +1505,7 @@ pub fn duracao(tarefa: EstadoTarefa) -> Int {
 <div class="column" width="42%">
 Como representar um inteiro que pode ou não estar presente? \pause
 
-São dois casos distintos, ou existe um valor, ou não existe nenhum. \pause Então podemos criar um tipo união. \pause
+São dois casos distintos: ou existe um valor, ou não existe valor algum. \pause Então, podemos criar um tipo de união. \pause
 
 \footnotesize
 
@@ -1552,7 +1550,7 @@ Quais as vantagens dessa abordagem? \pause
 
 O código é mais claro. \pause
 
-O usuário da função tem que tratar de forma explícita os dois casos, ele não pode usar por "acidente" o valor -1 como se existisse uma duração. \pause
+O usuário da função tem de tratar de forma explícita os dois casos; ele não pode usar por "acidente" o valor -1 como se existisse uma duração. \pause
 
 \footnotesize
 
@@ -1676,7 +1674,7 @@ Existe algum problema com a implementação? \pause
 
 A string em `Opcional`{.gleam} ainda pode ser vazia. \pause
 
-Este é o mesmo problema do preço e da idade...
+Este é o mesmo problema do preço e da duração...
 </div>
 </div>
 
@@ -1705,7 +1703,7 @@ type Option(a) {
 
 O nome `a` é um parâmetro de tipo. \pause
 
-Os parâmetros de tipos são escritos com letra minúscula. \pause
+Os parâmetros de tipo são escritos com letra minúscula. \pause
 
 Um parâmetro de tipo pode ser instanciado com qualquer tipo. \pause
 
@@ -1749,7 +1747,7 @@ As linguagens Rust e Java, entre outras, também têm o tipo `Option`{.gleam}. \
 
 Em Rust o tipo `Option`{.gleam} é bastante utilizando na biblioteca padrão para representar valores que podem estar ausentes, como na saída de funções semelhantes a função `primeiro`{.gleam}. \pause
 
-Em Gleam é mais comum utilizar o tipo `Result`{.gleam}, que vamos discutir a seguir.
+Em Gleam, é mais comum utilizar o tipo `Result`{.gleam}, que vamos discutir a seguir.
 
 
 ## Erros
@@ -1765,23 +1763,23 @@ Estratégias comumente utilizadas incluem \pause
 - ... \pause
 - Devolver um valor indicando erro \pause
 
-Nos vimos que as linguagens puramente funcionais não têm efeitos colaterais, então a opção mais viável é a última.
+Nós vimos que as linguagens puramente funcionais não têm efeitos colaterais, então a opção mais viável é a última.
 
 
 ## Erros
 
-Uma possibilidade é utilizar `Option`{.gleam} como resultado sendo que o `None`{.gleam} representa que a função falhou e `Some(val)`{.gleam} que a função executou corretamente e produziu `val` como resposta. \pause
+Uma possibilidade é utilizar `Option`{.gleam} como resultado, sendo que `None`{.gleam} representa que a função falhou, e `Some(val)`{.gleam} que a função executou corretamente e produziu `val`{.gleam} como resposta. \pause
 
-Em que situações o tipo `Option`{.gleam} não seria adequado? \pause Quando existe mais de uma possível causa para a falha da função e queremos distinguir entre as falhas. \pause
+Em que situações o tipo `Option`{.gleam} não seria adequado? \pause Quando existe mais de uma possível causa para a falha da função e queremos distinguir entre essas falhas. \pause
 
 Por exemplo, uma função para escrever em um arquivo pode falhar porque o arquivo não existe, o usuário não tem permissão para escrever no arquivo, o disco está cheio, etc. \pause
 
-Como podemos fazer nesse caso?
+Como podemos proceder nesse caso?
 
 
 ## Erros
 
-Definimos uma enumeração com dois casos, uma para erro com um valor associado, e um para sucesso com o valor associado. \pause
+Definimos uma enumeração com dois casos: um para erro, com um valor associado, e outro para sucesso, com o valor associado. \pause
 
 Em Gleam, este é o tipo `Result`{.gleam}, pré-definido como:
 
@@ -1799,7 +1797,7 @@ type Result(ok, error) {
 
 De acordo com <https://hexdocs.pm/gleam_stdlib/gleam/option.html>:
 
-*In other languages failible functions may return either `Result` or `Option` depending on whether there is more information to be given about the failure. In Gleam all failible functions return `Result`, and `Nil` is used as the error if there is no extra detail to give. This consistency removes the boilerplate that would otherwise be needed to convert between `Option` and `Result` types, and makes APIs more predictable.*
+*In other languages, fallible functions may return either `Result` or `Option` depending on whether there is more information to be given about the failure. In Gleam all fallible functions return `Result`, and `Nil` is used as the error if there is no extra detail to give. This consistency removes the boilerplate that would otherwise be needed to convert between `Option` and `Result` types, and makes APIs more predictable.*
 
 
 ## Erros
@@ -1852,7 +1850,7 @@ Ok("c")
 
 ## Exemplo soma de string
 
-Projete uma função que receba como parâmetro duas strings, e se as duas representarem inteiros, devolva a soma dos valores em forma de string.
+Projete uma função que receba como parâmetro duas strings, e, se as duas representarem inteiros, devolva a soma dos seus valores em forma de string.
 
 
 ## Exemplo soma de string
@@ -1950,7 +1948,7 @@ pub fn seleciona_combustivel(
 
 Qual é a limitação dessa abordagem? \pause
 
-Em todos os lugares que `Preco`{.gleam} é utilizado precisamos fazer a validação; \pause ou podemos assumir que o preço foi validado anteriormente. \pause
+Em todos os lugares em que `Preco`{.gleam} é utilizado, precisamos fazer a validação; \pause ou podemos assumir que o preço foi validado anteriormente. \pause
 
 Podemos melhorar? \pause Sim!
 
@@ -2038,7 +2036,6 @@ pub fn seleciona_combustivel_examples() {
 
 </div>
 </div>
-
 
 Revisão
 =======

@@ -7,7 +7,7 @@ class TipoUsuario(Enum):
     ALUNO = auto()
     # Servidores que recebem até 3 salários mínimos
     SERVIDOR_ATE_3 = auto()
-    # Servidores que recebem mais do que 3 salários mínimos
+    # Servidores que recebem mais de 3 salários mínimos
     SERVIDOR_MAISQ_3 = auto()
     DOCENTE = auto()
     EXTERNO = auto()

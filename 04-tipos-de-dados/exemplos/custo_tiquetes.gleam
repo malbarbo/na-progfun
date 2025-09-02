@@ -6,7 +6,7 @@ pub type Usuario {
   Aluno
   // Servidor que recebe até 3 salários mínimos.
   ServidorAte3
-  // Servidor que recebe mais do que 3 salários mínimos.
+  // Servidor que recebe mais de 3 salários mínimos.
   ServidorMais3
   Docente
   Externo

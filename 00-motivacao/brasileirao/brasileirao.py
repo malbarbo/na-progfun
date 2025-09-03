@@ -169,8 +169,8 @@ def calcula_desempenho(time: str, resultados: list[Resultado]) -> Desempenho:
 
 def atualiza_desempenho(d: Desempenho, gols_feitos: int, gols_sofridos: int) -> Desempenho:
     """
-    Atualiza o desempenho d dado os gols_feitos e os gols_sofridos pelo time.
-    Vitória conta 3 pontos, empate 1 ponto e derrota 0 pontos.
+    Atualiza o desempenho d, dados os gols_feitos e os gols_sofridos pelo time.
+    Vitória vale 3 pontos; empate, 1 ponto; e derrota, 0 pontos.
 
     Exemplos
     >>> atualiza_desempenho(Desempenho('Flamengo', 3, 1, 4), 2, 2)

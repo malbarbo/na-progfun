@@ -32,7 +32,7 @@ Palmeiras 1 0 -1
 Sao-Paulo 1 0 -1
 ```
 
-Onde depois do nome do time aparece o número de pontos, o número de vitórias e o saldo de gols. Se você quiser ir além, pode formatar a saída para ficar mais legível
+Depois do nome do time, aparecem o número de pontos, o número de vitórias e o saldo de gols. Se você quiser ir além, pode formatar a saída para ficar mais legível
 
 ```txt
 Flamengo     6  2   2

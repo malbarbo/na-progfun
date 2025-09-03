@@ -19,7 +19,7 @@ license:
 
 @) O que é um REPL?
 
-@) O Alberto disse que não tem interesse em aprender programação funcional em Gleam pois "ninguém" usa Gleam na prática. Explique para o Alberto porque esse argumento não faz sentido.
+@) O Alberto disse que não tem interesse em aprender programação funcional em Gleam, pois "ninguém" usa Gleam na prática. Explique para o Alberto por que esse argumento não faz sentido.
 
 
 # Praticando

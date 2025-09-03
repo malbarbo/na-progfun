@@ -295,7 +295,7 @@ $ .\sgleam dobro.gleam
 </div>
 
 
-## Execução do repl
+## Execução do REPL
 
 <div class="columns">
 <div class="column" width="55%">
@@ -314,7 +314,7 @@ REPL (_Read Eval Print Loop_)
 
 </div>
 <div class="column" width="45%">
-Para iniciar o repl
+Para iniciar o REPL
 
 \small
 
@@ -330,7 +330,7 @@ Type ctrl-d ou ":quit" to exit.
 
 \normalsize
 
-Para carregar um arquivo e iniciar o repl
+Para carregar um arquivo e iniciar o REPL
 
 \small
 

@@ -160,4 +160,4 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
     teste(0, p())
     ```
 
-    Qual é o comportamento que Ben irá observar com um interpretador que usa avaliação com ordem aplicativa? Qual é o comportamento que ele irá observar com um interpretador que usa avaliação com ordem normal? Explique a sua resposta.
+    Qual é o comportamento que Ben observará com um interpretador que usa avaliação com ordem aplicativa? Qual é o comportamento que ele observará com um interpretador que usa avaliação com ordem normal? Explique a sua resposta.

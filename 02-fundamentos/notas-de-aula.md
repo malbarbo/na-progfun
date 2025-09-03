@@ -1416,7 +1416,7 @@ Vimos o que são expressões e como elas são avaliadas. \pause
 
 - A definição de expressão tem autorreferência, isto é, uma expressão pode conter outras expressões. \pause
 
-- A regra de avaliação de expressão é recursiva, isto é, a regra é descrita em termos dela mesmo.
+- A regra de avaliação de expressão é recursiva, isto é, a regra é descrita em termos dela mesma.
 
 
 ## Revisão
@@ -1448,3 +1448,5 @@ Básicas
 - [Tour da linguagem Gleam](https://tour.gleam.run/)
 
 - [Biblioteca padrão do Gleam](https://hexdocs.pm/gleam_stdlib/)
+
+

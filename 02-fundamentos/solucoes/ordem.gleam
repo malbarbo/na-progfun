@@ -1,7 +1,7 @@
 import sgleam/check
 
 /// Determina se a sequência *a*, *b*, *c* está em ordem "crescente",
-/// "decrescente" ou "sem ordem"
+/// "decrescente" ou "sem ordem".
 pub fn ordem(a: Int, b: Int, c: Int) -> String {
   case a < b && b < c {
     True -> "crescente"

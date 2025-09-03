@@ -5,7 +5,7 @@ import sgleam/check
 
 /// Calcula o imposto que uma pessoa com a renda *r* deve pagar. O percentual
 /// do imposto é determinado da seguinte forma
-/// - Se r <= 100, 5% de 5
+/// - Se r <= 1000, 5% de r
 /// - Se 1000 < r <= 5000, 5% de 1000 e 10% do que passar de 1000
 /// - Se 5000 < r, 5% de 1000, 10% de 4000 e 20% do que passar de 5000
 pub fn calcula_imposto(r: Float) -> Float {

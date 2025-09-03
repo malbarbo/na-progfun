@@ -406,7 +406,7 @@ pub fn seleciona_combustivel_examples() {
 
 ## Verificação
 
-Para executarmos os testes usamos o comando
+Para executarmos os testes, usamos o comando
 
 \footnotesize
 

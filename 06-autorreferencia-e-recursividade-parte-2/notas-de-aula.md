@@ -17,13 +17,13 @@ Um número natural é atômico ou composto? \pause
 
 - Atômico quando usado em operações aritméticas, comparações, etc; \pause
 
-- Composto quando uma iteração precisa ser feita baseado no valor do número.
+- Composto quando uma iteração precisa ser feita com base no valor do número.
 
 \pause
 
-Se um número natural pode ser visto como dado composto \pause
+Se um número natural pode ser visto como um dado composto \pause
 
-- Quais são as partes que compõe o número? \pause
+- Quais são as partes que compõem o número? \pause
 
 - Como (de)compor um número?
 
@@ -33,17 +33,17 @@ Se um número natural pode ser visto como dado composto \pause
 <div class="columns">
 <div class="column" width="48%">
 
-Um número **Natural** é \pause
+Um número **natural** é \pause
 
 - `0`{.gleam}; ou \pause
 
-- `n + 1`{.gleam} onde $n$ é um número **Natural**
+- `n + 1`{.gleam} onde $n$ é um número **natural**
 
 \pause
 
 \ \
 
-Baseado nesta definição, criamos um modelo para funções com números naturais.
+Com base nesta definição, criamos um modelo para funções com números naturais.
 
 </div>
 <div class="column" width="48%">
@@ -69,7 +69,7 @@ fn fn_para_natural(n: Int) {
 
 \normalsize
 
-Qual o problema desse modelo? \pause Se `n` não é zero, ele pode ser negativo e a recursão não terminaria. \pause O problema é que o Gleam não tem números naturais.
+Qual o problema desse modelo? \pause Se `n` não é zero, ele pode ser negativo e a recursão não terminaria. \pause O problema é que o Gleam não possui números naturais.
 
 </div>
 </div>
@@ -80,15 +80,16 @@ Qual o problema desse modelo? \pause Se `n` não é zero, ele pode ser negativo 
 <div class="columns">
 <div class="column" width="48%">
 
-Um número **Natural** é
+Um número **natural** é
 
 - `0`{.gleam}; ou
 
-- `n + 1`{.gleam} onde $n$ é um número **Natural**
+- `n + 1`{.gleam} onde $n$ é um número **natural**
+
 
 \ \
 
-Baseado nesta definição, criamos um modelo para funções com números naturais.
+Com base nesta definição, criamos um modelo para funções com números naturais.
 
 </div>
 <div class="column" width="48%">
@@ -98,8 +99,8 @@ Baseado nesta definição, criamos um modelo para funções com números naturai
 ```gleam
 fn fn_para_natural(n: Int) {
   case n {
-    // Necessário porque gleam
-    // não tem números naturais
+    // Necessário porque o Gleam
+    // não possui números naturais
     _ if n < 0 -> todo
     0 -> todo
     _ -> {
@@ -610,7 +611,7 @@ Inteiros
 
 ## Definição
 
-Às vezes queremos utilizar um caso base diferente de $0$. \pause
+Às vezes, queremos utilizar um caso base diferente de $0$. \pause
 
 Podemos generalizar a definição de número natural para incluir um limite inferior diferente de $0$.
 
@@ -619,11 +620,11 @@ Podemos generalizar a definição de número natural para incluir um limite infe
 
 <div class="columns">
 <div class="column" width="48%">
-Um número **Inteiro menor igual à x** é
+Um número **inteiro menor ou igual a x** é
 
 - `x`{.gleam}; ou
 
-- `n + 1`{.gleam} onde `n`{.gleam} é um número **Inteiro menor igual à x**.
+- `n + 1`{.gleam} onde `n`{.gleam} é um número **inteiro menor ou igual a x**.
 
 \pause
 </div>
@@ -675,11 +676,11 @@ Como podemos definir uma árvore binária?
 
 \small
 
-Uma **Árvore binária** é \pause
+Uma **árvore binária** é \pause
 
 - Vazia; ou \pause
 
-- Um nó contendo um valor e **árvores binárias** a esquerda e a direita.
+- Um nó contendo um valor e **árvores binárias** à esquerda e à direita.
 
 \pause
 
@@ -736,11 +737,11 @@ No(3,
 
 \small
 
-Uma **Árvore binária** é
+Uma **árvore binária** é
 
 - Vazia; ou
 
-- Um nó contendo um valor e **árvores binárias** a esquerda e a direita.
+- Um nó contendo um valor e **árvores binárias** à esquerda e à direita.
 
 
 \footnotesize
@@ -781,7 +782,7 @@ fn fn_para_ab(r: Arvore(a)) {
 
 ## Exemplo: nós folhas
 
-Projete uma função que determine a quantidade de nós folhas em uma árvore.
+Projete uma função que determine a quantidade de nós-folha em uma árvore.
 
 
 ## Exemplo: nós folhas {.t}
@@ -791,7 +792,7 @@ Projete uma função que determine a quantidade de nós folhas em uma árvore.
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas de *r*.
+/// Determina o número de nós-folha de *r*.
 fn num_folhas(r: Arvore(a)) -> Int {
   todo
 }
@@ -839,7 +840,7 @@ fn num_folhas_examples() {
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas de *r*.
+/// Determina o número de nós-folha de *r*.
 fn num_folhas(r: Arvore(a)) -> Int {
   case r {
     Vazia -> todo
@@ -893,7 +894,7 @@ fn num_folhas_examples() {
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas de *r*.
+/// Determina o número de nós-folha de *r*.
 fn num_folhas(r: Arvore(a)) -> Int {
   case r {
     Vazia -> 0
@@ -947,7 +948,7 @@ fn num_folhas_examples() {
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas de *r*.
+/// Determina o número de nós-folha de *r*.
 fn num_folhas(r: Arvore(a)) -> Int {
   case r {
     Vazia -> 0
@@ -1001,7 +1002,7 @@ fn num_folhas_examples() {
 \scriptsize
 
 ```gleam
-/// Determina o número de nós folhas de *r*.
+/// Determina o número de nós-folha de *r*.
 fn num_folhas(r: Arvore(a)) -> Int {
   case r {
     Vazia -> 0
@@ -1048,7 +1049,7 @@ fn num_folhas_examples() {
 
 ## Exemplo: altura árvore
 
-Defina uma função que determina a altura de uma árvore binária. A altura de uma árvore binária é a distância entre a raiz e o seu descendente mais afastado. Uma árvore com um único nó tem altura 0.
+Defina uma função que determine a altura de uma árvore binária. A altura de uma árvore binária é a distância entre a raiz e o seu descendente mais afastado. Uma árvore com um único nó tem altura 0.
 
 
 ## Exemplo: altura árvore {.t}
@@ -1309,8 +1310,8 @@ disciplinas/
 
 Uma **entrada** no sistema de arquivos é: \pause
 
-- Uma arquivo com um nome; ou \pause
-- Um diretório com um nome é um **lista de entradas**.
+- Um arquivo com um nome; ou \pause
+- Um diretório com um nome e uma **lista de entradas**.
 
 \pause
 
@@ -1398,8 +1399,9 @@ Dir("disciplinas", [
 
 Uma **entrada** no sistema de arquivos é:
 
-- Uma arquivo com um nome; ou
-- Um diretório com um nome é um **lista de entradas**.
+- Um arquivo com um nome; ou
+- Um diretório com um nome e uma **lista de entradas**.
+
 
 \ \
 
@@ -1444,7 +1446,7 @@ fn fn_para_entradas(entradas: List(Entrada)) {
 
 ## Exemplo: arquivos txt
 
-Projete uma função para encontrar os caminhos para todos os arquivos txt.
+Projete uma função para encontrar os caminhos para todos os arquivos `.txt`.
 
 
 ## Exemplo: arquivos txt {.t}
@@ -1682,18 +1684,18 @@ Limitações
 
 ## Limitações
 
-Cada tipo com autorreferência tem um modelo de função que podemos usar como ponto de partida para implementar funções que processam o tipo de dado. \pause
+Cada tipo com autorreferência tem um modelo de função que podemos usar como ponto de partida para implementar funções que processam esse tipo de dado. \pause
 
 Embora o modelo seja um ponto de partida, em algumas situações ele pode não ser útil.
 
 
 ## Palíndromo
 
-Considere o problema de verificar se uma lista de números é palíndromo (a lista tem os mesmos elementos quando lida da direita para a esquerda e da esquerda para direita). \pause
+Considere o problema de verificar se uma lista de números é um palíndromo (a lista tem os mesmos elementos quando lida da direita para a esquerda e da esquerda para a direita). \pause
 
-Para verificar se `[5, 4, 1, 4]`{.gleam} é palíndromo, o modelo sugere verificar se `[4, 1, 4]`{.gleam} é palíndromo. \pause
+Para verificar se `[5, 4, 1, 4]`{.gleam} é um palíndromo, o modelo sugere verificar se `[4, 1, 4]`{.gleam} é um palíndromo. \pause
 
-Como a verificação se `[4, 1, 4]`{.gleam} é palíndromo pode nos ajudar a determinar se `[5, 4, 1, 4]`{.gleam} é palíndromo? \pause Ou seja, a solução para o resto pode nos ajustar a compor o resultado para o todo? \pause Não pode...
+Como a verificação se `[4, 1, 4]`{.gleam} é um palíndromo pode nos ajudar a determinar se `[5, 4, 1, 4]`{.gleam} é um palíndromo? \pause Ou seja, a solução para o resto pode nos ajudar a compor o resultado para o todo? \pause Não pode...
 
 
 ## Número primo
@@ -1709,18 +1711,18 @@ Como a verificação se $12$ é primo pode nos ajudar a determinar se $13$ é pr
 
 O problema nos dois casos é o mesmo: a solução do problema original não pode ser obtida a partir da solução do subproblema gerado pela **decomposição estrutural** do dado. \pause
 
-Como fazemos nesse caso? \pause Temos algumas opções: \pause
+Como proceder nesse caso? \pause Temos algumas opções: \pause
 
-- Redefinimos o problema de forma que a solução para o subproblema estrutural possa ser usado na construção da solução do problema original; \pause
+- Redefinimos o problema de forma que a solução para o subproblema estrutural possa ser usada na construção da solução do problema original; \pause
 
 - Fazemos uma decomposição em subproblema(s) de maneira não estrutural e utilizamos a solução desse(s) subproblema(s) para construir a solução do problema original; \pause
 
-- Criamos uma plano (sequência de etapas) para construir a solução sem necessariamente pensar na decomposição da entrada em subproblemas do mesmo tipo.
+- Criamos um plano (sequência de etapas) para construir a solução sem necessariamente pensar na decomposição da entrada em subproblemas do mesmo tipo.
 
 
 ## Redefinição do problema
 
-Para o problema do número primo, podemos reescrever o problema da seguinte forma: Dado dois números naturais $n$ e $a \le n$, projete uma função que determine a quantidade de divisores de $n$ que são $\le a$. \pause
+Para o problema do número primo, podemos reescrever o problema da seguinte forma: Dados dois números naturais $n$ e $a \le n$, projete uma função que determine a quantidade de divisores de $n$ que são $\le a$. \pause
 
 Se temos a quantidade de divisores de $n$ que são $\le a - 1$, como obtemos a quantidade de divisores de $n$ que são $\le a$? \pause Somando 1 se $a$ é divisor de $n$. \pause
 
@@ -1779,7 +1781,7 @@ Para o problema da lista palíndromo, vamos considerar a entrada `[4, 1, 5, 1, 4
 
 Como podemos obter um subproblema da entrada de maneira que a resposta para o subproblema possa nos ajudar a compor a resposta para o problema original? \pause Removendo o primeiro e último elemento da lista. \pause
 
-Se sabemos que uma lista `lst` sem o primeiro e o último elemento é palíndromo, como determinar se `lst` é palíndromo? \pause Verificando se o primeiro e o último elemento de `lst` são iguais.
+Se sabemos que uma lista `lst` sem o primeiro e o último elemento é um palíndromo, como determinar se `lst` é um palíndromo? \pause Verificando se o primeiro e o último elemento de `lst` são iguais.
 
 
 ## Palíndromo 1
@@ -1787,8 +1789,8 @@ Se sabemos que uma lista `lst` sem o primeiro e o último elemento é palíndrom
 \scriptsize
 
 ```gleam
-/// Produz True se *lst* é palíndromo, isto é, tem os mesmos elementos quando lida
-/// da direita para esquerda e da esquerda para direita. Produz False caso contrário.
+/// Produz True se *lst* é um palíndromo, isto é, tem os mesmos elementos quando lida
+/// da direita para a esquerda e da esquerda para a direita. Produz False caso contrário.
 fn palindromo(lst: List(Int)) -> Bool {
   case lst {
     [] | [_] -> True
@@ -1820,16 +1822,16 @@ Funções recursivas que operam em subproblemas obtidos pela decomposição estr
 
 Funções recursivas que operam em subproblemas arbitrários (não estruturais) são chamadas de **funções recursivas generativas**. \pause
 
-O projeto de função recursivas generativas pode requerer um "_insight_" e por isso tentamos primeiramente resolver os problemas com recursão estrutural.
+O projeto de funções recursivas generativas pode requerer um "_insight_" e por isso tentamos primeiramente resolver os problemas com recursão estrutural.
 
 
 ## Plano
 
-Ainda para o problema da lista palíndromo, ao invés de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos pensar em um plano, uma sequência de etapas que resolva problemas intermediários mas que gerem o resultado que estamos esperando no final. \pause
+Ainda para o problema da lista palíndromo, em vez de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos pensar em um plano, uma sequência de etapas que resolva problemas intermediários mas que gerem o resultado que estamos esperando no final. \pause
 
-Por exemplo, podemos primeiramente inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
+Por exemplo, podemos, primeiramente, inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
 
-Note que para este caso precisaríamos projetar duas novas funções. Estas funções poderiam ser implementadas usando recursão estrutural.
+Note que para este caso precisaríamos projetar duas novas funções. Essas funções poderiam ser implementadas usando recursão estrutural.
 
 
 ## Palíndromo 2
@@ -1837,8 +1839,8 @@ Note que para este caso precisaríamos projetar duas novas funções. Estas fun�
 \scriptsize
 
 ```gleam
-/// Produz True se *lst* é palíndromo, isto é, tem os mesmos elementos quando lida
-/// da direita para esquerda e da esquerda para direita. Produz False caso contrário.
+/// Produz True se *lst* é um palíndromo, isto é, tem os mesmos elementos quando lida
+/// da direita para a esquerda e da esquerda para a direita. Produz False caso contrário.
 fn palindromo(lst: List(Int)) -> Bool {
   lst == list.reverse(lst)
 }
@@ -1867,16 +1869,16 @@ Revisão
 
 ## Revisão
 
-Usamos tipos com autorreferências quando queremos representar dados de tamanhos arbitrários. \pause
+Usamos tipos com autorreferência quando queremos representar dados de tamanhos arbitrários. \pause
 
 - Usamos funções recursivas para processar dados de tipos com autorreferências. \pause
 
 Para ser bem formada, uma definição com autorreferência deve ter: \pause
 
-- Pelo menos um caso base (sem autorreferência): \pause são utilizados para criar os valores iniciais; \pause
-- Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes. \pause
+- Pelo menos um caso base (sem autorreferência): \pause são usados para criar os valores iniciais; \pause
+- Pelo menos um caso com autorreferência: \pause são usados para criar novos valores a partir de valores existentes. \pause
 
-As vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência.
+Às vezes é interessante pensar em números inteiros e naturais como sendo compostos e definidos com autorreferência.
 
 
 ## Revisão
@@ -1886,7 +1888,7 @@ Existem dois tipos de recursão: estrutural e generativa. \pause
 - A recursão estrutural é aquela feita na decomposição natural do dado (para as partes que são autorreferências na definição do dado). \pause
 - A recursão generativa é aquela que não é estrutural. \pause
 
-A recursão estrutural só pode ser utilizada quando a solução do problema pode ser expressa em termos da solução do subproblema estrutural. Para os demais problemas podemos tentar três abordagem: \pause
+A recursão estrutural só pode ser utilizada quando a solução do problema pode ser expressa em termos da solução do subproblema estrutural. Para os demais problemas podemos tentar três abordagens: \pause
 
 - Alterar o problema e utilizar recursão estrutural; \pause
 - Usar recursão generativa; \pause

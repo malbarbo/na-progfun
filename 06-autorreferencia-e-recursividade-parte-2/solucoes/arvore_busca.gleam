@@ -10,7 +10,7 @@ pub type Arvore {
 /// Requer que `r` seja uma árvore binária de busca, isto é:
 /// 1) A subárvore à esquerda contém valores nos nós menores que o valor no nó
 ///    raiz.
-/// 2) A subárvore à direita contém valores nos nós maiores que o valor no nó
+/// 2) A subárvore à direita contém valores nos nós maiores que o valor do nó
 ///    raiz.
 /// 3) As subárvores à esquerda e à direita também são árvores binárias de
 ///    busca.

@@ -1,7 +1,7 @@
 import sgleam/check
 
 /// Produz True se *n* é perfeito, isto é, *n* positivo e a soma dos seus
-/// divisores (menos ele mesmo) a *n*.
+/// divisores (menos ele mesmo) é igual a *n*.
 pub fn perfeito(n: Int) -> Bool {
   n > 0 && n == soma_divisores(n, n - 1)
 }

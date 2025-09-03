@@ -10,7 +10,7 @@ pub type Retangulo {
 }
 
 /// Determina o retângulo delimitador de altura e largura mínimas que cobre os
-/// *pontos*. Se existe 0 ou 1 pontos, o retângulo terá altura e largura 0.
+/// *pontos*. Se existirem 0 ou 1 pontos, o retângulo terá altura e largura 0.
 pub fn retangulo_delimitador(pontos: List(Ponto)) -> Retangulo {
   let xs = pontos_x(pontos)
   let ys = pontos_y(pontos)

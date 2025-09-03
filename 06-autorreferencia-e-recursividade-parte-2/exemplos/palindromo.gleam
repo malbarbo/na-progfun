@@ -2,7 +2,7 @@ import gleam/list
 import sgleam/check
 
 /// Produz True se *lst* é palíndromo, isto é, tem os mesmos elementos quando
-/// lida da direita para esquerda e da esquerda para direita. Produz False
+/// lida da direita para a esquerda e da esquerda para a direita. Produz False
 /// caso contrário.
 pub fn palindromo(lst: List(Int)) -> Bool {
   case lst {
@@ -39,7 +39,7 @@ fn sem_ultimo(lst: List(Int)) -> List(Int) {
 }
 
 /// Produz True se *lst* é palíndromo, isto é, tem os mesmos elementos quando
-/// lida da direita para esquerda e da esquerda para direita.  Produz False
+/// lida da direita para a esquerda e da esquerda para a direita.  Produz False
 /// caso contrário.
 pub fn palindromo2(lst: List(Int)) -> Bool {
   lst == list.reverse(lst)

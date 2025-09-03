@@ -84,7 +84,7 @@ license:
 
 # Desafios
 
-@) Projeto uma função para construir uma representação textual (lista de strings) de uma entrada em um sistema de arquivos. Exemplo
+@) Projete uma função para construir uma representação textual (lista de strings) de uma entrada em um sistema de arquivos. Exemplo
 
     ```
     disciplinas/
@@ -101,4 +101,9 @@ license:
     +- anotacoes.txt
     ```
 
-@) Dados duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é `lstb` começa com `lsta`.
+@) Dadas duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é, se `lstb` começa com `lsta`.
+
+
+
+
+

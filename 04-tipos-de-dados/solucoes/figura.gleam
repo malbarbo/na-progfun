@@ -25,7 +25,7 @@ pub fn area_examples() {
 // Produz True se a figura *a* cabe dentro da figura *b*, False caso contrário.
 //
 // A seguinte tabela mostra as condições para que a figura *a* caiba dentro da
-// figura *b*. Se *a* é um retângulo, então *da* é a sua diagonal; senão, é o seu
+// figura *b*. Se *a* é um retângulo, então *da* é a sua diagonal; senão, *da* é o seu
 // diâmetro.
 //
 // fig a \ fig b     |   Retangulo(lb, ab)      | Circulo(rb)

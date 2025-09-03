@@ -538,7 +538,7 @@ type Ponto {
 
 ## Atualização de dados compostos
 
-Podemos consultar o valor de um campo, mas como alterar o valor de um campo? \pause Não tem como! \pause Lembrem-se, estamos estudando o paradigma funcional, onde não existe mudança de estado! \pause
+Podemos consultar o valor de um campo, mas como alterar o valor de um campo? \pause Não é possível! \pause Lembrem-se, estamos estudando o paradigma funcional, onde não existe mudança de estado! \pause
 
 Em vez de modificar o campo de uma instância da estrutura, criamos uma cópia da instância com o campo alterado.
 
@@ -692,7 +692,7 @@ Defina uma função que calcule a distância de um ponto a origem.
 
 ## Exemplo - Campo minado
 
-Campo minado é um famoso jogo de computador. O jogo consiste de um campo retangular de quadrados que podem ou não conter minas escondidas. Os quadrados podem ser abertos clicando sobre eles. O objetivo do jogo é abrir todos os quadrados que não têm minas. Se o jogador abrir um quadrado com uma mina, o jogo termina e o jogador perde.
+Campo minado é um famoso jogo de computador. O jogo consiste em um campo retangular de quadrados que podem ou não conter minas escondidas. Os quadrados podem ser abertos clicando sobre eles. O objetivo do jogo é abrir todos os quadrados que não têm minas. Se o jogador abrir um quadrado com uma mina, o jogo termina e o jogador perde.
 
 \pause
 

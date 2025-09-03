@@ -139,7 +139,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 <!-- União -->
 
-@) Considere um jogo em que o personagem está em um tabuleiro (semelhante a um tabuleiro de xadrez). As linhas e colunas do tabuleiro são numeradas de 1 a 10; dessa forma, é possível representar a posição (casa) do personagem pelo número da linha e da coluna em que ele se encontra. O personagem fica virado para uma das quatro direções: norte, sul, leste ou oeste. O jogador controla o personagem por meio de um dos seguintes comandos: virar à esquerda e virar à direita, que mudam a direção para a qual o personagem está virado, e avançar $n$ casas, que o faz avançar até N casas na direção em que ele está virado.
+@) Considere um jogo em que o personagem está em um tabuleiro (semelhante a um tabuleiro de xadrez). As linhas e colunas do tabuleiro são numeradas de 1 a 10; dessa forma, é possível representar a posição (casa) do personagem pelo número da linha e da coluna em que ele se encontra. O personagem fica virado para uma das quatro direções: norte, sul, leste ou oeste. O jogador controla o personagem por meio de um dos seguintes comandos: virar à esquerda e virar à direita, que mudam a direção para a qual o personagem está virado, e avançar $n$ casas, que o faz avançar até $n$ casas na direção em que ele está virado.
 
     Projete uma função que receba como entrada o personagem do jogo e um comando e gere como saída o novo estado do personagem.
 

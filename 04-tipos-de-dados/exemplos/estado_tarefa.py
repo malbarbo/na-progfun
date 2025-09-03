@@ -32,5 +32,5 @@ def mensagem2(estado: EstadoTarefa) -> str:
         case Sucesso(duracao, msg):
             return f'A tafera finalizou com sucesso ({duracao}s): {msg}'
         case Erro(codigo, msg):
-            return f'A tafera falhou (erro {codigo}): {msg}'
+            return f'A tarefa falhou (erro {codigo}): {msg}'
 

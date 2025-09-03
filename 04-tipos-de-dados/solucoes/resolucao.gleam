@@ -23,7 +23,7 @@ pub fn resolucao_em_megapixels(r: Resolucao) -> Float {
 }
 
 /// Produz True se a imagem com resolução *i* pode ser exibida na tela com
-/// resolução *t* sem a necessidade de rotação ou redução de tamanho Isso é, se a
+/// resolução *t* sem a necessidade de rotação ou redução de tamanho, isto é, se a
 /// altura da imagem é menor ou igual a altura da tela e a largura da imagem é
 /// menor ou igual a largura da tela.
 pub fn imagem_cabe_na_tela(i: Resolucao, t: Resolucao) -> Bool {

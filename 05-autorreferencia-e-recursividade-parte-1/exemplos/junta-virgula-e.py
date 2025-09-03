@@ -3,7 +3,7 @@ def junta_virgula_e(lst: str) -> str:
     Produz uma string juntando os elementos de *lst* da seguinte forma:
     _ Se a lista é vazia, devolve "".
     _ Se a lista tem apenas um elemento, devolve esse elemento.
-    _ Senão, junta as strings de lst, separando_as com ", ", com exceção da
+    _ Senão, junta as strings de lst, separando-as com ", ", com exceção da
       última string, que é separada com " e ".
 
     Exemplos

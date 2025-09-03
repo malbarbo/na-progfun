@@ -17,7 +17,7 @@ pub fn ordena_examples() {
   check.eq(ordena([1, 9, 5, -2, 8, 3]), [-2, 1, 3, 5, 8, 9])
 }
 
-/// Devolve uma nova lista com os mesmos elementos de lst junto com n em ordem
+/// Devolve uma nova lista com os mesmos elementos de *lst* junto com *n* em ordem
 /// não decrescente.
 ///
 /// Requer que lst esteja em ordem não decrescente.

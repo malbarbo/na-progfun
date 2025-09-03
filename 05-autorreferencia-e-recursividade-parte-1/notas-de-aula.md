@@ -15,7 +15,7 @@ Introdução
 
 Projete uma função que some uma sequência de números. \pause
 
-Como representar e processar uma quantidade de dados arbitrária? \pause
+Como representar e processar uma quantidade arbitrária de dados? \pause
 
 - Vamos criar tipos de dados com autorreferência
 
@@ -62,7 +62,7 @@ Utilizando esta definição, vamos tentar criar uma lista com os valores 4, 2 e 
 
 \pause
 
-O problema com esta definição é que as listas não tem fim. Uma lista tem uma parte que é uma lista, que tem uma parte que é uma lista, etc. Ou seja, a definição não é bem formada.
+O problema com esta definição é que as listas não têm fim. Uma lista tem uma parte que é uma lista, que tem uma parte que é uma lista, etc. Ou seja, a definição não é bem formada.
 
 
 ## Listas
@@ -87,7 +87,7 @@ A lista vazia.
 Uma **lista** é: \pause
 
 - Vazia; \pause
-- Ou não vazia, contendo o primeiro e o resto, que é uma **lista**.
+- Ou não vazia, contendo o primeiro elemento e o resto, que é uma **lista**.
 
 \pause
 
@@ -230,9 +230,9 @@ Qual é o tipo de `primeiro`{.gleam}? \pause Um inteiro, que é um valor atômic
 
 Qual é o tipo de `resto`{.gleam}? \pause Uma lista, que é uma união. \pause
 
-Um valor atômico pode ser processado diretamente, mas como processar uma lista? \pause Fazendo análise dos casos... \pause
+Um valor atômico pode ser processado diretamente, mas como processar uma lista? \pause Fazendo a análise dos casos... \pause
 
-Vamos fazer uma alteração no modelo `fn_para_lista`{.gleam} e adicionar uma chamada recursiva para processar `resto`{.gleam}. Essa alteração pode parecer meio "mágica" agora, mas ela vai ficar mais clara em breve.
+Vamos fazer uma alteração no modelo `fn_para_lista`{.gleam} e adicionar uma chamada recursiva para processar `resto`{.gleam}. Essa alteração pode parecer meio "mágica" agora, mas ficará mais clara em breve.
 
 </div>
 </div>
@@ -280,7 +280,7 @@ pub fn fn_para_lista(lst: Lista) {
 Quais são as relações entre a definição de `Lista`{.gleam} e `fn_para_lista`{.gleam}? \pause
 
 - A definição tem dois casos, o modelo também; \pause
-- Na definição o `resto`{.gleam} é um **autorreferência**, na função a **recursão** é feita com o `resto`{.gleam}.
+- Na definição, o `resto`{.gleam} é uma **autorreferência**; na função, a **recursão** é feita com o `resto`{.gleam}.
 
 
 ## Exemplo: soma
@@ -289,7 +289,6 @@ Defina uma função que some os valores de uma lista de números.
 
 
 <!--
-
 ## Exemplo: soma
 
 Rascunho
@@ -354,7 +353,7 @@ pub fn soma_examples() {
 
 \ \
 
-E agora, como escrevemos a implementação? \pause Vamos partir do modelo de função para listas.
+E agora, como escrever a implementação? \pause Vamos partir do modelo de função para listas.
 
 
 ## Exemplo: soma - implementação {.t}
@@ -505,7 +504,7 @@ pub fn soma_examples() {
 
 \small
 
-Mesmo a função não estando completa, nós vamos **assumir** que ela produz a resposta correta para o resto da lista. \pause Tendo a soma do resto e o primeiro, como obtermos a soma da lista? \pause Somando os dois.
+Mesmo que a função não esteja completa, nós vamos **assumir** que ela produz a resposta correta para o resto da lista. \pause Tendo a soma do resto e o primeiro, como obter a soma da lista? \pause Somando os dois.
 
 
 ## Exemplo: soma - implementação {.t}
@@ -677,7 +676,7 @@ A linguagem Gleam já fornece o tipo `List`{.gleam} e uma notação amigável pa
 
 \pause
 
-`List`{.gleam} **tem a mesma estrutura da lista que definimos**, a diferença é apenas na sintaxe!
+`List`{.gleam} **tem a mesma estrutura da lista que definimos**; a diferença está apenas na sintaxe!
 
 
 ## Listas {.t}
@@ -891,7 +890,7 @@ pub fn contem_examples() {
 
 \pause
 
-O esboço para cada caso começa com um **inventário** dos valores disponíveis para implementar aquele caso. \pause Por isso adicionamos `v` em cada caso.
+O esboço para cada caso começa com um **inventário** dos valores disponíveis para implementar o caso em questão. \pause Por isso, adicionamos `v` em cada caso.
 
 
 ## Exemplo: contém - implementação {.t}
@@ -983,7 +982,7 @@ pub fn contem_examples() {
 
 \pause
 
-**Assumindo** que a função produz a resposta correta para o resto (determina se `v` está no `resto`), com podemos determinar se `v` está `lst`?
+**Assumindo** que a função produz a resposta correta para o resto (determina se `v` está no `resto`), como podemos determinar se `v` está em `lst`?
 
 
 ## Exemplo: contém - implementação {.t}
@@ -1113,7 +1112,7 @@ pub fn contem_examples() {
 
 \ \
 
-Estamos utilizando **polimorfismo paramétrico** para deixar a função `contem` genérica. \pause
+Estamos utilizando **polimorfismo paramétrico** para tornar a função `contem` genérica. \pause
 
 A função `contem` é genérica em relação ao tipo `a`, que é um parâmetro que pode assumir (implicitamente) qualquer tipo. \pause
 
@@ -1241,7 +1240,7 @@ pub fn soma_x_examples() {
 
 \pause
 
-**Assumindo** que a função produz a resposta correta para o resto (soma `x` em cada elemento do `resto`), com podemos criar uma lista somando `x` em cada elemento de `lst`?
+**Assumindo** que a função produz a resposta correta para o resto (soma `x` em cada elemento do `resto`), como podemos criar uma lista somando `x` em cada elemento de `lst`?
 
 
 ## Exemplo: soma x - implementação {.t}
@@ -1426,7 +1425,7 @@ pub fn remove_negativos_examples() {
 
 \pause
 
-**Assumindo** que a função produz a resposta correta para o resto (remove os negativos de `resto`), com podemos remover os negativos de `lst`?
+**Assumindo** que a função produz a resposta correta para o resto (remove os negativos de `resto`), como podemos remover os negativos de `lst`?
 
 
 ## Exemplo: remove negativos - implementação {.t}
@@ -1526,11 +1525,11 @@ pub fn remove_negativos_examples() {
 
 ## Exemplo: número de ocorrências
 
-Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário, a mais simples é utilizando uma **lista de associações** chave-valor. \pause Apesar dos tempos de inserção e buscar serem lineares, na prática, para poucas chaves, a implementação é adequada. \pause
+Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário; a mais simples é utilizando uma **lista de associações** chave-valor. \pause Apesar de os tempos de inserção e busca serem lineares, na prática, para poucas chaves, a implementação é adequada. \pause
 
 a) Defina um tipo de dado que represente uma associação entre uma string e um número.
 
-a) Projete uma função que determine, a partir de uma lista de associações, qual é o valor associado com uma string.
+a) Projete uma função que determine, a partir de uma lista de associações, qual é o valor associado a uma string.
 
 
 ## Exemplo: número de ocorrências - especificação
@@ -1678,7 +1677,7 @@ pub fn busca_examples() {
   // ...
 }
 
-pub fn busca(lst: List(Par(a, b), chave: a) -> Result(b, Nil) {
+pub fn busca(lst: List(Par(a, b)), chave: a) -> Result(b, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
@@ -1698,7 +1697,7 @@ Projete uma função que junte todos os elementos de uma lista de strings (não 
 \scriptsize
 
 ```gleam
-/// Parece difícil escrever o propósito... Vamos fazer os exemplos primeiro.
+/// Parece difícil escrever o propósito... Faremos os exemplos primeiro.
 pub fn junta_virgula_e(lst: List(String)) -> String { todo }
 ```
 
@@ -1721,7 +1720,7 @@ Exemplos
 
 \small
 
-Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos tem uma forma especifica, que não é recursiva. \pause Então precisamos criar três casos base.
+Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos têm uma forma específica, que não é recursiva. \pause Então, precisamos criar três casos-base.
 
 
 ## Exemplos: junta com "," e "e"
@@ -1730,8 +1729,8 @@ Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \
 
 ```gleam
 /// Produz uma string juntando os elementos de *lst* da seguinte forma:
-/// - Se a *lst* é vazia, devolve "".
-/// - Se a *lst* tem apenas um elemento, devolve esse elemento.
+/// - Se *lst* é vazia, devolve "".
+/// - Se *lst* tem apenas um elemento, devolve esse elemento.
 /// - Senão, junta as strings de *lst*, separando-as com ", ", com exceção
 ///   da última string, que é separada com " e ".
 pub fn junta_virgula_e(lst: List(String)) -> String {
@@ -1804,21 +1803,21 @@ Revisão
 
 ## Revisão
 
-Usamos tipos com autorreferências quando queremos representar dados de tamanhos arbitrários. \pause
+Usamos tipos com autorreferência quando queremos representar dados de tamanhos arbitrários. \pause
 
 - Usamos funções recursivas para processar dados de tipos com autorreferências. \pause
 
 Para ser bem formada, uma definição com autorreferência deve ter: \pause
 
-- Pelo menos um caso base (sem autorreferência): \pause são utilizados para criar os valores iniciais \pause
+- Pelo menos um caso base (sem autorreferência): \pause são usados para criar os valores iniciais \pause
 
-- Pelo menos um caso com autorreferência: \pause são utilizados para criar novos valores a partir de valores existentes
+- Pelo menos um caso com autorreferência: \pause são usados para criar novos valores a partir de valores existentes
 
 ## Revisão
 
-Uma lista é vazia ou tem um primeiro e uma resto, que é uma lista.
+Uma lista é vazia ou tem um primeiro e um resto, que é uma lista.
 
-O modelo de função para processar lista tem dois casos, um para lista vazia e outro para lista com primeiro e resto, no segundo caso, podemos fazer uma recursão para o resto.
+O modelo de função para processar listas tem dois casos, um para lista vazia e outro para lista com primeiro e resto; no segundo caso, podemos fazer uma recursão para o resto.
 
 \ \
 

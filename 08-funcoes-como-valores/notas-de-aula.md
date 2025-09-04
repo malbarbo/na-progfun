@@ -36,11 +36,11 @@ Veremos a seguir outra característica essencial do paradigma funcional: \pause
 
 Funções são **entidades de primeira classe** se: \pause
 
-- Podem ser usadas, sem restrições, onde outros valores podem ser usados (passado como entrada, devolvido como resultado, armazenado em listas, etc); \pause
+- Podem ser usadas, sem restrições, onde outros valores podem ser usados (passadas como entrada, devolvido como resultado, armazenado em listas, etc); \pause
 
 - Podem ser construídas, sem restrições, onde outros valores também podem (localmente, em expressões, etc); \pause
 
-- Podem ser tipadas de forma similar a outro valores (existe um tipo associado com cada função e esse tipo pode ser usado para compor outro tipos). \pause
+- Podem ser tipadas de forma similar a outros valores (existe um tipo associado com cada função e esse tipo pode ser usado para compor outros tipos). \pause
 
 Veremos a seguir como as funções podem ser utilizadas como valores.
 
@@ -65,7 +65,7 @@ Como identificar a necessidade de utilizar funções como parâmetro? \pause
 
 Encontrando similaridades entre funções. \pause
 
-Vamos ver diversas pares de funções e identificar similaridades entre elas. \pause
+Vamos ver diversos pares de funções e identificar similaridades entre elas. \pause
 
 Por questões de espaço, no restante desse material, usamos `p` para primeiro e `r` para `resto` e colocamos os exemplos fora de funções `_examples`.
 
@@ -681,7 +681,7 @@ check.eq(
 \scriptsize
 
 ```gleam
-/// Nega cada elemento de lst*.
+/// Nega cada elemento de *lst*.
 fn lista_nega(lst: List(Int)) -> List(Int) {
   mapeia(lst, int.negate)
 }
@@ -1653,7 +1653,7 @@ fn soma_1_acc(acc: Int, _: Int) -> Int {
 
 Quando utilizar as funções `map`, `filter` e `fold_right`? \pause
 
-- Quando a lista sempre é processa por inteiro. \pause
+- Quando a lista sempre é processada por inteiro. \pause
 
 - `map`: quando queremos aplicar uma função a cada elemento de uma lista de forma independente. \pause
 
@@ -1920,7 +1920,7 @@ Vamos separar a solução em duas etapas: encontrar o tamanho máximo e depois s
 
 ```gleam
 /// Devolve o tamanho máximo entre
-/// todos os elementos de *lst*.
+/// todas as strings de *lst*.
 fn tamanho_max(lst: List(String) -> Int {
   todo
 }
@@ -1954,7 +1954,7 @@ Podemos fazer em duas etapas: usamos o `map` para obter uma lista com os tamanho
 
 ```gleam
 /// Devolve o tamanho máximo entre
-/// todos os elementos de *lst*.
+/// todas as strings de *lst*.
 fn tamanho_max(lst: List(String) -> Int {
   list.fold_right(
     list.map(lst, string.length),

@@ -7,7 +7,7 @@ pub fn sinais(lst: List(Int)) -> List(Int) {
 }
 
 /// Determina o sinal de *n*. O sinal é 1 para *n* positivo, -1 para *n*
-/// negativo e 0 para *n* 0.
+/// negativo e 0 para *n* igual a 0.
 fn sinal(n: Int) -> Int {
   case n {
     _ if n > 0 -> 1

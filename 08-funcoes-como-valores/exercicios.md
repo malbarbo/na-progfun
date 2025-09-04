@@ -48,7 +48,7 @@ license:
 @) Veja a [documentação](https://hexdocs.pm/gleam_stdlib/gleam/list.html) das funções `list.map2`, `list.filter_map` e `list.fold_until` e faça uma implementação dessas funções.
 
 
-@) Analise os exemplos e exercícios de números naturais e defina uma função `num_reduz` (semelhante a função `reduz` feita em sala) que abstraia o comportamento do modelo para funções com números naturais. Redefina as funções da lista de exercícios de números naturais (que for possível) em termos de `num_reduz`. As novas funções ficaram mais simples?
+@) Analise os exemplos e exercícios de números naturais e defina uma função `num_reduz` (semelhante à função `reduz` feita em sala) que abstraia o comportamento do modelo para funções com números naturais. Redefina as funções da lista de exercícios de números naturais (que for possível) em termos de `num_reduz`. As novas funções ficaram mais simples?
 
 <!--
 @) (Desafio)^[[Structure and Interpretation of Computer Programs](https://mitpress.mit.edu/sicp/)] A seguir é apresentado uma representação procedural para um par. Para esta representação, verifique que `(first (cons x y))` produz `x` para quaisquer objetos `x` e `y`.

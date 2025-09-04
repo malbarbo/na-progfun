@@ -16,7 +16,7 @@ def maiores_strings(lst: list[str]) -> list[str]:
 
 
 def tamanho_maximo(lst: list[str]) -> int:
-    '''Deolve o tamanho máximo entre todas as strings de lst.
+    '''Devolve o tamanho máximo entre todas as strings de lst.
 
     Exemplos
     >>> tamanho_maximo(['oi', 'casa', 'aba', 'boi', 'eita', 'a', 'cadê'])

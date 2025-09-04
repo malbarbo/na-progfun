@@ -2,7 +2,7 @@ import gleam/int
 import gleam/list
 import sgleam/check
 
-/// Aplica a função *f* repetidamente ao valor *init* e aos números de 0 à *n*,
+/// Aplica a função *f* repetidamente ao valor *init* e aos números de 0 a *n*,
 /// isto é, f(n, f(n-1, ... f(base, 1))).
 pub fn reduz_num(n: Int, init: a, f: fn(a, Int) -> a) -> a {
   case n <= 0 {

@@ -3,7 +3,7 @@ import gleam/list
 import gleam/string
 import sgleam/check
 
-/// Cria uma lista com as strings de *lst* que têm tamanho máximo entre todos
+/// Cria uma lista com as strings de *lst* que têm tamanho máximo entre todas
 /// as strings de *lst*.
 pub fn maiores_strings(lst: List(String)) -> List(String) {
   let maximo = tamanho_maximo(lst)

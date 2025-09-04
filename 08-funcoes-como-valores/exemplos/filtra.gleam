@@ -1,7 +1,7 @@
 import gleam/int
 import sgleam/check
 
-/// Devolve uma lista com todos os elementos *x* de *lst* tal que *pred(x)* é
+/// Devolve uma lista com todos os elementos *x* de *lst* tais que *pred(x)* é
 /// True.
 fn filtra(lst: List(a), pred: fn(a) -> Bool) -> List(a) {
   case lst {

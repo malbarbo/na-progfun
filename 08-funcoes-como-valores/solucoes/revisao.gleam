@@ -6,7 +6,7 @@ import gleam/string
 import sgleam/check
 
 // As funções que podem parar antes de analisar todos os elementos da lista não
-// são adequadas de serem implementadas com map, filter e fold_right. Entre os
+// são adequadas para serem implementadas com map, filter e fold_right. Entre os
 // exercícios temos o de verificar se todos são verdadeiros, se algum é
 // verdadeiro e se a lista está em ordem não decrescente.
 //

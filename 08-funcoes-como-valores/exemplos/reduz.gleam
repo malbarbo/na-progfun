@@ -5,7 +5,7 @@ import sgleam/check
 
 /// Reduz os elementos de *lst* em um acumulador usando a função *f*. O
 /// acumulador começa com *init* e é atualizado chamando *f(acc, e)* para cada
-/// elemento *e* de *lst* da direita para esquerda.
+/// elemento *e* de *lst* da direita para a esquerda.
 ///
 /// Por exemplo, a chamada reduz([4, 1, 2], 0, int.add) é equivalente a
 /// *int.add(int.add(int.add(0, 2), 1), 4)*.

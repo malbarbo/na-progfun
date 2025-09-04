@@ -28,14 +28,14 @@ Como determinar a quantidade de recursos que um algoritmo (programa, função) c
 
 ## Análise de algoritmos
 
-A **análise de algoritmos** é processo de encontrar a complexidade computacional dos algoritmos, isto é, a quantidade de recursos (tempo, memória, etc) necessários para executá-los. \pause
+A **análise de algoritmos** é o processo de encontrar a complexidade computacional dos algoritmos, isto é, a quantidade de recursos (tempo, memória, etc) necessários para executá-los. \pause
 
 A análise pode ser feita de forma teórica ou experimental, e o resultado da análise é geralmente expresso por uma função que relaciona o tamanho da entrada do algoritmo com o número de passos (complexidade de tempo) ou com o número de células de memória (complexidade de espaço) necessários para executar o algoritmo.
 
 
 ## Análise teórica
 
-Na **análise teórica** adotamos uma máquina teórica de computação e expressamos a complexidade de um algoritmo através de uma **função que relaciona o tamanho da entrada com o consumo de recurso** nessa máquina teórica. \pause
+Na **análise teórica** adotamos uma máquina teórica de computação e expressamos a complexidade de um algoritmo através de uma **função que relaciona o tamanho da entrada com o consumo de recursos** nessa máquina teórica. \pause
 
 A máquina teórica que vamos adotar tem operações lógicas e aritméticas, cópia de dados e controle de fluxo, e tem as seguintes características: \pause
 
@@ -78,7 +78,7 @@ Vamos "contar" as instruções \pause
 - linha 3: \pause 1 instrução \pause
 - linha 4: $(n + 1) \times$
   - 1 instrução para comparação \pause
-  - umas 3 instrução para executar `len` \pause
+  - umas 3 instruções para executar `len` \pause
 - linha 5: \pause $n \times$ umas 3 instruções \pause
 - linha 6: \pause $n \times$ 2 instruções \pause
 - linha 7: \pause 1 instrução \pause
@@ -119,7 +119,7 @@ def soma(lst: list[int]) -> int:
 </div>
 <div class="column" width="48%">
 
-Qual é operação mais executada na função `soma`? \pause A comparação `<`. \pause
+Qual é a operação mais executada na função `soma`? \pause A comparação `<`. \pause
 
 Quantas vezes ela é executada? \pause $n + 1$. \pause
 
@@ -148,7 +148,7 @@ fn soma(lst: List(Int)) -> Int {
 </div>
 <div class="column" width="48%">
 
-Qual é operação mais executada na função `soma`? \pause A comparação de `lst` com `[]`. \pause Ou a operação `+`. \pause Ou a própria chamada da função. \pause
+Qual é a operação mais executada na função `soma`? \pause A comparação de `lst` com `[]`. \pause Ou a operação `+`. \pause Ou a própria chamada da função. \pause
 
 Quantas vezes a função é chamada? \pause $n + 1$. \pause
 
@@ -166,7 +166,7 @@ Dessa forma, um algoritmo assintoticamente mais eficiente será a melhor escolha
 
 ## Notação assintótica
 
-Para expressar e comparar a complexidade algoritmos, utilizamos a **notação assintótica**. \pause
+Para expressar e comparar a complexidade de algoritmos, utilizamos a **notação assintótica**. \pause
 
 Vamos ver três notações:
 
@@ -477,7 +477,7 @@ Portanto, a complexidade de tempo de `inverte` é $T(n) = O(n^2)$.
 
 ## Equações de recorrências
 
-Apesar de ser possível determinar a complexidade de tempo contanto "manualmente" o número de chamadas recursivas, como fizemos para `soma`, `contem` e `inverte`, este processo pode ser mais difícil para outras funções. \pause
+Apesar de ser possível determinar a complexidade de tempo contando "manualmente" o número de chamadas recursivas, como fizemos para `soma`, `contem` e `inverte`, este processo pode ser mais difícil para outras funções. \pause
 
 Por isso, em geral, usamos uma abordagem mais precisa, que é baseada em equações de recorrências e métodos de resolução de equações de recorrência.
 
@@ -721,7 +721,7 @@ Qual é o custo do caso base? \pause 1. \pause
 
 Qual é o custo da combinação? \pause $n$ (custo de chamar `frequencia`). \pause
 
-Como a função `maior_repeticao` é chamada duas vezes para resto a equação de recorrência que descreve o tempo de execução de `maior_repeticao` é:
+Como a função `maior_repeticao` é chamada duas vezes para o resto, a equação de recorrência que descreve o tempo de execução de `maior_repeticao` é:
 
 $$T(n) = 2T(n - 1) + n$$
 

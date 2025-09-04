@@ -13,7 +13,7 @@ license:
 
 @) O que significa analisar um algoritmo?
 
-@) Porque a análise de algoritmos é importante?
+@) Por que a análise de algoritmos é importante?
 
 @) O que significa dizer que a complexidade de tempo de um algoritmo é $T(n) = 3n + 7$?
 
@@ -30,7 +30,7 @@ license:
 
 ## Praticando
 
-@) Resolva as seguintes equações de recorrência (utilize as formulas de somatórios se necessário)
+@) Resolva as seguintes equações de recorrência (utilize as fórmulas de somatórios se necessário)
 
     a) $T(n) = T(n - 2) + n^2$
     a) $T(n) = 3T(n - 1) + 1$

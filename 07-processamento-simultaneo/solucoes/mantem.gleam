@@ -2,7 +2,7 @@ import sgleam/check
 
 /// Devolve uma lista com os *n* primeiros elementos de *lst*. Se *n* é maior
 /// do que a quantidade de elementos de *lst*, devolve *lst*. Se *n* é
-/// negativo, devolve a [].
+/// negativo, devolve [].
 pub fn mantem(lst: List(a), n: Int) -> List(a) {
   case lst {
     [primeiro, ..resto] if n > 0 -> [primeiro, ..mantem(resto, n - 1)]

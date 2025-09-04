@@ -1,8 +1,8 @@
 import sgleam/check
 
 /// Devolve o elemento na posição *i* de *lst* (indexado a partir de 0).
-/// Devolve Error(Nil) se *i* é negativo ou é maior igual a quantidade de
-/// elemento de *lst*.
+/// Devolve Error(Nil) se *i* é negativo ou é maior ou igual à quantidade de
+/// elementos de *lst*.
 pub fn lista_get(lst: List(a), k: Int) -> Result(a, Nil) {
   case lst, k {
     [primeiro, ..], 0 -> Ok(primeiro)

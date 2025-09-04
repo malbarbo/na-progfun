@@ -264,7 +264,7 @@ fn soma_ponderada_examples() {
 
 \ \
 
-Existem uma correspondência entre os elementos de `lst` e `pesos`. Usamos essa correspondência para o caso base (listas vazias) e para a chamada recursiva (para os restos das listas).
+Existe uma correspondência entre os elementos de `lst` e `pesos`. Usamos essa correspondência para o caso base (listas vazias) e para a chamada recursiva (para os restos das listas).
 
 
 ## Exemplo: soma ponderada {.t}

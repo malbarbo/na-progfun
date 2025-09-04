@@ -2,7 +2,7 @@ import sgleam/check
 
 /// Calcula a soma ponderada dos valores de *lst* considerando que cada
 /// elemento de *lst* tem como peso o elemento correspondente em *pesos*.
-/// Devolve Error(Nil) se *lst* e *pesos* tem quantidades diferente de
+/// Devolve Error(Nil) se *lst* e *pesos* têm quantidades diferentes de
 /// elementos.
 pub fn soma_ponderada(
   lst: List(Float),

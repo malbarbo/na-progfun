@@ -85,4 +85,5 @@ license:
 
 <!-- Combinações -->
 
-@) Em uma aplicativo de tarefas, os usuários criam listas de tarefas e definem prioridades (números inteiros) para cada tarefa. As tarefas são mantidas em ordem de prioridade, com as de maior prioridade na frente. Um pedido comum dos usuários é poder juntar duas listas de tarefas de maneira que a lista resultante tenha as tarefas das duas listas em ordem de prioridade. Projete uma função que possa ser usada para atender esse pedido dos usuários.
+@) Em um aplicativo de tarefas, os usuários criam listas de tarefas e definem prioridades (números inteiros) para cada tarefa. As tarefas são mantidas em ordem de prioridade, com as de maior prioridade na frente. Um pedido comum dos usuários é poder juntar duas listas de tarefas de maneira que a lista resultante tenha as tarefas das duas listas em ordem de prioridade. Projete uma função que possa ser usada para atender esse pedido dos usuários.
+ios.

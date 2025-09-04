@@ -1,7 +1,7 @@
 import sgleam/check
 
-/// Cria uma nova lista com os elementos de *lst* que tem um elemento
-/// corresponde True em *m*.
+/// Cria uma nova lista com os elementos de *lst* que têm um elemento
+/// correspondente True em *mst*.
 pub fn seleciona(lst: List(a), mst: List(Bool)) -> List(a) {
   case lst, mst {
     [primeiro, ..rlst], [True, ..rmst] -> [primeiro, ..seleciona(rlst, rmst)]

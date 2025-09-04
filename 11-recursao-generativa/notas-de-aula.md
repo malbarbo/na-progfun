@@ -14,7 +14,7 @@ Vimos anteriormente como explorar a forma como um dado com autorreferência é d
 
 - Uma autorreferência na definição do tipo do dado sugere uma chamada recursiva na implementação da função \pause
 
-Como nesses casos a chamada recursiva é feita em uma parte da estrutura do dado a recursão é chamada de **recursão estrutural**.
+Como nesses casos a chamada recursiva é feita em uma parte da estrutura do dado, a recursão é chamada de **recursão estrutural**.
 
 
 ## Introdução
@@ -27,12 +27,12 @@ Discutimos rapidamente que para esses problemas precisamos utilizar outra aborda
 - Resolver os subproblemas
 - Combinar as soluções dos subproblemas em uma solução para o problema inicial\pause
 
-Se alguns dos subproblemas gerados são do mesmo tipo do problema inicial, podemos usar chamadas recursivas para resolver esses subproblemas, nesses casos, a recursão é chamada de **recursão generativa**.
+Se alguns dos subproblemas gerados são do mesmo tipo do problema inicial, podemos usar chamadas recursivas para resolver esses subproblemas. Nesses casos, a recursão é chamada de **recursão generativa**.
 
 
 ## Introdução
 
-A recursão generativa é mais poderosa que a recursão estrutural, \pause porém, \pause projetar funções que usam recursão generativa não é um processo tão direto quando funções que usam recursão estrutural. \pause A etapa principal é "gerar" os subproblemas, e isto pode requerer um momento "eureka". \pause
+A recursão generativa é mais poderosa que a recursão estrutural, \pause porém, \pause projetar funções que usam recursão generativa não é um processo tão direto quanto funções que usam recursão estrutural. \pause A etapa principal é "gerar" os subproblemas, e isto pode requerer um momento "eureka". \pause
 
 De qualquer forma, o processo de projeto de funções, com alguns ajustes, também serve para projetar funções com recursão generativa. \pause
 

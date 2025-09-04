@@ -23,7 +23,7 @@ Vamos ver um exemplo.
 
 ## Exemplo
 
-Dado uma lista de distâncias relativas entre pontos em uma linha, começando da origem, defina uma função que calcule a distância absoluta a partir da origem.
+Dada uma lista de distâncias relativas entre pontos em uma linha, começando da origem, defina uma função que calcule a distância absoluta a partir da origem.
 
 
 ## Exemplo
@@ -344,7 +344,7 @@ Ela precisa de um parâmetro extra, que não faz parte do problema. \pause
 
 \small
 
-Vamos separar em duas funções, uma para o usuário da função e outra com a implementação usando acumulador. \pause
+Vamos separar em duas funções, uma para o usuário da função e outra com a implementação usando um acumulador. \pause
 
 \vspace{-0.3cm}
 
@@ -511,7 +511,7 @@ Este é um **processo iterativo**. Nele o "espaço" necessário para fazer a sub
 
 Na avaliação da expressão `soma_alt(4, 3)`{.gleam} no exemplo anterior, o valor de `a`{.gleam} foi usado como um acumulador, armazenando a soma parcial. \pause
 
-O uso de acumulador neste problema reduziu o uso de memória.
+O uso de um acumulador neste problema reduziu o uso de memória.
 
 
 
@@ -592,7 +592,7 @@ fn tamanho_examples() {
 
 Existe algum benefício em utilizar acumulador? \pause
 
-Como o tamanho da resposta não depende do tamanho da entrada, esta função está usando mais memória do que é necessário, portanto ela pode beneficiar-se do uso de acumulador. \pause
+Como o tamanho da resposta não depende do tamanho da entrada, esta função está usando mais memória do que é necessário, portanto ela pode beneficiar-se do uso de um acumulador. \pause
 
 Qual o significado do acumulador? \pause A quantidade de elementos já "vistos". \pause
 
@@ -656,7 +656,7 @@ fn soma_examples() {
 
 Existe algum benefício em utilizar acumulador? \pause
 
-Como o tamanho da resposta não depende do tamanho da entrada, esta função está usando mais memória do que é necessário, portanto ela pode beneficiar-se do uso de acumulador. \pause
+Como o tamanho da resposta não depende do tamanho da entrada, esta função está usando mais memória do que é necessário, portanto ela pode beneficiar-se do uso de um acumulador. \pause
 
 Qual o significado do acumulador? \pause A soma dos elementos já "vistos". \pause
 
@@ -721,7 +721,7 @@ fn inverte_examples() {
 
 Existe algum benefício em utilizar acumulador? \pause
 
-Neste caso a função é mais complicada do que o necessário. Isto porque o resultado da chamada recursiva é processada por outra função recursiva (`list.append`{.gleam}). \pause Além disso, o tempo de execução desta função é $\Theta(n^2)$, o que intuitivamente é muito para inverter uma lista. \pause
+Neste caso a função é mais complicada do que o necessário. Isto porque o resultado da chamada recursiva é processado por outra função recursiva (`list.append`{.gleam}). \pause Além disso, o tempo de execução desta função é $\Theta(n^2)$, o que intuitivamente é muito para inverter uma lista. \pause
 
 Qual o significado do acumulador? \pause Os elementos que já foram visitados em ordem reversa. \pause
 

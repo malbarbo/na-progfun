@@ -91,10 +91,10 @@ No exemplo da escolha do combustível, nós definimos os seguintes tipos:
 
 ```gleam
 /// O preço do litro do combustível, deve ser um número positivo.
-type Preco = Float
+pub type Preco = Float
 
 /// O tipo do combustível, deve ser "Álcool" ou "Gasolina".
-type Combustivel = String
+pub type Combustivel = String
 ```
 
 \pause
@@ -403,7 +403,7 @@ Vamos definir uma estrutura para representar um ponto em um plano cartesiano.
 Definição
 
 ```gleam
-type Ponto {
+pub type Ponto {
   Ponto(x: Int, y: Int)
 }
 ```
@@ -470,7 +470,7 @@ Desestruturação
 Definição
 
 ```gleam
-type Ponto {
+pub type Ponto {
   Ponto(x: Int, y: Int)
 }
 ```
@@ -529,7 +529,7 @@ Junto com a definição de uma estrutura, também faremos a descrição do seu p
 
 ```gleam
 /// Um ponto no plano cartesiano.
-type Ponto {
+pub type Ponto {
   // x e y são as coordenadas dos pontos.
   Ponto(x: Int, y: Int)
 }
@@ -727,8 +727,8 @@ pub type Quadrado {
 
 Nós vimos duas diretrizes para o projeto de tipo de dado
 
-- Faça os valores válidos representáveis.
-- Faça os valores inválidos irrepresentáveis. \pause
+- Torne os valores válidos representáveis.
+- Torne os valores inválidos irrepresentáveis. \pause
 
 A definição de `Quadrado`{.gleam} está de acordo com essas diretrizes? \pause Vamos verificar! \pause
 
@@ -1030,7 +1030,7 @@ Vamos tentar uma estrutura.
 
 ```gleam
 /// O estado de uma tarefa.
-type EstadoTarefa {
+pub type EstadoTarefa {
   EstadoTarefa(
     // True se a tarefa está em execução, False caso contrário.
     executando: Bool,
@@ -1129,7 +1129,7 @@ A forma geral para definição de tipos de dados em Gleam é
 
 ```gleam
 /// O estado de uma tarefa
-type EstadoTarefa {
+pub type EstadoTarefa {
   // A tarefa está em execução
   Executando
   // A tarefa finalizou com sucesso
@@ -1202,7 +1202,7 @@ Então, como podemos acessar os campos!? \pause Usando casamento de padrão com 
 
 ```gleam
 /// O estado de uma tarefa
-type EstadoTarefa {
+pub type EstadoTarefa {
   // A tarefa está em execução
   Executando
   // A tarefa finalizou com sucesso
@@ -1510,7 +1510,7 @@ São dois casos distintos: ou existe um valor, ou não existe valor algum. \paus
 \footnotesize
 
 ```gleam
-type Opcional {
+pub type Opcional {
     Nenhum
     Algum(Int)
 }
@@ -1628,7 +1628,7 @@ Projete uma função que devolva o primeiro caractere de uma string.
 \footnotesize
 
 ```gleam
-type Opcional {
+pub type Opcional {
   Nenhum
   Algum(String)
 }
@@ -1691,7 +1691,7 @@ O tipo `Option`{.gleam} é definido como
 \footnotesize
 
 ```gleam
-type Option(a) {
+pub type Option(a) {
   None
   Some(a)
 }
@@ -1786,7 +1786,7 @@ Em Gleam, este é o tipo `Result`{.gleam}, pré-definido como:
 \small
 
 ```gleam
-type Result(ok, error) {
+pub type Result(ok, error) {
     Ok(ok)
     Error(error)
 }
@@ -1927,7 +1927,7 @@ A opção mais direta é validar o preço na função `seleciona_combustivel`{.g
 ```gleam
 /// O preço do litro do combustível,
 /// deve ser um número positivo.
-type Preco = Float
+pub type Preco = Float
 
 pub fn seleciona_combustivel(
   preco_alcool: Preco,
@@ -2047,8 +2047,8 @@ Vimos com mais detalhes como desenvolver a etapa de definição de tipos de dado
 
 Aprendemos que devemos considerar dois princípios no projeto de tipos de dados \pause
 
-- Faça os valores válidos representáveis. \pause
-- Faça os valores inválidos irrepresentáveis. \pause
+- Torne os valores válidos representáveis. \pause
+- Torne os valores inválidos irrepresentáveis. \pause
 
 Vimos como definir novos tipos de dados usando tipos algébricos: \pause
 

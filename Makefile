@@ -15,6 +15,7 @@ PANDOC_NOTAS_CMD=$(PANDOC) \
 		--pdf-engine=$(CURDIR)/$(TECTONIC) \
 		--metadata-file ../metadata.yml \
 		--template ../templates/default.beamer \
+		--lua-filter=../filters/sgleam_image.lua \
 		--to beamer \
 		--standalone
 

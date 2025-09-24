@@ -494,6 +494,175 @@ let porta_macaneta = image.overlay_align(xplace.Right, yplace.Middle, image.circ
 Animações
 =========
 
+## Animações
+
+Uma **animação** é a exibição contínua de imagens estáticas que variam de forma sequencial criando a ilusão de movimento. \pause
+
+A animação mais simples no sgleam é uma simulação baseada no tempo. O trabalho do programador é providenciar uma função que cria uma imagem a partir de um número natural. \pause
+
+A função de animação está no pacote `sgleam/world`.
+
+```gleam
+pub fn animate(create_image: fn(Int) -> image.Image) -> image.Image
+```
+
+\pause
+
+O relógio da animação faz 28 tiques por segundo, a cada tique a função `create_image` é chamada com o número de tiques passados deste o início da animação.
+
+
+## Exemplo óvni
+
+Vamos criar uma animação de um óvni descendo a tela.
+
+
+## Exemplo óvni
+
+\footnotesize
+
+```gleam
+fn cena_ovni(tick: Int) -> image.Image {
+  let ovni =
+    image.circle(10, fill.green)
+    |> image.overlay(image.rectangle(40, 4, fill.green))
+  image.empty_scene(100, 80) |> image.place_image(50, tick, ovni)
+}
+```
+
+\pause
+
+<div class="columns">
+<div class="column" width="33%">
+\footnotesize
+
+```sgleam_image
+let cena_ovni = fn(tick: Int) -> image.Image {
+  let ovni =
+    image.circle(10, fill.green)
+    |> image.overlay(image.rectangle(40, 4, fill.green))
+  image.empty_scene(100, 80) |> image.place_image(50, tick, ovni)
+}
+
+> cena_ovni(10)
+```
+
+\pause
+</div>
+<div class="column" width="33%">
+\footnotesize
+
+```sgleam_image
+let cena_ovni = fn(tick: Int) -> image.Image {
+  let ovni =
+    image.circle(10, fill.green)
+    |> image.overlay(image.rectangle(40, 4, fill.green))
+  image.empty_scene(100, 80) |> image.place_image(50, tick, ovni)
+}
+
+> cena_ovni(40)
+```
+
+\pause
+</div>
+<div class="column" width="33%">
+\footnotesize
+
+```sgleam_image
+let cena_ovni = fn(tick: Int) -> image.Image {
+  let ovni =
+    image.circle(10, fill.green)
+    |> image.overlay(image.rectangle(40, 4, fill.green))
+  image.empty_scene(100, 80) |> image.place_image(50, tick, ovni)
+}
+
+> cena_ovni(70)
+```
+
+\pause
+</div>
+</div>
+
+```gleam
+pub fn main() {
+  world.animate(cena_ovni)
+}
+```
+
+
+## Exemplo texto com uma letra colorida
+
+Vamos criar uma animação que colore uma letra de um texto por vez.
+
+
+## Exemplo texto com uma letra colorida
+
+\footnotesize
+
+```gleam
+fn cena_texto(tick: Int) -> image.Image {
+  let texto = "computação"
+  // dividimos por 10 para desacelerar a animação
+  let i = tick / 10 % string.length(texto)
+  let inicio = string.slice(texto, 0, i)
+  let letra = string.slice(texto, i, 1)
+  let fim = string.slice(texto, i + 1, string.length(texto))
+  let texto =
+    image.text(inicio, 30, fill.black)
+    |> image.beside(image.text(letra, 30, fill.red))
+    |> image.beside(image.text(fim, 30, fill.black))
+  image.empty_scene(230, 50) |> image.overlay(texto)
+}
+```
+
+\pause
+
+<div class="columns">
+<div class="column" width="33%">
+\footnotesize
+
+```gleam
+> cena_texto(10)
+```
+
+![](imagens/cena_texto_10.pdf)
+
+\pause
+</div>
+<div class="column" width="33%">
+\footnotesize
+
+```gleam
+> cena_texto(40)
+```
+
+![](imagens/cena_texto_40.pdf)
+
+\pause
+</div>
+<div class="column" width="33%">
+\footnotesize
+
+```gleam
+> cena_texto(76)
+```
+
+![](imagens/cena_texto_76.pdf)
+
+\pause
+</div>
+</div>
+
+
+
+Programas interativos
+=====================
+
+## Programas interativos
+
+Um **programa interativo** é um programa que reage a ações do usuário modificando seu comportamento e saída de acordo com as entradas recebidas.
+
+
+
 Cores
 =====
 

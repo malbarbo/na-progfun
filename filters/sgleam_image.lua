@@ -23,6 +23,7 @@ function CodeBlock(el)
   os.execute("mkdir -p ../target/sgleam_images/")
   local fgleam = io.open(gleam, "w")
   fgleam:write([[
+    import gleam/string
     import sgleam/image.{Point}
     import sgleam/fill
     import sgleam/stroke
@@ -44,7 +45,7 @@ function CodeBlock(el)
     "}"
   )
   fgleam:close()
-  os.execute("cd ../ && sgleam target/" .. gleam .. " > target/" .. svg)
+  os.execute("cd ../ && sgleam target/" .. gleam .. " > target/" .. svg .. " 2>/dev/null")
   os.execute("rsvg-convert --format pdf1.5 --output " .. pdf .. " " .. svg)
   return {
     pandoc.CodeBlock(content, {class = "gleam"}),

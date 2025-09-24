@@ -162,7 +162,7 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 \pause
 
 ```sgleam_image
-> image.radial_star(9, 20, 40, stroke.darkslategray) // número de pontos,
+> image.radial_star(9, 20, 40, stroke.darkslategray) // número de pontas,
                                                      // raio interno e
                                                      // raio externo
 ```
@@ -171,8 +171,9 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 
 ```sgleam_image
 > image.star_polygon(40, 7, 3, stroke.seagreen) // estrela circunscrita em
-                                                // em um polígono de 7 lados
-                                                // vertíces ligados de 3 em 3
+                                                // um polígono de 7 lados
+                                                // vertíces ligados de
+                                                // 3 em 3
 ```
 
 
@@ -242,9 +243,9 @@ Ao lado com posicionamento no eixo y.
 
 ```sgleam_image
   image.ellipse(20, 70, fill.lightsteelblue)
-  |> image.beside_align(yplace.Bottom, _, image.ellipse(20, 50, fill.mediumslateblue))
-  |> image.beside_align(yplace.Bottom, _, image.ellipse(20, 30, fill.slateblue))
-  |> image.beside_align(yplace.Bottom, _, image.ellipse(20, 10, fill.navy))
+  |> image.beside_align(yplace.Bottom, image.ellipse(20, 50, fill.mediumslateblue))
+  |> image.beside_align(yplace.Bottom, image.ellipse(20, 30, fill.slateblue))
+  |> image.beside_align(yplace.Bottom, image.ellipse(20, 10, fill.navy))
 ```
 
 \normalsize
@@ -260,9 +261,9 @@ Acima com posicionamento no eixo x.
 
 ```sgleam_image
 > image.ellipse(70, 20, fill.yellowgreen)
-  |> image.above_align(xplace.Right, _, image.ellipse(50, 20, fill.olivedrab))
-  |> image.above_align(xplace.Right, _, image.ellipse(30, 20, fill.darkolivegreen))
-  |> image.above_align(xplace.Right, _, image.ellipse(10, 20, fill.darkgreen))
+  |> image.above_align(xplace.Right, image.ellipse(50, 20, fill.olivedrab))
+  |> image.above_align(xplace.Right, image.ellipse(30, 20, fill.darkolivegreen))
+  |> image.above_align(xplace.Right, image.ellipse(10, 20, fill.darkgreen))
 ```
 
 \normalsize
@@ -293,7 +294,6 @@ Sobreposição com posicionamento no eixo x e y.
   |> image.overlay_align(
     xplace.Left,
     yplace.Middle,
-    _,
     image.ellipse(60, 30, fill.purple),
   )
 ```
@@ -394,6 +394,23 @@ Espelha na vertical.
 ```
 
 
+## Utilidades
+
+Coloca um quadro ao redor da imagem, útil para depuração.
+
+```sgleam_image
+> image.frame(image.star(30, stroke.firebrick))
+```
+
+\pause
+
+Cria um quadro que pode ser usado como fundo para colocar outras imagens.
+
+```sgleam_image
+> image.empty_scene(70, 50)
+```
+
+
 ## Construindo uma casa
 
 Uma casa simples.
@@ -440,7 +457,7 @@ Se os telhados não forem do mesmo tamanho, eles não ficam alinhados.
 
 ```sgleam_image
 > let casa = image.triangle(40, fill.red)
-  |> image.beside_align(yplace.Bottom, _, image.triangle(30, fill.red))
+  |> image.beside_align(yplace.Bottom, image.triangle(30, fill.red))
   |> image.above(image.rectangle(70, 30, fill.black))
 ```
 
@@ -457,11 +474,11 @@ Colocando uma porta.
 
 ```sgleam_image
 let casa = image.triangle(40, fill.red)
-  |> image.beside_align(yplace.Bottom, _, image.triangle(30, fill.red))
+  |> image.beside_align(yplace.Bottom, image.triangle(30, fill.red))
   |> image.above(image.rectangle(70, 30, fill.black))
 let porta = image.rectangle(15, 25, fill.saddlebrown)
 
-> image.overlay_align(xplace.Center, yplace.Bottom, porta, casa)
+> image.overlay_align(porta, xplace.Center, yplace.Bottom, casa)
 ```
 
 
@@ -473,22 +490,27 @@ Colocando uma porta, agora com maçaneta.
 
 ```gleam
 > let porta_macaneta = image.overlay_align(
+    image.circle(3, fill.yellow),
     xplace.Right,
     yplace.Middle,
-    image.circle(3, fill.yellow),
-    porta)
+    porta,
+  )
 ``````
 
 ```sgleam_image
 let casa = image.triangle(40, fill.red)
-  |> image.beside_align(yplace.Bottom, _, image.triangle(30, fill.red))
+  |> image.beside_align(yplace.Bottom, image.triangle(30, fill.red))
   |> image.above(image.rectangle(70, 30, fill.black))
 let porta = image.rectangle(15, 25, fill.saddlebrown)
-let porta_macaneta = image.overlay_align(xplace.Right, yplace.Middle, image.circle(3, fill.yellow), porta)
+let porta_macaneta = image.overlay_align(image.circle(3, fill.yellow), xplace.Right, yplace.Middle, porta)
 
-> image.overlay_align(xplace.Center, yplace.Bottom, porta_macaneta, casa)
+> image.overlay_align(porta_macaneta, xplace.Center, yplace.Bottom, casa)
 ```
 
+
+## Cores
+
+![](imagens/cores.pdf)
 
 
 Animações
@@ -503,7 +525,7 @@ A animação mais simples no sgleam é uma simulação baseada no tempo. O traba
 A função de animação está no pacote `sgleam/world`.
 
 ```gleam
-pub fn animate(create_image: fn(Int) -> image.Image) -> image.Image
+pub fn animate(create_image: fn(Int) -> image.Image) -> Nil
 ```
 
 \pause
@@ -513,7 +535,7 @@ O relógio da animação faz 28 tiques por segundo, a cada tique a função `cre
 
 ## Exemplo óvni
 
-Vamos criar uma animação de um óvni descendo a tela.
+Vamos criar uma animação de um óvni descendo a tela (veja o arquivo `animacao_ovni.gleam`).
 
 
 ## Exemplo óvni
@@ -591,7 +613,7 @@ pub fn main() {
 
 ## Exemplo texto com uma letra colorida
 
-Vamos criar uma animação que colore uma letra de um texto por vez.
+Vamos criar uma animação que colore uma letra de um texto por vez (veja o arquivo `animacao_texto.gleam`).
 
 
 ## Exemplo texto com uma letra colorida
@@ -648,10 +670,8 @@ fn cena_texto(tick: Int) -> image.Image {
 
 ![](imagens/cena_texto_76.pdf)
 
-\pause
 </div>
 </div>
-
 
 
 Programas interativos
@@ -661,11 +681,132 @@ Programas interativos
 
 Um **programa interativo** é um programa que reage a ações do usuário modificando seu comportamento e saída de acordo com as entradas recebidas.
 
+\pause
+
+Para projetar um programa interativo é necessário definir três coisas: \pause
+
+- Definição do estado do programa e constantes; \pause
+- Uma função que gera uma imagem a partir do estado do programa; \pause
+- Uma função que modifica o estado do programa a partir de um evento de teclado. \pause
+
+Opcionalmente,
+
+- Uma função que avança o estado do programa com o passar do tempo.
 
 
-Cores
-=====
+## Exemplo movimento horizontal
 
-## Cores
+Vamos criar um programa que exibe um quadrado que pode ser deslocado para a esquerda ou direita usando as teclas apropriadas (veja o arquivo `move_horizontal.gleam`). \pause
 
-![](imagens/cores.pdf)
+Começamos com um esboço do que queremos.
+
+
+## Exemplo movimento horizontal
+
+![](imagens/esboco1.pdf)
+
+\pause
+
+O que precisamos para representar o estado do programa? \pause O que muda com as interações ou com o tempo? \pause A coordenada x do centro do quadrado. \pause Podemos usar um inteiro para representar o estado do programa. \pause
+
+O que não muda? \pause O tamanho do quadro e do quadrado. \pause A coordenada y do centro do quadrado. \pause A coordenada x inicial do centro do quadrado. \pause O deslocamento em cada interação.
+
+
+## Exemplo movimento horizontal
+
+<div class="columns">
+<div class="column" width="48%">
+\small
+
+Estado do programa.
+
+```gleam
+/// Posição x do centro do quadrado.
+type Estado = Int
+```
+
+\pause
+
+```gleam
+const largura = 100
+const altura = 100
+const deslocamento = 10
+const q_lado = 20
+const q_y = 50
+const q_x_inicial = 50
+```
+
+\pause
+</div>
+<div class="column" width="48%">
+\small
+
+Função que gera uma imagem a partir do estado.
+
+```gleam
+pub fn desenha(x: Estado) -> image.Image {
+  image.empty_scene(largura, altura)
+  |> image.put_image(
+    x,
+    q_y,
+    image.square(q_lado, fill.red)
+  )
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo movimento horizontal
+
+\small
+
+Função que modifica o estado a partir de um evento de teclado.
+
+\footnotesize
+
+```gleam
+/// Desloca *x* para a esquerda (substrai *deslocamento*) se *tecla* for
+/// ArrowLeft e para direita (soma *deslocamento*) se tecla for ArrowRight.
+/// Devolve *x* para outras teclas.
+pub fn move(x: Estado, tecla: world.Key) -> Estado {
+  case tecla {
+    world.ArrowLeft -> x - deslocamento
+    world.ArrowRight -> x + deslocamento
+    _ -> x
+  }
+}
+
+pub fn move_examples() {
+  check.eq(move(50, world.ArrowLeft), 50 - deslocamento)
+  check.eq(move(50, world.ArrowRight), 50 + deslocamento)
+}
+```
+
+
+## Exemplo movimento horizontal
+
+Função principal.
+
+\small
+
+```gleam
+pub fn main() {
+  world.create(q_x_inicial, desenha)
+  |> world.on_key_down(move)
+  |> world.run()
+}
+```
+
+
+## Exemplo gravidade
+
+Vamos criar um programa que exibe uma bola caindo com a força da gravidade e quicando no chão. O processo pode ser reiniciado pressionando r (veja o arquivo `gravidade.gleam`). \pause
+
+
+## Exemplo gravidade
+
+O que precisamos para representar o estado do programa? \pause O que muda com as interações ou com o tempo? \pause A coordenada y do centro da bola e a velocidade da bola. \pause
+
+O que não muda? \pause O tamanho do quadro e da bola. \pause A coordenada x do centro da bola. \pause A coordenada y inicial do centro da bola. \pause A aceleração da gravidade.

@@ -24,7 +24,7 @@ Um **programa interativo** é um programa que reage a ações do usuário modifi
 
 ## Aviso
 
-Esta parte do sglem é experimental, então pode conter erros. Se você identificar alguma falha, comunique ao professor.
+Esta parte do sgleam é experimental, então pode conter erros. Se você identificar alguma falha, comunique ao professor.
 
 
 Imagens
@@ -57,6 +57,31 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 
 ```sgleam_image
 > image.rectangle(100, 30, style.join([stroke.black, fill.gray]))
+```
+
+
+## Dimensões
+
+```gleam
+> let r = image.rectangle(20, 60, fill.blue)
+```
+
+\pause
+
+```gleam
+> image.width(r)
+20
+> image.widthf(r)
+20.0
+```
+
+
+\pause
+```gleam
+> image.height(r)
+60
+> image.heightf(r)
+60.0
 ```
 
 
@@ -179,25 +204,31 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 
 ## Texto
 
-```sgleam_image
+```gleam
 > image.text("Casa", 20, fill.black) // texto e tamanho da fonte
 ```
 
+![](imagens/Casa.pdf)
+
 \pause
 
-```sgleam_image
+```gleam
 > image.text("aTa", 30, stroke.darkgreen) // texto e tamanho da fonte
 ```
 
+![](imagens/aTa.pdf)
+
 \pause
 
-```sgleam_image
+```gleam
 > image.text_font(
     "gleam",
     font.Font(..font.default(), size: 25.0, family: "monospace"),
     style.join([stroke.red, fill.black]),
   )
+
 ```
+![](imagens/gleam.pdf)
 
 
 ## Combinações
@@ -250,7 +281,7 @@ Ao lado com posicionamento no eixo y.
 
 \normalsize
 
-`yplace` é um módulo que define o tipo `YPlace` com as variantes `Top`, `Bottom` e `Middle`.
+`yplace` é um módulo que define o tipo `YPlace`{.gleam} com as variantes `Top`{.gleam}, `Bottom`{.gleam} e `Middle`{.gleam}.
 
 
 ## Combinações
@@ -268,7 +299,7 @@ Acima com posicionamento no eixo x.
 
 \normalsize
 
-`xplace` é um módulo que define o tipo `XPlace` com as variantes `Right`, `Left` e `Center`.
+`xplace` é um módulo que define o tipo `XPlace`{.gleam} com as variantes `Right`{.gleam}, `Left`{.gleam} e `Center`{.gleam}.
 
 
 ## Combinações
@@ -352,9 +383,11 @@ Escala.
 
 \pause
 
-```sgleam_image
+```gleam
 > image.text("teste", 16, fill.black) |> image.scale_xyf(2.5, 1.2)
 ```
+
+![](imagens/teste_scale.png)
 
 
 ## Transformações
@@ -508,9 +541,75 @@ let porta_macaneta = image.overlay_align(image.circle(3, fill.yellow), xplace.Ri
 ```
 
 
+## Salvando imagens
+
+No sgleam (linha de comando) é possível salvar as imagens no formato svg.
+
+\pause
+
+Por exemplo, dado o arquivo `estrela.gleam` abaixo
+
+\small
+
+```gleam
+import sgleam/image
+import sgleam/fill
+
+pub fn smain() {
+  image.star(40, fill.firebrick)
+  |> image.to_svg()
+}
+```
+
+\pause
+
+\normalsize
+
+Execute
+
+\small
+
+```sh
+sgleam estrela.gleam > estrela.svg
+```
+
+
 ## Cores
 
 ![](imagens/cores.pdf)
+
+
+## Cores
+
+Cores também podem ser criadas usando valores rgb ou rbga.
+
+\footnotesize
+
+```gleam
+> let verde = color.rgb(0, 255, 0) // valores entre 0 e 255
+> let laranja = color.rgba(255, 165, 0, 0.7) // opacidade entre 0 a 1
+> let estilo = style.join([
+    fill.with(verde), // com uma cor existente
+    stroke.rgb(100, 100, 100), // diretamente com rgb
+    stroke.width(5),
+  ])
+
+```
+
+\pause
+
+```sgleam_image
+let verde = color.rgb(0, 255, 0) // valores entre 0 e 255
+let laranja = color.rgba(255, 165, 0, 0.7) // opacidade entre 0 a 1
+let estilo = style.join([
+  fill.with(verde), // com uma cor existente
+  stroke.rgb(100, 100, 100), // diretamente com rgb
+  stroke.width(5),
+])
+
+> image.circle(30, estilo)
+  |> image.underlay_xy(30, 0, image.circle(30, fill.with(laranja)))
+```
 
 
 Animações
@@ -646,7 +745,7 @@ fn cena_texto(tick: Int) -> image.Image {
 > cena_texto(10)
 ```
 
-![](imagens/cena_texto_10.pdf)
+![](imagens/cena_texto_10.png)
 
 \pause
 </div>
@@ -657,7 +756,7 @@ fn cena_texto(tick: Int) -> image.Image {
 > cena_texto(40)
 ```
 
-![](imagens/cena_texto_40.pdf)
+![](imagens/cena_texto_40.png)
 
 \pause
 </div>
@@ -668,7 +767,7 @@ fn cena_texto(tick: Int) -> image.Image {
 > cena_texto(76)
 ```
 
-![](imagens/cena_texto_76.pdf)
+![](imagens/cena_texto_76.png)
 
 </div>
 </div>
@@ -707,9 +806,9 @@ Começamos com um esboço do que queremos.
 
 \pause
 
-O que precisamos para representar o estado do programa? \pause O que muda com as interações ou com o tempo? \pause A coordenada x do centro do quadrado. \pause A cor. \pause Vamos definir uma estrutura.
+O que precisamos para representar o estado do programa? \pause O que muda com as interações ou com o tempo? \pause A coordenada x do centro do quadrado. \pause A cor. \pause Vamos definir uma estrutura. \pause
 
-O que não muda? \pause O tamanho do quadro e do quadrado. \pause A coordenada y do centro do quadrado. \pause A coordenada x inicial do centro do quadrado. \pause O deslocamento em cada interação.
+O que não muda? \pause O tamanho da cena e do quadrado. \pause A coordenada y do centro do quadrado. \pause A coordenada x inicial do centro do quadrado. \pause O deslocamento em cada interação.
 
 
 ## Exemplo movimento horizontal
@@ -836,7 +935,7 @@ pub fn main() {
   world.create(Quadrado(q_x_inicial, Verde), desenha)
   |> world.on_key_down(move) // move é atualiza o estado quando uma tecla é pressionada
   |> world.on_tick(muda_cor) // mudar_cor atualiza o estado a cada tique de relógio
-  |> world.tick_rate(1)      // quantas vezes o relógio faz tique por segundo
+  |> world.tick_rate(3)      // quantas vezes o relógio faz tique por segundo
   |> world.run()
 }
 ```
@@ -856,14 +955,80 @@ pub fn run(world: World(a)) -> Nil
 ```
 
 
+## Tipo `word.Key`
+
+<div class="columns">
+<div class="column" width="33%">
+\small
+
+```gleam
+pub type Key {
+  ArrowLeft
+  ArrowRight
+  ArrowUp
+  ArrowDown
+  PageUp
+  PageDown
+  Home
+  End
+  Backspace
+  Tab
+  Enter
+  Escape
+```
+
+</div>
+<div class="column" width="33%">
+
+\small
+
+```gleam
+  Delete
+  Insert
+  F1
+  F2
+  F3
+  F4
+  F5
+  F6
+  F7
+  F8
+  F9
+  F10
+  F11
+```
+
+</div>
+<div class="column" width="33%">
+
+\small
+
+```gleam
+  F12
+  CapsLock
+  NumLock
+  ScrollLock
+  PrintScreen
+  Pause
+  Shift
+  Control
+  Alt
+  Meta
+  Char(String)
+}
+```
+
+</div>
+</div>
+
 
 Revisão
 =======
 
 ## Revisão
 
-- Vimos o que é uma imagem e como criar, combinar e transformar imagens \pause
+Vimos o que é uma imagem e como criar, combinar e transformar imagens. \pause
 
-- Vimos o que é uma animação e como criar animações coma função `world.animate` \pause
+Vimos o que é uma animação e como criar animações coma função `world.animate`. \pause
 
-- Vimos o que é um programa interativo e como projetar programas interativos usando o módulo `world`
+Vimos o que é um programa interativo e como projetar programas interativos usando o módulo `world`.

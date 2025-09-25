@@ -36,6 +36,7 @@ function CodeBlock(el)
     pub fn main() {
     ]]
     .. hide
+    .. "\n"
     .. content:sub(2)
     .. [[
 

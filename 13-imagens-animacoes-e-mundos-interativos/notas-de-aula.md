@@ -696,7 +696,7 @@ Opcionalmente,
 
 ## Exemplo movimento horizontal
 
-Vamos criar um programa que exibe um quadrado que pode ser deslocado para a esquerda ou direita usando as teclas apropriadas (veja o arquivo `move_horizontal.gleam`). \pause
+Vamos criar um programa que exibe um quadrado que pode ser deslocado para a esquerda ou direita usando as teclas apropriadas e que alterna a cor entre verde, amarelo e vermelho a cada segundo (veja o arquivo `move_horizontal.gleam`). \pause
 
 Começamos com um esboço do que queremos.
 
@@ -707,7 +707,7 @@ Começamos com um esboço do que queremos.
 
 \pause
 
-O que precisamos para representar o estado do programa? \pause O que muda com as interações ou com o tempo? \pause A coordenada x do centro do quadrado. \pause Podemos usar um inteiro para representar o estado do programa. \pause
+O que precisamos para representar o estado do programa? \pause O que muda com as interações ou com o tempo? \pause A coordenada x do centro do quadrado. \pause A cor. \pause Vamos definir uma estrutura.
 
 O que não muda? \pause O tamanho do quadro e do quadrado. \pause A coordenada y do centro do quadrado. \pause A coordenada x inicial do centro do quadrado. \pause O deslocamento em cada interação.
 
@@ -721,11 +721,24 @@ O que não muda? \pause O tamanho do quadro e do quadrado. \pause A coordenada y
 Estado do programa.
 
 ```gleam
-/// Posição x do centro do quadrado.
-type Estado = Int
+type Quadrado {
+  Quadrado(x: Int, cor: Cor)
+}
+
+type Cor {
+  Verde
+  Amarelo
+  Vermelho
+}
 ```
 
 \pause
+
+</div>
+<div class="column" width="48%">
+\small
+
+Constantes.
 
 ```gleam
 const largura = 100
@@ -736,26 +749,27 @@ const q_y = 50
 const q_x_inicial = 50
 ```
 
-\pause
 </div>
-<div class="column" width="48%">
-\small
+</div>
+
+
+## Exemplo movimento horizontal
 
 Função que gera uma imagem a partir do estado.
 
+\small
+
 ```gleam
-pub fn desenha(x: Estado) -> image.Image {
+pub fn desenha(q: Quadrado) -> image.Image {
+  let fill = case q.cor {
+    Verde -> fill.green
+    Vermelho -> fill.red
+    Amarelo -> fill.yellow
+  }
   image.empty_scene(largura, altura)
-  |> image.put_image(
-    x,
-    q_y,
-    image.square(q_lado, fill.red)
-  )
+  |> image.put_image(q.x, q_y, image.square(q_lado, fill))
 }
 ```
-
-</div>
-</div>
 
 
 ## Exemplo movimento horizontal
@@ -767,46 +781,89 @@ Função que modifica o estado a partir de um evento de teclado.
 \footnotesize
 
 ```gleam
-/// Desloca *x* para a esquerda (substrai *deslocamento*) se *tecla* for
-/// ArrowLeft e para direita (soma *deslocamento*) se tecla for ArrowRight.
-/// Devolve *x* para outras teclas.
-pub fn move(x: Estado, tecla: world.Key) -> Estado {
+/// Desloca *q* para a esquerda (substrai *deslocamento* de *x*) se *tecla* for
+/// ArrowLeft e para direita (soma *deslocamento* a *x*) se tecla for ArrowRight.
+/// Devolve *q* para outras teclas.
+pub fn move(q: Quadrado, tecla: world.Key) -> Quadrado {
   case tecla {
-    world.ArrowLeft -> x - deslocamento
-    world.ArrowRight -> x + deslocamento
-    _ -> x
+    world.ArrowLeft -> Quadrado(..q, x: q.x - deslocamento)
+    world.ArrowRight -> Quadrado(..q, x: q.x + deslocamento)
+    _ -> q
   }
 }
 
 pub fn move_examples() {
-  check.eq(move(50, world.ArrowLeft), 50 - deslocamento)
-  check.eq(move(50, world.ArrowRight), 50 + deslocamento)
+  check.eq(move(Quadrado(50, Verde), world.ArrowLeft), Quadrado(50 - deslocamento, Verde))
+  check.eq(move(Quadrado(50, Verde), world.ArrowRight), Quadrado(50 + deslocamento, Verde))
 }
 ```
 
 
 ## Exemplo movimento horizontal
 
-Função principal.
-
 \small
 
+Função que modifica a cor com a passagem do tempo
+
+\footnotesize
+
 ```gleam
-pub fn main() {
-  world.create(q_x_inicial, desenha)
-  |> world.on_key_down(move)
-  |> world.run()
+/// Muda a cor de *q* da seguinte forma:
+/// Verde -> Amarelo, Amarelo -> Vermelho, Vermelho -> Verde
+pub fn muda_cor(q: Quadrado) -> Quadrado {
+  let cor = case q.cor {
+    Verde -> Amarelo
+    Amarelo -> Vermelho
+    Vermelho -> Verde
+  }
+  Quadrado(..q, cor: cor)
+}
+pub fn mudar_cor_examples() {
+  check.eq(muda_cor(Quadrado(50, Verde)), Quadrado(50, Amarelo))
+  check.eq(muda_cor(Quadrado(50, Amarelo)), Quadrado(50, Vermelho))
+  check.eq(muda_cor(Quadrado(50, Vermelho)), Quadrado(50, Verde))
 }
 ```
 
 
-## Exemplo gravidade
+## Exemplo movimento horizontal
 
-Vamos criar um programa que exibe uma bola caindo com a força da gravidade e quicando no chão. O processo pode ser reiniciado pressionando r (veja o arquivo `gravidade.gleam`). \pause
+\footnotesize
+
+```gleam
+pub fn main() {
+  // Cria um mundo com um estado inicial e uma função de desenho
+  world.create(Quadrado(q_x_inicial, Verde), desenha)
+  |> world.on_key_down(move) // move é atualiza o estado quando uma tecla é pressionada
+  |> world.on_tick(muda_cor) // mudar_cor atualiza o estado a cada tique de relógio
+  |> world.tick_rate(1)      // quantas vezes o relógio faz tique por segundo
+  |> world.run()
+}
+```
+
+\normalsize
+
+As funções têm as seguintes assinaturas
+
+\footnotesize
+
+```gleam
+pub fn create(initial: a, draw: fn(a) -> Image) -> World(a)
+pub fn on_key_down(world: World(a), handler: fn(a, Key) -> a) -> World(a)
+pub fn on_tick(world: World(a), handler: fn(a) -> a) -> World(a)
+pub fn tick_rate(world: World(a), rate: Int) -> World(a)
+pub fn run(world: World(a)) -> Nil
+```
 
 
-## Exemplo gravidade
 
-O que precisamos para representar o estado do programa? \pause O que muda com as interações ou com o tempo? \pause A coordenada y do centro da bola e a velocidade da bola. \pause
+Revisão
+=======
 
-O que não muda? \pause O tamanho do quadro e da bola. \pause A coordenada x do centro da bola. \pause A coordenada y inicial do centro da bola. \pause A aceleração da gravidade.
+## Revisão
+
+- Vimos o que é uma imagem e como criar, combinar e transformar imagens \pause
+
+- Vimos o que é uma animação e como criar animações coma função `world.animate` \pause
+
+- Vimos o que é um programa interativo e como projetar programas interativos usando o módulo `world`

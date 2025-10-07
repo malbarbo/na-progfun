@@ -788,7 +788,7 @@ pub fn soma(lst: Lista) {
 \footnotesize
 
 ```gleam
-pub fn soma(lst: List(a)) {
+pub fn soma(lst: List(Int)) {
   case lst {
     [] -> 0
     [primeiro, ..resto] ->

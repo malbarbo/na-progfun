@@ -35,6 +35,11 @@
 	<list name="import keyword">
 		<item>import</item>
 	</list>
+	<list name="booleans">
+		<item>True</item>
+		<item>False</item>
+		<item>Nil</item>
+	</list>
 	<list name="crash keywords">
 		<item>assert</item>
 		<item>panic</item>
@@ -134,6 +139,7 @@
 			<!-- Names -->
 			<keyword attribute="Attribute" context="#stay" String="attributes" />
 			<RegExpr attribute="Error" context="#stay" String="@\w*\b" />
+			<keyword attribute="Boolean" context="#stay" String="booleans" />
 			<keyword attribute="Type" context="#stay" String="types" />
 			<RegExpr attribute="Type" context="#stay" String="\b&camel_case;\b" />
 			<RegExpr attribute="Function" context="#stay" String="\b&snake_case;(?=\()" />
@@ -144,13 +150,15 @@
 			<RegExpr attribute="Hex" context="number suffix error" String="\b0[xX]&hex_digits;" />
 			<RegExpr attribute="Decimal" context="number suffix error" String="\b&decimal_digits;" />
 			<!-- Symbols -->
-			<DetectChar attribute="Symbol" context="#stay" char="(" beginRegion="round brackets" />
-			<DetectChar attribute="Symbol" context="#stay" char=")" endRegion="round brackets" />
-			<DetectChar attribute="Symbol" context="#stay" char="[" beginRegion="square brackets" />
-			<DetectChar attribute="Symbol" context="#stay" char="]" endRegion="square brackets" />
-			<DetectChar attribute="Symbol" context="#stay" char="{" beginRegion="curly brackets" />
-			<DetectChar attribute="Symbol" context="#stay" char="}" endRegion="curly brackets" />
-			<AnyChar String="#:!,.+-*/%&lt;=&gt;|&amp;" attribute="Symbol" context="#stay" />
+			<DetectChar attribute="Punctuation" context="#stay" char="(" beginRegion="round brackets" />
+			<DetectChar attribute="Punctuation" context="#stay" char=")" endRegion="round brackets" />
+			<DetectChar attribute="Punctuation" context="#stay" char="[" beginRegion="square brackets" />
+			<DetectChar attribute="Punctuation" context="#stay" char="]" endRegion="square brackets" />
+			<DetectChar attribute="Punctuation" context="#stay" char="{" beginRegion="curly brackets" />
+			<DetectChar attribute="Punctuation" context="#stay" char="}" endRegion="curly brackets" />
+			<RegExpr attribute="Symbol" context="#stay" String="(?:[+*/-]|&lt;=|&gt;=|&lt;|&gt;)\." />
+			<AnyChar String="#:,." attribute="Punctuation" context="#stay" />
+			<AnyChar String="!+-*/%&lt;=&gt;|&amp;" attribute="Symbol" context="#stay" />
 			<AnyChar String=";?&apos;~^$\" attribute="Error" context="#stay" />
 		</context>
 		<!-- Strings and BitArrays -->
@@ -192,11 +200,11 @@
 		</context>
 		<context attribute="Normal Text" lineEndContext="#stay" name="import suffix" fallthroughContext="#pop#pop" >
 			<DetectSpaces attribute="Normal Text" />
-			<Detect2Chars attribute="Symbol" context="unqualified imports" char="." char1="{" beginRegion="curly brackets" />
+			<Detect2Chars attribute="Punctuation" context="unqualified imports" char="." char1="{" beginRegion="curly brackets" />
 			<WordDetect attribute="Keyword" context="#pop!renamed import" String="as" />
 		</context>
 		<context attribute="Normal Text" lineEndContext="#stay" name="unqualified imports" >
-			<DetectChar attribute="Symbol" context="#pop" char="}" endRegion="curly brackets" />
+			<DetectChar attribute="Punctuation" context="#pop" char="}" endRegion="curly brackets" />
 			<IncludeRules context="normal text" />
 		</context>
 		<context attribute="Normal Text" lineEndContext="#stay" lineEmptyContext="#stay" name="renamed import" fallthroughContext="#pop!error" >
@@ -219,8 +227,8 @@
 		<itemData name="Error" defStyleNum="dsError" />
 		<!-- Strings and BitArrays -->
 		<itemData name="String" defStyleNum="dsString" />
-		<itemData name="EscapeSequence" defStyleNum="dsSpecialChar" />
-		<itemData name="BitArrayOption" defStyleNum="dsSpecialChar" />
+		<itemData name="EscapeSequence" defStyleNum="dsString" />
+		<itemData name="BitArrayOption" defStyleNum="dsNormal" />
 		<!-- Comments -->
 		<itemData name="Comment" defStyleNum="dsComment" />
 		<itemData name="Documentation" defStyleNum="dsComment" />
@@ -229,10 +237,11 @@
 		<itemData name="Crash" defStyleNum="dsControlFlow" />
 		<!-- Names -->
 		<itemData name="Attribute" defStyleNum="dsAttribute" />
-		<itemData name="Module" defStyleNum="dsImport" />
+		<itemData name="Module" defStyleNum="dsNormal" />
 		<itemData name="Function" defStyleNum="dsFunction" />
 		<itemData name="Type" defStyleNum="dsDataType" />
 		<!-- Numbers -->
+		<itemData name="Boolean" defStyleNum="dsConstant" />
 		<itemData name="Binary" defStyleNum="dsBaseN" />
 		<itemData name="Octal" defStyleNum="dsBaseN" />
 		<itemData name="Decimal" defStyleNum="dsDecVal" />
@@ -240,6 +249,7 @@
 		<itemData name="Float" defStyleNum="dsFloat" />
 		<!-- Symbols -->
 		<itemData name="Symbol" defStyleNum="dsOperator" />
+		<itemData name="Punctuation" defStyleNum="dsNormal" />
 	</itemDatas>
 </highlighting>
 <general>

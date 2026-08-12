@@ -107,7 +107,7 @@ pub type Lista {
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > // lista vazia
 > let lst0: Lista = Vazia
 Vazia
@@ -115,7 +115,7 @@ Vazia
 
 \pause
 
-```gleam
+```gleam-repl
 > // lista com o 3
 > let lst1: Lista = NaoVazia(3, Vazia)
 NaoVazia(primeiro: 3, resto: Vazia)
@@ -123,7 +123,7 @@ NaoVazia(primeiro: 3, resto: Vazia)
 
 \pause
 
-```gleam
+```gleam-repl
 > // Lista com o 8 e 7
 > let lst2: Lista = NaoVazia(8, NaoVazia(7, Vazia))
 NaoVazia(primeiro: 8, resto: NaoVazia(primeiro: 7, resto: Vazia))
@@ -131,7 +131,7 @@ NaoVazia(primeiro: 8, resto: NaoVazia(primeiro: 7, resto: Vazia))
 
 \pause
 
-```gleam
+```gleam-repl
 > // Nova lista com o 3 como primeiro, seguido de lst2
 > NaoVazia(3, lst2)
 NaoVazia(primeiro: 3, resto: NaoVazia(primeiro: 8, resto: NaoVazia(primeiro: 7, resto: Vazia)))
@@ -145,7 +145,7 @@ Como consultar o primeiro elemento de uma lista? \pause
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > lst1.primeiro
 ```
 
@@ -173,7 +173,7 @@ in all variants to enable direct accessor syntax.
 
 \small
 
-```gleam
+```gleam-repl
 > case lst1 {
     Vazia -> todo
     NaoVazia(primeiro, _) -> primeiro
@@ -624,7 +624,7 @@ A linguagem Gleam já fornece o tipo `List`{.gleam} e uma notação amigável pa
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > // Lista vazia
 > let lst0: List(Int) = []
 []
@@ -632,7 +632,7 @@ A linguagem Gleam já fornece o tipo `List`{.gleam} e uma notação amigável pa
 
 \pause
 
-```gleam
+```gleam-repl
 > // Lista com 3 e 8
 > let lst1: List(Int) = [3, 8]
 [3, 8]
@@ -640,7 +640,7 @@ A linguagem Gleam já fornece o tipo `List`{.gleam} e uma notação amigável pa
 
 \pause
 
-```gleam
+```gleam-repl
 > // Nova lista a partir de uma existente
 > let lst2 = [7, ..lst1]
 [7, 3, 8]
@@ -653,7 +653,7 @@ A linguagem Gleam já fornece o tipo `List`{.gleam} e uma notação amigável pa
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > // Desestruturação
 > case lst2 {
     [] -> todo
@@ -664,7 +664,7 @@ A linguagem Gleam já fornece o tipo `List`{.gleam} e uma notação amigável pa
 
 \pause
 
-```gleam
+```gleam-repl
 > case lst2 {
     [] -> todo
     [primeiro, ..resto] -> resto

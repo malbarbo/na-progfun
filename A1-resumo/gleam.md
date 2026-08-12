@@ -14,7 +14,7 @@ license:
 
 ## Números inteiros (`Int`{.gleam})
 
-```gleam
+```gleam-repl
 > 3 + 4
 7
 > 12 - 25
@@ -39,7 +39,7 @@ Error(Nil)
 
 ## Números de ponto flutuante (`Float`{.gleam})
 
-```gleam
+```gleam-repl
 > 3.1 +. 2.0
 6.2
 > 12.4 -. 25.0
@@ -64,7 +64,7 @@ Error(Nil)
 
 ## Cadeia de caracteres (`String`{.gleam})
 
-```gleam
+```gleam-repl
 > "casa" <> " verde"
 "casa verde"
 > string.length("outra")
@@ -78,7 +78,7 @@ Error(Nil)
 
 ## Booleanos (`Bool`{.gleam})
 
-```gleam
+```gleam-repl
 > !True // negação
 False
 > !False
@@ -96,7 +96,7 @@ False
 
 ## Listas (`List`{.gleam})
 
-```gleam
+```gleam-repl
 > [] // Lista vazia
 []
 > let lst1 = [2, 3] // Literal
@@ -108,7 +108,7 @@ False
 
 ## Igualdade
 
-```gleam
+```gleam-repl
 > 4 == 1 + 3
 True
 > 1.2 == 3.0
@@ -169,7 +169,9 @@ pub type Nome {
 pub type Ponto {
   Ponto(x: Int, y: Int)
 }
+```
 
+```gleam-repl
 > let p1 = Ponto(10, 20)
 Ponto(x: 10, y: 20)
 > p1.x + p1.y
@@ -260,7 +262,7 @@ pub fn soma(lst: List(a)) {
 
 ## Funções de alta ordem
 
-```gleam
+```gleam-repl
 > list.filter([7, 3, 6, 2, 9], int.is_odd) // é impar
 [7, 3, 9]
 > list.filter([-4, 1, 3, -2, 9], fn(x) { x > 0 })
@@ -283,7 +285,7 @@ pub fn soma(lst: List(a)) {
 
 ## Cadeia de processamento
 
-```gleam
+```gleam-repl
 > [5, 1, 3, 2, 7]
   |> list.map(int.add(_, 1))
   |> list.filter(int.is_even) // é par

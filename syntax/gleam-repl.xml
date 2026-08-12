@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language>
+<!--
+    Sessões interativas do REPL do sgleam: a entrada é destacada como código
+    Gleam, a saída é texto simples, como no editor do simplecode.
+
+    A entrada pode ter várias linhas. Como no simplecode não existe prompt de
+    continuação, as linhas de continuação são reconhecidas pela indentação ou
+    por começarem com um fechamento de bloco; qualquer outra linha é saída.
+-->
+<language name="Gleam-REPL"
+          alternativeNames="gleam-repl"
+          version="1"
+          kateversion="5.0"
+          section="Sources"
+          extensions="*.gleam-repl"
+          mimetype=""
+          priority="0"
+          license="MIT">
+  <highlighting>
+    <contexts>
+      <context attribute="Output" lineEndContext="#stay" name="Normal">
+        <RegExpr attribute="Prompt" context="Code"
+                 String="^\s*&gt; ?" column="0" />
+        <RegExpr attribute="Code" context="Code" String="^[ \t]+" column="0" />
+        <AnyChar attribute="Code" context="Code" String="}])" column="0" />
+      </context>
+      <context attribute="Code" lineEndContext="#pop" name="Code">
+        <IncludeRules context="##Gleam" />
+      </context>
+    </contexts>
+    <itemDatas>
+      <itemData name="Output" defStyleNum="dsNormal" />
+      <itemData name="Prompt" defStyleNum="dsSpecialChar" />
+      <itemData name="Code" defStyleNum="dsNormal" />
+    </itemDatas>
+  </highlighting>
+  <general>
+    <keywords casesensitive="true" />
+  </general>
+</language>

@@ -748,7 +748,7 @@ Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-de
 <div class="column" width="48%">
 \footnotesize
 
-```gleam
+```gleam-repl
 > list.map([4, 1, 2], int.is_even)
 ```
 
@@ -762,7 +762,7 @@ Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-de
 
 \pause
 
-```gleam
+```gleam-repl
 > list.map(["casa", "", "arroz"],
            string.first)
 ```
@@ -783,7 +783,7 @@ Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-de
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > list.map([1.2, 3.1], list.wrap)
 ```
 
@@ -797,7 +797,7 @@ Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-de
 
 \pause
 
-```gleam
+```gleam-repl
 > list.map([[4], [1, 2]], list.length)
 ```
 
@@ -808,7 +808,7 @@ Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-de
 ```
 
 <!--
-```gleam
+```gleam-repl
 > list.map(
     list.map(["carlos ", " BIA"], string.trim),
     string.capitalise)
@@ -824,7 +824,7 @@ Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-de
 
 \pause
 
-```gleam
+```gleam-repl
 > ["carlos ", " BIA"]
   |> list.map(string.trim)
   |> list.map(string.capitalise)
@@ -1188,7 +1188,7 @@ fn comeca_a(s: String) -> Bool {
 
 \pause
 
-```gleam
+```gleam-repl
 > list.filter(["ana", "pedro", "agua"],
               comeca_a)
 ```
@@ -1218,7 +1218,7 @@ fn tamanho_1(lst: List(a)) -> Bool {
 
 \ \
 
-```gleam
+```gleam-repl
 > list.filter([[0], [2, 6], [], [3]],
               tamanho_1)
 ```
@@ -1602,7 +1602,7 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 <div class="column" width="48%">
 \footnotesize
 
-```gleam
+```gleam-repl
 > list.fold_right([4, 5, 2],
                   1, int.multiply)
 ```
@@ -1617,7 +1617,7 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 
 \pause
 
-```gleam
+```gleam-repl
 > list.fold_right([4, 1, 8], 0, int.max)
 ```
 
@@ -1636,7 +1636,9 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 fn soma_1_acc(acc: Int, _: Int) -> Int {
   acc + 1
 }
+```
 
+```gleam-repl
 > list.fold_right([4, 1, 8], 0, soma_1_acc)
 ```
 
@@ -2131,7 +2133,7 @@ Uma função que não é nomeada é chamada de **função anônima**.
 <div class="column" width="48%">
 \footnotesize
 
-```gleam
+```gleam-repl
 > // Função anônima
 > fn(x: Int) -> Int { x + 1 }
 //fn(a) { ... }
@@ -2139,7 +2141,7 @@ Uma função que não é nomeada é chamada de **função anônima**.
 
 \pause
 
-```gleam
+```gleam-repl
 > // Chamada de função anônima
 > fn(x: Int) -> Int { x + 1 }(3)
 4
@@ -2151,7 +2153,7 @@ Uma função que não é nomeada é chamada de **função anônima**.
 <div class="column" width="48%">
 \footnotesize
 
-```gleam
+```gleam-repl
 > // Armazenando função em variável
 > let soma1 = fn(x: Int) -> Int { x + 1 }
 //fn(a) { ... }
@@ -2159,7 +2161,7 @@ Uma função que não é nomeada é chamada de **função anônima**.
 
 \pause
 
-```gleam
+```gleam-repl
 > // Chamando a função armazenada
 > soma1(3)
 4
@@ -2238,7 +2240,7 @@ Como parâmetro, quando a função for pequena e necessária apenas naquele loca
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > list.map([3, 8, -6], fn(x) { x * 2 })
 [6, 16, -12]
 > list.filter([3, 20, -4, 48], fn(x) { x < 10 })
@@ -2337,7 +2339,7 @@ Defina uma função que receba um parâmetro $n$ e devolva uma função que soma
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
+```gleam-repl
 > let soma1 = soma(1)
 //fn(a) { ... }
 > soma1(4)
@@ -2350,7 +2352,7 @@ Defina uma função que receba um parâmetro $n$ e devolva uma função que soma
 
 \pause
 
-```gleam
+```gleam-repl
 > soma(1)(2)
 3
 ```
@@ -2359,7 +2361,7 @@ Defina uma função que receba um parâmetro $n$ e devolva uma função que soma
 
 \pause
 
-```gleam
+```gleam-repl
 > list.map([4, 1, 3], soma(5))
 [9, 6, 8]
 ```
@@ -2413,7 +2415,7 @@ Defina uma função que receba como parâmetro um predicado (função de um par�
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
+```gleam-repl
 > nega(list.is_empty)([])
 False
 > nega(list.is_empty)([1, 2])
@@ -2424,7 +2426,7 @@ True
 
 \pause
 
-```gleam
+```gleam-repl
 > filter([4, 1, 2, 0, 3], nega(int.is_odd))
 [4, 2, 0]
 ```
@@ -2497,7 +2499,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
+```gleam-repl
 > // separa a string em ","
 > let sep = ","
 > let separa = fn(s) { string.split(s, sep) }
@@ -2512,7 +2514,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
+```gleam-repl
 > // forma abreviada
 > let sep = ","
 > let separa = string.split(_, sep)
@@ -2530,7 +2532,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
+```gleam-repl
 > // seleciona os elementos de a que estão em b
 > let a = [1, 4, 2]
 > let b = [3, 2, 7, 1]
@@ -2544,7 +2546,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
+```gleam-repl
 > // forma abreviada
 > let a = [1, 4, 2]
 > let b = [3, 2, 7, 1]
@@ -2562,7 +2564,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
+```gleam-repl
 > // soma 1 em cada elemento da lista
 > list.map([3, 1, 4], fn(x) { x + 1 })
 [4, 2, 5]
@@ -2570,7 +2572,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 
 \pause
 
-```gleam
+```gleam-repl
 > // em uma forma que pode ser abreviada
 > list.map([3, 1, 4], fn(x) { int.add(x, 1) })
 [4, 2, 5]
@@ -2582,7 +2584,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
+```gleam-repl
 > // forma abreviada
 > list.map([3, 1, 4], int.add(_, 1))
 [4, 2, 5]
@@ -2648,9 +2650,9 @@ fn tamanho_max(lst: List(String) -> Int {
 
 \scriptsize
 
-```gleam
-// cria uma lista com todos os nomes que começam com a letra "a"
-// enumerados em ordem alfabética.
+```gleam-repl
+> // cria uma lista com todos os nomes que começam com a letra "a"
+> // enumerados em ordem alfabética.
 > enumera_em_ordem_comeca_a(["pedro", "angela", "joao", "ana", "aline"])
 ["1. aline", "2. ana", "3. angela"]
 ```
@@ -2727,13 +2729,18 @@ Podemos criar uma função de alta ordem `entao` para abstrair esse padrão. \pa
 /// Excuta *fun* com o valor de *r* e
 /// devolve seu resultado se *r* é Ok,
 /// senão devolve o mesmo erro de *r*.
+```
+
+```gleam-repl
 > entao(Ok(10), fn(x) { Ok(int.to_string(x)) })
 Ok("10")
 > entao(Error("a"), fn(x) { Ok(int.to_string(x)) })
 Error("falhou")
 > Ok("casa") |> entao(string.first)
 Ok("c")
+```
 
+```gleam
 fn entao(
   r: Result(a, b),
   fun: fn(a) -> Result(c, b),

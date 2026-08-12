@@ -339,21 +339,21 @@ Vamos utilizar os exemplos que criamos na especificação para verificar se a re
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > seleciona_combustivel(3.0, 4.0)
 "Gasolina"
 ```
 
 \pause
 
-```gleam
+```gleam-repl
 > seleciona_combustivel(2.9, 4.2)
 "Álcool"
 ```
 
 \pause
 
-```gleam
+```gleam-repl
 > seleciona_combustivel(3.5, 5.0)
 "Álcool"
 ```

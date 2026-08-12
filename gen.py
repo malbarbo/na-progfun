@@ -12,7 +12,7 @@ handouts = []
 texs = []
 
 def gen_pdf(kind):
-    print(f'{target}: $(PANDOC) $(TECTONIC) {cap}/{item}')
+    print(f'{target}: $(PANDOC) $(TECTONIC) {cap}/{item} syntax/gleam.xml syntax/gleam-repl.xml syntax/sgleam.theme templates/default.beamer templates/default.latex filters/sgleam_image.lua')
     print(f'\t@echo {target}')
     print(f'\t@mkdir -p {DEST}/handout')
     # print(f'\t@cd {cap} && ../$(PANDOC_{kind}_CMD) -V date="$(shell date -d @`git log -1 --pretty=\'format:%ct\' {cap}/{item}` \'+%d de %B de %Y\')" -o ../{target} {item}')

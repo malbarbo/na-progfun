@@ -181,7 +181,7 @@ Uma expressão é definida em termos de dois casos e por isso a regra de avalia�
 
 \small
 
-```gleam
+```gleam-repl
 > True
 True
 > 231
@@ -212,7 +212,7 @@ Alguns exemplos de combinações
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > { 2 + 12 } * 5
 70
 ```
@@ -221,7 +221,7 @@ Alguns exemplos de combinações
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > int.multiply(int.add(2, 12), 5)
 70
 ```
@@ -234,7 +234,7 @@ Alguns exemplos de combinações
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > "Gol" <> string.repeat("!", 4)
 "Gol!!!!"
 ```
@@ -243,7 +243,7 @@ Alguns exemplos de combinações
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > string.append("Gol",
                 string.repeat("!", 4))
 "Gol!!!!"
@@ -257,7 +257,7 @@ Alguns exemplos de combinações
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > 10 / 0  // Divisão por zero é zero!
 0
 ```
@@ -266,7 +266,7 @@ Alguns exemplos de combinações
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > int.divide(10, 0)
 0
 ```
@@ -447,7 +447,7 @@ pub const y = 20
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > x
 10
 > y
@@ -499,7 +499,7 @@ pub fn soma_quadrados(a: Int, b) {
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > soma_quadrados(3, 4)
 25
 ```
@@ -703,7 +703,7 @@ Executando os exemplos que fizemos anteriormente: \pause
 
 \small
 
-```gleam
+```gleam-repl
 > custo_combustivel(400.0, 5.0, 10.0)
 200.0
 ```
@@ -755,7 +755,7 @@ Exemplos
 
 \small
 
-```gleam
+```gleam-repl
 > if 4 > 2 { 10 + 2 } else { 7 * 3 }
 ```
 
@@ -767,7 +767,7 @@ Exemplos
 
 \pause
 
-```gleam
+```gleam-repl
 > if 10 == 12 { 10 + 2 } else { 7 * 3 }
 ```
 
@@ -810,7 +810,7 @@ Onde a ordem dos casos não é importante.
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > if 4 > 2 {
     10 + 2
   } else {
@@ -823,7 +823,7 @@ Onde a ordem dos casos não é importante.
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > case 4 > 2 {
     True -> 10 + 2
     False -> 7 * 3
@@ -958,7 +958,7 @@ Defina a função `sinal` que determina o sinal de um número inteiro. \pause
 
 \small
 
-```gleam
+```gleam-repl
 > sinal(4)
 1
 > sinal(0)
@@ -1001,7 +1001,7 @@ Defina a função `and`{.gleam} que recebe os argumentos booleanos `x`{.gleam} e
 
 \small
 
-```gleam
+```gleam-repl
 > and(False, False)
 False
 > and(False, True)
@@ -1092,7 +1092,7 @@ Defina a função `or`{.gleam} que recebe os argumentos booleanos `x`{.gleam} e 
 
 \small
 
-```gleam
+```gleam-repl
 > or(False, False)
 False
 > or(False, True)
@@ -1160,7 +1160,7 @@ Alguns exemplos
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > 3 > 4 || 2 == 1 + 1
 True
 > 3 > 4 && 2 == 1 + 1
@@ -1171,7 +1171,7 @@ False
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > !True
 False
 > bool.negate(2 == 4)
@@ -1192,7 +1192,7 @@ True
 
 Diferente do Python, a negação tem prioridade menor que os operadores relacionais. \pause
 
-```gleam
+```gleam-repl
 > ! 3 > 4
 erro
 > !{ 3 > 4 }
@@ -1257,7 +1257,7 @@ Os exemplos a seguir usam o efeito colateral de `io.debug`{gleam} para demonstra
 <div class="column" width="50%">
 \footnotesize
 
-```gleam
+```gleam-repl
 > 3 > 5 && { io.debug("aqui") True }
 ```
 
@@ -1269,7 +1269,7 @@ False
 
 \pause
 
-```gleam
+```gleam-repl
 > 5 > 3 && { io.debug("aqui") True }
 ```
 
@@ -1286,7 +1286,7 @@ True
 <div class="column" width="50%">
 \footnotesize
 
-```gleam
+```gleam-repl
 > 3 > 5 || { io.debug("aqui") False }
 ```
 
@@ -1299,7 +1299,7 @@ False
 
 \pause
 
-```gleam
+```gleam-repl
 > 5 > 3 || { io.debug("aqui") True }
 ```
 
@@ -1332,7 +1332,7 @@ O operador de diferente (negação da igualdade) é `!=`{.gleam}.
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > 10 == 9 + 1
 ```
 
@@ -1344,7 +1344,7 @@ True
 
 \pause
 
-```gleam
+```gleam-repl
 > 3.0 +. 1.0 == 4.0
 ```
 
@@ -1356,7 +1356,7 @@ True
 
 \pause
 
-```gleam
+```gleam-repl
 > 10 == 10.0
 ```
 
@@ -1372,7 +1372,7 @@ error: Type mismatch
 <div class="column" width="50%">
 \small
 
-```gleam
+```gleam-repl
 > ["a", "c", "b"] == ["a", "c", "b"]
 ```
 
@@ -1384,7 +1384,7 @@ True
 
 \pause
 
-```gleam
+```gleam-repl
 > [[], [1, 2]] == [[], [1, 2]]
 ```
 
@@ -1396,7 +1396,7 @@ True
 
 \pause
 
-```gleam
+```gleam-repl
 > [[], [1, 2]] != [[], [1, 2]]
 ```
 

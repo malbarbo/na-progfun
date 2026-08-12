@@ -62,13 +62,13 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 
 ## Dimensões
 
-```gleam
+```gleam-repl
 > let r = image.rectangle(20, 60, fill.blue)
 ```
 
 \pause
 
-```gleam
+```gleam-repl
 > image.width(r)
 20
 > image.widthf(r)
@@ -77,7 +77,7 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 
 
 \pause
-```gleam
+```gleam-repl
 > image.height(r)
 60
 > image.heightf(r)
@@ -204,7 +204,7 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 
 ## Texto
 
-```gleam
+```gleam-repl
 > image.text("Casa", 20, fill.black) // texto e tamanho da fonte
 ```
 
@@ -212,7 +212,7 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 
 \pause
 
-```gleam
+```gleam-repl
 > image.text("aTa", 30, stroke.darkgreen) // texto e tamanho da fonte
 ```
 
@@ -220,7 +220,7 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 
 \pause
 
-```gleam
+```gleam-repl
 > image.text_font(
     "gleam",
     font.Font(..font.default(), size: 25.0, family: "monospace"),
@@ -383,7 +383,7 @@ Escala.
 
 \pause
 
-```gleam
+```gleam-repl
 > image.text("teste", 16, fill.black) |> image.scale_xyf(2.5, 1.2)
 ```
 
@@ -501,7 +501,7 @@ Colocando uma porta.
 
 \small
 
-```gleam
+```gleam-repl
 > let porta = image.rectangle(15, 25, fill.saddlebrown)
 ``````
 
@@ -521,7 +521,7 @@ Colocando uma porta, agora com maçaneta.
 
 \small
 
-```gleam
+```gleam-repl
 > let porta_macaneta = image.overlay_align(
     image.circle(3, fill.yellow),
     xplace.Right,
@@ -585,7 +585,7 @@ Cores também podem ser criadas usando valores rgb ou rbga.
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > let verde = color.rgb(0, 255, 0) // valores entre 0 e 255
 > let laranja = color.rgba(255, 165, 0, 0.7) // opacidade entre 0 a 1
 > let estilo = style.join([
@@ -741,7 +741,7 @@ fn cena_texto(tick: Int) -> image.Image {
 <div class="column" width="33%">
 \footnotesize
 
-```gleam
+```gleam-repl
 > cena_texto(10)
 ```
 
@@ -752,7 +752,7 @@ fn cena_texto(tick: Int) -> image.Image {
 <div class="column" width="33%">
 \footnotesize
 
-```gleam
+```gleam-repl
 > cena_texto(40)
 ```
 
@@ -763,7 +763,7 @@ fn cena_texto(tick: Int) -> image.Image {
 <div class="column" width="33%">
 \footnotesize
 
-```gleam
+```gleam-repl
 > cena_texto(76)
 ```
 

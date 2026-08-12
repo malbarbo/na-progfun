@@ -165,7 +165,7 @@ Podemos utilizar os operadores `==` e `!=` e a função `string.inspect`{.gleam}
 
 \small
 
-```gleam
+```gleam-repl
 > Alcool == Gasolina
 False
 > Alcool != Gasolina
@@ -412,7 +412,7 @@ pub type Ponto {
 
 Construção
 
-```gleam
+```gleam-repl
 > let p1: Ponto = Ponto(x: 3, y: 4)
 > let p2 = Ponto(8, 2)
 > p2
@@ -437,7 +437,7 @@ Acesso aos campos
 
 Desestruturação
 
-```gleam
+```gleam-repl
 > // pela posição
 > let Ponto(x, y) = p2
 > x
@@ -448,8 +448,8 @@ Desestruturação
 
 \pause
 
-```gleam
-// pelo rótulo
+```gleam-repl
+> // pelo rótulo
 > let Ponto(y: a, ..) = p2
 > a
 2
@@ -477,7 +477,7 @@ pub type Ponto {
 
 Construção
 
-```gleam
+```gleam-repl
 > let p1: Ponto = Ponto(x: 3, y: 4)
 > let p2 = Ponto(8, 2)
 > p2
@@ -497,7 +497,7 @@ Acesso aos campos
 
 Comparação
 
-```gleam
+```gleam-repl
 > p1 == Ponto(3, 4)
 True
 > p1 != p1
@@ -510,7 +510,7 @@ True
 
 Inspeção
 
-```gleam
+```gleam-repl
 > string.inspect(p1)
 "Ponto(x: 3, x: 4)"
 ```
@@ -548,7 +548,7 @@ Vamos criar um ponto `p2`{.gleam} que é como `p1`{.gleam}, mas com o valor `5`{
 
 \small
 
-```gleam
+```gleam-repl
 > let p1 = Ponto(3, 4)
 > let p2 = Ponto(p1.x, 5)
 > p2
@@ -573,7 +573,7 @@ Gleam tem uma sintaxe especial para atualização de estruturas.
 
 \small
 
-```gleam
+```gleam-repl
 > let p1 = Ponto(3, 4)
 > let p2 = Ponto(..p1, y: 5)
 > p2
@@ -582,7 +582,7 @@ Ponto(x: 3, y: 5)
 
 \pause
 
-```gleam
+```gleam-repl
 > let p3 = Ponto(..p1, x: 7)
 > p3
 Ponto(x: 7, y: 4)
@@ -590,7 +590,7 @@ Ponto(x: 7, y: 4)
 
 \pause
 
-```gleam
+```gleam-repl
 > // Podemos atualiza mais que um campo (não faz sentido nesse exemplo)
 > Ponto(..p1, x: 1, y: 2)
 Ponto(x: 1, y: 2)
@@ -1146,13 +1146,13 @@ pub type EstadoTarefa {
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > let tarefa: EstadoTarefa = Executado
 ```
 
 \pause
 
-```gleam
+```gleam-repl
 > tarefa.msg
 ```
 
@@ -1167,13 +1167,13 @@ pub type EstadoTarefa {
 
 \ \
 
-```gleam
+```gleam-repl
 > let tarefa = Sucesso(10, "Recuperação exitosa.")
 ```
 
 \pause
 
-```gleam
+```gleam-repl
 > tarefa.msg
 ```
 
@@ -1217,7 +1217,7 @@ pub type EstadoTarefa {
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > // Devolve -1 se não tem duracao.
 > pub fn duracao(tarefa: EstadoTarefa) -> Int {
   case tarefa {
@@ -1231,7 +1231,7 @@ pub type EstadoTarefa {
 
 \ \
 
-```gleam
+```gleam-repl
 > duracao(Executando)
 -1
 > duracao(Sucesso(10, "Recuperação exitosa."))
@@ -1490,7 +1490,9 @@ pub fn duracao(tarefa: EstadoTarefa) -> Int {
     _ -> -1
   }
 }
+```
 
+```gleam-repl
 > duracao(Executando)
 -1
 > duracao(Sucesso(10, "Recuperação exitosa."))
@@ -1533,7 +1535,9 @@ pub fn duracao(tarefa: EstadoTarefa) -> Opcional {
     _ -> Nenhum
   }
 }
+```
 
+```gleam-repl
 > duracao(Executando)
 Nenhum
 > duracao(Sucesso(10, "Recuperação exitosa."))
@@ -1554,7 +1558,7 @@ O usuário da função tem de tratar de forma explícita os dois casos; ele não
 
 \footnotesize
 
-```gleam
+```gleam-repl
 > 2 * duracao(Executado)
 ```
 
@@ -1806,7 +1810,7 @@ De acordo com <https://hexdocs.pm/gleam_stdlib/gleam/option.html>:
 <div class="column" width="48%">
 \small
 
-```gleam
+```gleam-repl
 > int.parse("10.1")
 Error(Nil)
 > int.parse("241")
@@ -1815,7 +1819,7 @@ Ok(241)
 
 \pause
 
-```gleam
+```gleam-repl
 > int.divide(25, 3)
 Ok(8)
 > int.divide(12, 0)
@@ -1828,7 +1832,7 @@ Error(Nil)
 <div class="column" width="48%">
 \small
 
-```gleam
+```gleam-repl
 > float.square_root(25.0)
 Ok(5.0)
 > float.square_root(-1.0)
@@ -1837,7 +1841,7 @@ Error(Nil)
 
 \pause
 
-```gleam
+```gleam-repl
 > string.first("")
 Error(Nil)
 > string.first("casa")

@@ -10,6 +10,8 @@ PANDOC_VERSION=3.5
 
 PANDOC_NOTAS_CMD=$(PANDOC) \
 		--syntax-definition=../syntax/gleam.xml \
+		--syntax-definition=../syntax/gleam-repl.xml \
+		--highlight-style=../syntax/sgleam.theme \
 		-V mathspec \
 		--from markdown-auto_identifiers \
 		--pdf-engine=$(CURDIR)/$(TECTONIC) \

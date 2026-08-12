@@ -47,7 +47,9 @@ Um **tipo primitivo** é um tipo suportado diretamente pela linguagem de program
 
 \pause
 
-Uma **função primitiva** é uma função suportada diretamente pela linguagem de programação.
+Uma **função primitiva** é uma função suportada diretamente pela linguagem de programação. \pause
+
+Vamos tratar as funções da biblioteca padrão também como primitivas: o que importa aqui é que podemos usá-las sem examinar como são implementadas.
 
 
 ## Literais de tipos primitivos
@@ -118,9 +120,9 @@ Operações com inteiros:
 
 Operações com floats:
 
-- `*. (float.product)`{.gleam}
+- `*. (float.multiply)`{.gleam}
 - `/. (float.divide)`{.gleam}
-- `+. -.  >. >=. <. <=. == !=`{.gleam} \pause
+- `+. -. >. >=. <. <=. == !=`{.gleam} \pause
 - `float.truncate`{.gleam} e diversas outras no módulo [`float`{.gleam}](https://hexdocs.pm/gleam_stdlib/gleam/float.html).
 
 \pause
@@ -188,9 +190,16 @@ True
 231
 > "Banana"
 "Banana"
+> import gleam/int
 > int.add
 //fn(a, b) { ... }
 ```
+
+\normalsize
+
+\pause
+
+As funções da biblioteca padrão, como `int.add`{.gleam}, ficam em módulos e precisam ser importadas antes de serem usadas. Para não poluir os exemplos, os `import`{.gleam} são omitidos daqui em diante, mas eles continuam necessários no REPL e nos arquivos.
 
 
 ## Expressões
@@ -206,7 +215,7 @@ Combinações
 
 ## Combinações
 
-Alguns exemplos de combinações
+Alguns exemplos de combinações. (Observe que em Gleam as chaves `{ }`{.gleam} são usadas para agrupar expressões — os parênteses `( )`{.gleam} são usados apenas nas chamadas de funções)
 
 <div class="columns">
 <div class="column" width="50%">
@@ -268,14 +277,14 @@ Alguns exemplos de combinações
 
 ```gleam-repl
 > int.divide(10, 0)
-0
+Error(Nil)
 ```
 </div>
 </div>
 
 \pause
 
-\ 
+O terceiro par não é uma equivalência: `int.divide`{.gleam} sinaliza o erro na resposta. \pause
 
 Considerando apenas funções e literais (vamos deixar os operadores de lado por simplicidade), qual é forma de combinar expressões para criar novas expressões? \pause
 
@@ -360,7 +369,7 @@ Algumas observações interessantes \pause
 
 - O processo de avaliação para uma expressão que é uma chamada de função requer a chamada do processo de avaliação para suas expressões. \pause Quando um processo é definido em termos de si mesmo, dizemos que ele é **recursivo**. \pause O uso de recursividade permite a avaliação de expressões de tamanhos arbitrários. \pause
 
-- Uma autorreferência em uma definição implicada (geralmente) em uma recursão para processar os elementos que seguem a definição.
+- Uma autorreferência na definição implica (geralmente) uma recursão no processo que a percorre. \pause Veremos essa correspondência de novo mais adiante, ao projetar funções para dados autorreferentes.
 
 
 ## Definição de expressão (versão 0.2)
@@ -399,7 +408,7 @@ Exemplo de avaliação de um expressão \pause
 
 ## Definições
 
-Vimos anteriormente que o paradigma de programação funcional é baseado na definição e aplicações de funções. \pause
+Vimos anteriormente que o paradigma de programação funcional é baseado na definição e aplicação de funções. \pause
 
 Como funções são definidas em termos de expressões, nós vimos primeiramente o que são expressões. \pause
 
@@ -509,7 +518,7 @@ pub fn soma_quadrados(a: Int, b) {
 
 \pause
 
-Note que a especificação dos tipos das entradas e saída são opcionais. Se os tipos não forem especificados, eles são inferidos pelo compilador.
+Note que a especificação dos tipos das entradas e saída é opcional. Se os tipos não forem especificados, eles são inferidos pelo compilador.
 
 
 ## Definições
@@ -643,7 +652,7 @@ O Haskell usa a avaliação em ordem normal.
 
 ## Exercício custo
 
-1. O seu amigo Alan está planejando uma viagem pro final do ano com a família e está considerando diversos destinos. Uma das coisas que ele está levando em consideração é o custo da viagem, que inclui, entre outras coisas, hospedagem, combustível e o pedágio. Para o cálculo do combustível ele pediu a sua ajuda, ele disse que sabe a distância que vai percorrer, o preço do litro do combustível e o rendimento do carro (quantos quilômetros o carro anda com um litro de combustível), mas que é muito chato ficar fazendo o cálculo manualmente, então ele quer que você faça um programa para calcular o custo do combustível em uma viagem.
+O seu amigo Alan está planejando uma viagem para o final do ano com a família e está considerando diversos destinos. Uma das coisas que ele está levando em consideração é o custo da viagem, que inclui, entre outras coisas, hospedagem, combustível e o pedágio. Para o cálculo do combustível ele pediu a sua ajuda, ele disse que sabe a distância que vai percorrer, o preço do litro do combustível e o rendimento do carro (quantos quilômetros o carro anda com um litro de combustível), mas que é muito chato ficar fazendo o cálculo manualmente, então ele quer que você faça um programa para calcular o custo do combustível em uma viagem.
 
 
 ## Solução exercício custo
@@ -711,7 +720,7 @@ Executando os exemplos que fizemos anteriormente: \pause
 
 ## Exercício combustível
 
-2. Depois que você fez o programa para o Alan, a Márcia, amiga em comum de vocês, soube que você está oferecendo serviços desse tipo e também quer a sua ajuda. O problema da Márcia é que ela sempre tem que fazer a conta manualmente para saber se deve abastecer o carro com álcool ou gasolina. A conta que ela faz é verificar se o preço do álcool é até 70% do preço da gasolina, se sim, ela abastece o carro com álcool, senão ela abastece o carro com gasolina. Você pode ajudar a Márcia também?
+Depois que você fez o programa para o Alan, a Márcia, amiga em comum de vocês, soube que você está oferecendo serviços desse tipo e também quer a sua ajuda. O problema da Márcia é que ela sempre tem que fazer a conta manualmente para saber se deve abastecer o carro com álcool ou gasolina. A conta que ela faz é verificar se o preço do álcool é até 70% do preço da gasolina, se sim, ela abastece o carro com álcool, senão ela abastece o carro com gasolina. Você pode ajudar a Márcia também?
 
 
 ## Solução exercício combustível
@@ -720,7 +729,7 @@ Executando os exemplos que fizemos anteriormente: \pause
 
 O que está faltando? \pause Algum tipo de expressão condicional. \pause
 
-Depois voltamos à esse problema!
+Voltamos a esse problema no próximo capítulo!
 
 
 
@@ -761,7 +770,7 @@ Exemplos
 
 \pause
 
-```gleam
+```
 12
 ```
 
@@ -773,7 +782,7 @@ Exemplos
 
 \pause
 
-```gleam
+```
 21
 ```
 </div>
@@ -784,7 +793,7 @@ Exemplos
 
 Qual a diferença desse `if`{.gleam} em relação ao das outras linguagens? \pause
 
-Esse `if`{.gleam} é uma expressão, ele produz um valor como resultado. Na maioria das outras linguagens o `if`{.gleam} é uma sentença ([_statement_](https://en.wikipedia.org/wiki/Statement_(computer_science)) em inglês), ele não produz um resultado mas gera um efeito colateral. \pause
+Esse `if`{.gleam} é uma expressão, ele produz um valor como resultado. Na maioria das outras linguagens o `if`{.gleam} é uma sentença ([_statement_](https://en.wikipedia.org/wiki/Statement_(computer_science)) em inglês), ele não produz um resultado, mas gera um efeito colateral. \pause
 
 Vamos ver como fazer seleção usando o `case`{.gleam}.
 
@@ -920,7 +929,11 @@ case False {        // Como a expressão examinada é False
 
 ## Definição de expressão (versão 1.0)
 
-Vamos atualizar a nossa definição de expressão pra incluir o `case`{.gleam}.
+Vamos atualizar a nossa definição de expressão para incluir o `case`{.gleam}. \pause
+
+O `case`{.gleam} não é uma chamada de função: ele tem uma regra de avaliação própria. As construções assim são chamadas de **formas especiais**. \pause
+
+Vamos ver outras formas especiais ao longo da disciplina, como `&&`{.gleam}, `||`{.gleam}, `let`{.gleam}, funções anônimas, `|>`{.gleam} e `use`{.gleam}.
 
 
 ## Definição de expressão (versão 1.0)
@@ -932,7 +945,7 @@ Uma **expressão** consiste em
 - Um literal; ou
 - Uma função primitiva; ou
 - Um nome; ou
-- Um case; ou
+- Uma forma especial; ou
 - Uma chamada de função
 
 \pause
@@ -943,7 +956,7 @@ Regra para **avaliação de expressão**
 - Literal $\rightarrow$ valor que o literal representa
 - Função primitiva $\rightarrow$ sequência de instruções de máquina associada com a função
 - Nome $\rightarrow$ valor associado com o nome no ambiente
-- Case $\rightarrow$ avalie usando a regra de avaliação do case
+- Forma especial $\rightarrow$ avalie usando a regra de avaliação própria daquela forma (para o `case`{.gleam}, a regra que acabamos de ver)
 - Chamada de função $\rightarrow$ avalie usando a regra de avaliação de chamadas de funções
 </div>
 </div>
@@ -951,7 +964,7 @@ Regra para **avaliação de expressão**
 
 ## Exercício sinal
 
-Defina a função `sinal` que determina o sinal de um número inteiro. \pause
+Defina a função `sinal`{.gleam} que determina o sinal de um número inteiro. \pause
 
 <div class="columns">
 <div class="column" width="50%">
@@ -1019,9 +1032,9 @@ True
 
 \small
 
-Observe o exemplos e responda: \pause se verificarmos o valor de `x`, e ele for `False`{.gleam}, qual é o resultado da função? \pause `False`{.gleam}. \pause
+Observe os exemplos e responda: \pause se verificarmos o valor de `x`{.gleam}, e ele for `False`{.gleam}, qual é o resultado da função? \pause `False`{.gleam}. \pause
 
-E se `x` for `True`{.gleam}? \pause Verificamos o valor de `y`, se for `True`{.gleam}, o resultado da função é `True`{.gleam}, senão, o resultado da função é `False`{.gleam}. \pause
+E se `x`{.gleam} for `True`{.gleam}? \pause Verificamos o valor de `y`{.gleam}, se for `True`{.gleam}, o resultado da função é `True`{.gleam}, senão, o resultado da função é `False`{.gleam}. \pause
 
 ```gleam
 fn and(x, y) {
@@ -1123,15 +1136,15 @@ fn or(x, y) {
 </div>
 
 
-## Limitações das funções and e or
+## Limitações das funções `and` e `or`
 
-Existe alguma implicação em definirmos `and` e `or` como funções? \pause
+Existe alguma implicação em definirmos `and`{.gleam} e `or`{.gleam} como funções? \pause
 
-Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são avaliados antes das funções serem avaliadas e isso impede que algumas otimizações sejam feitas. \pause
+Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são avaliados antes das funções serem avaliadas, e isso torna impossível deixar de avaliar o segundo argumento. \pause
 
-Especificamente, na implementação do `and`, se a primeira expressão for `False`{.gleam}, não é necessário avaliar a segunda expressão. De forma semelhante, no `or`, se a primeira expressão for `True`{.gleam}, não é necessário avaliar a segunda expressão. \pause
+Especificamente, na implementação do `and`{.gleam}, se a primeira expressão for `False`{.gleam}, não é necessário avaliar a segunda expressão. De forma semelhante, no `or`{.gleam}, se a primeira expressão for `True`{.gleam}, não é necessário avaliar a segunda expressão. \pause
 
-Essa otimização, chamada de **avaliação em curto-circuito**, é usada em outras linguagens e permitem escrever condições dependentes, como por exemplo `x != 0 and 10 / x == 2`{.python}, o que não é possível se todos os argumentos para o `and` são avaliados. \pause
+Essa forma de avaliação, chamada de **avaliação em curto-circuito**, é usada em muitas linguagens e permite escrever **condições dependentes**, em que a segunda expressão só pode ser avaliada se a primeira for verdadeira, como `x != 0 and 10 / x == 2`{.python} em Python. Em Gleam a divisão por zero não gera erro, mas o curto-circuito continua evitando avaliações desnecessárias. \pause
 
 Avaliação em curto-circuito é um tipo de avaliação preguiçosa.
 
@@ -1141,15 +1154,11 @@ Operadores lógicos
 
 ## Operadores lógicos
 
-A linguagem Gleam oferece os operadores lógicos `&&`{.gleam} (and), `||`{.gleam} (or) e `!`{.gleam} (not).\pause
+A linguagem Gleam oferece os operadores lógicos `&&`{.gleam} (e), `||`{.gleam} (ou) e `!`{.gleam} (negação), com o mesmo significado dos operadores `and`{.python}, `or`{.python} e `not`{.python} do Python. \pause
 
-Os operadores `&&`{.gleam} e `||`{.glema} são binários e `!`{.gleam} é unário.\pause
+Os operadores `&&`{.gleam} e `||`{.gleam} são binários e `!`{.gleam} é unário. \pause
 
-O operador `&&`{.gleam} produz `True`{.gleam} quando os dois operandos são `True`{.gleam}. \pause
-
-O operador `||`{.gleam} produz `True`{.gleam} quando pelo menos um dos dois operandos é `True`{.gleam}. \pause
-
-O operador `!`{.gleam} produz `True`{.gleam} se o operando é `False`{.gleam} e `False`{.gleam} se o operando é `True`{.gleam}.
+Diferente do Python, os operandos precisam ser booleanos: `1 && True`{.gleam} é um erro de tipo.
 
 
 ## Exemplos dos operadores lógicos
@@ -1190,11 +1199,17 @@ True
 
 \small
 
-Diferente do Python, a negação tem prioridade menor que os operadores relacionais. \pause
+Diferente do Python, a negação tem prioridade maior que os operadores relacionais. \pause
 
 ```gleam-repl
 > ! 3 > 4
-erro
+```
+
+```
+error: Type mismatch
+```
+
+```gleam-repl
 > !{ 3 > 4 }
 True
 ```
@@ -1208,15 +1223,15 @@ True
 
 O operador `&&`{.gleam} tem maior prioridade do que `||`{.gleam}. \pause
 
-```gleam
->>> True || False && False
+```gleam-repl
+> True || False && False
 True
 ```
 
 \pause
 
-```gleam
->>> { True || False } && False
+```gleam-repl
+> { True || False } && False
 False
 ```
 
@@ -1228,54 +1243,55 @@ False
 
 Assim como em outras linguagens, os operadores `&&`{.gleam} e `||`{.gleam} são avaliados em curto-circuito. \pause
 
-Ou seja, esses operadores tem regras de avaliação específicas e não são avaliados como funções.
+Ou seja, `&&`{.gleam} e `||`{.gleam} são formas especiais: têm regras de avaliação próprias e não são avaliados como funções.
 
 
 ## Regra de avaliação da expressão `&&`
 
 A regra de avaliação da expressão `&&`{.gleam} é: \pause
 
-- Avalie a expressão a esquerda de `&&`{.gleam}, se o valor for `False`{.gleam}, substitua toda a expressão `&&`{.gleam} por `False`{.gleam}; \pause
+- Avalie a expressão à esquerda de `&&`{.gleam}, se o valor for `False`{.gleam}, substitua toda a expressão `&&`{.gleam} por `False`{.gleam}; \pause
 
 - Senão, substitua toda a expressão `&&`{.gleam} pela expressão à direita de `&&`{.gleam}.
 
 
-## Regra de avaliação da expressão ||
+## Regra de avaliação da expressão `||`
 
 A regra de avaliação da expressão `||`{.gleam} é: \pause
 
-- Avalie a expressão a esquerda de `||`{.gleam}, se o valor for `True`{.gleam}, substitua toda a expressão `||`{.gleam} por `True`{.gleam}; \pause
+- Avalie a expressão à esquerda de `||`{.gleam}, se o valor for `True`{.gleam}, substitua toda a expressão `||`{.gleam} por `True`{.gleam}; \pause
 
 - Senão, substitua toda a expressão `||`{.gleam} pela expressão à direita de `||`{.gleam}.
 
 
 ## Operadores lógicos
 
-Os exemplos a seguir usam o efeito colateral de `io.debug`{gleam} para demonstrar a avaliação em curto-circuito.
+Os exemplos a seguir usam o efeito colateral do `echo`{.gleam} para demonstrar a avaliação em curto-circuito.
 
 <div class="columns">
 <div class="column" width="50%">
 \footnotesize
 
 ```gleam-repl
-> 3 > 5 && { io.debug("aqui") True }
+> 3 > 5 && { echo "aqui" True }
 ```
 
 \pause
 
-```gleam
+```
 False
 ```
 
 \pause
 
 ```gleam-repl
-> 5 > 3 && { io.debug("aqui") True }
+> 5 > 3 && { echo "aqui" True }
 ```
 
 \pause
 
-```gleam
+```
+<repl>:1
 "aqui"
 True
 ```
@@ -1287,12 +1303,13 @@ True
 \footnotesize
 
 ```gleam-repl
-> 3 > 5 || { io.debug("aqui") False }
+> 3 > 5 || { echo "aqui" False }
 ```
 
 \pause
 
-```gleam
+```
+<repl>:1
 "aqui"
 False
 ```
@@ -1300,12 +1317,12 @@ False
 \pause
 
 ```gleam-repl
-> 5 > 3 || { io.debug("aqui") True }
+> 5 > 3 || { echo "aqui" True }
 ```
 
 \pause
 
-```gleam
+```
 True
 ```
 </div>
@@ -1321,7 +1338,9 @@ Igualdade
 
 A linguagem Gleam oferece apenas um operador de igualdade, o `==`{.gleam}, que pode ser usado para quaisquer dois valores do mesmo tipo. \pause
 
-Em Gleam, dois valores são iguais se eles são estruturalmente iguais. \pause
+Em Gleam, dois valores são iguais se eles são estruturalmente iguais, isto é, se têm a mesma forma e as mesmas partes. \pause
+
+Os exemplos a seguir usam **listas**, que vamos estudar mais adiante — por enquanto basta saber que `[1, 2]`{.gleam} é uma lista com os elementos `1`{.gleam} e `2`{.gleam}, e que `[]`{.gleam} é a lista vazia. \pause
 
 O operador de diferente (negação da igualdade) é `!=`{.gleam}.
 
@@ -1338,7 +1357,7 @@ O operador de diferente (negação da igualdade) é `!=`{.gleam}.
 
 \pause
 
-```gleam
+```
 True
 ```
 
@@ -1350,7 +1369,7 @@ True
 
 \pause
 
-```gleam
+```
 True
 ```
 
@@ -1378,7 +1397,7 @@ error: Type mismatch
 
 \pause
 
-```gleam
+```
 True
 ```
 
@@ -1390,7 +1409,7 @@ True
 
 \pause
 
-```gleam
+```
 True
 ```
 
@@ -1402,7 +1421,7 @@ True
 
 \pause
 
-```gleam
+```
 False
 ```
 
@@ -1412,28 +1431,62 @@ False
 
 ## Revisão
 
-Vimos o que são expressões e como elas são avaliadas. \pause
+O que é uma expressão? \pause
 
-- A definição de expressão tem autorreferência, isto é, uma expressão pode conter outras expressões. \pause
+- Um literal, uma função primitiva, um nome, ou uma chamada de função (uma expressão seguida de uma lista de expressões entre parênteses). \pause
 
-- A regra de avaliação de expressão é recursiva, isto é, a regra é descrita em termos dela mesma.
+Por que dizemos que a definição de expressão tem **autorreferência**? \pause
+
+- Porque a definição refere-se a si mesma: uma chamada de função é formada por outras expressões. É isso que permite escrever expressões de tamanho arbitrário. \pause
+
+Por que dizemos que a regra de avaliação de expressões é **recursiva**? \pause
+
+- Porque para avaliar uma chamada de função é preciso avaliar as expressões que ela contém, isto é, a regra é descrita em termos dela mesma.
 
 
 ## Revisão
 
-Aprendemos os tipos e operações primitivas do Gleam e também como fazer definições de constantes e funções. \pause
+Quais tipos primitivos usamos até agora e quais são algumas de suas operações? \pause
 
-- `Int`{.gleam}, `Float`{.gleam}, `String`{.gleam} e `Bool`{.gleam} \pause
+- `Int`{.gleam}, `Float`{.gleam}, `String`{.gleam} e `Bool`{.gleam}, com operações como `+`{.gleam} (`int.add`{.gleam}), `*.`{.gleam} (`float.multiply`{.gleam}), `<>`{.gleam} (`string.append`{.gleam}) e `!`{.gleam} (`bool.negate`{.gleam}). \pause
 
-- `+`{.gleam} (`int.add`{.gleam}), `*.`{.gleam} (`float.multiply`{.gleam}), `==`{.gleam} e muitas outras \pause
+Por que `2 +. 3.0`{.gleam} não é uma expressão válida? \pause
 
-- `&&`{.gleam}, `||`{.gleam} operadores avaliados com uma regra especial (avaliação preguiçosa) \pause
+- Porque os operadores não são sobrecarregados: `+.`{.gleam} opera sobre dois `Float`{.gleam} e `2`{.gleam} é um `Int`{.gleam}. \pause
 
-- `case`{.gleam} \pause
+Em uma chamada de função, o que é o operador e o que são os operandos? \pause
 
-- `const`{.gleam} \pause
+- O operador é a primeira expressão, aquela que produz a função a ser aplicada; os operandos são as expressões entre parênteses. O valor da chamada é o resultado da aplicação do valor do operador aos valores dos operandos.
 
-- `fn`{.gleam}
+
+## Revisão
+
+Para que servem as definições e onde ficam armazenados os nomes definidos? \pause
+
+- Servem para dar nome a objetos computacionais, sejam dados (`const`{.gleam}) ou funções (`fn`{.gleam}). Os nomes e os objetos associados a eles ficam em uma memória chamada **ambiente**. \pause
+
+O que é o modelo de substituição? \pause
+
+- É a forma de calcular o resultado da chamada de uma função composta: avalia-se o corpo da função substituindo cada ocorrência de um parâmetro pelo argumento correspondente. \pause
+
+Qual a diferença entre avaliação em ordem aplicativa e em ordem normal? Qual delas o Gleam usa? \pause
+
+- Na ordem aplicativa os argumentos são avaliados antes da substituição; na ordem normal a substituição é feita primeiro e os argumentos são avaliados apenas quando (e se) forem necessários. O Gleam usa a ordem aplicativa.
+
+
+## Revisão
+
+Qual a diferença entre o `case`{.gleam} do Gleam e o `if`{.gleam} da maioria das linguagens? \pause
+
+- O `case`{.gleam} é uma expressão, ele produz um valor. Na maioria das outras linguagens o `if`{.gleam} é uma sentença: não produz valor, apenas gera efeito colateral. \pause
+
+O que é avaliação em curto-circuito e por que ela não é obtida definindo `and`{.gleam} e `or`{.gleam} como funções? \pause
+
+- É deixar de avaliar o segundo operando quando o primeiro já determina o resultado. Com funções isso não acontece porque, na ordem aplicativa, todos os argumentos são avaliados antes da chamada. Por isso `&&`{.gleam} e `||`{.gleam} são operadores, com regra de avaliação própria. \pause
+
+Quando dois valores são iguais em Gleam? \pause
+
+- Quando eles são estruturalmente iguais. O `==`{.gleam} pode ser usado com dois valores de um mesmo tipo; comparar tipos diferentes é um erro.
 
 
 Referências

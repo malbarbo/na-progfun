@@ -10,21 +10,21 @@ O que é?
 
 O que é programação imperativa? \pause
 
-- Um paradigma de programação onde os programas são descritos com sentenças que modificam o estado do programa. \pause
+- Um paradigma de programação em que os programas são descritos com sentenças que modificam o estado do programa. \pause
 
 O que é programação funcional? \pause
 
-- Um paradigma de programação onde os programas são descritos com aplicação e composição de funções. \pause
+- Um paradigma de programação em que os programas são descritos com aplicação e composição de funções. \pause
 
 - Evita mudança de estado \pause (mudança do valor das variáveis) \pause
 
-- Evita efeitos colaterais \pause (qualquer efeito que seja observável além do valor de saída da função, como a mudança dos parâmetros e variáveis globais, exceções, entrada e saída, etc).
+- Evita efeitos colaterais \pause (qualquer efeito que seja observável além do valor de saída da função, como a mudança dos parâmetros ou de variáveis globais, exceções, entrada e saída, etc.)
 
 
-Por que?
+Por quê?
 ========
 
-## Por que?
+## Por quê?
 
 Um paradigma (linguagem) de programação é uma ferramenta. \pause
 
@@ -137,6 +137,13 @@ A execução não para!
 </div>
 
 
+## Mudança de estado
+
+Nas linguagens puramente funcionais, como o Gleam, não existe mudança de estado: depois de criado, um valor nunca muda. \pause
+
+Sem mudança de estado, os problemas que acabamos de ver não existem.
+
+
 ## Efeitos colaterais
 
 As duas definições a seguir são equivalentes?
@@ -149,6 +156,8 @@ def soma_indices(lst: list[int], a: int, b: int) -> int:
 
 def soma_indices(lst: list[int], a: int, b: int) -> int:
     return indice(lst, a) + indice(lst, b)
+
+# indice(lst, i) devolve o elemento de índice i de lst
 ```
 
 \normalsize
@@ -160,6 +169,10 @@ Não é possível afirmar que as duas definições são equivalentes sem olhar o
 
 ## Efeitos colaterais
 
+Mas nós não confiamos no propósito das funções? \pause
+
+Sim, o propósito diz o que a função produz, mas nem sempre tudo que ela faz. \pause Com o tempo, um "jeitinho" para corrigir um problema rapidamente, como criar uma variável global, pode fazer o corpo divergir do propósito. \pause
+
 A possibilidade de efeitos colaterais **dificulta pensar localmente** sobre o funcionamento do código. \pause
 
 A ausência de efeitos colaterais **permite pensar localmente** sobre o funcionamento do código.
@@ -170,26 +183,15 @@ Como?
 
 ## Como?
 
-1) Escolher uma linguagem. \pause
-
-2) Estudar as construções do paradigma e as referências da linguagem. \pause
-
-3) Praticar lendo e escrevendo código.
-
-
-## Como?
-
 1) Escolher uma linguagem \pause
 
-   - Student Gleam \pause
+   - Gleam: simples, com bom suporte ao paradigma funcional e inferência de tipos \pause
 
-   - Simples \pause
+   - Vamos usar o sgleam (_Student Gleam_), um interpretador de Gleam voltado para o ensino e de instalação simples, assim como usamos o Spython para o Python \pause
 
-   - Bom suporte ao paradigma funcional
+2) Estudar as construções do paradigma e as referências da linguagem \pause
 
-   - Inferência de tipo
-
-      - Fácil instalação
+3) Praticar lendo e escrevendo código, com muitos exemplos e muitos exercícios
 
 
 ## Como?
@@ -209,18 +211,18 @@ Como?
    - [Página](https://malbarbo.pro.br/sgleam/) do sgleam
 
 
-## Como?
-
-3) Praticar lendo e escrevendo código \pause
-
-   - Muitos exemplos \pause
-
-   - Muitos exercícios
-
-
 
 Primeiros passos
 ================
+
+## Web
+
+Para programar em Gleam sem instalar nada, acesse <https://malbarbo.pro.br/sgleam/play.html>. \pause
+
+O programa é escrito à esquerda e o botão `Run` o executa, exibindo o resultado à direita. \pause
+
+![](imagens/sgleam-web.png){width=10cm}
+
 
 ## Instalação local
 
@@ -244,12 +246,7 @@ Em outros sistemas
 
 \small
 
-Acesse <https://malbarbo.pro.br/sgleam/> e faça o download e descompactação manualmente.
-
-
-## Web
-
-![](imagens/sgleam-web.png){width=12cm}
+Acesse <https://malbarbo.pro.br/sgleam/> e faça o download e a descompactação manualmente.
 
 
 ## Execução
@@ -270,6 +267,10 @@ pub fn smain() {
 }
 ```
 
+\normalsize
+
+O sgleam avalia a chamada `smain()` e exibe o valor produzido.
+
 \pause
 
 </div>
@@ -287,7 +288,7 @@ $ ./sgleam dobro.gleam
 No Windows
 
 ```console
-$ .\sgleam dobro.gleam
+PS> .\sgleam dobro.gleam
 8
 ```
 
@@ -297,23 +298,11 @@ $ .\sgleam dobro.gleam
 
 ## Execução do REPL
 
+No REPL (_Read Eval Print Loop_) cada expressão digitada é lida, avaliada e tem o resultado exibido, e o processo se repete, como na janela de interações do Spython. \pause Vamos usar os dois nomes, REPL e **janela de interações**, para nos referir a esse ambiente. \pause
+
 <div class="columns">
-<div class="column" width="55%">
+<div class="column" width="50%">
 
-REPL (_Read Eval Print Loop_)
-
-- A expressão é lida (_Read_)
-
-- A expressão é avaliada (_Eval_)
-
-- O resultado da avaliação é exibido (_Print_)
-
-- O processo é repetido (_Loop_)
-
-\pause
-
-</div>
-<div class="column" width="45%">
 Para iniciar o REPL
 
 \small
@@ -321,23 +310,32 @@ Para iniciar o REPL
 ```console
 $ ./sgleam
 Welcome to sgleam.
-Type ctrl-d ou ":quit" to exit.
+Type ctrl-d or ":quit" to exit.
+```
+
+```gleam-repl
 > 2 + 5
 7
 ```
 
+\normalsize
+
 \pause
 
-\normalsize
+</div>
+<div class="column" width="50%">
 
 Para carregar um arquivo e iniciar o REPL
 
 \small
 
 ```console
-$ ./sgleam -i dobro.gleam
+$ ./sgleam repl dobro.gleam
 Welcome to sgleam.
-Type ctrl-d ou ":quit" to exit.
+Type ctrl-d or ":quit" to exit.
+```
+
+```gleam-repl
 > dobro(4)
 8
 ```
@@ -347,15 +345,66 @@ Type ctrl-d ou ":quit" to exit.
 
 
 
-Leitura
+Revisão
 =======
 
-## Leitura
+## Revisão
+
+O que é programação imperativa? \pause
+
+- Um paradigma de programação em que os programas são descritos com sentenças que modificam o estado do programa. \pause
+
+O que é programação funcional? \pause
+
+- Um paradigma de programação em que os programas são descritos com aplicação e composição de funções, evitando mudança de estado e efeitos colaterais. \pause
+
+Se já sabemos programar, por que estudar outro paradigma? \pause
+
+- Um paradigma é uma ferramenta. Conhecer várias ferramentas permite utilizar a mais adequada para cada problema.
+
+
+## Revisão
+
+O que é um efeito colateral? \pause
+
+- Qualquer efeito de uma função que seja observável além do seu valor de saída, como a mudança dos parâmetros ou de variáveis globais, exceções, entrada e saída, etc. \pause
+
+Por que a possibilidade de efeitos colaterais é um problema? \pause
+
+- Ela dificulta pensar localmente sobre o código: não é possível entender o que uma função faz sem olhar o código das funções que ela chama.
+
+
+## Revisão
+
+Por que compartilhar dados com mudança de estado é difícil? \pause
+
+- Quando dois trechos de código compartilham um valor, a mudança feita por um é observada pelo outro, muitas vezes de forma inesperada. \pause
+
+Como as linguagens puramente funcionais evitam esse problema? \pause
+
+- Elas não têm mudança de estado: depois de criado, um valor nunca muda, então nenhum trecho de código pode alterar o valor que o outro está usando.
+
+
+## Revisão
+
+Que linguagem vamos utilizar e por quê? \pause
+
+- Gleam, porque é simples, tem bom suporte ao paradigma funcional e inferência de tipos. Vamos utilizá-la através do sgleam, um interpretador voltado para o ensino. \pause
+
+O que é um REPL? \pause
+
+- Um ambiente interativo que lê uma expressão (_Read_), avalia a expressão (_Eval_), exibe o resultado (_Print_) e repete o processo (_Loop_). Também chamamos esse ambiente de janela de interações.
+
+
+Referências
+===========
+
+## Referências
 
 <div class="columns">
 <div class="column" width="50%">
 
-Recomendada
+Básicas
 
 - [Tour da linguagem Gleam](https://tour.gleam.run/)
 
@@ -364,7 +413,7 @@ Recomendada
 </div>
 <div class="column" width="50%">
 
-Extra
+Complementares
 
 - [The Python paradox](http://www.paulgraham.com/pypar.html)
 

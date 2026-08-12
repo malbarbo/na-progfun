@@ -5,8 +5,6 @@ title: |
        | Introdução
 urlcolor: Blue
 license:
-# TODO: adicionar exercício de gleam?
-# TODO: exercícios avançando?
 ---
 
 # Começando
@@ -15,11 +13,13 @@ license:
 
 @) O que é programação funcional?
 
+@) Por que compartilhar dados que podem mudar de estado é difícil? Dê um exemplo.
+
 @) O que é efeito colateral?
 
-@) O que é um REPL?
-
 @) O Alberto disse que não tem interesse em aprender programação funcional em Gleam, pois "ninguém" usa Gleam na prática. Explique para o Alberto por que esse argumento não faz sentido.
+
+@) Qual é a diferença entre executar um arquivo com o sgleam e usar a janela de interações? Em que situação cada uma das duas formas é mais conveniente?
 
 
 # Praticando
@@ -39,4 +39,4 @@ license:
 
 @) Que dificuldades os efeitos colaterais podem gerar no desenvolvimento de um programa?
 
-@) Que dificuldades a ausência de mudança de estado podem gerar no desenvolvimento de um programa?
+@) Que dificuldades a ausência de mudança de estado pode gerar no desenvolvimento de um programa?

@@ -43,7 +43,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
 
 @) Faça uma função chamada `area_retangulo` que recebe dois argumentos, a `largura` e a `altura` de um retângulo, e calcula a sua área. Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas no modo interativo.
 
-    ```gleam
+    ```gleam-repl
     > area_retangulo(3.0, 5.0)
     15.0
     > area_retangulo(2.0, 2.5)
@@ -53,7 +53,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
 
 @) Faça uma função chamada `produto_anterior_posterior` que recebe um número inteiro `n` e calcula o produto de `n`, `n + 1` e `n - 1`. Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas no modo interativo.
 
-    ```gleam
+    ```gleam-repl
     > produto_anterior_posterior(3)
     24
     > produto_anterior_posterior(1)
@@ -67,7 +67,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
 
 @) Faça uma função chamada `eh_par` que recebe um número natural `n` e indica se `n` é par. Um número é par se o resto da divisão dele por 2 é igual a zero. Não use `case`{.gleam} e nem a função pré-definida [`int.is_even`{.gleam}](https://hexdocs.pm/gleam_stdlib/gleam/int.html#is_even). Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas no modo interativo.
 
-    ```gleam
+    ```gleam-repl
     > eh_par(3)
     False
     > eh_par(6)
@@ -77,7 +77,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
 
 @) Faça uma função chamada `tem_tres_digitos` que recebe um número natural `n` e verifica se `n` tem exatamente 3 dígitos. Não use `case`{.gleam}. Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas no modo interativo.
 
-    ```gleam
+    ```gleam-repl
     > tem_tres_digitos(99)
     False
     > tem_tres_digitos(100)
@@ -93,7 +93,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
 
 @) Faça uma função `maximo` que encontre o máximo entre dois inteiros. Não use a função [`int.max`{.gleam}](https://hexdocs.pm/gleam_stdlib/gleam/int.html#max). Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas no modo interativo.
 
-    ```gleam
+    ```gleam-repl
     > maximo(3, 5)
     5
     > maximo(8, 4)
@@ -105,7 +105,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
 
 @) Faça uma função chamada `ordem` que recebe três inteiros distintos, `a`, `b` e `c` e determina se a sequência `a, b, c` está em ordem crescente, decrescente ou não está em ordem. Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas no modo interativo.
 
-    ```gleam
+    ```gleam-repl
     > ordem(3, 8, 12)
     "crescente"
     > ordem(3, 1, 4)
@@ -121,7 +121,7 @@ Na implementação dos exercício a seguir use apenas as funções presentes no 
 
 @) Faça uma função chamada `so_primeira_maiuscula` que recebe uma palavra não vazia (string) como parâmetro e crie uma nova string convertendo a primeira letra da palavra para maiúscula e o restante da palavra para minúscula. Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas no modo interativo. Veja as funções [`string.slice`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#slice), [`string.uppercase`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#uppercase) e [`string.lowercase`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#lowercase).
 
-    ```gleam
+    ```gleam-repl
     > so_primeira_maiuscula("paula")
     "Paula"
     > so_primeira_maiuscula("ALFREDO")

@@ -23,6 +23,7 @@
 		<item>as</item>
 		<item>case</item>
 		<item>const</item>
+		<item>echo</item>
 		<item>else</item>
 		<item>fn</item>
 		<item>if</item>
@@ -49,7 +50,6 @@
 		<item>auto</item>
 		<item>delegate</item>
 		<item>derive</item>
-		<item>echo</item>
 		<item>implement</item>
 		<item>macro</item>
 		<item>test</item>

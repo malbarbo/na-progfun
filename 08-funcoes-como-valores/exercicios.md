@@ -33,14 +33,14 @@ license:
 
 @) Defina uma função que receba como parâmetro um predicado (função de um argumento que retorna um valor booleano) e uma lista, e conte quantos elementos da lista satisfazem o predicado. Exemplo
 
-    ```gleam
+    ```gleam-repl
     > conta([3, 1, 2, 4, 7], int.is_odd)
     3
     ```
 
 @) Projete a função `duas_vezes` que receba como parâmetro uma função de um parâmetro e retorne uma função que aplique a função original duas vezes. Exemplo
 
-    ```gleam
+    ```gleam-repl
     > duas_vezes(fn(x) { x + 1 })(3)
     5
     ```

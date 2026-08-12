@@ -22,7 +22,7 @@ license:
 
 @) Projete uma função que calcule todos os possíveis pares entre os elementos de duas listas. Dica: projete uma função auxiliar que crie os pares entre um elemento e os elementos de uma lista.
 
-    ```gleam
+    ```gleam-repl
     > pares([3, 1, 8], [7, 4])
     [[3, 7], [3, 4], [1, 7], [1, 4], [8, 7], [8, 4]]
     ```
@@ -32,7 +32,7 @@ license:
 
 @) Projete uma função que receba como parâmetro uma lista de nomes e uma lista de booleanos, onde cada elemento verdadeiro indica que o nome correspondente deve ser selecionado. Crie então uma lista apenas com os nomes selecionados.
 
-    ```gleam
+    ```gleam-repl
     > seleciona(["Jorge", "Amanda", "Pedro", "Joana"], [True, False, False, True])
     ["Jorge", "Joana"]
     ```
@@ -46,28 +46,28 @@ license:
 
 @) Projete uma função que devolva uma lista com os $n$ primeiros elementos de uma lista de entrada.
 
-    ```gleam
+    ```gleam-repl
     > mantem([10, 40, 70, 20, 3], 2)
     [10, 40]
     ```
 
 @) Projete uma função que devolva uma lista sem os $n$ primeiros elementos de uma lista de entrada.
 
-    ```gleam
+    ```gleam-repl
     > descarta([10, 40, 70, 20, 3], 2)
     [70, 20, 3]
     ```
 
 @) Projete uma função que gere uma lista a partir da lista de entrada, removendo o elemento de uma dada posição.
 
-    ```gleam
+    ```gleam-repl
     > remove_em([3, 6, 1, 2], 2)
     [3, 6, 2]
     ```
 
 @) Projete uma função que gere uma lista a partir da lista de entrada, inserindo um elemento em uma dada posição.
 
-    ```gleam
+    ```gleam-repl
     > insere_em([3, 6, 1, 2], 5, 2)
     [3, 6, 5, 1, 2]
     ```

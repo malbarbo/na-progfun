@@ -1654,21 +1654,22 @@ disciplinas/anotacoes.txt
 ```gleam
 fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
-    Arq(nome) -> case string.ends_with(nome, ".txt") {
-      False -> []
-      True -> [nome] }
-    Dir(nome, entradas) -> {
+    Arq(nome) ->
+      case string.ends_with(nome, ".txt") {
+        False -> []
+        True -> [nome]
+      }
+    Dir(nome, entradas) ->
       adiciona_prefixo(nome,
-                       encontra_txt_lista(entradas)) }
+                       encontra_txt_lista(entradas))
   }
 }
 fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
   case entradas {
     [] -> []
-    [ent, ..resto] -> {
+    [ent, ..resto] ->
       list.append(encontra_txt(ent),
                   encontra_txt_lista(resto))
-    }
   }
 }
 ```

@@ -678,7 +678,7 @@ $T(n) = T(n - 3) + (n - 2) + (n - 1) + n$ \pause
 
 $T(n) = T(n - n) + (n - (n - 1)) + \dots + (n - 2) + (n - 1) + n$ \pause
 
-$\displaystyle T(n) = T(0) + \sum_{i = 1}^{n} n \pause = O(n^2)$
+$\displaystyle T(n) = T(0) + \sum_{i = 1}^{n} i \pause = O(n^2)$
 
 
 ## Exemplo - maior repetição

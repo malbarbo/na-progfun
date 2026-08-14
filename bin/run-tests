@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-time sgleam -t $(fd --extension gleam)
+time sgleam test $(fd --extension gleam)

@@ -2,16 +2,11 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Fundamentos
 # TODO: Discussão sobre if, and or serem formas especiais se avaliação aplicativa é usada e funções normais se avaliação em ordem normal é usada
-# TODO: esclarecer o que é o modelo de substituição e adicionar perguntas/exercícios
 # TODO: esclarecer o que é função composta
 # TODO: rever as perguntas e melhorar as definições nos slides
 # TODO: falar de estilo de código
 # TODO: falar de tratamento de erro?
-# TODO: mudar a definição do paradigma funcional para redução de expressões para valores?
-# TODO: não falar que o operador da chamada de função é uma expressão?
 # TODO: mostrar diagrama de sintaxe?
-# TODO: falar das prioridades dos operadores e {} para agrupamento?
-# TODO: exemplos de avalição de and e or?
 # TODO: falar da forma de operadores binários
 # TODO: falar que cada expressão tem um tipo
 ---
@@ -26,6 +21,8 @@ O paradigma de programação funcional é baseado na definição e aplicação d
 Uma **função** é um conjunto de expressões que mapeia valores de entrada para valores de saída. \pause
 
 Uma **expressão** é uma entidade sintática que quando avaliada (reduzida) produz um valor. \pause
+
+Executar um programa funcional é avaliar expressões: aplicar as regras de avaliação até chegar a um valor (nos paradigmas imperativos, executar é seguir uma sequência de comandos que alteram o estado). \pause
 
 Vamos ver uma sequência de definições de expressões e regras de avaliação.
 
@@ -60,7 +57,7 @@ Gleam provê 9 tipos primitivos. \pause Todos os nomes de tipos começam com let
 <div class="column" width="50%">
 \small
 
-Número inteiro (`Int`{.gleam})
+Números inteiros (`Int`{.gleam})
 
 - `1345`{.gleam}
 - `9_876`{.gleam}
@@ -79,7 +76,7 @@ Números de ponto flutuante (`Float`{.gleam}) \pause
 <div class="column" width="50%">
 \small
 
-Booleano (`Bool`{.gleam})
+Booleanos (`Bool`{.gleam})
 
 - `True`{.gleam}
 - `False`{.gleam}
@@ -151,7 +148,7 @@ Operações com booleanos:
 </div>
 
 
-## Processo de avaliação de expressões (versão 0.1)
+## Definição de expressão (versão 0.1)
 
 <div class="columns">
 <div class="column" width="50%">
@@ -213,7 +210,7 @@ True
 
 As funções da biblioteca padrão, como `int.add`{.gleam}, ficam em módulos e precisam ser importadas antes de serem usadas. Para não poluir os exemplos, os `import`{.gleam} são omitidos daqui em diante, mas eles continuam necessários no REPL e nos arquivos. \pause
 
-Essa definição de expressão parece bastante limitada, o que está faltando? \pause Uma forma de combinar expressões para formar novas expressões!
+Essa definição de expressão parece bastante limitada. O que está faltando? \pause Uma forma de combinar expressões para formar novas expressões!
 
 
 
@@ -293,7 +290,7 @@ Error(Nil)
 
 O terceiro par não é uma equivalência: `int.divide`{.gleam} sinaliza o erro na resposta. \pause
 
-Considerando apenas funções e literais (vamos deixar os operadores de lado por simplicidade), qual é forma de combinar expressões para criar novas expressões? \pause
+Considerando apenas funções e literais (vamos deixar os operadores de lado por simplicidade), qual é a forma de combinar expressões para criar novas expressões? \pause
 
 A chamada de função. \pause Como podemos definir como são formadas as chamadas de funções?
 
@@ -302,19 +299,17 @@ A chamada de função. \pause Como podemos definir como são formadas as chamada
 
 Primeira tentativa
 
-Uma chamada de função começa com uma função primitiva, seguida de abre parêntese, seguido de uma sequência de **literais** separados por vírgula, seguida de fecha parêntese.
+Uma chamada de função começa com uma **função primitiva**, seguida de abre parêntese, seguido de uma sequência de **literais** separados por vírgula, seguida de fecha parêntese.
 
 \pause
 
-Essa definição é adequada? \pause Não! \pause
-
-O exemplo `int.multiply(int.add(2, 12), 5)`{.gleam} não está de acordo com essa definição! \pause
+A definição é adequada? \pause Não! \pause Ela não contempla `int.multiply(int.add(2, 12), 5)`{.gleam}! \pause
 
 Segunda tentativa \pause
 
-Uma chamada de função começa com uma função primitiva, seguida de abre parêntese, seguido de uma sequência de **expressões** separadas por vírgula, seguida de fecha parêntese. \pause
+Uma chamada de função começa com uma **função primitiva**, seguida de abre parêntese, seguido de uma sequência de **expressões** separadas por vírgula, seguida de fecha parêntese. \pause
 
-Vamos usar uma definição mais genérica.
+Repare que generalizamos literais para expressões mas não generalizamos funções primitivas. \pause Vamos fazer isso! \pause Essa generalização pode parecer estranha ou até inútil, mas vamos apreciar a sua utilidade ao longo da disciplina.
 
 
 ## Chamadas de funções
@@ -367,7 +362,7 @@ Regra para **avaliação de expressão** \pause
 
 Algumas observações interessantes \pause
 
-- Quando uma expressão é uma chamada de função, ela contém outras expressões. \pause Quando uma definição refere-se a si mesmo, dizemos que ela é uma definição com **autorreferência**. \pause O uso de autorreferência permite a criação de expressões de tamanhos arbitrários. \pause
+- Quando uma expressão é uma chamada de função, ela contém outras expressões. \pause Quando uma definição refere-se a si mesma, dizemos que ela é uma definição com **autorreferência**. \pause O uso de autorreferência permite a criação de expressões de tamanhos arbitrários. \pause
 
 - O processo de avaliação para uma expressão que é uma chamada de função requer a chamada do processo de avaliação para suas expressões. \pause Quando um processo é definido em termos de si mesmo, dizemos que ele é **recursivo**. \pause O uso de recursividade permite a avaliação de expressões de tamanhos arbitrários. \pause
 
@@ -630,14 +625,17 @@ Veremos depois os casos para funções que não terminam.
 
 ## Modelo de substituição
 
-Este método de avaliação alternativo de primeiro substituir e depois reduzir, é chamado de **avaliação em ordem normal** (avaliação preguiçosa). \pause
-
 O método de avaliação que primeiro avalia os argumentos e depois aplica a função é chamado de **avaliação em ordem aplicativa** (avaliação ansiosa). \pause
+
+O método de avaliação alternativo que primeiro substitui e depois reduz é chamado de **avaliação em ordem normal** (avaliação preguiçosa). \pause
 
 O Gleam usa por padrão a avaliação em ordem aplicativa.
 
 O Haskell usa a avaliação em ordem normal.
 
+
+Exercícios
+==========
 
 ## Exercício custo
 
@@ -825,13 +823,17 @@ Onde a ordem dos casos não é importante.
 
 ## Regra de avaliação do `case`
 
+O `case`{.gleam} não é uma chamada de função: ele tem uma regra de avaliação própria. As construções assim são chamadas de **formas especiais**. \pause
+
 A regra de avaliação de expressões `case`{.gleam} é: \pause
 
 - Avalie a expressão examinada \pause
 
 - Se o valor da expressão examinada for `True`{.gleam}, substitua toda a expressão `case`{.gleam} pela expressão do caso `True`{.gleam} \pause
 
-- Senão, substitua toda a expressão `case`{.gleam} pela expressão do caso `False`{.gleam}
+- Senão, substitua toda a expressão `case`{.gleam} pela expressão do caso `False`{.gleam} \pause
+
+Vamos ver outras formas especiais ao longo da disciplina, como `&&`{.gleam}, `||`{.gleam}, `let`{.gleam}, funções anônimas, `|>`{.gleam} e `use`{.gleam}.
 
 
 ## Exemplo abs
@@ -885,7 +887,7 @@ case -4 >= 0 {      // A expressão examinada é avaliada
 
 ```gleam
 case False {        // Como a expressão examinada é False
-  True -> -4        // o case é substituido pela expressão
+  True -> -4        // o case é substituído pela expressão
   False -> - { -4 } // do caso False
 }
 ```
@@ -907,8 +909,6 @@ case False {        // Como a expressão examinada é False
 
 
 ## Definição de expressão (versão 1.0)
-
-O `case`{.gleam} não é uma chamada de função: ele tem uma regra de avaliação própria. As construções assim são chamadas de **formas especiais**. \pause
 
 <div class="columns">
 <div class="column" width="35%">
@@ -932,10 +932,6 @@ Regra para **avaliação de expressão**
 - Chamada de função $\rightarrow$ avalie usando a regra de avaliação de chamadas de funções
 </div>
 </div>
-
-\pause
-
-Vamos ver outras formas especiais ao longo da disciplina, como `&&`{.gleam}, `||`{.gleam}, `let`{.gleam}, funções anônimas, `|>`{.gleam} e `use`{.gleam}.
 
 
 ## Exercício sinal
@@ -1093,7 +1089,7 @@ fn or(x, y) {
 
 Existe alguma implicação em definirmos `and`{.gleam} e `or`{.gleam} como funções? \pause
 
-Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são avaliados antes das funções serem avaliadas, e isso torna impossível deixar de avaliar o segundo argumento. \pause
+Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são reduzidos a valores antes da chamada, e isso torna impossível deixar de avaliar o segundo argumento. \pause
 
 Especificamente, na implementação do `and`{.gleam}, se a primeira expressão for `False`{.gleam}, não é necessário avaliar a segunda expressão. De forma semelhante, no `or`{.gleam}, se a primeira expressão for `True`{.gleam}, não é necessário avaliar a segunda expressão. \pause
 
@@ -1201,7 +1197,7 @@ Ou seja, `&&`{.gleam} e `||`{.gleam} são formas especiais: têm regras de avali
 \ 
 
 <div class="columns">
-<div class="column" width="50%">
+<div class="column" width="48%">
 Regra de avaliação de `&&`{.gleam} \pause
 
 - Avalie a expressão à esquerda, se o valor for `False`{.gleam}, substitua toda a expressão por `False`{.gleam}; \pause
@@ -1209,7 +1205,7 @@ Regra de avaliação de `&&`{.gleam} \pause
 - Senão, substitua toda a expressão pela expressão à direita. \pause
 
 </div>
-<div class="column" width="50%">
+<div class="column" width="48%">
 Regra de avaliação de `||`{.gleam} \pause
 
 - Avalie a expressão à esquerda, se o valor for `True`{.gleam}, substitua toda a expressão por `True`{.gleam}; \pause
@@ -1220,9 +1216,11 @@ Regra de avaliação de `||`{.gleam} \pause
 </div>
 
 
-## Operadores lógicos
+## Avaliação em curto-circuito
 
-Os exemplos a seguir usam o efeito colateral do `echo`{.gleam} para demonstrar a avaliação em curto-circuito.
+O `echo`{.gleam} imprime a expressão que vem depois dele, precedida do arquivo e da linha onde aparece, e produz o valor dessa expressão como resultado. \pause
+
+Nos exemplos a seguir usamos esse efeito colateral para observar quais expressões são de fato avaliadas.
 
 <div class="columns">
 <div class="column" width="50%">
@@ -1385,11 +1383,14 @@ False
 </div>
 
 
+Revisão
+=======
+
 ## Revisão
 
 O que é uma expressão? \pause
 
-- Um literal, uma função primitiva, um nome, ou uma chamada de função (uma expressão seguida de uma lista de expressões entre parênteses). \pause
+- Um literal, uma função primitiva, um nome, uma forma especial ou uma chamada de função (uma expressão seguida de uma lista de expressões entre parênteses). \pause
 
 Por que dizemos que a definição de expressão tem **autorreferência**? \pause
 
@@ -1432,9 +1433,16 @@ Qual a diferença entre avaliação em ordem aplicativa e em ordem normal? Qual 
 
 ## Revisão
 
+O que é uma **forma especial**? \pause
+
+- É uma construção que não é avaliada como uma chamada de função: ela tem uma regra de avaliação própria. O `case`{.gleam}, o `&&`{.gleam} e o `||`{.gleam} são formas especiais. \pause
+
 Qual a diferença entre o `case`{.gleam} do Gleam e o `if`{.gleam} da maioria das linguagens? \pause
 
-- O `case`{.gleam} é uma expressão, ele produz um valor. Na maioria das outras linguagens o `if`{.gleam} é uma sentença: não produz valor, apenas gera efeito colateral. \pause
+- O `case`{.gleam} é uma expressão, ele produz um valor. Na maioria das outras linguagens o `if`{.gleam} é uma sentença: não produz valor, apenas gera efeito colateral.
+
+
+## Revisão
 
 O que é avaliação em curto-circuito e por que ela não é obtida definindo `and`{.gleam} e `or`{.gleam} como funções? \pause
 

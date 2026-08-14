@@ -27,9 +27,11 @@ license:
 
 @) O que é uma função?
 
-@) A ordem que as expressões em uma chamada de função são avaliadas pode alterar o valor da chamada da função? Explique.
+@) A ordem em que as expressões em uma chamada de função são avaliadas pode alterar o valor da chamada da função? Explique.
 
 @) Explique por que `&&`{.gleam} e `||`{.gleam} são formas especiais e não funções. Dê um exemplo de expressão cujo comportamento mudaria se elas fossem funções.
+
+@) Quando dois valores são considerados iguais em Gleam? Dê um exemplo de uma comparação com `==`{.gleam} que não compila e explique por quê.
 
 @) O que é uma definição com autorreferência? E um processo recursivo?
 
@@ -144,7 +146,7 @@ license:
 
 <!-- Desafios -->
 
-@) Faça uma função chamada `so_primeira_maiuscula` que recebe uma palavra não vazia (string) como parâmetro e crie uma nova string convertendo a primeira letra da palavra para maiúscula e o restante da palavra para minúscula. Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas na janela de interações. Veja as funções [`string.slice`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#slice), [`string.uppercase`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#uppercase) e [`string.lowercase`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#lowercase).
+@) Faça uma função chamada `so_primeira_maiuscula` que recebe uma palavra não vazia (string) como parâmetro e crie uma nova string convertendo a primeira letra da palavra para maiúscula e o restante da palavra para minúscula. Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas na janela de interações. Veja as funções [`string.slice`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#slice), [`string.length`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#length), [`string.uppercase`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#uppercase) e [`string.lowercase`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#lowercase).
 
     ```gleam-repl
     > so_primeira_maiuscula("paula")

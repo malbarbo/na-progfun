@@ -1,7 +1,7 @@
 import gleam/string
 import sgleam/check
 
-// Alinhamento é um dos valores "direita", "esquerda" ou "centro"
+/// Alinhamento é um dos valores "direita", "esquerda" ou "centro".
 pub type Alinhamento =
   String
 
@@ -14,11 +14,15 @@ pub type Alinhamento =
 /// é adicionado ao final para sinalizar que a string foi abreviada.
 ///
 /// Se *s* tem menos do que *num_chars* caracteres, então espaços são
-/// adicionados no início se *alinhamento* é "esquerda", no fim se
-/// *alinhamento* é "direita", ou no início e fim se *alinhamento* é "centro".
-/// Nesse último caso, se a quantidade de espaços adicionados for ímpar, então
-/// no fim será adicionado 1 espaço a mais do que no início.
-pub fn ajusta_string(s: String, num_chars: Int, alinhamento: String) -> String {
+/// adicionados no início se *alinhamento* é "direita", no fim se *alinhamento*
+/// é "esquerda", ou no início e fim se *alinhamento* é "centro". Nesse último
+/// caso, se a quantidade de espaços adicionados for ímpar, então no fim será
+/// adicionado 1 espaço a mais do que no início.
+pub fn ajusta_string(
+  s: String,
+  num_chars: Int,
+  alinhamento: Alinhamento,
+) -> String {
   case string.length(s) == num_chars {
     True -> s
     False ->
@@ -44,19 +48,33 @@ pub fn ajusta_string(s: String, num_chars: Int, alinhamento: String) -> String {
 
 pub fn ajusta_string_examples() {
   // string.length(s) == num_chars
+  // -> s
   check.eq(ajusta_string("casa", 4, "direita"), "casa")
   check.eq(ajusta_string("casa", 4, "esquerda"), "casa")
   check.eq(ajusta_string("casa", 4, "centro"), "casa")
 
   // string.length(s) > num_chars
+  // -> string.slice("casa verde", 0, 7 - 3) <> "..."
   check.eq(ajusta_string("casa verde", 7, "direita"), "casa...")
   check.eq(ajusta_string("casa verde", 7, "esquerda"), "casa...")
   check.eq(ajusta_string("casa verde", 7, "centro"), "casa...")
   check.eq(ajusta_string("casa verde", 9, "direita"), "casa v...")
 
-  // string.length(s) < num_chars
+  // string.length(s) < num_chars && alinhamento == "direita"
+  // -> string.repeat(" ", 9 - string.length("casa")) <> "casa"
   check.eq(ajusta_string("casa", 9, "direita"), "     casa")
+
+  // string.length(s) < num_chars && alinhamento == "esquerda"
+  // -> "casa" <> string.repeat(" ", 9 - string.length("casa"))
   check.eq(ajusta_string("casa", 9, "esquerda"), "casa     ")
+
+  // string.length(s) < num_chars && alinhamento == "centro"
+  // -> string.repeat(" ", num_espacos_inicio)
+  //    <> "casa"
+  //    <> string.repeat(" ", num_espacos_fim)
+  // onde
+  //   num_espacos_inicio é { 9 - string.length("casa") } / 2
+  //   num_espacos_fim é 9 - string.length("casa") - num_espacos_inicio
   check.eq(ajusta_string("casa", 9, "centro"), "  casa   ")
   check.eq(ajusta_string("casa", 10, "centro"), "   casa   ")
 }

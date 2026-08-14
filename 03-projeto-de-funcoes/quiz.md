@@ -10,7 +10,7 @@ c) Exemplos, tipos de dados, especificação, implementação, verificação e r
 
 d) Especificação, implementação, revisão e verificação
 
-c) Análise, exemplificação, definição de tipos de dados, implementação, verificação e revisão
+e) Análise, exemplificação, definição de tipos de dados, implementação, verificação e revisão
 
 
 # Questão 2
@@ -120,7 +120,7 @@ e) Deve conter o pseudo código da implementação
 
 # Questão 9
 
-Sobre a etapa de projeto de tipos de dados no processo de projeto de funções é correto afirmar que:
+Sobre a etapa de definição dos tipos de dados no processo de projeto de funções é correto afirmar que:
 
 a) Vem antes da especificação e implementação porque é mais fácil
 

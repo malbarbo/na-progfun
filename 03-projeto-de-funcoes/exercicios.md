@@ -25,20 +25,16 @@ license:
 
 @) Se não forem encontrados erros na verificação para os exemplos da especificação, é possível afirmar que a função está isenta de erros? Explique.
 
-@) A implementação é a fase mais importante do projeto de funções, verdadeiro ou falso? Explique.
+@) A implementação é a etapa mais importante do projeto de funções, verdadeiro ou falso? Explique.
 
 @) Como proceder quando um teste falha?
 
 @) Qual é o objetivo da revisão?
 
-@) Qual é a diferença do resultado da análise e a descrição do propósito da função?
+@) Qual é a diferença entre o resultado da análise e a descrição do propósito da função?
 
 
 # Praticando
-
-<!--
-Na implementação use apenas as funções presentes no material "Resumo da linguagem Racket".
--->
 
 @) Implemente a função de acordo com a especificação a seguir. Corrija a especificação se necessário.
 
@@ -123,7 +119,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 @) Escreva a especificação para a seguinte implementação de função. Avalie se a sua especificação está boa, verificando se ela sozinha é suficiente para um desenvolvedor fazer uma implementação da função.
 
     ```gleam
-    pub fn tamanho_nome(nome: String) -> Int {
+    pub fn tamanho_nome(nome: String) -> String {
       case string.length(nome) <= 4 {
         True -> "curto"
         False ->
@@ -141,7 +137,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 @) Projete uma função que encontre o máximo entre três números dados.
 
-@) Projete uma função que receba como parâmetro uma string e um número natural $n$ e substitua os primeiros $n$ caracteres da string por $n$ letras $x$.
+@) Projete uma função que receba como parâmetro uma string e um número natural `n` e substitua os primeiros `n` caracteres da string por `n` letras `"x"`.
 
 
 # Resolvendo problemas
@@ -161,6 +157,6 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 # Desafios
 
-@) Muitos letreiros exibem mensagens que têm mais caracteres do que eles podem exibir, para isso, eles exibem apenas uma porção da mensagem que é alterada com o passar do tempo. Por exemplo, em um letreiro de 20 caracteres, a mensagem `"Promoção de sorvetes, pague 2 leve 3!"` é exibida como `Promoção de sorvetes` no momento 0, como `"romoção de sorvetes,"` no momento 1, `"omoção de sorvetes, "`, no momento 3, e assim por diante até que no momento 17 é exibido `"tes, pague 2 leve 3!"`. O momento sempre aumenta, e após chegar no final da mensagem ela começa a ser exibida novamente, nesse caso, no momento 18 é exibido `"es, pague 2 leve 3! "` e no momento 19 é exibido `"s, pague 2 leve 3! P"`, onde o `P` é o início da mensagem. Projete uma função que determine os caracteres de uma mensagem que devem ser exibidos em um determinado momento em um letreiro que pode exibir um determinado número de caracteres. Assuma que o número de caracteres da mensagem é maior do que o do letreiro.
+@) Muitos letreiros exibem mensagens que têm mais caracteres do que eles podem exibir, para isso, eles exibem apenas uma porção da mensagem que é alterada com o passar do tempo. Por exemplo, em um letreiro de 20 caracteres, a mensagem `"Promoção de sorvetes, pague 2 leve 3!"` é exibida como `"Promoção de sorvetes"` no momento 0, como `"romoção de sorvetes,"` no momento 1, como `"omoção de sorvetes, "` no momento 2, e assim por diante até que no momento 17 é exibido `"tes, pague 2 leve 3!"`. O momento sempre aumenta, e após chegar no final da mensagem ela começa a ser exibida novamente, nesse caso, no momento 18 é exibido `"es, pague 2 leve 3! "` e no momento 19 é exibido `"s, pague 2 leve 3! P"`, onde o `P` é o início da mensagem. Projete uma função que determine os caracteres de uma mensagem que devem ser exibidos em um determinado momento em um letreiro que pode exibir um determinado número de caracteres. Assuma que o número de caracteres da mensagem é maior do que o do letreiro.
 
 @) Um número inteiro positivo é palíndromo se quando lido da direita para a esquerda ou da esquerda para a direita é idêntico. Ex: 9119, 1221, 5665, 7337. Projete uma função que verifique se um dado número inteiro de 4 dígitos é palíndromo, considere que o valor de entrada é o próprio número e não os quatro dígitos que compõem o número. É possível modificar a sua função de maneira que ela funcione para qualquer número de entrada e não apenas para números de 4 dígitos?

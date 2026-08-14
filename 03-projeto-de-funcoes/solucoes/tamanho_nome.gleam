@@ -1,7 +1,7 @@
 import gleam/string
 import sgleam/check
 
-// Tamanho é um dos valores "curto", "médio" ou "longo"
+/// Tamanho é um dos valores "curto", "médio" ou "longo".
 pub type Tamanho =
   String
 
@@ -9,7 +9,7 @@ pub type Tamanho =
 /// - "curto" para nomes com 4 ou menos caracteres
 /// - "longo" para nomes com mais que 10 caracteres
 /// - "médio" para nomes que não são "curto" e nem "longo"
-pub fn tamanho_nome(nome: String) -> String {
+pub fn tamanho_nome(nome: String) -> Tamanho {
   case string.length(nome) <= 4 {
     True -> "curto"
     False ->

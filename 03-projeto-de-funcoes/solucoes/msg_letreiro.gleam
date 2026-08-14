@@ -22,7 +22,7 @@ import sgleam/check
 /// caracteres.
 ///
 /// Requer que a quantidade de caracteres de msg seja maior que tam.
-pub fn msg_letreiro(tam: Int, msg: String, m: Int) -> String {
+pub fn msg_letreiro(msg: String, m: Int, tam: Int) -> String {
   let msg_dup = msg <> " " <> msg
   let inicio = m % { string.length(msg) + 1 }
   string.slice(msg_dup, inicio, tam)
@@ -30,44 +30,44 @@ pub fn msg_letreiro(tam: Int, msg: String, m: Int) -> String {
 
 pub fn msg_letreiro_examples() {
   // Exemplos simplificados
-  check.eq(msg_letreiro(4, "Entrada", 0), "Entr")
-  check.eq(msg_letreiro(4, "Entrada", 1), "ntra")
-  check.eq(msg_letreiro(4, "Entrada", 2), "trad")
-  check.eq(msg_letreiro(4, "Entrada", 3), "rada")
-  check.eq(msg_letreiro(4, "Entrada", 4), "ada ")
-  check.eq(msg_letreiro(4, "Entrada", 5), "da E")
-  check.eq(msg_letreiro(4, "Entrada", 6), "a En")
-  check.eq(msg_letreiro(4, "Entrada", 7), " Ent")
-  check.eq(msg_letreiro(4, "Entrada", 8), "Entr")
-  check.eq(msg_letreiro(4, "Entrada", 9), "ntra")
+  check.eq(msg_letreiro("Entrada", 0, 4), "Entr")
+  check.eq(msg_letreiro("Entrada", 1, 4), "ntra")
+  check.eq(msg_letreiro("Entrada", 2, 4), "trad")
+  check.eq(msg_letreiro("Entrada", 3, 4), "rada")
+  check.eq(msg_letreiro("Entrada", 4, 4), "ada ")
+  check.eq(msg_letreiro("Entrada", 5, 4), "da E")
+  check.eq(msg_letreiro("Entrada", 6, 4), "a En")
+  check.eq(msg_letreiro("Entrada", 7, 4), " Ent")
+  check.eq(msg_letreiro("Entrada", 8, 4), "Entr")
+  check.eq(msg_letreiro("Entrada", 9, 4), "ntra")
 
   // Exemplos do caso de uso
   check.eq(
-    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 0),
+    msg_letreiro("Promoção de sorvetes, pague 2 leve 3!", 0, 20),
     "Promoção de sorvetes",
   )
   check.eq(
-    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 1),
+    msg_letreiro("Promoção de sorvetes, pague 2 leve 3!", 1, 20),
     "romoção de sorvetes,",
   )
   check.eq(
-    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 2),
+    msg_letreiro("Promoção de sorvetes, pague 2 leve 3!", 2, 20),
     "omoção de sorvetes, ",
   )
   check.eq(
-    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 17),
+    msg_letreiro("Promoção de sorvetes, pague 2 leve 3!", 17, 20),
     "tes, pague 2 leve 3!",
   )
   check.eq(
-    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 18),
+    msg_letreiro("Promoção de sorvetes, pague 2 leve 3!", 18, 20),
     "es, pague 2 leve 3! ",
   )
   check.eq(
-    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 19),
+    msg_letreiro("Promoção de sorvetes, pague 2 leve 3!", 19, 20),
     "s, pague 2 leve 3! P",
   )
   check.eq(
-    msg_letreiro(20, "Promoção de sorvetes, pague 2 leve 3!", 37),
+    msg_letreiro("Promoção de sorvetes, pague 2 leve 3!", 37, 20),
     " Promoção de sorvete",
   )
 }

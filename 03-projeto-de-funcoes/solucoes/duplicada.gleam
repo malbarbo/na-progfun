@@ -9,10 +9,10 @@ pub fn duplicada(palavra: String) -> Bool {
   let tamanho = string.length(palavra)
   let meio = tamanho / 2
   int.is_even(tamanho)
-  && string.drop_right(palavra, meio) == string.drop_left(palavra, meio)
+  && string.drop_end(palavra, meio) == string.drop_start(palavra, meio)
   || int.is_odd(tamanho)
   && string.slice(palavra, meio, 1) == "-"
-  && string.drop_right(palavra, meio + 1) == string.drop_left(palavra, meio + 1)
+  && string.drop_end(palavra, meio + 1) == string.drop_start(palavra, meio + 1)
 }
 
 pub fn duplicada_examples() {

@@ -20,7 +20,7 @@ pub fn rotaciona_direita(s: String, n: Int) -> String {
     True -> { tam + n } % tam
     False -> n % tam
   }
-  string.drop_left(s, tam - div) <> string.drop_right(s, div)
+  string.drop_start(s, tam - div) <> string.drop_end(s, div)
 }
 
 pub fn rotaciona_direita_examples() {

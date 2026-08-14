@@ -1,11 +1,11 @@
 import sgleam/check
 
 /// O preço do litro do combustível, deve ser um número positivo.
-type Preco =
+pub type Preco =
   Float
 
 /// O tipo do combustível, deve ser "Álcool" ou "Gasolina".
-type Combustivel =
+pub type Combustivel =
   String
 
 /// Encontra o combustível que deve ser utilizado no abastecimento. Produz
@@ -22,7 +22,13 @@ pub fn seleciona_combustivel(
 }
 
 pub fn seleciona_combustivel_examples() {
+  // 3.00 é maior que 70% de 4.00, que é 2.80
+  // -> "Gasolina"
   check.eq(seleciona_combustivel(3.0, 4.0), "Gasolina")
+  // 2.90 é menor que 70% de 4.20, que é 2.94
+  // -> "Álcool"
   check.eq(seleciona_combustivel(2.9, 4.2), "Álcool")
+  // 3.50 é exatamente 70% de 5.00
+  // -> "Álcool"
   check.eq(seleciona_combustivel(3.5, 5.0), "Álcool")
 }

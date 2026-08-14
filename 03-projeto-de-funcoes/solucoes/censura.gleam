@@ -8,7 +8,7 @@ import sgleam/check
 /// devolve *frase*.
 pub fn censura(frase: String, n: Int) -> String {
   string.repeat("x", int.min(string.length(frase), n))
-  <> string.drop_left(frase, n)
+  <> string.drop_start(frase, n)
 }
 
 pub fn censura_examples() {

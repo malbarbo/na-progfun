@@ -11,7 +11,7 @@ pub fn quantidade_digitos(n: Int) -> Int {
 }
 
 pub fn quantidade_digitos_examples() {
-  check.eq(quantidade_digitos(121), 3)
+  check.eq(quantidade_digitos(123), 3)
   check.eq(quantidade_digitos(0), 1)
   check.eq(quantidade_digitos(-1519), 4)
 }

@@ -11,7 +11,7 @@ pub fn palindromo(n: Int) -> Bool {
   let dezena = { n / 10 } % 10
   let centena = { n / 100 } % 10
   let milhar = { n / 1000 } % 10
-  unidade == milhar && dezena == centena
+  n >= 1000 && n <= 9999 && unidade == milhar && dezena == centena
 }
 
 pub fn palindromo_examples() {
@@ -20,4 +20,5 @@ pub fn palindromo_examples() {
   check.eq(palindromo(9119), True)
   check.eq(palindromo(1221), True)
   check.eq(palindromo(21_112), False)
+  check.eq(palindromo(21_221), False)
 }

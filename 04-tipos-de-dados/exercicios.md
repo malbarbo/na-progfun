@@ -18,7 +18,7 @@ license:
 
 @) Qual é o propósito da etapa de definição de tipos de dados no processo de projeto de funções?
 
-@) Quais são os princípios que podemos utilizar para determinar se um tipo de dado é adequado para representar uma informação?
+@) Quais são as diretrizes que podemos utilizar para determinar se um tipo de dado é adequado para representar uma informação?
 
 @) Quando devemos utilizar estruturas para representar informações?
 
@@ -35,6 +35,12 @@ license:
 @) De que forma as enumerações e uniões, quando usadas como entrada para funções, guiam a criação dos exemplos e a implementação da função?
 
 @) Quando devemos utilizar uniões para representar informações?
+
+@) Quando o tipo `Option` é adequado e quando o tipo `Result` é mais adequado? Descreva uma situação para cada caso.
+
+@) Por que devolver um valor especial (como -1) para indicar a ausência de um resultado é pior do que devolver um `Option`? Explique.
+
+@) O que é um tipo opaco e qual problema ele resolve? Dê um exemplo de informação cuja representação se beneficia dessa técnica.
 
 
 # Praticando
@@ -93,7 +99,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
 <!-- TAD -->
 
-@) Projete uma estrutura para representar uma data com dia, mês e ano. Em seguida,
+@) Projete um tipo opaco para representar uma data com dia, mês e ano, com uma função construtora que valide o valor e devolva um `Result`. Em seguida,
 
     a) Projete uma função que receba como entrada uma string que representa uma data no formato "dd/mm/aaaa" e a converta para a data equivalente. A validação inicial no construtor deve verificar apenas se as partes são números.
 

@@ -19,7 +19,7 @@ pub type Usuario {
 /// - ServidorMais3  10,0
 /// - Docente        10,0
 /// - Externo        19,0
-/// Se *quant* for negativo, devolve 0.0.
+/// Se *quant* for negativo, devolve 0,0.
 pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
   case usuario {
     Aluno | ServidorAte3 -> 5.0
@@ -35,4 +35,5 @@ pub fn custo_tiquetes_examples() {
   check.eq(custo_tiquetes(ServidorMais3, 2), 20.0)
   check.eq(custo_tiquetes(Docente, 3), 30.0)
   check.eq(custo_tiquetes(Externo, 4), 76.0)
+  check.eq(custo_tiquetes(Aluno, -1), 0.0)
 }

@@ -1,22 +1,16 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: usar um exemplo mais interessante do que Ponto
-# TODO: colocar explicitamente a definição de estrutura, enumeração e união
 # TODO: falar o que é uma instância
-# TODO: introduzir com mais detalhes o conceito de união
 # TODO: melhorar o exemplo de união
 # TODO: falar do "expression problem"?
-# TODO: remover (discutido em sala) adicionando um exemplo inicial
 # TODO: adicionar mais referências sobre projeto de tipos de dados
 # TODO: usar o termo registro em vez de estrutura?
 # TODO: falar de tuplas
-# TODO: mostrar a solução completa para custo_tiquetes
 # TODO: deixar claro: funções totais
 # TODO: frase "Parse, don't validate": In other words, write functions on the data representation you wish you had, not the data representation you are given.
 # TODO: em vez de passar a responsabilidade de tratar o erro adiante, empurre-a para trás
 # TODO: separar em dois decks: projeto de tipos de dados e projeto de funções completas?
-# TODO: usar todo para corpo inicial
-# TODO: definir melhor o que é casamento de padrões
 title: Tipos de dados
 ---
 
@@ -80,10 +74,10 @@ Diretrizes para o projeto de tipos de dados: \pause
 
 - Torne os valores inválidos irrepresentáveis. \pause
 
-Vamos aplicar esses princípios a uma série de exemplos.
+Vamos aplicar essas diretrizes a uma série de exemplos.
 
 
-## Exemplo combustível
+## Exemplo - combustível
 
 No exemplo da escolha do combustível, nós definimos os seguintes tipos:
 
@@ -184,7 +178,7 @@ Assim como para valores do tipo `Bool`{.gleam}, podemos utilizar a expressão `c
 \small
 
 ```gleam
-pub fn msg_combustivel(
+pub fn mensagem_combustivel(
   c: Combustivel
 ) -> String {
   case c {
@@ -205,7 +199,7 @@ A análise dos casos precisa ser exaustiva
 \scriptsize
 
 ```gleam
-pub fn msg_combustivel(c: Combustivel) -> String {
+pub fn mensagem_combustivel(c: Combustivel) -> String {
   case c {
     Alcool -> "Use álcool."
   }
@@ -215,15 +209,16 @@ pub fn msg_combustivel(c: Combustivel) -> String {
 \pause
 
 ```
+error: Inexhaustive patterns
   ┌─ src/arquivo.gleam:2:3
   │
-2 │ +   case c {
-3 │ │     Alcool -> "a"
+2 │ ┌   case c {
+3 │ │     Alcool -> "Use álcool."
 4 │ │   }
-  │ +───^
+  │ └───^
 
-This case expression does not have a pattern for all possible values. If it is run on one of
-the values without a pattern then it will crash.
+This case expression does not have a pattern for all possible values. If it
+is run on one of the values without a pattern then it will crash.
 The missing patterns are:
     Gasolina
 ```
@@ -286,7 +281,7 @@ pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float
 
 \pause
 
-Não vamos tratar quantidades menores ou iguais a zero.
+Por enquanto, não vamos tratar quantidades negativas.
 
 
 ## Exemplo - tíquete do RU
@@ -356,6 +351,31 @@ pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
 A implementação está correta? \pause Sim.
 
 
+## Exemplo - tíquete do RU
+
+Revisão \pause
+
+O que podemos melhorar? \pause
+
+- Juntar com `|`{.gleam} os casos que produzem o mesmo custo; \pause
+- Fatorar a multiplicação, que é comum a todos os casos; \pause
+- Tratar as quantidades negativas, devolvendo 0,0, e acrescentar um exemplo. \pause
+
+\footnotesize
+
+```gleam
+/// ... Se *quant* for negativo, devolve 0,0.
+pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
+  case usuario {
+    Aluno | ServidorAte3 -> 5.0
+    ServidorMais3 | Docente -> 10.0
+    Externo -> 19.0
+  }
+  *. int.to_float(int.max(0, quant))
+}
+```
+
+
 Estruturas
 ==========
 
@@ -364,7 +384,7 @@ Estruturas
 
 Os tipos de dados que vimos até agora são atômicos, isto é, não podem ser decompostos. \pause
 
-Agora veremos como representar dados onde dois ou mais valores devem ficar juntos: \pause
+Agora veremos como representar dados em que dois ou mais valores devem ficar juntos: \pause
 
 - Registro de um aluno;
 
@@ -376,6 +396,8 @@ Chamamos estes tipos de dados de **dados compostos**, **registros** ou **estrutu
 
 
 ## Estruturas
+
+Em uma **estrutura**, os valores do tipo são formados por um ou mais **campos**, cada um com o seu nome e o seu tipo. \pause
 
 A forma geral para definir um **dado composto** é:
 
@@ -389,7 +411,7 @@ A forma geral para definir um **dado composto** é:
 
 Quando usar dados compostos? \pause
 
-Quando a informação consiste de dois ou mais itens que juntos descrevem uma entidade. \pause
+Quando dois ou mais itens de informação juntos descrevem uma entidade. \pause
 
 Vamos definir uma estrutura para representar um ponto em um plano cartesiano.
 
@@ -423,7 +445,7 @@ Ponto(x: 8, y: 2)
 
 Acesso aos campos
 
-```scheme
+```gleam-repl
 > p1.x + p1.y
 7
 ```
@@ -486,7 +508,7 @@ Ponto(x: 8, y: 2)
 
 Acesso aos campos
 
-```scheme
+```gleam-repl
 > p1.x + p1.y
 7
 ```
@@ -512,7 +534,7 @@ Inspeção
 
 ```gleam-repl
 > string.inspect(p1)
-"Ponto(x: 3, x: 4)"
+"Ponto(x: 3, y: 4)"
 ```
 </div>
 </div>
@@ -521,7 +543,7 @@ Inspeção
 
 ## Definindo estruturas
 
-Junto com a definição de uma estrutura, também faremos a descrição do seu propósito e do seus campos.
+Junto com a definição de uma estrutura, também faremos a descrição do seu propósito e dos seus campos.
 
 \pause
 
@@ -530,15 +552,15 @@ Junto com a definição de uma estrutura, também faremos a descrição do seu p
 ```gleam
 /// Um ponto no plano cartesiano.
 pub type Ponto {
-  // x e y são as coordenadas dos pontos.
+  // x e y são as coordenadas do ponto.
   Ponto(x: Int, y: Int)
 }
 ```
 
 
-## Atualização de dados compostos
+## Atualização de estruturas
 
-Podemos consultar o valor de um campo, mas como alterar o valor de um campo? \pause Não é possível! \pause Lembrem-se, estamos estudando o paradigma funcional, onde não existe mudança de estado! \pause
+Podemos consultar o valor de um campo, mas como alterar o valor de um campo? \pause Não é possível! \pause Lembrem-se, estamos estudando o paradigma funcional, em que não existe mudança de estado! \pause
 
 Em vez de modificar o campo de uma instância da estrutura, criamos uma cópia da instância com o campo alterado.
 
@@ -556,7 +578,7 @@ Ponto(x: 3, y: 5)
 ```
 
 
-## Alterando dados estruturados
+## Atualização de estruturas
 
 Quais são as limitações desse método? \pause
 
@@ -565,7 +587,7 @@ Quais são as limitações desse método? \pause
 - Se a estrutura é alterada pela adição ou remoção de campos, então, todas as operações de "cópia" da estrutura no código devem ser alteradas.
 
 
-## Alterando dados estruturados
+## Atualização de estruturas
 
 Gleam tem uma sintaxe especial para atualização de estruturas.
 
@@ -591,7 +613,7 @@ Ponto(x: 7, y: 4)
 \pause
 
 ```gleam-repl
-> // Podemos atualiza mais que um campo (não faz sentido nesse exemplo)
+> // Podemos atualizar mais que um campo (não faz sentido nesse exemplo)
 > Ponto(..p1, x: 1, y: 2)
 Ponto(x: 1, y: 2)
 ```
@@ -690,7 +712,7 @@ Defina uma função que calcule a distância de um ponto a origem.
 -->
 
 
-## Exemplo - Campo minado
+## Exemplo - campo minado
 
 Campo minado é um famoso jogo de computador. O jogo consiste em um campo retangular de quadrados que podem ou não conter minas escondidas. Os quadrados podem ser abertos clicando sobre eles. O objetivo do jogo é abrir todos os quadrados que não têm minas. Se o jogador abrir um quadrado com uma mina, o jogo termina e o jogador perde.
 
@@ -699,17 +721,17 @@ Campo minado é um famoso jogo de computador. O jogo consiste em um campo retang
 Como guia para explorar o campo, cada quadrado aberto exibe o número de minas nos quadrados ao seu redor (no máximo 8). Quando um quadrado sem minas ao redor é aberto, todos os quadrados ao seu redor também são abertos. O usuário pode colocar uma bandeira sobre um quadrado fechado para sinalizar uma possível mina e impedir que ele seja aberto. Uma bandeira também pode ser removida de um quadrado.
 
 
-## Exemplo - Campo minado
+## Exemplo - campo minado
 
 ![](imagens/campo-minado.png){width=8cm}
 
 
-## Exemplo - Campo minado
+## Exemplo - campo minado
 
 Projete um tipo de dado para representar um quadrado em um jogo de campo minado. Não é necessário armazenar o número de bombas ao redor do quadrado pois esse valor pode ser calculado dinamicamente.
 
 
-## Exemplo - Campo minado
+## Exemplo - campo minado
 
 Em uma primeira tentativa poderíamos pensar: o quadrado pode ter uma mina ou não, pode estar fechado ou aberto e pode ter uma bandeira ou não. \pause Como são três itens relacionados, então definiríamos uma estrutura. Além disso, cada item tem dois estados possíveis, então poderíamos usar booleano para representar cada estado. \pause
 
@@ -723,7 +745,7 @@ pub type Quadrado {
 ```
 
 
-## Exemplo - Campo minado
+## Exemplo - campo minado
 
 Nós vimos duas diretrizes para o projeto de tipo de dado
 
@@ -737,14 +759,14 @@ Quantas possíveis instâncias distintas existem de `Quadrado`{.gleam}? \pause S
 Vamos listar essas instâncias e analisar se todas são válidas.
 
 
-## Exemplo - Campo minado
+## Exemplo - campo minado
 
 <div class="columns">
 <div class="column" width="48%">
 
 \small
 
-| `mina?`     | `aberto?`    | `bandeira?` | Válido?     |
+| `mina`      | `aberto`     | `bandeira`  | Válido?     |
 |:-----------:|:------------:|:-----------:|:-----------:|
 |      F      |      F       |      F      | \pause Sim \pause |
 |      F      |      F       |      V      | \pause Sim \pause |
@@ -764,14 +786,14 @@ Temos dois estados inválidos!
 \pause
 Como evitar estes estados inválidos? \pause Primeiro temos que entender o problema. \pause
 
-A questão é que apenas 3 das 4 possíveis combinações dos valores dos campos `aberto?` e `bandeira?` são válidos: aberto, fechado ou fechado com bandeira. \pause
+A questão é que apenas 3 das 4 possíveis combinações dos valores dos campos `aberto` e `bandeira` são válidas: aberto, fechado ou fechado com bandeira. \pause
 
-Para resolver a situação podemos "juntar" os campo `aberto?` e `bandeira?` em um campo `estado` que pode assumir um desses três valores.
+Para resolver a situação podemos "juntar" os campos `aberto` e `bandeira` em um campo `estado` que pode assumir um desses três valores.
 </div>
 </div>
 
 
-## Exemplo - Campo minado
+## Exemplo - campo minado
 
 <div class="columns">
 <div class="column" width="48%">
@@ -805,12 +827,12 @@ Quantas possíveis instâncias distintas existem de `Quadrado`{.gleam}? \pause O
 </div>
 
 
-## Exemplo - Ação campo minado
+## Exemplo - ação campo minado
 
 Agora que temos uma representação adequada para um quadrado, podemos avançar e projetar uma função que determina como um quadrado ficará após a ação de um usuário. O usuário pode fazer uma ação para abrir um quadrado, adicionar uma bandeira ou remover uma bandeira.
 
 
-## Exemplo - Ação campo minado
+## Exemplo - ação campo minado
 
 Análise \pause
 
@@ -830,14 +852,14 @@ pub type Acao {
 ```
 
 
-## Exemplo - Ação campo minado
+## Exemplo - ação campo minado
 
 \small
 
 Especificação \pause
 
 ```gleam
-/// Atualiza o estado do quadrado *q* dado a *acao* do usuário... completar.
+/// Atualiza o estado do quadrado *q* dada a *acao* do usuário... completar.
 pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado
 ```
 
@@ -854,15 +876,15 @@ A função que estamos projetando depende de apenas um valor enumerado? \pause N
 Quantos exemplos precisamos nesse caso? \pause Pelo menos $3 \times 3 = 9$ exemplos. \pause Vamos fazer uma tabela para não esquecer de nenhum caso!
 
 
-## Exemplo - Ação campo minado
+## Exemplo - ação campo minado
 
 \small
 
 | estado/ação                |     abrir      |   adicionar          |   remover     |
 |:--------------------------:|:--------------:|:--------------------:|:-------------:|
 | aberto \pause              |      -         |       -              |      - \pause |
-| fechado \pause             |    aberto      | fechado com bandeira |      - \pause |
-| fechado com bandeira \pause|      -         |       -              |   fechado     |
+| fechado \pause             |    aberto      | fechado-com-bandeira |      - \pause |
+| fechado-com-bandeira \pause|      -         |       -              |   fechado     |
 
 \pause
 
@@ -905,7 +927,7 @@ check.eq(
 ```
 
 
-## Exemplo - Ação campo minado
+## Exemplo - ação campo minado
 
 Implementação \pause
 
@@ -914,14 +936,14 @@ Se o comportamento de uma função depende apenas de um valor enumerado, qual é
 A função que estamos projetando depende de dois valores enumerados, qual deve ser a estrutura inicial do corpo da função? \pause Uma seleção de dois níveis, cada nível para um valor enumerado; \pause ou; uma seleção com uma condição para cada par dos valores enumerados.
 
 
-## Exemplo - Ação campo minado
+## Exemplo - ação campo minado
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-pub fn atualiza_quadrado(q: Quadrado, acao: Acao) {
+pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
   case q.estado {
     Aberto -> case acao {
       Abrir -> todo
@@ -949,7 +971,7 @@ pub fn atualiza_quadrado(q: Quadrado, acao: Acao) {
 \scriptsize
 
 ```gleam
-pub fn atualiza_quadrado(q: Quadrado, acao: Acao) {
+pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
   case q.estado, acao {
     Aberto, Abrir -> todo
     Aberto, AdicionarBandeira -> todo
@@ -967,7 +989,7 @@ pub fn atualiza_quadrado(q: Quadrado, acao: Acao) {
 </div>
 
 
-## Exemplo - Ação campo minado
+## Exemplo - ação campo minado
 
 \small
 
@@ -984,12 +1006,12 @@ pub fn atualiza_quadrado(q: Quadrado, acao: Acao) {
 Se olharmos a tabela de exemplos, vamos notar que em apenas 3 casos precisamos atualizar o quadrado, então, não é necessário colocar explicitamente no código os 9 casos, podemos simplificar o código antes mesmo de escrevê-lo!
 
 
-## Exemplo - Ação campo minado
+## Exemplo - ação campo minado
 
 \footnotesize
 
 ```gleam
-/// Atualiza o estado do quadrado *q* dado a *acao* do usuário. A atualização é
+/// Atualiza o estado do quadrado *q* dada a *acao* do usuário. A atualização é
 /// feita conforme a tabela a seguir, onde - significa que o quadrado permanece
 /// como estava.
 ///
@@ -1013,9 +1035,9 @@ Uniões
 ======
 
 
-## Exemplo - Estado tarefa
+## Exemplo - estado tarefa
 
-Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com uma mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro.
+Projete uma função que produza uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com uma mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro.
 
 \pause
 
@@ -1024,7 +1046,7 @@ Como representar o estado de uma tarefa? \pause
 Vamos tentar uma estrutura.
 
 
-## Exemplo - Estado tarefa
+## Exemplo - estado tarefa
 
 \footnotesize
 
@@ -1051,26 +1073,39 @@ pub type EstadoTarefa {
 Qual é o problema dessa representação? \pause Possíveis estados inválidos. \pause O que significa \footnotesize `EstadoTarefa(True, 10, "Ótimo desempenho", 123, "Falha na conexão")`{.gleam}?
 
 
-## Exemplo - Estado tarefa
+## Exemplo - estado tarefa
 
 Analisando a descrição do problema conseguimos separar o estado da tarefa em três casos: \pause
 
 - Em execução \pause
 - Sucesso, com uma duração e uma mensagem \pause
-- Falha, com um código e uma mensagem \pause
+- Erro, com um código e uma mensagem \pause
 
 Esses casos são excludentes, ou seja, se a tarefa se enquadra em um deles, não se deve armazenar informações sobre os outros (caso contrário, seria possível criar um estado inconsistente). \pause
 
 E como podemos expressar esse tipo de dado? \pause Usando uma união de tipos.
 
 
+## Uniões
+
+Em uma **união**, os valores do tipo são divididos em casos, chamados **variantes**. \pause
+
+Cada variante tem um nome próprio e pode ter os seus próprios campos. \pause
+
+Um valor do tipo pertence a exatamente uma variante. \pause
+
+Usamos uniões quando a informação é um entre vários casos excludentes, e cada caso pode ter informações próprias. \pause
+
+Uma enumeração é o caso particular em que nenhuma variante tem campos.
+
+
 ## Uniões e Estruturas
 
 Definimos anteriormente um tipo de dado como um conjunto de possíveis valores, agora, vamos discutir qual é a relação entre a definição de tipos de dados e as operações com conjuntos. \pause
 
-- Os valores possíveis para um tipo definido por uma estrutura (**tipo produto**) é o produto cartesiano dos valores possíveis de cada um dos seus campos; \pause
+- Os valores possíveis para um tipo definido por uma estrutura (**tipo produto**) são o produto cartesiano dos valores possíveis de cada um dos seus campos; \pause
 
-- Os valores possíveis para um tipo definido por uma união (**tipo soma**) é a união dos valores de cada variante (classe de valores) da união. \pause
+- Os valores possíveis para um tipo definido por uma união (**tipo soma**) são a união dos valores de cada variante (classe de valores) do tipo. \pause
 
 - Chamamos de **tipo algébrico de dado** um tipo soma de tipos produtos. \pause
 
@@ -1079,9 +1114,9 @@ Entender essa relação pode nos ajudar na definição dos tipos de dados, como 
 
 ## Uniões
 
-Algumas linguagens, como Rust e Python, tem maneiras diferentes para definir tipos de dados. \pause
+Algumas linguagens, como Rust e Python, têm construções separadas para estruturas e uniões. \pause
 
-A maioria das linguagens funcionais, incluindo o Gleam, têm apenas uma. \pause
+A maioria das linguagens funcionais, incluindo o Gleam, tem apenas uma construção. \pause
 
 A forma geral para definição de tipos de dados em Gleam é
 
@@ -1089,8 +1124,8 @@ A forma geral para definição de tipos de dados em Gleam é
 
 ```gleam
 [pub | pub opaque] type NomeDoTipo {
-  Caso1[([campo1:] Tipo1, [campo1:] Tipo2, ...)]
-  Caso2[([campo1:] Tipo1, [campo1:] Tipo2, ...)]
+  Caso1[([campo1:] Tipo1, [campo2:] Tipo2, ...)]
+  Caso2[([campo1:] Tipo1, [campo2:] Tipo2, ...)]
   ...
 }
 ```
@@ -1121,7 +1156,7 @@ A forma geral para definição de tipos de dados em Gleam é
 </div>
 
 
-## Exemplo - Estado tarefa
+## Exemplo - estado tarefa
 
 <div class="columns">
 <div class="column" width="43%">
@@ -1135,19 +1170,19 @@ pub type EstadoTarefa {
   // A tarefa finalizou com sucesso
   Sucesso(duracao: Int, msg: String)
   // A tarefa finalizou com falha
-  Falha(codigo: Int, msg: String)
+  Erro(codigo: Int, msg: String)
 }
 ```
 
 \pause
 
 </div>
-<div class="column" width="52%">
+<div class="column" width="54%">
 
 \footnotesize
 
 ```gleam-repl
-> let tarefa: EstadoTarefa = Executado
+> let tarefa: EstadoTarefa = Executando
 ```
 
 \pause
@@ -1159,8 +1194,8 @@ pub type EstadoTarefa {
 \pause
 
 ```
-1 │     tarefa.msg
-  │           ^^^^ This field does not exist
+1 │   tarefa.msg
+  │          ^^^ This field does not exist
 ```
 
 \pause
@@ -1168,20 +1203,16 @@ pub type EstadoTarefa {
 \ \
 
 ```gleam-repl
-> let tarefa = Sucesso(10, "Recuperação exitosa.")
+> pub fn duracao(tarefa: EstadoTarefa) {
+    tarefa.duracao
+  }
 ```
 
 \pause
 
-```gleam-repl
-> tarefa.msg
 ```
-
-\pause
-
-```
-1 │     tarefa.msg
-  │           ^^^^ This field does not exist
+2 │   tarefa.duracao
+  │          ^^^^^^^ This field does not exist
 ```
 
 \pause
@@ -1191,10 +1222,24 @@ pub type EstadoTarefa {
 
 \ \
 
-Então, como podemos acessar os campos!? \pause Usando casamento de padrão com o `case`{.gleam}.
+Então, como podemos acessar os campos!? \pause Usando casamento de padrões com o `case`{.gleam}.
 
 
-## Exemplo - Estado tarefa
+## Casamento de padrões
+
+No **casamento de padrões**, comparamos um valor com um **padrão**, que descreve a forma esperada do valor. \pause
+
+Se o valor tem essa forma, o casamento tem sucesso e as variáveis do padrão são associadas às partes correspondentes do valor. \pause
+
+Um **padrão** pode ser \pause
+
+- uma variável, que casa com qualquer valor e o nomeia; \pause
+- o coringa `_`{.gleam}, que casa com qualquer valor e não o nomeia; \pause
+- um literal, que casa apenas com aquele valor; \pause
+- um construtor aplicado a **padrões**, que casa se o valor foi construído com esse construtor e se cada **padrão** interno casa com o campo correspondente.
+
+
+## Exemplo - estado tarefa
 
 <div class="columns">
 <div class="column" width="43%">
@@ -1208,7 +1253,7 @@ pub type EstadoTarefa {
   // A tarefa finalizou com sucesso
   Sucesso(duracao: Int, msg: String)
   // A tarefa finalizou com falha
-  Falha(codigo: Int, msg: String)
+  Erro(codigo: Int, msg: String)
 }
 ```
 
@@ -1218,7 +1263,7 @@ pub type EstadoTarefa {
 \footnotesize
 
 ```gleam-repl
-> // Devolve -1 se não tem duracao.
+> // Devolve -1 se não tem duração.
 > pub fn duracao(tarefa: EstadoTarefa) -> Int {
   case tarefa {
     Sucesso(duracao, _) -> duracao
@@ -1236,7 +1281,7 @@ pub type EstadoTarefa {
 -1
 > duracao(Sucesso(10, "Recuperação exitosa."))
 10
-> duracao(Falha(-23, "Arquivo não existente."))
+> duracao(Erro(-23, "Arquivo não existente."))
 -1
 ```
 
@@ -1244,11 +1289,11 @@ pub type EstadoTarefa {
 </div>
 
 
-## Exemplo - Estado tarefa
+## Exemplo - estado tarefa
 
 Agora podemos retornar e concluir o projeto. \pause
 
-Projete uma função que exiba uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com uma mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro. \pause
+Projete uma função que produza uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com uma mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro. \pause
 
 Especificação
 
@@ -1256,7 +1301,7 @@ Especificação
 
 ```gleam
 /// Produz uma string amigável para o usuário para descrever o estado da tarefa.
-pub fn msg(tarefa: EstadoTarefa) -> String
+pub fn mensagem(tarefa: EstadoTarefa) -> String
 ```
 
 \pause
@@ -1266,14 +1311,14 @@ pub fn msg(tarefa: EstadoTarefa) -> String
 O exercício não é muito específico sobre a saída (o foco é no projeto de tipos de dados), por isso usamos a criatividade para definir a saída nos exemplos a seguir.
 
 
-## Exemplo - Estado tarefa
+## Exemplo - estado tarefa
 
 Quantos exemplos são necessários? \pause Pelo menos um para cada variante. \pause
 
 \small
 
 ```gleam
-pub fn msg_examples() {
+pub fn mensagem_examples() {
   check.eq(
     mensagem(Executando),
     "A tarefa está em execução."
@@ -1289,7 +1334,7 @@ pub fn msg_examples() {
 }
 ```
 
-## Exemplo - Estado tarefa
+## Exemplo - estado tarefa
 
 Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função com base apenas no tipo de dado, no caso, `EstadoTarefa`. \pause São três casos: \pause
 
@@ -1309,9 +1354,9 @@ pub fn mensagem(estado: EstadoTarefa) -> String {
 ```
 
 
-## Exemplo - Estado tarefa
+## Exemplo - estado tarefa
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função baseado apenas no tipo de dado, no caso, `EstadoTarefa`. São três casos:
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função com base apenas no tipo de dado, no caso, `EstadoTarefa`. São três casos:
 
 \small
 
@@ -1383,10 +1428,10 @@ def mensagem(estado: EstadoTarefa) -> str:
     if isinstance(estado, Executando):
         return 'A tarefa está em execução'
     elif isinstance(estado, Sucesso):
-        return 'A tafera finalizou com sucesso ({}s): {}'.format(estado.duracao,
+        return 'A tarefa finalizou com sucesso ({}s): {}'.format(estado.duracao,
                                                                  estado.msg)
     else:
-        return 'A tafera falhou (error {}): {}'.format(estado.codigo, estado.msg)
+        return 'A tarefa falhou (erro {}): {}'.format(estado.codigo, estado.msg)
 ```
 
 
@@ -1400,12 +1445,12 @@ def mensagem(estado: EstadoTarefa) -> str:
         case Executando():
             return 'A tarefa está em execução'
         case Sucesso(duracao, msg):
-            return f'A tafera finalizou com sucesso ({duracao}s): {msg}'
+            return f'A tarefa finalizou com sucesso ({duracao}s): {msg}'
         case Erro(codigo, msg):
-            return f'A tafera falhou (error {codigo}): {msg}'
+            return f'A tarefa falhou (erro {codigo}): {msg}'
 ```
 
-Aqui, usamos **casamento de padrões** para decompor cada tipo produto em seus componentes.
+Aqui, usamos casamento de padrões para decompor cada tipo produto em seus componentes.
 
 
 ## Uniões em Rust
@@ -1441,21 +1486,21 @@ Usamos novamente casamento de padrões para decompor `Sucesso` e `Erro` em seus 
 sealed interface EstadoTarefa permits Executando, Sucesso, Erro {};
 record Executando() implements EstadoTarefa {};
 record Sucesso(int duracao, String msg) implements EstadoTarefa {};
-record Erro(int erro, String msg) implements EstadoTarefa {};
+record Erro(int codigo, String msg) implements EstadoTarefa {};
 
 static String mensagem(EstadoTarefa estado) {
     return switch (estado) {
         case Executando e ->
-            "A tarefa está executando";
-        case Sucesso s ->
-            String.format("A tarefa foi concluída (%ds): %s", s.duracao(), s.msg());
-        case Erro e ->
-            String.format("A tarefa falhou (erro %d): %s", e.erro(), e.msg());
+            "A tarefa está em execução";
+        case Sucesso(int duracao, String msg) ->
+            String.format("A tarefa finalizou com sucesso (%ds): %s", duracao, msg);
+        case Erro(int codigo, String msg) ->
+            String.format("A tarefa falhou (erro %d): %s", codigo, msg);
     };
 }
 ```
 
-A [JEP 405](https://openjdk.org/jeps/405), que ainda está em _preview_, permite o uso de padrões para decompor registros.
+A [JEP 405](https://openjdk.org/jeps/405), disponível desde o Java 21, permite o uso de padrões para decompor registros.
 
 
 
@@ -1483,7 +1528,7 @@ Como podemos resolver essas questões? \pause Vamos começar com a função `dur
 \footnotesize
 
 ```gleam
-/// Devolve -1 se não tem duracao.
+/// Devolve -1 se não tem duração.
 pub fn duracao(tarefa: EstadoTarefa) -> Int {
   case tarefa {
     Sucesso(duracao, _) -> duracao
@@ -1497,7 +1542,7 @@ pub fn duracao(tarefa: EstadoTarefa) -> Int {
 -1
 > duracao(Sucesso(10, "Recuperação exitosa."))
 10
-> duracao(Falha(-23, "Arquivo não existente."))
+> duracao(Erro(-23, "Arquivo não existente."))
 -1
 ```
 
@@ -1513,8 +1558,8 @@ São dois casos distintos: ou existe um valor, ou não existe valor algum. \paus
 
 ```gleam
 pub type Opcional {
-    Nenhum
-    Algum(Int)
+  Nenhum
+  Algum(Int)
 }
 ```
 
@@ -1542,7 +1587,7 @@ pub fn duracao(tarefa: EstadoTarefa) -> Opcional {
 Nenhum
 > duracao(Sucesso(10, "Recuperação exitosa."))
 Algum(10)
-> duracao(Falha(-23, "Arquivo não existente."))
+> duracao(Erro(-23, "Arquivo não existente."))
 Nenhum
 ```
 
@@ -1559,7 +1604,7 @@ O usuário da função tem de tratar de forma explícita os dois casos; ele não
 \footnotesize
 
 ```gleam-repl
-> 2 * duracao(Executado)
+> 2 * duracao(Executando)
 ```
 
 \pause
@@ -1674,9 +1719,9 @@ pub fn primeiro(s: String) -> Opcional {
 
 \normalsize
 
-Existe algum problema com a implementação? \pause
+Existe algum problema com essa representação? \pause
 
-A string em `Opcional`{.gleam} ainda pode ser vazia. \pause
+O tipo `Opcional`{.gleam} permite `Algum("")`{.gleam}. \pause
 
 Este é o mesmo problema do preço e da duração...
 </div>
@@ -1684,6 +1729,8 @@ Este é o mesmo problema do preço e da duração...
 
 
 ## Valores opcionais
+
+Precisamos de uma definição de `Opcional`{.gleam} para cada tipo de conteúdo: `Int`{.gleam}, `String`{.gleam}, ... \pause
 
 Gleam tem na biblioteca padrão o tipo `Option`{.gleam} para representar valores opcionais. \pause
 
@@ -1747,9 +1794,9 @@ pub fn primeiro(s: String) -> Option(String) {
 
 ## Valores opcionais
 
-As linguagens Rust e Java, entre outras, também têm o tipo `Option`{.gleam}. \pause
+As linguagens Rust e Java, entre outras, também têm um tipo para representar valores opcionais: `Option`{.gleam} em Rust e `Optional`{.gleam} em Java. \pause
 
-Em Rust o tipo `Option`{.gleam} é bastante utilizando na biblioteca padrão para representar valores que podem estar ausentes, como na saída de funções semelhantes a função `primeiro`{.gleam}. \pause
+Em Rust o tipo `Option`{.gleam} é bastante utilizado na biblioteca padrão para representar valores que podem estar ausentes, como na saída de funções semelhantes à função `primeiro`{.gleam}. \pause
 
 Em Gleam, é mais comum utilizar o tipo `Result`{.gleam}, que vamos discutir a seguir.
 
@@ -1783,7 +1830,7 @@ Como podemos proceder nesse caso?
 
 ## Erros
 
-Definimos uma enumeração com dois casos: um para erro, com um valor associado, e outro para sucesso, com o valor associado. \pause
+Definimos uma união com dois casos: um para erro, com um valor associado, e outro para sucesso, com um valor associado. \pause
 
 Em Gleam, este é o tipo `Result`{.gleam}, pré-definido como:
 
@@ -1791,8 +1838,8 @@ Em Gleam, este é o tipo `Result`{.gleam}, pré-definido como:
 
 ```gleam
 pub type Result(ok, error) {
-    Ok(ok)
-    Error(error)
+  Ok(ok)
+  Error(error)
 }
 ```
 
@@ -1852,12 +1899,12 @@ Ok("c")
 </div>
 
 
-## Exemplo soma de string
+## Exemplo - soma de string
 
 Projete uma função que receba como parâmetro duas strings, e, se as duas representarem inteiros, devolva a soma dos seus valores em forma de string.
 
 
-## Exemplo soma de string
+## Exemplo - soma de string
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1980,7 +2027,7 @@ Apenas o módulo que define um tipo `opaque`{.gleam} tem acesso aos seus compone
 ```gleam
 /// O preço do litro do combustível.
 pub opaque type Preco {
-    Preco(valor: Float)
+  Preco(valor: Float)
 }
 ```
 
@@ -2041,38 +2088,62 @@ pub fn seleciona_combustivel_examples() {
 </div>
 </div>
 
+
+## Validação
+
+Com isso, fechamos as três pendências: \pause
+
+- O preço do combustível é validado no construtor do tipo opaco `Preco`{.gleam}; \pause
+
+- A duração da tarefa se resolve da mesma forma, com um tipo opaco `Duracao`{.gleam} cujo construtor devolve `Error(Nil)`{.gleam} para valores negativos; \pause
+
+- A função `duracao`{.gleam} devolve `Option(Int)`{.gleam} em vez de usar `-1`{.gleam} para indicar a ausência de valor.
+
 Revisão
 =======
 
 
 ## Revisão
 
-Vimos com mais detalhes como desenvolver a etapa de definição de tipos de dados. \pause
-
-Aprendemos que devemos considerar dois princípios no projeto de tipos de dados \pause
+Quais são as duas diretrizes para o projeto de tipos de dados? \pause
 
 - Torne os valores válidos representáveis. \pause
 - Torne os valores inválidos irrepresentáveis. \pause
 
-Vimos como definir novos tipos de dados usando tipos algébricos: \pause
+Quais são as duas formas de definir tipos algébricos e quando usar cada uma? \pause
 
-- Estruturas (tipo produto) \pause
-- Uniões e enumerações (tipo soma)
+- Estruturas (tipo produto), quando dois ou mais itens de informação juntos descrevem uma entidade; \pause
+- Uniões e enumerações (tipo soma), quando a informação é um entre vários casos excludentes.
 
 
 ## Revisão
 
-Discutimos como os tipos de dados guiam o processo de projeto de programas: \pause
+Quantos valores distintos tem um tipo produto? E um tipo soma? \pause
 
-- Um tipo soma com N casos sugere pelo menos N exemplos; \pause
-- Um tipo soma com N casos sugere um corpo com uma análise de N casos. \pause
+- No tipo produto, o produto da quantidade de valores de cada campo; no tipo soma, a soma da quantidade de valores de cada variante. \pause
+
+Como um tipo soma com N casos guia o projeto de uma função que o recebe como entrada? \pause
+
+- Ele sugere pelo menos N exemplos, um para cada caso, e um corpo com uma análise de N casos. \pause
+
+E se a função recebe dois valores de tipos soma, com N e M casos? \pause
+
+- Pelo menos N $\times$ M exemplos; uma tabela ajuda a não esquecer nenhum.
 
 
-Vimos como usar tipos somas para lidar com valores opcionais, erros e validação: \pause
+## Revisão
 
-- O tipo `Option`{.gleam} é usado para valores opcionais; \pause
-- O tipo `Result`{.gleam} é utilizado para representar sucesso ou falha de uma função; \pause
-- Tipos opacos podem ser utilizados para representar valores que foram validados.
+Como representar um valor que pode estar ausente? \pause
+
+- Com o tipo `Option`{.gleam}, que tem os casos `None`{.gleam} e `Some(a)`{.gleam}. \pause
+
+Como representar o resultado de uma função que pode falhar? \pause
+
+- Com o tipo `Result`{.gleam}, que tem os casos `Ok(ok)`{.gleam} e `Error(error)`{.gleam}. Em Gleam, toda função que pode falhar devolve `Result`{.gleam}. \pause
+
+Como garantir que só é possível criar valores válidos de um tipo? \pause
+
+- Definindo um tipo opaco e fazendo a validação na função que constrói o valor, que devolve `Result`{.gleam}.
 
 
 Referências
@@ -2082,15 +2153,15 @@ Referências
 
 Básicas
 
-- [Tipos de dados em Gleam](https://tour.gleam.run/everything/#data-types-tuples)
+- [Tipos de dados em Gleam](https://tour.gleam.run/everything/#data-types-custom-types)
 
 - [Tipos opacos em Gleam](https://tour.gleam.run/everything/#advanced-features-opaque-types)
 
 - [Vídeo Making Impossible States Impossible](https://www.youtube.com/watch?v=IcgmSRJHu_8)
 
-- [Parse, don't validade](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
+- [Parse, don't validate](https://lexi-lambda.github.io/blog/2019/11/05/parse-don-t-validate/)
 
 
-Leitura recomendada
+Complementares
 
 - [Expression problem](https://en.wikipedia.org/wiki/Expression_problem)

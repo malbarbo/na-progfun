@@ -31,8 +31,8 @@ pub fn soma_alt(a: String, b: String) -> Result(String, Nil) {
 }
 
 pub fn soma_alt_examples() {
-  check.eq(soma("31", "4"), Ok("35"))
-  check.eq(soma("31", "a"), Error(Nil))
-  check.eq(soma("a", "4"), Error(Nil))
-  check.eq(soma("a", "b"), Error(Nil))
+  check.eq(soma_alt("31", "4"), Ok("35"))
+  check.eq(soma_alt("31", "a"), Error(Nil))
+  check.eq(soma_alt("a", "4"), Error(Nil))
+  check.eq(soma_alt("a", "b"), Error(Nil))
 }

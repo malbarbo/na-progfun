@@ -20,15 +20,15 @@ pub type Acao {
   RemoverBandeira
 }
 
-/// Atualiza o estado do quadrado *q* dado a *acao* do usuário. A atualização é
+/// Atualiza o estado do quadrado *q* dada a *acao* do usuário. A atualização é
 /// feita conforme a tabela a seguir, onde - significa que o quadrado permanece
 /// como estava.
 ///
-/// | estado/ação          |  abrir  | adicionar bandeira   | remover bandeira |
-/// |---------------------:|:-------:|:--------------------:|:----------------:|
-/// | aberto               |   -     |          -           |        -         |
-/// | fechado              | aberto  | fechado-com-bandeira |        -         |
-/// | fechado-com-bandeira |   -     |          -           |      fechado     |
+/// | estado/ação          |  abrir  |      adicionar       | remover |
+/// |---------------------:|:-------:|:--------------------:|:-------:|
+/// | aberto               |   -     |          -           |    -    |
+/// | fechado              | aberto  | fechado-com-bandeira |    -    |
+/// | fechado-com-bandeira |   -     |          -           | fechado |
 pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
   case q.estado, acao {
     Fechado, Abrir -> Quadrado(..q, estado: Aberto)

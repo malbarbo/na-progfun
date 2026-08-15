@@ -1,10 +1,14 @@
 import gleam/int
 import sgleam/check
 
+/// O estado de uma tarefa
 pub type EstadoTarefa {
+  // A tarefa está em execução
   Executando
-  Sucesso(Int, String)
-  Erro(Int, String)
+  // A tarefa finalizou com sucesso
+  Sucesso(duracao: Int, msg: String)
+  // A tarefa finalizou com falha
+  Erro(codigo: Int, msg: String)
 }
 
 pub fn mensagem(estado: EstadoTarefa) -> String {

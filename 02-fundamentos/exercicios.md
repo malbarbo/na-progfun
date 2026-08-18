@@ -5,8 +5,6 @@ title: |
        | Fundamentos
 urlcolor: Blue
 license:
-# TODO: exercícios de avaliação direta de expressões? prioridades?
-# TODO: exercícios de estratégia de avaliação
 ---
 
 # Começando
@@ -29,6 +27,8 @@ license:
 
 @) A ordem em que as expressões em uma chamada de função são avaliadas pode alterar o valor da chamada da função? Explique.
 
+@) Qual é a diferença entre avaliação em ordem aplicativa e avaliação em ordem normal? Qual das duas o Gleam usa?
+
 @) Explique por que `&&`{.gleam} e `||`{.gleam} são formas especiais e não funções. Dê um exemplo de expressão cujo comportamento mudaria se elas fossem funções.
 
 @) Quando dois valores são considerados iguais em Gleam? Dê um exemplo de uma comparação com `==`{.gleam} que não compila e explique por quê.
@@ -37,6 +37,30 @@ license:
 
 
 # Praticando
+
+
+<!-- Aritmética e prioridades -->
+
+@) Determine, sem usar o computador, o valor de cada expressão a seguir. Depois crie um arquivo com as definições abaixo, carregue o arquivo na janela de interações e confira as respostas.
+
+    ```gleam
+    pub const a = 7
+    pub const b = 2
+    ```
+
+    a) `a + b * 3`{.gleam}
+    a) `{ a + b } * 3`{.gleam}
+    a) `a / b`{.gleam}
+    a) `a % b + 1`{.gleam}
+    a) `a - b - 1`{.gleam}
+
+
+@) Reescreva cada expressão a seguir na forma prefixa, isto é, usando apenas chamadas das funções `int.add`{.gleam}, `int.subtract`{.gleam} e `int.multiply`{.gleam}, sem alterar o valor produzido.
+
+    a) `2 + 3 * 5`{.gleam}
+    a) `{ 2 + 3 } * 5`{.gleam}
+    a) `10 - 7 + 6`{.gleam}
+    a) Por que `10 / 2`{.gleam} não pode ser reescrita da mesma forma, com `int.divide`{.gleam}?
 
 
 <!-- Operadores lógicos e prioridades -->
@@ -77,6 +101,25 @@ license:
     > produto_anterior_posterior(-2)
     -6
     ```
+
+
+<!-- Estratégias de avaliação -->
+
+@) Considere as definições a seguir.
+
+    ```gleam
+    fn dobro(x) {
+      x + x
+    }
+
+    fn g(a, b) {
+      dobro(a) + b
+    }
+    ```
+
+    a) Escreva os passos da avaliação de `g(2 + 1, 4)`{.gleam} usando a ordem aplicativa.
+    a) Escreva os passos da avaliação de `g(2 + 1, 4)`{.gleam} usando a ordem normal.
+    a) Em cada uma das ordens, quantas vezes a expressão `2 + 1`{.gleam} é reduzida? Explique a diferença.
 
 
 <!-- Predicados -->

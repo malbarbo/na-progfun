@@ -1,14 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Fundamentos
-# TODO: Discussão sobre if, and or serem formas especiais se avaliação aplicativa é usada e funções normais se avaliação em ordem normal é usada
-# TODO: esclarecer o que é função composta
-# TODO: rever as perguntas e melhorar as definições nos slides
-# TODO: falar de estilo de código
-# TODO: falar de tratamento de erro?
 # TODO: mostrar diagrama de sintaxe?
-# TODO: falar da forma de operadores binários
-# TODO: falar que cada expressão tem um tipo
 ---
 
 Introdução
@@ -18,7 +11,7 @@ Introdução
 
 O paradigma de programação funcional é baseado na definição e aplicação de funções. \pause
 
-Uma **função** é um conjunto de expressões que mapeia valores de entrada para valores de saída. \pause
+Uma **função** é um mapeamento de valores de entrada para valores de saída, definido por meio de expressões. \pause
 
 Uma **expressão** é uma entidade sintática que quando avaliada (reduzida) produz um valor. \pause
 
@@ -36,7 +29,7 @@ Uma **expressão** consiste em
 - Uma função primitiva \pause
 
 
-Um **literal** é um valor que é representado diretamente no código. Em geral, os literais são utilizados para criar valores de tipos primitivos.
+Um **literal** é a representação direta de um valor no código.
 
 \pause
 
@@ -286,9 +279,10 @@ Error(Nil)
 </div>
 </div>
 
-\pause
 
-O terceiro par não é uma equivalência: `int.divide`{.gleam} sinaliza o erro na resposta. \pause
+## Combinações
+
+O terceiro par não é uma equivalência: `int.divide`{.gleam} sinaliza o erro na resposta, usando um tipo que veremos no capítulo de tipos de dados. \pause
 
 Considerando apenas funções e literais (vamos deixar os operadores de lado por simplicidade), qual é a forma de combinar expressões para criar novas expressões? \pause
 
@@ -322,7 +316,38 @@ Uma **chamada de função** consiste em uma **expressão** seguida por uma sequ�
 
 Qual é o valor produzido pela avaliação de uma chamada de função? \pause
 
-- O resultado da aplicação do valor do operador aos valores dos operandos. \pause
+- O resultado da aplicação do valor do operador aos valores dos operandos.
+
+
+## Tipos
+
+Além de um valor, toda expressão tem um **tipo** — e o tipo é determinado pelo compilador **antes** da avaliação, sem executar o programa. \pause
+
+O tipo de um literal é o tipo do valor que ele representa; o tipo de uma função descreve as entradas e a saída (`int.add`{.gleam} tem tipo `fn(Int, Int) -> Int`{.gleam}). \pause
+
+E o tipo de uma chamada de função? \pause É o tipo da saída da função: `int.add(2, 3)`{.gleam} tem tipo `Int`{.gleam}. \pause
+
+Os tipos também determinam quais chamadas são válidas: o operador precisa ser uma função e cada operando precisa ter o tipo da entrada correspondente. `int.add(2, "12")`{.gleam} tem a forma de uma chamada, mas nem chega a ser avaliada: o compilador a rejeita.
+
+
+## Operadores binários
+
+E os operadores que deixamos de lado? \pause
+
+Uma expressão com operador binário é uma chamada de função escrita de outra forma: em `int.add(2, 3)`{.gleam} o operador vem **antes** dos operandos (forma **prefixa**), em `2 + 3`{.gleam} ele vem **entre** eles (forma **infixa**). A regra de avaliação é a mesma. \pause
+
+Em Gleam a forma infixa é apenas uma notação: `+`{.gleam} sozinho não é uma expressão, não é possível escrever `+(2, 3)`{.gleam} nem usar `+`{.gleam} como argumento. Por isso a lista de operações primitivas mostra, ao lado de cada operador, o nome da função correspondente.
+
+
+## Prioridade dos operadores
+
+Na forma prefixa os parênteses deixam a estrutura explícita; na forma infixa ela depende das **regras de prioridade**. \pause
+
+Entre os operadores aritméticos, as prioridades são as que já estamos acostumados da matemática: `2 + 3 * 5`{.gleam} é `int.add(2, int.multiply(3, 5))`{.gleam}, e não `int.multiply(int.add(2, 3), 5)`{.gleam}. \pause
+
+Os operadores aritméticos têm prioridade maior que os relacionais: `1 + 2 == 3`{.gleam} é `{ 1 + 2 } == 3`{.gleam}. \pause
+
+Use `{ }`{.gleam} quando quiser uma estrutura diferente da que as prioridades determinam. \pause
 
 Vamos atualizar a definição de expressão para incluir as chamadas de funções.
 
@@ -373,7 +398,7 @@ Algumas observações interessantes \pause
 
 <!-- TODO: fazer uma animação -->
 
-Exemplo de avaliação de um expressão \pause
+Exemplo de avaliação de uma expressão \pause
 
 \small
 
@@ -464,13 +489,13 @@ Note que a especificação do tipo da constante é opcional. Se o tipo não for 
 
 ## Definições de funções
 
-A forma geral para definições de novas funções (**funções compostas**) em Gleam é:
+A forma geral para funções definidas pelo programador (**funções compostas**) em Gleam é:
 
 \small
 
 ```gleam
 [pub] fn nome(parametro1 [: Tipo], parametro2 [: Tipo], ...) [-> Tipo] {
-    expressão...
+  expressão...
 }
 ```
 
@@ -484,10 +509,10 @@ Exemplos
 
 ```gleam
 fn quadrado(x: Int) -> Int {
-    x * x
+  x * x
 }
 pub fn soma_quadrados(a: Int, b) {
-    quadrado(a) + quadrado(b)
+  quadrado(a) + quadrado(b)
 }
 ```
 
@@ -508,6 +533,27 @@ pub fn soma_quadrados(a: Int, b) {
 \pause
 
 Note que a especificação dos tipos das entradas e saída é opcional. Se os tipos não forem especificados, eles são inferidos pelo compilador.
+
+
+## Estilo de código
+
+Em muitas linguagens o estilo é questão de gosto pessoal, em Gleam não. \pause
+
+Os nomes são impostos pelo compilador: `type ponto`{.gleam}, `fn Soma(a, b)`{.gleam} e `fn somaQuadrados(a, b)`{.gleam} não compilam. \pause
+
+A formatação é definida pelo formatador, assim como no Go:
+
+\small
+
+```console
+$ sgleam format arquivo.gleam
+```
+
+\normalsize
+
+\pause
+
+Convenção definida por ferramenta é melhor do que gosto pessoal: acaba a discussão e todo código tem a mesma aparência, o que facilita a leitura.
 
 
 ## Definições
@@ -678,7 +724,7 @@ Implementação \pause
 
 ```gleam
 fn custo_combustivel(distancia, preco_do_litro, rendimento) {
-    { distancia /. rendimento } *. preco_do_litro
+  { distancia /. rendimento } *. preco_do_litro
 }
 ```
 
@@ -731,10 +777,10 @@ A forma geral do `if`{.gleam} poderia ser:
 \small
 
 ```gleam
-if expressão {    // condição
-    expressão...
+if expressão {  // condição
+  expressão...
 } else {
-    expressão...
+  expressão...
 }
 ```
 
@@ -772,7 +818,7 @@ Exemplos
 
 \pause
 
-Qual a diferença desse `if`{.gleam} em relação ao das outras linguagens? \pause Esse `if`{.gleam} é uma expressão, ele produz um valor como resultado. Na maioria das outras linguagens o `if`{.gleam} é uma sentença ([_statement_](https://en.wikipedia.org/wiki/Statement_(computer_science)) em inglês), ele não produz um resultado, mas gera um efeito colateral.
+Qual a diferença desse `if`{.gleam} em relação ao das outras linguagens? \pause Esse `if`{.gleam} é uma expressão, ele produz um valor como resultado. Na maioria das outras linguagens o `if`{.gleam} é uma sentença ([_statement_](https://en.wikipedia.org/wiki/Statement_(computer_science)) em inglês), ele não produz um resultado, ele seleciona quais comandos serão executados, isto é, quais efeitos colaterais serão gerados.
 
 
 ## Condicional
@@ -782,9 +828,9 @@ A forma inicial do `case`{.gleam} é:
 \small
 
 ```gleam
-case expressão {        // expressão examinada
-    True -> expressão   // caso True
-    False -> expressão  // caso False
+case expressão {      // expressão examinada
+  True -> expressão   // caso True
+  False -> expressão  // caso False
 }
 ```
 
@@ -832,6 +878,8 @@ A regra de avaliação de expressões `case`{.gleam} é: \pause
 - Se o valor da expressão examinada for `True`{.gleam}, substitua toda a expressão `case`{.gleam} pela expressão do caso `True`{.gleam} \pause
 
 - Senão, substitua toda a expressão `case`{.gleam} pela expressão do caso `False`{.gleam} \pause
+
+Os dois casos precisam ter o mesmo tipo, que é o tipo da expressão `case`{.gleam}. \pause
 
 Vamos ver outras formas especiais ao longo da disciplina, como `&&`{.gleam}, `||`{.gleam}, `let`{.gleam}, funções anônimas, `|>`{.gleam} e `use`{.gleam}.
 
@@ -1089,13 +1137,13 @@ fn or(x, y) {
 
 Existe alguma implicação em definirmos `and`{.gleam} e `or`{.gleam} como funções? \pause
 
-Sim, elas serão avaliadas como funções, ou seja, todos os argumentos são reduzidos a valores antes da chamada, e isso torna impossível deixar de avaliar o segundo argumento. \pause
+Sim. Na ordem aplicativa todos os argumentos são avaliados antes da chamada, então é impossível deixar de avaliar o segundo argumento. \pause
 
-Especificamente, na implementação do `and`{.gleam}, se a primeira expressão for `False`{.gleam}, não é necessário avaliar a segunda expressão. De forma semelhante, no `or`{.gleam}, se a primeira expressão for `True`{.gleam}, não é necessário avaliar a segunda expressão. \pause
+Mas no `and`{.gleam}, se o primeiro argumento for `False`{.gleam}, não é necessário avaliar o segundo; no `or`{.gleam}, o mesmo vale se o primeiro for `True`{.gleam}. Deixar de avaliar o segundo operando quando o primeiro já determina o resultado é chamado de **avaliação em curto-circuito**, um tipo de avaliação preguiçosa. \pause
 
-Essa forma de avaliação, chamada de **avaliação em curto-circuito**, é usada em muitas linguagens e permite escrever **condições dependentes**, em que a segunda expressão só pode ser avaliada se a primeira for verdadeira, como `x != 0 and 10 / x == 2`{.python} em Python. Em Gleam a divisão por zero não gera erro, mas o curto-circuito continua evitando avaliações desnecessárias. \pause
+Note que a limitação é da ordem de avaliação, não do fato de serem funções: em uma linguagem com avaliação em ordem normal, como Haskell, essa mesma definição de `and`{.gleam} já teria curto-circuito. \pause
 
-Avaliação em curto-circuito é um tipo de avaliação preguiçosa.
+Em Gleam, para ter curto-circuito, `&&`{.gleam} e `||`{.gleam} precisam ser formas especiais, com regra de avaliação própria, como veremos a seguir.
 
 
 Operadores lógicos
@@ -1169,6 +1217,8 @@ True
 <div class="column" width="50%">
 
 \small
+
+Os operadores relacionais têm prioridade maior que `&&`{.gleam} e `||`{.gleam}. \pause
 
 O operador `&&`{.gleam} tem maior prioridade do que `||`{.gleam}. \pause
 
@@ -1439,14 +1489,14 @@ O que é uma **forma especial**? \pause
 
 Qual a diferença entre o `case`{.gleam} do Gleam e o `if`{.gleam} da maioria das linguagens? \pause
 
-- O `case`{.gleam} é uma expressão, ele produz um valor. Na maioria das outras linguagens o `if`{.gleam} é uma sentença: não produz valor, apenas gera efeito colateral.
+- O `case`{.gleam} é uma expressão, ele produz um valor. Na maioria das outras linguagens o `if`{.gleam} é uma sentença: não produz valor, apenas seleciona quais comandos — e portanto quais efeitos colaterais — serão executados.
 
 
 ## Revisão
 
 O que é avaliação em curto-circuito e por que ela não é obtida definindo `and`{.gleam} e `or`{.gleam} como funções? \pause
 
-- É deixar de avaliar o segundo operando quando o primeiro já determina o resultado. Com funções isso não acontece porque, na ordem aplicativa, todos os argumentos são avaliados antes da chamada. Por isso `&&`{.gleam} e `||`{.gleam} são operadores, com regra de avaliação própria. \pause
+- É deixar de avaliar o segundo operando quando o primeiro já determina o resultado. Com funções isso não acontece porque, na ordem aplicativa, todos os argumentos são avaliados antes da chamada. Por isso `&&`{.gleam} e `||`{.gleam} são formas especiais, com regra de avaliação própria. \pause
 
 Quando dois valores são iguais em Gleam? \pause
 

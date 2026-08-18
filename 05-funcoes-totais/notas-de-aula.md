@@ -24,9 +24,9 @@ Neste capítulo vamos juntar as duas coisas: usar os tipos de dados para elimina
 
 Como transformar uma função parcial em uma função total? \pause Existem três caminhos. \pause
 
-- Escolher uma resposta para as entradas que o contrato hoje proíbe, sem mudar os tipos; \pause
+- Escolher uma resposta para as entradas hoje inválidas, sem mudar os tipos; \pause
 
-- **Apertar** o tipo da entrada, para que as entradas proibidas deixem de existir; \pause
+- **Apertar** o tipo da entrada, para que as entradas inválidas deixem de existir; \pause
 
 - **Alargar** o tipo da saída, para que a função tenha uma resposta a mais para dar. \pause
 
@@ -35,7 +35,7 @@ O primeiro não precisa de nenhum tipo novo, então vamos vê-lo agora. Os outro
 
 ## Escolher uma resposta
 
-O caminho mais simples é dar uma resposta às entradas que estavam proibidas, sem mudar tipo nenhum. \pause
+O caminho mais simples é dar uma resposta às entradas inválidas, sem mudar tipo nenhum. \pause
 
 \small
 
@@ -676,9 +676,9 @@ Revisão
 
 Quais são os três caminhos para transformar uma função parcial em uma função total? \pause
 
-- Escolher uma resposta para as entradas que o contrato proíbe, apertar o tipo da entrada ou alargar o tipo da saída. \pause
+- Escolher uma resposta para as entradas inválidas, apertar o tipo da entrada ou alargar o tipo da saída. \pause
 
-Quando escolher uma resposta para as entradas proibidas é uma boa ideia? \pause
+Quando escolher uma resposta para as entradas inválidas é uma boa ideia? \pause
 
 - Quando a nova resposta generaliza o propósito da função, como em `string.slice`{.gleam}. Quando ela apenas preenche um buraco, como o `0`{.gleam} da divisão por zero, o erro fica escondido e é melhor alargar o tipo da saída.
 

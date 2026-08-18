@@ -352,7 +352,7 @@ E uma função `primeiro(s: String) -> String`{.gleam}, que devolve o primeiro c
 
 ## Funções totais e parciais
 
-O que acontece quando alguém chama uma função parcial com uma entrada que o contrato proíbe? \pause Uma de duas coisas. \pause
+O que acontece quando alguém chama uma função parcial com uma entrada inválida? \pause Uma de duas coisas. \pause
 
 Ou a função não percebe e produz um valor sem sentido, que o resto do programa usa como se fosse uma resposta legítima. \pause O `Arrays.binarySearch`{.java} do Java exige um vetor ordenado; se ele não estiver, a documentação diz que o resultado é indefinido: nenhum erro, só um número errado. \pause
 
@@ -1288,7 +1288,7 @@ Qual é a diferença entre uma função total e uma função parcial? \pause
 
 - A total produz uma resposta válida para todos os valores dos tipos das entradas; a parcial não, e as restrições excluem justamente os valores para os quais ela não produz. \pause
 
-O que pode acontecer quando uma função parcial é chamada com uma entrada proibida pelo contrato? \pause
+O que pode acontecer quando uma função parcial é chamada com uma entrada inválida? \pause
 
 - Ou ela produz um valor sem sentido, que o resto do programa usa como resposta legítima, ou ela interrompe o programa.
 

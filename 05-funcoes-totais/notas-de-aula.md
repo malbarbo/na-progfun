@@ -89,8 +89,8 @@ Valores opcionais
 
 ```gleam
 /// Devolve -1 se não tem duração.
-pub fn duracao(tarefa: EstadoTarefa) -> Int {
-  case tarefa {
+pub fn duracao(estado: EstadoTarefa) -> Int {
+  case estado {
     Sucesso(duracao, _) -> duracao
     _ -> -1
   }
@@ -134,8 +134,8 @@ pub type Opcional {
 \footnotesize
 
 ```gleam
-pub fn duracao(tarefa: EstadoTarefa) -> Opcional {
-  case tarefa {
+pub fn duracao(estado: EstadoTarefa) -> Opcional {
+  case estado {
     Sucesso(duracao, _) -> Algum(duracao)
     _ -> Nenhum
   }
@@ -544,8 +544,8 @@ A opção mais direta é validar o preço na função `seleciona_combustivel`{.g
 \footnotesize
 
 ```gleam
-/// O preço do litro do combustível,
-/// deve ser um número positivo.
+/// O preço do litro do combustível.
+/// Requer que seja um número positivo.
 pub type Preco = Float
 
 pub fn seleciona_combustivel(

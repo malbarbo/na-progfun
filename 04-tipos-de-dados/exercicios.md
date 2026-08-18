@@ -19,28 +19,28 @@ license:
 
 @) Quais são as diretrizes que podemos utilizar para determinar se um tipo de dado é adequado para representar uma informação?
 
+@) Quando devemos utilizar enumerações para representar informações?
+
 @) Quando devemos utilizar estruturas para representar informações?
 
-<!--
-@) Como são chamadas as funções utilizadas para criar instâncias de estruturas?
--->
+@) Como são chamadas as funções utilizadas para criar instâncias de um tipo?
 
 @) Como se modifica o valor de um campo de uma instância de uma estrutura? Explique.
 
-@) Quando devemos utilizar enumerações para representar informações?
+@) Quando devemos utilizar uniões para representar informações?
 
 @) O que são tipos algébricos de dados?
 
-@) De que forma as enumerações e uniões, quando usadas como entrada para funções, guiam a criação dos exemplos e a implementação da função?
+@) O que é casamento de padrões? Quais são as formas de padrão que vimos?
 
-@) Quando devemos utilizar uniões para representar informações?
+@) O que acontece se a análise de casos de um `case`{.gleam} não for exaustiva? De que forma essa verificação ajuda quando um novo caso é acrescentado a um tipo de dado?
+
+@) De que forma as enumerações e uniões, quando usadas como entrada para funções, guiam a criação dos exemplos e a implementação da função?
 
 
 # Praticando
 
-<!--
-Na implementação use apenas as funções presentes no material "Resumo da linguagem Racket". Não use funções de alta ordem.
--->
+Na implementação use apenas as funções presentes no material "Resumo da linguagem Gleam". Não use funções de alta ordem.
 
 <!-- Enumerações -->
 
@@ -78,7 +78,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
     a) Projete uma função que determine a área de uma figura. A área de um retângulo é dada por ${largura} \times {altura}$, e a área de um círculo é dada por $3.14 \times {raio}^2$.
 
-    b) Projete uma função que verifique se uma figura cabe dentro de outra. Faça uma tabela com as quatro possibilidades (retângulo-retângulo, retângulo-círculo, círculo-retângulo, círculo-círculo) e identifique as condições necessárias para a primeira figura caber na segunda (um retângulo cabe dentro de um círculo se a sua diagonal ($\sqrt{ {altura}^2 + {largura}^2}$) for menor que o diâmetro do círculo ($2 \times {raio}$)). Faça os exemplos e a implementação a partir da tabela.
+    b) Projete uma função que verifique se uma figura cabe dentro de outra. Faça uma tabela com as quatro possibilidades (retângulo-retângulo, retângulo-círculo, círculo-retângulo, círculo-círculo) e identifique as condições necessárias para a primeira figura caber na segunda (um retângulo cabe dentro de um círculo se a sua diagonal for menor ou igual ao diâmetro do círculo, o que pode ser verificado sem calcular a raiz quadrada: ${altura}^2 + {largura}^2 \le (2 \times {raio})^2$). Faça os exemplos e a implementação a partir da tabela.
 
 
 # Resolvendo problemas

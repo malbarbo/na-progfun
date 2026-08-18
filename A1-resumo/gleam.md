@@ -27,6 +27,10 @@ license:
 2
 > 4 < 2
 False
+> int.max(3, 7)
+7
+> int.min(3, 7)
+3
 > int.to_float(4)
 4.0
 > int.to_string(123)

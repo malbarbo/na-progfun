@@ -14,7 +14,7 @@ pub type Janela {
   )
 }
 
-// A posição de um clique no ambiente gráfico.
+/// A posição de um clique no ambiente gráfico.
 pub type Clique {
   Clique(
     // deve ser maior que 0 e menor que a largura do ambiente
@@ -24,7 +24,7 @@ pub type Clique {
   )
 }
 
-// Devolve True se o clique *c* está dentro do espaço da janela *j*, False caso contrário.
+/// Devolve True se o clique *c* está dentro do espaço da janela *j*, False caso contrário.
 pub fn dentro_janela(j: Janela, c: Clique) -> Bool {
   j.x <= c.x
   && c.x < { j.x + j.largura }

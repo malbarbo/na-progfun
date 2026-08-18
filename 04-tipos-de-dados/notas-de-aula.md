@@ -1,7 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: usar um exemplo mais interessante do que Ponto
-# TODO: falar o que é uma instância
 # TODO: melhorar o exemplo de união
 # TODO: falar do "expression problem"?
 # TODO: adicionar mais referências sobre projeto de tipos de dados
@@ -30,6 +29,8 @@ Vamos começar com a definição do que é um tipo de dado.
 ## Definição
 
 Um **tipo de dado** é um conjunto de valores que uma variável pode assumir. \pause
+
+Cada valor de um tipo de dado também é chamado de uma **instância** do tipo. \pause
 
 Exemplos \pause
 
@@ -80,10 +81,10 @@ No exemplo da escolha do combustível, nós definimos os seguintes tipos:
 \small
 
 ```gleam
-/// O preço do litro do combustível, deve ser um número positivo.
+/// O preço do litro do combustível. Requer que seja um número positivo.
 pub type Preco = Float
 
-/// O tipo do combustível, deve ser "Álcool" ou "Gasolina".
+/// O tipo do combustível. Requer que seja "Álcool" ou "Gasolina".
 pub type Combustivel = String
 ```
 
@@ -95,7 +96,7 @@ Esses tipos estão de acordo com as diretrizes para o projeto de tipos de dados?
 
 Não! \pause
 
-Vamos resolver essa questão começando com `Combustivel`{.gleam}.
+Vamos resolver essa questão começando com `Combustivel`{.gleam}; para o `Preco`{.gleam} vamos precisar de uma ferramenta que veremos no capítulo **Funções totais**.
 
 
 Enumerações
@@ -141,6 +142,7 @@ Vamos definir um tipo enumerado para representar o tipo combustível.
 \small
 
 ```gleam
+/// O tipo do combustível.
 pub type Combustivel {
   Alcool
   Gasolina
@@ -151,7 +153,7 @@ pub type Combustivel {
 
 \normalsize
 
-Podemos utilizar os operadores `==` e `!=` e a função `string.inspect`{.gleam} com os valores de tipos enumerados. \pause
+Podemos utilizar os operadores `==`{.gleam} e `!=`{.gleam} e a função `string.inspect`{.gleam} com os valores de tipos enumerados. \pause
 
 \small
 
@@ -190,7 +192,7 @@ pub fn mensagem_combustivel(
 
 ## Combustível
 
-A análise dos casos precisa ser exaustiva
+A análise dos casos precisa ser exaustiva.
 
 \scriptsize
 
@@ -220,6 +222,34 @@ The missing patterns are:
 ```
 
 
+## Combustível
+
+Com o tipo enumerado, a função do capítulo anterior passa a produzir um combustível de verdade:
+
+\scriptsize
+
+```gleam
+/// Encontra o combustível que deve ser utilizado no abastecimento. Produz
+/// Alcool se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
+/// produz Gasolina caso contrário.
+pub fn seleciona_combustivel(
+  preco_alcool: Preco,
+  preco_gasolina: Preco,
+) -> Combustivel {
+  case preco_alcool <=. 0.7 *. preco_gasolina {
+    True -> Alcool
+    False -> Gasolina
+  }
+}
+```
+
+\pause
+
+\normalsize
+
+Produzir um combustível inválido deixou de ser possível: `"Alcool"`{.gleam} agora é erro de compilação. \pause A `mensagem_combustivel`{.gleam} é quem converte o valor em texto para o usuário.
+
+
 ## Exemplo - tíquete do RU
 
 O RU da UEM cobra um valor por tíquete que depende da relação do usuário com a universidade. Para alunos e servidores que recebem até 3 salários mínimos, o tíquete custa R$ 5,00; para servidores que recebem mais de 3 salários mínimos e docentes, R$ 10,00; e para pessoas da comunidade externa, R$ 19,00. Como parte de um sistema de cobrança, você deve projetar uma função que determine quanto deve ser cobrado de um usuário por uma quantidade de tíquetes.
@@ -229,7 +259,7 @@ O RU da UEM cobra um valor por tíquete que depende da relação do usuário com
 
 Análise \pause
 
-- Determinar quanto deve ser cobrado de um usuário por uma quantidade de tíquetes \pause
+- Determinar quanto deve ser cobrado de um usuário por uma quantidade de tíquetes. \pause
 
 - O usuário pode ser aluno ou servidor (até 3 s.m.) — R$ 5; servidor (mais de 3 s.m.) ou docente — R$ 10; ou externo — R$ 19. \pause
 
@@ -272,12 +302,13 @@ Especificação
 /// - ServidorMais3  10,0
 /// - Docente        10,0
 /// - Externo        19,0
+/// Requer que *quant* seja maior ou igual a zero.
 pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float
 ```
 
 \pause
 
-Por enquanto, não vamos tratar quantidades negativas.
+A restrição sobre *quant* está escrita na especificação: por enquanto, `custo_tiquetes`{.gleam} é uma função parcial.
 
 
 ## Exemplo - tíquete do RU
@@ -344,7 +375,12 @@ pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
 }
 ```
 
-A implementação está correta? \pause Sim.
+Verificação \pause
+
+```
+Running tests...
+5 tests, 5 success(es), 0 failure(s) and 0 error(s).
+```
 
 
 ## Exemplo - tíquete do RU
@@ -355,7 +391,10 @@ O que podemos melhorar? \pause
 
 - Juntar com `|`{.gleam} os casos que produzem o mesmo custo; \pause
 - Fatorar a multiplicação, que é comum a todos os casos; \pause
-- Tratar as quantidades negativas, devolvendo 0,0, e acrescentar um exemplo. \pause
+- Tornar a função total, escolhendo uma resposta para *quant* negativo, e acrescentar um exemplo.
+
+
+## Exemplo - tíquete do RU
 
 \footnotesize
 
@@ -370,6 +409,12 @@ pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
   *. int.to_float(int.max(0, quant))
 }
 ```
+
+\pause
+
+\normalsize
+
+Escolher uma resposta para as entradas que a restrição excluía é a forma mais simples de tornar uma função total; no capítulo **Funções totais** vamos ver quando ela é adequada e quais são as outras formas.
 
 
 Estruturas
@@ -394,6 +439,8 @@ Chamamos estes tipos de dados de **dados compostos**, **registros** ou **estrutu
 ## Estruturas
 
 Em uma **estrutura**, os valores do tipo são formados por um ou mais **campos**, cada um com o seu nome e o seu tipo. \pause
+
+Cada valor é criado aplicando o **construtor** do tipo aos valores dos campos. \pause
 
 A forma geral para definir um **dado composto** é:
 
@@ -674,40 +721,6 @@ pub fn main() {
 </div>
 
 
-<!--
-## Exemplo - distância
-
-Defina uma função que calcule a distância de um ponto a origem.
-
-
-## Exemplo - distância
-
-\small
-
-```scheme
-;; Ponto -> Número
-;; Calcula a distância do ponto p a origem.
-;; A distância de um ponto (x, y) até a origem é calculada
-;; pela raiz quadrada de x^2 + y^2.
-(examples
- (check-equal? (distancia-origem (ponto 0 7)) 7)
- (check-equal? (distancia-origem (ponto 1 0)) 1)
- ;; (sqrt (+ (sqr 3) (sqr 4)))
- (check-equal? (distancia-origem (ponto 3 4)) 5))
-(define (distancia-origem p) 0)
-```
-
-\pause
-
-```scheme
-(define (distancia-origem p)
-  (sqrt (+ (sqr (ponto-x p))
-           (sqr (ponto-y p)))))
-```
-
--->
-
-
 ## Exemplo - campo minado
 
 Campo minado é um famoso jogo de computador. O jogo consiste em um campo retangular de quadrados que podem ou não conter minas escondidas. Os quadrados podem ser abertos clicando sobre eles. O objetivo do jogo é abrir todos os quadrados que não têm minas. Se o jogador abrir um quadrado com uma mina, o jogo termina e o jogador perde.
@@ -743,7 +756,7 @@ pub type Quadrado {
 
 ## Exemplo - campo minado
 
-Nós vimos duas diretrizes para o projeto de tipo de dado
+Nós vimos duas diretrizes para o projeto de tipos de dados:
 
 - Torne os valores válidos representáveis.
 - Torne os valores inválidos irrepresentáveis. \pause
@@ -806,8 +819,6 @@ pub type Estado {
 
 /// Um quadrado no campo de jogo.
 pub type Quadrado {
-  // True se tem mina,
-  // False caso contrário.
   Quadrado(mina: Bool, estado: Estado)
 }
 ```
@@ -832,7 +843,7 @@ Agora que temos uma representação adequada para um quadrado, podemos avançar 
 
 Análise \pause
 
-- Determinar o novo estado de um quadrado a partir da ação do usuário \pause
+- Determinar o novo estado de um quadrado a partir da ação do usuário. \pause
 
 Definição de tipos de dados \pause
 
@@ -929,7 +940,7 @@ Implementação \pause
 
 Se o comportamento de uma função depende apenas de um valor enumerado, qual é a estrutura inicial do corpo da função? \pause Um caso para cada valor enumerado. \pause
 
-A função que estamos projetando depende de dois valores enumerados, qual deve ser a estrutura inicial do corpo da função? \pause Uma seleção de dois níveis, cada nível para um valor enumerado; \pause ou; uma seleção com uma condição para cada par dos valores enumerados.
+A função que estamos projetando depende de dois valores enumerados. Qual deve ser a estrutura inicial do corpo da função? \pause Uma seleção de dois níveis, cada nível para um valor enumerado; \pause ou; uma seleção com uma condição para cada par dos valores enumerados.
 
 
 ## Exemplo - ação campo minado
@@ -1086,7 +1097,7 @@ E como podemos expressar esse tipo de dado? \pause Usando uma união de tipos.
 
 Em uma **união**, os valores do tipo são divididos em casos, chamados **variantes**. \pause
 
-Cada variante tem um nome próprio e pode ter os seus próprios campos. \pause
+Cada variante tem o seu próprio **construtor** e pode ter os seus próprios campos. \pause
 
 Um valor do tipo pertence a exatamente uma variante. \pause
 
@@ -1097,18 +1108,18 @@ Uma enumeração é o caso particular em que nenhuma variante tem campos.
 
 ## Uniões e Estruturas
 
-Definimos anteriormente um tipo de dado como um conjunto de possíveis valores, agora, vamos discutir qual é a relação entre a definição de tipos de dados e as operações com conjuntos. \pause
+Definimos anteriormente um tipo de dado como um conjunto de possíveis valores. Agora vamos discutir qual é a relação entre a definição de tipos de dados e as operações com conjuntos. \pause
 
 - Os valores possíveis para um tipo definido por uma estrutura (**tipo produto**) são o produto cartesiano dos valores possíveis de cada um dos seus campos; \pause
 
-- Os valores possíveis para um tipo definido por uma união (**tipo soma**) são a união dos valores de cada variante (classe de valores) do tipo. \pause
+- Os valores possíveis para um tipo definido por uma união (**tipo soma**) são a união dos valores de cada variante do tipo. \pause
 
 - Chamamos de **tipo algébrico de dado** um tipo soma de tipos produtos. \pause
 
-Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o quadrado do campo minado e como o é para o caso do estado da tarefa.
+Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o quadrado do campo minado e como será para o estado da tarefa.
 
 
-## Uniões
+## Uniões em Gleam
 
 Algumas linguagens, como Rust e Python, têm construções separadas para estruturas e uniões. \pause
 
@@ -1163,7 +1174,8 @@ A forma geral para definição de tipos de dados em Gleam é
 pub type EstadoTarefa {
   // A tarefa está em execução
   Executando
-  // A tarefa finalizou com sucesso
+  // A tarefa finalizou com sucesso.
+  // Requer que duracao seja >= 0.
   Sucesso(duracao: Int, msg: String)
   // A tarefa finalizou com falha
   Erro(codigo: Int, msg: String)
@@ -1178,19 +1190,19 @@ pub type EstadoTarefa {
 \footnotesize
 
 ```gleam-repl
-> let tarefa: EstadoTarefa = Executando
+> let estado: EstadoTarefa = Executando
 ```
 
 \pause
 
 ```gleam-repl
-> tarefa.msg
+> estado.msg
 ```
 
 \pause
 
 ```
-1 │   tarefa.msg
+1 │   estado.msg
   │          ^^^ This field does not exist
 ```
 
@@ -1199,15 +1211,15 @@ pub type EstadoTarefa {
 \ \
 
 ```gleam-repl
-> pub fn duracao(tarefa: EstadoTarefa) {
-    tarefa.duracao
+> pub fn duracao(estado: EstadoTarefa) {
+    estado.duracao
   }
 ```
 
 \pause
 
 ```
-2 │   tarefa.duracao
+2 │   estado.duracao
   │          ^^^^^^^ This field does not exist
 ```
 
@@ -1246,7 +1258,8 @@ Um **padrão** pode ser \pause
 pub type EstadoTarefa {
   // A tarefa está em execução
   Executando
-  // A tarefa finalizou com sucesso
+  // A tarefa finalizou com sucesso.
+  // Requer que duracao seja >= 0.
   Sucesso(duracao: Int, msg: String)
   // A tarefa finalizou com falha
   Erro(codigo: Int, msg: String)
@@ -1259,9 +1272,9 @@ pub type EstadoTarefa {
 \footnotesize
 
 ```gleam-repl
-> // Devolve -1 se não tem duração.
-> pub fn duracao(tarefa: EstadoTarefa) -> Int {
-  case tarefa {
+> /// Produz a duração ou -1 se não tem duração.
+> pub fn duracao(estado: EstadoTarefa) -> Int {
+  case estado {
     Sucesso(duracao, _) -> duracao
     _ -> -1
   }
@@ -1284,6 +1297,10 @@ pub type EstadoTarefa {
 </div>
 </div>
 
+\pause
+
+Devolver `-1`{.gleam} quando não existe duração é uma solução ruim: estamos usando um `Int`{.gleam} válido para dizer "não tem valor". Vamos resolver isso no capítulo **Funções totais**.
+
 
 ## Exemplo - estado tarefa
 
@@ -1296,8 +1313,8 @@ Especificação
 \small
 
 ```gleam
-/// Produz uma string amigável para o usuário para descrever o estado da tarefa.
-pub fn mensagem(tarefa: EstadoTarefa) -> String
+/// Produz uma string amigável para o usuário que descreve o *estado* de uma tarefa.
+pub fn mensagem(estado: EstadoTarefa) -> String
 ```
 
 \pause
@@ -1332,7 +1349,7 @@ pub fn mensagem_examples() {
 
 ## Exemplo - estado tarefa
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função com base apenas no tipo de dado, no caso, `EstadoTarefa`. \pause São três casos: \pause
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função com base apenas no tipo de dado, no caso, `EstadoTarefa`{.gleam}. \pause São três casos: \pause
 
 \small
 
@@ -1352,7 +1369,7 @@ pub fn mensagem(estado: EstadoTarefa) -> String {
 
 ## Exemplo - estado tarefa
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função com base apenas no tipo de dado, no caso, `EstadoTarefa`. São três casos:
+Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função com base apenas no tipo de dado, no caso, `EstadoTarefa`{.gleam}. São três casos:
 
 \small
 
@@ -1370,22 +1387,18 @@ pub fn mensagem(estado: EstadoTarefa) -> String {
 ```
 
 
-<!--
 ## Considerações
 
-Nos vimos que os tipos algébricos de dados podem ser usados para modelar informações de forma mais precisa, aumentando a confiabilidade do programa. \pause
+Vimos que os tipos algébricos permitem modelar informações de forma mais precisa, tornando o programa mais confiável. \pause Mas a utilidade deles aumenta muito quando a linguagem tem verificação estática de tipos. \pause
 
-Mas a sua utilidade pode ser ampliada se a linguagem oferecer algum tipo de verificação estática que suporte tipos algébricos. \pause
+Considere uma mudança nos requisitos: agora uma tarefa pode ficar em uma fila antes de começar a executar. \pause Basta acrescentar a variante `Fila`{.gleam} em `EstadoTarefa`{.gleam}. \pause
 
-Considere por exemplo uma alteração nos requisitos do nosso projeto: as tarefas agora podem ficar em uma fila antes de iniciar a execução. \pause
+Mas, supondo que o programa use `EstadoTarefa`{.gleam} em vários lugares, como descobrir todos os pontos que precisam ser alterados? \pause
 
-Supondo que o programa utilize `EstadoTarefa` em mais que um lugar, como podemos saber todos os lugares que precisamos alterar o código para levar em consideração o novo estado "Fila"? \pause
-
-Em Racket não podemos... \pause mas em Typed Racket podemos!
--->
+O compilador faz isso por nós: cada `case`{.gleam} que deixou de ser exaustivo vira um erro *Inexhaustive patterns*, como o que vimos no início do capítulo.
 
 
-## União em outras linguagens
+## Uniões em outras linguagens
 
 Podemos usar tipos algébricos em outras linguagens? \pause Sim, de fato, com o aumento do uso do paradigma funcional, muitas linguagens, mesmo algumas mais antigas como Java e Python, têm ganhado suporte a essa forma de definição de tipo de dados. \pause
 
@@ -1471,7 +1484,7 @@ pub fn mensagem(estado: &EstadoTarefa) -> String {
 }
 ```
 
-Usamos novamente casamento de padrões para decompor `Sucesso` e `Erro` em seus componentes.
+Usamos novamente casamento de padrões para decompor `Sucesso`{.gleam} e `Erro`{.gleam} em seus componentes.
 
 
 ## Uniões em Java
@@ -1514,7 +1527,11 @@ Quais são as duas diretrizes para o projeto de tipos de dados? \pause
 Quais são as duas formas de definir tipos algébricos e quando usar cada uma? \pause
 
 - Estruturas (tipo produto), quando dois ou mais itens de informação juntos descrevem uma entidade; \pause
-- Uniões e enumerações (tipo soma), quando a informação é um entre vários casos excludentes.
+- Uniões e enumerações (tipo soma), quando a informação é um entre vários casos excludentes. \pause
+
+O que é casamento de padrões? \pause
+
+- É comparar um valor com um padrão, que descreve a forma esperada do valor; se o valor tem essa forma, as variáveis do padrão são associadas às partes correspondentes.
 
 
 ## Revisão

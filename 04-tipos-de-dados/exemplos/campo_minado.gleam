@@ -9,7 +9,6 @@ pub type Estado {
 
 /// Um quadrado no campo de jogo.
 pub type Quadrado {
-  /// True se tem mina, False caso contrário.
   Quadrado(mina: Bool, estado: Estado)
 }
 

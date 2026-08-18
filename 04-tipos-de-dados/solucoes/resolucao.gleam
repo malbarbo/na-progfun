@@ -30,7 +30,7 @@ pub fn imagem_cabe_na_tela(i: Resolucao, t: Resolucao) -> Bool {
   i.altura <= t.altura && i.largura <= t.largura
 }
 
-// Determina o aspecto da resolução *r*.
+/// Determina o aspecto da resolução *r*.
 pub fn aspecto(r: Resolucao) -> Aspecto {
   case r.altura * 3 == r.largura * 4 {
     True -> TresPorQuatro

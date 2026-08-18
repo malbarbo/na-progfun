@@ -1,5 +1,3 @@
-import gleam/float
-import gleam/result
 import sgleam/check
 
 const pi = 3.14
@@ -9,7 +7,7 @@ pub type Figura {
   Circulo(raio: Float)
 }
 
-// Calcula a área de *fig*.
+/// Calcula a área de *fig*.
 pub fn area(fig: Figura) -> Float {
   case fig {
     Retangulo(largura, altura) -> largura *. altura
@@ -21,17 +19,6 @@ pub fn area_examples() {
   check.eq(area(Retangulo(3.0, 4.0)), 12.0)
   check.eq(area(Circulo(2.0)), 12.56)
 }
-
-// Produz True se a figura *a* cabe dentro da figura *b*, False caso contrário.
-//
-// A seguinte tabela mostra as condições para que a figura *a* caiba dentro da
-// figura *b*. Se *a* é um retângulo, então *da* é a sua diagonal; senão, *da* é o seu
-// diâmetro.
-//
-// fig a \ fig b     |   Retangulo(lb, ab)      | Circulo(rb)
-// ------------------|--------------------------|---------------
-// Retangulo(la, aa) |  la <= lb e aa <= ab     |  da <= 2 * rb
-// Circulo(ra)       |  2*ra <= lb e 2*ra <= ab |  ra <= rb
 
 pub fn cabe_examples() {
   // retangulo x retangulo
@@ -58,13 +45,21 @@ pub fn cabe_examples() {
   check.eq(cabe(Circulo(4.0), Circulo(3.0)), False)
 }
 
+/// Produz True se a figura *a* cabe dentro da figura *b*, False caso contrário.
+///
+/// A seguinte tabela mostra as condições para que a figura *a* caiba dentro da
+/// figura *b*. No caso retângulo-círculo, comparamos o quadrado da diagonal do
+/// retângulo com o quadrado do diâmetro do círculo, para evitar a raiz quadrada.
+///
+/// fig a \ fig b     |   Retangulo(lb, ab)      | Circulo(rb)
+/// ------------------|--------------------------|---------------------------
+/// Retangulo(la, aa) |  la <= lb e aa <= ab     |  la^2 + aa^2 <= (2 * rb)^2
+/// Circulo(ra)       |  2*ra <= lb e 2*ra <= ab |  ra <= rb
 pub fn cabe(a: Figura, b: Figura) -> Bool {
   case a, b {
     Retangulo(la, aa), Retangulo(lb, ab) -> la <=. lb && aa <=. ab
-    Retangulo(la, aa), Circulo(rb) -> {
-      let da = result.unwrap(float.square_root(la *. la +. aa *. aa), 0.0)
-      da <=. 2.0 *. rb
-    }
+    Retangulo(la, aa), Circulo(rb) ->
+      la *. la +. aa *. aa <=. { 2.0 *. rb } *. { 2.0 *. rb }
     Circulo(ra), Retangulo(lb, ab) -> {
       let da = 2.0 *. ra
       da <=. lb && da <=. ab

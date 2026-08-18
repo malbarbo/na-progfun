@@ -5,12 +5,14 @@ import sgleam/check
 pub type EstadoTarefa {
   // A tarefa está em execução
   Executando
-  // A tarefa finalizou com sucesso
+  // A tarefa finalizou com sucesso.
+  // Requer que duracao seja >= 0.
   Sucesso(duracao: Int, msg: String)
   // A tarefa finalizou com falha
   Erro(codigo: Int, msg: String)
 }
 
+/// Produz uma string amigável para o usuário que descreve o *estado* de uma tarefa.
 pub fn mensagem(estado: EstadoTarefa) -> String {
   case estado {
     Executando -> "A tarefa está em execução."
@@ -31,4 +33,18 @@ pub fn mensagem_examples() {
     mensagem(Erro(123, "Número inválido '12a'.")),
     "A tarefa falhou (erro 123): Número inválido '12a'.",
   )
+}
+
+/// Produz a duração de *estado*, ou -1 se o estado não tem duração.
+pub fn duracao(estado: EstadoTarefa) -> Int {
+  case estado {
+    Sucesso(duracao, _) -> duracao
+    _ -> -1
+  }
+}
+
+pub fn duracao_examples() {
+  check.eq(duracao(Executando), -1)
+  check.eq(duracao(Sucesso(10, "Recuperação exitosa.")), 10)
+  check.eq(duracao(Erro(-23, "Arquivo não existente.")), -1)
 }

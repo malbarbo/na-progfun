@@ -6,7 +6,6 @@ title: |
 urlcolor: Blue
 license:
 # TODO: mudar a terminologia para tipos de dados algébricos
-# TODO: adicionar exercícios de result e option
 # TODO: adicionar problema imposto de renda no Brasil, faixas, considerando os descontos, indicar qual é mais vantajoso: simplificado ou completo
 # TODO: revisar os problemas e tentar deixar apenas problemas interessantes (práticos)
 # TODO: adicionar problema de cálculo de tarifa em pedágio (moto, carro, caminhão por eixo)
@@ -35,12 +34,6 @@ license:
 @) De que forma as enumerações e uniões, quando usadas como entrada para funções, guiam a criação dos exemplos e a implementação da função?
 
 @) Quando devemos utilizar uniões para representar informações?
-
-@) Quando o tipo `Option` é adequado e quando o tipo `Result` é mais adequado? Descreva uma situação para cada caso.
-
-@) Por que devolver um valor especial (como -1) para indicar a ausência de um resultado é pior do que devolver um `Option`? Explique.
-
-@) O que é um tipo opaco e qual problema ele resolve? Dê um exemplo de informação cuja representação se beneficia dessa técnica.
 
 
 # Praticando
@@ -88,29 +81,6 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
     b) Projete uma função que verifique se uma figura cabe dentro de outra. Faça uma tabela com as quatro possibilidades (retângulo-retângulo, retângulo-círculo, círculo-retângulo, círculo-círculo) e identifique as condições necessárias para a primeira figura caber na segunda (um retângulo cabe dentro de um círculo se a sua diagonal ($\sqrt{ {altura}^2 + {largura}^2}$) for menor que o diâmetro do círculo ($2 \times {raio}$)). Faça os exemplos e a implementação a partir da tabela.
 
 
-<!-- Option -->
-
-@) Projete uma união para representar um espectador de uma sala de cinema, que pode ser uma criança, um jovem, um adulto ou um idoso. Um jovem pode opcionalmente apresentar sua carteirinha com um código numérico de estudante. Em seguida,
-
-    a) Projete uma função que retorne o número da carteirinha de estudante, caso o espectador a tenha.
-
-    b) Projete uma função que retorne um valor booleano indicando se o espectador tem direito ou não a um desconto no ingresso. Crianças e idosos sempre têm desconto. Um adulto não tem desconto. E um jovem só tem desconto se tiver uma carteirinha de estudante.
-
-
-<!-- TAD -->
-
-@) Projete um tipo opaco para representar uma data com dia, mês e ano, com uma função construtora que valide o valor e devolva um `Result`. Em seguida,
-
-    a) Projete uma função que receba como entrada uma string que representa uma data no formato "dd/mm/aaaa" e a converta para a data equivalente. A validação inicial no construtor deve verificar apenas se as partes são números.
-
-    b) Projete uma função que verifique se uma data corresponde ao último dia do ano.
-
-    c) Projete uma função que receba duas datas e produza `True` se a primeira data ocorrer antes da segunda.
-
-    d) (Desafio) Modifique o construtor de maneira que ele verifique se uma data é válida. Considere que, em anos bissextos, fevereiro tem 29 dias e que um ano é bissexto se for múltiplo de 400 ou se for múltiplo de 4, mas não de 100.
-
-
-
 # Resolvendo problemas
 
 <!-- Enumeração -->
@@ -118,9 +88,6 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 @) A nota final em uma disciplina é calculada pela média simples de 4 avaliações, que valem de 0 a 10. A partir da nota final, os alunos enquadram-se em uma de três situações: aprovado, para notas finais maiores ou iguais a 7; reprovado, para notas menores que 4; e exame, para notas maiores ou iguais a 4 e menores que 7. Projete uma função que indique a situação de um aluno, dadas as 4 notas de suas avaliações.
 
 @) O Brasil instituiu, há algum tempo, um sistema de bandeiras tarifárias para sinalizar aos consumidores os custos reais da geração de energia. Nesse sistema, a bandeira verde indica condições favoráveis de geração, e a tarifa não sofre acréscimo. Já a bandeira amarela indica condições menos favoráveis, e, por isso, a tarifa sobre um acréscimo de R$ 0,01874 por quilowatt-hora (kWh) consumido. A bandeira vermelha - patamar 1 indica condições mais custosas de geração, e o acréscimo na tarifa é de R$ 0,03971 por kWh. Por fim, a bandeira vermelha - patamar 2 indica condições ainda mais custosas, e o acréscimo é de R$ 0,09492 por kWh. Projete uma função que determine o valor final que o consumidor deve pagar, dados o seu consumo em kWh, a tarifa básica do kWh e a bandeira tarifária.
-
-@) Jokenpô é um jogo recreativo bastante conhecido no Brasil. Nele, dois participantes esticam a mão simultaneamente e formam um símbolo, que pode ser pedra, papel ou tesoura. A decisão de quem ganha é feita da seguinte forma: a pedra vence a tesoura, a tesoura vence o papel e o papel vence a pedra. Projete uma função que determine, a partir dos nomes e dos símbolos escolhidos pelos dois jogadores, quem venceu a rodada.
-
 
 <!-- Estrutura -->
 

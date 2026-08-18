@@ -347,7 +347,7 @@ Uma função é **parcial** quando existem valores dos tipos das entradas para o
 
 A `seleciona_combustivel`{.gleam} é total ou parcial? \pause Parcial: o tipo das entradas é `Float`{.gleam}, mas um preço negativo também é um `Float`{.gleam}, e para ele a resposta não significa nada. \pause
 
-E uma função `divide(a: Int, b: Int) -> Int`{.gleam}? \pause Também é parcial: não existe resposta para o divisor zero.
+E uma função `primeiro(s: String) -> String`{.gleam}, que devolve o primeiro caractere de `s`{.gleam}? \pause Também é parcial: para a string vazia não existe resposta.
 
 
 ## Funções totais e parciais
@@ -369,7 +369,7 @@ Uma é **apertar o tipo da entrada**, de forma que os valores proibidos deixem d
 
 A outra é **alargar o tipo da saída**, de forma que a função tenha uma resposta também nos casos que hoje são proibidos. \pause É o que a `int.divide`{.gleam} faz: em vez de proibir o divisor zero, ela produz `Ok(5)`{.gleam} para `int.divide(10, 2)`{.gleam} e `Error(Nil)`{.gleam} para `int.divide(10, 0)`{.gleam}. \pause
 
-Nos dois casos quem muda é o **tipo de dado**. \pause É por isso que a definição dos tipos de dados é uma etapa do projeto, e é o assunto do próximo capítulo.
+Nos dois casos quem muda é o **tipo de dado**. \pause É por isso que a definição dos tipos de dados é uma etapa do projeto, e é o assunto dos capítulos **Tipos de dados** e **Funções totais**.
 
 
 ## Especificação

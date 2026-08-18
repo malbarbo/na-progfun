@@ -282,7 +282,7 @@ Error(Nil)
 
 ## Combinações
 
-O terceiro par não é uma equivalência: `int.divide`{.gleam} sinaliza o erro na resposta, usando um tipo que veremos no capítulo de tipos de dados. \pause
+O terceiro par não é uma equivalência: `int.divide`{.gleam} sinaliza o erro na resposta, usando um tipo que veremos no capítulo **Funções totais**. \pause
 
 Considerando apenas funções e literais (vamos deixar os operadores de lado por simplicidade), qual é a forma de combinar expressões para criar novas expressões? \pause
 

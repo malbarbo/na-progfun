@@ -20,6 +20,50 @@ No capítulo **Tipos de dados** vimos como definir tipos em que os valores invá
 Neste capítulo vamos juntar as duas coisas: usar os tipos de dados para eliminar as restrições, transformando funções parciais em **funções totais**.
 
 
+## Como tornar uma função total
+
+Como transformar uma função parcial em uma função total? \pause Existem três caminhos. \pause
+
+- Escolher uma resposta para as entradas que o contrato hoje proíbe, sem mudar os tipos; \pause
+
+- **Apertar** o tipo da entrada, para que as entradas proibidas deixem de existir; \pause
+
+- **Alargar** o tipo da saída, para que a função tenha uma resposta a mais para dar. \pause
+
+O primeiro não precisa de nenhum tipo novo, então vamos vê-lo agora. Os outros dois são o assunto do restante do capítulo.
+
+
+## Escolher uma resposta
+
+O caminho mais simples é dar uma resposta às entradas que estavam proibidas, sem mudar tipo nenhum. \pause
+
+\small
+
+```gleam-repl
+> string.slice("casa", 0, 10)
+"casa"
+> 10 / 0
+0
+```
+
+\normalsize
+
+\pause
+
+A função `string.slice`{.gleam} não exige que a string tenha o tamanho pedido, e o operador `/`{.gleam} não exige que o divisor seja diferente de zero. \pause As duas são totais: não têm restrição nenhuma sobre as entradas.
+
+
+## Escolher uma resposta
+
+Mas os dois casos não são a mesma coisa. \pause
+
+Em `string.slice`{.gleam} a restrição desaparece de verdade: "os 10 primeiros caracteres, ou a string toda se ela tiver menos que isso" é um propósito mais geral, que continua fazendo sentido. Nada foi inventado. \pause
+
+Já o `0`{.gleam} da divisão por zero é arbitrário: ele não estende o propósito da divisão, é só um valor escolhido para a função ter o que devolver. \pause O erro, que antes estava explícito na especificação, passa a circular pelo programa disfarçado de resposta. \pause
+
+Este caminho é legítimo quando a nova resposta **generaliza o propósito**, e é uma armadilha quando ela apenas **preenche um buraco**. \pause Nesse segundo caso o certo é alargar o tipo da saída, e é por isso que o Gleam oferece o `int.divide`{.gleam} ao lado do `/`{.gleam}.
+
+
 ## Pendências
 
 No capítulo anterior aplicamos com sucesso as diretrizes para projeto de tipos de dados no exemplo do combustível, do quadrado do campo minado e do estado da tarefa. \pause Mas ficaram alguns pontos para resolver. \pause
@@ -626,6 +670,17 @@ Com isso, fechamos as três pendências: \pause
 
 Revisão
 =======
+
+
+## Revisão
+
+Quais são os três caminhos para transformar uma função parcial em uma função total? \pause
+
+- Escolher uma resposta para as entradas que o contrato proíbe, apertar o tipo da entrada ou alargar o tipo da saída. \pause
+
+Quando escolher uma resposta para as entradas proibidas é uma boa ideia? \pause
+
+- Quando a nova resposta generaliza o propósito da função, como em `string.slice`{.gleam}. Quando ela apenas preenche um buraco, como o `0`{.gleam} da divisão por zero, o erro fica escondido e é melhor alargar o tipo da saída.
 
 
 ## Revisão

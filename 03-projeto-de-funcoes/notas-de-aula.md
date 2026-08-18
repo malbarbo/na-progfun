@@ -352,24 +352,15 @@ E uma função `primeiro(s: String) -> String`{.gleam}, que devolve o primeiro c
 
 ## Funções totais e parciais
 
-Por que preferir funções totais? \pause
+O que acontece quando alguém chama uma função parcial com uma entrada que o contrato proíbe? \pause Uma de duas coisas. \pause
 
-Porque o compilador verifica os tipos, mas não verifica as restrições: nada impede que alguém escreva `seleciona_combustivel(-3.0, 4.0)`{.gleam}. \pause
+Ou a função não percebe e produz um valor sem sentido, que o resto do programa usa como se fosse uma resposta legítima. \pause O `Arrays.binarySearch`{.java} do Java exige um vetor ordenado; se ele não estiver, a documentação diz que o resultado é indefinido: nenhum erro, só um número errado. \pause
 
-Assim, cada restrição vira uma obrigação de quem chama a função, que precisa lembrar dela toda vez. \pause E quando a obrigação não é cumprida, o problema só aparece durante a execução, muitas vezes longe de onde a informação inválida foi criada. \pause
+Ou a função percebe e interrompe o programa, como em Python ao acessar um índice fora da faixa de uma lista. \pause
 
-Quanto menos restrições, menos coisas para lembrar.
+O segundo caso é melhor, porque o erro não fica escondido, mas o programa para de funcionar — e interromper o programa é um efeito colateral, justamente o que estamos evitando. \pause
 
-
-## Tipos de dados
-
-Como transformar uma função parcial em uma função total? \pause Existem duas direções. \pause
-
-Uma é **apertar o tipo da entrada**, de forma que os valores proibidos deixem de existir. \pause Se `Preco`{.gleam} fosse um tipo em que só cabem números positivos, a restrição sobre os preços simplesmente desapareceria. \pause
-
-A outra é **alargar o tipo da saída**, de forma que a função tenha uma resposta também nos casos que hoje são proibidos. \pause É o que a `int.divide`{.gleam} faz: em vez de proibir o divisor zero, ela produz `Ok(5)`{.gleam} para `int.divide(10, 2)`{.gleam} e `Error(Nil)`{.gleam} para `int.divide(10, 0)`{.gleam}. \pause
-
-Nos dois casos quem muda é o **tipo de dado**. \pause É por isso que a definição dos tipos de dados é uma etapa do projeto, e é o assunto dos capítulos **Tipos de dados** e **Funções totais**.
+Por isso preferimos funções totais. Como transformar uma parcial em total é o assunto do capítulo **Funções totais**.
 
 
 ## Especificação
@@ -1291,11 +1282,15 @@ Para que servem os exemplos? Passar em todos eles mostra que a função está co
 
 O que é o contrato de uma função? \pause
 
-- É o acordo registrado na especificação: quem chama se compromete a respeitar as restrições sobre as entradas e, em troca, quem implementa se compromete a cumprir as garantias sobre a saída. Se as restrições não são respeitadas, a função não deve nada. \pause
+- É o acordo registrado na especificação: quem chama se compromete a respeitar as restrições sobre as entradas e, em troca, quem implementa se compromete a cumprir as garantias sobre a saída. \pause
 
 Qual é a diferença entre uma função total e uma função parcial? \pause
 
-- A total produz uma resposta válida para todos os valores dos tipos das entradas; a parcial não, e as restrições excluem justamente os valores para os quais ela não produz uma resposta válida.
+- A total produz uma resposta válida para todos os valores dos tipos das entradas; a parcial não, e as restrições excluem justamente os valores para os quais ela não produz. \pause
+
+O que pode acontecer quando uma função parcial é chamada com uma entrada proibida pelo contrato? \pause
+
+- Ou ela produz um valor sem sentido, que o resto do programa usa como resposta legítima, ou ela interrompe o programa.
 
 
 ## Revisão

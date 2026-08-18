@@ -2,7 +2,6 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Projeto de funções
 # TODO: substituir Definição de tipos de dados por Projeto de dados? https://course.ccs.neu.edu/cs5010sp15/recipe.html#%28part._data%29
-# TODO: melhorar a parte de garantias e restrições
 ---
 
 ## Projeto de funções
@@ -282,6 +281,95 @@ Ordenação \pause
 
 - O que: ordena os elementos de uma lista em ordem não decrescente \pause
 - Como: ordenação por seleção, por inserção, por intercalação, etc
+
+
+## Contrato
+
+A especificação de uma função é um **contrato** entre quem usa a função e quem a implementa. \pause
+
+Quem usa se compromete a respeitar as **restrições** sobre as entradas. \pause Em troca, quem implementa se compromete a cumprir as **garantias** sobre a saída. \pause
+
+E se as restrições não forem respeitadas? \pause Então o contrato não vale: a função não deve nada, ela pode produzir qualquer resposta. \pause
+
+Por isso as restrições e as garantias precisam estar escritas na especificação, e não apenas na cabeça de quem projetou a função.
+
+
+## Contrato
+
+<div class="columns">
+<div class="column" width="52%">
+
+\footnotesize
+
+```gleam
+/// O preço do litro do combustível,
+/// deve ser um número positivo.
+type Preco = Float
+/// O tipo do combustível,
+/// deve ser "Álcool" ou "Gasolina".
+type Combustivel = String
+/// Encontra o combustível que deve
+/// ser utilizado no abastecimento.
+/// Produz "Álcool" se *preco_alcool*
+/// for menor ou igual a 70% do
+/// *preco_gasolina*, produz "Gasolina"
+/// caso contrário.
+fn seleciona_combustivel(
+  preco_alcool: Preco,
+  preco_gasolina: Preco,
+) -> Combustivel
+```
+
+\pause
+
+</div>
+<div class="column" width="44%">
+
+Qual é a restrição? \pause
+
+- Os dois preços devem ser positivos. \pause
+
+Qual é a garantia? \pause
+
+- A resposta é `"Álcool"`{.gleam} ou `"Gasolina"`{.gleam}, escolhida pela regra dos 70%. \pause
+
+Note que parte do contrato está no propósito e parte nos comentários dos apelidos de tipos.
+
+</div>
+</div>
+
+
+## Funções totais e parciais
+
+Uma função é **total** quando produz uma resposta válida para todos os valores dos tipos das entradas. \pause
+
+Uma função é **parcial** quando existem valores dos tipos das entradas para os quais ela não produz uma resposta válida. \pause São justamente esses valores que as restrições excluem. \pause
+
+A `seleciona_combustivel`{.gleam} é total ou parcial? \pause Parcial: o tipo das entradas é `Float`{.gleam}, mas um preço negativo também é um `Float`{.gleam}, e para ele a resposta não significa nada. \pause
+
+E uma função `divide(a: Int, b: Int) -> Int`{.gleam}? \pause Também é parcial: não existe resposta para o divisor zero.
+
+
+## Funções totais e parciais
+
+Por que preferir funções totais? \pause
+
+Porque o compilador verifica os tipos, mas não verifica as restrições: nada impede que alguém escreva `seleciona_combustivel(-3.0, 4.0)`{.gleam}. \pause
+
+Assim, cada restrição vira uma obrigação de quem chama a função, que precisa lembrar dela toda vez. \pause E quando a obrigação não é cumprida, o problema só aparece durante a execução, muitas vezes longe de onde a informação inválida foi criada. \pause
+
+Quanto menos restrições, menos coisas para lembrar.
+
+
+## Tipos de dados
+
+Como transformar uma função parcial em uma função total? \pause Existem duas direções. \pause
+
+Uma é **apertar o tipo da entrada**, de forma que os valores proibidos deixem de existir. \pause Se `Preco`{.gleam} fosse um tipo em que só cabem números positivos, a restrição sobre os preços simplesmente desapareceria. \pause
+
+A outra é **alargar o tipo da saída**, de forma que a função tenha uma resposta também nos casos que hoje são proibidos. \pause É o que a `int.divide`{.gleam} faz: em vez de proibir o divisor zero, ela produz `Ok(5)`{.gleam} para `int.divide(10, 2)`{.gleam} e `Error(Nil)`{.gleam} para `int.divide(10, 0)`{.gleam}. \pause
+
+Nos dois casos quem muda é o **tipo de dado**. \pause É por isso que a definição dos tipos de dados é uma etapa do projeto, e é o assunto do próximo capítulo.
 
 
 ## Especificação
@@ -1197,6 +1285,17 @@ No propósito de uma função descrevemos o que ela faz ou como ela faz? \pause
 Para que servem os exemplos? Passar em todos eles mostra que a função está correta? \pause
 
 - Não mostra. Eles servem primeiro para o projetista entender como a saída é obtida a partir da entrada, depois para deixar a especificação mais clara e, por fim, como verificação inicial, que aumenta a confiança de que o código está correto sem provar que ele está.
+
+
+## Revisão
+
+O que é o contrato de uma função? \pause
+
+- É o acordo registrado na especificação: quem chama se compromete a respeitar as restrições sobre as entradas e, em troca, quem implementa se compromete a cumprir as garantias sobre a saída. Se as restrições não são respeitadas, a função não deve nada. \pause
+
+Qual é a diferença entre uma função total e uma função parcial? \pause
+
+- A total produz uma resposta válida para todos os valores dos tipos das entradas; a parcial não, e as restrições excluem justamente os valores para os quais ela não produz uma resposta válida.
 
 
 ## Revisão

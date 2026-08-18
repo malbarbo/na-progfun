@@ -1,10 +1,10 @@
 import sgleam/check
 
-/// O preço do litro do combustível, deve ser um número positivo.
+/// O preço do litro do combustível. Requer que seja um número positivo.
 pub type Preco =
   Float
 
-/// O tipo do combustível, deve ser "Álcool" ou "Gasolina".
+/// O tipo do combustível. Requer que seja "Álcool" ou "Gasolina".
 pub type Combustivel =
   String
 

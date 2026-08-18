@@ -1,6 +1,6 @@
 import sgleam/check
 
-/// Salário é um valor em reais, deve ser um número positivo.
+/// Salário é um valor em reais. Requer que seja um número positivo.
 pub type Salario =
   Float
 

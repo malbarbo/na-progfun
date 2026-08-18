@@ -101,12 +101,12 @@ Informações: preço do litro do combustível e o tipo do combustível. \pause 
 \footnotesize
 
 ```gleam
-/// O preço do litro do combustível, deve ser
-/// um número positivo.
+/// O preço do litro do combustível.
+/// Requer que seja um número positivo.
 type Preco =
   Float
 
-/// O tipo do combustível, deve ser "Álcool" ou "Gasolina".
+/// O tipo do combustível. Requer que seja "Álcool" ou "Gasolina".
 type Combustivel =
   String
 ```
@@ -137,13 +137,13 @@ Determinar o combustível que será utilizado. Se o preço do álcool for até 7
 \footnotesize
 
 ```gleam
-/// O preço do litro do combustível,
-/// deve ser um número positivo.
+/// O preço do litro do combustível.
+/// Requer que seja um número positivo.
 type Preco =
   Float
 
-/// O tipo do combustível,
-/// deve ser "Álcool" ou "Gasolina".
+/// O tipo do combustível.
+/// Requer que seja "Álcool" ou "Gasolina".
 type Combustivel =
   String
 ```
@@ -302,11 +302,11 @@ Por isso as restrições e as garantias precisam estar escritas na especificaç�
 \footnotesize
 
 ```gleam
-/// O preço do litro do combustível,
-/// deve ser um número positivo.
+/// O preço do litro do combustível.
+/// Requer que seja um número positivo.
 type Preco = Float
-/// O tipo do combustível,
-/// deve ser "Álcool" ou "Gasolina".
+/// O tipo do combustível.
+/// Requer que seja "Álcool" ou "Gasolina".
 type Combustivel = String
 /// Encontra o combustível que deve
 /// ser utilizado no abastecimento.
@@ -441,9 +441,9 @@ A implementação está de acordo com a especificação? \pause Vamos executar o
 
 ```gleam
 import sgleam/check
-/// O preço do litro do combustível, deve ser um número positivo.
+/// O preço do litro do combustível. Requer que seja um número positivo.
 type Preco = Float
-/// O tipo do combustível, deve ser "Álcool" ou "Gasolina".
+/// O tipo do combustível. Requer que seja "Álcool" ou "Gasolina".
 type Combustivel = String
 
 fn seleciona_combustivel(preco_alcool: Preco, preco_gasolina: Preco) -> Combustivel {
@@ -515,11 +515,11 @@ Por que um exemplo pode falhar? \pause
 \footnotesize
 
 ```gleam
-/// O preço do litro do combustível,
-/// deve ser um número positivo.
+/// O preço do litro do combustível.
+/// Requer que seja um número positivo.
 type Preco = Float
-/// O tipo do combustível,
-/// deve ser "Álcool" ou "Gasolina".
+/// O tipo do combustível.
+/// Requer que seja "Álcool" ou "Gasolina".
 type Combustivel = String
 fn seleciona_combustivel(
   preco_alcool: Preco,
@@ -583,7 +583,7 @@ Definição de tipos de dados \pause
 \footnotesize
 
 ```gleam
-/// Salário é um valor em reais, deve ser um número positivo.
+/// Salário é um valor em reais. Requer que seja um número positivo.
 type Salario = Float
 ```
 

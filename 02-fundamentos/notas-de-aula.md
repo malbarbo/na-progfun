@@ -29,15 +29,11 @@ Uma **expressão** consiste em
 - Uma função primitiva \pause
 
 
-Um **literal** é a representação direta de um valor no código.
-
-\pause
-
-Um **tipo primitivo** é um tipo suportado diretamente pela linguagem de programação.
-
-\pause
+Um **literal** é a representação direta de um valor no código. \pause
 
 Uma **função primitiva** é uma função suportada diretamente pela linguagem de programação. \pause
+
+Um **tipo primitivo** é um tipo suportado diretamente pela linguagem de programação. \pause
 
 Vamos tratar as funções da biblioteca padrão também como primitivas: o que importa aqui é que podemos usá-las sem examinar como são implementadas.
 
@@ -93,7 +89,7 @@ Veremos alguns outros tipos primitivos ao longo da disciplina.
 
 ## Funções primitivas
 
-Gleam provê diversas operações primitivas, a maioria delas está disponível na forma de operadores. \pause Todos os nomes de funções começam com letra minúscula. \pause
+Gleam provê diversas funções primitivas, a maioria delas está disponível na forma de operadores. \pause Todos os nomes de funções começam com letra minúscula. \pause
 
 <div class="columns">
 <div class="column" width="50%">
@@ -453,7 +449,7 @@ A forma geral para definições de constantes em Gleam é:
 
 \pause
 
-Exemplos
+O `pub`{.gleam} é opcional: ele torna a definição visível para outros módulos. \pause Sem ele, a definição só pode ser usada dentro do módulo em que aparece, e nem a janela de interações a enxerga. \pause Assim como os `import`{.gleam}, o `pub`{.gleam} é omitido nos slides daqui em diante para economizar espaço, mas ele continua necessário nos arquivos. \pause
 
 <div class="columns">
 <div class="column" width="50%">
@@ -511,7 +507,7 @@ Exemplos
 fn quadrado(x: Int) -> Int {
   x * x
 }
-pub fn soma_quadrados(a: Int, b) {
+fn soma_quadrados(a: Int, b) {
   quadrado(a) + quadrado(b)
 }
 ```
@@ -523,6 +519,9 @@ pub fn soma_quadrados(a: Int, b) {
 \small
 
 ```gleam-repl
+> quadrado(6)
+36
+
 > soma_quadrados(3, 4)
 25
 ```
@@ -535,27 +534,6 @@ pub fn soma_quadrados(a: Int, b) {
 Note que a especificação dos tipos das entradas e saída é opcional. Se os tipos não forem especificados, eles são inferidos pelo compilador.
 
 
-## Estilo de código
-
-Em muitas linguagens o estilo é questão de gosto pessoal, em Gleam não. \pause
-
-Os nomes são impostos pelo compilador: `type ponto`{.gleam}, `fn Soma(a, b)`{.gleam} e `fn somaQuadrados(a, b)`{.gleam} não compilam. \pause
-
-A formatação é definida pelo formatador, assim como no Go:
-
-\small
-
-```console
-$ sgleam format arquivo.gleam
-```
-
-\normalsize
-
-\pause
-
-Convenção definida por ferramenta é melhor do que gosto pessoal: acaba a discussão e todo código tem a mesma aparência, o que facilita a leitura.
-
-
 ## Definições
 
 Os nomes usados nas definições são associados com os objetos que eles representam e armazenados em uma memória chamada de **ambiente**. \pause
@@ -563,6 +541,7 @@ Os nomes usados nas definições são associados com os objetos que eles represe
 Um programa em Gleam é composto por uma sequência de instruções `import`{.gleam} e de definições. \pause
 
 Agora precisamos estender a definição de expressões para incluir nomes e alterar a regra de avaliação de expressões para considerar a chamada de funções compostas.
+
 
 
 
@@ -746,6 +725,88 @@ Executando os exemplos que fizemos anteriormente: \pause
 ```
 
 
+## Definições locais
+
+Nos exemplos, calculamos a resposta em dois passos: primeiro a quantidade de litros, depois o custo. \pause Mas a implementação juntou os dois passos em uma única expressão. \pause
+
+Podemos dar um nome ao resultado do primeiro passo com uma **definição local**: \pause
+
+\small
+
+```gleam
+fn custo_combustivel(distancia, preco_do_litro, rendimento) {
+  let litros = distancia /. rendimento
+  litros *. preco_do_litro
+}
+```
+
+\normalsize
+
+\pause
+
+O corpo de uma função é uma sequência de definições locais seguida de uma expressão; é essa expressão que produz o valor da função. \pause
+
+O `let`{.gleam} apenas associa um nome a um valor, assim como as definições que vimos antes; a diferença é que o nome vale do ponto em que é definido até o final do bloco em que ele aparece.
+
+
+## Definições locais
+
+O `let`{.gleam} tem uma regra de avaliação própria, mas não precisamos inventá-la do zero: podemos **traduzir** a definição local para algo que já conhecemos, uma chamada de função auxiliar. \pause
+
+\small
+
+```gleam
+fn custo_combustivel(distancia, preco_do_litro, rendimento) {
+  custo(distancia /. rendimento, preco_do_litro)
+}
+
+fn custo(litros, preco_do_litro) {
+  litros *. preco_do_litro
+}
+```
+
+\normalsize
+
+\pause
+
+Aqui vale o modelo de substituição: `distancia /. rendimento`{.gleam} é avaliado e o valor substitui `litros`{.gleam} no corpo de `custo`{.gleam} — e é isso que o `let`{.gleam} faz.
+
+
+## Definições locais
+
+Em geral, o parâmetro da função auxiliar é o nome definido pelo `let`{.gleam}, o corpo dela é o resto do bloco, e o argumento da chamada é a expressão à direita do `=`{.gleam}: \pause
+
+<div class="columns">
+<div class="column" width="40%">
+\small
+
+```gleam
+let nome = expressão1
+expressão2
+```
+
+\pause
+
+</div>
+<div class="column" width="56%">
+\small
+
+```gleam
+letf(expressão1)
+
+fn letf(nome) {
+  expressão2
+}
+```
+
+</div>
+</div>
+
+\pause
+
+Note que os demais nomes que o resto do bloco usa, como `preco_do_litro`{.gleam}, precisariam virar parâmetros adicionais de `letf`{.gleam}, mas no capítulo **Funções como valores** veremos que nem os parâmetros adicionais e nem o nome da função são necessários.
+
+
 ## Exercício combustível
 
 Depois que você fez o programa para o Alan, a Márcia, amiga em comum de vocês, soube que você está oferecendo serviços desse tipo e também quer a sua ajuda. O problema da Márcia é que ela sempre tem que fazer a conta manualmente para saber se deve abastecer o carro com álcool ou gasolina. A conta que ela faz é verificar se o preço do álcool é até 70% do preço da gasolina, se sim, ela abastece o carro com álcool, senão ela abastece o carro com gasolina. Você pode ajudar a Márcia também?
@@ -881,7 +942,7 @@ A regra de avaliação de expressões `case`{.gleam} é: \pause
 
 Os dois casos precisam ter o mesmo tipo, que é o tipo da expressão `case`{.gleam}. \pause
 
-Vamos ver outras formas especiais ao longo da disciplina, como `&&`{.gleam}, `||`{.gleam}, `let`{.gleam}, funções anônimas, `|>`{.gleam} e `use`{.gleam}.
+O `let`{.gleam} que vimos antes também é uma forma especial. \pause Vamos ver outras ao longo da disciplina, como `&&`{.gleam}, `||`{.gleam}, funções anônimas, `|>`{.gleam} e `use`{.gleam}.
 
 
 ## Exemplo abs
@@ -1433,6 +1494,46 @@ False
 </div>
 
 
+
+Estilo de código
+================
+
+## Estilo de código
+
+Você percebeu alguma diferença no estilo do código em relação ao que você está acostumado? \pause
+
+- A indentação é de dois espaços. \pause
+
+- Os nomes de tipos começam com maiúscula; os de funções e variáveis, com minúscula e em `snake_case`{.gleam}. \pause
+
+Em muitas linguagens isso é questão de gosto pessoal, em Gleam não.
+
+
+## Estilo de código
+
+Os nomes são impostos pelo compilador: `fn Soma(a, b)`{.gleam} e `fn somaQuadrados(a, b)`{.gleam} não compilam. \pause
+
+A formatação é definida pelo formatador:
+
+\small
+
+```console
+$ sgleam format arquivo.gleam
+```
+
+\pause
+
+\normalsize
+
+No Sgleam Web, o formatador é sempre executado antes da execução do programa.
+
+\pause
+
+Convenção definida por ferramenta é melhor do que gosto pessoal: acaba a discussão e todo código tem a mesma aparência, o que facilita a leitura.
+
+
+
+
 Revisão
 =======
 
@@ -1489,7 +1590,11 @@ O que é uma **forma especial**? \pause
 
 Qual a diferença entre o `case`{.gleam} do Gleam e o `if`{.gleam} da maioria das linguagens? \pause
 
-- O `case`{.gleam} é uma expressão, ele produz um valor. Na maioria das outras linguagens o `if`{.gleam} é uma sentença: não produz valor, apenas seleciona quais comandos — e portanto quais efeitos colaterais — serão executados.
+- O `case`{.gleam} é uma expressão, ele produz um valor. Na maioria das outras linguagens o `if`{.gleam} é uma sentença: não produz valor, apenas seleciona quais comandos — e portanto quais efeitos colaterais — serão executados. \pause
+
+O que é uma definição local e qual é a sua regra de avaliação? \pause
+
+- É um nome introduzido com `let`{.gleam}, que vale do ponto em que é definido até o fim do bloco. Ele equivale a chamar uma função auxiliar cujo parâmetro é esse nome e cujo corpo é o resto do bloco, tendo como argumento a expressão à direita do `=`{.gleam}.
 
 
 ## Revisão

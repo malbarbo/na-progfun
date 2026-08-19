@@ -23,6 +23,8 @@ license:
 
 @) Escreva uma definição de constante e uma definição de função em Gleam. O que cada uma delas acrescenta ao ambiente?
 
+@) O que é uma definição local? Até onde vale o nome que ela define?
+
 @) O que é uma função?
 
 @) A ordem em que as expressões em uma chamada de função são avaliadas pode alterar o valor da chamada da função? Explique.
@@ -101,6 +103,19 @@ license:
     > produto_anterior_posterior(-2)
     -6
     ```
+
+
+<!-- Definições locais -->
+
+@) Reescreva a função a seguir sem usar `let`{.gleam}, criando uma função auxiliar. Explique por que as duas versões produzem o mesmo resultado.
+
+    ```gleam
+    fn imc(massa: Float, altura: Float) -> Float {
+      let altura2 = altura *. altura
+      massa /. altura2
+    }
+    ```
+
 
 
 <!-- Estratégias de avaliação -->
@@ -185,9 +200,7 @@ license:
     "decrescente"
     ```
 
-# Avançando
-
-<!-- Desafios -->
+# Desafios
 
 @) Faça uma função chamada `so_primeira_maiuscula` que recebe uma palavra não vazia (string) como parâmetro e crie uma nova string convertendo a primeira letra da palavra para maiúscula e o restante da palavra para minúscula. Use o método de substituição para verificar se a função funciona corretamente de acordo com os exemplos a seguir. Confira as respostas na janela de interações. Veja as funções [`string.slice`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#slice), [`string.length`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#length), [`string.uppercase`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#uppercase) e [`string.lowercase`](https://hexdocs.pm/gleam_stdlib/gleam/string.html#lowercase).
 

@@ -2474,6 +2474,124 @@ Um **açúcar sintático** ([_syntatic sugar_](https://en.wikipedia.org/wiki/Syn
 Vamos ver alguns açúcares sintáticos do Gleam.
 
 
+## Definição local
+
+No capítulo **Fundamentos** entendemos o `let`{.gleam} traduzindo a definição local para uma chamada de função auxiliar, que precisava ter um nome e receber como parâmetro tudo o que usava. \pause Com uma função anônima, que leva junto as suas variáveis livres, a tradução fica: \pause
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn custo_combustivel(
+  distancia,
+  preco_do_litro,
+  rendimento,
+) {
+  let litros =
+    distancia /. rendimento
+  litros *. preco_do_litro
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn custo_combustivel(
+  distancia,
+  preco_do_litro,
+  rendimento,
+) {
+  fn(litros) {
+    litros *. preco_do_litro
+  }(distancia /. rendimento)
+}
+```
+
+</div>
+</div>
+
+\pause
+
+Ou seja, o `let`{.gleam} é açúcar sintático para a definição de uma função anônima seguida da sua aplicação, e a versão com `let`{.gleam} é bem mais fácil de ler.
+
+
+## Definição local
+
+E quando temos uma sequência de definições locais? \pause Basta aninhar as funções anônimas: \pause
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+let a = expressão1
+let b = expressão2
+expressão3
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn(a) {
+  fn(b) {
+    expressão3
+  }(expressão2)
+}(expressão1)
+```
+
+</div>
+</div>
+
+\pause
+
+Note que `expressão2`{.gleam} está dentro da função de `a`{.gleam} e fora da função de `b`{.gleam}, isto é, ela pode usar `a`{.gleam}, mas não `b`{.gleam}.
+
+
+## Definição local
+
+A tradução também explica o que acontece quando uma definição local usa um nome que já existe: \pause
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam-repl
+> let x = 1
+> let x = x + 10
+> x
+11
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+fn(x) {
+  fn(x) { x }(x + 10)
+}(1)
+```
+
+</div>
+</div>
+
+\pause
+
+O segundo `let`{.gleam} não modifica o `x`{.gleam} anterior: ele define um novo nome, em uma função interna, que **esconde** o de fora — dizemos que o `x`{.gleam} de fora foi **sombreado**. \pause O `x + 10`{.gleam} está fora dessa função interna, por isso usa o `x`{.gleam} de fora.
+
+
+
 ## Fechamento abreviado
 
 O uso de fechamentos com um parâmetro é bastante comum, por isso, o Gleam oferece uma forma abreviada para criá-los. \pause

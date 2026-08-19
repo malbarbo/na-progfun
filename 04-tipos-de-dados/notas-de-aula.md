@@ -82,10 +82,10 @@ No exemplo da escolha do combustível, nós definimos os seguintes tipos:
 
 ```gleam
 /// O preço do litro do combustível. Requer que seja um número positivo.
-pub type Preco = Float
+type Preco = Float
 
 /// O tipo do combustível. Requer que seja "Álcool" ou "Gasolina".
-pub type Combustivel = String
+type Combustivel = String
 ```
 
 \pause
@@ -143,7 +143,7 @@ Vamos definir um tipo enumerado para representar o tipo combustível.
 
 ```gleam
 /// O tipo do combustível.
-pub type Combustivel {
+type Combustivel {
   Alcool
   Gasolina
 }
@@ -176,7 +176,7 @@ Assim como para valores do tipo `Bool`{.gleam}, podemos utilizar a expressão `c
 \small
 
 ```gleam
-pub fn mensagem_combustivel(
+fn mensagem_combustivel(
   c: Combustivel
 ) -> String {
   case c {
@@ -197,7 +197,7 @@ A análise dos casos precisa ser exaustiva.
 \scriptsize
 
 ```gleam
-pub fn mensagem_combustivel(c: Combustivel) -> String {
+fn mensagem_combustivel(c: Combustivel) -> String {
   case c {
     Alcool -> "Use álcool."
   }
@@ -232,7 +232,7 @@ Com o tipo enumerado, a função do capítulo anterior passa a produzir um combu
 /// Encontra o combustível que deve ser utilizado no abastecimento. Produz
 /// Alcool se *preco_alcool* for menor ou igual a 70% do *preco_gasolina*,
 /// produz Gasolina caso contrário.
-pub fn seleciona_combustivel(
+fn seleciona_combustivel(
   preco_alcool: Preco,
   preco_gasolina: Preco,
 ) -> Combustivel {
@@ -276,7 +276,7 @@ Como representar um tipo de usuário? \pause Criando um tipo enumerado com os va
 
 ```gleam
 /// O tipo de usuário do RU da UEM.
-pub type Usuario {
+type Usuario {
   Aluno
   // Servidor que recebe até 3 salários mínimos.
   ServidorAte3
@@ -303,7 +303,7 @@ Especificação
 /// - Docente        10,0
 /// - Externo        19,0
 /// Requer que *quant* seja maior ou igual a zero.
-pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float
+fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float
 ```
 
 \pause
@@ -341,7 +341,7 @@ Implementação
 \small
 
 ```gleam
-pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
+fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
   case usuario {
     Aluno -> todo
     ServidorAte3 -> todo
@@ -364,7 +364,7 @@ Implementação
 \small
 
 ```gleam
-pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
+fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
   case usuario {
     Aluno -> 5.0 *. int.to_float(quant)
     ServidorAte3 -> 5.0 *. int.to_float(quant)
@@ -400,7 +400,7 @@ O que podemos melhorar? \pause
 
 ```gleam
 /// ... Se *quant* for negativo, devolve 0,0.
-pub fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
+fn custo_tiquetes(usuario: Usuario, quant: Int) -> Float {
   case usuario {
     Aluno | ServidorAte3 -> 5.0
     ServidorMais3 | Docente -> 10.0
@@ -421,7 +421,7 @@ Estruturas
 ==========
 
 
-## Introdução
+## Dados compostos
 
 Os tipos de dados que vimos até agora são atômicos, isto é, não podem ser decompostos. \pause
 
@@ -468,7 +468,7 @@ Vamos definir uma estrutura para representar um ponto em um plano cartesiano.
 Definição
 
 ```gleam
-pub type Ponto {
+type Ponto {
   Ponto(x: Int, y: Int)
 }
 ```
@@ -492,73 +492,12 @@ Acesso aos campos
 > p1.x + p1.y
 7
 ```
-
 </div>
 <div class="column" width="48%">
 
 \small
 
 \pause
-
-Desestruturação
-
-```gleam-repl
-> // pela posição
-> let Ponto(x, y) = p2
-> x
-8
-> y
-2
-```
-
-\pause
-
-```gleam-repl
-> // pelo rótulo
-> let Ponto(y: a, ..) = p2
-> a
-2
-> let Ponto(y:, ..) = p2
-> y
-2
-```
-</div>
-</div>
-
-
-## Estruturas - operações
-
-<div class="columns">
-<div class="column" width="48%">
-\small
-
-Definição
-
-```gleam
-pub type Ponto {
-  Ponto(x: Int, y: Int)
-}
-```
-
-Construção
-
-```gleam-repl
-> let p1: Ponto = Ponto(x: 3, y: 4)
-> let p2 = Ponto(8, 2)
-> p2
-Ponto(x: 8, y: 2)
-```
-
-Acesso aos campos
-
-```gleam-repl
-> p1.x + p1.y
-7
-```
-</div>
-<div class="column" width="48%">
-
-\small
 
 Comparação
 
@@ -594,7 +533,7 @@ Junto com a definição de uma estrutura, também faremos a descrição do seu p
 
 ```gleam
 /// Um ponto no plano cartesiano.
-pub type Ponto {
+type Ponto {
   // x e y são as coordenadas do ponto.
   Ponto(x: Int, y: Int)
 }
@@ -748,7 +687,7 @@ Em uma primeira tentativa poderíamos pensar: o quadrado pode ter uma mina ou n�
 
 ```gleam
 /// Um quadrado no jogo campo minado.
-pub type Quadrado {
+type Quadrado {
   Quadrado(mina: Bool, aberto: Bool, bandeira: Bool)
 }
 ```
@@ -811,14 +750,14 @@ Para resolver a situação podemos "juntar" os campos `aberto` e `bandeira` em u
 ```gleam
 /// O estado de um quadrado no
 /// campo do jogo.
-pub type Estado {
+type Estado {
   Aberto
   Fechado
   FechadoComBandeira
 }
 
 /// Um quadrado no campo de jogo.
-pub type Quadrado {
+type Quadrado {
   Quadrado(mina: Bool, estado: Estado)
 }
 ```
@@ -851,7 +790,7 @@ Definição de tipos de dados \pause
 
 ```gleam
 /// Uma ação do usuário no jogo.
-pub type Acao {
+type Acao {
   Abrir
   AdicionarBandeira
   RemoverBandeira
@@ -867,7 +806,7 @@ Especificação \pause
 
 ```gleam
 /// Atualiza o estado do quadrado *q* dada a *acao* do usuário... completar.
-pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado
+fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado
 ```
 
 \pause
@@ -950,7 +889,7 @@ A função que estamos projetando depende de dois valores enumerados. Qual deve 
 \scriptsize
 
 ```gleam
-pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
+fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
   case q.estado {
     Aberto -> case acao {
       Abrir -> todo
@@ -978,7 +917,7 @@ pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
 \scriptsize
 
 ```gleam
-pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
+fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
   case q.estado, acao {
     Aberto, Abrir -> todo
     Aberto, AdicionarBandeira -> todo
@@ -1027,7 +966,7 @@ Se olharmos a tabela de exemplos, vamos notar que em apenas 3 casos precisamos a
 /// | aberto               |   -     |          -           |    -    |
 /// | fechado              | aberto  | fechado-com-bandeira |    -    |
 /// | fechado-com-bandeira |   -     |          -           | fechado |
-pub fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
+fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
   case q.estado, acao {
     Fechado, Abrir -> Quadrado(..q, estado: Aberto)
     Fechado, AdicionarBandeira -> Quadrado(..q, estado: FechadoComBandeira)
@@ -1059,7 +998,7 @@ Vamos tentar uma estrutura.
 
 ```gleam
 /// O estado de uma tarefa.
-pub type EstadoTarefa {
+type EstadoTarefa {
   EstadoTarefa(
     // True se a tarefa está em execução, False caso contrário.
     executando: Bool,
@@ -1171,7 +1110,7 @@ A forma geral para definição de tipos de dados em Gleam é
 
 ```gleam
 /// O estado de uma tarefa
-pub type EstadoTarefa {
+type EstadoTarefa {
   // A tarefa está em execução
   Executando
   // A tarefa finalizou com sucesso.
@@ -1211,7 +1150,7 @@ pub type EstadoTarefa {
 \ \
 
 ```gleam-repl
-> pub fn duracao(estado: EstadoTarefa) {
+> fn duracao(estado: EstadoTarefa) {
     estado.duracao
   }
 ```
@@ -1244,7 +1183,47 @@ Um **padrão** pode ser \pause
 - uma variável, que casa com qualquer valor e o nomeia; \pause
 - o coringa `_`{.gleam}, que casa com qualquer valor e não o nomeia; \pause
 - um literal, que casa apenas com aquele valor; \pause
-- um construtor aplicado a **padrões**, que casa se o valor foi construído com esse construtor e se cada **padrão** interno casa com o campo correspondente.
+- um construtor aplicado a **padrões**, que casa se o valor foi construído com esse construtor e se cada **padrão** interno casa com o campo correspondente; \pause
+- uma alternativa entre padrões, escrita com `|`{.gleam}, que casa se algum deles casar.
+
+
+## Casamento de padrões
+
+No `case`{.gleam}, o valor examinado é comparado com o padrão de cada caso, de cima para baixo, e vence o **primeiro** que casar. \pause Por isso um padrão que casa com qualquer valor, como o `_`{.gleam}, só faz sentido no último caso. \pause
+
+Já usamos duas dessas formas antes de nomeá-las: \pause
+
+<div class="columns">
+<div class="column" width="48%">
+\small
+
+o `|`{.gleam}, no custo do tíquete,
+
+```gleam
+case usuario {
+  Aluno | ServidorAte3 -> 5.0
+  ServidorMais3 | Docente -> 10.0
+  Externo -> 19.0
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\small
+
+e a vírgula, que examina mais de uma expressão, na atualização do quadrado.
+
+```gleam
+case q.estado, acao {
+  Fechado, Abrir -> ...
+  _, _ -> q
+}
+```
+
+</div>
+</div>
 
 
 ## Exemplo - estado tarefa
@@ -1255,7 +1234,7 @@ Um **padrão** pode ser \pause
 
 ```gleam
 /// O estado de uma tarefa
-pub type EstadoTarefa {
+type EstadoTarefa {
   // A tarefa está em execução
   Executando
   // A tarefa finalizou com sucesso.
@@ -1273,7 +1252,7 @@ pub type EstadoTarefa {
 
 ```gleam-repl
 > /// Produz a duração ou -1 se não tem duração.
-> pub fn duracao(estado: EstadoTarefa) -> Int {
+> fn duracao(estado: EstadoTarefa) -> Int {
   case estado {
     Sucesso(duracao, _) -> duracao
     _ -> -1
@@ -1314,7 +1293,7 @@ Especificação
 
 ```gleam
 /// Produz uma string amigável para o usuário que descreve o *estado* de uma tarefa.
-pub fn mensagem(estado: EstadoTarefa) -> String
+fn mensagem(estado: EstadoTarefa) -> String
 ```
 
 \pause
@@ -1354,7 +1333,7 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 \small
 
 ```gleam
-pub fn mensagem(estado: EstadoTarefa) -> String {
+fn mensagem(estado: EstadoTarefa) -> String {
   case estado {
     Executando -> todo
 
@@ -1374,7 +1353,7 @@ Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corp
 \small
 
 ```gleam
-pub fn mensagem(estado: EstadoTarefa) -> String {
+fn mensagem(estado: EstadoTarefa) -> String {
   case estado {
     Executando ->
       "A tarefa está em execução."
@@ -1385,6 +1364,50 @@ pub fn mensagem(estado: EstadoTarefa) -> String {
   }
 }
 ```
+
+
+## Desestruturação
+
+Uma estrutura é uma união com uma única variante. \pause Então o seu construtor também é um padrão. \pause
+
+No `let`{.gleam}, o padrão precisa casar com **todos** os valores possíveis do tipo — é a mesma verificação de exaustividade do `case`{.gleam}. \pause Com uma variante só e apenas variáveis nos campos, isso é garantido, e podemos desestruturar sem `case`{.gleam}: \pause
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam-repl
+> let p = Ponto(8, 2)
+> // pela posição
+> let Ponto(x, y) = p
+> x
+8
+> y
+2
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam-repl
+> // pelo rótulo
+> let Ponto(y: a, ..) = p
+> a
+2
+> let Ponto(y:, ..) = p
+> y
+2
+```
+
+</div>
+</div>
+
+\pause
+
+O `..`{.gleam} indica que os demais campos não interessam, e `y:`{.gleam} abrevia `y: y`{.gleam}. \pause Um padrão com literal, como `Ponto(1, y)`{.gleam}, não é aceito no `let`{.gleam}, pois pode falhar.
 
 
 ## Considerações
@@ -1425,22 +1448,6 @@ class Erro:
     msg: str
 
 EstadoTarefa = Executando | Sucesso | Erro
-```
-
-
-## Uniões em Python
-
-\footnotesize
-
-```python
-def mensagem(estado: EstadoTarefa) -> str:
-    if isinstance(estado, Executando):
-        return 'A tarefa está em execução'
-    elif isinstance(estado, Sucesso):
-        return 'A tarefa finalizou com sucesso ({}s): {}'.format(estado.duracao,
-                                                                 estado.msg)
-    else:
-        return 'A tarefa falhou (erro {}): {}'.format(estado.codigo, estado.msg)
 ```
 
 
@@ -1542,11 +1549,18 @@ Quantos valores distintos tem um tipo produto? E um tipo soma? \pause
 
 Como um tipo soma com N casos guia o projeto de uma função que o recebe como entrada? \pause
 
-- Ele sugere pelo menos N exemplos, um para cada caso, e um corpo com uma análise de N casos. \pause
+- Ele sugere pelo menos N exemplos, um para cada caso, e um corpo com uma análise de N casos.
+
+
+## Revisão
 
 E se a função recebe dois valores de tipos soma, com N e M casos? \pause
 
-- Pelo menos N $\times$ M exemplos; uma tabela ajuda a não esquecer nenhum.
+- Pelo menos N $\times$ M exemplos; uma tabela ajuda a não esquecer nenhum. \pause
+
+O que acontece quando acrescentamos uma variante a um tipo soma? \pause
+
+- Cada `case`{.gleam} que deixou de ser exaustivo vira erro de compilação, e assim o compilador encontra os pontos do programa que precisam ser alterados.
 
 
 Referências

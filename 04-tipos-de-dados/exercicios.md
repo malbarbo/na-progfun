@@ -61,6 +61,9 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
     b) Sabendo que um elevador só pode começar a se movimentar se estiver parado, projete uma função que verifique se o elevador pode passar de um estado para outro. Faça uma tabela que mostre as nove possibilidades de entrada da função e a saída de cada possibilidade. Faça os exemplos a partir da tabela. Faça a implementação simplificada a partir da tabela.
 
 
+@) No capítulo **Projeto de funções**, a função `ajusta_string`{.gleam} recebe o alinhamento como uma `String`{.gleam}, e por isso o `case`{.gleam} sobre o alinhamento precisa de um caso `_`{.gleam}. Reprojete essa função usando uma enumeração para representar o alinhamento. O que acontece com o `case`{.gleam}?
+
+
 <!-- Estruturas -->
 
 @) Projete uma estrutura para representar resoluções (largura e altura em pixels) de telas e imagens. Em seguida,

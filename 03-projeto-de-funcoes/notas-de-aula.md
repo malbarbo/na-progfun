@@ -4,6 +4,9 @@ title: Projeto de funções
 # TODO: substituir Definição de tipos de dados por Projeto de dados? https://course.ccs.neu.edu/cs5010sp15/recipe.html#%28part._data%29
 ---
 
+O processo
+==========
+
 ## Projeto de funções
 
 Vamos voltar ao problema da Márcia. \pause
@@ -53,6 +56,9 @@ Um programa é composto de várias funções, então temos que decompor o progra
 
 Vamos treinar com problemas simples, de uma função, depois vamos utilizar o processo em problemas mais elaborados.
 
+
+Exemplo - combustível
+=====================
 
 ## Análise
 
@@ -354,7 +360,7 @@ E uma função `primeiro(s: String) -> String`{.gleam}, que devolve o primeiro c
 
 O que acontece quando alguém chama uma função parcial com uma entrada inválida? \pause Uma de duas coisas. \pause
 
-Ou a função não percebe e produz um valor sem sentido, que o resto do programa usa como se fosse uma resposta legítima. \pause O `Arrays.binarySearch`{.java} do Java exige um vetor ordenado; se ele não estiver, a documentação diz que o resultado é indefinido: nenhum erro, só um número errado. \pause
+Ou a função não percebe e produz um valor sem sentido, que o resto do programa usa como se fosse uma resposta legítima. \pause O [`Arrays.binarySearch`{.java}](https://docs.oracle.com/javase/8/docs/api/java/util/Arrays.html#binarySearch-int:A-int-int-int-) do Java exige um vetor ordenado; se ele não estiver, a documentação diz que o resultado é indefinido: nenhum erro, só um número errado. \pause
 
 Ou a função percebe e interrompe o programa, como em Python ao acessar um índice fora da faixa de uma lista. \pause
 
@@ -556,7 +562,11 @@ Veremos como lidar com essa questão no capítulo **Tipos de dados**.
 </div>
 </div>
 
-## Continuação da revisão
+
+Mais exemplos
+=============
+
+## Mais exemplos
 
 Os próximos três exemplos completam a revisão do processo de projeto de funções. \pause
 
@@ -1183,9 +1193,40 @@ fn ajusta_string(s: String, num_chars: Int, alinhamento: Alinhamento) -> String 
 
 ## Exemplo - ajuste de texto
 
+No `case`{.gleam} sobre o `alinhamento`{.gleam} a expressão examinada é uma `String`{.gleam}, e não um `Bool`{.gleam}. \pause
+
+No capítulo **Fundamentos** vimos a forma inicial do `case`{.gleam}, com os casos `True`{.gleam} e `False`{.gleam}; ela é um caso particular. \pause A expressão examinada pode ser de qualquer tipo, e cada caso pode ser um literal desse tipo. \pause
+
+<div class="columns">
+<div class="column" width="42%">
+\small
+
+```gleam-repl
+> case 2 + 1 {
+    1 -> "um"
+    2 -> "dois"
+    _ -> "muitos"
+  }
+"muitos"
+```
+
+\pause
+
+</div>
+<div class="column" width="54%">
+\small
+
+A regra de avaliação é a mesma: avalie a expressão examinada e substitua toda a expressão `case`{.gleam} pela expressão do **primeiro** caso que corresponder ao valor.
+
+</div>
+</div>
+
+
+## Exemplo - ajuste de texto
+
 O último caso do `case`{.gleam} sobre o `alinhamento`{.gleam} é `_`{.gleam} e não `"centro"`{.gleam}. \pause
 
-O `_`{.gleam} corresponde a qualquer valor, isto é, esse caso contempla todos os valores que não foram tratados nos casos anteriores. \pause
+O `_`{.gleam} corresponde a qualquer valor, isto é, esse caso contempla todos os valores que não foram tratados nos casos anteriores; por isso ele é sempre o último caso. \pause
 
 Ele é necessário porque `Alinhamento`{.gleam} é apenas um apelido de `String`{.gleam}, então além de `"direita"`{.gleam}, `"esquerda"`{.gleam} e `"centro"`{.gleam} existem infinitos outros valores possíveis, e o Gleam exige que todos eles sejam tratados. \pause
 
@@ -1252,6 +1293,9 @@ Revisão \pause
 - Exercício para o leitor!
 
 
+Revisão
+=======
+
 ## Revisão
 
 Quais são as etapas do processo de projeto de funções e o objetivo de cada uma? \pause
@@ -1303,6 +1347,9 @@ Quando um exemplo falha, o que pode estar errado? \pause
 
 - O exemplo, a implementação, ou os dois.
 
+
+Referências
+===========
 
 ## Referências
 

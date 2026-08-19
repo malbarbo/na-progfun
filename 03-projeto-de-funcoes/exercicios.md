@@ -17,6 +17,10 @@ license:
 
 @) Quais são as partes que compõem a especificação de uma função?
 
+@) O que é o contrato de uma função? Quem se compromete com o quê, e o que acontece se as restrições não forem respeitadas?
+
+@) Qual é a diferença entre uma função total e uma função parcial? Dê um exemplo de cada uma.
+
 @) Qual é a principal propriedade que uma especificação deve ter para ser considerada adequada?
 
 @) O que é a assinatura de uma função?
@@ -130,6 +134,9 @@ license:
       }
     }
     ```
+
+@) A `ajusta_string`{.gleam}, projetada neste capítulo, promete produzir uma string com exatamente `num_chars`{.gleam} caracteres, e o seu propósito não registra nenhuma restrição. O que ela produz quando `s`{.gleam} é `"casa verde"`{.gleam} e `num_chars`{.gleam} é 2? A promessa foi cumprida? Acrescente ao propósito a restrição que falta e diga se a função é total ou parcial.
+
 
 @) Projete uma função que adicione um ponto final a uma frase se ela não acabar com um.
 

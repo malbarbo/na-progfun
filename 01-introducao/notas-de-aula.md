@@ -1,5 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
+# TODO: explicar o main/smain
+# TODO: criar um resumo do sgleam, ou publicar a documentação que já temos
 title: Introdução
 ---
 

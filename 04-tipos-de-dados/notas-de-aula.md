@@ -889,7 +889,8 @@ A função que estamos projetando depende de dois valores enumerados. Qual deve 
 \scriptsize
 
 ```gleam
-fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
+fn atualiza_quadrado(q: Quadrado, acao: Acao)
+                     -> Quadrado {
   case q.estado {
     Aberto -> case acao {
       Abrir -> todo
@@ -917,7 +918,8 @@ fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
 \scriptsize
 
 ```gleam
-fn atualiza_quadrado(q: Quadrado, acao: Acao) -> Quadrado {
+fn atualiza_quadrado(q: Quadrado, acao: Acao)
+                     -> Quadrado {
   case q.estado, acao {
     Aberto, Abrir -> todo
     Aberto, AdicionarBandeira -> todo
@@ -1038,24 +1040,12 @@ Em uma **união**, os valores do tipo são divididos em casos, chamados **varian
 
 Cada variante tem o seu próprio **construtor** e pode ter os seus próprios campos. \pause
 
-Um valor do tipo pertence a exatamente uma variante. \pause
+Um valor do tipo pertence a exatamente uma variante. \pause Note que uma enumeração é o caso particular em que nenhuma variante tem campos. \pause
 
-Usamos uniões quando a informação é um entre vários casos excludentes, e cada caso pode ter informações próprias. \pause
+Quando usamos uniões? \pause
 
-Uma enumeração é o caso particular em que nenhuma variante tem campos.
+Usamos uniões quando a informação é um entre vários casos excludentes, e cada caso pode ter informações próprias.
 
-
-## Uniões e Estruturas
-
-Definimos anteriormente um tipo de dado como um conjunto de possíveis valores. Agora vamos discutir qual é a relação entre a definição de tipos de dados e as operações com conjuntos. \pause
-
-- Os valores possíveis para um tipo definido por uma estrutura (**tipo produto**) são o produto cartesiano dos valores possíveis de cada um dos seus campos; \pause
-
-- Os valores possíveis para um tipo definido por uma união (**tipo soma**) são a união dos valores de cada variante do tipo. \pause
-
-- Chamamos de **tipo algébrico de dado** um tipo soma de tipos produtos. \pause
-
-Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o quadrado do campo minado e como será para o estado da tarefa.
 
 
 ## Uniões em Gleam
@@ -1129,20 +1119,9 @@ type EstadoTarefa {
 \footnotesize
 
 ```gleam-repl
-> let estado: EstadoTarefa = Executando
-```
-
-\pause
-
-```gleam-repl
-> estado.msg
-```
-
-\pause
-
-```
-1 │   estado.msg
-  │          ^^^ This field does not exist
+> let estado: EstadoTarefa = Sucesso(12, "Ok.")
+> estado.duracao
+12
 ```
 
 \pause
@@ -1150,15 +1129,14 @@ type EstadoTarefa {
 \ \
 
 ```gleam-repl
-> fn duracao(estado: EstadoTarefa) {
-    estado.duracao
-  }
+> let estado: EstadoTarefa = Executando
+> estado.duracao
 ```
 
 \pause
 
 ```
-2 │   estado.duracao
+1 │   estado.duracao
   │          ^^^^^^^ This field does not exist
 ```
 
@@ -1167,123 +1145,26 @@ type EstadoTarefa {
 </div>
 </div>
 
-\ \
-
-Então, como podemos acessar os campos!? \pause Usando casamento de padrões com o `case`{.gleam}.
-
-
-## Casamento de padrões
-
-No **casamento de padrões**, comparamos um valor com um **padrão**, que descreve a forma esperada do valor. \pause
-
-Se o valor tem essa forma, o casamento tem sucesso e as variáveis do padrão são associadas às partes correspondentes do valor. \pause
-
-Um **padrão** pode ser \pause
-
-- uma variável, que casa com qualquer valor e o nomeia; \pause
-- o coringa `_`{.gleam}, que casa com qualquer valor e não o nomeia; \pause
-- um literal, que casa apenas com aquele valor; \pause
-- um construtor aplicado a **padrões**, que casa se o valor foi construído com esse construtor e se cada **padrão** interno casa com o campo correspondente; \pause
-- uma alternativa entre padrões, escrita com `|`{.gleam}, que casa se algum deles casar.
-
-
-## Casamento de padrões
-
-No `case`{.gleam}, o valor examinado é comparado com o padrão de cada caso, de cima para baixo, e vence o **primeiro** que casar. \pause Por isso um padrão que casa com qualquer valor, como o `_`{.gleam}, só faz sentido no último caso. \pause
-
-Já usamos duas dessas formas antes de nomeá-las: \pause
-
-<div class="columns">
-<div class="column" width="48%">
-\small
-
-o `|`{.gleam}, no custo do tíquete,
-
-```gleam
-case usuario {
-  Aluno | ServidorAte3 -> 5.0
-  ServidorMais3 | Docente -> 10.0
-  Externo -> 19.0
-}
-```
-
-\pause
-
-</div>
-<div class="column" width="48%">
-\small
-
-e a vírgula, que examina mais de uma expressão, na atualização do quadrado.
-
-```gleam
-case q.estado, acao {
-  Fechado, Abrir -> ...
-  _, _ -> q
-}
-```
-
-</div>
-</div>
-
 
 ## Exemplo - estado tarefa
 
-<div class="columns">
-<div class="column" width="43%">
-\footnotesize
+Só podemos acessar o campo de uma variante quando o compilador tem certeza de qual variante foi instanciada. \pause Em uma função, o parâmetro pode ser qualquer uma das variantes, então o acesso direto não compila. \pause
+
+Como acessar os campos nesse caso!? \pause Usando `case`{.gleam}. \pause
+
+\small
 
 ```gleam
-/// O estado de uma tarefa
-type EstadoTarefa {
-  // A tarefa está em execução
-  Executando
-  // A tarefa finalizou com sucesso.
-  // Requer que duracao seja >= 0.
-  Sucesso(duracao: Int, msg: String)
-  // A tarefa finalizou com falha
-  Erro(codigo: Int, msg: String)
-}
-```
-
-</div>
-<div class="column" width="52%">
-
-\footnotesize
-
-```gleam-repl
-> /// Produz a duração ou -1 se não tem duração.
-> fn duracao(estado: EstadoTarefa) -> Int {
+fn duracao(estado: EstadoTarefa) -> Int {
   case estado {
-    Sucesso(duracao, _) -> duracao
-    _ -> -1
+    Sucesso(..) -> estado.duracao
+    _ -> todo
   }
 }
 ```
 
-\pause
-
-\ \
-
-```gleam-repl
-> duracao(Executando)
--1
-> duracao(Sucesso(10, "Recuperação exitosa."))
-10
-> duracao(Erro(-23, "Arquivo não existente."))
--1
-```
-
-</div>
-</div>
-
-\pause
-
-Devolver `-1`{.gleam} quando não existe duração é uma solução ruim: estamos usando um `Int`{.gleam} válido para dizer "não tem valor". Vamos resolver isso no capítulo **Funções totais**.
-
 
 ## Exemplo - estado tarefa
-
-Agora podemos retornar e concluir o projeto. \pause
 
 Projete uma função que produza uma mensagem sobre o estado de uma tarefa. Uma tarefa pode estar em execução, ter sido concluída em uma duração específica e com uma mensagem de sucesso, ou ter falhado com um código e uma mensagem de erro. \pause
 
@@ -1307,7 +1188,7 @@ O exercício não é muito específico sobre a saída (o foco é no projeto de t
 
 Quantos exemplos são necessários? \pause Pelo menos um para cada variante. \pause
 
-\small
+\footnotesize
 
 ```gleam
 pub fn mensagem_examples() {
@@ -1328,19 +1209,48 @@ pub fn mensagem_examples() {
 
 ## Exemplo - estado tarefa
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função com base apenas no tipo de dado, no caso, `EstadoTarefa`{.gleam}. \pause São três casos: \pause
+Podemos definir a estrutura do corpo da função com base apenas no tipo de dado: \pause
 
-\small
+\footnotesize
 
 ```gleam
 fn mensagem(estado: EstadoTarefa) -> String {
   case estado {
     Executando -> todo
+    Sucesso(..) -> todo
 
-    Sucesso(duracao, msg) -> todo
 
-    Erro(codigo, msg) -> todo
 
+
+    Erro(..) -> todo
+
+
+
+
+  }
+}
+```
+
+## Exemplo - estado tarefa
+
+Podemos definir a estrutura do corpo da função com base apenas no tipo de dado:
+
+\footnotesize
+
+```gleam
+fn mensagem(estado: EstadoTarefa) -> String {
+  case estado {
+    Executando -> "A tarefa está em execução."
+    Sucesso(..) ->
+      "Tarefa concluída ("
+      <> int.to_string(estado.duracao)
+      <> "s): "
+      <> estado.msg
+    Erro(..) ->
+      "A tarefa falhou (erro "
+      <> int.to_string(estado.codigo)
+      <> "): "
+      <> estado.msg
   }
 }
 ```
@@ -1348,9 +1258,82 @@ fn mensagem(estado: EstadoTarefa) -> String {
 
 ## Exemplo - estado tarefa
 
-Mesmo sem saber detalhes da implementação, podemos definir a estrutura do corpo da função com base apenas no tipo de dado, no caso, `EstadoTarefa`{.gleam}. São três casos:
+Revisão \pause
 
+O que podemos melhorar? \pause
+
+O `estado.`{.gleam} se repete em todos os acessos e deixa as expressões longas. \pause
+
+O `case`{.gleam} pode fazer mais do que identificar um literal ou variante. \pause O `case`{.gleam} pode identificar a "forma" do valor usando casamento de padrões.
+
+
+## Casamento de padrões
+
+No **casamento de padrões**, comparamos um valor com um **padrão**, que descreve a forma esperada do valor. \pause
+
+Se o valor tem essa forma, o casamento tem sucesso e as variáveis do padrão são associadas às partes correspondentes do valor. \pause
+
+Um **padrão** pode ser \pause
+
+- uma variável, que casa com qualquer valor e o nomeia; \pause
+- o coringa `_`{.gleam}, que casa com qualquer valor e não o nomeia; \pause
+- um literal, que casa apenas com aquele valor; \pause
+- uma alternativa entre padrões, escrita com `|`{.gleam}, que casa se algum deles casar; \pause
+- um construtor aplicado a **padrões**, que casa se o valor foi construído com esse construtor e se cada **padrão** interno casa com o campo correspondente.
+
+
+## Casamento de padrões
+
+No `case`{.gleam}, o valor examinado é comparado com o padrão de cada caso, de cima para baixo, e vence o **primeiro** que casar. \pause Por isso um padrão que casa com qualquer valor, como o `_`{.gleam}, só faz sentido no último caso. \pause
+
+Já usamos algumas dessas formas antes de nomeá-las: \pause
+
+<div class="columns">
+<div class="column" width="48%">
 \small
+
+o `|`{.gleam}, no custo do tíquete,
+
+```gleam
+case usuario {
+  Aluno | ServidorAte3 -> 5.0
+  ServidorMais3 | Docente -> 10.0
+  Externo -> 19.0
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\small
+
+o coringa, na atualização do quadrado.
+
+```gleam
+case q.estado, acao {
+  Fechado, Abrir -> ...
+  _, _ -> q
+}
+```
+
+</div>
+</div>
+
+\pause
+
+\normalsize
+
+E o construtor, na `mensagem`{.gleam}: o `Sucesso(..)`{.gleam} casa com os valores construídos com `Sucesso`{.gleam}, e o `..`{.gleam} indica que os campos não interessam.
+
+
+## Exemplo - estado tarefa
+
+Revisão \pause
+
+Trocando o `..`{.gleam} por variáveis, damos nome aos campos no próprio padrão: \pause
+
+\footnotesize
 
 ```gleam
 fn mensagem(estado: EstadoTarefa) -> String {
@@ -1365,12 +1348,53 @@ fn mensagem(estado: EstadoTarefa) -> String {
 }
 ```
 
+## Exemplo - estado tarefa
 
-## Desestruturação
+Se quissemos mudar a implementação para omitir a duração quando ela for zero na mensagem de sucesso, faríamos: \pause
+
+\small
+
+```gleam
+fn mensagem(estado: EstadoTarefa) -> String {
+  case estado {
+    Executando ->
+      "A tarefa está em execução."
+    Sucesso(0, msg) ->
+      "Tarefa concluída:" <> msg
+    Sucesso(duracao, msg) ->
+      "Tarefa concluída (" <> int.to_string(duracao) <> "s): " <> msg
+    Erro(codigo, msg) ->
+      "A tarefa falhou (erro " <> int.to_string(codigo) <> "): " <> msg
+  }
+}
+```
+
+
+## Padrões
 
 Uma estrutura é uma união com uma única variante. \pause Então o seu construtor também é um padrão. \pause
 
-No `let`{.gleam}, o padrão precisa casar com **todos** os valores possíveis do tipo — é a mesma verificação de exaustividade do `case`{.gleam}. \pause Com uma variante só e apenas variáveis nos campos, isso é garantido, e podemos desestruturar sem `case`{.gleam}: \pause
+\footnotesize
+
+```gleam-repl
+> let p: Ponto = Ponto(3, 4)
+> case p {
+    Ponto(0, 0) -> "na origem"
+    Ponto(0, _) -> "no eixo x"
+    Ponto(_, 0) -> "no eixo y"
+    _ -> "nenhum eixo"
+  }
+"nenhum eixo"
+```
+
+\pause
+
+\normalsize
+
+Os padrões não aparecem apenas no `case`{.gleam}. \pause O lado direto em uma definição `let`{.gleam} também é um padrão! \pause A diferença é o o padrão precisa ser irrefutável, ou seja, ele sempre casa com o valor atribuído.
+
+
+## Padrões no `let`{.gleam}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1387,6 +1411,7 @@ No `let`{.gleam}, o padrão precisa casar com **todos** os valores possíveis do
 ```
 
 \pause
+
 
 </div>
 <div class="column" width="48%">
@@ -1408,6 +1433,42 @@ No `let`{.gleam}, o padrão precisa casar com **todos** os valores possíveis do
 \pause
 
 O `..`{.gleam} indica que os demais campos não interessam, e `y:`{.gleam} abrevia `y: y`{.gleam}. \pause Um padrão com literal, como `Ponto(1, y)`{.gleam}, não é aceito no `let`{.gleam}, pois pode falhar.
+
+
+## Padrões no `let`{.gleam}
+
+\footnotesize
+
+```gleam-repl
+> let Ponto(4, y) = p
+error: Inexhaustive pattern
+  ┌─ <repl>:1:1
+  │
+1 │ let Ponto(4, y) = p
+  │ ^^^^^^^^^^^^^^^
+
+This assignment uses a pattern that does not match all possible values. If
+one of the other values is used then the assignment will crash.
+
+The missing patterns are:
+
+    Ponto(x:, y:)
+
+Hint: Use a more general pattern or use `let assert` instead.
+```
+
+
+## Uniões e Estruturas
+
+Definimos anteriormente um tipo de dado como um conjunto de possíveis valores. Agora vamos discutir qual é a relação entre a definição de tipos de dados e as operações com conjuntos. \pause
+
+- Os valores possíveis para um tipo definido por uma estrutura (**tipo produto**) são o produto cartesiano dos valores possíveis de cada um dos seus campos; \pause
+
+- Os valores possíveis para um tipo definido por uma união (**tipo soma**) são a união dos valores de cada variante do tipo. \pause
+
+- Chamamos de **tipo algébrico de dado** um tipo soma de tipos produtos. \pause
+
+Entender essa relação pode nos ajudar na definição dos tipos de dados, como foi para o quadrado do campo minado e para o estado da tarefa.
 
 
 ## Considerações

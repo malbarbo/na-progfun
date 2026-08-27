@@ -72,7 +72,7 @@ No problema do combustível usamos `Float`{.gleam} para representar o preço do 
 
 No problema do estado da tarefa, usamos `Int`{.gleam} para representar a duração da tarefa no caso de sucesso, mas não garantimos que a duração é maior ou igual a zero. \pause
 
-Na função de exemplo `duracao(EstadoTarefa) -> Int`{.gleam}, devolvemos `-1`{.gleam} para representar que o estado da tarefa não tem informação de duração. \pause
+Ainda no estado da tarefa, uma função `duracao(EstadoTarefa) -> Int`{.gleam} não tem o que devolver quando a tarefa não está em sucesso; a saída teria que ser um valor inventado, como `-1`{.gleam}. \pause
 
 Como podemos resolver essas questões? \pause Vamos começar com a função `duracao`{.gleam}.
 

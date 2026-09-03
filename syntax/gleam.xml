@@ -156,6 +156,8 @@
 			<DetectChar attribute="Punctuation" context="#stay" char="]" endRegion="square brackets" />
 			<DetectChar attribute="Punctuation" context="#stay" char="{" beginRegion="curly brackets" />
 			<DetectChar attribute="Punctuation" context="#stay" char="}" endRegion="curly brackets" />
+			<!-- The float operators end in a dot, so they come before the dot
+			     of a field access. -->
 			<RegExpr attribute="Symbol" context="#stay" String="(?:[+*/-]|&lt;=|&gt;=|&lt;|&gt;)\." />
 			<AnyChar String="#:,." attribute="Punctuation" context="#stay" />
 			<AnyChar String="!+-*/%&lt;=&gt;|&amp;" attribute="Symbol" context="#stay" />
@@ -187,7 +189,26 @@
 			<IncludeRules context="##Comments" />
 		</context>
 		<context attribute="Documentation" lineEndContext="#pop" name="documentation" >
-			<!-- TODO documentation use a markdown syntax -->
+			<DetectChar attribute="DocCode" context="doc inline code" char="`" />
+			<StringDetect attribute="DocBold" context="doc bold" String="**" />
+			<DetectChar attribute="DocItalic" context="doc italic" char="_" />
+			<DetectChar attribute="DocLink" context="doc link text" char="[" />
+		</context>
+		<context attribute="DocCode" lineEndContext="#pop#pop" name="doc inline code" >
+			<DetectChar attribute="DocCode" context="#pop" char="`" />
+		</context>
+		<context attribute="DocBold" lineEndContext="#pop#pop" name="doc bold" >
+			<StringDetect attribute="DocBold" context="#pop" String="**" />
+		</context>
+		<context attribute="DocItalic" lineEndContext="#pop#pop" name="doc italic" >
+			<DetectChar attribute="DocItalic" context="#pop" char="_" />
+		</context>
+		<context attribute="DocLink" lineEndContext="#pop#pop" name="doc link text" >
+			<Detect2Chars attribute="DocLink" context="doc link url" char="]" char1="(" />
+			<DetectChar attribute="Documentation" context="#pop" char="]" />
+		</context>
+		<context attribute="DocLink" lineEndContext="#pop#pop#pop" name="doc link url" >
+			<DetectChar attribute="DocLink" context="#pop#pop" char=")" />
 		</context>
 		<!-- Imports -->
 		<context attribute="Normal Text" lineEndContext="#stay" lineEmptyContext="#stay"  name="import module" fallthroughContext="#pop!error" >
@@ -227,11 +248,15 @@
 		<itemData name="Error" defStyleNum="dsError" />
 		<!-- Strings and BitArrays -->
 		<itemData name="String" defStyleNum="dsString" />
-		<itemData name="EscapeSequence" defStyleNum="dsString" />
-		<itemData name="BitArrayOption" defStyleNum="dsNormal" />
+		<itemData name="EscapeSequence" defStyleNum="dsSpecialChar" />
+		<itemData name="BitArrayOption" defStyleNum="dsSpecialChar" />
 		<!-- Comments -->
 		<itemData name="Comment" defStyleNum="dsComment" />
-		<itemData name="Documentation" defStyleNum="dsComment" />
+		<itemData name="Documentation" defStyleNum="dsDocumentation" />
+		<itemData name="DocCode" defStyleNum="dsVerbatimString" />
+		<itemData name="DocBold" defStyleNum="dsInformation" />
+		<itemData name="DocItalic" defStyleNum="dsCommentVar" />
+		<itemData name="DocLink" defStyleNum="dsOthers" />
 		<!-- Keywords -->
 		<itemData name="Keyword" defStyleNum="dsKeyword" />
 		<itemData name="Crash" defStyleNum="dsControlFlow" />

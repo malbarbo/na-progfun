@@ -11,70 +11,51 @@ Introdução
 
 ## Introdução
 
-No capítulo **Projeto de funções** vimos que a especificação de uma função é um **contrato**: quem usa a função respeita as restrições sobre as entradas, quem implementa cumpre as garantias sobre a saída. \pause
+No capítulo **Projeto de funções** vimos que a especificação de uma função é um **contrato** entre quem usa a função, que deve respeitar as restrições sobre as entradas, e quem implementa, que deve cumprir as garantias sobre a saída. \pause
 
-Vimos também que uma função é **parcial** quando existem valores dos tipos das entradas para os quais ela não produz uma resposta válida, e que são justamente esses valores que as restrições excluem. \pause
+Vimos também que uma função é **parcial** quando existem valores dos tipos das entradas para os quais ela não tem uma resposta válida. \pause São esses valores que as restrições do contrato excluem. \pause
 
-No capítulo **Tipos de dados** vimos como definir tipos em que os valores inválidos são irrepresentáveis. \pause
+No capítulo **Tipos de dados** vimos como definir tipos de dados que são adequados. \pause
 
 Neste capítulo vamos juntar as duas coisas: usar os tipos de dados para eliminar as restrições, transformando funções parciais em **funções totais**.
 
 
 ## Como tornar uma função total
 
-Como transformar uma função parcial em uma função total? \pause Existem três caminhos. \pause
+Como transformar uma função parcial em uma função total? \pause
 
-- Escolher uma resposta para as entradas hoje inválidas, sem mudar os tipos; \pause
+- Ajustar o contrato (especificação) para adicionar respostas para as entradas hoje inválidas, sem mudar os tipos; \pause
 
-- **Apertar** o tipo da entrada, para que as entradas inválidas deixem de existir; \pause
+- **Restringir** o tipo da entrada, para que as entradas inválidas deixem de existir; \pause
 
-- **Alargar** o tipo da saída, para que a função tenha uma resposta a mais para dar. \pause
+- **Expandir** o tipo da saída, para que a função possa responder a todas as entradas. \pause
 
-O primeiro não precisa de nenhum tipo novo, então vamos vê-lo agora. Os outros dois são o assunto do restante do capítulo.
-
-
-## Escolher uma resposta
-
-O caminho mais simples é dar uma resposta às entradas inválidas, sem mudar tipo nenhum. \pause
-
-\small
-
-```gleam-repl
-> string.slice("casa", 0, 10)
-"casa"
-> 10 / 0
-0
-```
-
-\normalsize
-
-\pause
-
-A função `string.slice`{.gleam} não exige que a string tenha o tamanho pedido, e o operador `/`{.gleam} não exige que o divisor seja diferente de zero. \pause As duas são totais: não têm restrição nenhuma sobre as entradas.
+Vamos começar com a primeira.
 
 
 ## Escolher uma resposta
 
-Mas os dois casos não são a mesma coisa. \pause
+Qual deve ser a resposta para `string.slice("casa", 1, 10)`{.gleam}? \pause Depende do contrato! \pause Se o contrato diz que o intervalo da substring deve estar todo contido na string de entrada, então o exemplo é uma violação do contrato e a resposta fica não especificada. \pause
 
-Em `string.slice`{.gleam} a restrição desaparece de verdade: "os 10 primeiros caracteres, ou a string toda se ela tiver menos que isso" é um propósito mais geral, que continua fazendo sentido. Nada foi inventado. \pause
+No entanto, se mudarmos o contrato para dizer que a resposta é a parte do intervalo que está contida na string, então a resposta está bem definida e seria `"asa"`{.gleam}. \pause
 
-Já o `0`{.gleam} da divisão por zero é arbitrário: ele não estende o propósito da divisão, é só um valor escolhido para a função ter o que devolver. \pause O erro, que antes estava explícito na especificação, passa a circular pelo programa disfarçado de resposta. \pause
+Qual deve ser a resposta para `10 / 0`{.gleam}? \pause Depende do contrato! \pause Em Gleam a resposta especificada pelo contrato é `0`{.gleam}. \pause
 
-Este caminho é legítimo quando a nova resposta **generaliza o propósito**, e é uma armadilha quando ela apenas **preenche um buraco**. \pause Nesse segundo caso o certo é alargar o tipo da saída, e é por isso que o Gleam oferece o `int.divide`{.gleam} ao lado do `/`{.gleam}.
+Dessa forma, `string.slice`{.gleam} e `/`{.gleam} foram feitas totais pelo ajuste do contrato. \pause
+
+Mas existe diferença entre os dois casos.
 
 
-## Pendências
+## Escolher uma resposta
 
-No capítulo anterior aplicamos com sucesso as diretrizes para projeto de tipos de dados no exemplo do combustível, do quadrado do campo minado e do estado da tarefa. \pause Mas ficaram alguns pontos para resolver. \pause
+Em `string.slice`{.gleam} o ajuste do contrato parece razoável, mas para `/`{.gleam} o ajuste é questionável, afinal, a maioria de nós esperaria que divisão por zero fosse uma quebra de contrato. \pause
 
-No problema do combustível usamos `Float`{.gleam} para representar o preço do combustível, mas não garantimos que o preço é maior do que zero. \pause
+Em outras palavras, o "erro", que antes estava explícito na especificação, pode passar disfarçado de resposta no programa. \pause
 
-No problema do estado da tarefa, usamos `Int`{.gleam} para representar a duração da tarefa no caso de sucesso, mas não garantimos que a duração é maior ou igual a zero. \pause
+Então, poderíamos argumentar que o ajuste do contrato é mais adequado quando as novas respostas **generalizam o propósito**, e pode ser uma armadilha quando elas apenas "preenchem um buraco". \pause
 
-Ainda no estado da tarefa, uma função `duracao(EstadoTarefa) -> Int`{.gleam} não tem o que devolver quando a tarefa não está em sucesso; a saída teria que ser um valor inventado, como `-1`{.gleam}. \pause
+Como então poderíamos fazer a função total no caso da divisão? \pause Expandir o tipo da saída para representar a existência ou não de um valor.
 
-Como podemos resolver essas questões? \pause Vamos começar com a função `duracao`{.gleam}.
 
 
 Valores opcionais
@@ -88,22 +69,13 @@ Valores opcionais
 \footnotesize
 
 ```gleam
-/// Devolve -1 se não tem duração.
-pub fn duracao(estado: EstadoTarefa) -> Int {
-  case estado {
-    Sucesso(duracao, _) -> duracao
-    _ -> -1
+/// Divide *a* por *b*.
+pub fn divide(a: Int, b: Int) -> Int {
+  case b {
+    0 -> todo
+    _ -> a / b
   }
 }
-```
-
-```gleam-repl
-> duracao(Executando)
--1
-> duracao(Sucesso(10, "Recuperação exitosa."))
-10
-> duracao(Erro(-23, "Arquivo não existente."))
--1
 ```
 
 \pause
@@ -130,60 +102,61 @@ pub type Opcional {
 ## Valores opcionais
 
 <div class="columns">
-<div class="column" width="54%">
+<div class="column" width="48%">
 \footnotesize
 
 ```gleam
-pub fn duracao(estado: EstadoTarefa) -> Opcional {
-  case estado {
-    Sucesso(duracao, _) -> Algum(duracao)
-    _ -> Nenhum
+/// Produz a divisão *a* por *b*,
+/// ou Nenhum se *b* é zero.
+pub fn divide(a: Int, b: Int)
+              -> Opcional {
+  case b {
+    0 -> Nenhum
+    _ -> Algum(a / b)
   }
 }
 ```
 
 ```gleam-repl
-> duracao(Executando)
-Nenhum
-> duracao(Sucesso(10, "Recuperação exitosa."))
-Algum(10)
-> duracao(Erro(-23, "Arquivo não existente."))
+> divide(10, 3)
+Algum(3)
+> divide(10, 0)
 Nenhum
 ```
 
 \pause
 
 </div>
-<div class="column" width="42%">
+<div class="column" width="48%">
+
+\small
+
 Quais as vantagens dessa abordagem? \pause
 
-O código é mais claro. \pause
+Trocamos a responsabilidade implícita de passar um valor de divisor diferente de `0`{.gleam} pela responsabilidade explícita de tratar a resposta para o divisor `0`{.gleam}. \pause
 
-O usuário da função tem de tratar de forma explícita os dois casos; ele não pode usar por "acidente" o valor -1 como se existisse uma duração. \pause
+Quem impõe a responsabilidade é o compilador! \pause Com a `divide`{.gleam} que devolve `Int`{.gleam}, `1 + divide(10, 0)`{.gleam} compila e vale `0`{.gleam}. Agora é um erro de compilação:
 
 \footnotesize
 
-```gleam-repl
-> 2 * duracao(Executando)
 ```
 
-\pause
-
-```
-The * operator expects arguments of
+The + operator expects arguments of
 this type:
     Int
 But this argument has this type:
     Opcional
 ```
 
+</div>
+</div>
 
-</div>
-</div>
 
 ## Soma um
 
-Projete uma função que receba um opcional e some 1 ao valor se ele estiver presente.
+\small
+
+Como somar 1 a um valor opcional? \pause Precisamos fazer um `case`{.gleam} com dois casos: \pause
 
 \pause
 
@@ -222,6 +195,13 @@ pub fn soma1(a: Opcional) -> Opcional {
   }
 }
 ```
+
+\pause
+
+\small
+
+E se precisássemos fazer outra operação com o resultado? \pause Precisaríamos de outro `case`{.gleam}! \pause Ou seja, um valor `Opcional`{.gleam} se propaga por toda a cadeia de operações. Por enquanto, vamos fazer uso do `case` para lidar com isso, mas no capítulo de **Funções como valores** veremos como deixar isso mais simples.
+
 </div>
 </div>
 
@@ -283,7 +263,7 @@ Existe algum problema com essa representação? \pause
 
 O tipo `Opcional`{.gleam} permite `Algum("")`{.gleam}. \pause
 
-Este é o mesmo problema do preço e da duração...
+Este é o mesmo problema do preço...
 </div>
 </div>
 
@@ -358,7 +338,7 @@ As linguagens Rust e Java, entre outras, também têm um tipo para representar v
 
 Em Rust o tipo `Option`{.gleam} é bastante utilizado na biblioteca padrão para representar valores que podem estar ausentes, como na saída de funções semelhantes à função `primeiro`{.gleam}. \pause
 
-Em Gleam, é mais comum utilizar o tipo `Result`{.gleam}, que vamos discutir a seguir.
+Em Gleam, é mais comum utilizar o tipo `Result`{.gleam}, que vamos discutir a seguir. \pause É o que faz a função `int.divide`{.gleam} da biblioteca padrão, que é a nossa `divide`{.gleam} com outro tipo de saída.
 
 
 Erros
@@ -436,6 +416,10 @@ Ok(8)
 > int.divide(12, 0)
 Error(Nil)
 ```
+
+\pause
+
+A `int.divide`{.gleam} é a nossa `divide`{.gleam} com `Result(Int, Nil)`{.gleam} no lugar de `Option(Int)`{.gleam}.
 
 \pause
 
@@ -659,13 +643,13 @@ pub fn seleciona_combustivel_examples() {
 
 ## Validação
 
-Com isso, fechamos as três pendências: \pause
+Com isso, resolvemos as duas questões que vieram dos capítulos anteriores: \pause
 
-- O preço do combustível é validado no construtor do tipo opaco `Preco`{.gleam}; \pause
+- A divisão por zero deixou de ser um `0`{.gleam} disfarçado de resposta: `int.divide`{.gleam} devolve `Result`{.gleam}; \pause
 
-- A duração da tarefa se resolve da mesma forma, com um tipo opaco `Duracao`{.gleam} cujo construtor devolve `Error(Nil)`{.gleam} para valores negativos; \pause
+- O preço do combustível é validado no construtor do tipo opaco `Preco`{.gleam}. \pause
 
-- A função `duracao`{.gleam} devolve `Option(Int)`{.gleam} em vez de usar `-1`{.gleam} para indicar a ausência de valor.
+A duração da tarefa, que requer valor maior ou igual a zero, se resolve como o preço.
 
 
 Revisão
@@ -676,11 +660,11 @@ Revisão
 
 Quais são os três caminhos para transformar uma função parcial em uma função total? \pause
 
-- Escolher uma resposta para as entradas inválidas, apertar o tipo da entrada ou alargar o tipo da saída. \pause
+- Escolher uma resposta para as entradas inválidas, restringir o tipo da entrada ou expandir o tipo da saída. \pause
 
 Quando escolher uma resposta para as entradas inválidas é uma boa ideia? \pause
 
-- Quando a nova resposta generaliza o propósito da função, como em `string.slice`{.gleam}. Quando ela apenas preenche um buraco, como o `0`{.gleam} da divisão por zero, o erro fica escondido e é melhor alargar o tipo da saída.
+- Quando a nova resposta generaliza o propósito da função, como em `string.slice`{.gleam}. Quando ela apenas preenche um buraco, como o `0`{.gleam} da divisão por zero, o erro fica escondido e é melhor expandir o tipo da saída.
 
 
 ## Revisão

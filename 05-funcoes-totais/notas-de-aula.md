@@ -24,18 +24,18 @@ Neste capítulo vamos juntar as duas coisas: usar os tipos de dados para elimina
 
 Como transformar uma função parcial em uma função total? \pause
 
-- Ajustar o contrato (especificação) para adicionar respostas para as entradas hoje inválidas, sem mudar os tipos; \pause
+- **Ajustar o contrato** (especificação) para adicionar respostas às entradas hoje inválidas, sem mudar os tipos; \pause
 
-- **Restringir** o tipo da entrada, para que as entradas inválidas deixem de existir; \pause
+- **Expandir** o tipo da saída, para que a função possa responder a todas as entradas; \pause
 
-- **Expandir** o tipo da saída, para que a função possa responder a todas as entradas. \pause
+- **Restringir** o tipo da entrada, para que as entradas inválidas deixem de existir. \pause
 
 Vamos começar com a primeira.
 
 
 ## Escolher uma resposta
 
-Qual deve ser a resposta para `string.slice("casa", 1, 10)`{.gleam}? \pause Depende do contrato! \pause Se o contrato diz que o intervalo da substring deve estar todo contido na string de entrada, então o exemplo é uma violação do contrato e a resposta fica não especificada. \pause
+Qual deve ser a resposta para `string.slice("casa", 1, 10)`{.gleam}? \pause Depende do contrato! \pause Se o contrato diz que o intervalo da substring deve estar todo contido na string de entrada, então o exemplo é uma violação do contrato e a resposta não fica especificada. \pause
 
 No entanto, se mudarmos o contrato para dizer que a resposta é a parte do intervalo que está contida na string, então a resposta está bem definida e seria `"asa"`{.gleam}. \pause
 
@@ -84,7 +84,7 @@ pub fn divide(a: Int, b: Int) -> Int {
 <div class="column" width="42%">
 Como representar um inteiro que pode ou não estar presente? \pause
 
-São dois casos distintos: ou existe um valor, ou não existe valor algum. \pause Então, podemos criar um tipo de união. \pause
+São dois casos distintos: ou existe um valor, ou não existe valor algum. \pause Então, podemos criar uma união. \pause
 
 \footnotesize
 
@@ -135,7 +135,7 @@ Quais as vantagens dessa abordagem? \pause
 
 Trocamos a responsabilidade implícita de passar um valor de divisor diferente de `0`{.gleam} pela responsabilidade explícita de tratar a resposta para o divisor `0`{.gleam}. \pause
 
-Quem impõe a responsabilidade é o compilador! \pause Com a `divide`{.gleam} que devolve `Int`{.gleam}, `1 + divide(10, 0)`{.gleam} compila e vale `0`{.gleam}. Agora é um erro de compilação:
+Quem impõe a responsabilidade é o compilador! \pause Com `divide`{.gleam} que devolve `Int`{.gleam}, `1 + divide(10, 0)`{.gleam} compila e vale `0`{.gleam}. Com `Opcional`{.gleam} erro de compilação:
 
 \footnotesize
 
@@ -157,8 +157,6 @@ But this argument has this type:
 \small
 
 Como somar 1 a um valor opcional? \pause Precisamos fazer um `case`{.gleam} com dois casos: \pause
-
-\pause
 
 <div class="columns">
 <div class="column" width="48%">
@@ -198,15 +196,15 @@ pub fn soma1(a: Opcional) -> Opcional {
 
 \pause
 
+</div>
+</div>
+
 \small
 
-E se precisássemos fazer outra operação com o resultado? \pause Precisaríamos de outro `case`{.gleam}! \pause Ou seja, um valor `Opcional`{.gleam} se propaga por toda a cadeia de operações. Por enquanto, vamos fazer uso do `case` para lidar com isso, mas no capítulo de **Funções como valores** veremos como deixar isso mais simples.
-
-</div>
-</div>
+E se precisássemos fazer outra operação com o resultado? \pause Precisaríamos de outro `case`{.gleam}! \pause Ou seja, um valor `Opcional`{.gleam} se propaga por toda a cadeia de operações. Por enquanto, vamos fazer uso do `case`{.gleam} para lidar com isso, mas no capítulo de **Funções como valores** veremos como deixar isso mais simples.
 
 
-## Primeiro string
+## Primeiro caractere
 
 Projete uma função que devolva o primeiro caractere de uma string.
 
@@ -338,7 +336,7 @@ As linguagens Rust e Java, entre outras, também têm um tipo para representar v
 
 Em Rust o tipo `Option`{.gleam} é bastante utilizado na biblioteca padrão para representar valores que podem estar ausentes, como na saída de funções semelhantes à função `primeiro`{.gleam}. \pause
 
-Em Gleam, é mais comum utilizar o tipo `Result`{.gleam}, que vamos discutir a seguir. \pause É o que faz a função `int.divide`{.gleam} da biblioteca padrão, que é a nossa `divide`{.gleam} com outro tipo de saída.
+Em Gleam, é mais comum utilizar o tipo `Result`{.gleam}, que vamos discutir a seguir.
 
 
 Erros
@@ -349,16 +347,7 @@ Erros
 
 Como lidar com funções que podem falhar? \pause
 
-Por exemplo, uma função que converte uma string para um número pode falhar, pois nem todas as strings representam números válidos, como lidar com isso? \pause
-
-Estratégias comumente utilizadas incluem \pause
-
-- Finalizar o programa \pause
-- Lançar exceção (Python, Java) \pause
-- ... \pause
-- Devolver um valor indicando erro \pause
-
-Nós vimos que as linguagens puramente funcionais não têm efeitos colaterais, então a opção mais viável é a última.
+Uma função que pode falhar é uma função parcial, então vamos proceder da mesma forma: transformá-la em uma função total.
 
 
 ## Erros
@@ -374,7 +363,7 @@ Como podemos proceder nesse caso?
 
 ## Erros
 
-Definimos uma união com dois casos: um para erro, com um valor associado, e outro para sucesso, com um valor associado. \pause
+Definimos uma união com duas variantes: uma para erro, com um valor associado, e outra para sucesso, com um valor associado. \pause
 
 Em Gleam, este é o tipo `Result`{.gleam}, pré-definido como:
 
@@ -489,9 +478,9 @@ pub fn soma(a, b) -> Result(String, Nil) {
   case int.parse(a) {
     Ok(a) -> case int.parse(b) {
       Ok(b) -> Ok(int.to_string(a + b))
-      Error(_) -> Error(Nil)
+      Error(Nil) -> Error(Nil)
     }
-    Error(_) -> Error(Nil)
+    Error(Nil) -> Error(Nil)
   }
 }
 ```
@@ -551,7 +540,7 @@ pub fn seleciona_combustivel(
 
 Qual é a limitação dessa abordagem? \pause
 
-Em todos os lugares em que `Preco`{.gleam} é utilizado, precisamos fazer a validação; \pause ou podemos assumir que o preço foi validado anteriormente. \pause
+Em todos os lugares em que `Preco`{.gleam} é utilizado, precisamos fazer a validação. \pause
 
 Podemos melhorar? \pause Sim!
 
@@ -561,11 +550,9 @@ Podemos melhorar? \pause Sim!
 
 ## Validação
 
-A ideia é definir um TAD, e fazer a validação do valor no construtor do tipo. \pause
+A ideia é definir um Tipo Abstrato de Dado (TAD), e fazer a validação do valor no construtor do tipo. \pause Em outras palavras, estamos restringindo os valores de entrada àqueles que são válidos. \pause
 
-Dessa forma, não é possível construir uma instância do tipo que seja inválida. \pause
-
-Usamos a palavra chave `opaque`{.gleam} para criar um TAD em Gleam. \pause
+Usamos a palavra-chave `opaque`{.gleam} para criar um TAD em Gleam. \pause
 
 Apenas o módulo que define um tipo `opaque`{.gleam} tem acesso aos seus componentes.
 
@@ -641,15 +628,17 @@ pub fn seleciona_combustivel_examples() {
 </div>
 
 
-## Validação
+## Expansão vs restrição
 
-Com isso, resolvemos as duas questões que vieram dos capítulos anteriores: \pause
+Tanto a expansão do tipo da saída quanto a restrição dos tipos de entrada são estratégias válidas para transformar funções parciais em funções totais. \pause
 
-- A divisão por zero deixou de ser um `0`{.gleam} disfarçado de resposta: `int.divide`{.gleam} devolve `Result`{.gleam}; \pause
+A expansão permite que quem chama a função use qualquer valor da entrada, mas requer que lide com um tipo expandido na saída. \pause
 
-- O preço do combustível é validado no construtor do tipo opaco `Preco`{.gleam}. \pause
+A restrição requer que quem chama a função valide o dado antes, mas a saída fica limpa e pode ser usada diretamente. \pause
 
-A duração da tarefa, que requer valor maior ou igual a zero, se resolve como o preço.
+O contrato ainda existe nos dois casos, mas agora ele é garantido pelo compilador. \pause
+
+Não existe almoço grátis!
 
 
 Revisão
@@ -658,9 +647,9 @@ Revisão
 
 ## Revisão
 
-Quais são os três caminhos para transformar uma função parcial em uma função total? \pause
+Quais são as três maneiras de transformar uma função parcial em uma função total? \pause
 
-- Escolher uma resposta para as entradas inválidas, restringir o tipo da entrada ou expandir o tipo da saída. \pause
+- Escolher uma resposta para as entradas inválidas, expandir o tipo da saída e restringir o tipo da entrada. \pause
 
 Quando escolher uma resposta para as entradas inválidas é uma boa ideia? \pause
 

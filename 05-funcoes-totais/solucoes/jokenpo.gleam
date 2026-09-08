@@ -35,7 +35,7 @@ pub type Jogada {
 /// tesoura |   b   |   a   |  -
 pub fn ganhador(a: Jogada, b: Jogada) -> Option(String) {
   case a.mao, b.mao {
-    ja, jb if ja == jb -> None
+    Pedra, Pedra | Papel, Papel | Tesoura, Tesoura -> None
     Pedra, Tesoura | Papel, Pedra | Tesoura, Papel -> Some(a.jogador)
     _, _ -> Some(b.jogador)
   }

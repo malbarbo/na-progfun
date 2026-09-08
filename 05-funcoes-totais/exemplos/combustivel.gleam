@@ -35,12 +35,15 @@ pub fn seleciona_combustivel(
 }
 
 pub fn seleciona_combustivel_examples() {
-  check.eq(seleciona_combustivel(preco_(3.0), preco_(4.0)), Gasolina)
-  check.eq(seleciona_combustivel(preco_(2.9), preco_(4.2)), Alcool)
-  check.eq(seleciona_combustivel(preco_(3.5), preco_(5.0)), Alcool)
-}
+  let assert Ok(alcool1) = preco(3.0)
+  let assert Ok(gasolina1) = preco(4.0)
+  check.eq(seleciona_combustivel(alcool1, gasolina1), Gasolina)
 
-fn preco_(v: Float) -> Preco {
-  let assert Ok(preco) = preco(v)
-  preco
+  let assert Ok(alcool2) = preco(2.9)
+  let assert Ok(gasolina2) = preco(4.2)
+  check.eq(seleciona_combustivel(alcool2, gasolina2), Alcool)
+
+  let assert Ok(alcool3) = preco(3.5)
+  let assert Ok(gasolina3) = preco(5.0)
+  check.eq(seleciona_combustivel(alcool3, gasolina3), Alcool)
 }

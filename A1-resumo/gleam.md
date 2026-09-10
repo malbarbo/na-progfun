@@ -1,18 +1,53 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 title: Resumo da linguagem Gleam
+author: Marco A L Barbosa \quad \href{https://malbarbo.pro.br}{malbarbo.pro.br}
 urlcolor: Black
 classoption:
 - twocolumn
-fontsize: 10pt
-header-includes:
-- \pagenumbering{gobble}
+documentclass: extarticle
+fontsize: 9pt
+geometry:
+- margin=1cm
+- nofoot
+- nohead
+header-includes: |
+    ```{=latex}
+    \pagenumbering{gobble}
+    \setlength{\parskip}{2.2pt plus 1pt minus 1pt}
+    \setlength{\columnsep}{1.2em}
+    \usepackage{titlesec}
+    \titleformat*{\section}{\large\bfseries}
+    \titlespacing*{\section}{0pt}{1.4ex plus .2ex}{0.6ex}
+    \titlespacing*{\subsection}{0pt}{1.2ex plus .2ex}{0.4ex}
+    \makeatletter
+    \renewcommand{\@maketitle}{%
+      \begin{center}
+        {\LARGE\bfseries\@title}\quad\textbullet\quad\@author
+      \end{center}
+      \par\noindent\rule{0pt}{1.4em}}
+    \makeatother
+    ```
 license:
 ---
 
-# Tipos e operações primitivas
+# Importação
 
-## Números inteiros (`Int`{.gleam})
+```gleam
+// Forma geral
+import gleam/módulo
+
+// Módulos usados neste resumo
+import gleam/float
+import gleam/int
+import gleam/list
+import gleam/option.{type Option, None, Some}
+import gleam/string
+import sgleam/check
+```
+
+
+# Números inteiros (`Int`{.gleam})
 
 ```gleam-repl
 > 3 + 4
@@ -41,13 +76,14 @@ Ok(432)
 Error(Nil)
 ```
 
-## Números de ponto flutuante (`Float`{.gleam})
+
+# Números de ponto flutuante (`Float`{.gleam})
 
 ```gleam-repl
 > 3.1 +. 2.0
-6.2
+5.1
 > 12.4 -. 25.0
--12,6
+-12.6
 > 10.0 *. 3.0
 30.0
 > 14.0 /. 3.0
@@ -66,7 +102,8 @@ Ok(10.1)
 Error(Nil)
 ```
 
-## Cadeia de caracteres (`String`{.gleam})
+
+# Cadeia de caracteres (`String`{.gleam})
 
 ```gleam-repl
 > "casa" <> " verde"
@@ -80,7 +117,7 @@ Error(Nil)
 ```
 
 
-## Booleanos (`Bool`{.gleam})
+# Booleanos (`Bool`{.gleam})
 
 ```gleam-repl
 > !True // negação
@@ -98,7 +135,7 @@ False
 ```
 
 
-## Listas (`List`{.gleam})
+# Listas (`List`{.gleam})
 
 ```gleam-repl
 > [] // Lista vazia
@@ -110,7 +147,7 @@ False
 ```
 
 
-## Igualdade
+# Igualdade
 
 ```gleam-repl
 > 4 == 1 + 3
@@ -124,52 +161,62 @@ True
 ```
 
 
-# Sintaxe
-
-## Importação
-
-```gleam
-import gleam/módulo
-```
-
-## Função
+# Função
 
 ```gleam
 // Definição de função
-pub fn nome(nome: Tipo, …) -> Tipo {
+pub fn nome(parâmetro: Tipo, ...) -> Tipo {
   expressão
   ...
 }
-
 // Chamada de função
 nome(expressão, ...)
+nome(_, y)    // captura: fn(x) { nome(x, y) }
+x |> nome(y)  // encadeamento: nome(x, y)
+```
 
-// Seleção
-case expressão, expressão, … {
+
+# Seleção
+
+```gleam
+case expressão, expressão, ... {
   padrão, padrão, ... if cond -> expressão
   padrão, padrão, ... -> expressão
   padrão, _, ... -> expressão
   ...
-  _, _, … -> expressão
+  _, _, ... -> expressão
 }
 ```
 
-## Enumeração
+
+# Definição de tipo
 
 ```gleam
-pub type Nome {
-  Valor
+[pub] [opaque] type Nome[(a, ...)] {
+  Construtor[([campo:] Tipo, ...)]
   ...
 }
 ```
 
-## Estrutura
+- `pub`{.gleam}: o tipo pode ser usado em outros módulos.
+- `opaque`{.gleam}: apenas o módulo que define o tipo tem
+  acesso aos construtores e campos, o que permite
+  criar um tipo abstrato de dado (TAD).
+- `a`{.gleam}: parâmetro de tipo, pode ser instanciado
+  com qualquer tipo.
+
+Enumeração (construtores sem campos):
 
 ```gleam
-pub type Nome {
-  Nome([campo:] Tipo, ...)
+pub type Combustivel {
+  Alcool
+  Gasolina
 }
+```
 
+Estrutura (um único construtor):
+
+```gleam
 pub type Ponto {
   Ponto(x: Int, y: Int)
 }
@@ -184,22 +231,67 @@ Ponto(x: 10, y: 20)
 Ponto(x: 30, y: 20)
 ```
 
-## União
+União (vários construtores):
 
 ```gleam
-pub type Nome {
-  Caso1[([campo:] Tipo, ...)]
-  Caso2[([campo:] Tipo, ...)]
-  ...
+pub type EstadoTarefa {
+  Executando
+  Sucesso(duracao: Int, msg: String)
+  Erro(codigo: Int, msg: String)
 }
+```
+
+
+# Option
+
+Representa um valor que pode estar ausente.
+
+```gleam
+pub type Option(a) { // já em gleam/option
+  None
+  Some(a)
+}
+```
+
+```gleam-repl
+> Some(4)
+Some(4)
+> None
+None
+```
+
+
+# Result
+
+Representa o resultado de uma operação que pode
+falhar. Em Gleam, toda função que pode falhar
+devolve `Result`{.gleam}, e `Nil`{.gleam} é usado como erro
+quando não há detalhe a dar sobre a falha.
+
+```gleam
+pub type Result(ok, error) { // já na linguagem
+  Ok(ok)
+  Error(error)
+}
+```
+
+```gleam-repl
+> int.divide(25, 3)
+Ok(8)
+> int.divide(12, 0)
+Error(Nil)
+> float.square_root(-1.0)
+Error(Nil)
+> string.first("casa")
+Ok("c")
+> string.first("")
+Error(Nil)
 ```
 
 
 # Testes
 
 ```gleam
-import sgleam/check
-
 pub fn nome_examples() {
   check.eq(nome(expressão, ...), valor)
   ...
@@ -212,7 +304,7 @@ pub fn nome_examples() {
 ```gleam
 pub fn fn_para_list(lst: List(a)) {
   case lst {
-    [] -> todo
+    [] -> todo // não escrito, falha se executado
     [primeiro, ..resto] -> {
       todo primeiro fn_para_list(resto)
     }
@@ -220,9 +312,8 @@ pub fn fn_para_list(lst: List(a)) {
 }
 ```
 
-# Exemplos
 
-## Soma 1
+# Exemplo - Soma 1
 
 ```gleam
 /// Soma 1 ao valor de *a*.
@@ -234,7 +325,8 @@ pub fn soma1(a: Option(Int)) -> Option(Int) {
 }
 ```
 
-## Soma string
+
+# Exemplo - Soma string
 
 ```gleam
 /// Devolve a soma de *a* e *b* se as strings
@@ -251,11 +343,11 @@ pub fn soma(
 ```
 
 
-## Soma lista
+# Exemplo - Soma lista
 
 ```gleam
 /// Soma os elementos de *lst*.
-pub fn soma(lst: List(a)) {
+pub fn soma(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
     [primeiro, ..resto] -> primeiro + soma(resto)
@@ -264,7 +356,40 @@ pub fn soma(lst: List(a)) {
 ```
 
 
-## Funções de alta ordem
+# Exemplo - Tipo abstrato de dado
+
+```gleam
+/// O preço do litro do combustível.
+pub opaque type Preco {
+  Preco(valor: Float)
+}
+
+/// Devolve Ok(Preco) com o valor *v* se
+/// v > 0, Error(Nil) caso contrário.
+pub fn preco(v: Float) -> Result(Preco, Nil) {
+  case v >. 0.0 {
+    True -> Ok(Preco(v))
+    False -> Error(Nil)
+  }
+}
+
+/// Devolve o valor em *p*.
+pub fn valor(p: Preco) -> Float {
+  p.valor
+}
+```
+
+```gleam-repl
+> let assert Ok(p) = preco(4.2)
+Ok(Preco(valor: 4.2))
+> valor(p)
+4.2
+> preco(-1.0)
+Error(Nil)
+```
+
+
+# Exemplo - Funções de alta ordem
 
 ```gleam-repl
 > list.filter([7, 3, 6, 2, 9], int.is_odd) // é impar
@@ -280,6 +405,7 @@ pub fn soma(lst: List(a)) {
 > list.fold_right([5, 1, 2], 1, fn(acc, e) { acc * e})
 10
 > let lst = [1, 2, 3]
+[1, 2, 3]
 > list.fold_right(lst, [], fn(acc, e) { [e, ..acc] })
 [1, 2, 3]
 > list.fold(lst, [], fn(acc, e) { [e, ..acc] })
@@ -287,7 +413,7 @@ pub fn soma(lst: List(a)) {
 ```
 
 
-## Cadeia de processamento
+# Exemplo - Cadeia de processamento
 
 ```gleam-repl
 > [5, 1, 3, 2, 7]

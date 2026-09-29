@@ -52,11 +52,11 @@ Não use funções de alta ordem.
 
 <!-- Funções auxiliares -->
 
-@) Defina uma função que que receba como entrada uma lista e devolva uma lista com os mesmos elementos da entrada mas em ordem contrária. Dica: projete uma função auxiliar para adicionar um elemento no final de uma lista.
+@) Projete uma função que receba como entrada uma lista e devolva uma lista com os mesmos elementos da entrada mas em ordem contrária. Dica: projete uma função auxiliar para adicionar um elemento no final de uma lista.
 
 <!-- Lista de estruturas -->
 
-@) Vimos em sala como fazer uma busca em uma lista de associações. No exemplo que vimos, a lista era utilizada para associar strings com números. Agora você deve projetar uma função que receba como parâmetro uma lista de associações, uma chave (string) e um valor (inteiro) e atualize a lista de associações, isto é, adicione a associação se a chave não estiver presente ou atualize o valor associado com a chave se a chave já estiver presente.
+@) Nas notas de aula, vimos como fazer uma busca por chave em uma lista de associações de strings com números. Agora você deve projetar uma função que receba como parâmetro uma lista de associações, uma chave (string) e um valor (inteiro) e atualize a lista de associações, isto é, adicione a associação se a chave não estiver presente ou atualize o valor associado com a chave se a chave já estiver presente.
 
 <!-- Result -->
 
@@ -67,7 +67,7 @@ Não use funções de alta ordem.
 
 # Resolvendo problemas
 
-@) O Miguel é doutorando em física e precisa coletar dados de um experimento, mas ele só tem a sua disposição um equipamento precário que produz algumas leituras incorretas. O equipamento não deveria produzir valores negativos, mas em um teste preliminar o Miguel percebeu que o equipamento está produzindo números negativos. A boa notícia é que todos os números não negativos produzidos pelo equipamento estão corretos. Projete uma função que elimine os valores incorretos de uma sequência de valores produzidas pelo equipamento.
+@) O Miguel é doutorando em física e precisa coletar dados de um experimento, mas ele só tem à sua disposição um equipamento precário que produz algumas leituras incorretas. O equipamento não deveria produzir valores negativos, mas em um teste preliminar o Miguel percebeu que o equipamento está produzindo números negativos. A boa notícia é que todos os números não negativos produzidos pelo equipamento estão corretos. Projete uma função que elimine os valores incorretos de uma sequência de valores produzidos pelo equipamento.
 
 @) Júlia tem uma pequena empresa de sorvetes que vende três sabores diferentes: manga, uva e morango. Cada sorvete é vendido por 10 reais, mas o custo de produção de cada sorvete depende do sabor: o de manga custa 6, o de uva 7 e o de morango 8. Toda vez que a Júlia vende um sorvete ela anota o sabor em uma lista. Após ter anotado os sabores dos sorvetes vendidos em uma lista, é hora de calcular quanto foi o ganho, e para isso a Júlia precisa da sua ajuda. Projete uma função que receba como entrada uma lista com os sabores dos sorvetes vendidos e calcule qual foi o ganho da Júlia vendendo os sorvetes.
 
@@ -77,6 +77,6 @@ Não use funções de alta ordem.
 @) Você acaba de ser contratado por um empresa que está desenvolvendo um sistema de gerenciamento de campeonatos amadores de futebol. A sua primeira tarefa é projetar uma função que calcule o desempenho de um time, que consiste no número de pontos, número de vitórias e saldo de gols (diferenças entre os gols feitos e sofridos) de um time a partir dos resultados das partidas que ele jogou. Cada vitória gera três pontos e cada empate um ponto. Por exemplo, se os resultados para um determinado time foram $5 \times 1$, $0 \times 2$ e $1 \times 1$, onde o primeiro número são os gols feitos e o segundo os gols sofridos, então o time fez 4 pontos, obteve 1 vitória e saldo de gols de 2.
 -->
 
-@) No dia do imposto zero, diversas empresas vendem produtos descontando o imposto cobrado pelo governo. O propósito é conscientizar as pessoas sobre o valor dos impostos. Um supermercado decidiu participar vendendo os produtos da cesta básica com imposto zero. O desconto final é apresentado na finalização da compra. Uma compra é representada por uma lista de itens, que contém além do nome do produto, a quantidade comprada, o valor unitário, o percentual de imposto (que já está no preço unitário) e a indicação se é um produto da cesta básica. Projete uma função que recebe como entrada os itens de uma compra e produz como resposta o valor que o consumidor deve pagar.
+@) No dia do imposto zero, diversas empresas vendem produtos descontando o imposto cobrado pelo governo. O propósito é conscientizar as pessoas sobre o valor dos impostos. Um supermercado decidiu participar vendendo os produtos da cesta básica com imposto zero. O desconto final é apresentado na finalização da compra. Uma compra é representada por uma lista de itens, que contém além do nome do produto, a quantidade comprada, o valor unitário, o percentual de imposto (que já está no preço unitário) e a indicação se é um produto da cesta básica. Projete uma função que recebe como entrada os itens de uma compra e produz como resposta o valor que o consumidor deve pagar. Considere que o percentual de imposto é calculado sobre o preço unitário, isto é, se o preço unitário é R\$ 10,00 e o imposto é de 20%, o valor do imposto é R\$ 2,00.
 
 @) Um dos problemas mais conhecidos de programação é o problema de ordenação. Existem diversos métodos já estabelecidos de ordenação, como a ordenação por seleção e por intercalação. O uso do modelo para funções que processam listas leva a uma implementação específica. Projete uma função usando o modelo para listas que ordene uma lista de números. Dica: projete uma função auxiliar para combinar o primeiro elemento com o resultado da chamada recursiva. Como esse método de ordenação é conhecido?

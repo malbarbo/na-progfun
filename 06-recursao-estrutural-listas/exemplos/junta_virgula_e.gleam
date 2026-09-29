@@ -16,13 +16,14 @@ pub fn junta_virgula_e(lst: List(String)) -> String {
 
 pub fn junta_virgula_e_examples() {
   check.eq(junta_virgula_e([]), "")
-  check.eq(junta_virgula_e(["maça"]), "maça")
+  check.eq(junta_virgula_e(["maçã"]), "maçã")
+  check.eq(junta_virgula_e(["banana", "maçã"]), "banana e maçã")
   check.eq(
-    junta_virgula_e(["mamão", "banana", "maça"]),
-    "mamão, banana e maça",
+    junta_virgula_e(["mamão", "banana", "maçã"]),
+    "mamão, banana e maçã",
   )
   check.eq(
-    junta_virgula_e(["aveia", "mamão", "banana", "maça"]),
-    "aveia, mamão, banana e maça",
+    junta_virgula_e(["aveia", "mamão", "banana", "maçã"]),
+    "aveia, mamão, banana e maçã",
   )
 }

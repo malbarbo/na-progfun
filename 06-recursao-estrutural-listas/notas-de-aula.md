@@ -1,7 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: ver HTDP e separar a funções que geram listas
-# TODO: mostrar funções de listas pré-definidas: length, append, member?
+# TODO: mostrar funções de listas pré-definidas: list.length, list.append, list.contains
 # TODO: colocar o processo de implementação como é feita em sala
 title: Recursão estrutural
 subtitle: Listas
@@ -141,6 +141,9 @@ NaoVazia(primeiro: 3, resto: NaoVazia(primeiro: 8, resto: NaoVazia(primeiro: 7, 
 
 ## Listas
 
+<div class="columns">
+<div class="column" width="48%">
+
 Como consultar o primeiro elemento de uma lista? \pause
 
 \footnotesize
@@ -155,23 +158,21 @@ Como consultar o primeiro elemento de uma lista? \pause
 error: Unknown record field
 
 1  │ lst1.primeiro
-   │     ^^^^^^^^^ This field does not exist
-
-The value being accessed has this type:
-    Lista
-
-It does not have any fields.
-
-Note: The field you are trying to access might not be consistently present
-or positioned across the custom type's variants, preventing reliable
-access. Ensure the field exists in the same position and has the same type
-in all variants to enable direct accessor syntax.
+   │     ^^^^^^^^^ This field
+   │               does not exist
+...
 ```
 
+\pause
 
-## Listas
+</div>
+<div class="column" width="48%">
 
 \small
+
+O campo `primeiro` não existe na variante `Vazia`{.gleam}, por isso precisamos analisar os casos com `case`{.gleam}: \pause
+
+\footnotesize
 
 ```gleam-repl
 > case lst1 {
@@ -180,6 +181,9 @@ in all variants to enable direct accessor syntax.
   }
 3
 ```
+
+</div>
+</div>
 
 
 ## Listas
@@ -289,7 +293,7 @@ A recursão feita nas partes do dado que são autorreferências na definição d
 
 No modelo `fn_para_lista`{.gleam}, a recursão é estrutural porque é feita com o `resto`{.gleam}, que é a autorreferência na definição de `Lista`{.gleam}. \pause
 
-Nos próximos capítulos, vamos usar a mesma ideia para outros tipos com autorreferência: números naturais e árvores.
+Nos próximos capítulos, vamos usar a mesma ideia para outros tipos com autorreferência (números naturais e árvores), para processar mais de um dado ao mesmo tempo e ver quando ela não é suficiente.
 
 
 ## Exemplo: soma
@@ -557,7 +561,7 @@ pub fn soma_examples() {
 
 \pause
 
-Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
+Verificação: \pause ok. \pause Revisão: \pause o código já está simples, não há o que melhorar.
 
 
 <!--
@@ -913,6 +917,627 @@ O esboço para cada caso começa com um **inventário** dos valores disponíveis
 /// False caso contrário.
 pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
+    [] -> False
+    [primeiro, ..resto] ->
+      v == primeiro || contem(resto, v)
+  }
+}
+```
+
+</div>
+<div class="column" width="46%">
+
+\footnotesize
+
+```gleam
+pub fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
+```
+
+</div>
+</div>
+
+\ \
+
+**Assumindo** que `contem(resto, v)`{.gleam} produz a resposta correta para o resto, `v` está em `lst` se `v` é igual ao `primeiro` ou se `v` está no `resto`. \pause
+
+O desenvolvimento passo a passo está na seção **Exemplos passo a passo**, no final.
+
+
+## Exemplo: contém - revisão {.t}
+
+<div class="columns">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+pub fn contem(lst: List(a), v: a) -> Bool {
+  case lst {
+    [] -> False
+    [primeiro, ..resto] ->
+      v == primeiro || contem(resto, v)
+  }
+}
+```
+
+
+</div>
+<div class="column" width="46%">
+
+\footnotesize
+
+```gleam
+pub fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem(["a", "b"], "b"), True)
+  check.eq(contem(["a", "b"], "c"), False)
+}
+```
+
+</div>
+</div>
+
+\pause
+
+\ \
+
+Estamos utilizando **polimorfismo paramétrico** para tornar a função `contem` genérica. \pause
+
+A função `contem` é genérica em relação ao tipo `a`, que é um parâmetro que pode assumir (implicitamente) qualquer tipo. \pause
+
+Note que o tipo dos elementos da lista deve ser o mesmo que o tipo de `v`.
+
+
+## Exemplo: soma x
+
+Defina uma função que some um valor `x` em cada elemento de uma lista de números.
+
+
+## Exemplo: soma x - especificação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma *x* a cada elemento de *lst*.
+pub fn soma_x(
+  lst: List(Int),
+  x: Int
+) -> List(Int) {
+  todo
+}
+```
+
+\pause
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn soma_x_examples() {
+  check.eq(soma_x([], 4), [])
+  check.eq(soma_x([4, 2], 5), [9, 7])
+  check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
+}
+```
+</div>
+</div>
+
+\pause
+
+Como começamos a implementação? \pause Com o modelo.
+
+
+## Exemplo: soma x - implementação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma *x* a cada elemento de *lst*.
+pub fn soma_x(lst, x) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [x + primeiro, ..soma_x(resto, x)]
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn soma_x_examples() {
+  check.eq(soma_x([], 4), [])
+  check.eq(soma_x([4, 2], 5), [9, 7])
+  check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
+}
+```
+</div>
+</div>
+
+\ \
+
+**Assumindo** que `soma_x(resto, x)`{.gleam} produz a resposta correta para o resto, basta adicionar `x + primeiro`{.gleam} no início dessa resposta. \pause
+
+O desenvolvimento passo a passo está na seção **Exemplos passo a passo**, no final.
+
+
+## Exemplo: remove negativos
+
+Defina uma função que remova todos os números negativos de uma lista de números.
+
+
+## Exemplo: remove negativos - especificação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Cria uma nova lista sem
+/// os valores negativos de *lst*.
+pub fn remove_negativos(
+  lst: List(Int)
+) -> List(Int) {
+  todo
+}
+```
+
+\pause
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+pub fn remove_negativos_examples() {
+  check.eq(
+    remove_negativos([]),
+    [],
+  )
+  check.eq(
+    remove_negativos([-1, 2, -3]),
+    [2],
+  )
+  check.eq(
+    remove_negativos([3, 4, -2]),
+    [3, 4],
+  )
+}
+```
+</div>
+</div>
+
+\pause
+
+Como começamos a implementação? \pause Com o modelo.
+
+
+## Exemplo: remove negativos - implementação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Cria uma nova lista sem
+/// os valores negativos de *lst*.
+pub fn remove_negativos(lst) -> List(Int) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] if primeiro < 0 ->
+      remove_negativos(resto)
+    [primeiro, ..resto] ->
+      [primeiro, ..remove_negativos(resto)]
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+pub fn remove_negativos_examples() {
+  check.eq(remove_negativos([]), [])
+  check.eq(remove_negativos([-1, 2, -3]), [2])
+  check.eq(remove_negativos([3, 4, -2]), [3, 4])
+}
+```
+</div>
+</div>
+
+\small
+
+**Assumindo** que a chamada recursiva produz a resposta correta para o `resto`: se o `primeiro` é negativo, a resposta é a do `resto`; senão, adicionamos o `primeiro` no início dela. \pause
+
+O `if primeiro < 0`{.gleam} é uma **guarda**: o caso só é escolhido se o padrão casar e a condição for verdadeira. \pause
+
+O desenvolvimento passo a passo está na seção **Exemplos passo a passo**, no final.
+
+
+## Exemplo: busca por chave
+
+Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário; a mais simples é utilizando uma **lista de associações** chave-valor. \pause Apesar de os tempos de inserção e busca serem lineares, na prática, para poucas chaves, a implementação é adequada. \pause
+
+a) Defina um tipo de dado que represente uma associação entre uma string e um número.
+
+a) Projete uma função que determine, a partir de uma lista de associações, qual é o valor associado a uma string.
+
+
+## Exemplo: busca por chave - especificação
+
+\footnotesize
+
+```gleam
+/// Associação entre chave e valor.
+type Par {
+  Par(chave: String, valor: Int)
+}
+```
+
+\pause
+
+```gleam
+/// Devolve o valor associado com *chave* em *lst* ou Error(Nil) se *chave* não
+/// aparece em *lst*.
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+  todo
+}
+```
+
+\pause
+
+```gleam
+pub fn busca_examples() {
+  check.eq(busca([], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
+  check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
+}
+```
+
+
+## Exemplo: busca por chave - implementação {.t}
+
+\footnotesize
+
+```gleam
+/// Devolve o valor associado com *chave* em *lst* ou Error(Nil) se *chave* não
+/// aparece em *lst*.
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+  case lst {
+    [] -> Error(Nil)
+    [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
+    [_, ..resto] -> busca(resto, chave)
+  }
+}
+```
+
+\small
+
+**Assumindo** que `busca(resto, chave)`{.gleam} produz a resposta correta para o resto, se a chave do `primeiro` é a chave procurada, a resposta é o valor do `primeiro`; senão, é a resposta para o `resto`. \pause
+
+O desenvolvimento passo a passo está na seção **Exemplos passo a passo**, no final.
+
+
+## Exemplo: busca por chave - revisão {.t}
+
+Fazendo o dicionário genérico.
+
+\footnotesize
+
+```gleam
+type Par(a, b) {
+  Par(chave: a, valor: b)
+}
+
+pub fn busca_examples() {
+  // ...
+}
+
+pub fn busca(lst: List(Par(a, b)), chave: a) -> Result(b, Nil) {
+  case lst {
+    [] -> Error(Nil)
+    [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
+    [_, ..resto] -> busca(resto, chave)
+  }
+}
+```
+
+
+## Exemplo: junta com "," e "e"
+
+Projete uma função que junte todos os elementos de uma lista de strings (não vazias) separando-os com `", "`{.gleam} ou/e `" e "`{.gleam}, de acordo com a gramática do Português.
+
+
+## Exemplo: junta com "," e "e"
+
+\scriptsize
+
+```gleam
+/// Parece difícil escrever o propósito... Faremos os exemplos primeiro.
+pub fn junta_virgula_e(lst: List(String)) -> String { todo }
+```
+
+\small
+Exemplos
+
+\scriptsize
+
+\pause
+
+`junta_virgula_e([])`{.gleam} \pause $\rightarrow$ `""`{.gleam} \pause
+
+`junta_virgula_e(["maçã"])`{.gleam} \pause $\rightarrow$ `"maçã"`{.gleam} \pause
+
+`junta_virgula_e(["banana", "maçã"])`{.gleam} \pause $\rightarrow$ `"banana e maçã"`{.gleam} \pause
+
+`junta_virgula_e(["mamão", "banana", "maçã"])`{.gleam} \pause $\rightarrow$ `"mamão, banana e maçã"`{.gleam} \pause
+
+`junta_virgula_e(["aveia", "mamão", "banana", "maçã"])`{.gleam} \pause $\rightarrow$ `"aveia, mamão, banana e maçã"`{.gleam} \pause
+
+\small
+
+Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos têm uma forma específica, que não é recursiva. \pause Então, precisamos criar três casos-base.
+
+
+## Exemplo: junta com "," e "e"
+
+\footnotesize
+
+```gleam
+/// Produz uma string juntando os elementos de *lst* da seguinte forma:
+/// - Se *lst* é vazia, devolve "".
+/// - Se *lst* tem apenas um elemento, devolve esse elemento.
+/// - Senão, junta as strings de *lst*, separando-as com ", ", com exceção
+///   da última string, que é separada com " e ".
+pub fn junta_virgula_e(lst: List(String)) -> String {
+  todo
+}
+
+pub fn junta_virgula_e_examples() {
+  check.eq(junta_virgula_e([]), "")
+  check.eq(junta_virgula_e(["maçã"]), "maçã")
+  check.eq(junta_virgula_e(["banana", "maçã"]), "banana e maçã")
+  check.eq(junta_virgula_e(["mamão", "banana", "maçã"]), "mamão, banana e maçã")
+  check.eq(junta_virgula_e(["aveia", "mamão", "banana", "maçã"]),
+           "aveia, mamão, banana e maçã")
+}
+```
+
+
+## Exemplo: junta com "," e "e"
+
+\footnotesize
+
+```gleam
+pub fn junta_virgula_e(lst: List(String)) -> String {
+  case lst {
+    [] -> todo
+    [primeiro] -> todo
+    [primeiro, segundo] -> todo
+    [primeiro, ..resto] -> todo
+  }
+}
+```
+
+## Exemplo: junta com "," e "e"
+
+\footnotesize
+
+```gleam
+pub fn junta_virgula_e(lst: List(String)) -> String {
+  case lst {
+    [] -> ""
+    [primeiro] -> primeiro
+    [primeiro, segundo] -> primeiro <> " e " <> segundo
+    [primeiro, ..resto] -> primeiro <> ", " <> junta_virgula_e(resto)
+  }
+}
+```
+
+
+## Exemplo: junta com "," e "e" em Python
+
+\footnotesize
+
+```python
+def junta_virgula_e(lst: list[str]) -> str:
+    match lst:
+        case []:
+            return ''
+        case [primeiro]:
+            return primeiro
+        case [primeiro, segundo]:
+            return primeiro + ' e ' + segundo
+        case [primeiro, *resto]:
+            return primeiro + ', ' + junta_virgula_e(resto)
+
+```
+
+
+Revisão
+=======
+
+
+## Revisão
+
+Quando usamos tipos com autorreferência? \pause
+
+- Quando queremos representar dados de tamanho arbitrário. Para processar esses dados, usamos funções recursivas. \pause
+
+O que uma definição com autorreferência precisa ter para ser bem formada? \pause
+
+- Pelo menos um caso base (sem autorreferência), usado para criar os valores iniciais, e pelo menos um caso com autorreferência, usado para criar novos valores a partir de valores existentes. \pause
+
+O que é recursão estrutural? \pause
+
+- É a recursão feita nas partes do dado que são autorreferências na definição do tipo, como o resto de uma lista.
+
+
+## Revisão
+
+Como é definida uma lista e qual é o modelo de função para listas? \pause
+
+- Uma lista é vazia ou tem um primeiro e um resto, que é uma lista. O modelo tem dois casos, um para a lista vazia e outro para a lista com primeiro e resto; no segundo caso, fazemos a recursão com o resto.
+
+\ \
+
+<div class="columns">
+<div class="column" width="48%">
+\small
+
+Uma `List`{.gleam} é:
+
+- `[]`{.gleam}; ou
+- `[primeiro, ..resto]`{.gleam }, onde `resto` é uma `List`{.gleam}.
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+pub fn fn_para_list(lst: List(a)) {
+  case lst {
+    [] -> todo
+    [primeiro, ..resto] -> {
+      todo
+      primeiro
+      fn_para_list(resto)
+    }
+  }
+}
+```
+</div>
+</div>
+
+
+Exemplos passo a passo
+======================
+
+## Exemplos passo a passo
+
+Esta seção mostra o desenvolvimento passo a passo das funções `contem`, `soma_x`, `remove_negativos` e `busca`, que foram apresentadas de forma resumida. \pause
+
+Estude-os em casa, refazendo cada etapa antes de olhar a resposta.
+
+
+## Exemplo: contém - especificação {.t}
+
+<div class="columns">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+pub fn contem(lst: List(Int), v: Int) -> Bool {
+  todo
+}
+```
+
+\pause
+
+</div>
+<div class="column" width="46%">
+
+\footnotesize
+
+```gleam
+pub fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
+```
+
+</div>
+</div>
+
+\pause
+
+Como começamos a implementação? \pause Com o modelo.
+
+
+## Exemplo: contém - implementação {.t}
+
+<div class="columns">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+pub fn contem(lst: List(Int), v: Int) -> Bool {
+  case lst {
+    [] -> { todo v }
+    [primeiro, ..resto] -> {
+      todo
+      v
+      primeiro
+      contem(resto, v)
+    }
+  }
+}
+```
+
+
+</div>
+<div class="column" width="46%">
+
+\footnotesize
+
+```gleam
+pub fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
+```
+
+</div>
+</div>
+
+\pause
+
+O esboço para cada caso começa com um **inventário** dos valores disponíveis para implementar o caso em questão. \pause Por isso, adicionamos `v` em cada caso.
+
+
+## Exemplo: contém - implementação {.t}
+
+<div class="columns">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+pub fn contem(lst: List(Int), v: Int) -> Bool {
+  case lst {
     [] -> { todo v }
     [primeiro, ..resto] -> {
       todo
@@ -1079,60 +1704,6 @@ pub fn contem_examples() {
 </div>
 
 
-## Exemplo: contém - revisão {.t}
-
-<div class="columns">
-<div class="column" width="50%">
-\footnotesize
-
-```gleam
-/// Devolve True se *v* está em *lst*,
-/// False caso contrário.
-pub fn contem(lst: List(a), v: a) -> Bool {
-  case lst {
-    [] -> False
-    [primeiro, ..resto] ->
-      v == primeiro || contem(resto, v)
-  }
-}
-```
-
-
-</div>
-<div class="column" width="46%">
-
-\footnotesize
-
-```gleam
-pub fn contem_examples() {
-  check.eq(contem([], 3), False)
-  check.eq(contem([3], 3), True)
-  check.eq(contem([3], 4), False)
-  check.eq(contem([4, 10, 3], 4), True)
-  check.eq(contem(["a", "b"], "b"), True)
-  check.eq(contem(["a", "b"], "c"), False)
-}
-```
-
-</div>
-</div>
-
-\pause
-
-\ \
-
-Estamos utilizando **polimorfismo paramétrico** para tornar a função `contem` genérica. \pause
-
-A função `contem` é genérica em relação ao tipo `a`, que é um parâmetro que pode assumir (implicitamente) qualquer tipo. \pause
-
-Note que o tipo dos elementos da lista deve ser o mesmo que o tipo de `v`.
-
-
-## Exemplo: soma x
-
-Defina uma função que some um valor `x` em cada elemento de uma lista de números.
-
-
 ## Exemplo: soma x - especificação {.t}
 
 <div class="columns">
@@ -1289,11 +1860,6 @@ pub fn soma_x_examples() {
 Verificação: \pause Ok.
 
 
-## Exemplo: remove negativos
-
-Defina uma função que remova todos os números negativos de uma lista de números.
-
-
 ## Exemplo: remove negativos - especificação {.t}
 
 <div class="columns">
@@ -1301,8 +1867,8 @@ Defina uma função que remova todos os números negativos de uma lista de núme
 \footnotesize
 
 ```gleam
-// Cria uma nova lista sem
-// os valores negativos de *lst*.
+/// Cria uma nova lista sem
+/// os valores negativos de *lst*.
 pub fn remove_negativos(
   lst: List(Int)
 ) -> List(Int) {
@@ -1346,8 +1912,8 @@ Como começamos a implementação? \pause Com o modelo.
 \footnotesize
 
 ```gleam
-// Cria uma nova lista sem
-// os valores negativos de *lst*.
+/// Cria uma nova lista sem
+/// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> todo
@@ -1395,8 +1961,8 @@ O que fazemos agora? \pause Implementamos o caso base.
 \footnotesize
 
 ```gleam
-// Cria uma nova lista sem
-// os valores negativos de *lst*.
+/// Cria uma nova lista sem
+/// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> []
@@ -1444,8 +2010,8 @@ pub fn remove_negativos_examples() {
 \footnotesize
 
 ```gleam
-// Cria uma nova lista sem
-// os valores negativos de *lst*.
+/// Cria uma nova lista sem
+/// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> []
@@ -1495,8 +2061,8 @@ Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 \footnotesize
 
 ```gleam
-// Cria uma nova lista sem
-// os valores negativos de *lst*.
+/// Cria uma nova lista sem
+/// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
     [] -> []
@@ -1532,21 +2098,12 @@ pub fn remove_negativos_examples() {
 </div>
 
 
-## Exemplo: número de ocorrências
-
-Um dicionário é um TAD que associa chaves com valores. Existem diversas formas de implementar um dicionário; a mais simples é utilizando uma **lista de associações** chave-valor. \pause Apesar de os tempos de inserção e busca serem lineares, na prática, para poucas chaves, a implementação é adequada. \pause
-
-a) Defina um tipo de dado que represente uma associação entre uma string e um número.
-
-a) Projete uma função que determine, a partir de uma lista de associações, qual é o valor associado a uma string.
-
-
-## Exemplo: número de ocorrências - especificação
+## Exemplo: busca por chave - especificação
 
 \footnotesize
 
 ```gleam
-// Associação entre chave e valor.
+/// Associação entre chave e valor.
 type Par {
   Par(chave: String, valor: Int)
 }
@@ -1574,7 +2131,7 @@ pub fn busca_examples() {
 ```
 
 
-## Exemplo: número de ocorrências - implementação {.t}
+## Exemplo: busca por chave - implementação {.t}
 
 \footnotesize
 
@@ -1599,7 +2156,7 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 ```
 
 
-## Exemplo: número de ocorrências - implementação {.t}
+## Exemplo: busca por chave - implementação {.t}
 
 \footnotesize
 
@@ -1624,7 +2181,7 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 ```
 
 
-## Exemplo: número de ocorrências - implementação {.t}
+## Exemplo: busca por chave - implementação {.t}
 
 \footnotesize
 
@@ -1639,17 +2196,17 @@ pub fn busca_examples() {
 pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
-    [primeiro, ..resto] -> {
+    [primeiro, ..resto] ->
       case primeiro.chave == chave {
         True -> Ok(primeiro.valor)
         False -> busca(resto, chave)
-    }
+      }
   }
 }
 ```
 
 
-## Exemplo: número de ocorrências - revisão {.t}
+## Exemplo: busca por chave - revisão {.t}
 
 \footnotesize
 
@@ -1669,197 +2226,6 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   }
 }
 ```
-
-
-## Exemplo: número de ocorrências - revisão {.t}
-
-Fazendo o dicionário genérico.
-
-\footnotesize
-
-```gleam
-type Par(a, b) {
-  Par(chave: a, valor: b)
-}
-
-pub fn busca_examples() {
-  // ...
-}
-
-pub fn busca(lst: List(Par(a, b)), chave: a) -> Result(b, Nil) {
-  case lst {
-    [] -> Error(Nil)
-    [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
-    [_, ..resto] -> busca(resto, chave)
-  }
-}
-```
-
-
-## Exemplos: junta com "," e "e"
-
-Projete uma função que junte todos os elementos de uma lista de strings (não vazias) separando-os com `", "`{.gleam} ou/e `" e "`{.gleam}, de acordo com a gramática do Português.
-
-
-## Exemplos: junta com "," e "e"
-
-\scriptsize
-
-```gleam
-/// Parece difícil escrever o propósito... Faremos os exemplos primeiro.
-pub fn junta_virgula_e(lst: List(String)) -> String { todo }
-```
-
-\small
-Exemplos
-
-\scriptsize
-
-\pause
-
-`junta_virgula_e([])`{.gleam} \pause $\rightarrow$ `""`{.gleam} \pause
-
-`junta_virgula_e(["maçã"])`{.gleam} \pause $\rightarrow$ `"maçã"`{.gleam} \pause
-
-`junta_virgula_e(["banana", "maçã"])`{.gleam} \pause $\rightarrow$ `"banana e maçã"`{.gleam} \pause
-
-`junta_virgula_e(["mamão", "banana", "maçã"])`{.gleam} \pause $\rightarrow$ `"mamão, banana e maçã"`{.gleam} \pause
-
-`junta_virgula_e(["aveia", "mamão", "banana", "maçã"])`{.gleam} \pause $\rightarrow$ `"aveia, mamão, banana e maçã"`{.gleam} \pause
-
-\small
-
-Em todos os exemplos as respostas são calculadas da mesma forma? \pause Não! \pause Os três primeiros exemplos têm uma forma específica, que não é recursiva. \pause Então, precisamos criar três casos-base.
-
-
-## Exemplos: junta com "," e "e"
-
-\footnotesize
-
-```gleam
-/// Produz uma string juntando os elementos de *lst* da seguinte forma:
-/// - Se *lst* é vazia, devolve "".
-/// - Se *lst* tem apenas um elemento, devolve esse elemento.
-/// - Senão, junta as strings de *lst*, separando-as com ", ", com exceção
-///   da última string, que é separada com " e ".
-pub fn junta_virgula_e(lst: List(String)) -> String {
-  todo
-}
-
-pub fn junta_virgula_e_examples() {
-  check.eq(junta_virgula_e([]), "")
-  check.eq(junta_virgula_e(["maçã"]), "maçã")
-  check.eq(junta_virgula_e(["mamão", "banana", "maçã"]), "mamão, banana e maçã")
-  check.eq(junta_virgula_e(["aveia", "mamão", "banana", "maçã"]),
-           "aveia, mamão, banana e maçã")
-}
-```
-
-
-## Exemplos: junta com "," e "e"
-
-\footnotesize
-
-```gleam
-pub fn junta_virgula_e(lst: List(String)) -> String {
-  case lst {
-    [] -> todo
-    [primeiro] -> todo
-    [primeiro, segundo] -> todo
-    [primeiro, ..resto] -> todo
-  }
-}
-```
-
-## Exemplos: junta com "," e "e"
-
-\footnotesize
-
-```gleam
-pub fn junta_virgula_e(lst: List(String)) -> String {
-  case lst {
-    [] -> ""
-    [primeiro] -> primeiro
-    [primeiro, segundo] -> primeiro <> " e " <> segundo
-    [primeiro, ..resto] -> primeiro <> ", " <> junta_virgula_e(resto)
-  }
-}
-```
-
-
-## Exemplos: junta com "," e "e" em Python
-
-\footnotesize
-
-```python
-def junta_virgula_e(lst: str) -> str:
-    match lst:
-        case []:
-            return ''
-        case [primeiro]:
-            return primeiro
-        case [primeiro, segundo]:
-            return primeiro + ' e ' + segundo
-        case _:
-            return lst[0] + ', ' + junta_virgula_e(lst[1:])
-
-```
-
-
-Revisão
-=======
-
-
-## Revisão
-
-Quando usamos tipos com autorreferência? \pause
-
-- Quando queremos representar dados de tamanho arbitrário. Para processar esses dados, usamos funções recursivas. \pause
-
-O que uma definição com autorreferência precisa ter para ser bem formada? \pause
-
-- Pelo menos um caso base (sem autorreferência), usado para criar os valores iniciais, e pelo menos um caso com autorreferência, usado para criar novos valores a partir de valores existentes. \pause
-
-O que é recursão estrutural? \pause
-
-- É a recursão feita nas partes do dado que são autorreferências na definição do tipo, como o resto de uma lista.
-
-
-## Revisão
-
-Como é definida uma lista e qual é o modelo de função para listas? \pause
-
-- Uma lista é vazia ou tem um primeiro e um resto, que é uma lista. O modelo tem dois casos, um para a lista vazia e outro para a lista com primeiro e resto; no segundo caso, fazemos a recursão com o resto.
-
-\ \
-
-<div class="columns">
-<div class="column" width="48%">
-\small
-
-Uma `List`{.gleam} é:
-
-- `[]`{.gleam}; ou
-- `[primeiro, ..resto]`{.gleam }, onde `resto` é uma `List`{.gleam}.
-
-</div>
-<div class="column" width="48%">
-\footnotesize
-
-```gleam
-pub fn fn_para_list(lst: List(a)) {
-  case lst {
-    [] -> todo
-    [primeiro, ..resto] -> {
-      todo
-      primeiro
-      fn_para_list(resto)
-    }
-  }
-}
-```
-</div>
-</div>
 
 
 Referências
@@ -1876,11 +2242,10 @@ Básicas
 - Capítulos [8 a 10](https://htdp.org/2022-8-7/Book/part_two.html) do livro
   [HTDP](http://htdp.org)
 
-- Seções
-    [2.3](http://docs.racket-lang.org/guide/Lists__Iteration__and_Recursion.html),
-    [2.4](http://docs.racket-lang.org/guide/Pairs__Lists__and_Racket_Syntax.html) e
-    [3.8](http://docs.racket-lang.org/guide/pairs.html) do
-    [Guia Racket](http://docs.racket-lang.org/guide/)
+- [Listas](https://tour.gleam.run/everything/#basics-lists),
+  [padrões de listas](https://tour.gleam.run/everything/#flow-control-list-patterns),
+  [recursão em listas](https://tour.gleam.run/everything/#flow-control-list-recursion) e
+  [guardas](https://tour.gleam.run/everything/#flow-control-guards) no tour de Gleam
 
 </div>
 <div class="column" width="48%">
@@ -1888,8 +2253,6 @@ Complementares
 
 - Seções [2.1](https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book-Z-H-14.html#%_sec_2.1) (2.1.1 - 2.1.3) e [2.2](https://mitpress.mit.edu/sites/default/files/sicp/full-text/book/book-Z-H-15.html#%_sec_2.2) (2.2.1) do livro [SICP](https://mitpress.mit.edu/sicp/)
 
-- Seções [3.9](http://docs.racket-lang.org/reference/pairs.html) da [Referência Racket](http://docs.racket-lang.org/reference/)
-
-- Seção [6.3](http://www.scheme.com/tspl4/objects.html#./objects:h3) do livro [TSPL4](http://www.scheme.com/tspl4/)
+- [Módulo list](https://hexdocs.pm/gleam_stdlib/gleam/list.html) da biblioteca padrão
 </div>
 </div>

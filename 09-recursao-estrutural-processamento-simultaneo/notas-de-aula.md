@@ -2,7 +2,8 @@
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: mais detalhes sobre processamento simultâneo
 # TODO: adicionar revisão
-title: Processamento simultâneo
+title: Recursão estrutural
+subtitle: Processamento simultâneo
 ---
 
 

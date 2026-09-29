@@ -3,8 +3,8 @@
 # TODO: ver HTDP e separar a funções que geram listas
 # TODO: mostrar funções de listas pré-definidas: length, append, member?
 # TODO: colocar o processo de implementação como é feita em sala
-title: Autorreferência e recursividade
-subtitle: Parte I
+title: Recursão estrutural
+subtitle: Listas
 ---
 
 
@@ -281,6 +281,15 @@ Quais são as relações entre a definição de `Lista`{.gleam} e `fn_para_lista
 
 - A definição tem dois casos, o modelo também; \pause
 - Na definição, o `resto`{.gleam} é uma **autorreferência**; na função, a **recursão** é feita com o `resto`{.gleam}.
+
+
+## Recursão estrutural
+
+A recursão feita nas partes do dado que são autorreferências na definição do tipo é chamada de **recursão estrutural**. \pause
+
+No modelo `fn_para_lista`{.gleam}, a recursão é estrutural porque é feita com o `resto`{.gleam}, que é a autorreferência na definição de `Lista`{.gleam}. \pause
+
+Nos próximos capítulos, vamos usar a mesma ideia para outros tipos com autorreferência: números naturais e árvores.
 
 
 ## Exemplo: soma
@@ -1803,21 +1812,24 @@ Revisão
 
 ## Revisão
 
-Usamos tipos com autorreferência quando queremos representar dados de tamanhos arbitrários. \pause
+Quando usamos tipos com autorreferência? \pause
 
-- Usamos funções recursivas para processar dados de tipos com autorreferências. \pause
+- Quando queremos representar dados de tamanho arbitrário. Para processar esses dados, usamos funções recursivas. \pause
 
-Para ser bem formada, uma definição com autorreferência deve ter: \pause
+O que uma definição com autorreferência precisa ter para ser bem formada? \pause
 
-- Pelo menos um caso base (sem autorreferência): \pause são usados para criar os valores iniciais \pause
+- Pelo menos um caso base (sem autorreferência), usado para criar os valores iniciais, e pelo menos um caso com autorreferência, usado para criar novos valores a partir de valores existentes. \pause
 
-- Pelo menos um caso com autorreferência: \pause são usados para criar novos valores a partir de valores existentes
+O que é recursão estrutural? \pause
+
+- É a recursão feita nas partes do dado que são autorreferências na definição do tipo, como o resto de uma lista.
+
 
 ## Revisão
 
-Uma lista é vazia ou tem um primeiro e um resto, que é uma lista.
+Como é definida uma lista e qual é o modelo de função para listas? \pause
 
-O modelo de função para processar listas tem dois casos, um para lista vazia e outro para lista com primeiro e resto; no segundo caso, podemos fazer uma recursão para o resto.
+- Uma lista é vazia ou tem um primeiro e um resto, que é uma lista. O modelo tem dois casos, um para a lista vazia e outro para a lista com primeiro e resto; no segundo caso, fazemos a recursão com o resto.
 
 \ \
 
@@ -1861,9 +1873,7 @@ Básicas
 
 - [Vídeos Self-Reference](https://www.youtube.com/watch?v=tp44seRHLUQ&list=PL6NenTZG6KrptkOEMyLWDnF0ZjSpVTHAE)
 
-- [Vídeos Naturals](https://www.youtube.com/playlist?list=PL6NenTZG6KroGNU9XgT5G5Dt2M6YGjZMF)
-
-- Capítulos [8 a 12](https://htdp.org/2022-8-7/Book/part_two.html) do livro
+- Capítulos [8 a 10](https://htdp.org/2022-8-7/Book/part_two.html) do livro
   [HTDP](http://htdp.org)
 
 - Seções

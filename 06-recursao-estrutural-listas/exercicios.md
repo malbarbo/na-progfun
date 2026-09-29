@@ -2,23 +2,26 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: |
        | Programação Funcional
-       | Autorreferência e recursividade - Parte I
+       | Recursão estrutural: listas
 urlcolor: Blue
 license:
 # TODO: exercícios para processar strings caractere por caractere?
+# TODO: adicionar desafios
 ---
 
 # Começando
 
 @) O que é um tipo de dado com autorreferência?
 
-@) Quando uma definição com autorreferência está bem formada?
+@) Uma pilha de pratos é um prato colocado sobre uma pilha de pratos. Essa definição é bem formada? Justifique e, se necessário, corrija-a.
 
-@) Quando utilizamos tipos de dados com autorreferência?
+@) Dê um exemplo de problema em que precisamos de um tipo de dado com autorreferência e outro em que não precisamos.
 
 @) O que é uma função recursiva?
 
-@) Qual é o modelo de função associado com a definição do tipo lista?
+@) Escreva o modelo de função para uma lista de strings e relacione cada caso do modelo com a definição de lista.
+
+@) Dê um exemplo de função que usa recursão estrutural para processar uma lista e indique em qual parte do dado a recursão é feita.
 
 
 # Praticando
@@ -77,8 +80,3 @@ Não use funções de alta ordem.
 @) No dia do imposto zero, diversas empresas vendem produtos descontando o imposto cobrado pelo governo. O propósito é conscientizar as pessoas sobre o valor dos impostos. Um supermercado decidiu participar vendendo os produtos da cesta básica com imposto zero. O desconto final é apresentado na finalização da compra. Uma compra é representada por uma lista de itens, que contém além do nome do produto, a quantidade comprada, o valor unitário, o percentual de imposto (que já está no preço unitário) e a indicação se é um produto da cesta básica. Projete uma função que recebe como entrada os itens de uma compra e produz como resposta o valor que o consumidor deve pagar.
 
 @) Um dos problemas mais conhecidos de programação é o problema de ordenação. Existem diversos métodos já estabelecidos de ordenação, como a ordenação por seleção e por intercalação. O uso do modelo para funções que processam listas leva a uma implementação específica. Projete uma função usando o modelo para listas que ordene uma lista de números. Dica: projete uma função auxiliar para combinar o primeiro elemento com o resultado da chamada recursiva. Como esse método de ordenação é conhecido?
-
-# Desafios
-
-@) Projete uma função que receba como parâmetro uma lista de strings e uma posição, e devolva o elemento que está nessa posição da lista.
-

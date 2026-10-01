@@ -1051,6 +1051,43 @@ Como começamos a implementação? \pause Com o modelo.
 /// Soma *x* a cada elemento de *lst*.
 pub fn soma_x(lst, x) -> List(Int) {
   case lst {
+    [] -> { todo x }
+    [primeiro, ..resto] -> {
+      todo
+      x
+      primeiro
+      soma_x(resto, x)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn soma_x_examples() {
+  check.eq(soma_x([], 4), [])
+  check.eq(soma_x([4, 2], 5), [9, 7])
+  check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
+}
+```
+</div>
+</div>
+
+
+## Exemplo: soma x - implementação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma *x* a cada elemento de *lst*.
+pub fn soma_x(lst, x) -> List(Int) {
+  case lst {
     [] -> []
     [primeiro, ..resto] ->
       [x + primeiro, ..soma_x(resto, x)]
@@ -1141,6 +1178,42 @@ Como começamos a implementação? \pause Com o modelo.
 /// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
+    [] -> todo
+    [primeiro, ..resto] -> {
+      todo
+      primeiro
+      remove_negativos(resto)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+pub fn remove_negativos_examples() {
+  check.eq(remove_negativos([]), [])
+  check.eq(remove_negativos([-1, 2, -3]), [2])
+  check.eq(remove_negativos([3, 4, -2]), [3, 4])
+}
+```
+</div>
+</div>
+
+
+## Exemplo: remove negativos - implementação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Cria uma nova lista sem
+/// os valores negativos de *lst*.
+pub fn remove_negativos(lst) -> List(Int) {
+  case lst {
     [] -> []
     [primeiro, ..resto] if primeiro < 0 ->
       remove_negativos(resto)
@@ -1211,6 +1284,29 @@ pub fn busca_examples() {
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "casa"), Error(Nil))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "nada"), Ok(3))
   check.eq(busca([Par("nada", 3), Par("outra", 2)], "outra"), Ok(2))
+}
+```
+
+
+## Exemplo: busca por chave - implementação {.t}
+
+Como começamos a implementação? \pause Com o modelo.
+
+\footnotesize
+
+```gleam
+/// Devolve o valor associado com *chave* em *lst* ou Error(Nil) se *chave* não
+/// aparece em *lst*.
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+  case lst {
+    [] -> { todo chave }
+    [primeiro, ..resto] -> {
+      todo
+      chave
+      primeiro
+      busca(resto, chave)
+    }
+  }
 }
 ```
 

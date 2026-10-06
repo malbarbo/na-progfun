@@ -13,7 +13,7 @@ Números Naturais
 
 Um número natural é atômico ou composto? \pause
 
-- Atômico quando usado em operações aritméticas, comparações, etc; \pause
+- Atômico quando usado em operações aritméticas e comparações; \pause
 
 - Composto quando uma iteração precisa ser feita com base no valor do número.
 
@@ -35,7 +35,7 @@ Um número **natural** é \pause
 
 - `0`{.gleam}; ou \pause
 
-- `n + 1`{.gleam} onde $n$ é um número **natural**
+- `n + 1`{.gleam} onde `n`{.gleam} é um número **natural**
 
 \pause
 
@@ -67,7 +67,7 @@ fn fn_para_natural(n: Int) {
 
 \normalsize
 
-Qual o problema desse modelo? \pause Se `n` não é zero, ele pode ser negativo e a recursão não terminaria. \pause O problema é que o Gleam não possui números naturais.
+Qual o problema desse modelo? \pause Se `n`{.gleam} não é zero, ele pode ser negativo e a recursão não terminaria. \pause O problema é que o Gleam não possui números naturais.
 
 </div>
 </div>
@@ -82,7 +82,7 @@ Um número **natural** é
 
 - `0`{.gleam}; ou
 
-- `n + 1`{.gleam} onde $n$ é um número **natural**
+- `n + 1`{.gleam} onde `n`{.gleam} é um número **natural**
 
 
 \ \
@@ -112,6 +112,19 @@ fn fn_para_natural(n: Int) {
 
 </div>
 </div>
+
+
+## Definição
+
+Um número natural diferente de `0`{.gleam} é composto por uma única parte: o natural `n - 1`{.gleam} a partir do qual ele foi construído com `+ 1`{.gleam}. \pause
+
+A definição e o modelo `fn_para_natural`{.gleam} se relacionam assim: \pause
+
+- A definição tem dois casos (`0`{.gleam} e `n + 1`{.gleam}) e o modelo também, além do caso para os negativos, que existe só porque o Gleam não tem naturais; \pause
+
+- Na definição, o `n`{.gleam} de `n + 1`{.gleam} é uma **autorreferência**; no modelo, a **recursão** é feita com `n - 1`{.gleam}, que é essa parte. \pause
+
+Assim como nas listas, a recursão no modelo é **estrutural**.
 
 
 ## Exemplo: soma naturais
@@ -162,7 +175,11 @@ fn soma_nat_examples() {
 fn soma_nat(n: Int) -> Int {
   case n {
     _ if n < 0 -> todo
+    // Qual é a soma dos naturais até 0?
     0 -> todo
+    // Tendo a soma dos naturais até n - 1
+    // e o natural n, como obter a soma
+    // dos naturais até n?
     _ -> {
       todo
       n
@@ -200,7 +217,11 @@ fn soma_nat_examples() {
 /// Devolve a soma 1 + 2 + ... + n.
 fn soma_nat(n: Int) -> Int {
   case n {
+    // Qual é a soma para n <= 0?
     _ if n <= 0 -> 0
+    // Tendo a soma dos naturais até n - 1
+    // e o natural n, como obter a soma
+    // dos naturais até n?
     _ -> {
       todo
       n
@@ -224,6 +245,13 @@ fn soma_nat_examples() {
   check.eq(soma_nat(4), 10)
 }
 ```
+
+\pause
+
+\small
+
+Em muitos problemas, o propósito pode ser generalizado para `n`{.gleam} negativo, deixando a função total. Aqui, não existem naturais menores ou iguais a um `n`{.gleam} negativo, então a soma é `0`{.gleam}. Como a resposta para `n < 0`{.gleam} e para `0`{.gleam} é a mesma, juntamos os dois casos em `n <= 0`{.gleam}.
+
 </div>
 </div>
 
@@ -238,7 +266,11 @@ fn soma_nat_examples() {
 /// Devolve a soma 1 + 2 + ... + n.
 fn soma_nat(n: Int) -> Int {
   case n {
+    // Qual é a soma para n <= 0?
     _ if n <= 0 -> 0
+    // Tendo a soma dos naturais até n - 1
+    // e o natural n, como obter a soma
+    // dos naturais até n?
     _ -> n + soma_nat(n - 1)
   }
 }
@@ -313,7 +345,11 @@ fn lista_num_examples() {
 fn lista_num(n: Int) -> List(Int) {
   case n {
     _ if n < 0 -> todo
+    // Qual é a lista para n == 0?
     0 -> todo
+    // Tendo a lista 1, ..., n - 1 e o
+    // natural n, como obter a lista
+    // 1, ..., n?
     _ -> {
       todo
       n
@@ -352,7 +388,11 @@ fn lista_num_examples() {
 /// 1, 2, ..., n-1, n.
 fn lista_num(n: Int) -> List(Int) {
   case n {
+    // Qual é a lista para n <= 0?
     _ if n <= 0 -> []
+    // Tendo a lista 1, ..., n - 1 e o
+    // natural n, como obter a lista
+    // 1, ..., n?
     _ -> {
       todo
       n
@@ -391,7 +431,11 @@ fn lista_num_examples() {
 /// 1, 2, ..., n-1, n.
 fn lista_num(n: Int) -> List(Int) {
   case n {
+    // Qual é a lista para n <= 0?
     _ if n <= 0 -> []
+    // Tendo a lista 1, ..., n - 1 e o
+    // natural n, como obter a lista
+    // 1, ..., n?
     _ -> adiciona_fim(lista_num(n - 1), n)
   }
 }
@@ -414,12 +458,18 @@ fn lista_num_examples() {
 </div>
 </div>
 
+\ \
+
+\small
+
+Não temos uma função que adiciona um elemento no final de uma lista, então colocamos `adiciona_fim`{.gleam} na **lista de trabalho** e a projetamos em seguida.
+
 
 ## Exemplo: adiciona fim {.t}
 
 <div class="columns">
 <div class="column" width="48%">
-\footnotesize
+\scriptsize
 
 ```gleam
 /// Adiciona *n* ao final de *lst*.
@@ -436,7 +486,7 @@ fn adiciona_fim(
 </div>
 <div class="column" width="48%">
 
-\footnotesize
+\scriptsize
 
 ```gleam
 fn adiciona_fim_examples() {
@@ -453,7 +503,7 @@ fn adiciona_fim_examples() {
 
 <div class="columns">
 <div class="column" width="48%">
-\footnotesize
+\scriptsize
 
 ```gleam
 /// Adiciona *n* ao final de *lst*.
@@ -462,7 +512,10 @@ fn adiciona_fim(
   n: Int,
 ) -> List(Int) {
   case lst {
+    // Como adicionar n na lista vazia?
     [] -> { todo n }
+    // Tendo adiciona_fim(resto, n) e o
+    // primeiro, como adicionar n em lst?
     [primeiro, ..resto] -> {
       todo
       n
@@ -476,7 +529,7 @@ fn adiciona_fim(
 </div>
 <div class="column" width="48%">
 
-\footnotesize
+\scriptsize
 
 ```gleam
 fn adiciona_fim_examples() {
@@ -493,7 +546,7 @@ fn adiciona_fim_examples() {
 
 <div class="columns">
 <div class="column" width="48%">
-\footnotesize
+\scriptsize
 
 ```gleam
 /// Adiciona *n* ao final de *lst*.
@@ -502,7 +555,10 @@ fn adiciona_fim(
   n: Int,
 ) -> List(Int) {
   case lst {
+    // Como adicionar n na lista vazia?
     [] -> [n]
+    // Tendo adiciona_fim(resto, n) e o
+    // primeiro, como adicionar n em lst?
     [primeiro, ..resto] -> {
       todo
       n
@@ -516,7 +572,7 @@ fn adiciona_fim(
 </div>
 <div class="column" width="48%">
 
-\footnotesize
+\scriptsize
 
 ```gleam
 fn adiciona_fim_examples() {
@@ -533,7 +589,7 @@ fn adiciona_fim_examples() {
 
 <div class="columns">
 <div class="column" width="48%">
-\footnotesize
+\scriptsize
 
 ```gleam
 /// Adiciona *n* ao final de *lst*.
@@ -542,7 +598,10 @@ fn adiciona_fim(
   n: Int,
 ) -> List(Int) {
   case lst {
+    // Como adicionar n na lista vazia?
     [] -> [n]
+    // Tendo adiciona_fim(resto, n) e o
+    // primeiro, como adicionar n em lst?
     [primeiro, ..resto] ->
       [primeiro,
        ..adiciona_fim(resto, n)]
@@ -553,7 +612,7 @@ fn adiciona_fim(
 </div>
 <div class="column" width="48%">
 
-\footnotesize
+\scriptsize
 
 ```gleam
 fn adiciona_fim_examples() {
@@ -566,11 +625,11 @@ fn adiciona_fim_examples() {
 </div>
 
 
-## Exemplo: adiciona fim {.t}
+## Exemplo: adiciona fim - revisão {.t}
 
 <div class="columns">
 <div class="column" width="48%">
-\footnotesize
+\scriptsize
 
 ```gleam
 /// Adiciona *n* ao final de *lst*.
@@ -579,7 +638,10 @@ fn adiciona_fim(
   n: a,
 ) -> List(a) {
   case lst {
+    // Como adicionar n na lista vazia?
     [] -> [n]
+    // Tendo adiciona_fim(resto, n) e o
+    // primeiro, como adicionar n em lst?
     [primeiro, ..resto] ->
       [primeiro,
        ..adiciona_fim(resto, n)]
@@ -590,17 +652,26 @@ fn adiciona_fim(
 </div>
 <div class="column" width="48%">
 
-\footnotesize
+\scriptsize
 
 ```gleam
 fn adiciona_fim_examples() {
   check.eq(adiciona_fim([], 3), [3])
   check.eq(adiciona_fim([3], 4), [3, 4])
   check.eq(adiciona_fim([3, 4], 1), [3, 4, 1])
+  check.eq(adiciona_fim(["a"], "b"), ["a", "b"])
 }
 ```
 </div>
 </div>
+
+\pause
+
+\ \
+
+\small
+
+O código não depende de os elementos serem inteiros, então podemos tornar `adiciona_fim`{.gleam} genérica com o parâmetro de tipo `a`{.gleam}, como fizemos com `contem`{.gleam}.
 
 
 Inteiros
@@ -614,15 +685,15 @@ Inteiros
 Podemos generalizar a definição de número natural para incluir um limite inferior diferente de $0$.
 
 
-## Definição Inteiro
+## Definição: inteiro maior ou igual a x
 
 <div class="columns">
 <div class="column" width="48%">
-Um número **inteiro menor ou igual a x** é
+Um número **inteiro maior ou igual a x** é
 
 - `x`{.gleam}; ou
 
-- `n + 1`{.gleam} onde `n`{.gleam} é um número **inteiro menor ou igual a x**.
+- `n + 1`{.gleam} onde `n`{.gleam} é um número **inteiro maior ou igual a x**.
 
 \pause
 </div>
@@ -631,21 +702,33 @@ Um número **inteiro menor ou igual a x** é
 \footnotesize
 
 ```gleam
-fn fn_para_inteiro_lt_x(n: Int) {
+fn fn_para_inteiro_ge_x(n: Int) {
   case n {
     _ if n < x -> todo
     _ if n == x -> todo
     _ -> {
       todo
-      x
-      fn_para_inteiro_lt_x(n - 1)
+      n
+      fn_para_inteiro_ge_x(n - 1)
     }
   }
 }
 ```
 
+\pause
+
+\small
+
+Por que `x -> todo`{.gleam} não funcionaria? \pause Porque `x`{.gleam} no padrão cria uma nova variável, que casa com qualquer valor.
+
 </div>
 </div>
+
+\pause
+
+\small
+
+Nesse modelo, `x`{.gleam} é um valor fixo (por exemplo, `1`{.gleam}). Quando o limite não é fixo, como em um intervalo de `a`{.gleam} até `b`{.gleam}, `x`{.gleam} vira um parâmetro da função e é passado sem alteração na chamada recursiva.
 
 
 Revisão
@@ -669,9 +752,16 @@ Qual é o modelo de função para números naturais? \pause
 
 - Um `case`{.gleam} com um caso para `0`{.gleam} e outro caso em que a recursão é feita com `n - 1`{.gleam}. Como o Gleam não tem um tipo para números naturais, o modelo também tem um caso para os números negativos. \pause
 
+O que fazer no caso dos números negativos do modelo? \pause
+
+- Se o propósito pode ser generalizado para `n`{.gleam} negativo, como na soma dos naturais até `n`{.gleam}, que é `0`{.gleam}, a função dá a resposta normalmente, e muitas vezes esse caso se junta ao caso `0`{.gleam}. Caso contrário, a função indica um erro devolvendo `Result`{.gleam}, como visto em funções totais.
+
+
+## Revisão
+
 Como processar números inteiros quando a recursão deve parar em um valor diferente de `0`{.gleam}? \pause
 
-- Generalizando a definição de número natural para um limite inferior `x`{.gleam}: o caso base passa a ser `x`{.gleam} em vez de `0`{.gleam}.
+- Generalizando a definição de número natural para um limite inferior `x`{.gleam}: o caso base passa a ser `x`{.gleam} em vez de `0`{.gleam}. Quando o limite não é fixo, `x`{.gleam} vira um parâmetro da função e é passado sem alteração na chamada recursiva.
 
 
 Referências

@@ -1,19 +1,20 @@
 import sgleam/check
 
-/// Cria uma lista com os valores 1, 2, ..., n-1, n.
-pub fn lista_num(n: Int) -> List(Int) {
-  case n {
-    _ if n <= 0 -> []
-    _ -> adiciona_fim(lista_num(n - 1), n)
+/// Cria uma lista com os valores a, a + 1, ..., b. Devolve a lista vazia se
+/// b < a.
+pub fn intervalo(a: Int, b: Int) -> List(Int) {
+  case b {
+    _ if b < a -> []
+    _ if b == a -> [a]
+    _ -> adiciona_fim(intervalo(a, b - 1), b)
   }
 }
 
-pub fn lista_num_examples() {
-  check.eq(lista_num(-1), [])
-  check.eq(lista_num(0), [])
-  check.eq(lista_num(1), [1])
-  check.eq(lista_num(2), [1, 2])
-  check.eq(lista_num(3), [1, 2, 3])
+pub fn intervalo_examples() {
+  check.eq(intervalo(3, 2), [])
+  check.eq(intervalo(3, 3), [3])
+  check.eq(intervalo(3, 5), [3, 4, 5])
+  check.eq(intervalo(-2, 1), [-2, -1, 0, 1])
 }
 
 /// Adiciona *n* ao final de *lst*.

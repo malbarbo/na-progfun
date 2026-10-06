@@ -102,10 +102,17 @@ Ao revisar um capítulo:
     ```
 13. Perguntas da Revisão (slides) e do Começando (exercícios) podem cobrir os mesmos
     conceitos, mas devem ser formuladas de forma diferente: a Revisão mostra pergunta e
-    resposta, os exercícios pedem que o aluno elabore ou dê exemplos
+    resposta, os exercícios pedem que o aluno elabore ou dê exemplos. Sempre que sugerir
+    uma pergunta (para Revisão, exercícios ou slides), apresentar brevemente as possíveis
+    respostas esperadas, para que o autor avalie se a pergunta está clara e bem delimitada
 14. Antes de sugerir reorganização de conteúdo, considerar que a ordem pode ser
     intencional. Perguntar ao autor ao invés de assumir que é um problema
 15. Após completar cada nível de prioridade, perguntar se o usuário quer commitar. Ao
     completar o nível seguinte, fazer amend no commit anterior. Assim o usuário pode
     revisar as mudanças de cada nível separadamente
 16. Nunca commitar sem perguntar antes
+
+## Commits
+
+As mensagens de commit não têm trailers (como `Co-Authored-By`), apenas o assunto e,
+se necessário, o corpo.

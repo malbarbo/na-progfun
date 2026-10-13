@@ -6,9 +6,9 @@ pub type Arvore(a) {
   No(valor: a, esq: Arvore(a), dir: Arvore(a))
 }
 
-/// Determina o número de nós folhas de *r*.
-pub fn num_folhas(r: Arvore(a)) -> Int {
-  case r {
+/// Determina o número de nós-folha de *t*.
+pub fn num_folhas(t: Arvore(a)) -> Int {
+  case t {
     Vazia -> 0
     No(_, Vazia, Vazia) -> 1
     No(_, esq, dir) -> num_folhas(esq) + num_folhas(dir)
@@ -38,11 +38,11 @@ pub fn num_folhas_examples() {
   check.eq(num_folhas(t4), 4)
 }
 
-/// Devolve a altura de *r*. A altura de uma árvore binária é a distância da
+/// Devolve a altura de *t*. A altura de uma árvore binária é a distância da
 /// raiz a seu descendente mais afastado. Uma árvore com um único nó tem altura
 /// 0 e uma árvore vazia tem altura -1.
-pub fn altura(r: Arvore(a)) -> Int {
-  case r {
+pub fn altura(t: Arvore(a)) -> Int {
+  case t {
     Vazia -> -1
     No(_, esq, dir) -> 1 + int.max(altura(esq), altura(dir))
   }

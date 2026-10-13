@@ -5,22 +5,21 @@ pub type Arvore {
   No(valor: Int, esq: Arvore, dir: Arvore)
 }
 
-/// Produz True se *valor* está em *r*, False caso contrário.
+/// Produz True se *valor* está em *t*, False caso contrário.
 ///
-/// Requer que `r` seja uma árvore binária de busca, isto é:
-/// 1) A subárvore à esquerda contém valores nos nós menores que o valor no nó
+/// Requer que *t* seja uma árvore binária de busca, isto é:
+/// 1) Todos os valores da subárvore à esquerda são menores que o valor da
 ///    raiz.
-/// 2) A subárvore à direita contém valores nos nós maiores que o valor do nó
-///    raiz.
+/// 2) Todos os valores da subárvore à direita são maiores que o valor da raiz.
 /// 3) As subárvores à esquerda e à direita também são árvores binárias de
 ///    busca.
-pub fn contem(r: Arvore, valor: Int) -> Bool {
-  case r {
+pub fn contem(t: Arvore, valor: Int) -> Bool {
+  case t {
     Vazia -> False
-    No(r_valor, esq, dir) ->
+    No(t_valor, esq, dir) ->
       case valor {
-        _ if valor > r_valor -> contem(dir, valor)
-        _ if valor < r_valor -> contem(esq, valor)
+        _ if valor > t_valor -> contem(dir, valor)
+        _ if valor < t_valor -> contem(esq, valor)
         _ -> True
       }
   }

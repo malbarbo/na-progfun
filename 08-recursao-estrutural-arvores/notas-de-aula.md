@@ -85,12 +85,12 @@ type Arvore(a) {
 ```gleam
 No(3,
   No(4,
-    No(3, Vazia, Vazia)
+    No(3, Vazia, Vazia),
     Vazia),
   No(7,
-    No(8, Vazia, Vazia)
+    No(8, Vazia, Vazia),
     No(9,
-      No(10, Vazia, Vazia)
+      No(10, Vazia, Vazia),
       Vazia)))
 ```
 
@@ -131,8 +131,8 @@ Modelo de função para árvores binárias
 \footnotesize
 
 ```gleam
-fn fn_para_ab(r: Arvore(a)) {
-  case arv {
+fn fn_para_ab(t: Arvore(a)) {
+  case t {
     Vazia -> todo
     No(valor, esq, dir) -> {
       todo
@@ -148,20 +148,20 @@ fn fn_para_ab(r: Arvore(a)) {
 </div>
 
 
-## Exemplo: nós folhas
+## Exemplo: nós-folha
 
 Projete uma função que determine a quantidade de nós-folha em uma árvore.
 
 
-## Exemplo: nós folhas {.t}
+## Exemplo: nós-folha {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Determina o número de nós-folha de *r*.
-fn num_folhas(r: Arvore(a)) -> Int {
+/// Determina o número de nós-folha de *t*.
+fn num_folhas(t: Arvore(a)) -> Int {
   todo
 }
 
@@ -201,16 +201,16 @@ fn num_folhas_examples() {
 </div>
 
 
-## Exemplo: nós folhas {.t}
+## Exemplo: nós-folha {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Determina o número de nós-folha de *r*.
-fn num_folhas(r: Arvore(a)) -> Int {
-  case r {
+/// Determina o número de nós-folha de *t*.
+fn num_folhas(t: Arvore(a)) -> Int {
+  case t {
     Vazia -> todo
     No(valor, esq, dir) -> {
       todo
@@ -255,16 +255,16 @@ fn num_folhas_examples() {
 </div>
 
 
-## Exemplo: nós folhas {.t}
+## Exemplo: nós-folha {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Determina o número de nós-folha de *r*.
-fn num_folhas(r: Arvore(a)) -> Int {
-  case r {
+/// Determina o número de nós-folha de *t*.
+fn num_folhas(t: Arvore(a)) -> Int {
+  case t {
     Vazia -> 0
     No(valor, esq, dir) -> {
       todo
@@ -309,16 +309,16 @@ fn num_folhas_examples() {
 </div>
 
 
-## Exemplo: nós folhas {.t}
+## Exemplo: nós-folha {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Determina o número de nós-folha de *r*.
-fn num_folhas(r: Arvore(a)) -> Int {
-  case r {
+/// Determina o número de nós-folha de *t*.
+fn num_folhas(t: Arvore(a)) -> Int {
+  case t {
     Vazia -> 0
     No(_, esq, dir) ->
       case esq, dir {
@@ -330,6 +330,10 @@ fn num_folhas(r: Arvore(a)) -> Int {
 }
 
 ```
+
+\small
+
+Um nó com as duas subárvores vazias é uma folha e conta 1.
 
 </div>
 <div class="column" width="48%">
@@ -363,16 +367,16 @@ fn num_folhas_examples() {
 </div>
 
 
-## Exemplo: nós folhas {.t}
+## Exemplo: nós-folha {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Determina o número de nós-folha de *r*.
-fn num_folhas(r: Arvore(a)) -> Int {
-  case r {
+/// Determina o número de nós-folha de *t*.
+fn num_folhas(t: Arvore(a)) -> Int {
+  case t {
     Vazia -> 0
     No(_, Vazia, Vazia) -> 1
     No(_, esq, dir) ->
@@ -415,23 +419,23 @@ fn num_folhas_examples() {
 
 
 
-## Exemplo: altura árvore
+## Exemplo: altura de uma árvore
 
-Defina uma função que determine a altura de uma árvore binária. A altura de uma árvore binária é a distância entre a raiz e o seu descendente mais afastado. Uma árvore com um único nó tem altura 0.
+Projete uma função que determine a altura de uma árvore binária. A altura de uma árvore binária é a distância entre a raiz e o seu descendente mais afastado. Uma árvore com um único nó tem altura 0.
 
 
-## Exemplo: altura árvore {.t}
+## Exemplo: altura de uma árvore {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Devolve a altura de *r*. A altura de uma
+/// Devolve a altura de *t*. A altura de uma
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
-fn altura(r: Arvore(a)) -> Int {
+fn altura(t: Arvore(a)) -> Int {
   todo
 }
 
@@ -471,19 +475,19 @@ fn altura_examples() {
 </div>
 
 
-## Exemplo: altura árvore {.t}
+## Exemplo: altura de uma árvore {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Devolve a altura de *r*. A altura de uma
+/// Devolve a altura de *t*. A altura de uma
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
-fn altura(r: Arvore(a)) -> Int {
-  case r {
+fn altura(t: Arvore(a)) -> Int {
+  case t {
     Vazia -> todo
     No(valor, esq, dir) -> {
       todo
@@ -528,23 +532,22 @@ fn altura_examples() {
 </div>
 
 
-## Exemplo: altura árvore {.t}
+## Exemplo: altura de uma árvore {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Devolve a altura de *r*. A altura de uma
+/// Devolve a altura de *t*. A altura de uma
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0.
-fn altura(r: Arvore(a)) -> Int {
-  case r {
+fn altura(t: Arvore(a)) -> Int {
+  case t {
     Vazia -> todo
     No(_, esq, dir) ->
       1 + int.max(altura(esq), altura(dir))
-    }
   }
 }
 
@@ -582,20 +585,20 @@ fn altura_examples() {
 </div>
 
 
-## Exemplo: altura árvore {.t}
+## Exemplo: altura de uma árvore {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Devolve a altura de *r*. A altura de uma
+/// Devolve a altura de *t*. A altura de uma
 /// árvore binária é a distância da raiz a seu
 /// descendente mais afastado. Uma árvore com
 /// um único nó tem altura 0 e uma árvore vazia
 /// tem altura -1.
-fn altura(r: Arvore(a)) -> Int {
-  case r {
+fn altura(t: Arvore(a)) -> Int {
+  case t {
     Vazia -> -1
     No(_, esq, dir) ->
       1 + int.max(altura(esq), altura(dir))
@@ -603,6 +606,20 @@ fn altura(r: Arvore(a)) -> Int {
 }
 
 ```
+
+\small
+
+Para que uma árvore com um único nó tenha altura 0, a expressão
+
+\scriptsize
+
+```gleam
+1 + int.max(altura(Vazia), altura(Vazia))
+```
+
+\small
+
+tem que resultar em 0, por isso a altura da árvore vazia é -1.
 
 </div>
 <div class="column" width="48%">
@@ -688,7 +705,7 @@ Uma **entrada** no sistema de arquivos é: \pause
 Uma **lista de entradas** é: \pause
 
 - Vazia; ou \pause
-- Um par com o primeiro e o resto, onde o primeiro é uma **entrada** e o resto é uma **lista de entradas**.
+- Não vazia, contendo a primeira **entrada** e o resto, que é uma **lista de entradas**.
 
 \pause
 
@@ -776,7 +793,7 @@ Uma **entrada** no sistema de arquivos é:
 Uma **lista de entradas** é:
 
 - Vazia; ou
-- Um par com o primeiro e o resto, onde o primeiro é uma **entrada** e o resto é uma **lista de entradas**.
+- Não vazia, contendo a primeira **entrada** e o resto, que é uma **lista de entradas**.
 
 </div>
 <div class="column" width="48%">
@@ -820,8 +837,8 @@ Projete uma função para encontrar os caminhos para todos os arquivos `.txt`.
 ## Exemplo: arquivos txt {.t}
 
 <div class="columns">
-<div class="column" width="48%">
-\scriptsize
+<div class="column" width="38%">
+\tiny
 
 ```
 disciplinas/
@@ -852,10 +869,11 @@ disciplinas/anotacoes.txt
 \pause
 
 </div>
-<div class="column" width="48%">
+<div class="column" width="60%">
 \scriptsize
 
 ```gleam
+/// Devolve os caminhos dos arquivos .txt de *ent*.
 fn encontra_txt(ent: Entrada) -> List(String) {
   todo
 }
@@ -868,8 +886,8 @@ fn encontra_txt(ent: Entrada) -> List(String) {
 ## Exemplo: arquivos txt {.t}
 
 <div class="columns">
-<div class="column" width="48%">
-\scriptsize
+<div class="column" width="38%">
+\tiny
 
 ```
 disciplinas/
@@ -896,10 +914,11 @@ disciplinas/anotacoes.txt
 ```
 
 </div>
-<div class="column" width="48%">
+<div class="column" width="60%">
 \scriptsize
 
 ```gleam
+/// Devolve os caminhos dos arquivos .txt de *ent*.
 fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
     Arq(nome) -> { todo nome }
@@ -909,13 +928,12 @@ fn encontra_txt(ent: Entrada) -> List(String) {
     }
   }
 }
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
 fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
   case entradas {
     [] -> todo
-    [ent, ..resto] -> {
-      todo encontra_txt(ent)
-           encontra_txt_lista(resto)
-    }
+    [ent, ..resto] ->
+      { todo encontra_txt(ent) encontra_txt_lista(resto) }
   }
 }
 ```
@@ -927,8 +945,8 @@ fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
 ## Exemplo: arquivos txt {.t}
 
 <div class="columns">
-<div class="column" width="48%">
-\scriptsize
+<div class="column" width="38%">
+\tiny
 
 ```
 disciplinas/
@@ -955,10 +973,11 @@ disciplinas/anotacoes.txt
 ```
 
 </div>
-<div class="column" width="48%">
+<div class="column" width="60%">
 \scriptsize
 
 ```gleam
+/// Devolve os caminhos dos arquivos .txt de *ent*.
 fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
     Arq(nome) -> case string.ends_with(nome, ".txt") {
@@ -970,13 +989,12 @@ fn encontra_txt(ent: Entrada) -> List(String) {
     }
   }
 }
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
 fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
   case entradas {
     [] -> []
-    [ent, ..resto] -> {
-      todo encontra_txt(ent)
-           encontra_txt_lista(resto)
-    }
+    [ent, ..resto] ->
+      { todo encontra_txt(ent) encontra_txt_lista(resto) }
   }
 }
 ```
@@ -988,8 +1006,8 @@ fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
 ## Exemplo: arquivos txt {.t}
 
 <div class="columns">
-<div class="column" width="48%">
-\scriptsize
+<div class="column" width="38%">
+\tiny
 
 ```
 disciplinas/
@@ -1016,10 +1034,11 @@ disciplinas/anotacoes.txt
 ```
 
 </div>
-<div class="column" width="48%">
+<div class="column" width="60%">
 \scriptsize
 
 ```gleam
+/// Devolve os caminhos dos arquivos .txt de *ent*.
 fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
     Arq(nome) ->
@@ -1028,22 +1047,55 @@ fn encontra_txt(ent: Entrada) -> List(String) {
         True -> [nome]
       }
     Dir(nome, entradas) ->
-      adiciona_prefixo(nome,
-                       encontra_txt_lista(entradas))
+      adiciona_prefixo(nome, encontra_txt_lista(entradas))
   }
 }
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
 fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
   case entradas {
     [] -> []
     [ent, ..resto] ->
-      list.append(encontra_txt(ent),
-                  encontra_txt_lista(resto))
+      list.append(encontra_txt(ent), encontra_txt_lista(resto))
   }
 }
 ```
 
 </div>
 </div>
+
+
+## Exemplo: arquivos txt {.t}
+
+\small
+
+Os caminhos encontrados nas entradas de um diretório não incluem o nome do diretório. Por isso, `encontra_txt` adiciona o nome do diretório no início de cada caminho, usando uma função auxiliar que segue o modelo para listas:
+
+\footnotesize
+
+```gleam
+/// Adiciona *prefixo* seguido de "/" no início de cada string de *lst*.
+fn adiciona_prefixo(prefixo: String, lst: List(String)) -> List(String) {
+  case lst {
+    [] -> []
+    [primeiro, ..resto] ->
+      [prefixo <> "/" <> primeiro, ..adiciona_prefixo(prefixo, resto)]
+  }
+}
+
+fn adiciona_prefixo_examples() {
+  check.eq(adiciona_prefixo("a", []), [])
+  check.eq(adiciona_prefixo("a", ["x.txt", "b/y.txt"]), ["a/x.txt", "a/b/y.txt"])
+}
+```
+
+
+## Exemplo: arquivos txt
+
+A função `encontra_txt` usa duas funções da biblioteca padrão:
+
+- `string.ends_with(s, sufixo)`{.gleam} verifica se `s` termina com `sufixo`;
+
+- `list.append(a, b)`{.gleam} produz uma lista com os elementos de `a` seguidos dos elementos de `b`.
 
 
 Revisão

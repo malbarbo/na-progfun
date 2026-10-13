@@ -58,7 +58,7 @@ pub fn entrada_arvore_examples() {
     Dir("disciplinas", [
       Dir("12026", [
         Arq("alunos.txt"),
-        Dir("trabalhos", [
+        Dir("trabs", [
           Arq("trab1.md"),
           Dir("correcoes", [Arq("rascunho.txt"), Arq("final.txt")]),
           Arq("trab2.md"),
@@ -70,7 +70,7 @@ pub fn entrada_arvore_examples() {
     ])
 
   check.eq(entrada_arvore(arv), [
-    "disciplinas/", "+- 12026/", "|  +- alunos.txt", "|  +- trabalhos/",
+    "disciplinas/", "+- 12026/", "|  +- alunos.txt", "|  +- trabs/",
     "|     +- trab1.md", "|     +- correcoes/", "|     |  +- rascunho.txt",
     "|     |  +- final.txt", "|     +- trab2.md", "+- 6879/", "+- 6884/",
     "+- anotacoes.txt",

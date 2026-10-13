@@ -7,6 +7,7 @@ type Entrada {
   Dir(String, List(Entrada))
 }
 
+/// Devolve os caminhos dos arquivos .txt de *ent*.
 fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
     Arq(nome) ->
@@ -20,6 +21,7 @@ fn encontra_txt(ent: Entrada) -> List(String) {
   }
 }
 
+/// Devolve os caminhos dos arquivos .txt de *lst*.
 fn encontra_txt_lista(lst: List(Entrada)) -> List(String) {
   case lst {
     [] -> []
@@ -29,6 +31,7 @@ fn encontra_txt_lista(lst: List(Entrada)) -> List(String) {
   }
 }
 
+/// Adiciona *prefixo* seguido de "/" no início de cada string de *lst*.
 fn adiciona_prefixo(prefixo: String, lst: List(String)) -> List(String) {
   case lst {
     [] -> []
@@ -37,6 +40,11 @@ fn adiciona_prefixo(prefixo: String, lst: List(String)) -> List(String) {
       ..adiciona_prefixo(prefixo, resto)
     ]
   }
+}
+
+pub fn adiciona_prefixo_examples() {
+  check.eq(adiciona_prefixo("a", []), [])
+  check.eq(adiciona_prefixo("a", ["x.txt", "b/y.txt"]), ["a/x.txt", "a/b/y.txt"])
 }
 
 pub fn encontra_txt_examples() {

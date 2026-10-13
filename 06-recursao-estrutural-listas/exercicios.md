@@ -9,6 +9,8 @@ license:
 # TODO: adicionar desafios
 ---
 
+Todas as funções projetadas nos exercícios devem ser totais.
+
 # Começando
 
 @) O que é um tipo de dado com autorreferência?

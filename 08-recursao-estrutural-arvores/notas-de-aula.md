@@ -11,11 +11,17 @@ Introdução
 
 ## Introdução
 
-Listas e números naturais têm uma única autorreferência na definição, por isso as funções que os processam fazem uma única chamada recursiva. \pause
+Muitas informações são organizadas de forma hierárquica:
 
-Neste capítulo, vamos ver tipos em que a autorreferência aparece mais de uma vez (árvores binárias) ou de forma indireta, por meio de outro tipo (árvores em que cada nó tem uma lista de filhos). \pause
+- Um diretório contém arquivos e outros diretórios;
+- Em uma empresa, um funcionário tem subordinados, que têm seus próprios subordinados;
+- Uma expressão como $2 * (3 + 4)$ é formada por subexpressões.
 
-A ideia continua a mesma: o modelo de função segue a definição do tipo, e cada autorreferência na definição corresponde a uma chamada recursiva na função.
+\pause
+
+Em uma lista, cada elemento é seguido por no máximo um outro. Nesses exemplos, um elemento pode conter vários outros, e cada um deles pode conter outros. Para representar esse tipo de informação, usamos **árvores**. \pause
+
+A forma de projetar funções continua a mesma: o modelo de função segue a definição do tipo, e cada autorreferência na definição corresponde a uma chamada recursiva.
 
 
 Árvores binárias
@@ -26,21 +32,30 @@ A ideia continua a mesma: o modelo de função segue a definição do tipo, e ca
 
 Como podemos definir uma árvore binária?
 
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[arvore]
+\node {3}
+  child {node {4}
+    child {node {3}}
+    child[missing]
+  }
+  child {node {7}
+    child {node {8}}
+    child {node {9}
+      child {node {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\end{center}
 ```
-        3
-      /   \
-     4     7
-    /     / \
-   3     8   9
-            /
-           10
-```
 
 
-## Árvores binárias {.t}
+## Árvores binárias
 
-<div class="columns">
-<div class="column" width="56%">
+<div class="columns" align="top">
+<div class="column" width="44%">
 
 \small
 
@@ -52,9 +67,10 @@ Uma **árvore binária** é \pause
 
 \pause
 
-\footnotesize
+</div>
+<div class="column" width="54%">
 
-\ \
+\footnotesize
 
 ```gleam
 type Arvore(a) {
@@ -66,21 +82,38 @@ type Arvore(a) {
 \pause
 
 </div>
-<div class="column" width="42%">
+</div>
 
-\footnotesize
+\ \
 
-```
-        3
-      /   \
-     4     7
-    /     / \
-   3     8   9
-            /
-           10
+<div class="columns" align="top">
+<div class="column" width="44%">
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[arvore]
+\node {3}
+  child {node {4}
+    child {node {3}}
+    child[missing]
+  }
+  child {node {7}
+    child {node {8}}
+    child {node {9}
+      child {node {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\end{center}
 ```
 
 \pause
+
+</div>
+<div class="column" width="54%">
+
+\footnotesize
 
 ```gleam
 No(3,
@@ -98,7 +131,7 @@ No(3,
 </div>
 
 
-## Árvores binárias {.t}
+## Árvores binárias
 
 <div class="columns">
 <div class="column" width="56%">
@@ -156,7 +189,7 @@ Projete uma função que determine a quantidade de nós-folha em uma árvore.
 ## Exemplo: nós-folha {.t}
 
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="46%">
 \scriptsize
 
 ```gleam
@@ -170,24 +203,54 @@ fn num_folhas(t: Arvore(a)) -> Int {
 \pause
 
 </div>
-<div class="column" width="48%">
+<div class="column" width="54%">
 
 \scriptsize
 
 ```gleam
 fn num_folhas_examples() {
-  //     t4  3
-  //       /   \
-  //  t3  4     7  t2
-  //     / \   / \
-  //    3   2 8   9  t1
-  //             /
-  //        t0  10
+```
+
+```{=latex}
+{\centering
+\begin{tikzpicture}[arvore]
+\node[label=left:t4] {3}
+  child {node[label=left:t3] {4}
+    child {node {3}}
+    child {node {2}}
+  }
+  child {node[label=right:t2] {7}
+    child {node {8}}
+    child {node[label=right:t1] {9}
+      child {node[label=left:t0] {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\par}
+\vspace{-0.4em}
+```
+
+```{=latex}
+\begin{onlyenv}<2>
+```
+
+```gleam
   let t0 = No(10, Vazia, Vazia)
   let t1 = No(9, t0, Vazia)
   let t2 = No(7, No(8, Vazia, Vazia), t1)
-  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
+  let t3 =
+    No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
   let t4 = No(3, t3, t2)
+}
+```
+
+```{=latex}
+\end{onlyenv}
+\begin{onlyenv}<3>
+```
+
+```gleam
   check.eq(num_folhas(Vazia), 0)
   check.eq(num_folhas(t0), 1)
   check.eq(num_folhas(t1), 1)
@@ -195,6 +258,10 @@ fn num_folhas_examples() {
   check.eq(num_folhas(t3), 2)
   check.eq(num_folhas(t4), 4)
 }
+```
+
+```{=latex}
+\end{onlyenv}
 ```
 
 </div>
@@ -230,18 +297,29 @@ fn num_folhas(t: Arvore(a)) -> Int {
 
 ```gleam
 fn num_folhas_examples() {
-  //     t4  3
-  //       /   \
-  //  t3  4     7  t2
-  //     / \   / \
-  //    3   2 8   9  t1
-  //             /
-  //        t0  10
-  let t0 = No(10, Vazia, Vazia)
-  let t1 = No(9, t0, Vazia)
-  let t2 = No(7, No(8, Vazia, Vazia), t1)
-  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
-  let t4 = No(3, t3, t2)
+```
+
+```{=latex}
+{\centering
+\begin{tikzpicture}[arvore]
+\node[label=left:t4] {3}
+  child {node[label=left:t3] {4}
+    child {node {3}}
+    child {node {2}}
+  }
+  child {node[label=right:t2] {7}
+    child {node {8}}
+    child {node[label=right:t1] {9}
+      child {node[label=left:t0] {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\par}
+\vspace{-0.4em}
+```
+
+```gleam
   check.eq(num_folhas(Vazia), 0)
   check.eq(num_folhas(t0), 1)
   check.eq(num_folhas(t1), 1)
@@ -284,18 +362,29 @@ fn num_folhas(t: Arvore(a)) -> Int {
 
 ```gleam
 fn num_folhas_examples() {
-  //     t4  3
-  //       /   \
-  //  t3  4     7  t2
-  //     / \   / \
-  //    3   2 8   9  t1
-  //             /
-  //        t0  10
-  let t0 = No(10, Vazia, Vazia)
-  let t1 = No(9, t0, Vazia)
-  let t2 = No(7, No(8, Vazia, Vazia), t1)
-  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
-  let t4 = No(3, t3, t2)
+```
+
+```{=latex}
+{\centering
+\begin{tikzpicture}[arvore]
+\node[label=left:t4] {3}
+  child {node[label=left:t3] {4}
+    child {node {3}}
+    child {node {2}}
+  }
+  child {node[label=right:t2] {7}
+    child {node {8}}
+    child {node[label=right:t1] {9}
+      child {node[label=left:t0] {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\par}
+\vspace{-0.4em}
+```
+
+```gleam
   check.eq(num_folhas(Vazia), 0)
   check.eq(num_folhas(t0), 1)
   check.eq(num_folhas(t1), 1)
@@ -342,18 +431,29 @@ Um nó com as duas subárvores vazias é uma folha e conta 1.
 
 ```gleam
 fn num_folhas_examples() {
-  //     t4  3
-  //       /   \
-  //  t3  4     7  t2
-  //     / \   / \
-  //    3   2 8   9  t1
-  //             /
-  //        t0  10
-  let t0 = No(10, Vazia, Vazia)
-  let t1 = No(9, t0, Vazia)
-  let t2 = No(7, No(8, Vazia, Vazia), t1)
-  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
-  let t4 = No(3, t3, t2)
+```
+
+```{=latex}
+{\centering
+\begin{tikzpicture}[arvore]
+\node[label=left:t4] {3}
+  child {node[label=left:t3] {4}
+    child {node {3}}
+    child {node {2}}
+  }
+  child {node[label=right:t2] {7}
+    child {node {8}}
+    child {node[label=right:t1] {9}
+      child {node[label=left:t0] {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\par}
+\vspace{-0.4em}
+```
+
+```gleam
   check.eq(num_folhas(Vazia), 0)
   check.eq(num_folhas(t0), 1)
   check.eq(num_folhas(t1), 1)
@@ -393,18 +493,29 @@ fn num_folhas(t: Arvore(a)) -> Int {
 
 ```gleam
 fn num_folhas_examples() {
-  //     t4  3
-  //       /   \
-  //  t3  4     7  t2
-  //     / \   / \
-  //    3   2 8   9  t1
-  //             /
-  //        t0  10
-  let t0 = No(10, Vazia, Vazia)
-  let t1 = No(9, t0, Vazia)
-  let t2 = No(7, No(8, Vazia, Vazia), t1)
-  let t3 = No(4, No(3, Vazia, Vazia), No(2, Vazia, Vazia))
-  let t4 = No(3, t3, t2)
+```
+
+```{=latex}
+{\centering
+\begin{tikzpicture}[arvore]
+\node[label=left:t4] {3}
+  child {node[label=left:t3] {4}
+    child {node {3}}
+    child {node {2}}
+  }
+  child {node[label=right:t2] {7}
+    child {node {8}}
+    child {node[label=right:t1] {9}
+      child {node[label=left:t0] {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\par}
+\vspace{-0.4em}
+```
+
+```gleam
   check.eq(num_folhas(Vazia), 0)
   check.eq(num_folhas(t0), 1)
   check.eq(num_folhas(t1), 1)
@@ -450,18 +561,47 @@ fn altura(t: Arvore(a)) -> Int {
 
 ```gleam
 fn altura_examples() {
-  //     t4  3
-  //       /   \
-  //  t3  4     7  t2
-  //     /     / \
-  //    3     8   9  t1
-  //             /
-  //        t0  10
+```
+
+```{=latex}
+{\centering
+\begin{tikzpicture}[arvore]
+\node[label=left:t4] {3}
+  child {node[label=left:t3] {4}
+    child {node {3}}
+    child[missing]
+  }
+  child {node[label=right:t2] {7}
+    child {node {8}}
+    child {node[label=right:t1] {9}
+      child {node[label=left:t0] {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\par}
+\vspace{-0.4em}
+```
+
+```{=latex}
+\begin{onlyenv}<2>
+```
+
+```gleam
   let t0 = No(10, Vazia, Vazia)
   let t1 = No(9, t0, Vazia)
   let t2 = No(7, No(8, Vazia, Vazia), t1)
   let t3 = No(4, No(3, Vazia, Vazia), Vazia)
   let t4 = No(3, t3, t2)
+}
+```
+
+```{=latex}
+\end{onlyenv}
+\begin{onlyenv}<3>
+```
+
+```gleam
   check.eq(altura(Vazia), todo)
   check.eq(altura(t0), 0)
   check.eq(altura(t1), 1)
@@ -469,6 +609,10 @@ fn altura_examples() {
   check.eq(altura(t3), 1)
   check.eq(altura(t4), 3)
 }
+```
+
+```{=latex}
+\end{onlyenv}
 ```
 
 </div>
@@ -507,18 +651,29 @@ fn altura(t: Arvore(a)) -> Int {
 
 ```gleam
 fn altura_examples() {
-  //     t4  3
-  //       /   \
-  //  t3  4     7  t2
-  //     /     / \
-  //    3     8   9  t1
-  //             /
-  //        t0  10
-  let t0 = No(10, Vazia, Vazia)
-  let t1 = No(9, t0, Vazia)
-  let t2 = No(7, No(8, Vazia, Vazia), t1)
-  let t3 = No(4, No(3, Vazia, Vazia), Vazia)
-  let t4 = No(3, t3, t2)
+```
+
+```{=latex}
+{\centering
+\begin{tikzpicture}[arvore]
+\node[label=left:t4] {3}
+  child {node[label=left:t3] {4}
+    child {node {3}}
+    child[missing]
+  }
+  child {node[label=right:t2] {7}
+    child {node {8}}
+    child {node[label=right:t1] {9}
+      child {node[label=left:t0] {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\par}
+\vspace{-0.4em}
+```
+
+```gleam
   check.eq(altura(Vazia), todo)
   check.eq(altura(t0), 0)
   check.eq(altura(t1), 1)
@@ -560,18 +715,29 @@ fn altura(t: Arvore(a)) -> Int {
 
 ```gleam
 fn altura_examples() {
-  //     t4  3
-  //       /   \
-  //  t3  4     7  t2
-  //     /     / \
-  //    3     8   9  t1
-  //             /
-  //        t0  10
-  let t0 = No(10, Vazia, Vazia)
-  let t1 = No(9, t0, Vazia)
-  let t2 = No(7, No(8, Vazia, Vazia), t1)
-  let t3 = No(4, No(3, Vazia, Vazia), Vazia)
-  let t4 = No(3, t3, t2)
+```
+
+```{=latex}
+{\centering
+\begin{tikzpicture}[arvore]
+\node[label=left:t4] {3}
+  child {node[label=left:t3] {4}
+    child {node {3}}
+    child[missing]
+  }
+  child {node[label=right:t2] {7}
+    child {node {8}}
+    child {node[label=right:t1] {9}
+      child {node[label=left:t0] {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\par}
+\vspace{-0.4em}
+```
+
+```gleam
   check.eq(altura(Vazia), todo)
   check.eq(altura(t0), 0)
   check.eq(altura(t1), 1)
@@ -628,18 +794,29 @@ tem que resultar em 0, por isso a altura da árvore vazia é -1.
 
 ```gleam
 fn altura_examples() {
-  //     t4  3
-  //       /   \
-  //  t3  4     7  t2
-  //     /     / \
-  //    3     8   9  t1
-  //             /
-  //        t0  10
-  let t0 = No(10, Vazia, Vazia)
-  let t1 = No(9, t0, Vazia)
-  let t2 = No(7, No(8, Vazia, Vazia), t1)
-  let t3 = No(4, No(3, Vazia, Vazia), Vazia)
-  let t4 = No(3, t3, t2)
+```
+
+```{=latex}
+{\centering
+\begin{tikzpicture}[arvore]
+\node[label=left:t4] {3}
+  child {node[label=left:t3] {4}
+    child {node {3}}
+    child[missing]
+  }
+  child {node[label=right:t2] {7}
+    child {node {8}}
+    child {node[label=right:t1] {9}
+      child {node[label=left:t0] {10}}
+      child[missing]
+    }
+  };
+\end{tikzpicture}
+\par}
+\vspace{-0.4em}
+```
+
+```gleam
   check.eq(altura(Vazia), -1)
   check.eq(altura(t0), 0)
   check.eq(altura(t1), 1)
@@ -720,6 +897,14 @@ type Entrada {
   Dir(String, List(Entrada))
 }
 ```
+
+\pause
+
+\small
+
+\ \
+
+Uma entrada se refere a si mesma por meio da lista de entradas: é uma **autorreferência indireta**.
 
 </div>
 </div>

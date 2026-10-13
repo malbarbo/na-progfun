@@ -85,6 +85,16 @@ header-includes:
   \usepackage{newunicodechar}
   \newunicodechar{λ}{\ensuremath{\lambda}}
   \usetikzlibrary{positioning}
+  % Estilo para desenhar árvores
+  \tikzset{
+    arvore/.style={
+      every node/.style={circle, draw, minimum size=5mm, inner sep=0pt, font=\scriptsize},
+      every label/.style={draw=none, rectangle, minimum size=0pt, inner sep=1pt, font=\scriptsize\ttfamily},
+      level distance=6mm,
+      level 1/.style={sibling distance=16mm},
+      level 2/.style={sibling distance=8mm},
+    },
+  }
 
   % centraliza as imagens
   \makeatletter

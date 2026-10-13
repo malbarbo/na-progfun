@@ -379,7 +379,10 @@ E agora, como escrever a implementação? \pause Vamos partir do modelo de funç
 /// Soma os valores de *lst*
 pub fn soma(lst: Lista) -> Int {
   case lst {
+    // Qual é a soma da lista vazia?
     Vazia -> todo
+    // Tendo soma(resto) e o primeiro,
+    // como obter soma(lst)?
     NaoVazia(primeiro, resto) -> {
       todo
       primeiro
@@ -413,11 +416,9 @@ pub fn soma_examples() {
 
 \pause
 
-\ \
-
 \small
 
-Agora precisamos preencher as lacunas. \pause Qual deve ser o resultado quando a lista é vazia? \pause 0.
+Agora precisamos preencher as lacunas, respondendo à pergunta de cada caso.
 
 
 ## Exemplo: soma - implementação {.t}
@@ -430,7 +431,10 @@ Agora precisamos preencher as lacunas. \pause Qual deve ser o resultado quando a
 /// Soma os valores de *lst*
 pub fn soma(lst: Lista) -> Int {
   case lst {
+    // Qual é a soma da lista vazia?
     Vazia -> 0
+    // Tendo soma(resto) e o primeiro,
+    // como obter soma(lst)?
     NaoVazia(primeiro, resto) -> {
       todo
       primeiro
@@ -463,8 +467,6 @@ pub fn soma_examples() {
 </div>
 
 \pause
-
-\ \
 
 \small
 
@@ -481,7 +483,10 @@ Agora precisamos analisar o caso em que a lista não é vazia. \pause O modelo e
 /// Soma os valores de *lst*
 pub fn soma(lst: Lista) -> Int {
   case lst {
+    // Qual é a soma da lista vazia?
     Vazia -> 0
+    // Tendo soma(resto) e o primeiro,
+    // como obter soma(lst)?
     NaoVazia(primeiro, resto) -> {
       todo
       primeiro
@@ -513,11 +518,9 @@ pub fn soma_examples() {
 </div>
 </div>
 
-\ \
-
 \small
 
-Mesmo que a função não esteja completa, nós vamos **assumir** que ela produz a resposta correta para o resto da lista. \pause Tendo a soma do resto e o primeiro, como obter a soma da lista? \pause Somando os dois.
+Mesmo que a função não esteja completa, nós vamos **assumir** que ela produz a resposta correta para o resto da lista. \pause Então, basta somar o primeiro com a soma do resto.
 
 
 ## Exemplo: soma - implementação {.t}
@@ -530,7 +533,10 @@ Mesmo que a função não esteja completa, nós vamos **assumir** que ela produz
 /// Soma os valores de *lst*
 pub fn soma(lst: Lista) -> Int {
   case lst {
+    // Qual é a soma da lista vazia?
     Vazia -> 0
+    // Tendo soma(resto) e o primeiro,
+    // como obter soma(lst)?
     NaoVazia(primeiro, resto) ->
       primeiro + soma(resto)
   }
@@ -870,11 +876,12 @@ Como começamos a implementação? \pause Com o modelo.
 /// False caso contrário.
 pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
+    // v está na lista vazia?
     [] -> { todo v }
+    // Tendo contem(resto, v) e o primeiro,
+    // como saber se v está em lst?
     [primeiro, ..resto] -> {
-      todo
-      v
-      primeiro
+      todo v primeiro
       contem(resto, v)
     }
   }
@@ -903,6 +910,8 @@ pub fn contem_examples() {
 
 \pause
 
+\small
+
 O esboço para cada caso começa com um **inventário** dos valores disponíveis para implementar o caso em questão. \pause Por isso, adicionamos `v` em cada caso.
 
 
@@ -917,7 +926,59 @@ O esboço para cada caso começa com um **inventário** dos valores disponíveis
 /// False caso contrário.
 pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
+    // v está na lista vazia?
     [] -> False
+    // Tendo contem(resto, v) e o primeiro,
+    // como saber se v está em lst?
+    [primeiro, ..resto] -> {
+      todo v primeiro
+      contem(resto, v)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="46%">
+
+\footnotesize
+
+```gleam
+pub fn contem_examples() {
+  check.eq(contem([], 3), False)
+  check.eq(contem([3], 3), True)
+  check.eq(contem([3], 4), False)
+  check.eq(contem([4, 10, 3], 4), True)
+  check.eq(contem([4, 10, 3], 10), True)
+  check.eq(contem([4, 10, 3], 8), False)
+}
+```
+
+</div>
+</div>
+
+\pause
+
+\small
+
+**Assumindo** que `contem(resto, v)`{.gleam} produz a resposta correta para o resto, `v` está em `lst` se `v` é igual ao `primeiro` ou se `v` está no `resto`.
+
+
+## Exemplo: contém - implementação {.t}
+
+<div class="columns">
+<div class="column" width="50%">
+\footnotesize
+
+```gleam
+/// Devolve True se *v* está em *lst*,
+/// False caso contrário.
+pub fn contem(lst: List(Int), v: Int) -> Bool {
+  case lst {
+    // v está na lista vazia?
+    [] -> False
+    // Tendo contem(resto, v) e o primeiro,
+    // como saber se v está em lst?
     [primeiro, ..resto] ->
       v == primeiro || contem(resto, v)
   }
@@ -943,7 +1004,7 @@ pub fn contem_examples() {
 </div>
 </div>
 
-\ \
+\small
 
 **Assumindo** que `contem(resto, v)`{.gleam} produz a resposta correta para o resto, `v` está em `lst` se `v` é igual ao `primeiro` ou se `v` está no `resto`. \pause
 
@@ -961,7 +1022,10 @@ O desenvolvimento passo a passo está na seção **Exemplos passo a passo**, no 
 /// False caso contrário.
 pub fn contem(lst: List(a), v: a) -> Bool {
   case lst {
+    // v está na lista vazia?
     [] -> False
+    // Tendo contem(resto, v) e o primeiro,
+    // como saber se v está em lst?
     [primeiro, ..resto] ->
       v == primeiro || contem(resto, v)
   }
@@ -990,11 +1054,9 @@ pub fn contem_examples() {
 
 \pause
 
-\ \
+\small
 
-Estamos utilizando **polimorfismo paramétrico** para tornar a função `contem` genérica. \pause
-
-A função `contem` é genérica em relação ao tipo `a`, que é um parâmetro que pode assumir (implicitamente) qualquer tipo. \pause
+Estamos utilizando **polimorfismo paramétrico**: a função `contem` é genérica em relação ao tipo `a`, um parâmetro que pode assumir (implicitamente) qualquer tipo. \pause
 
 Note que o tipo dos elementos da lista deve ser o mesmo que o tipo de `v`.
 
@@ -1051,11 +1113,12 @@ Como começamos a implementação? \pause Com o modelo.
 /// Soma *x* a cada elemento de *lst*.
 pub fn soma_x(lst, x) -> List(Int) {
   case lst {
+    // Como somar x na lista vazia?
     [] -> { todo x }
+    // Tendo soma_x(resto, x) e o primeiro,
+    // como somar x a cada elemento de lst?
     [primeiro, ..resto] -> {
-      todo
-      x
-      primeiro
+      todo x primeiro
       soma_x(resto, x)
     }
   }
@@ -1088,7 +1151,54 @@ pub fn soma_x_examples() {
 /// Soma *x* a cada elemento de *lst*.
 pub fn soma_x(lst, x) -> List(Int) {
   case lst {
+    // Como somar x na lista vazia?
     [] -> []
+    // Tendo soma_x(resto, x) e o primeiro,
+    // como somar x a cada elemento de lst?
+    [primeiro, ..resto] -> {
+      todo x primeiro
+      soma_x(resto, x)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+\footnotesize
+
+```gleam
+pub fn soma_x_examples() {
+  check.eq(soma_x([], 4), [])
+  check.eq(soma_x([4, 2], 5), [9, 7])
+  check.eq(soma_x([3, -1, 4], -2), [1, -3, 2])
+}
+```
+</div>
+</div>
+
+\pause
+
+\small
+
+**Assumindo** que `soma_x(resto, x)`{.gleam} produz a resposta correta para o resto, basta adicionar `x + primeiro`{.gleam} no início dessa resposta.
+
+
+## Exemplo: soma x - implementação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Soma *x* a cada elemento de *lst*.
+pub fn soma_x(lst, x) -> List(Int) {
+  case lst {
+    // Como somar x na lista vazia?
+    [] -> []
+    // Tendo soma_x(resto, x) e o primeiro,
+    // como somar x a cada elemento de lst?
     [primeiro, ..resto] ->
       [x + primeiro, ..soma_x(resto, x)]
   }
@@ -1110,7 +1220,7 @@ pub fn soma_x_examples() {
 </div>
 </div>
 
-\ \
+\small
 
 **Assumindo** que `soma_x(resto, x)`{.gleam} produz a resposta correta para o resto, basta adicionar `x + primeiro`{.gleam} no início dessa resposta. \pause
 
@@ -1178,10 +1288,12 @@ Como começamos a implementação? \pause Com o modelo.
 /// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
+    // Como remover os negativos de []?
     [] -> todo
+    // Tendo remove_negativos(resto) e o
+    // primeiro, como remover os negativos?
     [primeiro, ..resto] -> {
-      todo
-      primeiro
+      todo primeiro
       remove_negativos(resto)
     }
   }
@@ -1214,7 +1326,55 @@ pub fn remove_negativos_examples() {
 /// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
+    // Como remover os negativos de []?
     [] -> []
+    // Tendo remove_negativos(resto) e o
+    // primeiro, como remover os negativos?
+    [primeiro, ..resto] -> {
+      todo primeiro
+      remove_negativos(resto)
+    }
+  }
+}
+```
+
+</div>
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+pub fn remove_negativos_examples() {
+  check.eq(remove_negativos([]), [])
+  check.eq(remove_negativos([-1, 2, -3]), [2])
+  check.eq(remove_negativos([3, 4, -2]), [3, 4])
+}
+```
+
+\pause
+
+\small
+
+**Assumindo** que a chamada recursiva produz a resposta correta para o `resto`: se o `primeiro` é negativo, a resposta é a do `resto`; senão, adicionamos o `primeiro` no início dela.
+
+</div>
+</div>
+
+
+## Exemplo: remove negativos - implementação {.t}
+
+<div class="columns">
+<div class="column" width="48%">
+\footnotesize
+
+```gleam
+/// Cria uma nova lista sem
+/// os valores negativos de *lst*.
+pub fn remove_negativos(lst) -> List(Int) {
+  case lst {
+    // Como remover os negativos de []?
+    [] -> []
+    // Tendo remove_negativos(resto) e o
+    // primeiro, como remover os negativos?
     [primeiro, ..resto] if primeiro < 0 ->
       remove_negativos(resto)
     [primeiro, ..resto] ->
@@ -1234,8 +1394,6 @@ pub fn remove_negativos_examples() {
   check.eq(remove_negativos([3, 4, -2]), [3, 4])
 }
 ```
-</div>
-</div>
 
 \small
 
@@ -1244,6 +1402,9 @@ pub fn remove_negativos_examples() {
 O `if primeiro < 0`{.gleam} é uma **guarda**: o caso só é escolhido se o padrão casar e a condição for verdadeira. \pause
 
 O desenvolvimento passo a passo está na seção **Exemplos passo a passo**, no final.
+
+</div>
+</div>
 
 
 ## Exemplo: busca por chave
@@ -1299,11 +1460,11 @@ Como começamos a implementação? \pause Com o modelo.
 /// aparece em *lst*.
 pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
+    // Como buscar chave em []?
     [] -> { todo chave }
+    // Tendo busca(resto, chave) e o primeiro, como buscar chave em lst?
     [primeiro, ..resto] -> {
-      todo
-      chave
-      primeiro
+      todo chave primeiro
       busca(resto, chave)
     }
   }
@@ -1320,7 +1481,36 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 /// aparece em *lst*.
 pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
+    // Como buscar chave em []?
     [] -> Error(Nil)
+    // Tendo busca(resto, chave) e o primeiro, como buscar chave em lst?
+    [primeiro, ..resto] -> {
+      todo chave primeiro
+      busca(resto, chave)
+    }
+  }
+}
+```
+
+\pause
+
+\small
+
+**Assumindo** que `busca(resto, chave)`{.gleam} produz a resposta correta para o resto, se a chave do `primeiro` é a chave procurada, a resposta é o valor do `primeiro`; senão, é a resposta para o `resto`.
+
+
+## Exemplo: busca por chave - implementação {.t}
+
+\footnotesize
+
+```gleam
+/// Devolve o valor associado com *chave* em *lst* ou Error(Nil) se *chave* não
+/// aparece em *lst*.
+pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
+  case lst {
+    // Como buscar chave em []?
+    [] -> Error(Nil)
+    // Tendo busca(resto, chave) e o primeiro, como buscar chave em lst?
     [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
     [_, ..resto] -> busca(resto, chave)
   }
@@ -1345,13 +1535,11 @@ type Par(a, b) {
   Par(chave: a, valor: b)
 }
 
-pub fn busca_examples() {
-  // ...
-}
-
 pub fn busca(lst: List(Par(a, b)), chave: a) -> Result(b, Nil) {
   case lst {
+    // Como buscar chave em []?
     [] -> Error(Nil)
+    // Tendo busca(resto, chave) e o primeiro, como buscar chave em lst?
     [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
     [_, ..resto] -> busca(resto, chave)
   }
@@ -1587,11 +1775,12 @@ Como começamos a implementação? \pause Com o modelo.
 /// False caso contrário.
 pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
+    // v está na lista vazia?
     [] -> { todo v }
+    // Tendo contem(resto, v) e o primeiro,
+    // como saber se v está em lst?
     [primeiro, ..resto] -> {
-      todo
-      v
-      primeiro
+      todo v primeiro
       contem(resto, v)
     }
   }
@@ -1619,6 +1808,8 @@ pub fn contem_examples() {
 </div>
 
 \pause
+
+\small
 
 O esboço para cada caso começa com um **inventário** dos valores disponíveis para implementar o caso em questão. \pause Por isso, adicionamos `v` em cada caso.
 
@@ -1634,11 +1825,12 @@ O esboço para cada caso começa com um **inventário** dos valores disponíveis
 /// False caso contrário.
 pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
+    // v está na lista vazia?
     [] -> { todo v }
+    // Tendo contem(resto, v) e o primeiro,
+    // como saber se v está em lst?
     [primeiro, ..resto] -> {
-      todo
-      v
-      primeiro
+      todo v primeiro
       contem(resto, v)
     }
   }
@@ -1665,6 +1857,8 @@ pub fn contem_examples() {
 </div>
 </div>
 
+\small
+
 O que fazemos agora? \pause Implementamos o caso base.
 
 
@@ -1679,11 +1873,12 @@ O que fazemos agora? \pause Implementamos o caso base.
 /// False caso contrário.
 pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
+    // v está na lista vazia?
     [] -> False
+    // Tendo contem(resto, v) e o primeiro,
+    // como saber se v está em lst?
     [primeiro, ..resto] -> {
-      todo
-      v
-      primeiro
+      todo v primeiro
       contem(resto, v)
     }
   }
@@ -1712,7 +1907,9 @@ pub fn contem_examples() {
 
 \pause
 
-**Assumindo** que a função produz a resposta correta para o resto (determina se `v` está no `resto`), como podemos determinar se `v` está em `lst`?
+\small
+
+**Assumindo** que a função produz a resposta correta para o resto, podemos responder à pergunta do caso.
 
 
 ## Exemplo: contém - implementação {.t}
@@ -1726,7 +1923,10 @@ pub fn contem_examples() {
 /// False caso contrário.
 pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
+    // v está na lista vazia?
     [] -> False
+    // Tendo contem(resto, v) e o primeiro,
+    // como saber se v está em lst?
     [primeiro, ..resto] ->
       case v == primeiro {
         True -> True
@@ -1758,6 +1958,8 @@ pub fn contem_examples() {
 
 \pause
 
+\small
+
 Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 
 
@@ -1772,7 +1974,10 @@ Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 /// False caso contrário.
 pub fn contem(lst: List(Int), v: Int) -> Bool {
   case lst {
+    // v está na lista vazia?
     [] -> False
+    // Tendo contem(resto, v) e o primeiro,
+    // como saber se v está em lst?
     [primeiro, ..resto] ->
       v == primeiro || contem(resto, v)
   }
@@ -1847,11 +2052,12 @@ Como começamos a implementação? \pause Com o modelo.
 /// Soma *x* a cada elemento de *lst*.
 pub fn soma_x(lst, x) -> List(Int) {
   case lst {
+    // Como somar x na lista vazia?
     [] -> { todo x }
+    // Tendo soma_x(resto, x) e o primeiro,
+    // como somar x a cada elemento de lst?
     [primeiro, ..resto] -> {
-      todo
-      x
-      primeiro
+      todo x primeiro
       soma_x(resto, x)
     }
   }
@@ -1874,6 +2080,8 @@ pub fn soma_x_examples() {
 </div>
 
 \pause
+
+\small
 
 O que fazemos agora? \pause Implementamos o caso base.
 
@@ -1888,11 +2096,12 @@ O que fazemos agora? \pause Implementamos o caso base.
 /// Soma *x* a cada elemento de *lst*.
 pub fn soma_x(lst, x) -> List(Int) {
   case lst {
+    // Como somar x na lista vazia?
     [] -> []
+    // Tendo soma_x(resto, x) e o primeiro,
+    // como somar x a cada elemento de lst?
     [primeiro, ..resto] -> {
-      todo
-      x
-      primeiro
+      todo x primeiro
       soma_x(resto, x)
     }
   }
@@ -1916,7 +2125,9 @@ pub fn soma_x_examples() {
 
 \pause
 
-**Assumindo** que a função produz a resposta correta para o resto (soma `x` em cada elemento do `resto`), como podemos criar uma lista somando `x` em cada elemento de `lst`?
+\small
+
+**Assumindo** que a função produz a resposta correta para o resto, podemos responder à pergunta do caso.
 
 
 ## Exemplo: soma x - implementação {.t}
@@ -1929,7 +2140,10 @@ pub fn soma_x_examples() {
 /// Soma *x* a cada elemento de *lst*.
 pub fn soma_x(lst, x) -> List(Int) {
   case lst {
+    // Como somar x na lista vazia?
     [] -> []
+    // Tendo soma_x(resto, x) e o primeiro,
+    // como somar x a cada elemento de lst?
     [primeiro, ..resto] ->
       [x + primeiro, ..soma_x(resto, x)]
   }
@@ -1952,6 +2166,8 @@ pub fn soma_x_examples() {
 </div>
 
 \pause
+
+\small
 
 Verificação: \pause Ok.
 
@@ -2012,10 +2228,12 @@ Como começamos a implementação? \pause Com o modelo.
 /// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
+    // Como remover os negativos de []?
     [] -> todo
+    // Tendo remove_negativos(resto) e o
+    // primeiro, como remover os negativos?
     [primeiro, ..resto] -> {
-      todo
-      primeiro
+      todo primeiro
       remove_negativos(resto)
     }
   }
@@ -2046,6 +2264,8 @@ pub fn remove_negativos_examples() {
 </div>
 
 \pause
+
+\small
 
 O que fazemos agora? \pause Implementamos o caso base.
 
@@ -2061,10 +2281,12 @@ O que fazemos agora? \pause Implementamos o caso base.
 /// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
+    // Como remover os negativos de []?
     [] -> []
+    // Tendo remove_negativos(resto) e o
+    // primeiro, como remover os negativos?
     [primeiro, ..resto] -> {
-      todo
-      primeiro
+      todo primeiro
       remove_negativos(resto)
     }
   }
@@ -2096,7 +2318,9 @@ pub fn remove_negativos_examples() {
 
 \pause
 
-**Assumindo** que a função produz a resposta correta para o resto (remove os negativos de `resto`), como podemos remover os negativos de `lst`?
+\small
+
+**Assumindo** que a função produz a resposta correta para o resto, podemos responder à pergunta do caso.
 
 
 ## Exemplo: remove negativos - implementação {.t}
@@ -2110,7 +2334,10 @@ pub fn remove_negativos_examples() {
 /// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
+    // Como remover os negativos de []?
     [] -> []
+    // Tendo remove_negativos(resto) e o
+    // primeiro, como remover os negativos?
     [primeiro, ..resto] ->
       case primeiro < 0 {
         True -> remove_negativos(resto)
@@ -2142,12 +2369,15 @@ pub fn remove_negativos_examples() {
   )
 }
 ```
-</div>
-</div>
 
 \pause
 
+\small
+
 Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
+
+</div>
+</div>
 
 
 ## Exemplo: remove negativos - revisão {.t}
@@ -2161,7 +2391,10 @@ Verificação: \pause ok. \pause (Revisão) Podemos melhorar o código?
 /// os valores negativos de *lst*.
 pub fn remove_negativos(lst) -> List(Int) {
   case lst {
+    // Como remover os negativos de []?
     [] -> []
+    // Tendo remove_negativos(resto) e o
+    // primeiro, como remover os negativos?
     [primeiro, ..resto] if primeiro < 0 ->
       remove_negativos(resto)
     [primeiro, ..resto] ->
@@ -2229,7 +2462,7 @@ pub fn busca_examples() {
 
 ## Exemplo: busca por chave - implementação {.t}
 
-\footnotesize
+\scriptsize
 
 ```gleam
 pub fn busca_examples() {
@@ -2241,11 +2474,12 @@ pub fn busca_examples() {
 
 pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
+    // Como buscar chave em []?
     [] -> { todo chave }
+    // Tendo busca(resto, chave) e o primeiro, como buscar chave em lst?
     [primeiro, ..resto] -> {
-      todo chave
-           primeiro
-           busca(resto, chave)
+      todo chave primeiro
+      busca(resto, chave)
     }
   }
 }
@@ -2254,7 +2488,7 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 
 ## Exemplo: busca por chave - implementação {.t}
 
-\footnotesize
+\scriptsize
 
 ```gleam
 pub fn busca_examples() {
@@ -2266,11 +2500,12 @@ pub fn busca_examples() {
 
 pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
+    // Como buscar chave em []?
     [] -> Error(Nil)
+    // Tendo busca(resto, chave) e o primeiro, como buscar chave em lst?
     [primeiro, ..resto] -> {
-      todo chave
-           primeiro
-           busca(resto, chave)
+      todo chave primeiro
+      busca(resto, chave)
     }
   }
 }
@@ -2279,7 +2514,7 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 
 ## Exemplo: busca por chave - implementação {.t}
 
-\footnotesize
+\scriptsize
 
 ```gleam
 pub fn busca_examples() {
@@ -2291,7 +2526,9 @@ pub fn busca_examples() {
 
 pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
+    // Como buscar chave em []?
     [] -> Error(Nil)
+    // Tendo busca(resto, chave) e o primeiro, como buscar chave em lst?
     [primeiro, ..resto] ->
       case primeiro.chave == chave {
         True -> Ok(primeiro.valor)
@@ -2304,7 +2541,7 @@ pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
 
 ## Exemplo: busca por chave - revisão {.t}
 
-\footnotesize
+\scriptsize
 
 ```gleam
 pub fn busca_examples() {
@@ -2316,7 +2553,9 @@ pub fn busca_examples() {
 
 pub fn busca(lst: List(Par), chave: String) -> Result(Int, Nil) {
   case lst {
+    // Como buscar chave em []?
     [] -> Error(Nil)
+    // Tendo busca(resto, chave) e o primeiro, como buscar chave em lst?
     [primeiro, ..] if primeiro.chave == chave -> Ok(primeiro.valor)
     [_, ..resto] -> busca(resto, chave)
   }

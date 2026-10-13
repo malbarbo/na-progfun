@@ -140,7 +140,7 @@ license:
 
 @) Projete uma função que adicione um ponto final a uma frase se ela não acabar com um.
 
-@) Projete uma função que determine se uma palavra tem um traço (`"-"`) no meio, como por exemplo, `"lero-lero"`. Não use nenhum condicional na implementação.
+@) Projete uma função que determine se uma palavra tem um traço (`"-"`) no meio, como por exemplo, `"lero-lero"`. Não use `case`{.gleam}.
 
 @) Projete uma função que encontre o máximo entre três números dados.
 

@@ -50,7 +50,7 @@ Na implementação use apenas as funções presentes no material "Resumo da ling
 
     b) Projete uma função que indique qual é a direção que está a 90 graus no sentido horário de outra direção.
 
-    c) Projete uma função que indique qual é a direção que está a 90 graus no sentido anti-horário de outra direção. Use a função do item b para fazer a implementação (não use seleção).
+    c) Projete uma função que indique qual é a direção que está a 90 graus no sentido anti-horário de outra direção. Use a função do item b para fazer a implementação (não use `case`{.gleam}).
 
     d) Projete uma função que receba como entrada duas direções e indique quantos graus uma pessoa que está virada para a primeira direção precisa virar no sentido horário para virar para a segunda direção.
 

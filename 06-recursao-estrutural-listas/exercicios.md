@@ -46,7 +46,7 @@ Não use funções de alta ordem.
 
 <!-- Processamento parcial -->
 
-@) Projete uma função que verifique se todos os elementos de uma lista de booleanos são verdadeiros. Se a sua implementação inicial utilizar condicional para fazer a chamada recursiva, faça uma versão que não utilize condicional.
+@) Projete uma função que verifique se todos os elementos de uma lista de booleanos são verdadeiros. Depois, faça uma versão que não use `case`{.gleam}. A solução ficou mais simples? Explique.
 
 <!-- Ajuste caso base -->
 

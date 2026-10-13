@@ -11,17 +11,15 @@ Introdução
 
 ## Introdução
 
-Muitas informações são organizadas de forma hierárquica:
+Muitas informações podem ser organizadas de forma hierárquica: \pause
 
-- Um diretório contém arquivos e outros diretórios;
-- Em uma empresa, um funcionário tem subordinados, que têm seus próprios subordinados;
-- Uma expressão como $2 * (3 + 4)$ é formada por subexpressões.
+- Um diretório contém arquivos e outros diretórios; \pause
+- Em uma empresa, um funcionário tem subordinados, que têm seus próprios subordinados; \pause
+- Uma expressão como $2 * (3 + 4)$ é formada por subexpressões. \pause
 
-\pause
+Uma lista, referencia no máximo uma outra lista. Nesses exemplos, um elemento pode referenciar vários outros. \pause
 
-Em uma lista, cada elemento é seguido por no máximo um outro. Nesses exemplos, um elemento pode conter vários outros, e cada um deles pode conter outros. Para representar esse tipo de informação, usamos **árvores**. \pause
-
-A forma de projetar funções continua a mesma: o modelo de função segue a definição do tipo, e cada autorreferência na definição corresponde a uma chamada recursiva.
+Como podemos representar e processar os dados desses exemplos? \pause Usando tipos com autorreferência e funções recursivas!
 
 
 Árvores binárias
@@ -30,7 +28,13 @@ A forma de projetar funções continua a mesma: o modelo de função segue a def
 
 ## Árvores binárias
 
-Como podemos definir uma árvore binária?
+<div class="columns">
+<div class="column" width="44%">
+
+Projete um tipo de dado para representar uma árvore binária.
+
+</div>
+<div class="column" width="44%">
 
 ```{=latex}
 \begin{center}
@@ -51,10 +55,12 @@ Como podemos definir uma árvore binária?
 \end{center}
 ```
 
+</div>
+</div>
 
 ## Árvores binárias
 
-<div class="columns" align="top">
+<div class="columns">
 <div class="column" width="44%">
 
 \small
@@ -86,7 +92,7 @@ type Arvore(a) {
 
 \ \
 
-<div class="columns" align="top">
+<div class="columns">
 <div class="column" width="44%">
 
 ```{=latex}
@@ -136,18 +142,9 @@ No(3,
 <div class="columns">
 <div class="column" width="56%">
 
-\small
-
-Uma **árvore binária** é
-
-- Vazia; ou
-
-- Um nó contendo um valor e **árvores binárias** à esquerda e à direita.
-
+Definição de árvore binária
 
 \footnotesize
-
-\ \
 
 ```gleam
 type Arvore(a) {
@@ -159,7 +156,7 @@ type Arvore(a) {
 </div>
 <div class="column" width="42%">
 
-Modelo de função para árvores binárias
+Modelo de função para árvores binária
 
 \footnotesize
 
@@ -189,7 +186,7 @@ Projete uma função que determine a quantidade de nós-folha em uma árvore.
 ## Exemplo: nós-folha {.t}
 
 <div class="columns">
-<div class="column" width="46%">
+<div class="column" width="48%">
 \scriptsize
 
 ```gleam
@@ -203,7 +200,7 @@ fn num_folhas(t: Arvore(a)) -> Int {
 \pause
 
 </div>
-<div class="column" width="54%">
+<div class="column" width="48%">
 
 \scriptsize
 
@@ -863,7 +860,7 @@ disciplinas/
 </div>
 
 
-## Árvores {.t}
+## Árvores
 
 <div class="columns">
 <div class="column" width="48%">
@@ -910,7 +907,7 @@ Uma entrada se refere a si mesma por meio da lista de entradas: é uma **autorre
 </div>
 
 
-## Árvores {.t}
+## Árvores
 
 <div class="columns">
 <div class="column" width="48%">
@@ -960,10 +957,10 @@ Dir("disciplinas", [
 </div>
 
 
-## Árvores {.t}
+## Árvores
 
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="40%">
 
 \small
 
@@ -981,7 +978,7 @@ Uma **lista de entradas** é:
 - Não vazia, contendo a primeira **entrada** e o resto, que é uma **lista de entradas**.
 
 </div>
-<div class="column" width="48%">
+<div class="column" width="56%">
 
 \scriptsize
 
@@ -990,8 +987,7 @@ fn fn_para_entrada(ent: Entrada) {
   case ent {
     Arq(nome) -> { todo nome }
     Dir(nome, entradas) -> {
-      todo nome
-           fn_para_entradas(entradas)
+      todo nome fn_para_entradas(entradas)
     }
   }
 }
@@ -1003,8 +999,7 @@ fn fn_para_entradas(entradas: List(Entrada)) {
   case entradas {
     [] -> todo
     [primeiro, ..resto] -> {
-      todo fn_para_entrada(primeiro)
-           fn_para_entradas(resto)
+      todo fn_para_entrada(primeiro) fn_para_entradas(resto)
     }
   }
 }
@@ -1062,6 +1057,11 @@ disciplinas/anotacoes.txt
 fn encontra_txt(ent: Entrada) -> List(String) {
   todo
 }
+
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
+fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
+  todo
+}
 ```
 
 </div>
@@ -1108,8 +1108,7 @@ fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
     Arq(nome) -> { todo nome }
     Dir(nome, entradas) -> {
-      todo nome
-           encontra_txt_lista(entradas)
+      todo nome encontra_txt_lista(entradas)
     }
   }
 }
@@ -1117,8 +1116,9 @@ fn encontra_txt(ent: Entrada) -> List(String) {
 fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
   case entradas {
     [] -> todo
-    [ent, ..resto] ->
-      { todo encontra_txt(ent) encontra_txt_lista(resto) }
+    [ent, ..resto] -> {
+      todo encontra_txt(ent) encontra_txt_lista(resto)
+    }
   }
 }
 ```
@@ -1162,24 +1162,22 @@ disciplinas/anotacoes.txt
 \scriptsize
 
 ```gleam
-/// Devolve os caminhos dos arquivos .txt de *ent*.
 fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
-    Arq(nome) -> case string.ends_with(nome, ".txt") {
-      False -> []
-      True -> [nome] }
-    Dir(nome, entradas) -> {
-      todo nome
-           encontra_txt_lista(entradas)
-    }
+    Arq(nome) ->
+      case string.ends_with(nome, ".txt") {
+        False -> []
+        True -> [nome]
+      }
+    Dir(nome, entradas) ->
+      todo nome encontra_txt_lista(entradas)
   }
 }
-/// Devolve os caminhos dos arquivos .txt de *entradas*.
 fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
   case entradas {
     [] -> []
     [ent, ..resto] ->
-      { todo encontra_txt(ent) encontra_txt_lista(resto) }
+      todo encontra_txt(ent) encontra_txt_lista(resto)
   }
 }
 ```
@@ -1223,7 +1221,6 @@ disciplinas/anotacoes.txt
 \scriptsize
 
 ```gleam
-/// Devolve os caminhos dos arquivos .txt de *ent*.
 fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
     Arq(nome) ->
@@ -1235,7 +1232,6 @@ fn encontra_txt(ent: Entrada) -> List(String) {
       adiciona_prefixo(nome, encontra_txt_lista(entradas))
   }
 }
-/// Devolve os caminhos dos arquivos .txt de *entradas*.
 fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
   case entradas {
     [] -> []
@@ -1255,7 +1251,7 @@ fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
 
 Os caminhos encontrados nas entradas de um diretório não incluem o nome do diretório. Por isso, `encontra_txt` adiciona o nome do diretório no início de cada caminho, usando uma função auxiliar que segue o modelo para listas:
 
-\footnotesize
+\scriptsize
 
 ```gleam
 /// Adiciona *prefixo* seguido de "/" no início de cada string de *lst*.

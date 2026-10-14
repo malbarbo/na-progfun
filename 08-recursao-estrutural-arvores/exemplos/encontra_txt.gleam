@@ -15,19 +15,17 @@ fn encontra_txt(ent: Entrada) -> List(String) {
         False -> []
         True -> [nome]
       }
-    Dir(nome, entradas) -> {
+    Dir(nome, entradas) ->
       adiciona_prefixo(nome, encontra_txt_lista(entradas))
-    }
   }
 }
 
-/// Devolve os caminhos dos arquivos .txt de *lst*.
-fn encontra_txt_lista(lst: List(Entrada)) -> List(String) {
-  case lst {
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
+fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
+  case entradas {
     [] -> []
-    [entrada, ..resto] -> {
-      list.append(encontra_txt(entrada), encontra_txt_lista(resto))
-    }
+    [ent, ..resto] ->
+      list.append(encontra_txt(ent), encontra_txt_lista(resto))
   }
 }
 

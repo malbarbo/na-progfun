@@ -24,7 +24,7 @@ Todas as funções projetadas nos exercícios devem ser totais.
 
 @) Uma árvore binária cheia é aquela em que todos os seus nós têm grau 0 ou 2. Projete uma função que determine se uma árvore binária é cheia.
 
-@) Uma árvore binária balanceada é aquela em que a altura das subárvores à direita e à esquerda diferem em no máximo 1 e as duas subárvores também são balanceadas. Projete uma função que verifique se uma árvore binária é balanceada.
+@) Uma árvore binária balanceada é aquela em que as alturas das subárvores à direita e à esquerda diferem em no máximo 1 e as duas subárvores também são balanceadas. Projete uma função que verifique se uma árvore binária é balanceada.
 
 @) Projete uma função que verifique se uma árvore binária é uma árvore binária de busca. Uma árvore binária de busca tem as seguintes propriedades: 1) Todos os valores da subárvore à esquerda são menores que o valor da raiz. 2) Todos os valores da subárvore à direita são maiores que o valor da raiz. 3) As subárvores à esquerda e à direita também são árvores binárias de busca.
 

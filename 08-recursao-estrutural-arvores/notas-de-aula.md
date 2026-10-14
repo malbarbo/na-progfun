@@ -17,7 +17,7 @@ Muitas informações podem ser organizadas de forma hierárquica: \pause
 - Em uma empresa, um funcionário tem subordinados, que têm seus próprios subordinados; \pause
 - Uma expressão como $2 * (3 + 4)$ é formada por subexpressões. \pause
 
-Uma lista, referencia no máximo uma outra lista. Nesses exemplos, um elemento pode referenciar vários outros. \pause
+Uma lista referencia no máximo uma outra lista. Nesses exemplos, um elemento pode referenciar vários outros. \pause
 
 Como podemos representar e processar os dados desses exemplos? \pause Usando tipos com autorreferência e funções recursivas!
 
@@ -156,7 +156,7 @@ type Arvore(a) {
 </div>
 <div class="column" width="42%">
 
-Modelo de função para árvores binária
+Modelo de função para árvores binárias
 
 \footnotesize
 
@@ -275,7 +275,11 @@ fn num_folhas_examples() {
 /// Determina o número de nós-folha de *t*.
 fn num_folhas(t: Arvore(a)) -> Int {
   case t {
+    // Quantas folhas tem a árvore vazia?
     Vazia -> todo
+    // Tendo num_folhas(esq),
+    // num_folhas(dir) e o valor,
+    // como obter num_folhas(t)?
     No(valor, esq, dir) -> {
       todo
       valor
@@ -340,7 +344,11 @@ fn num_folhas_examples() {
 /// Determina o número de nós-folha de *t*.
 fn num_folhas(t: Arvore(a)) -> Int {
   case t {
+    // Quantas folhas tem a árvore vazia?
     Vazia -> 0
+    // Tendo num_folhas(esq),
+    // num_folhas(dir) e o valor,
+    // como obter num_folhas(t)?
     No(valor, esq, dir) -> {
       todo
       valor
@@ -391,6 +399,12 @@ fn num_folhas_examples() {
 }
 ```
 
+\pause
+
+\small
+
+**Assumindo** que as chamadas recursivas produzem a resposta correta: se `esq` ou `dir` não é vazia, basta somar as folhas das duas; senão, o nó é uma folha e a resposta é 1.
+
 </div>
 </div>
 
@@ -405,7 +419,11 @@ fn num_folhas_examples() {
 /// Determina o número de nós-folha de *t*.
 fn num_folhas(t: Arvore(a)) -> Int {
   case t {
+    // Quantas folhas tem a árvore vazia?
     Vazia -> 0
+    // Tendo num_folhas(esq),
+    // num_folhas(dir) e o valor,
+    // como obter num_folhas(t)?
     No(_, esq, dir) ->
       case esq, dir {
         Vazia, Vazia -> 1
@@ -417,10 +435,6 @@ fn num_folhas(t: Arvore(a)) -> Int {
 
 ```
 
-\small
-
-Um nó com as duas subárvores vazias é uma folha e conta 1.
-
 </div>
 <div class="column" width="48%">
 
@@ -460,6 +474,10 @@ fn num_folhas_examples() {
 }
 ```
 
+\small
+
+**Assumindo** que as chamadas recursivas produzem a resposta correta: se `esq` ou `dir` não é vazia, basta somar as folhas das duas; senão, o nó é uma folha e a resposta é 1.
+
 </div>
 </div>
 
@@ -474,7 +492,11 @@ fn num_folhas_examples() {
 /// Determina o número de nós-folha de *t*.
 fn num_folhas(t: Arvore(a)) -> Int {
   case t {
+    // Quantas folhas tem a árvore vazia?
     Vazia -> 0
+    // Tendo num_folhas(esq),
+    // num_folhas(dir) e o valor,
+    // como obter num_folhas(t)?
     No(_, Vazia, Vazia) -> 1
     No(_, esq, dir) ->
       num_folhas(esq) + num_folhas(dir)
@@ -629,7 +651,10 @@ fn altura_examples() {
 /// um único nó tem altura 0.
 fn altura(t: Arvore(a)) -> Int {
   case t {
+    // Qual é a altura da árvore vazia?
     Vazia -> todo
+    // Tendo altura(esq), altura(dir) e
+    // o valor, como obter altura(t)?
     No(valor, esq, dir) -> {
       todo
       valor
@@ -680,6 +705,12 @@ fn altura_examples() {
 }
 ```
 
+\pause
+
+\small
+
+**Assumindo** que as chamadas recursivas produzem a resposta correta, a altura de `t` é 1 mais a maior altura entre `esq` e `dir`.
+
 </div>
 </div>
 
@@ -697,7 +728,10 @@ fn altura_examples() {
 /// um único nó tem altura 0.
 fn altura(t: Arvore(a)) -> Int {
   case t {
+    // Qual é a altura da árvore vazia?
     Vazia -> todo
+    // Tendo altura(esq), altura(dir) e
+    // o valor, como obter altura(t)?
     No(_, esq, dir) ->
       1 + int.max(altura(esq), altura(dir))
   }
@@ -744,6 +778,10 @@ fn altura_examples() {
 }
 ```
 
+\small
+
+**Assumindo** que as chamadas recursivas produzem a resposta correta, a altura de `t` é 1 mais a maior altura entre `esq` e `dir`.
+
 </div>
 </div>
 
@@ -762,27 +800,16 @@ fn altura_examples() {
 /// tem altura -1.
 fn altura(t: Arvore(a)) -> Int {
   case t {
+    // Qual é a altura da árvore vazia?
     Vazia -> -1
+    // Tendo altura(esq), altura(dir) e
+    // o valor, como obter altura(t)?
     No(_, esq, dir) ->
       1 + int.max(altura(esq), altura(dir))
   }
 }
 
 ```
-
-\small
-
-Para que uma árvore com um único nó tenha altura 0, a expressão
-
-\scriptsize
-
-```gleam
-1 + int.max(altura(Vazia), altura(Vazia))
-```
-
-\small
-
-tem que resultar em 0, por isso a altura da árvore vazia é -1.
 
 </div>
 <div class="column" width="48%">
@@ -825,6 +852,10 @@ fn altura_examples() {
 
 </div>
 </div>
+
+\small
+
+Como um único nó tem altura 0, `1 + int.max(altura(Vazia), altura(Vazia))`{.gleam} tem que ser 0, por isso a altura da árvore vazia é -1, pois `1 + int.max(-1, -1)`{.gleam} é 0.
 
 
 Árvores
@@ -987,7 +1018,8 @@ fn fn_para_entrada(ent: Entrada) {
   case ent {
     Arq(nome) -> { todo nome }
     Dir(nome, entradas) -> {
-      todo nome fn_para_entradas(entradas)
+      todo nome
+      fn_para_entradas(entradas)
     }
   }
 }
@@ -999,7 +1031,9 @@ fn fn_para_entradas(entradas: List(Entrada)) {
   case entradas {
     [] -> todo
     [primeiro, ..resto] -> {
-      todo fn_para_entrada(primeiro) fn_para_entradas(resto)
+      todo
+      fn_para_entrada(primeiro)
+      fn_para_entradas(resto)
     }
   }
 }
@@ -1106,21 +1140,90 @@ disciplinas/anotacoes.txt
 /// Devolve os caminhos dos arquivos .txt de *ent*.
 fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
+    // Quais são os .txt de Arq(nome)?
     Arq(nome) -> { todo nome }
+    // Tendo os .txt das entradas, quais são os .txt de ent?
     Dir(nome, entradas) -> {
-      todo nome encontra_txt_lista(entradas)
+      todo nome
+      encontra_txt_lista(entradas)
     }
   }
 }
+
 /// Devolve os caminhos dos arquivos .txt de *entradas*.
-fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
-  case entradas {
-    [] -> todo
-    [ent, ..resto] -> {
-      todo encontra_txt(ent) encontra_txt_lista(resto)
+fn encontra_txt_lista(entradas: List(Entrada)) -> List(String)
+```
+
+</div>
+</div>
+
+
+## Exemplo: arquivos txt {.t}
+
+<div class="columns">
+<div class="column" width="38%">
+\tiny
+
+```
+disciplinas/
++- 12026/
+|  +- alunos.txt
+|  +- trabs/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+\ \
+
+```
+disciplinas/12026/alunos.txt
+disciplinas/12026/trabs/correcoes/rascunho.txt
+disciplinas/12026/trabs/correcoes/final.txt
+disciplinas/anotacoes.txt
+```
+
+```{=latex}
+\begin{uncoverenv}<2->
+```
+
+\footnotesize
+
+**Assumindo** que `encontra_txt_lista(entradas)`{.gleam} produz a resposta correta, basta adicionar o nome do diretório no início de cada caminho.
+
+```{=latex}
+\end{uncoverenv}
+```
+
+</div>
+<div class="column" width="60%">
+\scriptsize
+
+```gleam
+/// Devolve os caminhos dos arquivos .txt de *ent*.
+fn encontra_txt(ent: Entrada) -> List(String) {
+  case ent {
+    // Quais são os .txt de Arq(nome)?
+    Arq(nome) ->
+      case string.ends_with(nome, ".txt") {
+        False -> []
+        True -> [nome]
+      }
+    // Tendo os .txt das entradas, quais são os .txt de ent?
+    Dir(nome, entradas) -> {
+      todo nome
+      encontra_txt_lista(entradas)
     }
   }
 }
+
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
+fn encontra_txt_lista(entradas: List(Entrada)) -> List(String)
 ```
 
 </div>
@@ -1157,84 +1260,212 @@ disciplinas/12026/trabs/correcoes/final.txt
 disciplinas/anotacoes.txt
 ```
 
-</div>
-<div class="column" width="60%">
-\scriptsize
+\footnotesize
 
-```gleam
-fn encontra_txt(ent: Entrada) -> List(String) {
-  case ent {
-    Arq(nome) ->
-      case string.ends_with(nome, ".txt") {
-        False -> []
-        True -> [nome]
-      }
-    Dir(nome, entradas) ->
-      todo nome encontra_txt_lista(entradas)
-  }
-}
-fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
-  case entradas {
-    [] -> []
-    [ent, ..resto] ->
-      todo encontra_txt(ent) encontra_txt_lista(resto)
-  }
-}
-```
-
-</div>
-</div>
-
-
-## Exemplo: arquivos txt {.t}
-
-<div class="columns">
-<div class="column" width="38%">
-\tiny
-
-```
-disciplinas/
-+- 12026/
-|  +- alunos.txt
-|  +- trabs/
-|     +- trab1.md
-|     +- correcoes/
-|     |  +- rascunho.txt
-|     |  +- final.txt
-|     +- trab2.md
-+- 6879/
-+- 6884/
-+- anotacoes.txt
-```
-
-\ \
-
-```
-disciplinas/12026/alunos.txt
-disciplinas/12026/trabs/correcoes/rascunho.txt
-disciplinas/12026/trabs/correcoes/final.txt
-disciplinas/anotacoes.txt
-```
+**Assumindo** que `encontra_txt_lista(entradas)`{.gleam} produz a resposta correta, basta adicionar o nome do diretório no início de cada caminho.
 
 </div>
 <div class="column" width="60%">
 \scriptsize
 
 ```gleam
+/// Devolve os caminhos dos arquivos .txt de *ent*.
 fn encontra_txt(ent: Entrada) -> List(String) {
   case ent {
+    // Quais são os .txt de Arq(nome)?
     Arq(nome) ->
       case string.ends_with(nome, ".txt") {
         False -> []
         True -> [nome]
       }
+    // Tendo os .txt das entradas, quais são os .txt de ent?
     Dir(nome, entradas) ->
       adiciona_prefixo(nome, encontra_txt_lista(entradas))
   }
 }
+
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
+fn encontra_txt_lista(entradas: List(Entrada)) -> List(String)
+```
+
+</div>
+</div>
+
+
+## Exemplo: arquivos txt {.t}
+
+<div class="columns">
+<div class="column" width="38%">
+\tiny
+
+```
+disciplinas/
++- 12026/
+|  +- alunos.txt
+|  +- trabs/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+\ \
+
+```
+disciplinas/12026/alunos.txt
+disciplinas/12026/trabs/correcoes/rascunho.txt
+disciplinas/12026/trabs/correcoes/final.txt
+disciplinas/anotacoes.txt
+```
+
+</div>
+<div class="column" width="60%">
+\scriptsize
+
+```gleam
+/// Devolve os caminhos dos arquivos .txt de *ent*.
+fn encontra_txt(ent: Entrada) -> List(String)
+
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
 fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
   case entradas {
+    // Quais são os .txt de []?
+    [] -> todo
+    // Tendo os .txt de ent e do resto, quais são os da lista?
+    [ent, ..resto] -> {
+      todo
+      encontra_txt(ent)
+      encontra_txt_lista(resto)
+    }
+  }
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo: arquivos txt {.t}
+
+<div class="columns">
+<div class="column" width="38%">
+\tiny
+
+```
+disciplinas/
++- 12026/
+|  +- alunos.txt
+|  +- trabs/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+\ \
+
+```
+disciplinas/12026/alunos.txt
+disciplinas/12026/trabs/correcoes/rascunho.txt
+disciplinas/12026/trabs/correcoes/final.txt
+disciplinas/anotacoes.txt
+```
+
+```{=latex}
+\begin{uncoverenv}<2->
+```
+
+\footnotesize
+
+**Assumindo** que `encontra_txt(ent)`{.gleam} e `encontra_txt_lista(resto)`{.gleam} produzem as respostas corretas, basta juntar as duas listas.
+
+```{=latex}
+\end{uncoverenv}
+```
+
+</div>
+<div class="column" width="60%">
+\scriptsize
+
+```gleam
+/// Devolve os caminhos dos arquivos .txt de *ent*.
+fn encontra_txt(ent: Entrada) -> List(String)
+
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
+fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
+  case entradas {
+    // Quais são os .txt de []?
     [] -> []
+    // Tendo os .txt de ent e do resto, quais são os da lista?
+    [ent, ..resto] -> {
+      todo
+      encontra_txt(ent)
+      encontra_txt_lista(resto)
+    }
+  }
+}
+```
+
+</div>
+</div>
+
+
+## Exemplo: arquivos txt {.t}
+
+<div class="columns">
+<div class="column" width="38%">
+\tiny
+
+```
+disciplinas/
++- 12026/
+|  +- alunos.txt
+|  +- trabs/
+|     +- trab1.md
+|     +- correcoes/
+|     |  +- rascunho.txt
+|     |  +- final.txt
+|     +- trab2.md
++- 6879/
++- 6884/
++- anotacoes.txt
+```
+
+\ \
+
+```
+disciplinas/12026/alunos.txt
+disciplinas/12026/trabs/correcoes/rascunho.txt
+disciplinas/12026/trabs/correcoes/final.txt
+disciplinas/anotacoes.txt
+```
+
+\footnotesize
+
+**Assumindo** que `encontra_txt(ent)`{.gleam} e `encontra_txt_lista(resto)`{.gleam} produzem as respostas corretas, basta juntar as duas listas.
+
+</div>
+<div class="column" width="60%">
+\scriptsize
+
+```gleam
+/// Devolve os caminhos dos arquivos .txt de *ent*.
+fn encontra_txt(ent: Entrada) -> List(String)
+
+/// Devolve os caminhos dos arquivos .txt de *entradas*.
+fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
+  case entradas {
+    // Quais são os .txt de []?
+    [] -> []
+    // Tendo os .txt de ent e do resto, quais são os da lista?
     [ent, ..resto] ->
       list.append(encontra_txt(ent), encontra_txt_lista(resto))
   }
@@ -1249,7 +1480,7 @@ fn encontra_txt_lista(entradas: List(Entrada)) -> List(String) {
 
 \small
 
-Os caminhos encontrados nas entradas de um diretório não incluem o nome do diretório. Por isso, `encontra_txt` adiciona o nome do diretório no início de cada caminho, usando uma função auxiliar que segue o modelo para listas:
+Para adicionar o nome do diretório no início de cada caminho, `encontra_txt` usa uma função auxiliar que segue o modelo para listas:
 
 \scriptsize
 

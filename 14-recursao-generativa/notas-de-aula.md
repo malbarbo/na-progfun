@@ -140,7 +140,7 @@ Qual é a ideia do _quicksort_? \pause
 \scriptsize
 
 ```gleam
-/// Ordena *lst* em ordem não decrescente usando o algoritmo quicksort.
+/// Ordena *lst* em ordem monotonicamente crescente usando o algoritmo quicksort.
 fn quicksort(lst: List(Int)) -> List(Int) {
   todo
 }
@@ -159,7 +159,7 @@ fn quicksort_examples() {
 \scriptsize
 
 ```gleam
-/// Ordena *lst* em ordem não decrescente usando o algoritmo quicksort.
+/// Ordena *lst* em ordem monotonicamente crescente usando o algoritmo quicksort.
 fn quicksort(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
@@ -179,7 +179,7 @@ fn quicksort(lst: List(Int)) -> List(Int) {
 \scriptsize
 
 ```gleam
-/// Ordena *lst* em ordem não decrescente usando o algoritmo quicksort.
+/// Ordena *lst* em ordem monotonicamente crescente usando o algoritmo quicksort.
 fn quicksort(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
@@ -204,7 +204,7 @@ A funciona `quicksort` funciona corretamente para qualquer entrada? \pause Não.
 \scriptsize
 
 ```gleam
-/// Ordena *lst* em ordem não decrescente usando o algoritmo quicksort.
+/// Ordena *lst* em ordem monotonicamente crescente usando o algoritmo quicksort.
 fn quicksort(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []

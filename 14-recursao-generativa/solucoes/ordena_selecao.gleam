@@ -2,8 +2,8 @@ import gleam/int
 import gleam/list
 import sgleam/check
 
-/// Ordena *lst* em ordem não decrescente usando o algoritmo de ordenação por
-/// seleção.
+/// Ordena *lst* em ordem monotonicamente crescente usando o algoritmo de
+/// ordenação por seleção.
 pub fn ordena_selecao(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []

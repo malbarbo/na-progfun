@@ -1,7 +1,7 @@
 import sgleam/check
 
-/// Cria uma lista com os elementos de *lst* em ordem não decrescente usando o
-/// algoritmo de ordenação por inserção.
+/// Cria uma lista com os elementos de *lst* em ordem monotonicamente crescente
+/// usando o algoritmo de ordenação por inserção.
 pub fn ordena(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
@@ -18,9 +18,9 @@ pub fn ordena_examples() {
 }
 
 /// Devolve uma nova lista com os mesmos elementos de *lst* junto com *n* em ordem
-/// não decrescente.
+/// monotonicamente crescente.
 ///
-/// Requer que lst esteja em ordem não decrescente.
+/// Requer que lst esteja em ordem monotonicamente crescente.
 fn insere_ordenado(lst: List(Int), n: Int) -> List(Int) {
   case lst {
     [] -> [n]

@@ -1,7 +1,8 @@
 import gleam/list
 import sgleam/check
 
-/// Ordena *lst* em ordem não decrescente usando o algoritmo quicksort.
+/// Ordena *lst* em ordem monotonicamente crescente usando o algoritmo
+/// quicksort.
 pub fn quicksort(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []

@@ -1,7 +1,7 @@
 import sgleam/check
 
-/// Produz True se os elementos de *lst* estão em ordem não decrescente,
-/// produz False caso contrário.
+/// Produz True se os elementos de *lst* estão em ordem monotonicamente
+/// crescente, produz False caso contrário.
 pub fn ordenado(lst: List(Int)) -> Bool {
   case lst {
     [] | [_] -> True

@@ -285,7 +285,7 @@ Número par \pause
 
 Ordenação \pause
 
-- O que: ordena os elementos de uma lista em ordem não decrescente \pause
+- O que: ordena os elementos de uma lista em ordem monotonicamente crescente \pause
 - Como: ordenação por seleção, por inserção, por intercalação, etc
 
 

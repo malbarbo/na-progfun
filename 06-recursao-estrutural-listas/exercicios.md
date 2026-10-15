@@ -50,7 +50,7 @@ Não use funções de alta ordem.
 
 <!-- Ajuste caso base -->
 
-@) Projete uma função que verifique se uma lista de números está em ordem não decrescente. Dica: use dois casos base.
+@) Projete uma função que verifique se uma lista de números está em ordem monotonicamente crescente. Dica: use dois casos base.
 
 <!-- Funções auxiliares -->
 

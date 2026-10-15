@@ -1802,7 +1802,7 @@ fn seleciona_no_eixo(
 
 ## Exemplo: ordenação
 
-Projete uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem não decrescente.
+Projete uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem monotonicamente crescente.
 
 
 ## Exemplo: ordenação
@@ -1814,7 +1814,7 @@ Projete uma função que receba como entrada uma lista de números e devolva uma
 
 ```gleam
 /// Cria uma lista com os elementos de
-/// *lst* em ordem não decrescente.
+/// *lst* em ordem monotonicamente crescente.
 fn ordena(lst: List(Int)) -> List(Int) {
   todo
 }

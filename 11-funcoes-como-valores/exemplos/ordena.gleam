@@ -1,7 +1,7 @@
 import gleam/list
 import sgleam/check
 
-/// Cria uma lista com os elementos de *lst* em ordem não decrescente.
+/// Cria uma lista com os elementos de *lst* em ordem monotonicamente crescente.
 pub fn ordena(lst: List(Int)) -> List(Int) {
   list.fold(lst, [], insere_ordenado)
 }
@@ -15,9 +15,9 @@ pub fn ordena_examples() {
 }
 
 /// Devolve uma nova lst com os mesmos elementos de *lst* junto com *n* em
-/// ordem não decrescente.
+/// ordem monotonicamente crescente.
 ///
-/// Requer que *lst* esteja em ordem não decrescente.
+/// Requer que *lst* esteja em ordem monotonicamente crescente.
 pub fn insere_ordenado(lst: List(Int), n: Int) -> List(Int) {
   case lst {
     [] -> [n]

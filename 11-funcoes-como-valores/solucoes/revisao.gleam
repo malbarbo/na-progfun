@@ -8,7 +8,7 @@ import sgleam/check
 // As funções que podem parar antes de analisar todos os elementos da lista não
 // são adequadas para serem implementadas com map, filter e fold_right. Entre os
 // exercícios temos o de verificar se todos são verdadeiros, se algum é
-// verdadeiro e se a lista está em ordem não decrescente.
+// verdadeiro e se a lista está em ordem monotonicamente crescente.
 //
 // A função para encontrar o último pode ser implementada com fold_right, mas
 // fica confusa. Com o fold, que ainda vamos ver, fica bom.

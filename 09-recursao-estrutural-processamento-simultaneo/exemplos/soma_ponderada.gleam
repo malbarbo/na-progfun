@@ -10,9 +10,9 @@ pub fn soma_ponderada(
 ) -> Result(Float, Nil) {
   case lst, pesos {
     [], [] -> Ok(0.0)
-    [primeiro, ..resto], [peso, ..pesos] ->
-      case soma_ponderada(resto, pesos) {
-        Ok(s) -> Ok(s +. primeiro *. peso)
+    [valor, ..rlst], [peso, ..rpesos] ->
+      case soma_ponderada(rlst, rpesos) {
+        Ok(r) -> Ok(valor *. peso +. r)
         _ -> Error(Nil)
       }
     _, _ -> Error(Nil)
@@ -21,9 +21,9 @@ pub fn soma_ponderada(
 
 pub fn soma_ponderada_examples() {
   check.eq(soma_ponderada([], []), Ok(0.0))
-  check.eq(soma_ponderada([], [1.0]), Error(Nil))
-  check.eq(soma_ponderada([1.0], []), Error(Nil))
   check.eq(soma_ponderada([4.0], [2.0]), Ok(8.0))
   check.eq(soma_ponderada([3.0, 4.0], [5.0, 2.0]), Ok(23.0))
   check.eq(soma_ponderada([5.0, 3.0, 4.0], [1.0, 5.0, 2.0]), Ok(28.0))
+  check.eq(soma_ponderada([], [1.0]), Error(Nil))
+  check.eq(soma_ponderada([1.0], []), Error(Nil))
 }

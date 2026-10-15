@@ -1,7 +1,6 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
 # TODO: mais detalhes sobre processamento simultâneo
-# TODO: adicionar revisão
 title: Recursão estrutural
 subtitle: Processamento simultâneo
 ---
@@ -35,7 +34,7 @@ Projete uma função que concatene duas listas de números. \pause
 
 ```gleam
 /// Produz uma nova lista com os elementos
-/// de *lsta* seguido dos elementos de *lstb*.
+/// de *lsta* seguidos dos elementos de *lstb*.
 fn concatena(
   lsta: List(a),
   lstb: List(a),
@@ -66,7 +65,7 @@ fn concatena_examples() {
 
 \pause
 
-\normalsize
+\small
 
 \ \
 
@@ -83,7 +82,7 @@ Então usamos o modelo para processar `lsta`.
 
 ```gleam
 /// Produz uma nova lista com os elementos
-/// de *lsta* seguido dos elementos de *lstb*.
+/// de *lsta* seguidos dos elementos de *lstb*.
 fn concatena(
   lsta: List(a),
   lstb: List(a),
@@ -126,7 +125,7 @@ fn concatena_examples() {
 
 ```gleam
 /// Produz uma nova lista com os elementos
-/// de *lsta* seguido dos elementos de *lstb*.
+/// de *lsta* seguidos dos elementos de *lstb*.
 fn concatena(
   lsta: List(a),
   lstb: List(a),
@@ -169,7 +168,7 @@ fn concatena_examples() {
 
 ```gleam
 /// Produz uma nova lista com os elementos
-/// de *lsta* seguido dos elementos de *lstb*.
+/// de *lsta* seguidos dos elementos de *lstb*.
 fn concatena(
   lsta: List(a),
   lstb: List(a),
@@ -261,7 +260,7 @@ fn soma_ponderada_examples() {
 
 \pause
 
-\normalsize
+\small
 
 \ \
 
@@ -421,7 +420,7 @@ fn soma_ponderada_examples() {
 
 ## Exemplo caso 3: prefixo
 
-Dadas duas listas `lsta` e `lstb`, defina uma função que verifique se `lsta` é prefixo de `lstb`, isto é, se `lstb` começa com `lsta`. \pause
+Dadas duas listas `lsta` e `lstb`, projete uma função que verifique se `lsta` é prefixo de `lstb`, isto é, se `lstb` começa com `lsta`. \pause
 
 1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento.
 2) Processar os dois argumentos de forma sincronizada.
@@ -486,6 +485,14 @@ fn prefixo_examples() {
 ```
 </div>
 </div>
+
+\pause
+
+\small
+
+\ \
+
+Combinamos os modelos para as duas listas (vazia ou não vazia), o que dá 4 combinações, indicadas nos comentários dos exemplos.
 
 
 ## Exemplo: prefixo {.t}
@@ -694,10 +701,16 @@ fn prefixo_examples() {
 </div>
 </div>
 
+\small
 
-## Exemplo: $k$-ésimo
+\ \
 
-Defina uma função que encontre o $k$-ésimo elemento de uma lista. \pause
+Os casos `[], []` e `[], _` têm a mesma resposta, então os juntamos em `[], _`.
+
+
+## Exemplo caso 3: $k$-ésimo
+
+Projete uma função que encontre o $k$-ésimo elemento de uma lista. \pause
 
 1) Tratar um dos argumentos como atômico e utilizar o modelo de função para o outro argumento.
 2) Processar os dois argumentos de forma sincronizada.
@@ -711,10 +724,10 @@ Defina uma função que encontre o $k$-ésimo elemento de uma lista. \pause
 \scriptsize
 
 ```gleam
-/// Devolve o elemento na posição *i* de *lst*
+/// Devolve o elemento na posição *k* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior ou igual a
-/// quantidade de elemento de *lst*.
+/// se *k* é negativo ou é maior ou igual à
+/// quantidade de elementos de *lst*.
 fn lista_get(
   lst: List(a),
   k: Int,
@@ -776,6 +789,14 @@ fn lista_get_examples() {
 </div>
 </div>
 
+\pause
+
+\small
+
+\ \
+
+Combinamos o modelo para listas (vazia ou não vazia) com o modelo para naturais (0 ou maior que 0), o que dá 4 combinações. Como `k` é `Int`, também consideramos as combinações com `k` negativo.
+
 
 ## Exemplo: $k$-ésimo {.t}
 
@@ -784,10 +805,10 @@ fn lista_get_examples() {
 \scriptsize
 
 ```gleam
-/// Devolve o elemento na posição *i* de *lst*
+/// Devolve o elemento na posição *k* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior ou igual a
-/// quantidade de elemento de *lst*.
+/// se *k* é negativo ou é maior ou igual à
+/// quantidade de elementos de *lst*.
 fn lista_get(
   lst: List(a),
   k: Int,
@@ -838,10 +859,10 @@ fn lista_get_examples() {
 \scriptsize
 
 ```gleam
-/// Devolve o elemento na posição *i* de *lst*
+/// Devolve o elemento na posição *k* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior ou igual a
-/// quantidade de elemento de *lst*.
+/// se *k* é negativo ou é maior ou igual à
+/// quantidade de elementos de *lst*.
 fn lista_get(
   lst: List(a),
   k: Int,
@@ -892,10 +913,10 @@ fn lista_get_examples() {
 \scriptsize
 
 ```gleam
-/// Devolve o elemento na posição *i* de *lst*
+/// Devolve o elemento na posição *k* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior ou igual a
-/// quantidade de elemento de *lst*.
+/// se *k* é negativo ou é maior ou igual à
+/// quantidade de elementos de *lst*.
 fn lista_get(
   lst: List(a),
   k: Int,
@@ -904,9 +925,8 @@ fn lista_get(
     [], 0 -> Error(Nil)
     [], _ if k > 0 -> Error(Nil)
     [p, ..], 0 -> Ok(p)
-    [_, ..resto], _ if k > 0 -> {
+    [_, ..resto], _ if k > 0 ->
       lista_get(resto, k - 1)
-    }
     _, _ -> Error(Nil)
   }
 }
@@ -946,10 +966,10 @@ fn lista_get_examples() {
 \scriptsize
 
 ```gleam
-/// Devolve o elemento na posição *i* de *lst*
+/// Devolve o elemento na posição *k* de *lst*
 /// (indexado a partir de 0). Devolve Error(Nil)
-/// se *i* é negativo ou é maior ou igual a
-/// quantidade de elemento de *lst*.
+/// se *k* é negativo ou é maior ou igual à
+/// quantidade de elementos de *lst*.
 fn lista_get(
   lst: List(a),
   k: Int,
@@ -988,6 +1008,34 @@ fn lista_get_examples() {
 
 </div>
 </div>
+
+\small
+
+\ \
+
+Os três casos que produzem `Error(Nil)` foram juntados no último caso, `_, _`. Isso funciona porque os casos são verificados em ordem, e `_, _` só é alcançado quando os anteriores não se aplicam.
+
+
+## Revisão
+
+Quando tratamos um dos argumentos como atômico? \pause
+
+- Quando é preciso decompor apenas um dos argumentos, e o outro é usado inteiro, como `lstb` na concatenação. \pause
+
+Quando processamos os dois argumentos de forma sincronizada? \pause
+
+- Quando os argumentos têm o mesmo tamanho e há correspondência entre os seus elementos, como valores e pesos na soma ponderada. Os casos em que os tamanhos são diferentes são tratados juntos.
+
+
+## Revisão
+
+Quando combinamos os modelos dos dois argumentos? \pause
+
+- Quando é preciso decompor os dois argumentos e os casos em que apenas um deles termina têm respostas diferentes, como no prefixo. \pause
+
+O que fazemos depois de combinar os modelos? \pause
+
+- Juntamos os casos que produzem a mesma resposta, como `[], []` e `[], _` no prefixo, e os três casos com `Error(Nil)` no $k$-ésimo.
 
 
 ## Referências

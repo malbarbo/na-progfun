@@ -20,6 +20,8 @@
 
 - Evitar copiar e colar. Tentar usar \only
 
+- Revisar os exemplos de todas as funções recursivas dos capítulos de recursão estrutural (06 a 10): os exemplos devem incluir a entrada da chamada recursiva de algum caso geral (resto da lista, `n - 1`, subárvores, restos no processamento simultâneo, subproblema gerado na recursão generativa)
+
 - Adicionar um capítulo sobre "padrões de projeto"
 
     - tente criar funções total

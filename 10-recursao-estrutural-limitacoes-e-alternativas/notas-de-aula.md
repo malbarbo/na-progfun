@@ -2,8 +2,6 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: Recursão estrutural
 subtitle: Limitações e alternativas
-# TODO: definir decomposição estrutural
-# TODO: duas alternativas (a primeira é um caso especial da terceira?)
 ---
 
 
@@ -38,28 +36,67 @@ Como a verificação se $12$ é primo pode nos ajudar a determinar se $13$ é pr
 
 ## Limitações
 
-O problema nos dois casos é o mesmo: a solução do problema original não pode ser obtida a partir da solução do subproblema gerado pela **decomposição estrutural** do dado. \pause
+O problema nos dois casos é o mesmo: a solução do problema original não pode ser obtida a partir da solução do subproblema gerado pela decomposição estrutural do dado. \pause
 
 Como proceder nesse caso? \pause Temos algumas opções: \pause
 
-- Redefinimos o problema de forma que a solução para o subproblema estrutural possa ser usada na construção da solução do problema original; \pause
+- Criamos um plano: dividimos o problema em etapas e projetamos uma função auxiliar (possivelmente com recursão estrutural) para cada etapa; \pause
 
-- Fazemos uma decomposição em subproblema(s) de maneira não estrutural e utilizamos a solução desse(s) subproblema(s) para construir a solução do problema original; \pause
+- Generalizamos o problema: projetamos uma função auxiliar que resolve um problema mais geral, no qual a recursão estrutural funciona, e resolvemos o problema original usando essa função; \pause
 
-- Criamos um plano (sequência de etapas) para construir a solução sem necessariamente pensar na decomposição da entrada em subproblemas do mesmo tipo.
+- Decompomos o problema em subproblema(s) de maneira não estrutural e utilizamos a solução desse(s) subproblema(s) para construir a solução do problema original.
 
 
 Alternativas
 ============
 
 
-## Redefinição do problema
+## Plano
 
-Para o problema do número primo, podemos reescrever o problema da seguinte forma: Dados dois números naturais $n$ e $a \le n$, projete uma função que determine a quantidade de divisores de $n$ que são $\le a$. \pause
+Para o problema do palíndromo, em vez de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos criar um plano, uma sequência de etapas que resolvem problemas intermediários e que, ao final, produzem o resultado esperado. \pause
+
+Por exemplo, podemos, primeiramente, inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
+
+Note que, para este caso, precisaríamos projetar uma nova função, a que inverte a lista, e ela pode ser implementada com recursão estrutural. A comparação pode ser feita com `==`{.gleam}, que em Gleam compara as listas elemento a elemento.
+
+
+## Palíndromo com plano
+
+\scriptsize
+
+```gleam
+/// Produz True se *lst* é um palíndromo, isto é, tem os mesmos elementos quando lida
+/// da direita para a esquerda e da esquerda para a direita. Produz False caso contrário.
+fn palindromo(lst: List(Int)) -> Bool {
+  lst == list.reverse(lst)
+}
+
+fn palindromo_examples() {
+  check.eq(palindromo([]), True)
+  check.eq(palindromo([7]), True)
+  check.eq(palindromo([7, 3]), False)
+  check.eq(palindromo([3, 3]), True)
+  check.eq(palindromo([3, 7, 3]), True)
+  check.eq(palindromo([3, 7, 3, 3]), False)
+}
+```
+
+\pause
+
+\small
+
+Exercício: implemente a função `reverse`.
+
+
+## Generalização do problema
+
+Para o problema do número primo, podemos resolver um problema mais geral: dados dois números naturais $n$ e $a \le n$, determinar a quantidade de divisores de $n$ que são $\le a$. \pause
 
 Se temos a quantidade de divisores de $n$ que são $\le a - 1$, como obtemos a quantidade de divisores de $n$ que são $\le a$? \pause Somando 1 se $a$ é divisor de $n$. \pause
 
-Como podemos utilizar essa função para determinar se um número $n$ é primo? \pause Com a expressão `num_divisores(n, n) == 2`{.gleam}
+Como podemos utilizar essa função para determinar se um número $n$ é primo? \pause Com a expressão `num_divisores(n, n) == 2`{.gleam}. \pause
+
+Assim como no plano, `primo`{.gleam} é composta com uma função auxiliar. A diferença é que a auxiliar resolve um problema mais geral que o necessário: a quantidade de divisores de $n$ é o caso específico `num_divisores(n, n)`{.gleam}.
 
 
 ## Número primo
@@ -74,16 +111,16 @@ Como podemos utilizar essa função para determinar se um número $n$ é primo? 
 /// positivos distintos (1 e *n*).
 /// Produz False caso contrário.
 fn primo(n: Int) -> Bool {
-  num_divisors(n, n) == 2
+  num_divisores(n, n) == 2
 }
 
 /// Calcula o número de divisores positivos
-/// de *n* que são menores ou iguais à *a*.
-fn num_divisors(n: Int, a: Int) -> Int {
+/// de *n* que são menores ou iguais a *a*.
+fn num_divisores(n: Int, a: Int) -> Int {
   case a {
     _ if a <= 0 -> 0
-    _ if n % a == 0 -> 1 + num_divisors(n, a - 1)
-    _ -> num_divisors(n, a - 1)
+    _ if n % a == 0 -> 1 + num_divisores(n, a - 1)
+    _ -> num_divisores(n, a - 1)
   }
 }
 ```
@@ -103,6 +140,13 @@ fn primo_examples() {
   check.eq(primo(7), True)
   check.eq(primo(8), False)
 }
+
+fn num_divisores_examples() {
+  check.eq(num_divisores(6, 0), 0)
+  check.eq(num_divisores(6, 4), 3)
+  check.eq(num_divisores(6, 5), 3)
+  check.eq(num_divisores(6, 6), 4)
+}
 ```
 </div>
 </div>
@@ -110,14 +154,14 @@ fn primo_examples() {
 
 ## Decomposição não estrutural
 
-Para o problema da lista palíndromo, vamos considerar a entrada `[4, 1, 5, 1, 4]`{.gleam}.
+Também podemos resolver o problema do palíndromo decompondo a entrada de outra forma. Considere a entrada `[4, 1, 5, 1, 4]`{.gleam}.
 
 Como podemos obter um subproblema da entrada de maneira que a resposta para o subproblema possa nos ajudar a compor a resposta para o problema original? \pause Removendo o primeiro e último elemento da lista. \pause
 
 Se sabemos que uma lista `lst` sem o primeiro e o último elemento é um palíndromo, como determinar se `lst` é um palíndromo? \pause Verificando se o primeiro e o último elemento de `lst` são iguais.
 
 
-## Palíndromo 1
+## Palíndromo com decomposição não estrutural
 
 \scriptsize
 
@@ -134,8 +178,8 @@ fn palindromo(lst: List(Int)) -> Bool {
 
 fn palindromo_examples() {
   check.eq(palindromo([]), True)
-  check.eq(palindromo([2]), True)
-  check.eq(palindromo([1, 2]), False)
+  check.eq(palindromo([7]), True)
+  check.eq(palindromo([7, 3]), False)
   check.eq(palindromo([3, 3]), True)
   check.eq(palindromo([3, 7, 3]), True)
   check.eq(palindromo([3, 7, 3, 3]), False)
@@ -149,50 +193,13 @@ fn palindromo_examples() {
 Exercício: implemente a função `sem_extremos`.
 
 
-## Decomposição não estrutural
+## Recursão estrutural e generativa
 
 Funções recursivas que operam em subproblemas obtidos pela decomposição estrutural dos dados são chamadas de **funções recursivas estruturais**. \pause
 
 Funções recursivas que operam em subproblemas arbitrários (não estruturais) são chamadas de **funções recursivas generativas**. \pause
 
 O projeto de funções recursivas generativas pode requerer um "_insight_" e por isso tentamos primeiramente resolver os problemas com recursão estrutural.
-
-
-## Plano
-
-Ainda para o problema da lista palíndromo, em vez de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos pensar em um plano, uma sequência de etapas que resolva problemas intermediários mas que gerem o resultado que estamos esperando no final. \pause
-
-Por exemplo, podemos, primeiramente, inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
-
-Note que para este caso precisaríamos projetar duas novas funções. Essas funções poderiam ser implementadas usando recursão estrutural.
-
-
-## Palíndromo 2
-
-\scriptsize
-
-```gleam
-/// Produz True se *lst* é um palíndromo, isto é, tem os mesmos elementos quando lida
-/// da direita para a esquerda e da esquerda para a direita. Produz False caso contrário.
-fn palindromo(lst: List(Int)) -> Bool {
-  lst == list.reverse(lst)
-}
-
-fn palindromo2_examples() {
-  check.eq(palindromo([]), True)
-  check.eq(palindromo([2]), True)
-  check.eq(palindromo([1, 2]), False)
-  check.eq(palindromo([3, 3]), True)
-  check.eq(palindromo([3, 7, 3]), True)
-  check.eq(palindromo([3, 7, 3, 3]), False)
-}
-```
-
-\pause
-
-\small
-
-Exercício: implemente a função `reverse`.
 
 
 Revisão
@@ -214,9 +221,9 @@ Quando a recursão estrutural não resolve um problema diretamente? \pause
 
 Quais alternativas podemos usar nesses casos? \pause
 
-- Redefinir o problema para que a solução do subproblema estrutural seja útil (quantidade de divisores para o número primo); \pause
-- Decompor o problema de forma não estrutural, com recursão generativa (palíndromo sem os extremos); \pause
-- Criar um plano, uma sequência de etapas resolvidas por funções auxiliares (inverter a lista e comparar). \pause
+- Criar um plano, uma sequência de etapas resolvidas por funções auxiliares (inverter a lista e comparar); \pause
+- Generalizar o problema, projetando uma função auxiliar que resolve um problema mais geral e usando essa função para resolver o problema original (quantidade de divisores até $a$ para o número primo); \pause
+- Decompor o problema de forma não estrutural, com recursão generativa (palíndromo sem os extremos). \pause
 
 Por que tentamos primeiro a recursão estrutural? \pause
 
@@ -230,8 +237,8 @@ Referências
 
 Básicas
 
-- Capítulo [11](https://htdp.org/2022-8-7/Book/part_two.html) do livro [HTDP](http://htdp.org)
+- Seções [11.2 a 11.4](https://htdp.org/2022-8-7/Book/part_two.html#%28part._sec~3acompounding2%29) do livro [HTDP](http://htdp.org)
 
 Complementares
 
-- Capítulo [25](https://htdp.org/2022-8-7/Book/part_five.html) do livro [HTDP](http://htdp.org)
+- Capítulos [25 e 26](https://htdp.org/2022-8-7/Book/part_five.html) do livro [HTDP](http://htdp.org) (em especial a seção [26.3](https://htdp.org/2022-8-7/Book/part_five.html#%28part._sec~3astruct-gen-rec%29), recursão estrutural × generativa)

@@ -1,20 +1,17 @@
 import sgleam/check
 
-/// Produz True se *n* é perfeito, isto é, *n* positivo e a soma dos seus
-/// divisores (menos ele mesmo) é igual a *n*.
+/// Produz True se *n* é perfeito, isto é, *n* é positivo e igual à soma dos
+/// seus divisores positivos menores que *n*. Produz False caso contrário.
 pub fn perfeito(n: Int) -> Bool {
   n > 0 && n == soma_divisores(n, n - 1)
 }
 
-/// Soma os divisores de `n` no intervalo [1, d].
+/// Soma os divisores positivos de *n* que são menores ou iguais a *d*.
 pub fn soma_divisores(n: Int, d: Int) -> Int {
-  case d <= 0 {
-    True -> 0
-    False ->
-      case n % d == 0 {
-        True -> d + soma_divisores(n, d - 1)
-        False -> soma_divisores(n, d - 1)
-      }
+  case d {
+    _ if d <= 0 -> 0
+    _ if n % d == 0 -> d + soma_divisores(n, d - 1)
+    _ -> soma_divisores(n, d - 1)
   }
 }
 

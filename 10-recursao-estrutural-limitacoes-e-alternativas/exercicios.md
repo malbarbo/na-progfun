@@ -19,17 +19,19 @@ license:
 
 # Praticando
 
-<!-- Redefinição do problema -->
-
-@) Um número natural $n$ é perfeito se ele é igual à soma dos seus divisores positivos menores que $n$. Por exemplo, $6$ é perfeito porque $6 = 1 + 2 + 3$. Projete uma função que verifique se um número natural é perfeito. Dica: redefina o problema, como fizemos para o número primo.
-
 <!-- Plano -->
 
 @) Projete uma função que calcule a amplitude dos valores de uma lista de números, isto é, a diferença entre o valor máximo e mínimo da lista. Dica: crie um plano e use funções auxiliares.
 
-@) Projete uma função que determine o tamanho médio das strings de uma lista. Dica: crie um plano e use funções auxilares.
+@) Projete uma função que determine o tamanho médio das strings de uma lista. Dica: crie um plano e use funções auxiliares.
 
 @) Projete uma função que indique se em uma lista de inteiros existem mais valores positivos ou negativos. Dica: crie um plano e use funções auxiliares.
+
+<!-- Generalização do problema -->
+
+@) Um número natural $n$ é perfeito se ele é igual à soma dos seus divisores positivos menores que $n$. Por exemplo, $6$ é perfeito porque $6 = 1 + 2 + 3$. Projete uma função que verifique se um número natural é perfeito. Dica: generalize o problema, como fizemos para o número primo.
+
+@) Um número natural $n$ é um quadrado perfeito se existe um número natural $i$ tal que $i \times i = n$. Por exemplo, $0$, $1$, $4$ e $9$ são quadrados perfeitos. Projete uma função que verifique se um número natural é um quadrado perfeito. Dica: generalize o problema.
 
 
 # Resolvendo problemas

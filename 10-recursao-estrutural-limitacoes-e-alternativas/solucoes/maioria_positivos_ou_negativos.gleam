@@ -6,7 +6,9 @@ pub type Maioria {
   Nenhum
 }
 
-/// Determina se em *lst* existem mais números negativos ou positivos.
+/// Produz Positivo se *lst* tem mais números positivos do que negativos,
+/// Negativo se tem mais negativos do que positivos e Nenhum se as quantidades
+/// são iguais. O zero não é positivo nem negativo.
 pub fn maioria(lst: List(Int)) -> Maioria {
   let npositivos = num_positivos(lst)
   let nnegativos = num_negativos(lst)
@@ -24,11 +26,8 @@ pub fn maioria(lst: List(Int)) -> Maioria {
 fn num_positivos(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
-    [primeiro, ..resto] ->
-      case primeiro > 0 {
-        True -> 1 + num_positivos(resto)
-        False -> num_positivos(resto)
-      }
+    [primeiro, ..resto] if primeiro > 0 -> 1 + num_positivos(resto)
+    [_, ..resto] -> num_positivos(resto)
   }
 }
 
@@ -36,11 +35,8 @@ fn num_positivos(lst: List(Int)) -> Int {
 fn num_negativos(lst: List(Int)) -> Int {
   case lst {
     [] -> 0
-    [primeiro, ..resto] ->
-      case primeiro < 0 {
-        True -> 1 + num_negativos(resto)
-        False -> num_negativos(resto)
-      }
+    [primeiro, ..resto] if primeiro < 0 -> 1 + num_negativos(resto)
+    [_, ..resto] -> num_negativos(resto)
   }
 }
 

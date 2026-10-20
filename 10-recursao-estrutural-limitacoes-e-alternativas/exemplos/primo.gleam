@@ -3,14 +3,16 @@ import sgleam/check
 /// Produz True se *n* é um número primo, isto é, tem exatamente dois divisores
 /// distintos (1 e *n*). Produz False caso contrário.
 pub fn primo(n: Int) -> Bool {
-  num_divisors(n, n) == 2
+  num_divisores(n, n) == 2
 }
 
-fn num_divisors(n: Int, a: Int) -> Int {
+/// Calcula o número de divisores positivos de *n* que são menores ou iguais
+/// a *a*.
+fn num_divisores(n: Int, a: Int) -> Int {
   case a {
     _ if a <= 0 -> 0
-    _ if n % a == 0 -> 1 + num_divisors(n, a - 1)
-    _ -> num_divisors(n, a - 1)
+    _ if n % a == 0 -> 1 + num_divisores(n, a - 1)
+    _ -> num_divisores(n, a - 1)
   }
 }
 
@@ -23,4 +25,11 @@ pub fn primo_examples() {
   check.eq(primo(6), False)
   check.eq(primo(7), True)
   check.eq(primo(8), False)
+}
+
+pub fn num_divisores_examples() {
+  check.eq(num_divisores(6, 0), 0)
+  check.eq(num_divisores(6, 4), 3)
+  check.eq(num_divisores(6, 5), 3)
+  check.eq(num_divisores(6, 6), 4)
 }

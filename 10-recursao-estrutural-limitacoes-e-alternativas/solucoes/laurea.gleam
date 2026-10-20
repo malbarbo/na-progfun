@@ -3,21 +3,22 @@ import gleam/list
 import sgleam/check
 
 /// Determina se um aluno deve receber Láurea Acadêmica.
-/// Para isso, pelo menos 2/3 das notas precisam ser maiores ou iguais a 9.0.
-/// Se a lista de notas estiver vazia, retorna `False`.
+/// O enunciado é ambíguo quanto aos limites; aqui consideramos que pelo
+/// menos 2/3 das notas precisam ser maiores ou iguais a 9.0.
+/// Se a lista de notas estiver vazia, produz False.
 pub fn laureado(notas: List(Float)) -> Bool {
-  let num_maiores_que_9 = int.to_float(conta_maiores_que_9(notas))
+  let num_notas_altas = int.to_float(conta_notas_altas(notas))
   let total = int.to_float(list.length(notas))
 
-  total >. 0.0 && num_maiores_que_9 >=. { total *. 2.0 /. 3.0 }
+  total >. 0.0 && num_notas_altas >=. { total *. 2.0 /. 3.0 }
 }
 
 // Conta o número de notas >= 9.0
-fn conta_maiores_que_9(notas: List(Float)) -> Int {
+fn conta_notas_altas(notas: List(Float)) -> Int {
   case notas {
     [] -> 0
-    [primeiro, ..resto] if primeiro >=. 9.0 -> 1 + conta_maiores_que_9(resto)
-    [_, ..resto] -> conta_maiores_que_9(resto)
+    [primeiro, ..resto] if primeiro >=. 9.0 -> 1 + conta_notas_altas(resto)
+    [_, ..resto] -> conta_notas_altas(resto)
   }
 }
 

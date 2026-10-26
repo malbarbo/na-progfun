@@ -1,6 +1,7 @@
 import sgleam/check
 import sgleam/fill
 import sgleam/image
+import sgleam/key
 import sgleam/world
 
 pub type Quadrado {
@@ -25,7 +26,7 @@ const q_y = 50
 
 const q_x_inicial = 50
 
-pub fn main() {
+pub fn smain() {
   // Cria um mundo com um estado inicial e uma função de desenho
   world.create(Quadrado(q_x_inicial, Verde), desenha)
   |> world.on_key_down(move)
@@ -34,7 +35,6 @@ pub fn main() {
   // mudar_cor atualiza o estado a cada tique de relógio
   |> world.tick_rate(1)
   // quantas vezes o relógio faz tique por segundo
-  |> world.run()
 }
 
 pub fn desenha(q: Quadrado) -> image.Image {
@@ -50,21 +50,21 @@ pub fn desenha(q: Quadrado) -> image.Image {
 /// Desloca *q* para a esquerda (substrai *deslocamento* de *x*) se *tecla* for
 /// ArrowLeft e para direita (soma *deslocamento* a *x*) se tecla for ArrowRight.
 /// Devolve *q* para outras teclas.
-pub fn move(q: Quadrado, tecla: world.Key) -> Quadrado {
+pub fn move(q: Quadrado, tecla: key.Event) -> Quadrado {
   case tecla {
-    world.ArrowLeft -> Quadrado(..q, x: q.x - deslocamento)
-    world.ArrowRight -> Quadrado(..q, x: q.x + deslocamento)
+    key.ArrowLeft -> Quadrado(..q, x: q.x - deslocamento)
+    key.ArrowRight -> Quadrado(..q, x: q.x + deslocamento)
     _ -> q
   }
 }
 
 pub fn move_examples() {
   check.eq(
-    move(Quadrado(50, Verde), world.ArrowLeft),
+    move(Quadrado(50, Verde), key.ArrowLeft),
     Quadrado(50 - deslocamento, Verde),
   )
   check.eq(
-    move(Quadrado(50, Verde), world.ArrowRight),
+    move(Quadrado(50, Verde), key.ArrowRight),
     Quadrado(50 + deslocamento, Verde),
   )
 }

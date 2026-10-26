@@ -8,9 +8,7 @@ Introdução
 
 ## Introdução
 
-O sgleam permite a criação de imagens. \pause
-
-O sgleam web permite a criação e exibição de imagens, animações e programas interativos.
+O sgleam permite a criação e exibição de imagens, animações e programas interativos, tanto na versão web quanto na linha de comando.
 
 
 ## Definições
@@ -204,31 +202,25 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 
 ## Texto
 
-```gleam-repl
+```sgleam_image
 > image.text("Casa", 20, fill.black) // texto e tamanho da fonte
 ```
 
-![](imagens/Casa.pdf)
-
 \pause
 
-```gleam-repl
+```sgleam_image
 > image.text("aTa", 30, stroke.darkgreen) // texto e tamanho da fonte
 ```
 
-![](imagens/aTa.pdf)
-
 \pause
 
-```gleam-repl
+```sgleam_image
 > image.text_font(
     "gleam",
     font.Font(..font.default(), size: 25.0, family: "monospace"),
     style.join([stroke.red, fill.black]),
   )
-
 ```
-![](imagens/gleam.pdf)
 
 
 ## Combinações
@@ -383,11 +375,9 @@ Escala.
 
 \pause
 
-```gleam-repl
+```sgleam_image
 > image.text("teste", 16, fill.black) |> image.scale_xyf(2.5, 1.2)
 ```
-
-![](imagens/teste_scale.png)
 
 
 ## Transformações
@@ -621,15 +611,17 @@ Uma **animação** é a exibição contínua de imagens estáticas que variam de
 
 A animação mais simples no sgleam é uma simulação baseada no tempo. O trabalho do programador é providenciar uma função que cria uma imagem a partir de um número natural. \pause
 
-A função de animação está no pacote `sgleam/world`.
+A função que cria uma animação está no módulo `sgleam/world`.
 
 ```gleam
-pub fn animate(create_image: fn(Int) -> image.Image) -> Nil
+pub fn animation(create_image: fn(Int) -> image.Image) -> Animation
 ```
 
 \pause
 
-O relógio da animação faz 28 tiques por segundo, a cada tique a função `create_image` é chamada com o número de tiques passados deste o início da animação.
+A animação é executada quando a função `smain` a devolve. \pause
+
+O relógio da animação faz 28 tiques por segundo, a cada tique a função `create_image` é chamada com o número de tiques passados desde o início da animação.
 
 
 ## Exemplo óvni
@@ -704,8 +696,8 @@ let cena_ovni = fn(tick: Int) -> image.Image {
 </div>
 
 ```gleam
-pub fn main() {
-  world.animate(cena_ovni)
+pub fn smain() {
+  world.animation(cena_ovni)
 }
 ```
 
@@ -741,33 +733,66 @@ fn cena_texto(tick: Int) -> image.Image {
 <div class="column" width="33%">
 \footnotesize
 
-```gleam-repl
+```sgleam_image
+let cena_texto = fn(tick: Int) -> image.Image {
+  let texto = "computação"
+  let i = tick / 10 % string.length(texto)
+  let inicio = string.slice(texto, 0, i)
+  let letra = string.slice(texto, i, 1)
+  let fim = string.slice(texto, i + 1, string.length(texto))
+  let texto =
+    image.text(inicio, 30, fill.black)
+    |> image.beside(image.text(letra, 30, fill.red))
+    |> image.beside(image.text(fim, 30, fill.black))
+  image.empty_scene(230, 50) |> image.overlay(texto)
+}
+
 > cena_texto(10)
 ```
 
-![](imagens/cena_texto_10.png)
-
 \pause
 </div>
 <div class="column" width="33%">
 \footnotesize
 
-```gleam-repl
+```sgleam_image
+let cena_texto = fn(tick: Int) -> image.Image {
+  let texto = "computação"
+  let i = tick / 10 % string.length(texto)
+  let inicio = string.slice(texto, 0, i)
+  let letra = string.slice(texto, i, 1)
+  let fim = string.slice(texto, i + 1, string.length(texto))
+  let texto =
+    image.text(inicio, 30, fill.black)
+    |> image.beside(image.text(letra, 30, fill.red))
+    |> image.beside(image.text(fim, 30, fill.black))
+  image.empty_scene(230, 50) |> image.overlay(texto)
+}
+
 > cena_texto(40)
 ```
 
-![](imagens/cena_texto_40.png)
-
 \pause
 </div>
 <div class="column" width="33%">
 \footnotesize
 
-```gleam-repl
+```sgleam_image
+let cena_texto = fn(tick: Int) -> image.Image {
+  let texto = "computação"
+  let i = tick / 10 % string.length(texto)
+  let inicio = string.slice(texto, 0, i)
+  let letra = string.slice(texto, i, 1)
+  let fim = string.slice(texto, i + 1, string.length(texto))
+  let texto =
+    image.text(inicio, 30, fill.black)
+    |> image.beside(image.text(letra, 30, fill.red))
+    |> image.beside(image.text(fim, 30, fill.black))
+  image.empty_scene(230, 50) |> image.overlay(texto)
+}
+
 > cena_texto(76)
 ```
-
-![](imagens/cena_texto_76.png)
 
 </div>
 </div>
@@ -820,11 +845,11 @@ O que não muda? \pause O tamanho da cena e do quadrado. \pause A coordenada y d
 Estado do programa.
 
 ```gleam
-type Quadrado {
+pub type Quadrado {
   Quadrado(x: Int, cor: Cor)
 }
 
-type Cor {
+pub type Cor {
   Verde
   Amarelo
   Vermelho
@@ -883,17 +908,17 @@ Função que modifica o estado a partir de um evento de teclado.
 /// Desloca *q* para a esquerda (substrai *deslocamento* de *x*) se *tecla* for
 /// ArrowLeft e para direita (soma *deslocamento* a *x*) se tecla for ArrowRight.
 /// Devolve *q* para outras teclas.
-pub fn move(q: Quadrado, tecla: world.Key) -> Quadrado {
+pub fn move(q: Quadrado, tecla: key.Event) -> Quadrado {
   case tecla {
-    world.ArrowLeft -> Quadrado(..q, x: q.x - deslocamento)
-    world.ArrowRight -> Quadrado(..q, x: q.x + deslocamento)
+    key.ArrowLeft -> Quadrado(..q, x: q.x - deslocamento)
+    key.ArrowRight -> Quadrado(..q, x: q.x + deslocamento)
     _ -> q
   }
 }
 
 pub fn move_examples() {
-  check.eq(move(Quadrado(50, Verde), world.ArrowLeft), Quadrado(50 - deslocamento, Verde))
-  check.eq(move(Quadrado(50, Verde), world.ArrowRight), Quadrado(50 + deslocamento, Verde))
+  check.eq(move(Quadrado(50, Verde), key.ArrowLeft), Quadrado(50 - deslocamento, Verde))
+  check.eq(move(Quadrado(50, Verde), key.ArrowRight), Quadrado(50 + deslocamento, Verde))
 }
 ```
 
@@ -930,39 +955,37 @@ pub fn mudar_cor_examples() {
 \footnotesize
 
 ```gleam
-pub fn main() {
+pub fn smain() {
   // Cria um mundo com um estado inicial e uma função de desenho
   world.create(Quadrado(q_x_inicial, Verde), desenha)
   |> world.on_key_down(move) // move é atualiza o estado quando uma tecla é pressionada
   |> world.on_tick(muda_cor) // mudar_cor atualiza o estado a cada tique de relógio
   |> world.tick_rate(3)      // quantas vezes o relógio faz tique por segundo
-  |> world.run()
 }
 ```
 
 \normalsize
 
-As funções têm as seguintes assinaturas
+O mundo é executado quando a função `smain` o devolve. As funções têm as seguintes assinaturas
 
 \footnotesize
 
 ```gleam
 pub fn create(initial: a, draw: fn(a) -> Image) -> World(a)
-pub fn on_key_down(world: World(a), handler: fn(a, Key) -> a) -> World(a)
+pub fn on_key_down(world: World(a), handler: fn(a, key.Event) -> a) -> World(a)
 pub fn on_tick(world: World(a), handler: fn(a) -> a) -> World(a)
 pub fn tick_rate(world: World(a), rate: Int) -> World(a)
-pub fn run(world: World(a)) -> Nil
 ```
 
 
-## Tipo `word.Key`
+## Tipo `key.Event`
 
 <div class="columns">
 <div class="column" width="33%">
 \small
 
 ```gleam
-pub type Key {
+pub type Event {
   ArrowLeft
   ArrowRight
   ArrowUp
@@ -1029,6 +1052,6 @@ Revisão
 
 Vimos o que é uma imagem e como criar, combinar e transformar imagens. \pause
 
-Vimos o que é uma animação e como criar animações coma função `world.animate`. \pause
+Vimos o que é uma animação e como criar animações com a função `world.animation`. \pause
 
 Vimos o que é um programa interativo e como projetar programas interativos usando o módulo `world`.

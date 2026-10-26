@@ -3,8 +3,8 @@ import sgleam/fill
 import sgleam/image
 import sgleam/world
 
-pub fn main() {
-  world.animate(cena_texto)
+pub fn smain() {
+  world.animation(cena_texto)
 }
 
 fn cena_texto(tick: Int) -> image.Image {

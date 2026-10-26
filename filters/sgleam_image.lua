@@ -32,18 +32,22 @@ function CodeBlock(el)
     import sgleam/font
     import sgleam/xplace
     import sgleam/yplace
-    import gleam/io
-    pub fn main() {
+    pub fn smain() {
+      let img = {
     ]]
     .. hide
     .. "\n"
     .. content:sub(2)
     .. [[
 
-    |> image.to_svg |> io.println
+      }
+      // Uma coluna e uma linha a mais, como o REPL mostra, para que o
+      // contorno na borda direita e inferior não seja cortado
+      image.rectangle(image.width(img) + 1, image.height(img) + 1, fill.none)
+      |> image.overlay_xy(img, 0, 0, _)
+      |> image.to_svg
+    }
     ]]
-    ..
-    "}"
   )
   fgleam:close()
   os.execute("cd ../ && sgleam target/" .. gleam .. " > target/" .. svg .. " 2>/dev/null")

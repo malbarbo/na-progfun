@@ -2,8 +2,8 @@ import sgleam/fill
 import sgleam/image
 import sgleam/world
 
-pub fn main() {
-  world.animate(cena_ovni)
+pub fn smain() {
+  world.animation(cena_ovni)
 }
 
 fn cena_ovni(tick: Int) -> image.Image {

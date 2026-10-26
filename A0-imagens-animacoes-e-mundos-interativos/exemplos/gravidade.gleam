@@ -1,10 +1,11 @@
 import sgleam/check
 import sgleam/fill
 import sgleam/image
+import sgleam/key
 import sgleam/world
 
 // Posição x do centro do quadrado.
-type Bola {
+pub type Bola {
   Bola(y: Int, velocidade: Int)
 }
 
@@ -21,11 +22,10 @@ const b_y_inicial = 10
 // 2 pixels por tique
 const aceleracao = 2
 
-pub fn main() {
+pub fn smain() {
   world.create(Bola(b_y_inicial, 0), desenha)
   |> world.on_tick(avanca)
   |> world.on_key_down(reseta)
-  |> world.run()
 }
 
 fn desenha(bola: Bola) -> image.Image {
@@ -51,9 +51,9 @@ fn avanca(bola: Bola) -> Bola {
   Bola(y, velocidade)
 }
 
-fn reseta(bola: Bola, tecla: world.Key) -> Bola {
+fn reseta(bola: Bola, tecla: key.Event) -> Bola {
   case tecla {
-    world.Char("r") -> Bola(b_y_inicial, 0)
+    key.Char("r") -> Bola(b_y_inicial, 0)
     _ -> bola
   }
 }

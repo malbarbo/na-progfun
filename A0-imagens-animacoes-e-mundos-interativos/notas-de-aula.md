@@ -34,7 +34,7 @@ O sgleam fornece várias funções para criação de imagens geométricas básic
 
 As funções para criar, combinar e transformar imagens estão no módulo `sgleam/image`{.gleam}. \pause
 
-Uma forma geométrica tem um estilo, que incluí um contorno (_stroke_) e um preenchimento (_fill_). O contorno tem uma cor, uma espessura e outros atributos. O preenchimento pode ou não ter uma cor. \pause
+Uma forma geométrica tem um estilo, que inclui um contorno (_stroke_) e um preenchimento (_fill_). O contorno tem uma cor, uma espessura e outros atributos. O preenchimento pode ou não ter uma cor. \pause
 
 As constantes e funções para especificar o contorno estão no módulo `sgleam/stroke`{.gleam} e para o preenchimento em `sgleam/fill`{.gleam}. Funções mais gerais para o estilo estão no módulo `sgleam/style`{.gleam} e para cores no módulo `sgleam/color`{.gleam}.
 
@@ -83,7 +83,7 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 ```
 
 
-## Circulo e elipse
+## Círculo e elipse
 
 ```sgleam_image
 > image.circle(30, stroke.red) // raio
@@ -106,7 +106,7 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 ## Linha
 
 ```sgleam_image
-> image.line(20, 50, stroke.black) // (0, 0) para (10, 30)
+> image.line(20, 50, stroke.black) // (0, 0) para (20, 50)
                                    // y aumenta para baixo
 ```
 
@@ -195,7 +195,7 @@ As constantes e funções para especificar o contorno estão no módulo `sgleam/
 ```sgleam_image
 > image.star_polygon(40, 7, 3, stroke.seagreen) // estrela circunscrita em
                                                 // um polígono de 7 lados
-                                                // vertíces ligados de
+                                                // vértices ligados de
                                                 // 3 em 3
 ```
 
@@ -353,7 +353,7 @@ Coloca o centro da segunda imagem na posição especificada.
 Coloca o ponto dado por `xplace` e `yplace` da segunda imagem na posição especificada.
 
 ```sgleam_image
-> image. rectangle(64, 64, fill.palegoldenrod)
+> image.rectangle(64, 64, fill.palegoldenrod)
   |> image.place_image_align(
     64,
     64,
@@ -571,13 +571,13 @@ sgleam estrela.gleam > estrela.svg
 
 ## Cores
 
-Cores também podem ser criadas usando valores rgb ou rbga.
+Cores também podem ser criadas usando valores rgb ou rgba.
 
 \footnotesize
 
 ```gleam-repl
 > let verde = color.rgb(0, 255, 0) // valores entre 0 e 255
-> let laranja = color.rgba(255, 165, 0, 0.7) // opacidade entre 0 a 1
+> let laranja = color.rgba(255, 165, 0, 0.7) // opacidade entre 0 e 1
 > let estilo = style.join([
     fill.with(verde), // com uma cor existente
     stroke.rgb(100, 100, 100), // diretamente com rgb
@@ -590,7 +590,7 @@ Cores também podem ser criadas usando valores rgb ou rbga.
 
 ```sgleam_image
 let verde = color.rgb(0, 255, 0) // valores entre 0 e 255
-let laranja = color.rgba(255, 165, 0, 0.7) // opacidade entre 0 a 1
+let laranja = color.rgba(255, 165, 0, 0.7) // opacidade entre 0 e 1
 let estilo = style.join([
   fill.with(verde), // com uma cor existente
   stroke.rgb(100, 100, 100), // diretamente com rgb
@@ -820,7 +820,7 @@ Opcionalmente,
 
 ## Exemplo movimento horizontal
 
-Vamos criar um programa que exibe um quadrado que pode ser deslocado para a esquerda ou direita usando as teclas apropriadas e que alterna a cor entre verde, amarelo e vermelho a cada segundo (veja o arquivo `move_horizontal.gleam`). \pause
+Vamos criar um programa que exibe um quadrado que pode ser deslocado para a esquerda ou direita usando as teclas apropriadas e que alterna a cor entre verde, amarelo e vermelho 5 vezes por segundo (veja o arquivo `move_horizontal.gleam`). \pause
 
 Começamos com um esboço do que queremos.
 
@@ -891,7 +891,7 @@ pub fn desenha(q: Quadrado) -> image.Image {
     Amarelo -> fill.yellow
   }
   image.empty_scene(largura, altura)
-  |> image.put_image(q.x, q_y, image.square(q_lado, fill))
+  |> image.place_image(q.x, q_y, image.square(q_lado, fill))
 }
 ```
 
@@ -905,7 +905,7 @@ Função que modifica o estado a partir de um evento de teclado.
 \footnotesize
 
 ```gleam
-/// Desloca *q* para a esquerda (substrai *deslocamento* de *x*) se *tecla* for
+/// Desloca *q* para a esquerda (subtrai *deslocamento* de *x*) se *tecla* for
 /// ArrowLeft e para direita (soma *deslocamento* a *x*) se tecla for ArrowRight.
 /// Devolve *q* para outras teclas.
 pub fn move(q: Quadrado, tecla: key.Event) -> Quadrado {
@@ -942,7 +942,7 @@ pub fn muda_cor(q: Quadrado) -> Quadrado {
   }
   Quadrado(..q, cor: cor)
 }
-pub fn mudar_cor_examples() {
+pub fn muda_cor_examples() {
   check.eq(muda_cor(Quadrado(50, Verde)), Quadrado(50, Amarelo))
   check.eq(muda_cor(Quadrado(50, Amarelo)), Quadrado(50, Vermelho))
   check.eq(muda_cor(Quadrado(50, Vermelho)), Quadrado(50, Verde))
@@ -958,9 +958,9 @@ pub fn mudar_cor_examples() {
 pub fn smain() {
   // Cria um mundo com um estado inicial e uma função de desenho
   world.create(Quadrado(q_x_inicial, Verde), desenha)
-  |> world.on_key_down(move) // move é atualiza o estado quando uma tecla é pressionada
-  |> world.on_tick(muda_cor) // mudar_cor atualiza o estado a cada tique de relógio
-  |> world.tick_rate(3)      // quantas vezes o relógio faz tique por segundo
+  |> world.on_key_down(move) // move atualiza o estado quando uma tecla é pressionada
+  |> world.on_tick(muda_cor) // muda_cor atualiza o estado a cada tique de relógio
+  |> world.tick_rate(5)      // quantas vezes o relógio faz tique por segundo
 }
 ```
 
@@ -971,7 +971,7 @@ O mundo é executado quando a função `smain` o devolve. As funções têm as s
 \footnotesize
 
 ```gleam
-pub fn create(initial: a, draw: fn(a) -> Image) -> World(a)
+pub fn create(state: a, to_image: fn(a) -> Image) -> World(a)
 pub fn on_key_down(world: World(a), handler: fn(a, key.Event) -> a) -> World(a)
 pub fn on_tick(world: World(a), handler: fn(a) -> a) -> World(a)
 pub fn tick_rate(world: World(a), rate: Int) -> World(a)
@@ -1050,8 +1050,21 @@ Revisão
 
 ## Revisão
 
-Vimos o que é uma imagem e como criar, combinar e transformar imagens. \pause
+Como criamos imagens no sgleam? \pause
 
-Vimos o que é uma animação e como criar animações com a função `world.animation`. \pause
+- Com funções do módulo `sgleam/image`{.gleam} que criam formas básicas (retângulos, círculos, polígonos, textos), combinam imagens (`beside`, `above`, `overlay`) e as transformam (`rotate`, `scale`, `flip_horizontal`). \pause
 
-Vimos o que é um programa interativo e como projetar programas interativos usando o módulo `world`.
+O que é uma animação e como a criamos? \pause
+
+- É uma sequência de imagens que dá a ilusão de movimento. Criamos com `world.animation`{.gleam}, passando uma função que produz a imagem a partir do número de tiques, e devolvemos a animação na `smain`{.gleam}.
+
+
+## Revisão
+
+Que elementos precisamos definir para projetar um programa interativo? \pause
+
+- O estado do programa e as constantes, uma função que desenha o estado e funções que produzem um novo estado a partir de eventos (tecla pressionada, tique do relógio). \pause
+
+Por que as funções que tratam eventos são fáceis de testar? \pause
+
+- Porque são funções puras, que recebem o estado e devolvem um novo estado, sem desenhar nada nem depender do relógio, então podemos escrever exemplos com `check.eq`{.gleam}.

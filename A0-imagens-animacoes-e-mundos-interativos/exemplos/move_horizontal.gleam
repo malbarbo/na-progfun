@@ -30,10 +30,10 @@ pub fn smain() {
   // Cria um mundo com um estado inicial e uma função de desenho
   world.create(Quadrado(q_x_inicial, Verde), desenha)
   |> world.on_key_down(move)
-  // move é atualiza o estado quando uma tecla é pressionada
+  // move atualiza o estado quando uma tecla é pressionada
   |> world.on_tick(muda_cor)
-  // mudar_cor atualiza o estado a cada tique de relógio
-  |> world.tick_rate(1)
+  // muda_cor atualiza o estado a cada tique de relógio
+  |> world.tick_rate(5)
   // quantas vezes o relógio faz tique por segundo
 }
 
@@ -44,10 +44,10 @@ pub fn desenha(q: Quadrado) -> image.Image {
     Amarelo -> fill.yellow
   }
   image.empty_scene(largura, altura)
-  |> image.put_image(q.x, q_y, image.square(q_lado, fill))
+  |> image.place_image(q.x, q_y, image.square(q_lado, fill))
 }
 
-/// Desloca *q* para a esquerda (substrai *deslocamento* de *x*) se *tecla* for
+/// Desloca *q* para a esquerda (subtrai *deslocamento* de *x*) se *tecla* for
 /// ArrowLeft e para direita (soma *deslocamento* a *x*) se tecla for ArrowRight.
 /// Devolve *q* para outras teclas.
 pub fn move(q: Quadrado, tecla: key.Event) -> Quadrado {
@@ -82,7 +82,7 @@ pub fn muda_cor(q: Quadrado) -> Quadrado {
   Quadrado(..q, cor: cor)
 }
 
-pub fn mudar_cor_examples() {
+pub fn muda_cor_examples() {
   check.eq(muda_cor(Quadrado(50, Verde)), Quadrado(50, Amarelo))
   check.eq(muda_cor(Quadrado(50, Amarelo)), Quadrado(50, Vermelho))
   check.eq(muda_cor(Quadrado(50, Vermelho)), Quadrado(50, Verde))

@@ -827,7 +827,28 @@ Começamos com um esboço do que queremos.
 
 ## Exemplo movimento horizontal
 
-![](imagens/esboco1.pdf)
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[x=0.17mm, y=0.17mm, font=\small]
+  % cenas 100 x 100 com o quadrado de lado 20 em y = 50
+  % movimento com as teclas
+  \foreach \cx/\qx in {0/40, 240/50, 480/60} {
+    \draw (\cx, 0) rectangle +(100, 100);
+    \draw[fill=green] (\cx + \qx - 10, 40) rectangle +(20, 20);
+  }
+  \draw[->] (220, 50) -- node[above, align=center, text depth=0.5ex] {tecla\\esquerda} (120, 50);
+  \draw[->] (360, 50) -- node[above, align=center, text depth=0.5ex] {tecla\\direita} (460, 50);
+  % mudança de cor a cada tique
+  \foreach \cx/\cor in {0/green, 160/yellow, 320/red, 480/green} {
+    \draw (\cx, -150) rectangle +(100, 100);
+    \draw[fill=\cor] (\cx + 40, -110) rectangle +(20, 20);
+  }
+  \foreach \cx in {0, 160, 320} {
+    \draw[->] (\cx + 110, -100) -- node[above] {tique} (\cx + 150, -100);
+  }
+\end{tikzpicture}
+\end{center}
+```
 
 \pause
 

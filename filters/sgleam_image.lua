@@ -1,5 +1,16 @@
 cont = 0
 
+-- Cada arquivo de saída tem o seu diretório de imagens, assim as execuções do
+-- pandoc em paralelo (slides, handout, tex) não sobrescrevem os arquivos umas
+-- das outras. O nome do diretório vem do caminho da saída relativo a target/,
+-- em minúsculas e com _ no lugar dos outros caracteres, porque o sgleam exige
+-- que o caminho do módulo seja um nome de módulo válido.
+local saida = (PANDOC_STATE.output_file or "stdout")
+  :gsub("^%.%./target/", "")
+  :lower()
+  :gsub("[^a-z0-9]", "_")
+local dir = "../target/sgleam_images/" .. saida .. "/"
+
 function split(text)
   local s, e = text:find("\n\n", 1, true)
   if s then
@@ -17,10 +28,10 @@ function CodeBlock(el)
   cont = cont + 1
   local name = "i" .. tostring(cont)
   local hide, content = split(el.text)
-  local gleam = "../target/sgleam_images/" .. name .. ".gleam"
-  local svg = "../target/sgleam_images/" .. name .. ".svg"
-  local pdf = "../target/sgleam_images/" .. name .. ".pdf"
-  os.execute("mkdir -p ../target/sgleam_images/")
+  local gleam = dir .. name .. ".gleam"
+  local svg = dir .. name .. ".svg"
+  local pdf = dir .. name .. ".pdf"
+  os.execute("mkdir -p " .. dir)
   local fgleam = io.open(gleam, "w")
   fgleam:write([[
     import gleam/string

@@ -906,13 +906,13 @@ Função que gera uma imagem a partir do estado.
 
 ```gleam
 pub fn desenha(q: Quadrado) -> image.Image {
-  let fill = case q.cor {
+  let estilo = case q.cor {
     Verde -> fill.green
-    Vermelho -> fill.red
     Amarelo -> fill.yellow
+    Vermelho -> fill.red
   }
   image.empty_scene(largura, altura)
-  |> image.place_image(q.x, q_y, image.square(q_lado, fill))
+  |> image.place_image(q.x, q_y, image.square(q_lado, estilo))
 }
 ```
 
@@ -926,9 +926,8 @@ Função que modifica o estado a partir de um evento de teclado.
 \footnotesize
 
 ```gleam
-/// Desloca *q* para a esquerda (subtrai *deslocamento* de *x*) se *tecla* for
-/// ArrowLeft e para direita (soma *deslocamento* a *x*) se tecla for ArrowRight.
-/// Devolve *q* para outras teclas.
+/// Desloca *q* *deslocamento* unidades para a esquerda se *tecla* for ArrowLeft
+/// e para a direita se *tecla* for ArrowRight. Devolve *q* para outras teclas.
 pub fn move(q: Quadrado, tecla: key.Event) -> Quadrado {
   case tecla {
     key.ArrowLeft -> Quadrado(..q, x: q.x - deslocamento)
@@ -940,6 +939,7 @@ pub fn move(q: Quadrado, tecla: key.Event) -> Quadrado {
 pub fn move_examples() {
   check.eq(move(Quadrado(50, Verde), key.ArrowLeft), Quadrado(50 - deslocamento, Verde))
   check.eq(move(Quadrado(50, Verde), key.ArrowRight), Quadrado(50 + deslocamento, Verde))
+  check.eq(move(Quadrado(50, Verde), key.Enter), Quadrado(50, Verde))
 }
 ```
 
@@ -979,15 +979,18 @@ pub fn muda_cor_examples() {
 pub fn smain() {
   // Cria um mundo com um estado inicial e uma função de desenho
   world.create(Quadrado(q_x_inicial, Verde), desenha)
-  |> world.on_key_down(move) // move atualiza o estado quando uma tecla é pressionada
-  |> world.on_tick(muda_cor) // muda_cor atualiza o estado a cada tique de relógio
-  |> world.tick_rate(5)      // quantas vezes o relógio faz tique por segundo
+  // move atualiza o estado quando uma tecla é pressionada
+  |> world.on_key_down(move)
+  // muda_cor atualiza o estado a cada tique de relógio
+  |> world.on_tick(muda_cor)
+  // quantas vezes o relógio faz tique por segundo
+  |> world.tick_rate(5)
 }
 ```
 
-\normalsize
+\small
 
-O mundo é executado quando a função `smain` o devolve. As funções têm as seguintes assinaturas
+O mundo é executado quando a função `smain` o devolve. As funções têm as seguintes assinaturas:
 
 \footnotesize
 

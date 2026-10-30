@@ -37,6 +37,8 @@ license:
 
 @) Crie uma animação que exiba uma estrela que se desloca pelos quatro cantos de uma cena quadrada: do canto superior esquerdo para o superior direito, depois para o inferior direito, para o inferior esquerdo e de volta ao início, e depois repete.
 
+@) Modifique o programa `move_horizontal.gleam` para que o quadrado não saia da cena: se ele estiver encostado em uma borda, a tecla que o move nessa direção não deve ter efeito. Atualize os exemplos da função `move`.
+
 @) Crie um programa interativo que exiba um contador e permita que ele seja incrementado pressionando `+` e decrementado pressionando `-`.
 
 @) Crie um programa interativo que exiba um cronômetro com os segundos passados desde o início. A tecla espaço pausa o cronômetro, se ele estiver contando, ou faz ele voltar a contar, se estiver pausado. A tecla `z` zera o cronômetro, sem mudar se ele está pausado ou contando. Escreva exemplos para as funções que tratam os eventos.

@@ -10,8 +10,8 @@ pub type Quadrado {
 
 pub type Cor {
   Verde
-  Vermelho
   Amarelo
+  Vermelho
 }
 
 const largura = 100
@@ -29,27 +29,27 @@ const q_x_inicial = 50
 pub fn smain() {
   // Cria um mundo com um estado inicial e uma função de desenho
   world.create(Quadrado(q_x_inicial, Verde), desenha)
-  |> world.on_key_down(move)
   // move atualiza o estado quando uma tecla é pressionada
-  |> world.on_tick(muda_cor)
+  |> world.on_key_down(move)
   // muda_cor atualiza o estado a cada tique de relógio
-  |> world.tick_rate(5)
+  |> world.on_tick(muda_cor)
   // quantas vezes o relógio faz tique por segundo
+  |> world.tick_rate(5)
 }
 
+/// Produz uma cena com o quadrado *q* desenhado na posição *q.x* e na sua cor.
 pub fn desenha(q: Quadrado) -> image.Image {
-  let fill = case q.cor {
+  let estilo = case q.cor {
     Verde -> fill.green
-    Vermelho -> fill.red
     Amarelo -> fill.yellow
+    Vermelho -> fill.red
   }
   image.empty_scene(largura, altura)
-  |> image.place_image(q.x, q_y, image.square(q_lado, fill))
+  |> image.place_image(q.x, q_y, image.square(q_lado, estilo))
 }
 
-/// Desloca *q* para a esquerda (subtrai *deslocamento* de *x*) se *tecla* for
-/// ArrowLeft e para direita (soma *deslocamento* a *x*) se tecla for ArrowRight.
-/// Devolve *q* para outras teclas.
+/// Desloca *q* *deslocamento* unidades para a esquerda se *tecla* for ArrowLeft
+/// e para a direita se *tecla* for ArrowRight. Devolve *q* para outras teclas.
 pub fn move(q: Quadrado, tecla: key.Event) -> Quadrado {
   case tecla {
     key.ArrowLeft -> Quadrado(..q, x: q.x - deslocamento)
@@ -67,6 +67,7 @@ pub fn move_examples() {
     move(Quadrado(50, Verde), key.ArrowRight),
     Quadrado(50 + deslocamento, Verde),
   )
+  check.eq(move(Quadrado(50, Verde), key.Enter), Quadrado(50, Verde))
 }
 
 /// Muda a cor de *q* da seguinte forma:

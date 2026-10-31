@@ -31,7 +31,7 @@ pub fn soma_examples() {
   check.eq(soma([3, 5]), 8)
 }
 
-/// Concatena os elementos de *lst*.
+/// Junta os itens de *lst* em ordem contrária.
 pub fn junta_r(lst: List(String)) -> String {
   reduz(lst, "", string.append)
 }

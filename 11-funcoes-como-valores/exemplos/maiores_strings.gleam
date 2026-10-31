@@ -19,12 +19,9 @@ pub fn maiores_strings_examples() {
 
 /// Devolve o tamanho máximo entre todas as strings de *lst*.
 pub fn tamanho_maximo(lst: List(String)) -> Int {
-  list.fold(list.map(lst, string.length), 0, int.max)
+  list.fold_right(list.map(lst, string.length), 0, int.max)
 }
 
 pub fn tamanho_maximo_examples() {
-  check.eq(
-    tamanho_maximo(["oi", "casa", "aba", "boi", "eita", "a", "cadê"]),
-    4,
-  )
+  check.eq(tamanho_maximo(["oi", "casa", "aba", "boi", "eita", "a", "cadê"]), 4)
 }

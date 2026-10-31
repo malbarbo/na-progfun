@@ -8,8 +8,13 @@ import sgleam/check
 /// permanecem inalteradas; para as demais, espaços em branco são adicionados
 /// ao final.
 pub fn ajusta_tamanho(lst: List(String)) -> List(String) {
+  // Plano: determinar o tamanho máximo entre as strings e completar cada
+  // string com espaços até esse tamanho.
+
+  // Etapa 1: determina o tamanho máximo
   let tamanho = lst |> list.map(string.length) |> list.fold_right(0, int.max)
 
+  // Etapa 2: completa cada string com espaços
   list.map(lst, fn(s) { s <> string.repeat(" ", tamanho - string.length(s)) })
 }
 

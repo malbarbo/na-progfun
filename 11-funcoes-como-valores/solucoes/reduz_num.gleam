@@ -2,8 +2,8 @@ import gleam/int
 import gleam/list
 import sgleam/check
 
-/// Aplica a função *f* repetidamente ao valor *init* e aos números de 0 a *n*,
-/// isto é, f(n, f(n-1, ... f(base, 1))).
+/// Aplica a função *f* repetidamente ao valor *init* e aos números de 1 a *n*,
+/// isto é, f(... f(f(init, 1), 2) ..., n).
 pub fn reduz_num(n: Int, init: a, f: fn(a, Int) -> a) -> a {
   case n <= 0 {
     True -> init
@@ -17,11 +17,11 @@ pub fn reduz_num_examples() {
   check.eq(reduz_num(4, 0, int.add), 10)
 
   // lista_num
-  check.eq(reduz_num(4, [], cons_end), [1, 2, 3, 4])
+  check.eq(reduz_num(4, [], adiciona_fim), [1, 2, 3, 4])
 }
 
 /// Adiciona *e* ao final de *lst*.
-pub fn cons_end(lst: List(a), e: a) -> List(a) {
+pub fn adiciona_fim(lst: List(a), e: a) -> List(a) {
   list.append(lst, [e])
 }
 

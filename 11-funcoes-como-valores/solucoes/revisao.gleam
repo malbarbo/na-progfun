@@ -1,4 +1,3 @@
-import gleam/float
 import gleam/int
 import gleam/list
 import gleam/result
@@ -46,15 +45,21 @@ pub fn quantidade_elementos_examples() {
   check.eq(quantidade_elementos([6, 1, 8]), 3)
 }
 
-/// Devolve uma lista com cada elemento de *lst* convertido para Float.
+/// Devolve uma lista com cada elemento de *lst* convertido para Int.
 /// Devolve Error se algum valor não puder ser convertido.
-pub fn strings_para_numeros(lst: List(String)) -> Result(List(Float), Nil) {
-  list.map(lst, float.parse) |> result.all
+pub fn strings_para_numeros(lst: List(String)) -> Result(List(Int), Nil) {
+  // A biblioteca padrão tem funções que fazem o mesmo:
+  // list.try_map(lst, int.parse) ou list.map(lst, int.parse) |> result.all
+  list.fold_right(lst, Ok([]), fn(acc, s) {
+    use resto <- result.try(acc)
+    use n <- result.try(int.parse(s))
+    Ok([n, ..resto])
+  })
 }
 
 pub fn strings_para_numeros_examples() {
-  check.eq(strings_para_numeros(["10.0", "-1.2", "7.8"]), Ok([10.0, -1.2, 7.8]))
-  check.eq(strings_para_numeros(["10.0", "a", "7.8"]), Error(Nil))
+  check.eq(strings_para_numeros(["10", "-1", "7"]), Ok([10, -1, 7]))
+  check.eq(strings_para_numeros(["10", "a", "7"]), Error(Nil))
 }
 
 /// Devolve uma nova lista contendo apenas os elementos de *lst*
@@ -75,6 +80,7 @@ pub fn amplitude(lst: List(Int)) -> Result(Int, Nil) {
   case lst {
     [] -> Error(Nil)
     [primeiro, ..resto] -> {
+      // Plano: determinar o máximo, o mínimo e calcular a diferença.
       let maximo = list.fold_right(resto, primeiro, int.max)
       let minimo = list.fold_right(resto, primeiro, int.min)
       Ok(maximo - minimo)

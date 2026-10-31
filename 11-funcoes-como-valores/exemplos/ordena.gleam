@@ -3,7 +3,7 @@ import sgleam/check
 
 /// Cria uma lista com os elementos de *lst* em ordem monotonicamente crescente.
 pub fn ordena(lst: List(Int)) -> List(Int) {
-  list.fold(lst, [], insere_ordenado)
+  list.fold_right(lst, [], insere_ordenado)
 }
 
 pub fn ordena_examples() {

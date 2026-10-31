@@ -28,7 +28,7 @@ pub fn lista_pares_examples() {
   check.eq(lista_pares([3, 2, 7]), [2])
 }
 
-/// Devolve uma lista com os valores positivos de *lst*.
+/// Seleciona as strings não vazias de *lst*.
 pub fn lista_nao_vazia(lst: List(String)) -> List(String) {
   filtra(lst, eh_nao_vazia)
 }

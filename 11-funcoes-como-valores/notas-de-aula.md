@@ -3,10 +3,8 @@
 title: Funções como valores
 # TODO: explicitar que existe uma "algebra" de funções (assim como uma algebra de número, strings, etc)
 # TODO: rever referências
-# TODO: falar de currying?
 # TODO: mudar contem_5 para contem "a"?
 # TODO: melhorar o agrupamento e os nomes das seções
-# TODO: colocar uma função para fold que a saída tem tipo diferente dos elementos da entrada
 # TODO: dividir em mais de um módulo?
 ---
 
@@ -24,7 +22,7 @@ As principais características que vimos até agora do paradigma funcional foram
 
 - Casamento de padrões; \pause
 
-- Recursão como forma de especificar iteração. \pause
+- Funções recursivas para processar dados com autorreferências. \pause
 
 Veremos a seguir outra característica essencial do paradigma funcional: \pause
 
@@ -36,7 +34,7 @@ Veremos a seguir outra característica essencial do paradigma funcional: \pause
 
 Funções são **entidades de primeira classe** se: \pause
 
-- Podem ser usadas, sem restrições, onde outros valores podem ser usados (passadas como entrada, devolvido como resultado, armazenado em listas, etc); \pause
+- Podem ser usadas, sem restrições, onde outros valores podem ser usados (passadas como entrada, devolvidas como resultado, armazenadas em listas, etc); \pause
 
 - Podem ser construídas, sem restrições, onde outros valores também podem (localmente, em expressões, etc); \pause
 
@@ -67,7 +65,7 @@ Encontrando similaridades entre funções. \pause
 
 Vamos ver diversos pares de funções e identificar similaridades entre elas. \pause
 
-Por questões de espaço, no restante desse material, usamos `p` para primeiro e `r` para `resto` e colocamos os exemplos fora de funções `_examples`.
+Por questões de espaço, no restante desse material, usamos `p` para `primeiro` e `r` para `resto` e colocamos os exemplos fora de funções `_examples`.
 
 
 ## Exemplo: `contem_3` e `contem_5`
@@ -595,7 +593,7 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 
 
 
-/// Aplica *f* a cada elemento de *lst*
+/// Aplica *f* a cada elemento de *lst*.
 fn mapeia(lst, f) {
   case lst {
     [] -> []
@@ -652,7 +650,7 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 
 ```gleam
 
-/// Aplica *f* a cada elemento de *lst*
+/// Aplica *f* a cada elemento de *lst*.
 fn mapeia(
   lst: List(a),
   f: fn(a) -> b,
@@ -712,7 +710,7 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 
 ```gleam
 
-/// Aplica *f* a cada elemento de *lst*
+/// Aplica *f* a cada elemento de *lst*.
 fn mapeia(
   lst: List(a),
   f: fn(a) -> b,
@@ -770,7 +768,7 @@ Como resultado do exemplo anterior obtivemos a função `mapeia`, que é pré-de
 \pause
 
 ```gleam
-[Ok("c"), Error(Nil), Ok("a)]
+[Ok("c"), Error(Nil), Ok("a")]
 ```
 
 \ \
@@ -1443,10 +1441,10 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 
 
 
-// Reduz os elementos de *lst* em um acumulador
-// usando a função *f*. O acumulador começa com *init*
-// e é atualizado chamando *f(acc, e)* para cada
-// elemento *e* de *lst* da direita para a esquerda.
+/// Reduz os elementos de *lst* em um acumulador
+/// usando a função *f*. O acumulador começa com *init*
+/// e é atualizado chamando *f(acc, e)* para cada
+/// elemento *e* de *lst* da direita para a esquerda.
 fn reduz(lst, init, f) {
   case lst {
     [] -> init
@@ -1501,10 +1499,10 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 \scriptsize
 
 ```gleam
-// Reduz os elementos de *lst* em um acumulador
-// usando a função *f*. O acumulador começa com *init*
-// e é atualizado chamando *f(acc, e)* para cada
-// elemento *e* de *lst* da direita para a esquerda.
+/// Reduz os elementos de *lst* em um acumulador
+/// usando a função *f*. O acumulador começa com *init*
+/// e é atualizado chamando *f(acc, e)* para cada
+/// elemento *e* de *lst* da direita para a esquerda.
 fn reduz(
   lst: List(a),
   init: b,
@@ -1563,10 +1561,10 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 \scriptsize
 
 ```gleam
-// Reduz os elementos de *lst* em um acumulador
-// usando a função *f*. O acumulador começa com *init*
-// e é atualizado chamando *f(acc, e)* para cada
-// elemento *e* de *lst* da direita para a esquerda.
+/// Reduz os elementos de *lst* em um acumulador
+/// usando a função *f*. O acumulador começa com *init*
+/// e é atualizado chamando *f(acc, e)* para cada
+/// elemento *e* de *lst* da direita para a esquerda.
 fn reduz(
   lst: List(a),
   init: b,
@@ -1633,20 +1631,27 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 \footnotesize
 
 ```gleam
-fn soma_1_acc(acc: Int, _: Int) -> Int {
-  acc + 1
+fn soma_tamanho(acc: Int, s: String) -> Int {
+  acc + string.length(s)
 }
 ```
 
 ```gleam-repl
-> list.fold_right([4, 1, 8], 0, soma_1_acc)
+> list.fold_right(["casa", "a", "boi"],
+                  0, soma_tamanho)
 ```
 
 \pause
 
 ```gleam
-3
+8
 ```
+
+\pause
+
+\normalsize
+
+Note que o acumulador (`Int`{.gleam}) não precisa ter o mesmo tipo dos elementos da lista (`String`{.gleam}).
 </div>
 </div>
 
@@ -1681,7 +1686,7 @@ Projete uma função que receba como parâmetro uma lista de números e produza 
 /// Produz uma lista com o sinal de cada
 /// elemento de *lst*. O sinal é 1 para
 /// positivos, -1 para negativos e 0
-/// para neutros.
+/// para zero.
 fn sinais(lst: List(Int)) -> List(Int) {
   todo
 }
@@ -1834,7 +1839,7 @@ Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause
 fn ordena(lst: List(Int)) -> List(Int) {
   case lst {
     [] -> []
-    [p, ..r] -> insere_ordenado(ordena(r), p))
+    [p, ..r] -> insere_ordenado(ordena(r), p)
   }
 }
 ```
@@ -1853,8 +1858,8 @@ E então, podemos usar `map`, `filter` ou `fold_right` para implementar a funç�
 ```gleam
 fn fold_right(lst, init, f) {
   case lst {
-    [] -> []
-    [p, ..r] -> f(fold_right(r, init, f), p))
+    [] -> init
+    [p, ..r] -> f(fold_right(r, init, f), p)
   }
 }
 ```
@@ -1883,12 +1888,12 @@ Exercício: projete a função `insere_ordenado`.
 </div>
 
 
-## Exemplos: maiores strings
+## Exemplo: maiores strings
 
 Projete uma função que receba como entrada uma lista de strings e devolva uma lista com as strings de tamanho máximo entre todas as strings da lista.
 
 
-## Exemplos: maiores strings
+## Exemplo: maiores strings
 
 \scriptsize
 
@@ -1913,7 +1918,7 @@ Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause
 
 Vamos separar a solução em duas etapas: encontrar o tamanho máximo e depois selecionar as strings com tamanho máximo.
 
-## Exemplos: maiores strings
+## Exemplo: maiores strings
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1923,7 +1928,7 @@ Vamos separar a solução em duas etapas: encontrar o tamanho máximo e depois s
 ```gleam
 /// Devolve o tamanho máximo entre
 /// todas as strings de *lst*.
-fn tamanho_max(lst: List(String) -> Int {
+fn tamanho_maximo(lst: List(String)) -> Int {
   todo
 }
 
@@ -1957,7 +1962,7 @@ Podemos fazer em duas etapas: usamos o `map` para obter uma lista com os tamanho
 ```gleam
 /// Devolve o tamanho máximo entre
 /// todas as strings de *lst*.
-fn tamanho_max(lst: List(String) -> Int {
+fn tamanho_maximo(lst: List(String)) -> Int {
   list.fold_right(
     list.map(lst, string.length),
     0,
@@ -1971,7 +1976,7 @@ fn tamanho_max(lst: List(String) -> Int {
 </div>
 
 
-## Exemplos: maiores strings
+## Exemplo: maiores strings
 
 <div class="columns">
 <div class="column" width="48%">
@@ -1979,7 +1984,8 @@ fn tamanho_max(lst: List(String) -> Int {
 \footnotesize
 
 ```gleam
-fn maiores_string(lst: List(String)) {
+fn maiores_strings(lst: List(String))
+  -> List(String) {
   let max = tamanho_maximo(lst)
   // Como definimos a função
   // tem_tamanho_maximo?
@@ -1990,10 +1996,11 @@ fn maiores_string(lst: List(String)) {
 \pause
 
 ```gleam
-fn maiores_string(lst: List(String)) {
+fn maiores_strings(lst: List(String))
+  -> List(String) {
   let max = tamanho_maximo(lst)
 
-  fn tem_tamanho_max(s: String) -> Bool {
+  fn tem_tamanho_maximo(s: String) -> Bool {
     string.length(s) == max
   }
 
@@ -2005,7 +2012,7 @@ fn maiores_string(lst: List(String)) {
 
 </div>
 <div class="column" width="48%">
-O que a função `tem_tamanho_max` tem de diferente? \pause
+O que a função `tem_tamanho_maximo` tem de diferente? \pause
 
 - É declarada dentro de outra função; \pause
 
@@ -2015,7 +2022,7 @@ O que a função `tem_tamanho_max` tem de diferente? \pause
 
 Veremos a seguir que este tipo de função tem que ser tratada de forma diferente pelo compilador. \pause
 
-Em Gleam, especificamente, a forma de definir funções desse tipo também é diferente. Por hora, vamos supor que a definição dessa maneira está correta.
+Em Gleam, especificamente, a forma de definir funções desse tipo também é diferente. Por ora, vamos supor que a definição dessa maneira está correta.
 
 </div>
 </div>
@@ -2046,10 +2053,11 @@ Como uma função acessa uma variável livre?
 \footnotesize
 
 ```gleam
-fn maiores_string(lst: List(String)) {
+fn maiores_strings(lst: List(String))
+  -> List(String) {
   let max = tamanho_maximo(lst)
 
-  fn tem_tamanho_max(s: String) -> Bool {
+  fn tem_tamanho_maximo(s: String) -> Bool {
     string.length(s) == max
   }
 
@@ -2061,7 +2069,7 @@ fn maiores_string(lst: List(String)) {
 <div class="column" width="48%">
 \pause
 
-A variável `max` existe independe da função `tem_tamanho_maximo` estar ativa (executando) ou não, logo ela não pode ser armazenada no registro de ativação de `tem_tamanho_maximo`. \pause
+A variável `max` existe independentemente de a função `tem_tamanho_maximo` estar ativa (executando) ou não, logo ela não pode ser armazenada no registro de ativação de `tem_tamanho_maximo`. \pause
 
 Então, como a variável livre `max` é acessada na função `tem_tamanho_maximo`? \pause
 
@@ -2080,9 +2088,9 @@ Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambient
 \footnotesize
 
 ```gleam
-fn maiores_string(lst: List(String)) -> List(String) {
+fn maiores_strings(lst: List(String)) -> List(String) {
   let max = tamanho_maximo(lst)
-  fn tem_tamanho_max(s: String) -> Bool {
+  fn tem_tamanho_maximo(s: String) -> Bool {
     string.length(s) == max
   }
   list.filter(lst, tem_tamanho_maximo)
@@ -2094,22 +2102,22 @@ fn maiores_string(lst: List(String)) -> List(String) {
 Quando a função `tem_tamanho_maximo` é utilizada na chamada de `list.filter` um fechamento é passado como parâmetro.
 
 
-## Exemplo em python
+## Exemplo em Python
 
 \footnotesize
 
 ```python
 
 def maiores_strings(lst: list[str]) -> list[str]:
-    tmax = tamanho_max(lst)
+    tmax = tamanho_maximo(lst)
 
-    def tem_tamanho_max(s: str) -> bool:
+    def tem_tamanho_maximo(s: str) -> bool:
         return len(s) == tmax
 
-    return list(filter(tem_tamanho_max, lst))
+    return list(filter(tem_tamanho_maximo, lst))
 
 
-def tamanho_max(lst: list[str]) -> int:
+def tamanho_maximo(lst: list[str]) -> int:
     # max recebe um iterador
     return max(map(len, lst))
 ```
@@ -2182,11 +2190,12 @@ Por questões de simplicidade de projeto, em Gleam, apenas funções anônimas p
 \ \
 
 ```gleam
-fn maiores_string(lst: List(String)) {
+fn maiores_strings(lst: List(String))
+  -> List(String) {
   let max = tamanho_maximo(lst)
 
   // Declaração inválida
-  fn tem_tamanho_max(s: String) -> Bool {
+  fn tem_tamanho_maximo(s: String) -> Bool {
     string.length(s) == max
   }
 
@@ -2201,9 +2210,10 @@ fn maiores_string(lst: List(String)) {
 \footnotesize
 
 ```gleam
-fn maiores_string(lst: List(String)) {
+fn maiores_strings(lst: List(String))
+  -> List(String) {
   let max = tamanho_maximo(lst)
-  let tem_tamanho_max = fn(s: String) -> Bool {
+  let tem_tamanho_maximo = fn(s) {
     string.length(s) == max
   }
   list.filter(lst, tem_tamanho_maximo)
@@ -2217,12 +2227,11 @@ fn maiores_string(lst: List(String)) {
 
 Ou sem armazenar a função em uma variável:
 
-\ \
-
 \footnotesize
 
 ```gleam
-fn maiores_string(lst: List(String)) {
+fn maiores_strings(lst: List(String))
+  -> List(String) {
   let max = tamanho_maximo(lst)
   list.filter(
     lst, fn(s) { string.length(s) == max })
@@ -2254,7 +2263,7 @@ Em Python
 ```python
 >>> list(map(lambda x: x * 2, [3, 8, -6]))
 [6, 16, -12]
->>> list(filter(lambda x: x < 10, [3, 20, -4, 48])
+>>> list(filter(lambda x: x < 10, [3, 20, -4, 48]))
 [3, -4]
 ```
 
@@ -2271,7 +2280,7 @@ Defina a função `mapeia` em termos da função `reduz`.
 
 ```gleam
 fn mapeia(lst, f) {
-  reduz(lst, fn(acc, e) {
+  reduz(lst, [], fn(acc, e) {
     [f(e), ..acc]
   })
 }
@@ -2290,7 +2299,7 @@ Defina a função `filtra` em termos da função `reduz`.
 
 ```gleam
 fn filtra(lst, pred) {
-  reduz(lst, fn(acc, e) {
+  reduz(lst, [], fn(acc, e) {
     case pred(e) {
       True -> [e, ..acc]
       False -> acc
@@ -2323,9 +2332,9 @@ Como identificar a necessidade de criar e utilizar funções que produzem funç�
 
 - Parametrizar a criação de funções fixando alguns parâmetros; \pause
 
-- Composição de funções; \pause
+- Transformar funções (como em `nega`); \pause
 
-- ...
+- Criar funções para outras funções de alta ordem (como uma comparação para `list.sort`{.gleam}).
 
 
 ## Exemplo: somador
@@ -2427,7 +2436,7 @@ True
 \pause
 
 ```gleam-repl
-> filter([4, 1, 2, 0, 3], nega(int.is_odd))
+> list.filter([4, 1, 2, 0, 3], nega(int.is_odd))
 [4, 2, 0]
 ```
 
@@ -2464,12 +2473,78 @@ pub fn nega(
 </div>
 
 
+## Exemplo: comparação
+
+A função `list.sort`{.gleam} recebe como parâmetro uma função de comparação, isto é, uma função que recebe dois valores e devolve `order.Lt`{.gleam}, `order.Eq`{.gleam} ou `order.Gt`{.gleam}. \pause
+
+Defina uma função que receba como parâmetro uma função *chave*, que produz um inteiro, e devolva uma função de comparação que compara dois valores pelo resultado de *chave*.
+
+
+## Exemplo: comparação
+
+<div class="columns">
+<div class="column" width="48%">
+\scriptsize
+
+```gleam-repl
+> compara_por(string.length)("casa", "oi")
+Gt
+```
+
+\ \
+
+\pause
+
+```gleam-repl
+> list.sort(["casa", "oi", "abc"],
+            compara_por(string.length))
+["oi", "abc", "casa"]
+> list.sort([-5, 3, -1],
+            compara_por(int.absolute_value))
+[-1, 3, -5]
+```
+
+\pause
+
+</div>
+<div class="column" width="48%">
+\scriptsize
+
+```gleam
+/// Devolve uma função de comparação que
+/// compara dois valores pelo resultado
+/// de *chave*.
+pub fn compara_por(
+  chave: fn(a) -> Int
+) -> fn(a, a) -> Order {
+  todo
+}
+```
+
+\pause
+
+\ \
+
+```gleam
+pub fn compara_por(
+  chave: fn(a) -> Int
+) -> fn(a, a) -> Order {
+  fn(x, y) {
+    int.compare(chave(x), chave(y))
+  }
+}
+```
+
+</div>
+</div>
+
+
 Açúcar sintático
 ================
 
 ## Açúcar sintático
 
-Um **açúcar sintático** ([_syntatic sugar_](https://en.wikipedia.org/wiki/Syntactic_sugar)) é uma construção sintática de uma linguagens de programação que deixam o seu uso mais simples, ou doce, para os humanos. \pause
+Um **açúcar sintático** ([_syntactic sugar_](https://en.wikipedia.org/wiki/Syntactic_sugar)) é uma construção sintática de uma linguagem de programação que deixa o seu uso mais simples, ou doce, para os humanos. \pause
 
 Vamos ver alguns açúcares sintáticos do Gleam.
 
@@ -2596,7 +2671,7 @@ O segundo `let`{.gleam} não modifica o `x`{.gleam} anterior: ele define um novo
 
 O uso de fechamentos com um parâmetro é bastante comum, por isso, o Gleam oferece uma forma abreviada para criá-los. \pause
 
-Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma função qualquer e `...` são as variáveis livres do fechamento, pode ser escrito de forma abreviada como `f(..., _, ...)`{.gleam}, onde o marcador de posição `_` define o parâmetro para o fechamento. \pause
+Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma função qualquer e `...` são os demais argumentos (constantes, variáveis livres ou outras expressões), pode ser escrito de forma abreviada como `f(..., _, ...)`{.gleam}, onde o marcador de posição `_` define o parâmetro do fechamento. O `_` pode aparecer apenas uma vez. \pause
 
 \centering
 
@@ -2712,23 +2787,46 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 </div>
 
 
+## Currying
+
+Em algumas linguagens funcionais, como Haskell e OCaml, toda função recebe um parâmetro por vez: uma função de "dois parâmetros" é, na verdade, uma função que recebe o primeiro parâmetro e devolve uma função que recebe o segundo. Essa técnica é chamada de **currying**. \pause
+
+Em Gleam, seria como se `int.add`{.gleam} fosse definida como a função `soma` que fizemos:
+
+\footnotesize
+
+```gleam
+fn add(a: Int) -> fn(Int) -> Int {
+  fn(b) { a + b }
+}
+```
+
+\normalsize
+
+\pause
+
+Assim, a soma seria chamada como `add(1)(2)`{.gleam}, e `add(1)`{.gleam} sozinho seria uma função que soma 1 ao seu argumento. \pause
+
+Em Gleam as funções recebem todos os parâmetros de uma vez, então `int.add(1)`{.gleam} é um erro. Para fixar um parâmetro, usamos o fechamento abreviado: `int.add(1, _)`{.gleam}.
+
+
 ## Cadeia de processamento
 
-Um **cadeia de processamento**, ou _pipeline_, é uma sequência de operações onde a saída de uma operação é utilizada como entrada da próxima. \pause
+Uma **cadeia de processamento**, ou _pipeline_, é uma sequência de operações onde a saída de uma operação é utilizada como entrada da próxima. \pause
 
 A forma "comum" de chamar funções pode não ser adequada para uma cadeia de processamento com muitas etapas, isso porque a ordem de execução fica de "dentro para fora", o que dificulta a escrita e leitura do código. \pause
 
-Gleam oferece o operador binário `|>` para facilitar as cadeias de processamento\pause
+Gleam oferece o operador binário `|>` para facilitar as cadeias de processamento: \pause
 
 \centering
 
-`a |> b(x, ..., z)`{.gleam}
+`a |> b(x, ..., z)`{.gleam} é equivalente a `b(a, x, ..., z)`{.gleam}
 
-é equivalente a
+\raggedright
 
-`b(a, x, ..., z)`{.gleam} ou `b(x, ..., z)(a)`{.gleam}
+\pause
 
-\ \
+Isto é, o valor à esquerda é passado como **primeiro** argumento da função à direita. (Se `b(x, ..., z)`{.gleam} produzir uma função, o valor é passado para ela, como em `b(x, ..., z)(a)`{.gleam}.)
 
 
 ## Cadeia de processamento
@@ -2736,7 +2834,7 @@ Gleam oferece o operador binário `|>` para facilitar as cadeias de processament
 \scriptsize
 
 ```gleam
-fn tamanho_max(lst: List(String) -> Int {
+fn tamanho_maximo(lst: List(String)) -> Int {
   list.fold_right(list.map(lst, string.length), 0, int.max)
 }
 ```
@@ -2744,7 +2842,7 @@ fn tamanho_max(lst: List(String) -> Int {
 \pause
 
 ```gleam
-fn tamanho_max(lst: List(String) -> Int {
+fn tamanho_maximo(lst: List(String)) -> Int {
   list.fold_right(
     list.map(lst, string.length),
     0,
@@ -2756,7 +2854,7 @@ fn tamanho_max(lst: List(String) -> Int {
 \pause
 
 ```gleam
-fn tamanho_max(lst: List(String) -> Int {
+fn tamanho_maximo(lst: List(String)) -> Int {
   lst
   |> list.map(string.length)
   |> list.fold_right(0, int.max)
@@ -2781,8 +2879,8 @@ fn tamanho_max(lst: List(String) -> Int {
 fn enumera_em_ordem_comeca_a(nomes: List(String)) -> List(String) {
   list.index_map(
     list.sort(list.filter(nomes, string.starts_with(_, "a")), string.compare),
-    fn(nome, num) { int.to_string(num) <> ". " <> nome },
- )
+    fn(nome, num) { int.to_string(num + 1) <> ". " <> nome },
+  )
 }
 ```
 
@@ -2793,19 +2891,17 @@ fn enumera_em_ordem_comeca_a(nomes: List(String)) -> List(String) {
   nomes
   |> list.filter(string.starts_with(_, "a"))
   |> list.sort(string.compare)
-  |> list.index_map(fn(nome, num) { int.to_string(num) <> ". " <> nome })
+  |> list.index_map(fn(nome, num) { int.to_string(num + 1) <> ". " <> nome })
 }
 ```
 
-</div>
-</div>
 
 
 ## Use
 
 As funções de alta ordem e o casamento de padrão são essenciais para a programação funcional. No entanto, em algumas situações, o uso dessas construções pode gerar indentação excessiva. \pause
 
-Vamos rever um exemplo que vimos em tipos de dados.
+Vamos rever um exemplo que vimos no capítulo **Funções totais**.
 
 
 ## Use {.t}
@@ -2844,7 +2940,7 @@ Podemos criar uma função de alta ordem `entao` para abstrair esse padrão. \pa
 \scriptsize
 
 ```gleam
-/// Excuta *fun* com o valor de *r* e
+/// Executa *fun* com o valor de *r* e
 /// devolve seu resultado se *r* é Ok,
 /// senão devolve o mesmo erro de *r*.
 ```
@@ -2852,7 +2948,8 @@ Podemos criar uma função de alta ordem `entao` para abstrair esse padrão. \pa
 ```gleam-repl
 > entao(Ok(10), fn(x) { Ok(int.to_string(x)) })
 Ok("10")
-> entao(Error("a"), fn(x) { Ok(int.to_string(x)) })
+> entao(Error("falhou"),
+        fn(x) { Ok(int.to_string(x)) })
 Error("falhou")
 > Ok("casa") |> entao(string.first)
 Ok("c")
@@ -2928,7 +3025,7 @@ fn soma(a: String, b: String) -> Result(Int, Nil) {
 
 \vspace{0.2cm}
 
-A função `entao` está definida na biblioteca padrão como `result.then` e `result.try` (as duas funções fazem a mesma coisa).
+A função `entao` está definida na biblioteca padrão como `result.try`.
 
 \pause
 
@@ -3056,14 +3153,39 @@ Outras funções de alta ordem
 
 ## Outras funções de alta ordem
 
+\footnotesize
+
+```gleam-repl
+> list.all([2, 4, 5], int.is_even)       // para no primeiro False
+False
+> list.any([1, 3, 4], int.is_even)       // para no primeiro True
+True
+> list.find([1, 3, 4, 6], int.is_even)   // primeiro que satisfaz
+Ok(4)
+> list.take_while([2, 4, 5, 6], int.is_even)
+[2, 4]
+> list.filter_map(["1", "a", "3"], int.parse)
+[1, 3]
+```
+
+\normalsize
+
+\pause
+
+Ao contrário de `map`, `filter` e `fold_right`, as funções `all`, `any`, `find` e `take_while` podem parar antes de processar a lista inteira.
+
+
+## Outras funções de alta ordem
+
 <div class="columns">
 <div class="column" width="16%">
 \scriptsize
 
+[bool](https://hexdocs.pm/gleam_stdlib/gleam/bool.html)
+
 ```gleam
-bool
-  guard
-  lazy_guard
+guard
+lazy_guard
 ```
 
 \pause
@@ -3071,13 +3193,14 @@ bool
 <div class="column" width="16%">
 \scriptsize
 
+[option](https://hexdocs.pm/gleam_stdlib/gleam/option.html)
+
 ```gleam
-option
-  lazy_or
-  lazy_unwrap
-  map
-  or
-  then
+lazy_or
+lazy_unwrap
+map
+or
+then
 ```
 
 \pause
@@ -3085,15 +3208,15 @@ option
 <div class="column" width="16%">
 \scriptsize
 
+[result](https://hexdocs.pm/gleam_stdlib/gleam/result.html)
+
 ```gleam
-result
-  lazy_or
-  lazy_unwrap
-  map
-  map_error
-  then
-  try
-  try_recover
+lazy_or
+lazy_unwrap
+map
+map_error
+try
+try_recover
 ```
 
 \pause
@@ -3101,23 +3224,25 @@ result
 <div class="column" width="16%">
 \scriptsize
 
+[list](https://hexdocs.pm/gleam_stdlib/gleam/list.html)
+
 ```gleam
-list
-  all
-  any
-  drop_while
-  filter_map
-  find_map
-  fold_until
-  index_fold
-  index_map
-  map2
-  map_fold
-  sort
-  split_while
-  take_while
-  try_fold
-  try_map
+all
+any
+drop_while
+filter_map
+find
+find_map
+fold_until
+index_fold
+index_map
+map2
+map_fold
+sort
+split_while
+take_while
+try_fold
+try_map
 ```
 
 \pause
@@ -3125,11 +3250,12 @@ list
 <div class="column" width="16%">
 \scriptsize
 
+[dict](https://hexdocs.pm/gleam_stdlib/gleam/dict.html)
+
 ```gleam
-dict
-  filter
-  fold
-  map_values
+filter
+fold
+map_values
 ```
 
 \pause
@@ -3137,14 +3263,57 @@ dict
 <div class="column" width="16%">
 \scriptsize
 
+[set](https://hexdocs.pm/gleam_stdlib/gleam/set.html)
+
 ```gleam
-set
-  filter
-  fold
-  map
+filter
+fold
+map
 ```
 </div>
 </div>
+
+Revisão
+=======
+
+
+## Revisão
+
+Como identificamos a necessidade de uma função que recebe funções como parâmetro? \pause
+
+- Quando encontramos funções com corpo semelhante em que o que muda é uma operação, que passa a ser um parâmetro da nova função (como `lista_nega` e `lista_string` gerando `mapeia`). \pause
+
+Qual a diferença entre `map`, `filter` e `fold_right`? \pause
+
+- `map` aplica uma função a cada elemento de forma independente e produz uma lista do mesmo tamanho; `filter` seleciona os elementos que satisfazem um predicado; `fold_right` combina os elementos, um a um, em um único resultado, que pode ser de qualquer tipo. Os três processam a lista inteira.
+
+
+## Revisão
+
+Quando nenhuma das três parece servir diretamente, o que podemos fazer? \pause
+
+- Fazer o projeto com o modelo e depois verificar se a função é um caso de `fold_right` (como em `ordena`), ou dividir o problema em etapas que combinem as três (como em `maiores_strings`). \pause
+
+Por que uma função que usa uma variável livre precisa ser um fechamento? \pause
+
+- Porque a variável livre não está no registro de ativação da função, então a função precisa levar junto o ambiente léxico com essas variáveis. \pause
+
+Em que situações usamos funções anônimas? \pause
+
+- Como argumento, quando a função é pequena e usada apenas naquele local, e como resultado de funções que produzem funções (como `soma(n)`{.gleam} e `nega(pred)`{.gleam}).
+
+
+## Revisão
+
+Quais açúcares sintáticos do Gleam vimos? Qual é a forma equivalente de cada um? \pause
+
+- `let x = e`{.gleam} seguido de `corpo` é o mesmo que `fn(x) { corpo }(e)`{.gleam}; \pause
+
+- `f(_, b)`{.gleam} é o mesmo que `fn(x) { f(x, b) }`{.gleam}; \pause
+
+- `a |> f(b)`{.gleam} é o mesmo que `f(a, b)`{.gleam}; \pause
+
+- `use x <- f(a)`{.gleam} seguido de `corpo` é o mesmo que `f(a, fn(x) { corpo })`{.gleam}.
 
 
 Referências

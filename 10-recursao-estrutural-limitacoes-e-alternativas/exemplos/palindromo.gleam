@@ -5,7 +5,10 @@ import sgleam/check
 /// lida da direita para a esquerda e da esquerda para a direita. Produz False
 /// caso contrário.
 pub fn palindromo(lst: List(Int)) -> Bool {
-  lst == list.reverse(lst)
+  // lst com os elementos em ordem inversa
+  let rev = list.reverse(lst)
+  // lst é palíndromo se lst e rev são iguais
+  lst == rev
 }
 
 pub fn palindromo_examples() {

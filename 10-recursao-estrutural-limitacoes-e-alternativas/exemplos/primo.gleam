@@ -1,7 +1,7 @@
 import sgleam/check
 
 /// Produz True se *n* é um número primo, isto é, tem exatamente dois divisores
-/// distintos (1 e *n*). Produz False caso contrário.
+/// positivos distintos (1 e *n*). Produz False caso contrário.
 pub fn primo(n: Int) -> Bool {
   num_divisores(n, n) == 2
 }

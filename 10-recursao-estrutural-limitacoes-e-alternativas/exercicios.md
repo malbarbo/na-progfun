@@ -10,7 +10,7 @@ license:
 
 # Começando
 
-@) Dê um exemplo de problema, diferente dos vistos em sala, que não pode ser resolvido diretamente com recursão estrutural. Explique por que a solução do subproblema estrutural não ajuda a construir a solução do problema original.
+@) Dê um exemplo de problema, diferente dos vistos nas notas de aula, que não pode ser resolvido diretamente com recursão estrutural. Explique por que a solução do subproblema sugerido pelo modelo não ajuda a construir a solução do problema original.
 
 @) Quais estratégias podemos utilizar quando a recursão estrutural não resolve o problema diretamente? Dê um exemplo de problema para cada estratégia.
 
@@ -27,19 +27,21 @@ license:
 
 <!-- Plano -->
 
-@) Projete uma função que calcule a amplitude dos valores de uma lista de números, isto é, a diferença entre o valor máximo e mínimo da lista. Dica: crie um plano e use funções auxiliares.
+@) Projete uma função que calcule a amplitude dos valores de uma lista de números, isto é, a diferença entre o valor máximo e o mínimo da lista. Dica: crie um plano e use funções auxiliares.
 
 @) Projete uma função que determine o tamanho médio das strings de uma lista. Dica: crie um plano e use funções auxiliares.
 
 @) Projete uma função que indique se em uma lista de inteiros existem mais valores positivos ou negativos. Dica: crie um plano e use funções auxiliares.
+
+@) A função `palindromo`{.gleam} com recursão generativa, vista nas notas de aula, usa a função `sem_extremos`{.gleam}, que produz a lista sem o primeiro e o último elemento. Por exemplo, para `[4, 1, 5, 1, 4]`{.gleam}, a função produz `[1, 5, 1]`{.gleam}. Projete a função `sem_extremos`{.gleam}. Dica: crie um plano.
 
 
 # Resolvendo problemas
 
 <!-- Funções auxiliares - plano -->
 
-@) A Láurea Acadêmica é uma homenagem prestada a alunos que tiveram elevado nível de aproveitamento no curso de graduação. Na UEM, todos os alunos que tiveram mais do que 2/3 das notas finais das disciplinas maiores do que 9,0 recebem esta homenagem. Projete um programa que receba as notas finais de um aluno e determine se ele receberá a Láurea Acadêmica. Dica: faça um plano.
+@) A Láurea Acadêmica é uma homenagem prestada a alunos que tiveram elevado nível de aproveitamento no curso de graduação. Na UEM, todos os alunos que tiveram mais do que 2/3 das notas finais das disciplinas maiores do que 9,0 recebem esta homenagem. Projete uma função que receba as notas finais de um aluno e determine se ele receberá a Láurea Acadêmica. Dica: faça um plano.
 
-@) Uma eleição é realizada com apenas dois candidatos. Cada eleitor pode votar ou no primeiro candidato, ou no segundo candidato, ou ainda, votar em branco. O candidato que tiver mais votos ganha a eleição. Se os votos em branco forem mais do que 50% do total de votos, novas eleições devem ser convocadas. Projete uma função que receba como entrada uma lista não vazia de votos e determine qual foi o resultado da eleição. Dica: faça um plano.
+@) Uma eleição é realizada com apenas dois candidatos. Cada eleitor pode votar ou no primeiro candidato, ou no segundo candidato, ou ainda, votar em branco. O candidato que tiver mais votos ganha a eleição. Se os votos em branco forem mais do que 50% do total de votos, novas eleições devem ser convocadas. Projete uma função que receba como entrada uma lista de votos e determine qual foi o resultado da eleição. Dica: faça um plano.
 
 @) O problema do menor retângulo delimitador consiste em determinar o retângulo de menor altura e menor largura que pode cobrir um conjunto de pontos no plano cartesiano. Projete uma função que resolva o problema do menor retângulo delimitador. Considere que o retângulo deve ter os lados paralelos aos eixos $x$ e $y$. Dica: faça alguns exemplos no papel e defina um plano.

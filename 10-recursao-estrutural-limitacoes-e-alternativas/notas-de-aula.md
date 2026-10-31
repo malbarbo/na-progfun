@@ -40,52 +40,15 @@ O problema nos dois casos é o mesmo: a solução do problema original não pode
 
 Como proceder nesse caso? \pause Temos algumas opções: \pause
 
-- Criamos um plano: dividimos o problema em etapas e projetamos uma função auxiliar (possivelmente com recursão estrutural) para cada etapa; \pause
-
 - Generalizamos o problema: projetamos uma função auxiliar que resolve um problema mais geral, no qual a recursão estrutural funciona, e resolvemos o problema original usando essa função; \pause
 
-- Decompomos o problema em subproblema(s) de maneira não estrutural e utilizamos a solução desse(s) subproblema(s) para construir a solução do problema original.
+- Criamos um plano: dividimos o problema em etapas de natureza diferente e projetamos uma função auxiliar (possivelmente com recursão estrutural) para cada etapa; a função original não é recursiva, apenas encadeia as etapas; \pause
+
+- Decompomos o problema de maneira não estrutural: a função chama a si mesma com subproblema(s) da mesma natureza, mas obtido(s) de forma não estrutural, e utiliza a solução desse(s) subproblema(s) para construir a solução do problema original.
 
 
 Alternativas
 ============
-
-
-## Plano
-
-Para o problema do palíndromo, em vez de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos criar um plano, uma sequência de etapas que resolvem problemas intermediários e que, ao final, produzem o resultado esperado. \pause
-
-Por exemplo, podemos, primeiramente, inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
-
-Note que, para este caso, precisaríamos projetar uma nova função, a que inverte a lista, e ela pode ser implementada com recursão estrutural. A comparação pode ser feita com `==`{.gleam}, que em Gleam compara as listas elemento a elemento.
-
-
-## Palíndromo com plano
-
-\scriptsize
-
-```gleam
-/// Produz True se *lst* é um palíndromo, isto é, tem os mesmos elementos quando lida
-/// da direita para a esquerda e da esquerda para a direita. Produz False caso contrário.
-fn palindromo(lst: List(Int)) -> Bool {
-  lst == list.reverse(lst)
-}
-
-fn palindromo_examples() {
-  check.eq(palindromo([]), True)
-  check.eq(palindromo([7]), True)
-  check.eq(palindromo([7, 3]), False)
-  check.eq(palindromo([3, 3]), True)
-  check.eq(palindromo([3, 7, 3]), True)
-  check.eq(palindromo([3, 7, 3, 3]), False)
-}
-```
-
-\pause
-
-\small
-
-Exercício: implemente a função `reverse`.
 
 
 ## Generalização do problema
@@ -96,7 +59,7 @@ Se temos a quantidade de divisores de $n$ que são $\le a - 1$, como obtemos a q
 
 Como podemos utilizar essa função para determinar se um número $n$ é primo? \pause Com a expressão `num_divisores(n, n) == 2`{.gleam}. \pause
 
-Assim como no plano, `primo`{.gleam} é composta com uma função auxiliar. A diferença é que a auxiliar resolve um problema mais geral que o necessário: a quantidade de divisores de $n$ é o caso específico `num_divisores(n, n)`{.gleam}.
+Note que `primo`{.gleam} não é recursiva: a recursão (estrutural) fica na função auxiliar, que resolve um problema mais geral que o necessário. A quantidade de divisores de $n$ é o caso específico `num_divisores(n, n)`{.gleam}.
 
 
 ## Número primo
@@ -152,6 +115,45 @@ fn num_divisores_examples() {
 </div>
 
 
+## Plano
+
+Para o problema do palíndromo, em vez de pensarmos em decompor o problema em um subproblema da mesma natureza, podemos criar um plano, uma sequência de etapas que resolvem problemas intermediários e que, ao final, produzem o resultado esperado. \pause
+
+Por exemplo, podemos, primeiramente, inverter a lista e depois verificar se a lista de entrada e a lista invertida são iguais. \pause
+
+Assim como na generalização, `palindromo`{.gleam} não é recursiva: ela é composta com funções auxiliares, e a recursão fica nelas. A diferença é que cada auxiliar resolve uma etapa diferente (inverter, comparar), e não uma versão mais geral do problema. \pause
+
+A inversão requer uma nova função, que pode ser implementada com recursão estrutural. A comparação pode ser feita com `==`{.gleam}, que em Gleam compara as listas elemento a elemento.
+
+
+## Palíndromo com plano
+
+\scriptsize
+
+```gleam
+/// Produz True se *lst* é um palíndromo, isto é, tem os mesmos elementos quando lida
+/// da direita para a esquerda e da esquerda para a direita. Produz False caso contrário.
+fn palindromo(lst: List(Int)) -> Bool {
+  lst == list.reverse(lst)
+}
+
+fn palindromo_examples() {
+  check.eq(palindromo([]), True)
+  check.eq(palindromo([7]), True)
+  check.eq(palindromo([7, 3]), False)
+  check.eq(palindromo([3, 3]), True)
+  check.eq(palindromo([3, 7, 3]), True)
+  check.eq(palindromo([3, 7, 3, 3]), False)
+}
+```
+
+\pause
+
+\small
+
+Exercício: implemente a função `reverse`.
+
+
 ## Decomposição não estrutural
 
 Também podemos resolver o problema do palíndromo decompondo a entrada de outra forma. Considere a entrada `[4, 1, 5, 1, 4]`{.gleam}.
@@ -193,6 +195,15 @@ fn palindromo_examples() {
 Exercício: implemente a função `sem_extremos`.
 
 
+## Plano × decomposição não estrutural
+
+As duas soluções do palíndromo usam funções auxiliares, mas de maneiras diferentes. \pause
+
+No plano, `palindromo`{.gleam} não chama a si mesma. O problema é dividido em etapas (inverter e comparar) e a recursão fica na auxiliar `reverse`, que é estrutural. \pause
+
+Na decomposição não estrutural, `palindromo`{.gleam} chama a si mesma com um subproblema da mesma natureza (verificar se outra lista é um palíndromo), mas que não é o resto da lista. As auxiliares (`list.last`{.gleam} e `sem_extremos`) não resolvem etapas do problema, apenas ajudam a construir o subproblema e a combinar o resultado.
+
+
 ## Recursão estrutural e generativa
 
 Funções recursivas que operam em subproblemas obtidos pela decomposição estrutural dos dados são chamadas de **funções recursivas estruturais**. \pause
@@ -221,9 +232,16 @@ Quando a recursão estrutural não resolve um problema diretamente? \pause
 
 Quais alternativas podemos usar nesses casos? \pause
 
-- Criar um plano, uma sequência de etapas resolvidas por funções auxiliares (inverter a lista e comparar); \pause
 - Generalizar o problema, projetando uma função auxiliar que resolve um problema mais geral e usando essa função para resolver o problema original (quantidade de divisores até $a$ para o número primo); \pause
-- Decompor o problema de forma não estrutural, com recursão generativa (palíndromo sem os extremos). \pause
+- Criar um plano, uma sequência de etapas resolvidas por funções auxiliares (inverter a lista e comparar); \pause
+- Decompor o problema de forma não estrutural, com recursão generativa (palíndromo sem os extremos).
+
+
+## Revisão
+
+Qual a diferença entre resolver um problema com um plano e com uma decomposição não estrutural? \pause
+
+- No plano, a função não é recursiva: ela encadeia etapas diferentes resolvidas por funções auxiliares. Na decomposição não estrutural, a função chama a si mesma com um subproblema da mesma natureza, que não é obtido da estrutura do dado. \pause
 
 Por que tentamos primeiro a recursão estrutural? \pause
 

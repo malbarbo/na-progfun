@@ -24,10 +24,9 @@ pub fn acima_da_media(alunos: List(Aluno)) -> List(String) {
         list.fold_right(alunos, 0.0, fn(acc, a) { acc +. a.nota })
         /. int.to_float(list.length(alunos))
       // Etapa 2: seleciona os alunos com nota acima da média
+      let selecionados = list.filter(alunos, fn(a) { a.nota >. media })
       // Etapa 3: obtém os nomes dos alunos selecionados
-      alunos
-      |> list.filter(fn(a) { a.nota >. media })
-      |> list.map(fn(a) { a.nome })
+      list.map(selecionados, fn(a) { a.nome })
     }
   }
 }

@@ -198,7 +198,7 @@ pub fn soma1(a: Opcional) -> Opcional {
 
 \small
 
-E se precisássemos fazer outra operação com o resultado? \pause Precisaríamos de outro `case`{.gleam}! \pause Ou seja, um valor `Opcional`{.gleam} se propaga por toda a cadeia de operações. Por enquanto, vamos fazer uso do `case`{.gleam} para lidar com isso, mas no capítulo de **Funções como valores** veremos como deixar isso mais simples.
+E se precisássemos fazer outra operação com o resultado? \pause Precisaríamos de outro `case`{.gleam}! \pause Ou seja, um valor `Opcional`{.gleam} se propaga por toda a cadeia de operações. Por enquanto, vamos fazer uso do `case`{.gleam} para lidar com isso, mas no capítulo **Funções como valores: açúcar sintático** veremos como deixar isso mais simples.
 
 
 ## Primeiro caractere

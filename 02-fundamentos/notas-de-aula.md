@@ -804,7 +804,7 @@ fn letf(nome) {
 
 \pause
 
-Note que os demais nomes que o resto do bloco usa, como `preco_do_litro`{.gleam}, precisariam virar parâmetros adicionais de `letf`{.gleam}, mas no capítulo **Funções como valores** veremos que nem os parâmetros adicionais e nem o nome da função são necessários.
+Note que os demais nomes que o resto do bloco usa, como `preco_do_litro`{.gleam}, precisariam virar parâmetros adicionais de `letf`{.gleam}, mas no capítulo **Funções como valores: açúcar sintático** veremos que nem os parâmetros adicionais e nem o nome da função são necessários.
 
 
 ## Exercício combustível

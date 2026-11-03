@@ -1,6 +1,5 @@
 import gleam/int
 import gleam/list
-import gleam/result
 import gleam/string
 import sgleam/check
 
@@ -17,7 +16,12 @@ import sgleam/check
 
 /// Concatena todos os elementos de *lst*.
 pub fn concatena(lst: List(String)) -> String {
-  list.fold_right(lst, "", fn(acc, s) { string.append(s, acc) })
+  list.fold_right(lst, "", junta_antes)
+}
+
+/// Junta *s* antes de *acc*.
+pub fn junta_antes(acc: String, s: String) -> String {
+  s <> acc
 }
 
 pub fn concatena_examples() {
@@ -37,7 +41,12 @@ pub fn produto_examples() {
 
 /// Devolve a quantidade de elementos de *lst*.
 pub fn quantidade_elementos(lst: List(a)) -> Int {
-  list.fold_right(lst, 0, fn(tam, _) { tam + 1 })
+  list.fold_right(lst, 0, soma_um)
+}
+
+/// Soma um a *tam*, ignorando o elemento *_e*.
+pub fn soma_um(tam: Int, _e: a) -> Int {
+  tam + 1
 }
 
 pub fn quantidade_elementos_examples() {
@@ -45,27 +54,15 @@ pub fn quantidade_elementos_examples() {
   check.eq(quantidade_elementos([6, 1, 8]), 3)
 }
 
-/// Devolve uma lista com cada elemento de *lst* convertido para Int.
-/// Devolve Error se algum valor não puder ser convertido.
-pub fn strings_para_numeros(lst: List(String)) -> Result(List(Int), Nil) {
-  // A biblioteca padrão tem funções que fazem o mesmo:
-  // list.try_map(lst, int.parse) ou list.map(lst, int.parse) |> result.all
-  list.fold_right(lst, Ok([]), fn(acc, s) {
-    use resto <- result.try(acc)
-    use n <- result.try(int.parse(s))
-    Ok([n, ..resto])
-  })
-}
-
-pub fn strings_para_numeros_examples() {
-  check.eq(strings_para_numeros(["10", "-1", "7"]), Ok([10, -1, 7]))
-  check.eq(strings_para_numeros(["10", "a", "7"]), Error(Nil))
-}
-
 /// Devolve uma nova lista contendo apenas os elementos de *lst*
 /// que começam com a letra "A".
 pub fn seleciona_comeca_a(lst: List(String)) -> List(String) {
-  list.filter(lst, fn(s) { string.first(s) == Ok("A") })
+  list.filter(lst, comeca_com_a)
+}
+
+/// Devolve True se *s* começa com a letra "A", False caso contrário.
+pub fn comeca_com_a(s: String) -> Bool {
+  string.first(s) == Ok("A")
 }
 
 pub fn seleciona_comeca_a_examples() {

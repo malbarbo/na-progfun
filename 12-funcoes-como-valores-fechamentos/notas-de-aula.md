@@ -465,15 +465,31 @@ Em que situações devemos utilizar funções anônimas? \pause
 Funções que produzem funções
 ============================
 
+## Motivação
+
+Considere uma lista de pessoas, em que cada pessoa tem nome, idade e altura (em centímetros), e o código a seguir, que ordena as pessoas por idade e por altura:
+
+\small
+
+```gleam
+list.sort(pessoas, fn(a, b) { int.compare(a.idade, b.idade) })
+list.sort(pessoas, fn(a, b) { int.compare(a.altura, b.altura) })
+```
+
+\pause
+
+As duas funções anônimas diferem apenas no campo usado. Como no capítulo **Funções como valores: abstração**, podemos parametrizar essa diferença, mas o resultado precisa ser uma função de comparação: uma função que produz uma função.
+
+
 ## Funções que produzem funções
 
-Como identificar a necessidade de criar e utilizar funções que produzem funções? \pause
+Uma função que produz uma função normalmente é usada para
 
-- Parametrizar a criação de funções fixando alguns parâmetros; \pause
+- Fixar um valor que a função produzida usa (como em `soma(n)`{.gleam}); \pause
 
-- Transformar funções (como em `nega`); \pause
+- Transformar uma função em outra (como em `nega(pred)`{.gleam} e `compara_por(chave)`{.gleam}). \pause
 
-- Criar funções para outras funções de alta ordem (como uma comparação para `list.sort`{.gleam}).
+Em geral, a função produzida é passada como argumento para outra função de alta ordem, como `list.map`{.gleam}, `list.filter`{.gleam} ou `list.sort`{.gleam}.
 
 
 ## Exemplo: somador
@@ -616,7 +632,7 @@ pub fn nega(
 
 A função `list.sort`{.gleam} recebe como parâmetro uma função de comparação, isto é, uma função que recebe dois valores e devolve `order.Lt`{.gleam}, `order.Eq`{.gleam} ou `order.Gt`{.gleam}. \pause
 
-Defina uma função que receba como parâmetro uma função *chave*, que produz um inteiro, e devolva uma função de comparação que compara dois valores pelo resultado de *chave*.
+Voltando à ordenação de pessoas, defina uma função que receba como parâmetro uma função *chave*, que produz um inteiro, e devolva uma função de comparação que compara dois valores pelo resultado de *chave*.
 
 
 ## Exemplo: comparação
@@ -690,11 +706,18 @@ Como resolvemos `maiores_strings`, em que nenhuma das funções `map`, `filter` 
 
 Por que uma função que usa uma variável livre precisa ser um fechamento? \pause
 
-- Porque a variável livre não está no registro de ativação da função, então a função precisa levar junto o ambiente léxico com essas variáveis. \pause
+- Porque a variável livre não está no registro de ativação da função, então a função precisa levar junto o ambiente léxico com essas variáveis.
+
+
+## Revisão
 
 Em que situações usamos funções anônimas? \pause
 
-- Como argumento, quando a função é pequena e usada apenas naquele local, e como resultado de funções que produzem funções (como `soma(n)`{.gleam} e `nega(pred)`{.gleam}).
+- Como argumento, quando a função é pequena e usada apenas naquele local, e como resultado de funções que produzem funções (como `soma(n)`{.gleam} e `nega(pred)`{.gleam}). \pause
+
+Como identificar que precisamos de uma função que produz uma função? \pause
+
+- Quando escrevemos várias funções (em geral anônimas) que diferem apenas em um valor ou em uma função usada no corpo. Parametrizamos essa diferença, e o resultado é a função (como em `compara_por(chave)`{.gleam}).
 
 
 Referências

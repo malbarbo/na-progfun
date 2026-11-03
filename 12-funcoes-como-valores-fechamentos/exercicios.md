@@ -27,6 +27,15 @@ license:
     5
     ```
 
+@) Projete a função `inverte` que receba como parâmetro uma função de comparação e devolva uma função de comparação que produz a ordem inversa da original. Use `inverte` e a função `compara_por`, vista em sala, para ordenar uma lista de strings da maior para a menor. Exemplo:
+
+    ```gleam-repl
+    > list.sort([3, 1, 2], inverte(int.compare))
+    [3, 2, 1]
+    ```
+
+    Observação: a biblioteca padrão do Gleam tem essa função, chamada `order.reverse`{.gleam}.
+
 @) Redefina em termos da função `reduz_num`, feita no capítulo **Funções como valores: abstração**, as funções da lista de exercícios de números naturais que dependem de outros parâmetros além de $n$ (como criar uma lista com $n$ repetições de um valor ou calcular $a^n$). Por que essas funções não puderam ser redefinidas antes?
 
 <!--

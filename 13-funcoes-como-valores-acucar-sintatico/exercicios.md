@@ -11,6 +11,10 @@ license:
 
 @) Dê um exemplo de função anônima que pode ser escrita com fechamento abreviado e um exemplo de uma que não pode. Explique a diferença.
 
+@) Reescreva a expressão `string.uppercase(string.trim(string.reverse(s)))`{.gleam} usando o operador `|>`. Em que ordem as funções são executadas? Qual das duas formas deixa essa ordem mais visível?
+
+@) O `use`{.gleam} pode ser usado em qualquer chamada em que o último argumento é uma função anônima. Mostre como fica a expressão `list.map(xs, fn(x) { x * 2 })`{.gleam} com `use`{.gleam} e explique por que, nesse caso, o `use`{.gleam} não é adequado. Em que situações o `use`{.gleam} é adequado?
+
 
 # Praticando
 

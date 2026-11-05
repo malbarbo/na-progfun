@@ -19,6 +19,8 @@ license:
 
 @) O que é necessário para construir um programa interativo?
 
+@) Em um mundo multijogador, o estado é compartilhado por todos os jogadores. Como é possível que cada jogador veja uma tela diferente? Dê um exemplo de jogo em que isso acontece.
+
 
 # Praticando
 
@@ -42,3 +44,5 @@ license:
 @) Crie um programa interativo que exiba um contador e permita que ele seja incrementado pressionando `+` e decrementado pressionando `-`.
 
 @) Crie um programa interativo que exiba um cronômetro com os segundos passados desde o início. A tecla espaço pausa o cronômetro, se ele estiver contando, ou faz ele voltar a contar, se estiver pausado. A tecla `z` zera o cronômetro, sem mudar se ele está pausado ou contando. Escreva exemplos para as funções que tratam os eventos.
+
+@) Modifique o programa `sinal_vermelho.gleam` para que, com o sinal vermelho, o corredor volte 5 passos (sem passar do início) em vez de voltar ao início da raia. Atualize a descrição e os exemplos da função `move`.

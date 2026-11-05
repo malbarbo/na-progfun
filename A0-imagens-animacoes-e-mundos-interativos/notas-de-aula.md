@@ -809,7 +809,7 @@ Um **programa interativo** é um programa que reage a ações do usuário modifi
 
 Para projetar um programa interativo é necessário definir três coisas: \pause
 
-- Definição do estado do programa e constantes; \pause
+- O estado do programa e constantes; \pause
 - Uma função que gera uma imagem a partir do estado do programa; \pause
 - Uma função que modifica o estado do programa a partir de um evento de teclado. \pause
 
@@ -1069,6 +1069,613 @@ pub type Event {
 </div>
 
 
+Mundos multijogador
+===================
+
+## Mundos multijogador
+
+Um **mundo multijogador** é um programa interativo do qual vários jogadores participam ao mesmo tempo. \pause
+
+Ele funciona como os programas interativos que vimos, com um único estado, compartilhado por todos os jogadores. As diferenças são: \pause
+
+- A função que trata as teclas recebe também o jogador que pressionou a tecla; \pause
+- A função de desenho é chamada uma vez para cada jogador e recebe o jogador, de modo que cada um pode ver uma imagem diferente. \pause
+
+As funções para criar um mundo multijogador estão no módulo `sgleam/mworld`{.gleam}.
+
+
+## Exemplo sinal vermelho
+
+Vamos criar um jogo de corrida para 2 a 4 jogadores (veja o arquivo `sinal_vermelho.gleam`). \pause
+
+- Cada jogador tem um corredor na sua própria raia; \pause
+- Um sinal alterna entre verde e vermelho a cada segundo; \pause
+- Cada vez que o jogador pressiona espaço, o seu corredor avança um passo se o sinal está verde, ou volta para o início da raia se o sinal está vermelho; \pause
+- Vence quem chegar primeiro à linha de chegada, a 20 passos do início. \pause
+
+O jogo tem três fases: a abertura, a corrida e o resultado. Na abertura e no resultado, o jogador 1 pressiona Enter e começa uma contagem de 3 segundos para a corrida.
+
+
+## Exemplo sinal vermelho
+
+Começamos com um esboço das telas. Cada jogador vê a sua raia destacada.
+
+```{=latex}
+\begin{center}
+\begin{tikzpicture}[x=0.17mm, y=0.17mm, font=\scriptsize]
+  % abertura
+  \draw (0, 0) rectangle +(220, 150);
+  \node at (110, 115) {\small Sinal vermelho};
+  \node[align=center] at (110, 80) {regras\\Você é ana};
+  \node[align=center] at (110, 35) {Enter para começar\\ou 3, 2, 1, Já!};
+  \node[below] at (110, -5) {abertura (ana)};
+  % corrida vista pelo jogador 1
+  \draw (260, 0) rectangle +(220, 150);
+  \draw[fill=green] (370, 125) circle (12);
+  \draw[fill=yellow!20] (260, 75) rectangle +(220, 30);
+  \draw (260, 45) rectangle +(220, 30);
+  \draw (260, 15) rectangle +(220, 30);
+  \draw[very thick] (455, 15) -- (455, 105);
+  \fill[blue] (320, 90) circle (7);
+  \fill[orange] (380, 60) circle (7);
+  \fill[violet] (290, 30) circle (7);
+  \node[below] at (370, -5) {corrida (ana)};
+  % resultado
+  \draw (520, 0) rectangle +(220, 150);
+  \node at (630, 90) {\small Você venceu!};
+  \node at (630, 50) {Enter para correr novamente};
+  \node[below] at (630, -5) {resultado (ana)};
+\end{tikzpicture}
+\end{center}
+```
+
+\pause
+
+\small
+
+O esboço mostra as informações necessárias para desenhar cada tela, e elas precisam estar no estado do jogo.
+
+
+## Exemplo sinal vermelho
+
+Para representar o estado do jogo, identificamos o que muda com as interações ou com o tempo: \pause a contagem, \pause a quantidade de passos de cada corredor, \pause a cor do sinal \pause e a fase do jogo (abertura, corrida ou resultado). \pause
+
+O que não muda são \pause a quantidade de passos até a chegada, o tamanho de um passo e o tamanho das raias e da tela, que são constantes. \pause Os jogadores também não mudam, mas eles só são conhecidos quando o programa começa, então também fazem parte do estado. \pause
+
+Cada fase precisa de informações diferentes: \pause
+
+- Abertura: os jogadores e a contagem, que pode não ter começado; \pause
+- Corrida: os corredores e o sinal; \pause
+- Resultado: os corredores na posição final, para saber quem venceu e para começar outra corrida com os mesmos jogadores.
+
+
+## Exemplo sinal vermelho
+
+<div class="columns">
+<div class="column" width="52%">
+\footnotesize
+
+```gleam
+pub type Estado {
+  Abertura(
+    jogadores: List(Player),
+    segundos: Option(Int),
+  )
+  Corrida(
+    corredores: List(Corredor),
+    sinal: Sinal,
+  )
+  Resultado(corredores: List(Corredor))
+}
+```
+
+</div>
+<div class="column" width="44%">
+\footnotesize
+
+```gleam
+pub type Corredor {
+  Corredor(jogador: Player, passos: Int)
+}
+
+pub type Sinal {
+  Verde
+  Vermelho
+}
+```
+
+</div>
+</div>
+
+\pause
+
+\small
+
+Cada fase é uma variante do tipo `Estado`, com os seus próprios campos. \pause Na abertura, `segundos` é `None`{.gleam} enquanto a contagem não começou. \pause A quantidade de jogadores pode variar, por isso usamos listas. \pause
+
+O tipo `Player`, do módulo `sgleam/mworld`{.gleam}, representa um jogador. As constantes (`chegada`, `passo`, `contagem`, etc) estão no arquivo `sinal_vermelho.gleam`.
+
+
+## Exemplo sinal vermelho
+
+Antes de escrever as funções, analisamos o que cada evento muda em cada fase.
+
+\footnotesize
+
+| Fase      | Enter do jogador 1   | Espaço do jogador *j*                    | Tique                       |
+|-----------|----------------------|------------------------------------------|-----------------------------|
+| Abertura  | começa a contagem    | nada                                     | avança a contagem           |
+|           | (se não começou)     |                                          | (depois do 0, corrida)      |
+| Corrida   | nada                 | verde: *j* avança (se chegou, resultado) | o sinal troca               |
+|           |                      | vermelho: *j* volta para o início        |                             |
+| Resultado | recomeça (contagem   | nada                                     | nada                        |
+|           | com os mesmos)       |                                          |                             |
+
+\normalsize
+
+\pause
+
+Cada célula diferente de "nada" é uma ação, que será feita por uma função. \pause As funções que tratam os eventos apenas **despacham**: verificam a fase e o evento e chamam a função que faz a ação.
+
+
+## Exemplo sinal vermelho
+
+\footnotesize
+
+```gleam
+/// Trata a *tecla* pressionada por *jogador*: Enter do jogador 1 começa a
+/// contagem (abertura e resultado) e espaço move o corredor (corrida).
+pub fn trata_tecla(estado: Estado, jogador: Player, tecla: key.Event) -> Estado {
+  let primeiro = mworld.player_index(jogador) == 1
+  case estado, tecla {
+    Abertura(jogadores, None), key.Enter if primeiro ->
+      comeca_contagem(jogadores)
+    Resultado(corredores), key.Enter if primeiro ->
+      recomeca(corredores)
+    Corrida(corredores, sinal), key.Char(" ") -> move(corredores, sinal, jogador)
+    _, _ -> estado
+  }
+}
+```
+
+\small
+
+A função `mworld.player_index`{.gleam} devolve o índice do jogador (de 1 até a quantidade de jogadores). \pause Uma guarda não pode chamar funções, por isso calculamos `primeiro` antes do `case`{.gleam}.
+
+
+## Exemplo sinal vermelho
+
+\small
+
+Funções que fazem as ações da tecla Enter.
+
+\footnotesize
+
+```gleam
+/// Começa a contagem para a corrida dos *jogadores*.
+pub fn comeca_contagem(jogadores: List(Player)) -> Estado {
+  Abertura(jogadores, Some(contagem))
+}
+
+/// Começa a contagem para uma nova corrida com os jogadores dos *corredores*.
+pub fn recomeca(corredores: List(Corredor)) -> Estado {
+  comeca_contagem(list.map(corredores, fn(c) { c.jogador }))
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\small
+
+Nos exemplos, criamos jogadores com `mworld.fake_player(indice, apelido)`{.gleam}, que devolve um `Result`{.gleam}. Usamos `let assert`{.gleam} para obter o jogador.
+
+\footnotesize
+
+```gleam
+pub fn comeca_contagem_examples() {
+  let assert Ok(ana) = mworld.fake_player(1, "ana")
+  let assert Ok(bia) = mworld.fake_player(2, "bia")
+  check.eq(comeca_contagem([ana, bia]), Abertura([ana, bia], Some(3)))
+}
+
+pub fn recomeca_examples() {
+  let assert Ok(ana) = mworld.fake_player(1, "ana")
+  let assert Ok(bia) = mworld.fake_player(2, "bia")
+  check.eq(recomeca([Corredor(ana, 3), Corredor(bia, 20)]), Abertura([ana, bia], Some(3)))
+}
+```
+
+\small
+
+O `let assert`{.gleam} interrompe o programa se o valor não é `Ok`{.gleam}, por isso só é usado nos exemplos.
+
+
+## Exemplo sinal vermelho
+
+\small
+
+Os exemplos verificam a função chamada para cada combinação de fase e evento.
+
+\footnotesize
+
+```gleam
+pub fn trata_tecla_examples() {
+  let assert Ok(ana) = mworld.fake_player(1, "ana")
+  let assert Ok(bia) = mworld.fake_player(2, "bia")
+  let cs = [Corredor(ana, 3), Corredor(bia, 19)]
+  let fim = [Corredor(ana, 3), Corredor(bia, 20)]
+  let abertura = Abertura([ana, bia], None)
+  check.eq(trata_tecla(abertura, ana, key.Enter), comeca_contagem([ana, bia]))
+  check.eq(trata_tecla(abertura, bia, key.Enter), abertura)
+  check.eq(trata_tecla(Corrida(cs, Verde), bia, key.Char(" ")), move(cs, Verde, bia))
+  check.eq(trata_tecla(Corrida(cs, Verde), ana, key.Enter), Corrida(cs, Verde))
+  check.eq(trata_tecla(Resultado(fim), ana, key.Enter), recomeca(fim))
+  check.eq(trata_tecla(Resultado(fim), bia, key.Enter), Resultado(fim))
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\small
+
+Função que faz a ação da tecla espaço.
+
+\footnotesize
+
+```gleam
+/// Move o corredor do *jogador*: com o *sinal* verde, ele avança um passo e,
+/// se chegou, a corrida termina; com o vermelho, volta ao início.
+pub fn move(corredores: List(Corredor), sinal: Sinal, jogador: Player) -> Estado {
+  case sinal {
+    Vermelho -> Corrida(muda_passos(corredores, jogador, fn(_) { 0 }), Vermelho)
+    Verde -> {
+      let corredores = muda_passos(corredores, jogador, fn(p) { p + 1 })
+      case list.any(corredores, chegou) {
+        True -> Resultado(corredores)
+        False -> Corrida(corredores, Verde)
+      }
+    }
+  }
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\footnotesize
+
+```gleam
+pub fn move_examples() {
+  let assert Ok(ana) = mworld.fake_player(1, "ana")
+  let assert Ok(bia) = mworld.fake_player(2, "bia")
+  let cs = [Corredor(ana, 3), Corredor(bia, 19)]
+  // sinal verde
+  check.eq(move(cs, Verde, ana), Corrida([Corredor(ana, 4), Corredor(bia, 19)], Verde))
+  // sinal verde e chegada
+  check.eq(move(cs, Verde, bia), Resultado([Corredor(ana, 3), Corredor(bia, 20)]))
+  // sinal vermelho
+  check.eq(move(cs, Vermelho, bia),
+           Corrida([Corredor(ana, 3), Corredor(bia, 0)], Vermelho))
+}
+```
+
+\small
+
+A ação é a parte mais importante do jogo, por isso os exemplos cobrem cada caso da descrição. \pause
+
+A função `chegou` devolve `True`{.gleam} se o corredor tem pelo menos `chegada` passos. A função `muda_passos` está a seguir.
+
+
+## Exemplo sinal vermelho
+
+\footnotesize
+
+```gleam
+/// Aplica *f* aos passos do corredor do *jogador*.
+pub fn muda_passos(corredores: List(Corredor), jogador: Player,
+                   f: fn(Int) -> Int) -> List(Corredor) {
+  list.map(corredores, fn(c) {
+    case c.jogador == jogador {
+      True -> Corredor(jogador, f(c.passos))
+      False -> c
+    }
+  })
+}
+```
+
+\small
+
+Dois jogadores são iguais (`==`{.gleam}) se têm o mesmo índice e o mesmo apelido.
+
+
+## Exemplo sinal vermelho
+
+\footnotesize
+
+```gleam
+pub fn muda_passos_examples() {
+  let assert Ok(ana) = mworld.fake_player(1, "ana")
+  let assert Ok(bia) = mworld.fake_player(2, "bia")
+  let cs = [Corredor(ana, 3), Corredor(bia, 5)]
+  check.eq(muda_passos([], ana, fn(p) { p + 1 }), [])
+  check.eq(muda_passos(cs, ana, fn(p) { p + 1 }), [Corredor(ana, 4), Corredor(bia, 5)])
+  check.eq(muda_passos(cs, bia, fn(_) { 0 }), [Corredor(ana, 3), Corredor(bia, 0)])
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\small
+
+Função que trata o tique. As ações são feitas pelas funções `conta` e `troca` (que troca a cor do sinal).
+
+\footnotesize
+
+```gleam
+/// Avança o *estado* em um tique. Na abertura, se a contagem começou, ela
+/// avança. Na corrida, o sinal troca de cor.
+pub fn tique(estado: Estado) -> Estado {
+  case estado {
+    Abertura(jogadores, Some(segundos)) -> conta(jogadores, segundos)
+    Corrida(corredores, sinal) -> Corrida(corredores, troca(sinal))
+    _ -> estado
+  }
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\footnotesize
+
+```gleam
+pub fn tique_examples() {
+  let assert Ok(ana) = mworld.fake_player(1, "ana")
+  let assert Ok(bia) = mworld.fake_player(2, "bia")
+  let cs = [Corredor(ana, 3), Corredor(bia, 19)]
+  let fim = [Corredor(ana, 3), Corredor(bia, 20)]
+  check.eq(tique(Abertura([ana, bia], None)), Abertura([ana, bia], None))
+  check.eq(tique(Abertura([ana, bia], Some(2))), conta([ana, bia], 2))
+  check.eq(tique(Corrida(cs, Verde)), Corrida(cs, Vermelho))
+  check.eq(tique(Resultado(fim)), Resultado(fim))
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\footnotesize
+
+```gleam
+/// Avança a contagem dos *jogadores*, que está em *segundos*. Quando chega a
+/// zero, começa a corrida, com os corredores no início e o sinal verde.
+pub fn conta(jogadores: List(Player), segundos: Int) -> Estado {
+  case segundos {
+    0 -> Corrida(list.map(jogadores, fn(j) { Corredor(j, 0) }), Verde)
+    _ -> Abertura(jogadores, Some(segundos - 1))
+  }
+}
+
+pub fn conta_examples() {
+  let assert Ok(ana) = mworld.fake_player(1, "ana")
+  let assert Ok(bia) = mworld.fake_player(2, "bia")
+  check.eq(conta([ana, bia], 1), Abertura([ana, bia], Some(0)))
+  check.eq(conta([ana, bia], 0), Corrida([Corredor(ana, 0), Corredor(bia, 0)], Verde))
+}
+```
+
+\small
+
+A tela mostra 3, 2, 1 e "Já!" (no 0), um por segundo, e então a corrida começa.
+
+
+## Exemplo sinal vermelho
+
+\small
+
+A função de desenho também despacha, com uma função para cada fase.
+
+\footnotesize
+
+```gleam
+/// Desenha a tela do *estado* para o *jogador*.
+pub fn tela(estado: Estado, jogador: Player) -> Image {
+  let conteudo = case estado {
+    Abertura(_, segundos) -> tela_abertura(segundos, jogador)
+    Corrida(corredores, sinal) -> tela_corrida(corredores, sinal, jogador)
+    Resultado(corredores) -> tela_resultado(corredores, jogador)
+  }
+  image.overlay(conteudo, image.rectangle(largura, altura, fill.white))
+}
+```
+
+\small
+
+As funções que desenham a tela inteira são testadas no REPL, olhando a imagem para alguns estados e jogadores.
+
+
+## Exemplo sinal vermelho
+
+\small
+
+O *jogador* é usado para escolher o que cada um vê. O vencedor vê "Você venceu!" e os outros veem o nome do vencedor, obtido com a função `nome` (a seguir).
+
+\footnotesize
+
+```gleam
+/// Desenha a tela de resultado dos *corredores* para o *jogador*.
+pub fn tela_resultado(corredores: List(Corredor), jogador: Player) -> Image {
+  let mensagem = case list.find(corredores, chegou) {
+    Ok(c) if c.jogador == jogador -> "Você venceu!"
+    Ok(c) -> nome(c.jogador) <> " venceu!"
+    Error(_) -> "Fim da corrida!"
+  }
+  let aviso = case mworld.player_index(jogador) {
+    1 -> "Pressione Enter para correr novamente"
+    _ -> "Aguardando o jogador 1 recomeçar"
+  }
+  empilha([texto(mensagem, 32), texto(aviso, 20)])
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\small
+
+O apelido devolvido por `mworld.player_nickname`{.gleam} pode ser vazio. Nesse caso, usamos o índice.
+
+\footnotesize
+
+```gleam
+/// Devolve o apelido do *jogador*, ou "Jogador i", em que i é o índice do
+/// jogador, se o apelido é vazio.
+pub fn nome(jogador: Player) -> String {
+  case mworld.player_nickname(jogador) {
+    "" -> "Jogador " <> int.to_string(mworld.player_index(jogador))
+    apelido -> apelido
+  }
+}
+
+pub fn nome_examples() {
+  let assert Ok(ana) = mworld.fake_player(1, "ana")
+  let assert Ok(sem_apelido) = mworld.fake_player(2, "")
+  check.eq(nome(ana), "ana")
+  check.eq(nome(sem_apelido), "Jogador 2")
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\small
+
+O argumento `destaque` é `True`{.gleam} para a raia do jogador que vê a tela (veja `tela_corrida` a seguir).
+
+\footnotesize
+
+```gleam
+/// Desenha a raia do corredor *c*, com o fundo amarelo se *destaque* é True
+/// e branco caso contrário.
+pub fn raia(c: Corredor, destaque: Bool) -> Image {
+  let fundo = case destaque {
+    True -> color.lightyellow
+    False -> color.white
+  }
+  image.rectangle(largura, altura_raia,
+                  style.join([fill.with(fundo), stroke.gray]))
+  |> image.place_image(passo / 2 + c.passos * passo, altura_raia / 2,
+       image.circle(passo / 2, fill.with(cor(mworld.player_index(c.jogador)))))
+}
+```
+
+\small
+
+A função `cor` devolve a cor do jogador a partir do seu índice.
+
+
+## Exemplo sinal vermelho
+
+\small
+
+Para as funções que desenham partes pequenas da tela, escrevemos exemplos com `check.same`{.gleam}, que verifica se duas imagens são iguais.
+
+\footnotesize
+
+```gleam
+pub fn raia_examples() {
+  let assert Ok(ana) = mworld.fake_player(1, "ana")
+  let assert Ok(bia) = mworld.fake_player(2, "bia")
+  check.same(
+    raia(Corredor(bia, 0), False),
+    image.rectangle(440, 40, style.join([fill.white, stroke.gray]))
+      |> image.place_image(10, 20, image.circle(10, fill.orange)),
+  )
+  check.same(
+    raia(Corredor(ana, 3), True),
+    image.rectangle(440, 40, style.join([fill.lightyellow, stroke.gray]))
+      |> image.place_image(70, 20, image.circle(10, fill.blue)),
+  )
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\footnotesize
+
+```gleam
+/// Desenha a tela da corrida para o *jogador*: o *sinal* e as raias dos
+/// *corredores*, com a raia do jogador destacada e a linha de chegada.
+pub fn tela_corrida(corredores: List(Corredor), sinal: Sinal,
+                    jogador: Player) -> Image {
+  let raias = empilha(list.map(corredores, fn(c) { raia(c, c.jogador == jogador) }))
+  let altura_raias = image.height(raias)
+  let linha = image.rectangle(2, altura_raias, fill.black)
+  let raias =
+    image.place_image(raias, passo / 2 + chegada * passo,
+                      altura_raias / 2, linha)
+  image.above(desenha_sinal(sinal), raias)
+}
+
+/// Empilha as *imagens*, a primeira no topo.
+pub fn empilha(imagens: List(Image)) -> Image {
+  list.fold(imagens, image.empty, image.above)
+}
+```
+
+
+## Exemplo sinal vermelho
+
+\footnotesize
+
+```gleam
+pub fn smain() {
+  mworld.create_from(inicio, 2, 4, tela)
+  |> mworld.on_key_up(trata_tecla)
+  |> mworld.on_tick(tique)
+  |> mworld.tick_rate(1)
+}
+
+/// Cria o estado inicial com os *jogadores*.
+pub fn inicio(_env: Env, jogadores: List(Player)) -> Estado {
+  Abertura(jogadores, None)
+}
+```
+
+\small
+
+O mundo começa quando os jogadores entram, de 2 (mínimo) a 4 (máximo), e `inicio` produz o estado inicial a partir da lista dos jogadores. O `Env` (de `sgleam/env`{.gleam}) tem informações do ambiente, como um gerador de números aleatórios. \pause Com `tick_rate(1)`, o relógio faz um tique por segundo. \pause Usamos `on_key_up` porque o evento de tecla para baixo se repete enquanto a tecla está pressionada.
+
+
+## Exemplo sinal vermelho
+
+\small
+
+Funções de `sgleam/mworld`{.gleam} usadas no exemplo:
+
+\footnotesize
+
+```gleam
+pub fn create_from(
+  init: fn(Env, List(Player)) -> a,
+  min_players: Int,
+  max_players: Int,
+  to_image: fn(a, Player) -> Image,
+) -> MultiWorld(a)
+pub fn on_key_up(world: MultiWorld(a),
+                 handler: fn(a, Player, key.Event) -> a) -> MultiWorld(a)
+pub fn on_tick(world: MultiWorld(a), handler: fn(a) -> a) -> MultiWorld(a)
+pub fn tick_rate(world: MultiWorld(a), rate: Int) -> MultiWorld(a)
+pub fn player_index(player: Player) -> Int
+pub fn player_nickname(player: Player) -> String
+pub fn fake_player(index: Int, nickname: String) -> Result(Player, Nil)
+```
+
+
 Revisão
 =======
 
@@ -1092,3 +1699,14 @@ Que elementos precisamos definir para projetar um programa interativo? \pause
 Por que as funções que tratam eventos são fáceis de testar? \pause
 
 - Porque são funções puras, que recebem o estado e devolvem um novo estado, sem desenhar nada nem depender do relógio, então podemos escrever exemplos com `check.eq`{.gleam}.
+
+
+## Revisão
+
+O que muda em um mundo multijogador em relação a um programa interativo de um jogador? \pause
+
+- O estado continua único e compartilhado por todos, mas a função que trata as teclas recebe também o jogador que pressionou a tecla, e a função de desenho é chamada para cada jogador e recebe o jogador, de modo que cada um pode ver uma imagem diferente. \pause
+
+Como organizamos um jogo com várias fases? \pause
+
+- Cada fase é uma variante do tipo do estado, com os campos de que precisa. Uma tabela mostra o que cada evento faz em cada fase. As funções que tratam eventos apenas despacham: verificam a fase e o evento e chamam a função que faz a ação.

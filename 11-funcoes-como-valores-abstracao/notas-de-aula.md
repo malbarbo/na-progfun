@@ -43,50 +43,37 @@ Funções são **entidades de primeira classe** se: \pause
 Veremos a seguir como as funções podem ser utilizadas como valores.
 
 
-## Introdução
-
-Uma **função de alta ordem** é aquela que:
-
-- Recebe como entrada uma ou mais funções; e/ou
-
-- Produz como saída uma ou mais funções.
-
-
 ## Abstração
 
 **Abstrair** é separar uma ideia dos detalhes particulares que a acompanham. \pause O número 6, por exemplo, é abstrato porque representa todas as formas de contar seis coisas, sejam 6 ovos ou 6 metros. \pause
 
-Em programação, criamos abstrações dando nome a padrões e transformando os detalhes que mudam em parâmetros. \pause Por exemplo, a função `quadrado(n)`{.gleam} não calcula o quadrado de um número particular, mas descreve como calcular o quadrado de qualquer número. \pause
+Em programação, criamos abstrações dando nome a padrões e transformando os detalhes que mudam em parâmetros. \pause
 
-Chamamos de **abstração** tanto esse processo quanto o seu resultado. \pause
-
-Neste capítulo veremos padrões em que o que muda é uma operação, como negar um número ou convertê-lo para string. Como funções são valores, essas operações também podem ser transformadas em parâmetros.
+Chamamos de **abstração** tanto esse processo quanto o seu resultado.
 
 
+## Abstração
 
-Funções que recebem funções como parâmetro
-==========================================
+Já criamos abstrações no processo de projeto de funções. \pause Primeiro escrevemos exemplos e calculamos as respostas manualmente para valores particulares. \pause Depois, abstraímos: escrevemos o processo que usamos nesses cálculos como uma função que funciona para qualquer valor do parâmetro. \pause Por exemplo, calculamos `quadrado(3)`{.gleam} como `3 * 3`{.gleam} e `quadrado(4)`{.gleam} como `4 * 4`{.gleam}; depois escrevemos `n * n`{.gleam}, que funciona para qualquer `n`{.gleam}. \pause
+
+Agora vamos partir de funções parecidas, cujo processo já está escrito em código, e abstraí-las da mesma forma. \pause Neste capítulo veremos padrões em que o que muda é uma operação, como negar um número ou convertê-lo para string. Como funções são valores, essas operações também podem ser transformadas em parâmetros.
 
 
-## Funções que recebem funções como parâmetro
 
-Como identificar a necessidade de utilizar funções como parâmetro? \pause
-
-Encontrando similaridades entre funções. \pause
-
-Vamos ver diversos pares de funções e identificar similaridades entre elas. \pause
-
-Por questões de espaço, no restante deste material, usamos `p` para `primeiro` e `r` para `resto` e colocamos os exemplos fora de funções `_examples`.
+Funções como parâmetro
+======================
 
 
 ## Exemplo: `contem_3` e `contem_5`
 
 Vamos começar com um exemplo simples. \pause
 
-Vamos criar uma função que abstrai o comportamento das funções `contem_3` e `contem_5`.
+Vamos criar uma função que abstrai o comportamento das funções `contem_3` e `contem_5`. \pause
+
+Por questões de espaço, no restante deste material, usamos `p` para `primeiro` e `r` para `resto` e colocamos os exemplos fora de funções `_examples`.
 
 
-## Exemplo: `contem_3` e `contem_5`
+## Exemplo: `contem_3` e `contem_5` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -145,7 +132,7 @@ fn contem(lst, n) {
 </div>
 
 
-## Exemplo: `contem_3` e `contem_5`
+## Exemplo: `contem_3` e `contem_5` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -200,11 +187,15 @@ fn contem(lst, n) {
 check.eq(contem([4, 3, 1], 3), True)
 check.eq(contem([4, 3, 1], 5), False)
 ```
+
+\ \
+
+Escrevemos os exemplos de `contem` reutilizando os de `contem_3` e `contem_5`, passando o valor procurado como argumento.
 </div>
 </div>
 
 
-## Exemplo: `contem_3` e `contem_5`
+## Exemplo: `contem_3` e `contem_5` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -259,11 +250,15 @@ fn contem(lst, n) {
 check.eq(contem([4, 3, 1], 3), True)
 check.eq(contem([4, 3, 1], 5), False)
 ```
+
+\ \
+
+Escrevemos o propósito generalizando o de `contem_3` e `contem_5`: 3 e 5 são substituídos por *n*.
 </div>
 </div>
 
 
-## Exemplo: `contem_3` e `contem_5`
+## Exemplo: `contem_3` e `contem_5` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -318,11 +313,15 @@ fn contem(lst: List(Int), n: Int) -> Bool {
 check.eq(contem([4, 3, 1], 3), True)
 check.eq(contem([4, 3, 1], 5), False)
 ```
+
+\ \
+
+Escrevemos a assinatura. Como 3 e 5 são inteiros, `n` é `Int`{.gleam}.
 </div>
 </div>
 
 
-## Exemplo: `contem_3` e `contem_5`
+## Exemplo: `contem_3` e `contem_5` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -377,11 +376,15 @@ fn contem(lst: List(a), n: a) -> Bool {
 check.eq(contem([4, 3, 1], 3), True)
 check.eq(contem([4, 3, 1], 5), False)
 ```
+
+\ \
+
+Trocamos `Int`{.gleam} pela variável de tipo `a`, pois o corpo funciona com elementos de qualquer tipo.
 </div>
 </div>
 
 
-## Exemplo: `contem_3` e `contem_5`
+## Exemplo: `contem_3` e `contem_5` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
@@ -436,6 +439,10 @@ fn contem(lst: List(a), n: a) -> Bool {
 check.eq(contem([4, 3, 1], 3), True)
 check.eq(contem([4, 3, 1], 5), False)
 ```
+
+\ \
+
+Por fim, reescrevemos `contem_3` e `contem_5` em termos de `contem`. Os exemplos continuam os mesmos.
 </div>
 </div>
 
@@ -460,7 +467,7 @@ Os passos que seguimos para criar `contem` formam uma receita, que vamos usar no
 Vamos criar uma função que abstrai o comportamento das funções `lista_nega` e `lista_string`.
 
 
-## Exemplo: `lista_nega` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string` {.t}
 
 <div class="columns">
 <div class="column" width="55%">
@@ -518,7 +525,7 @@ fn mapeia(lst, f) {
 </div>
 
 
-## Exemplo: `lista_nega` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string` {.t}
 
 <div class="columns">
 <div class="column" width="55%">
@@ -555,6 +562,8 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 \scriptsize
 
 ```gleam
+
+
 
 
 
@@ -578,7 +587,7 @@ check.eq(
 </div>
 
 
-## Exemplo: `lista_nega` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string` {.t}
 
 <div class="columns">
 <div class="column" width="55%">
@@ -615,6 +624,8 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 \scriptsize
 
 ```gleam
+
+
 
 
 
@@ -638,7 +649,7 @@ check.eq(
 </div>
 
 
-## Exemplo: `lista_nega` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string` {.t}
 
 <div class="columns">
 <div class="column" width="55%">
@@ -675,6 +686,8 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 \scriptsize
 
 ```gleam
+
+
 
 /// Aplica *f* a cada elemento de *lst*.
 fn mapeia(
@@ -698,7 +711,7 @@ check.eq(
 </div>
 
 
-## Exemplo: `lista_nega` e `lista_string`
+## Exemplo: `lista_nega` e `lista_string` {.t}
 
 <div class="columns">
 <div class="column" width="55%">
@@ -736,6 +749,8 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 
 ```gleam
 
+
+
 /// Aplica *f* a cada elemento de *lst*.
 fn mapeia(
   lst: List(a),
@@ -756,6 +771,20 @@ check.eq(
 ```
 </div>
 </div>
+
+
+## Funções de alta ordem
+
+`mapeia` é a primeira função que criamos que recebe uma função como parâmetro. \pause
+
+Uma **função de alta ordem** é aquela que:
+
+- Recebe como entrada uma ou mais funções; e/ou
+
+- Produz como saída uma ou mais funções. \pause
+
+Neste capítulo, criamos funções de alta ordem que recebem funções. No próximo, veremos funções que produzem funções.
+
 
 
 map
@@ -1105,6 +1134,7 @@ check.eq(lista_nao_vazia(["a", "", "b"]),
 
 ```gleam
 
+
 /// Seleciona os valores de *lst*
 /// para os quais *pred* devolve True.
 fn filtra(
@@ -1166,6 +1196,7 @@ check.eq(lista_nao_vazia(["a", "", "b"]),
 \scriptsize
 
 ```gleam
+
 
 /// Seleciona os valores de *lst*
 /// para os quais *pred* devolve True.

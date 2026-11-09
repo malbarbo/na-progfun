@@ -462,8 +462,8 @@ Em que situações devemos utilizar funções anônimas? \pause
 
 
 
-Funções que produzem funções
-============================
+Funções como resultado
+======================
 
 ## Motivação
 
@@ -481,7 +481,7 @@ list.sort(pessoas, fn(a, b) { int.compare(a.altura, b.altura) })
 As duas funções anônimas diferem apenas no campo usado. Como no capítulo **Funções como valores: abstração**, podemos parametrizar essa diferença, mas o resultado precisa ser uma função de comparação: uma função que produz uma função.
 
 
-## Funções que produzem funções
+## Funções como resultado
 
 Uma função que produz uma função normalmente é usada para
 

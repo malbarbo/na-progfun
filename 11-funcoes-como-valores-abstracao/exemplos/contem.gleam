@@ -1,7 +1,7 @@
 import sgleam/check
 
 /// Devolve True se *n* está em *lst*, False caso contrário.
-pub fn contem(lst: List(Int), n: Int) -> Bool {
+pub fn contem(lst: List(a), n: a) -> Bool {
   case lst {
     [] -> False
     [primeiro, ..resto] -> primeiro == n || contem(resto, n)
@@ -13,6 +13,7 @@ pub fn contem_examples() {
   check.eq(contem([3], 3), True)
   check.eq(contem([5], 8), False)
   check.eq(contem([3, -4, 5, 9, 10], 5), True)
+  check.eq(contem([-4, 5, 9, 10], 5), True)
   check.eq(contem([2, -5, -2], 5), False)
 }
 

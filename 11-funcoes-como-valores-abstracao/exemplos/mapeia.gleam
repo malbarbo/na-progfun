@@ -12,6 +12,7 @@ pub fn mapeia(lst: List(a), f: fn(a) -> b) -> List(b) {
 
 pub fn mapeia_examples() {
   check.eq(mapeia([4, 3], int.negate), [-4, -3])
+  check.eq(mapeia([3], int.negate), [-3])
   check.eq(mapeia([3.0, 7.0], float.to_string), ["3.0", "7.0"])
 }
 

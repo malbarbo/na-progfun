@@ -5,6 +5,7 @@ subtitle: Abstração
 # TODO: explicitar que existe uma "algebra" de funções (assim como uma algebra de número, strings, etc)
 # TODO: rever referências
 # TODO: mudar contem_5 para contem "a"?
+# TODO: explicar os tipos de funções (fn(T1, ..., Tn) -> R) e como são criados; em mapeia, por que fn(a) -> b usa duas variáveis de tipo
 ---
 
 Introdução
@@ -33,9 +34,9 @@ Veremos a seguir outra característica essencial do paradigma funcional: \pause
 
 Funções são **entidades de primeira classe** se: \pause
 
-- Podem ser usadas, sem restrições, onde outros valores podem ser usados (passadas como entrada, devolvidas como resultado, armazenadas em listas, etc); \pause
+- Podem ser usadas, sem restrições, onde outros valores podem ser usados (passadas como entrada, devolvidas como resultado, armazenadas em listas, etc.); \pause
 
-- Podem ser construídas, sem restrições, onde outros valores também podem (localmente, em expressões, etc); \pause
+- Podem ser construídas, sem restrições, onde outros valores também podem (localmente, em expressões, etc.); \pause
 
 - Podem ser tipadas de forma similar a outros valores (existe um tipo associado com cada função e esse tipo pode ser usado para compor outros tipos). \pause
 
@@ -51,6 +52,17 @@ Uma **função de alta ordem** é aquela que:
 - Produz como saída uma ou mais funções.
 
 
+## Abstração
+
+**Abstrair** é separar uma ideia dos detalhes particulares que a acompanham. \pause O número 6, por exemplo, é abstrato porque representa todas as formas de contar seis coisas, sejam 6 ovos ou 6 metros. \pause
+
+Em programação, criamos abstrações dando nome a padrões e transformando os detalhes que mudam em parâmetros. \pause Por exemplo, a função `quadrado(n)`{.gleam} não calcula o quadrado de um número particular, mas descreve como calcular o quadrado de qualquer número. \pause
+
+Chamamos de **abstração** tanto esse processo quanto o seu resultado. \pause
+
+Neste capítulo veremos padrões em que o que muda é uma operação, como negar um número ou convertê-lo para string. Como funções são valores, essas operações também podem ser transformadas em parâmetros.
+
+
 
 Funções que recebem funções como parâmetro
 ==========================================
@@ -64,7 +76,7 @@ Encontrando similaridades entre funções. \pause
 
 Vamos ver diversos pares de funções e identificar similaridades entre elas. \pause
 
-Por questões de espaço, no restante desse material, usamos `p` para `primeiro` e `r` para `resto` e colocamos os exemplos fora de funções `_examples`.
+Por questões de espaço, no restante deste material, usamos `p` para `primeiro` e `r` para `resto` e colocamos os exemplos fora de funções `_examples`.
 
 
 ## Exemplo: `contem_3` e `contem_5`
@@ -114,7 +126,9 @@ check.eq(contem_5([4, 3, 1]), False)
 
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`. \pause
+O que muda entre `contem_3` e `contem_5`? \pause O valor procurado: 3 em uma e 5 na outra. \pause
+
+Criamos um parâmetro `n` para o valor que muda e substituímos 3 e 5 por `n`. \pause
 
 ```gleam
 
@@ -168,7 +182,9 @@ check.eq(contem_5([4, 3, 1]), False)
 
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
+O que muda entre `contem_3` e `contem_5`? O valor procurado: 3 em uma e 5 na outra.
+
+Criamos um parâmetro `n` para o valor que muda e substituímos 3 e 5 por `n`.
 
 ```gleam
 
@@ -225,7 +241,9 @@ check.eq(contem_5([4, 3, 1]), False)
 
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
+O que muda entre `contem_3` e `contem_5`? O valor procurado: 3 em uma e 5 na outra.
+
+Criamos um parâmetro `n` para o valor que muda e substituímos 3 e 5 por `n`.
 
 ```gleam
 
@@ -282,7 +300,9 @@ check.eq(contem_5([4, 3, 1]), False)
 
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
+O que muda entre `contem_3` e `contem_5`? O valor procurado: 3 em uma e 5 na outra.
+
+Criamos um parâmetro `n` para o valor que muda e substituímos 3 e 5 por `n`.
 
 ```gleam
 
@@ -339,7 +359,9 @@ check.eq(contem_5([4, 3, 1]), False)
 
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
+O que muda entre `contem_3` e `contem_5`? O valor procurado: 3 em uma e 5 na outra.
+
+Criamos um parâmetro `n` para o valor que muda e substituímos 3 e 5 por `n`.
 
 ```gleam
 
@@ -396,7 +418,9 @@ check.eq(contem_5([4, 3, 1]), False)
 
 \scriptsize
 
-Vamos definir uma função que abstrai o comportamento de `contem_3` e `contem_5`.
+O que muda entre `contem_3` e `contem_5`? O valor procurado: 3 em uma e 5 na outra.
+
+Criamos um parâmetro `n` para o valor que muda e substituímos 3 e 5 por `n`.
 
 ```gleam
 
@@ -417,6 +441,8 @@ check.eq(contem([4, 3, 1], 5), False)
 
 
 ## Receita para criar abstração a partir de exemplos
+
+Os passos que seguimos para criar `contem` formam uma receita, que vamos usar nos próximos exemplos: \pause
 
 1. Identificar funções com corpo semelhante \pause
   - Identificar o que muda \pause
@@ -474,10 +500,11 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 
 \pause
 
+O que muda entre `lista_nega` e `lista_string`? \pause A função aplicada a cada elemento: `int.negate`{.gleam} em uma e `float.to_string`{.gleam} na outra. \pause
+
+Criamos um parâmetro `f` para a função que muda, como fizemos com o 3 e o 5. \pause
+
 ```gleam
-
-
-
 
 
 fn mapeia(lst, f) {
@@ -844,6 +871,8 @@ Vamos criar uma função que abstrai o comportamento das funções `lista_pares`
 
 \pause
 
+Para que a verificação de string não vazia seja uma função, como `int.is_even`{.gleam}, definimos:
+
 \footnotesize
 
 ```gleam
@@ -892,11 +921,11 @@ check.eq(lista_nao_vazia(["a", "", "b"]),
 <div class="column" width="48%">
 \scriptsize
 
+O que muda entre `lista_pares` e `lista_nao_vazia`? \pause O predicado que decide se o elemento é selecionado: `int.is_even`{.gleam} em uma e `eh_nao_vazia` na outra. \pause
+
+Criamos um parâmetro `pred` para o predicado que muda. \pause
+
 ```gleam
-
-
-
-
 
 
 fn filtra(lst, pred) {
@@ -1273,8 +1302,13 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
-```
+\pause
+
+O que muda entre `soma` e `junta_r`? \pause O valor do caso base, `0`{.gleam} e `""`{.gleam}, e a operação que combina `p` com o resultado da recursão, `+`{.gleam} e `<>`{.gleam}. \pause
+
+Os operadores `+`{.gleam} e `<>`{.gleam} não são funções e não podem ser passados como argumento. Por isso, reescrevemos as operações com as funções equivalentes `int.add`{.gleam} e `string.append`{.gleam}, deixando o resultado da recursão como primeiro argumento nas duas. \pause
+
+Criamos os parâmetros `init` e `f` para o que muda.
 </div>
 </div>
 
@@ -1585,6 +1619,24 @@ check.eq(
 </div>
 
 
+## Avaliação de `reduz`
+
+Avaliação de `junta_r(["a", "", "c"])`{.gleam}, que chama `reduz`, usando `f` para `string.append`{.gleam}: \pause
+
+\small
+
+`reduz(["a", "", "c"], "", f)`{.gleam} \pause \newline
+`f(reduz(["", "c"], "", f), "a")`{.gleam} \pause \newline
+`f(f(reduz(["c"], "", f), ""), "a")`{.gleam} \pause \newline
+`f(f(f(reduz([], "", f), "c"), ""), "a")`{.gleam} \pause \newline
+`f(f(f("", "c"), ""), "a")`{.gleam} \pause \newline
+`f(f("c", ""), "a")`{.gleam} \pause \newline
+`f("c", "a")`{.gleam} \pause \newline
+`"ca"`{.gleam} \pause
+
+O primeiro elemento combinado com o valor inicial é o último da lista. Por isso dizemos que `reduz` processa os elementos da direita para a esquerda, e `junta_r` junta as strings em ordem contrária.
+
+
 
 `fold_right`
 =====
@@ -1598,6 +1650,8 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 <div class="columns">
 <div class="column" width="48%">
 \footnotesize
+
+Calcular o produto dos elementos de `[4, 5, 2]`{.gleam}:
 
 ```gleam-repl
 > list.fold_right([4, 5, 2],
@@ -1614,8 +1668,10 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 
 \pause
 
+Encontrar o elemento máximo de `[4, 1, 8]`{.gleam}, usando o primeiro elemento como valor inicial e processando o resto:
+
 ```gleam-repl
-> list.fold_right([4, 1, 8], 0, int.max)
+> list.fold_right([1, 8], 4, int.max)
 ```
 
 \pause
@@ -1628,6 +1684,8 @@ Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-def
 </div>
 <div class="column" width="48%">
 \footnotesize
+
+Calcular a soma dos tamanhos das strings de `["casa", "a", "boi"]`{.gleam}:
 
 ```gleam
 fn soma_tamanho(acc: Int, s: String) -> Int {
@@ -1867,7 +1925,7 @@ fn fold_right(lst, init, f) {
 
 \small
 
-Sim! Podemos usar o `fold_right`. \pause
+Sim! Comparando com `ordena`, `init` é `[]`{.gleam} e `f` é `insere_ordenado`, que recebe a lista já ordenada e o elemento, na mesma ordem de `f`. \pause
 
 \scriptsize
 
@@ -1893,16 +1951,20 @@ Revisão
 
 ## Revisão
 
+O que é abstrair? \pause
+
+- É separar uma ideia dos detalhes particulares que a acompanham. Em programação, damos nome a um padrão e transformamos em parâmetros os detalhes que mudam. Quando o que muda é uma operação, o parâmetro é uma função. \pause
+
 Como identificamos a necessidade de uma função que recebe funções como parâmetro? \pause
 
-- Quando encontramos funções com corpo semelhante em que o que muda é uma operação, que passa a ser um parâmetro da nova função (como `lista_nega` e `lista_string` gerando `mapeia`). \pause
-
-Qual a diferença entre `map`, `filter` e `fold_right`? \pause
-
-- `map` aplica uma função a cada elemento de forma independente e produz uma lista do mesmo tamanho; `filter` seleciona os elementos que satisfazem um predicado; `fold_right` combina os elementos, um a um, em um único resultado, que pode ser de qualquer tipo. Os três processam a lista inteira.
+- Quando encontramos funções com corpo semelhante em que o que muda é uma operação, que passa a ser um parâmetro da nova função (como `lista_nega` e `lista_string` gerando `mapeia`).
 
 
 ## Revisão
+
+Qual a diferença entre `map`, `filter` e `fold_right`? \pause
+
+- `map` aplica uma função a cada elemento de forma independente e produz uma lista do mesmo tamanho; `filter` seleciona os elementos que satisfazem um predicado; `fold_right` combina os elementos, um a um, em um único resultado, que pode ser de qualquer tipo. Os três processam a lista inteira. \pause
 
 Quando nenhuma das três parece servir diretamente, o que podemos fazer? \pause
 

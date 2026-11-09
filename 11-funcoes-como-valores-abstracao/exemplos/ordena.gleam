@@ -14,7 +14,7 @@ pub fn ordena_examples() {
   check.eq(ordena([1, 9, 5, -2, 8, 3]), [-2, 1, 3, 5, 8, 9])
 }
 
-/// Devolve uma nova lst com os mesmos elementos de *lst* junto com *n* em
+/// Devolve uma nova lista com os mesmos elementos de *lst* junto com *n* em
 /// ordem monotonicamente crescente.
 ///
 /// Requer que *lst* esteja em ordem monotonicamente crescente.
@@ -33,5 +33,6 @@ pub fn insere_ordenado_examples() {
   check.eq(insere_ordenado([2, 6, 9], 1), [1, 2, 6, 9])
   check.eq(insere_ordenado([2, 6, 9], 4), [2, 4, 6, 9])
   check.eq(insere_ordenado([2, 6, 9], 7), [2, 6, 7, 9])
+  check.eq(insere_ordenado([6, 9], 7), [6, 7, 9])
   check.eq(insere_ordenado([2, 6, 9], 10), [2, 6, 9, 10])
 }

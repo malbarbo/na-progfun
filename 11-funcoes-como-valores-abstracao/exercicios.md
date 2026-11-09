@@ -13,6 +13,8 @@ license:
 
 @) O que é uma função de alta ordem?
 
+@) O que é abstração? Dê um exemplo, diferente dos vistos em sala, de duas funções que podem ser abstraídas em uma única função que recebe uma função como parâmetro.
+
 @) Quando podemos utilizar as funções `map`, `filter` e `fold_right`?
 
 @) Qual estratégia foi discutida para projetar funções que recebem funções como parâmetro?

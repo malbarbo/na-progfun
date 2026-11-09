@@ -16,6 +16,7 @@ fn filtra(lst: List(a), pred: fn(a) -> Bool) -> List(a) {
 
 pub fn filtra_examples() {
   check.eq(filtra([3, 2, 7], int.is_even), [2])
+  check.eq(filtra([2, 7], int.is_even), [2])
   check.eq(filtra(["a", "", "b"], eh_nao_vazia), ["a", "b"])
 }
 

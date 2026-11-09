@@ -18,6 +18,7 @@ pub fn reduz(lst: List(a), init: b, f: fn(b, a) -> b) -> b {
 
 pub fn reduz_examples() {
   check.eq(reduz([4, 1, 2], 0, int.add), 7)
+  check.eq(reduz([1, 2], 0, int.add), 3)
   check.eq(reduz([5.0, 2.0, 4.0], 1.0, float.multiply), 40.0)
 }
 
@@ -39,4 +40,5 @@ pub fn junta_r(lst: List(String)) -> String {
 pub fn junta_r_examples() {
   check.eq(junta_r([]), "")
   check.eq(junta_r(["a", "", "c"]), "ca")
+  check.eq(junta_r(["", "c"]), "c")
 }

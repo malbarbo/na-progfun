@@ -1,7 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Análise de algoritmos
-# TODO: Mudar o título?
+title: Projeto de algoritmos
+subtitle: Análise
 ---
 
 Introdução

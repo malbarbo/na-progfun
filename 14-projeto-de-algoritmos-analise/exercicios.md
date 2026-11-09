@@ -2,7 +2,7 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: |
        | Programação Funcional
-       | Análise de algoritmos
+       | Projeto de algoritmos: análise
 urlcolor: Blue
 license:
 # TODO: adicionar mais exercícios

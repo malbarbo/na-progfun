@@ -1,6 +1,7 @@
 ---
 # vim: set spell spelllang=pt_br sw=4:
-title: Recursão generativa
+title: Projeto de algoritmos
+subtitle: Recursão generativa
 # TODO: mais exemplos
 # TODO: colocar explicação quickosrt, término, elementos repetidos
 ---

@@ -2,7 +2,7 @@
 # vim: set spell spelllang=pt_br sw=4:
 title: |
        | Programação Funcional
-       | Recursão generativa
+       | Projeto de algoritmos: recursão generativa
 urlcolor: Blue
 license:
 ---

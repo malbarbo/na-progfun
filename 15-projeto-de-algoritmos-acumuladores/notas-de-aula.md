@@ -6,7 +6,10 @@
 # TODO: adicionar exemplo com mais de um acumulador
 # TODO: adicionar um exemplo que a resposta não é o acumulador
 # TODO: mudar o nome de reduz_acc pois já usamos o termo acc na função reduz...
-title: Acumuladores
+# TODO: nomear explicitamente o propósito do acumulador como invariante (a atualização deve manter o propósito) e fazer a ponte com invariante de laço (projeto de algoritmos)
+# TODO: separar em dois capítulos: acumuladores (contexto, propósito/invariante, exemplos não iterativos: relativa_absoluta, árvores, mais de um acumulador, resultado não é o acumulador) e iteração (processos iterativos, recursão em cauda, fold left, ponte com laços). Requer exemplos adequados/interessantes não iterativos
+title: Projeto de algoritmos
+subtitle: Acumuladores
 ---
 
 Introdução
@@ -363,8 +366,8 @@ fn relativa_absoluta_loop(
     [] -> []
     [primeiro, ..resto] -> [
       primeiro + dist,
-      ..relativa_para_absoluta_loop(resto,
-                                    primeiro + dist)
+      ..relativa_absoluta_loop(resto,
+                               primeiro + dist)
     ]
   }
 }

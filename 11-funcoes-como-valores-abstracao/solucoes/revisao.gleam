@@ -30,8 +30,8 @@ pub fn concatena_examples() {
 }
 
 /// Calcula o produto dos elementos de *lst*.
-pub fn produto(lista: List(Int)) -> Int {
-  list.fold_right(lista, 1, int.multiply)
+pub fn produto(lst: List(Int)) -> Int {
+  list.fold_right(lst, 1, int.multiply)
 }
 
 pub fn produto_examples() {

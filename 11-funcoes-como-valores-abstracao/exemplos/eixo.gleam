@@ -6,8 +6,8 @@ pub type Ponto {
   Ponto(x: Int, y: Int)
 }
 
-/// Indica quais elementos de *pontos* estão sobre o eixo x (coordenada y = 0)
-/// ou eixo y (coordenada x = 0).
+/// Cria uma lista apenas com os elementos de *pontos* que estão sobre o eixo x
+/// (coordenada y = 0) ou sobre o eixo y (coordenada x = 0).
 pub fn seleciona_no_eixo(pontos: List(Ponto)) -> List(Ponto) {
   list.filter(pontos, no_eixo)
 }

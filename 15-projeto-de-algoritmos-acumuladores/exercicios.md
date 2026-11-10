@@ -26,6 +26,8 @@ license:
 
 @) Analise os exemplos e exercícios de listas e reescreva as funções, se houver benefício, usando acumuladores. Siga o processo visto em sala para projetar as funções e faça a análise do tempo de execução. Utilize a função `fold` onde for apropriado.
 
+@) Veja a [documentação](https://hexdocs.pm/gleam_stdlib/gleam/list.html) das funções `list.fold` e `list.fold_until` e faça uma implementação dessas funções usando acumuladores.
+
 
 # Resolvendo problemas
 

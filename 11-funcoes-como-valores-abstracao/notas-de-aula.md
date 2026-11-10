@@ -379,7 +379,7 @@ check.eq(contem([4, 3, 1], 5), False)
 
 \ \
 
-Trocamos `Int`{.gleam} pela variável de tipo `a`, pois o corpo funciona com elementos de qualquer tipo.
+Trocamos `Int`{.gleam} pelo parâmetro de tipo `a`, pois o corpo funciona com elementos de qualquer tipo, como já fizemos com `contem` no capítulo de listas.
 </div>
 </div>
 
@@ -452,14 +452,25 @@ Por fim, reescrevemos `contem_3` e `contem_5` em termos de `contem`. Os exemplos
 Os passos que seguimos para criar `contem` formam uma receita, que vamos usar nos próximos exemplos: \pause
 
 1. Identificar funções com corpo semelhante \pause
-  - Identificar o que muda \pause
-  - Criar parâmetros para o que muda \pause
-  - Copiar o corpo e substituir o que muda pelos parâmetros criados \pause
+   - Identificar o que muda \pause
+   - Criar parâmetros para o que muda \pause
+   - Copiar o corpo e substituir o que muda pelos parâmetros criados \pause
 2. Escrever os exemplos \pause
-  - Reutilizar os exemplos das funções existentes \pause
+   - Reutilizar os exemplos das funções existentes \pause
 3. Escrever o propósito \pause
 4. Escrever a assinatura \pause
 5. Reescrever o código das funções iniciais em termos da nova função
+
+
+## Vantagens da abstração
+
+Depois de criar `contem`, o código que percorre a lista existe em um único lugar. \pause
+
+- Um erro nesse código é corrigido uma vez, e a correção vale para `contem_3`, `contem_5` e qualquer outra função que use `contem`; \pause
+
+- Uma nova função do mesmo padrão, como `contem_7`, é escrita em uma linha e não precisa ser projetada do zero; \pause
+
+- O padrão passa a ter um nome: quem lê `contem(lst, 3)`{.gleam} entende o que é feito sem precisar ler a recursão.
 
 
 ## Exemplo: `lista_nega` e `lista_string`
@@ -510,6 +521,8 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 O que muda entre `lista_nega` e `lista_string`? \pause A função aplicada a cada elemento: `int.negate`{.gleam} em uma e `float.to_string`{.gleam} na outra. \pause
 
 Criamos um parâmetro `f` para a função que muda, como fizemos com o 3 e o 5. \pause
+
+\vspace{-0.35pt}
 
 ```gleam
 
@@ -685,9 +698,11 @@ check.eq(lista_string([3.0, 7.0]), ["3.0", "7.0"])
 <div class="column" width="40%">
 \scriptsize
 
+O tipo de `f` é `fn(a) -> b`{.gleam}: recebe um `a` e devolve um `b`, que podem ser tipos diferentes.
+
+\vspace{-0.8pt}
+
 ```gleam
-
-
 
 /// Aplica *f* a cada elemento de *lst*.
 fn mapeia(
@@ -787,8 +802,8 @@ Neste capítulo, criamos funções de alta ordem que recebem funções. No próx
 
 
 
-map
-===
+`map`
+=====
 
 
 ## `map`
@@ -950,12 +965,13 @@ check.eq(lista_nao_vazia(["a", "", "b"]),
 <div class="column" width="48%">
 \scriptsize
 
-O que muda entre `lista_pares` e `lista_nao_vazia`? \pause O predicado que decide se o elemento é selecionado: `int.is_even`{.gleam} em uma e `eh_nao_vazia` na outra. \pause
+O que muda entre `lista_pares` e `lista_nao_vazia`? \pause O predicado (função que devolve um booleano) que decide se o elemento é selecionado: `int.is_even`{.gleam} em uma e `eh_nao_vazia` na outra. \pause
 
 Criamos um parâmetro `pred` para o predicado que muda. \pause
 
-```gleam
+\vspace{-0.35pt}
 
+```gleam
 
 fn filtra(lst, pred) {
   case lst {
@@ -1133,7 +1149,6 @@ check.eq(lista_nao_vazia(["a", "", "b"]),
 \scriptsize
 
 ```gleam
-
 
 /// Seleciona os valores de *lst*
 /// para os quais *pred* devolve True.
@@ -1196,7 +1211,6 @@ check.eq(lista_nao_vazia(["a", "", "b"]),
 \scriptsize
 
 ```gleam
-
 
 /// Seleciona os valores de *lst*
 /// para os quais *pred* devolve True.
@@ -1290,27 +1304,39 @@ fn tamanho_1(lst: List(a)) -> Bool {
 </div>
 
 
-## Exemplo: `soma` e `junta_r`
+## Exemplo: `soma_tamanhos` e `junta_r`
 
-Vamos criar uma função que abstrai o comportamento das funções `soma` e `junta_r`.
+Vamos criar uma função que abstrai o comportamento das funções `soma_tamanhos` e `junta_r`.
+
+\pause
+
+Para que a soma do tamanho de uma string com o resultado da recursão seja uma função, definimos:
+
+\footnotesize
+
+```gleam
+fn soma_tam(soma: Int, s: String) -> Int {
+  soma + string.length(s)
+}
+```
 
 
-## Exemplo: `soma` e `junta_r` {.t}
+## Exemplo: `soma_tamanhos` e `junta_r` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Soma os elementos de *lst*.
-fn soma(lst: List(Int)) -> Int {
+/// Soma os tamanhos das strings de *lst*.
+fn soma_tamanhos(lst: List(String)) -> Int {
   case lst {
     [] -> 0
-    [p, ..r] -> p + soma(r)
+    [p, ..r] -> soma_tam(soma_tamanhos(r), p)
   }
 }
 
-check.eq(soma([4, 1, 2]), 7)
+check.eq(soma_tamanhos(["casa", "a"]), 5)
 ```
 
 \ \
@@ -1335,31 +1361,29 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 
 \pause
 
-O que muda entre `soma` e `junta_r`? \pause O valor do caso base, `0`{.gleam} e `""`{.gleam}, e a operação que combina `p` com o resultado da recursão, `+`{.gleam} e `<>`{.gleam}. \pause
+O que muda entre `soma_tamanhos` e `junta_r`? \pause O valor do caso base, `0`{.gleam} e `""`{.gleam}, e a operação que combina o resultado da recursão com `p`, `soma_tam` e `<>`{.gleam}. \pause
 
-Os operadores `+`{.gleam} e `<>`{.gleam} não são funções e não podem ser passados como argumento. Por isso, reescrevemos as operações com as funções equivalentes `int.add`{.gleam} e `string.append`{.gleam}, deixando o resultado da recursão como primeiro argumento nas duas. \pause
-
-Criamos os parâmetros `init` e `f` para o que muda.
+O operador `<>`{.gleam} não é uma função e não pode ser passado como argumento. Por isso, reescrevemos a operação com a função equivalente `string.append`{.gleam}, deixando o resultado da recursão como primeiro argumento, como em `soma_tam`.
 </div>
 </div>
 
 
-## Exemplo: `soma` e `junta_r` {.t}
+## Exemplo: `soma_tamanhos` e `junta_r` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Soma os elementos de *lst*.
-fn soma(lst: List(Int)) -> Int {
+/// Soma os tamanhos das strings de *lst*.
+fn soma_tamanhos(lst: List(String)) -> Int {
   case lst {
     [] -> 0
-    [p, ..r] -> int.add(soma(r), p)
+    [p, ..r] -> soma_tam(soma_tamanhos(r), p)
   }
 }
 
-check.eq(soma([4, 1, 2]), 7)
+check.eq(soma_tamanhos(["casa", "a"]), 5)
 ```
 
 \ \
@@ -1382,8 +1406,11 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 <div class="column" width="48%">
 \scriptsize
 
-```gleam
+Criamos os parâmetros `init` e `f` para o que muda. \pause
 
+\vspace{4.98pt}
+
+```gleam
 
 
 
@@ -1402,22 +1429,22 @@ fn reduz(lst, init, f) {
 </div>
 
 
-## Exemplo: `soma` e `junta_r` {.t}
+## Exemplo: `soma_tamanhos` e `junta_r` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Soma os elementos de *lst*.
-fn soma(lst: List(Int)) -> Int {
+/// Soma os tamanhos das strings de *lst*.
+fn soma_tamanhos(lst: List(String)) -> Int {
   case lst {
     [] -> 0
-    [p, ..r] -> int.add(soma(r), p)
+    [p, ..r] -> soma_tam(soma_tamanhos(r), p)
   }
 }
 
-check.eq(soma([4, 1, 2]), 7)
+check.eq(soma_tamanhos(["casa", "a"]), 5)
 ```
 
 \ \
@@ -1438,6 +1465,8 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 <div class="column" width="48%">
 \scriptsize
 
+\vspace{10.29pt}
+
 ```gleam
 
 
@@ -1454,8 +1483,8 @@ fn reduz(lst, init, f) {
   }
 }
 check.eq(
-  reduz([4, 1, 2], 0, int.add),
-  7)
+  reduz(["casa", "a"], 0, soma_tam),
+  5)
 check.eq(
   reduz(["a", "", "c"], "", string.append),
   "ca")
@@ -1464,22 +1493,22 @@ check.eq(
 </div>
 
 
-## Exemplo: `soma` e `junta_r` {.t}
+## Exemplo: `soma_tamanhos` e `junta_r` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Soma os elementos de *lst*.
-fn soma(lst: List(Int)) -> Int {
+/// Soma os tamanhos das strings de *lst*.
+fn soma_tamanhos(lst: List(String)) -> Int {
   case lst {
     [] -> 0
-    [p, ..r] -> int.add(soma(r), p)
+    [p, ..r] -> soma_tam(soma_tamanhos(r), p)
   }
 }
 
-check.eq(soma([4, 1, 2]), 7)
+check.eq(soma_tamanhos(["casa", "a"]), 5)
 ```
 
 \ \
@@ -1500,15 +1529,17 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 <div class="column" width="48%">
 \scriptsize
 
+\vspace{10.29pt}
+
 ```gleam
 
 
 
 
-/// Reduz os elementos de *lst* em um acumulador
-/// usando a função *f*. O acumulador começa com *init*
-/// e é atualizado chamando *f(acc, e)* para cada
-/// elemento *e* de *lst* da direita para a esquerda.
+/// Combina os elementos de *lst* usando *f*. O
+/// resultado começa com *init* e é atualizado com
+/// *f(res, e)* para cada elemento *e* de *lst*, da
+/// direita para a esquerda.
 fn reduz(lst, init, f) {
   case lst {
     [] -> init
@@ -1516,8 +1547,8 @@ fn reduz(lst, init, f) {
   }
 }
 check.eq(
-  reduz([4, 1, 2], 0, int.add),
-  7)
+  reduz(["casa", "a"], 0, soma_tam),
+  5)
 check.eq(
   reduz(["a", "", "c"], "", string.append),
   "ca")
@@ -1526,22 +1557,22 @@ check.eq(
 </div>
 
 
-## Exemplo: `soma` e `junta_r` {.t}
+## Exemplo: `soma_tamanhos` e `junta_r` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Soma os elementos de *lst*.
-fn soma(lst: List(Int)) -> Int {
+/// Soma os tamanhos das strings de *lst*.
+fn soma_tamanhos(lst: List(String)) -> Int {
   case lst {
     [] -> 0
-    [p, ..r] -> int.add(soma(r), p)
+    [p, ..r] -> soma_tam(soma_tamanhos(r), p)
   }
 }
 
-check.eq(soma([4, 1, 2]), 7)
+check.eq(soma_tamanhos(["casa", "a"]), 5)
 ```
 
 \ \
@@ -1563,10 +1594,10 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 \scriptsize
 
 ```gleam
-/// Reduz os elementos de *lst* em um acumulador
-/// usando a função *f*. O acumulador começa com *init*
-/// e é atualizado chamando *f(acc, e)* para cada
-/// elemento *e* de *lst* da direita para a esquerda.
+/// Combina os elementos de *lst* usando *f*. O
+/// resultado começa com *init* e é atualizado com
+/// *f(res, e)* para cada elemento *e* de *lst*, da
+/// direita para a esquerda.
 fn reduz(
   lst: List(a),
   init: b,
@@ -1578,8 +1609,8 @@ fn reduz(
   }
 }
 check.eq(
-  reduz([4, 1, 2], 0, int.add),
-  7)
+  reduz(["casa", "a"], 0, soma_tam),
+  5)
 check.eq(
   reduz(["a", "", "c"], "", string.append),
   "ca")
@@ -1588,22 +1619,22 @@ check.eq(
 </div>
 
 
-## Exemplo: `soma` e `junta_r` {.t}
+## Exemplo: `soma_tamanhos` e `junta_r` {.t}
 
 <div class="columns">
 <div class="column" width="48%">
 \scriptsize
 
 ```gleam
-/// Soma os elementos de *lst*.
-fn soma(lst: List(Int)) -> Int {
-  reduz(lst, 0, int.add)
+/// Soma os tamanhos das strings de *lst*.
+fn soma_tamanhos(lst: List(String)) -> Int {
+  reduz(lst, 0, soma_tam)
 }
 
 
 
 
-check.eq(soma([4, 1, 2]), 7)
+check.eq(soma_tamanhos(["casa", "a"]), 5)
 ```
 
 \ \
@@ -1625,10 +1656,10 @@ check.eq(junta_r(["a", "", "c"]), "ca")
 \scriptsize
 
 ```gleam
-/// Reduz os elementos de *lst* em um acumulador
-/// usando a função *f*. O acumulador começa com *init*
-/// e é atualizado chamando *f(acc, e)* para cada
-/// elemento *e* de *lst* da direita para a esquerda.
+/// Combina os elementos de *lst* usando *f*. O
+/// resultado começa com *init* e é atualizado com
+/// *f(res, e)* para cada elemento *e* de *lst*, da
+/// direita para a esquerda.
 fn reduz(
   lst: List(a),
   init: b,
@@ -1640,8 +1671,8 @@ fn reduz(
   }
 }
 check.eq(
-  reduz([4, 1, 2], 0, int.add),
-  7)
+  reduz(["casa", "a"], 0, soma_tam),
+  5)
 check.eq(
   reduz(["a", "", "c"], "", string.append),
   "ca")
@@ -1674,13 +1705,29 @@ O primeiro elemento combinado com o valor inicial é o último da lista. Por iss
 
 ## `fold_right`
 
-Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-definida em Gleam como `list.fold_right`.
+Como resultado do exemplo anterior obtivemos a função `reduz`, que é pré-definida em Gleam como `list.fold_right`{.gleam}.
 
 \pause
 
 <div class="columns">
 <div class="column" width="48%">
 \footnotesize
+
+Calcular a soma dos elementos de `[4, 1, 2]`{.gleam}:
+
+```gleam-repl
+> list.fold_right([4, 1, 2], 0, int.add)
+```
+
+\pause
+
+```gleam
+7
+```
+
+\ \
+
+\pause
 
 Calcular o produto dos elementos de `[4, 5, 2]`{.gleam}:
 
@@ -1695,9 +1742,10 @@ Calcular o produto dos elementos de `[4, 5, 2]`{.gleam}:
 40
 ```
 
-\ \
-
 \pause
+</div>
+<div class="column" width="48%">
+\footnotesize
 
 Encontrar o elemento máximo de `[4, 1, 8]`{.gleam}, usando o primeiro elemento como valor inicial e processando o resto:
 
@@ -1710,38 +1758,16 @@ Encontrar o elemento máximo de `[4, 1, 8]`{.gleam}, usando o primeiro elemento 
 ```gleam
 8
 ```
-
-\pause
 </div>
-<div class="column" width="48%">
-\footnotesize
-
-Calcular a soma dos tamanhos das strings de `["casa", "a", "boi"]`{.gleam}:
-
-```gleam
-fn soma_tamanho(acc: Int, s: String) -> Int {
-  acc + string.length(s)
-}
-```
-
-```gleam-repl
-> list.fold_right(["casa", "a", "boi"],
-                  0, soma_tamanho)
-```
+</div>
 
 \pause
 
-```gleam
-8
-```
+\small
 
-\pause
+\ \
 
-\normalsize
-
-Note que o acumulador (`Int`{.gleam}) não precisa ter o mesmo tipo dos elementos da lista (`String`{.gleam}).
-</div>
-</div>
+Em outras linguagens essa função é chamada de `foldr` ou `reduce`, e a ordem dos parâmetros de `f` pode ser diferente. Em Gleam, `list.reduce`{.gleam} é outra função, que não recebe valor inicial.
 
 
 ## Funções `map`, `filter` e `fold_right`
@@ -1822,7 +1848,7 @@ fn sinais(lst: List(Int)) -> List(Int) {
 
 ## Exemplo: pontos nos eixos
 
-Projete uma função que receba como entrada uma lista de pontos no plano cartesiano e selecione quais estão sobre o eixo x ou eixo y.
+Projete uma função que receba como entrada uma lista de pontos no plano cartesiano e selecione os que estão sobre o eixo x ou sobre o eixo y.
 
 \pause
 
@@ -1895,7 +1921,7 @@ fn seleciona_no_eixo(
 
 ## Exemplo: ordenação
 
-Projete uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores de entrada mas em ordem monotonicamente crescente.
+Projete uma função que receba como entrada uma lista de números e devolva uma lista com os mesmos valores da entrada, mas em ordem monotonicamente crescente.
 
 
 ## Exemplo: ordenação
@@ -1982,6 +2008,21 @@ Revisão
 
 ## Revisão
 
+Por que dizemos que em Gleam as funções são entidades de primeira classe? \pause
+
+- Porque podem ser usadas como qualquer outro valor: passadas como argumento (como `int.negate`{.gleam} em `mapeia`), devolvidas como resultado, e têm um tipo, como `fn(a) -> b`{.gleam}. \pause
+
+Por que `mapeia`, `filtra` e `reduz` são funções de alta ordem? \pause
+
+- Porque recebem uma função como parâmetro. Uma função que produz uma função também é de alta ordem. \pause
+
+Quais os passos para criar uma abstração a partir de funções semelhantes? \pause
+
+- Identificar o que muda e transformar em parâmetro, escrever os exemplos reutilizando os existentes, escrever o propósito e a assinatura, e reescrever as funções iniciais em termos da nova função.
+
+
+## Revisão
+
 O que é abstrair? \pause
 
 - É separar uma ideia dos detalhes particulares que a acompanham. Em programação, damos nome a um padrão e transformamos em parâmetros os detalhes que mudam. Quando o que muda é uma operação, o parâmetro é uma função. \pause
@@ -2011,7 +2052,7 @@ Básicas
 
 - Vídeos [Abstractions](https://www.youtube.com/playlist?list=PL6NenTZG6KroSmESv5ItvLft76ZR8q-Nd)
 
-- Capítulo [15](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3aabstract%29) do livro [HTDP](http://htdp.org)
+- Capítulos [14](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3add-similarities%29), [15](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3aabstract%29) e [16](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3a3use%29) do livro [HTDP](http://htdp.org)
 
 Complementares
 

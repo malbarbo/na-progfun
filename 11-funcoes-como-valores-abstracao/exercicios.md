@@ -15,6 +15,8 @@ license:
 
 @) O que é abstração? Dê um exemplo, diferente dos vistos em sala, de duas funções que podem ser abstraídas em uma única função que recebe uma função como parâmetro.
 
+@) Quais as vantagens de reescrever `lista_nega` e `lista_string` em termos de `mapeia`?
+
 @) Quando podemos utilizar as funções `map`, `filter` e `fold_right`?
 
 @) Qual estratégia foi discutida para projetar funções que recebem funções como parâmetro?
@@ -22,11 +24,11 @@ license:
 
 # Praticando
 
-@) Analise os exemplos e exercícios de listas e redefina as funções (que forem possíveis) utilizando as funções `list.map`, `list.filter` e `list.fold_right` (diretamente ou com uma combinação dessas funções). As novas funções ficaram mais simples?
+@) Analise os exemplos e exercícios de listas e redefina as funções, quando for possível, utilizando as funções `list.map`, `list.filter` e `list.fold_right` (diretamente ou com uma combinação dessas funções). As novas funções ficaram mais simples?
 
-@) Veja a [documentação](https://hexdocs.pm/gleam_stdlib/gleam/list.html) das funções `list.map2`, `list.filter_map` e `list.fold_until` e faça uma implementação dessas funções.
+@) Veja a [documentação](https://hexdocs.pm/gleam_stdlib/gleam/list.html) das funções `list.map2`, `list.filter_map` e `list.partition` e faça uma implementação dessas funções.
 
-@) Analise os exemplos e exercícios de números naturais e defina uma função `reduz_num` (semelhante à função `reduz` feita em sala) que abstraia o comportamento do modelo para funções com números naturais. Redefina as funções da lista de exercícios de números naturais (que for possível) em termos de `reduz_num`. As novas funções ficaram mais simples?
+@) Analise os exemplos e exercícios de números naturais e defina uma função `reduz_num` (semelhante à função `reduz` feita em sala) que abstraia o comportamento do modelo para funções com números naturais. Redefina as funções da lista de exercícios de números naturais, quando for possível, em termos de `reduz_num`. As novas funções ficaram mais simples?
 
 
 # Resolvendo problemas

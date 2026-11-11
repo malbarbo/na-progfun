@@ -22,4 +22,4 @@ def tamanho_maximo(lst: list[str]) -> int:
     >>> tamanho_maximo(['oi', 'casa', 'aba', 'boi', 'eita', 'a', 'cadê'])
     4
     '''
-    return max(map(len, lst))
+    return max(map(len, lst), default=0)

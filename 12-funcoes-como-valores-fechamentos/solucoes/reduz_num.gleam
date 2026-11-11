@@ -9,6 +9,12 @@ pub fn reduz_num(n: Int, init: a, f: fn(a, Int) -> a) -> a {
   }
 }
 
+// Estas funções não puderam ser redefinidas no capítulo anterior porque a
+// função passada para reduz_num precisa usar um valor que não é um dos seus
+// parâmetros (*v* em repete e *a* em potencia). Uma função definida no nível
+// do módulo não tem acesso a esses valores; a função anônima tem, porque é um
+// fechamento que leva junto as variáveis livres *v* e *a*.
+
 /// Cria uma lista com *n* repetições do valor *v*.
 pub fn repete(n: Int, v: a) -> List(a) {
   reduz_num(n, [], fn(lst, _) { [v, ..lst] })

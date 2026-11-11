@@ -49,9 +49,10 @@ check.eq(
 )
 ```
 
-\small
 
 \pause
+
+\small
 
 Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause Parece complicado... \pause
 
@@ -62,7 +63,7 @@ Vamos separar a solução em duas etapas: encontrar o tamanho máximo e depois s
 <div class="columns">
 <div class="column" width="48%">
 
-\footnotesize
+\scriptsize
 
 ```gleam
 /// Devolve o tamanho máximo entre
@@ -83,6 +84,8 @@ check.eq(
 
 \small
 
+\ \
+
 Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause Sim, usando o `fold_right`, mas parece complicado... \pause
 
 </div>
@@ -90,11 +93,11 @@ Podemos usar `map`, `filter` ou `fold_right` para implementar a função? \pause
 
 \small
 
-A função para o `fold_right` teria que fazer duas coisas, determinar o tamanho de uma string e indicar qual é o máximo entre dois tamanhos. \pause
+A função para o `fold_right` teria que fazer duas coisas: determinar o tamanho de uma string e indicar qual é o máximo entre dois tamanhos. \pause
 
 Podemos fazer em duas etapas: usamos o `map` para obter uma lista com os tamanhos e o `fold_right` para determinar o valor máximo. \pause
 
-\footnotesize
+\scriptsize
 
 \ \
 
@@ -120,7 +123,7 @@ fn tamanho_maximo(lst: List(String)) -> Int {
 <div class="columns">
 <div class="column" width="48%">
 
-\footnotesize
+\scriptsize
 
 ```gleam
 fn maiores_strings(lst: List(String))
@@ -131,6 +134,8 @@ fn maiores_strings(lst: List(String))
   list.filter(lst, tem_tamanho_maximo)
 }
 ```
+
+\ \
 
 \pause
 
@@ -151,6 +156,9 @@ fn maiores_strings(lst: List(String))
 
 </div>
 <div class="column" width="48%">
+
+\small
+
 O que a função `tem_tamanho_maximo` tem de diferente? \pause
 
 - É declarada dentro de outra função; \pause
@@ -159,7 +167,7 @@ O que a função `tem_tamanho_maximo` tem de diferente? \pause
 
 \pause
 
-Veremos a seguir que este tipo de função tem que ser tratada de forma diferente pelo compilador. \pause
+Veremos a seguir que este tipo de função tem que ser tratado de forma diferente pelo compilador. \pause
 
 Em Gleam, especificamente, a forma de definir funções desse tipo também é diferente. Por ora, vamos supor que a definição dessa maneira está correta.
 
@@ -176,11 +184,11 @@ Definições locais e fechamentos
 
 Uma **definição local** é aquela que não é feita no escopo global. \pause
 
-Uma **variável livre** em relação a uma função é aquela que não é global, não é um parâmetro da função e nem foi declarada localmente dentro da função. \pause
+Uma **variável livre** em relação a uma função é uma variável usada no corpo da função que não é global, não é um parâmetro da função nem foi definida dentro da função. \pause
 
 Como uma função acessa um parâmetro ou uma variável local? \pause
 
-Geralmente, consultando o registro de ativação, o quadro, da sua chamada. \pause
+Geralmente, consultando o **registro de ativação** (ou quadro) da sua chamada: a área de memória criada a cada chamada da função para guardar os parâmetros e as variáveis locais, e que é descartada quando a chamada termina. \pause
 
 Como uma função acessa uma variável livre?
 
@@ -189,7 +197,8 @@ Como uma função acessa uma variável livre?
 
 <div class="columns">
 <div class="column" width="48%">
-\footnotesize
+
+\scriptsize
 
 ```gleam
 fn maiores_strings(lst: List(String))
@@ -208,9 +217,15 @@ fn maiores_strings(lst: List(String))
 <div class="column" width="48%">
 \pause
 
+\small
+
 A variável `max` existe independentemente de a função `tem_tamanho_maximo` estar ativa (executando) ou não, logo ela não pode ser armazenada no registro de ativação de `tem_tamanho_maximo`. \pause
 
+\ \
+
 Então, como a variável livre `max` é acessada na função `tem_tamanho_maximo`? \pause
+
+\ \
 
 A função `tem_tamanho_maximo` deve "levar" junto com ela a variável livre `max`.
 
@@ -220,11 +235,13 @@ A função `tem_tamanho_maximo` deve "levar" junto com ela a variável livre `ma
 
 ## Definições locais e fechamentos
 
-O **ambiente léxico** é uma tabela com referências para as variáveis livres de uma função. \pause
+\small
+
+O **ambiente léxico** de uma função é uma tabela com referências para as variáveis livres da função, determinada pelo local do texto do programa em que a função foi criada (e não pelo local em que ela é chamada). \pause
 
 Um **fechamento** (*closure* em inglês) é uma função junto com o seu ambiente léxico. \pause
 
-\footnotesize
+\scriptsize
 
 ```gleam
 fn maiores_strings(lst: List(String)) -> List(String) {
@@ -236,17 +253,20 @@ fn maiores_strings(lst: List(String)) -> List(String) {
 }
 ```
 
-\normalsize
+\small
 
-Quando a função `tem_tamanho_maximo` é utilizada na chamada de `list.filter` um fechamento é passado como parâmetro.
+Quando a função `tem_tamanho_maximo` é utilizada na chamada de `list.filter`{.gleam}, um fechamento é passado como argumento: o `list.filter`{.gleam} chama a função em um local em que `max` não existe, e mesmo assim ela usa o `max` de `maiores_strings`.
 
 
 ## Exemplo em Python
 
-\footnotesize
+\small
+
+Em Python, uma função com nome pode ser definida dentro de outra função e também é um fechamento: `tem_tamanho_maximo` usa a variável livre `tmax`.
+
+\scriptsize
 
 ```python
-
 def maiores_strings(lst: list[str]) -> list[str]:
     tmax = tamanho_maximo(lst)
 
@@ -257,8 +277,8 @@ def maiores_strings(lst: list[str]) -> list[str]:
 
 
 def tamanho_maximo(lst: list[str]) -> int:
-    # max recebe um iterador
-    return max(map(len, lst))
+    # map devolve um iterador, que max consome
+    return max(map(len, lst), default=0)
 ```
 
 
@@ -318,13 +338,16 @@ Uma função que não é nomeada é chamada de **função anônima**.
 </div>
 
 
-## Revisão maiores strings
+## Exemplo: maiores strings
 
 <div class="columns">
-<div class="column" width="48%">
+<div class="column" width="45%">
+
+\small
+
 Por questões de simplicidade de projeto, em Gleam, apenas funções anônimas podem ser declaradas dentro de outras funções. \pause
 
-\footnotesize
+\scriptsize
 
 \ \
 
@@ -345,8 +368,8 @@ fn maiores_strings(lst: List(String))
 \pause
 
 </div>
-<div class="column" width="48%">
-\footnotesize
+<div class="column" width="51%">
+\scriptsize
 
 ```gleam
 fn maiores_strings(lst: List(String))
@@ -360,20 +383,19 @@ fn maiores_strings(lst: List(String))
 ```
 \pause
 
-\normalsize
+\small
 
 \ \
 
 Ou sem armazenar a função em uma variável:
 
-\footnotesize
+\scriptsize
 
 ```gleam
 fn maiores_strings(lst: List(String))
   -> List(String) {
   let max = tamanho_maximo(lst)
-  list.filter(
-    lst, fn(s) { string.length(s) == max })
+  list.filter(lst, fn(s) { string.length(s) == max })
 }
 ```
 </div>
@@ -384,7 +406,7 @@ fn maiores_strings(lst: List(String))
 
 Em que situações devemos utilizar funções anônimas? \pause
 
-Como parâmetro, quando a função for pequena e necessária apenas naquele local: \pause
+Como argumento, quando a função for pequena e necessária apenas naquele local: \pause
 
 \footnotesize
 
@@ -397,7 +419,7 @@ Como parâmetro, quando a função for pequena e necessária apenas naquele loca
 
 \pause
 
-Em Python
+Em Python:
 
 ```python
 >>> list(map(lambda x: x * 2, [3, 8, -6]))
@@ -456,9 +478,11 @@ fn filtra(lst, pred) {
 
 Em que situações devemos utilizar funções anônimas? \pause
 
-- Como parâmetro, quando a função for pequena e necessária apenas naquele local. \pause
+- Como argumento, quando a função for pequena e necessária apenas naquele local. \pause
 
-- Como resultado de funções.
+- Como resultado de funções. \pause
+
+Uma função anônima não pode chamar a si mesma: dentro do corpo de `let f = fn(x) { ... }`{.gleam} o nome `f` ainda não existe. Funções recursivas precisam ser definidas no nível do módulo.
 
 
 
@@ -466,6 +490,8 @@ Funções como resultado
 ======================
 
 ## Motivação
+
+A função `list.sort`{.gleam} recebe uma lista e uma função de comparação, isto é, uma função que recebe dois valores e devolve `order.Lt`{.gleam}, `order.Eq`{.gleam} ou `order.Gt`{.gleam}, como `int.compare`{.gleam}. \pause
 
 Considere uma lista de pessoas, em que cada pessoa tem nome, idade e altura (em centímetros), e o código a seguir, que ordena as pessoas por idade e por altura:
 
@@ -478,16 +504,18 @@ list.sort(pessoas, fn(a, b) { int.compare(a.altura, b.altura) })
 
 \pause
 
-As duas funções anônimas diferem apenas no campo usado. Como no capítulo **Funções como valores: abstração**, podemos parametrizar essa diferença, mas o resultado precisa ser uma função de comparação: uma função que produz uma função.
+\normalsize
+
+As duas funções anônimas diferem apenas no campo usado. Como no capítulo **Funções como valores: abstração**, podemos parametrizar essa diferença, mas agora o resultado precisa ser uma função de comparação. Precisamos, portanto, de uma função que produz uma função.
 
 
 ## Funções como resultado
 
-Uma função que produz uma função normalmente é usada para
+Uma função que produz uma função normalmente é usada para: \pause
 
-- Fixar um valor que a função produzida usa (como em `soma(n)`{.gleam}); \pause
+- Fixar um valor que a função produzida usa (exemplo `soma`, a seguir); \pause
 
-- Transformar uma função em outra (como em `nega(pred)`{.gleam} e `compara_por(chave)`{.gleam}). \pause
+- Transformar uma função em outra (exemplos `nega` e `compara_por`, a seguir). \pause
 
 Em geral, a função produzida é passada como argumento para outra função de alta ordem, como `list.map`{.gleam}, `list.filter`{.gleam} ou `list.sort`{.gleam}.
 
@@ -564,13 +592,19 @@ pub fn soma(n: Int) -> fn(Int) -> Int {
 }
 ```
 
+\pause
+
 </div>
 </div>
+
+\small
+
+Na função devolvida, `n` é uma variável livre. O resultado de `soma(1)`{.gleam} é um fechamento que leva junto `n` com o valor `1`{.gleam} e continua existindo depois que a chamada de `soma` termina.
 
 
 ## Exemplo: negação
 
-Defina uma função que receba como parâmetro um predicado (função de um parâmetro que produz booleano) e devolve uma função que devolve a negação do predicado.
+Defina uma função que receba como parâmetro um predicado (função de um parâmetro que produz booleano) e devolva uma função que produz a negação do resultado do predicado.
 
 
 ## Exemplo: negação
@@ -630,8 +664,6 @@ pub fn nega(
 
 ## Exemplo: comparação
 
-A função `list.sort`{.gleam} recebe como parâmetro uma função de comparação, isto é, uma função que recebe dois valores e devolve `order.Lt`{.gleam}, `order.Eq`{.gleam} ou `order.Gt`{.gleam}. \pause
-
 Voltando à ordenação de pessoas, defina uma função que receba como parâmetro uma função *chave*, que produz um inteiro, e devolva uma função de comparação que compara dois valores pelo resultado de *chave*.
 
 
@@ -654,6 +686,13 @@ Gt
 > list.sort(["casa", "oi", "abc"],
             compara_por(string.length))
 ["oi", "abc", "casa"]
+```
+
+\pause
+
+\ \
+
+```gleam-repl
 > list.sort([-5, 3, -1],
             compara_por(int.absolute_value))
 [-1, 3, -5]
@@ -694,6 +733,22 @@ pub fn compara_por(
 </div>
 
 
+## Exemplo: comparação
+
+Com `compara_por`{.gleam}, a ordenação de pessoas (com o tipo `Pessoa`{.gleam}) fica:
+
+\small
+
+```gleam
+list.sort(pessoas, compara_por(fn(p: Pessoa) { p.idade }))
+list.sort(pessoas, compara_por(fn(p: Pessoa) { p.altura }))
+```
+
+\pause
+
+A anotação `p: Pessoa`{.gleam} é necessária: como `compara_por`{.gleam} aceita uma chave de qualquer tipo, o compilador não consegue descobrir o tipo de `p` para acessar o campo.
+
+
 Revisão
 =======
 
@@ -706,7 +761,7 @@ Como resolvemos `maiores_strings`, em que nenhuma das funções `map`, `filter` 
 
 Por que uma função que usa uma variável livre precisa ser um fechamento? \pause
 
-- Porque a variável livre não está no registro de ativação da função, então a função precisa levar junto o ambiente léxico com essas variáveis.
+- Porque as variáveis livres não estão no registro de ativação da função e podem nem existir mais quando a função é chamada (como o `n` em `soma(n)`{.gleam}); por isso, a função precisa levar junto o ambiente léxico, com as referências para essas variáveis.
 
 
 ## Revisão
@@ -717,7 +772,7 @@ Em que situações usamos funções anônimas? \pause
 
 Como identificar que precisamos de uma função que produz uma função? \pause
 
-- Quando escrevemos várias funções (em geral anônimas) que diferem apenas em um valor ou em uma função usada no corpo. Parametrizamos essa diferença, e o resultado é a função (como em `compara_por(chave)`{.gleam}).
+- Quando escrevemos várias funções (em geral anônimas) que diferem apenas em um valor usado no corpo. Parametrizamos essa diferença, e o resultado é a função (como em `compara_por(chave)`{.gleam}).
 
 
 Referências
@@ -729,6 +784,8 @@ Básicas
 
 - Vídeos [Abstractions](https://www.youtube.com/playlist?list=PL6NenTZG6KroSmESv5ItvLft76ZR8q-Nd)
 
+- Capítulos [16](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3a3use%29) (seção 16.2) e [17](https://htdp.org/2022-8-7/Book/part_three.html#%28part._ch~3a3lambda%29) do livro [HTDP](http://htdp.org)
+
 Complementares
 
-- Seção [1.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3) (1.3.2) do livro [SICP](https://mitpress.mit.edu/sicp/)
+- Seção [1.3](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3) (1.3.2 e 1.3.4) do livro [SICP](https://mitpress.mit.edu/sicp/)

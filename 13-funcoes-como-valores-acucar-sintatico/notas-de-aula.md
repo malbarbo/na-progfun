@@ -10,9 +10,13 @@ Introdução
 
 ## Açúcar sintático
 
-Um **açúcar sintático** ([_syntactic sugar_](https://en.wikipedia.org/wiki/Syntactic_sugar)) é uma construção sintática de uma linguagem de programação que deixa o seu uso mais simples, ou doce, para os humanos. \pause
+Um **açúcar sintático** ([_syntactic sugar_](https://en.wikipedia.org/wiki/Syntactic_sugar)) é uma construção sintática que deixa o código mais simples, ou doce, de ler e escrever, mas que não acrescenta nada ao que a linguagem pode expressar, pois pode ser traduzida para construções que já existem. \pause
 
-Vamos ver alguns açúcares sintáticos do Gleam.
+Vamos ver alguns açúcares sintáticos do Gleam e a tradução de cada um.
+
+
+Definição local
+===============
 
 
 ## Definição local
@@ -132,12 +136,15 @@ fn(x) {
 O segundo `let`{.gleam} não modifica o `x`{.gleam} anterior: ele define um novo nome, em uma função interna, que **esconde** o de fora — dizemos que o `x`{.gleam} de fora foi **sombreado**. \pause O `x + 10`{.gleam} está fora dessa função interna, por isso usa o `x`{.gleam} de fora.
 
 
+Fechamento abreviado
+====================
+
 
 ## Fechamento abreviado
 
-O uso de fechamentos com um parâmetro é bastante comum, por isso, o Gleam oferece uma forma abreviada para criá-los. \pause
+O uso de fechamentos com um parâmetro é bastante comum; por isso, o Gleam oferece uma forma abreviada para criá-los (chamada de _function capture_ na documentação do Gleam). \pause
 
-Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma função qualquer e `...` são os demais argumentos (constantes, variáveis livres ou outras expressões), pode ser escrito de forma abreviada como `f(..., _, ...)`{.gleam}, onde o marcador de posição `_` define o parâmetro do fechamento. O `_` pode aparecer apenas uma vez. \pause
+Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma função qualquer e `...` são os demais argumentos (constantes, variáveis livres ou outras expressões), pode ser escrito de forma abreviada como `f(..., _, ...)`{.gleam}, onde o marcador de posição `_` define o parâmetro do fechamento. O `_` pode aparecer apenas uma vez e precisa ser diretamente um dos argumentos da chamada: `_ + 1`{.gleam} não é um fechamento abreviado, e em `f(g(_))`{.gleam} a função abreviada é só `g(_)`{.gleam}, isto é, `f(fn(x) { g(x) })`{.gleam}. \pause
 
 \centering
 
@@ -162,7 +169,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 > // separa a string em ","
 > let sep = ","
 > let separa = fn(s) { string.split(s, sep) }
-// fn(a) { ... }
+//fn(a) { ... }
 > separa("12,2,-1")
 ["12", "2", "-1"]
 ```
@@ -177,7 +184,7 @@ Um fechamento da forma `fn(x) { f(..., x, ...) }`{.gleam}, onde `f` é uma funç
 > // forma abreviada
 > let sep = ","
 > let separa = string.split(_, sep)
-// fn(a) { ... }
+//fn(a) { ... }
 > separa("12,2,-1")
 ["12", "2", "-1"]
 ```
@@ -267,20 +274,24 @@ fn add(a: Int) -> fn(Int) -> Int {
 }
 ```
 
-\normalsize
+\small
 
 \pause
 
-Assim, a soma seria chamada como `add(1)(2)`{.gleam}, e `add(1)`{.gleam} sozinho seria uma função que soma 1 ao seu argumento. \pause
+Assim, a soma seria chamada como `add(1)(2)`{.gleam}, e `add(1)`{.gleam} sozinho seria uma função que soma 1. \pause
 
-Em Gleam as funções recebem todos os parâmetros de uma vez, então `int.add(1)`{.gleam} é um erro. Para fixar um parâmetro, usamos o fechamento abreviado: `int.add(1, _)`{.gleam}.
+Em Gleam as funções recebem todos os parâmetros de uma vez, então `int.add(1)`{.gleam} é um erro. Para fixar um argumento, usamos o fechamento abreviado, como em `int.add(1, _)`{.gleam}, o que é chamado de **aplicação parcial**.
+
+
+Cadeia de processamento
+=======================
 
 
 ## Cadeia de processamento
 
-Uma **cadeia de processamento**, ou _pipeline_, é uma sequência de operações onde a saída de uma operação é utilizada como entrada da próxima. \pause
+Uma **cadeia de processamento**, ou _pipeline_, é uma sequência de operações em que a saída de uma operação é utilizada como entrada da próxima. \pause
 
-A forma "comum" de chamar funções pode não ser adequada para uma cadeia de processamento com muitas etapas, isso porque a ordem de execução fica de "dentro para fora", o que dificulta a escrita e leitura do código. \pause
+A forma "comum" de chamar funções pode não ser adequada para uma cadeia de processamento com muitas etapas, porque a ordem de execução fica de "dentro para fora", o que dificulta a escrita e a leitura do código. \pause
 
 Gleam oferece o operador binário `|>` para facilitar as cadeias de processamento: \pause
 
@@ -293,6 +304,24 @@ Gleam oferece o operador binário `|>` para facilitar as cadeias de processament
 \pause
 
 Isto é, o valor à esquerda é passado como **primeiro** argumento da função à direita. (Se `b(x, ..., z)`{.gleam} produzir uma função, o valor é passado para ela, como em `b(x, ..., z)(a)`{.gleam}.)
+
+
+## Cadeia de processamento
+
+Quando a função à direita não recebe outros argumentos, os parênteses podem ser omitidos: `a |> f`{.gleam} é equivalente a `f(a)`{.gleam}. \pause
+
+Para passar o valor em outra posição, combinamos o `|>` com o fechamento abreviado: `a |> f(x, _)`{.gleam} é equivalente a `f(x, a)`{.gleam}. \pause
+
+\small
+
+```gleam-repl
+> "  casa " |> string.trim |> string.length
+4
+> 10 |> int.subtract(2)
+8
+> 10 |> int.subtract(2, _)
+-8
+```
 
 
 ## Cadeia de processamento
@@ -362,10 +391,13 @@ fn enumera_em_ordem_comeca_a(nomes: List(String)) -> List(String) {
 ```
 
 
+Use
+===
+
 
 ## Use
 
-As funções de alta ordem e o casamento de padrão são essenciais para a programação funcional. No entanto, em algumas situações, o uso dessas construções pode gerar indentação excessiva. \pause
+As funções de alta ordem e o casamento de padrões são essenciais para a programação funcional. No entanto, em algumas situações, o uso dessas construções pode gerar indentação excessiva. \pause
 
 Vamos rever um exemplo que vimos no capítulo **Funções totais**.
 
@@ -378,10 +410,10 @@ Vamos rever um exemplo que vimos no capítulo **Funções totais**.
 
 ```gleam
 fn soma(a: String, b: String)
-  -> Result(Int, Nil) {
+  -> Result(String, Nil) {
   case int.parse(a) {
     Ok(x) -> case int.parse(b) {
-      Ok(y) -> Ok(x + y)
+      Ok(y) -> Ok(int.to_string(x + y))
       Error(err) -> Error(err)
     }
     Error(err) -> Error(err)
@@ -397,7 +429,7 @@ fn soma(a: String, b: String)
 
 Podemos melhorar? \pause
 
-Existe um padrão recorrente no código: se o resultado for `Ok`{.gleam}, então, continue com outra operação, senão, pare e devolva o erro.
+Existe um padrão recorrente no código: se o resultado for `Ok`{.gleam}, então continue com outra operação; senão, pare e devolva o erro.
 
 Podemos criar uma função de alta ordem `entao` para abstrair esse padrão. \pause
 
@@ -450,10 +482,10 @@ fn entao(
 
 ```gleam
 fn soma(a: String, b: String)
-  -> Result(Int, Nil) {
+  -> Result(String, Nil) {
   case int.parse(a) {
     Ok(x) -> case int.parse(b) {
-      Ok(y) -> Ok(x + y)
+      Ok(y) -> Ok(int.to_string(x + y))
       Error(err) -> Error(err)
     }
     Error(err) -> Error(err)
@@ -467,7 +499,7 @@ fn soma(a: String, b: String)
 
 Podemos melhorar?
 
-Existe um padrão recorrente no código: se o resultado for `Ok`{.gleam}, então, continue com outra operação, senão, pare e devolva o erro.
+Existe um padrão recorrente no código: se o resultado for `Ok`{.gleam}, então continue com outra operação; senão, pare e devolva o erro.
 
 Podemos criar uma função de alta ordem `entao` para abstrair esse padrão.
 
@@ -476,10 +508,11 @@ Podemos criar uma função de alta ordem `entao` para abstrair esse padrão.
 \scriptsize
 
 ```gleam
-fn soma(a: String, b: String) -> Result(Int, Nil) {
+fn soma(a: String, b: String)
+  -> Result(String, Nil) {
   entao(int.parse(a), fn(x) {
     entao(int.parse(b), fn(y) {
-      Ok(x + y)
+      Ok(int.to_string(x + y))
     })
   })
 }
@@ -498,10 +531,11 @@ A função `entao` está definida na biblioteca padrão como `result.try`.
 \scriptsize
 
 ```gleam
-fn soma(a: String, b: String) -> Result(Int, Nil) {
+fn soma(a: String, b: String)
+  -> Result(String, Nil) {
   result.try(int.parse(a), fn(x) {
     result.try(int.parse(b), fn(y) {
-      Ok(x + y)
+      Ok(int.to_string(x + y))
     })
   })
 }
@@ -519,10 +553,10 @@ fn soma(a: String, b: String) -> Result(Int, Nil) {
 
 ```gleam
 fn soma(a: String, b: String)
-  -> Result(Int, Nil) {
+  -> Result(String, Nil) {
   case int.parse(a) {
     Ok(x) -> case int.parse(b) {
-      Ok(y) -> Ok(x + y)
+      Ok(y) -> Ok(int.to_string(x + y))
       Error(err) -> Error(err)
     }
     Error(err) -> Error(err)
@@ -534,10 +568,10 @@ fn soma(a: String, b: String)
 
 ```gleam
 fn soma(a: String, b: String)
-  -> Result(Int, Nil) {
+  -> Result(String, Nil) {
   result.try(int.parse(a), fn(x) {
     result.try(int.parse(b), fn(y) {
-      Ok(x + y)
+      Ok(int.to_string(x + y))
     })
   })
 }
@@ -559,10 +593,10 @@ Podemos melhorar? \pause Sim! \pause
 
 ```gleam
 fn soma(a: String, b: String)
-  -> Result(Int, Nil) {
+  -> Result(String, Nil) {
   use x <- result.try(int.parse(a))
   use y <- result.try(int.parse(b))
-  Ok(x + y)
+  Ok(int.to_string(x + y))
 }
 ```
 
@@ -608,10 +642,49 @@ A função que está sendo chamada pode receber qualquer quantidade de parâmetr
 
 A função que está sendo passada como parâmetro também pode receber qualquer quantidade de parâmetros. \pause
 
-No `use`{.gleam} os parâmetros para a função anônima ficam do lado esquerdo de `<-` e a função que está sendo chamada fica do lado direito. O corpo da função anônima inclui todo o código que está após o `use`, até fechar o bloco atual.
+No `use`{.gleam} os parâmetros para a função anônima ficam do lado esquerdo de `<-` e a função que está sendo chamada fica do lado direito. O corpo da função anônima inclui todo o código que está após o `use`{.gleam}, até fechar o bloco atual.
 
 </div>
 </div>
+
+
+## Use {.t}
+
+\small
+
+A função anônima pode não ter parâmetros; nesse caso nada é escrito antes de `<-`. Um exemplo é a função `bool.guard(cond, valor, f)`{.gleam}, que devolve `valor` se `cond` é verdadeiro, senão devolve o resultado de `f()`{.gleam}. \pause
+
+\scriptsize
+
+<div class="columns">
+<div class="column" width="48%">
+
+```gleam
+fn divide(a: Int, b: Int) -> Result(Int, Nil) {
+  bool.guard(b == 0, Error(Nil), fn() {
+    Ok(a / b)
+  })
+}
+```
+
+</div>
+<div class="column" width="48%">
+
+```gleam
+fn divide(a: Int, b: Int) -> Result(Int, Nil) {
+  use <- bool.guard(b == 0, Error(Nil))
+  Ok(a / b)
+}
+```
+
+</div>
+</div>
+
+\pause
+
+\small
+
+O `use`{.gleam} é adequado quando a função anônima é a continuação do cálculo, isto é, o resto do corpo da função, como em `result.try`{.gleam} e `bool.guard`{.gleam}.
 
 
 Outras funções de alta ordem
@@ -619,18 +692,20 @@ Outras funções de alta ordem
 
 ## Outras funções de alta ordem
 
+A biblioteca padrão tem muitas outras funções de alta ordem além de `map`, `filter` e `fold_right`. \pause
+
 \footnotesize
 
 ```gleam-repl
-> list.all([2, 4, 5], int.is_even)       // para no primeiro False
+> list.all([2, 4, 5], int.is_even)             // para no primeiro False
 False
-> list.any([1, 3, 4], int.is_even)       // para no primeiro True
+> list.any([1, 3, 4], int.is_even)             // para no primeiro True
 True
-> list.find([1, 3, 4, 6], int.is_even)   // primeiro que satisfaz
+> list.find([1, 3, 4, 6], int.is_even)         // primeiro que satisfaz
 Ok(4)
-> list.take_while([2, 4, 5, 6], int.is_even)
+> list.take_while([2, 4, 5, 6], int.is_even)   // prefixo que satisfaz
 [2, 4]
-> list.filter_map(["1", "a", "3"], int.parse)
+> list.filter_map(["1", "a", "3"], int.parse)  // mapeia e mantém os Ok
 [1, 3]
 ```
 
@@ -642,6 +717,8 @@ Ao contrário de `map`, `filter` e `fold_right`, as funções `all`, `any`, `fin
 
 
 ## Outras funções de alta ordem
+
+Algumas funções de alta ordem da biblioteca padrão (veja a documentação de cada módulo):
 
 <div class="columns">
 <div class="column" width="16%">
@@ -665,7 +742,6 @@ lazy_guard
 lazy_or
 lazy_unwrap
 map
-or
 then
 ```
 
@@ -756,6 +832,21 @@ Quais açúcares sintáticos do Gleam vimos? Qual é a forma equivalente de cada
 - `use x <- f(a)`{.gleam} seguido de `corpo` é o mesmo que `f(a, fn(x) { corpo })`{.gleam}.
 
 
+## Revisão
+
+Por que `let x = x + 10`{.gleam} não modifica o `x`{.gleam} que já existia? \pause
+
+- Porque o `let`{.gleam} define um novo nome, parâmetro de uma função interna, que sombreia o anterior. A expressão `x + 10`{.gleam} fica fora dessa função e usa o `x`{.gleam} de fora. \pause
+
+O que é currying? Como fixamos um argumento de uma função em Gleam? \pause
+
+- No currying, toda função recebe um parâmetro por vez e devolve uma função que recebe o próximo. Em Gleam as funções recebem todos os parâmetros de uma vez, então usamos o fechamento abreviado, como em `int.add(1, _)`{.gleam}. \pause
+
+Que padrão de código a função `result.try`{.gleam} abstrai? \pause
+
+- Se o resultado é `Ok`{.gleam}, continua a computação com o valor; senão, para e devolve o mesmo erro.
+
+
 Referências
 ===========
 
@@ -763,8 +854,10 @@ Referências
 
 Básicas
 
-- [Fechamento abreviado](https://tour.gleam.run/functions/function-captures/), [pipelines](https://tour.gleam.run/functions/pipelines/), [use](https://tour.gleam.run/advanced-features/use/) e [use sugar](https://tour.gleam.run/advanced-features/use-sugar/) do tour do Gleam.
+- [Fechamento abreviado](https://tour.gleam.run/functions/function-captures/), [pipelines](https://tour.gleam.run/functions/pipelines/) e [use](https://tour.gleam.run/advanced-features/use/) do tour do Gleam.
 
 Complementares
 
-- Seção [4.2](http://www.scheme.com/tspl4/binding.html#./binding:h2) do livro [TSPL4](http://www.scheme.com/tspl4/)
+- Seções [4.2](http://www.scheme.com/tspl4/binding.html#./binding:h2) (_Lambda_) e [4.4](http://www.scheme.com/tspl4/binding.html#./binding:h4) (_Local Binding_) do livro [TSPL4](http://www.scheme.com/tspl4/)
+
+- Seção [1.3.2](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3.2) do livro [SICP](https://mitpress.mit.edu/sicp/)

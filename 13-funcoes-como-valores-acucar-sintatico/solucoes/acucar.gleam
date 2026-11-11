@@ -4,21 +4,22 @@ import gleam/list
 import gleam/result
 import sgleam/check
 
-/// Soma os quadrados dos elementos pares de *lst*.
-pub fn soma_quadrados_pares(lst: List(Int)) -> Int {
-  // fn(x) { int.is_even(x) } é o mesmo que int.is_even e
-  // fn(acc, x) { int.add(acc, x) } é o mesmo que int.add.
-  // fn(x) { x * x } não pode ser abreviada, pois x aparece duas vezes.
+/// Soma os quadrados dos elementos de *lst* que estão em *permitidos*.
+pub fn soma_quadrados_permitidos(lst: List(Int), permitidos: List(Int)) -> Int {
+  // fn(x) { list.contains(permitidos, x) } é o mesmo que
+  // list.contains(permitidos, _) e fn(acc, x) { int.add(acc, x) } é o mesmo
+  // que int.add. fn(x) { x * x } não pode ser abreviada, pois x aparece duas
+  // vezes.
   lst
-  |> list.filter(int.is_even)
+  |> list.filter(list.contains(permitidos, _))
   |> list.map(fn(x) { x * x })
   |> list.fold_right(0, int.add)
 }
 
-pub fn soma_quadrados_pares_examples() {
-  check.eq(soma_quadrados_pares([]), 0)
-  check.eq(soma_quadrados_pares([1, 3]), 0)
-  check.eq(soma_quadrados_pares([1, 2, 3, 4]), 20)
+pub fn soma_quadrados_permitidos_examples() {
+  check.eq(soma_quadrados_permitidos([], [2, 3]), 0)
+  check.eq(soma_quadrados_permitidos([1, 4], [2, 3]), 0)
+  check.eq(soma_quadrados_permitidos([1, 2, 3, 4], [2, 3, 7]), 13)
 }
 
 /// Calcula a média dos números representados por *a*, *b* e *c*. Devolve

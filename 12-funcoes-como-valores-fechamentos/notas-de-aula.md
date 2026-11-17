@@ -306,11 +306,21 @@ Uma função que não é nomeada é chamada de **função anônima**.
 //fn(a) { ... }
 ```
 
+```python
+>>> lambda x: x + 1
+<function <lambda> at 0x7f3a1c2b4d60>
+```
+
 \pause
 
 ```gleam-repl
 > // Chamada de função anônima
 > fn(x: Int) -> Int { x + 1 }(3)
+4
+```
+
+```python
+>>> (lambda x: x + 1)(3)
 4
 ```
 
@@ -326,11 +336,20 @@ Uma função que não é nomeada é chamada de **função anônima**.
 //fn(a) { ... }
 ```
 
+```python
+>>> soma1 = lambda x: x + 1
+```
+
 \pause
 
 ```gleam-repl
 > // Chamando a função armazenada
 > soma1(3)
+4
+```
+
+```python
+>>> soma1(3)
 4
 ```
 
@@ -599,7 +618,7 @@ pub fn soma(n: Int) -> fn(Int) -> Int {
 
 \small
 
-Na função devolvida, `n` é uma variável livre. O resultado de `soma(1)`{.gleam} é um fechamento que leva junto `n` com o valor `1`{.gleam} e continua existindo depois que a chamada de `soma` termina.
+Na função devolvida, `n` é uma variável livre. Quando a chamada de `soma` termina, o seu registro de ativação, onde estava `n`, é descartado; por isso o resultado de `soma(1)`{.gleam} é um fechamento que leva junto `n` com o valor `1`{.gleam}.
 
 
 ## Exemplo: negação
